@@ -2,7 +2,7 @@
 
 **author: Joshua Cook**
 
-[![labnotebook](https://img.shields.io/badge/Lab_Notebook-Comutation-7289DA.svg?style=flat&logo=jekyll)](project-notebook-comutation.netlify.com)
+[![labnotebook](https://img.shields.io/badge/Lab_Notebook-Comutation-7289DA.svg?style=flat&logo=jekyll)](https://project-notebook-comutation.netlify.com)
 
 
 ## Purpose

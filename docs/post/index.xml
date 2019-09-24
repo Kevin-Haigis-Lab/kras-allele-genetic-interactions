@@ -5,12 +5,25 @@
     <link>/post/</link>
       <atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     <description>Posts</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Tue, 24 Sep 2019 00:00:00 +0000</lastBuildDate>
     <image>
       <url>/img/icon-192.png</url>
       <title>Posts</title>
       <link>/post/</link>
     </image>
+    
+    <item>
+      <title>2019-09-24 - New project structure</title>
+      <link>/post/new-project-structure/</link>
+      <pubDate>Tue, 24 Sep 2019 00:00:00 +0000</pubDate>
+      <guid>/post/new-project-structure/</guid>
+      <description>&lt;p&gt;I have used the &lt;a href=&#34;http://projecttemplate.net/index.html&#34; target=&#34;_blank&#34;&gt;&amp;lsquo;ProjectTemplate&amp;rsquo;&lt;/a&gt; R package to build the framework for the analysis. I created a lab notebook in reports using the &lt;a href=&#34;https://bookdown.org/yihui/blogdown/&#34; target=&#34;_blank&#34;&gt;&amp;lsquo;blogdown&amp;rsquo;&lt;/a&gt; package which serves the site to the &amp;lsquo;docs/&amp;rsquo; directory.&lt;/p&gt;
+
+&lt;p&gt;The remote repository is hosted by GitHub at &lt;a href=&#34;https://github.com/jhrcook/comutation&#34; target=&#34;_blank&#34;&gt;jhrcook/comutation&lt;/a&gt; and is private. The lab notebook is hosted by Netlify and is located at &lt;a href=&#34;https://project-notebook-comutation.netlify.com&#34; target=&#34;_blank&#34;&gt;project-notebook-comutation.netlify.com&lt;/a&gt;. It is open to the public, but is not easily found.&lt;/p&gt;
+
+&lt;p&gt;I have trimmed down the default academic hugo theme to only include the sections About, Posts, and Contact.&lt;/p&gt;
+</description>
+    </item>
     
   </channel>
 </rss>
