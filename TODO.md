@@ -16,21 +16,19 @@
 
 * Format the default academic theme into a useable framework for a lab notebook.
     * sections:
-    	* Header with general project information
-    	* Posts
+    	* Header with general project information (done)
+    	* Posts (done)
+    	* Projects (done)
     	* relevant papers
-* Update the README with general project info
 
 
 ## Analyses
 
-1. push the project directory up to O2
-2. start migration with the synthetic lethal analysis
-	* the raw can be copied over
-	* the processing of the DepMap data can be put into munging
+1. migration with the synthetic lethal analysis
+	* munging of the DepMap data can be put into munging
 		* then add the raw to ignore
-	* preprocess of GM co-mutation results can go into munging
-	* split the main analysis up into mulitple scripts
+	* munging of GM co-mutation results
+	* split the main analysis up into multiple scripts
 		* some will also be moved to munging
 
 
@@ -41,3 +39,5 @@
 
 
 ## Easy Wins
+
+## Today
