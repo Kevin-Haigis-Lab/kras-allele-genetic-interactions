@@ -2,21 +2,195 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts | KRAS Comutation</title>
-    <link>/post/</link>
-      <atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
+    <link>http://localhost:1313/post/</link>
+      <atom:link href="http://localhost:1313/post/index.xml" rel="self" type="application/rss+xml" />
     <description>Posts</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Tue, 24 Sep 2019 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Mon, 30 Sep 2019 00:00:00 +0000</lastBuildDate>
     <image>
-      <url>/img/icon-192.png</url>
+      <url>http://localhost:1313/img/icon-192.png</url>
       <title>Posts</title>
-      <link>/post/</link>
+      <link>http://localhost:1313/post/</link>
     </image>
     
     <item>
+      <title>2019-09-30</title>
+      <link>http://localhost:1313/post/2019-09-30/</link>
+      <pubDate>Mon, 30 Sep 2019 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/post/2019-09-30/</guid>
+      <description>
+
+&lt;h2 id=&#34;munging-depmap-2019-q3-release-cont&#34;&gt;Munging DepMap 2019 Q3 release (cont.)&lt;/h2&gt;
+
+&lt;h3 id=&#34;sample-info&#34;&gt;Sample Info&lt;/h3&gt;
+
+&lt;p&gt;Information about all of the cell lines is available in &amp;ldquo;data/depmap19Q3/sample_info.csv&amp;rdquo;. I added a column &lt;code&gt;&amp;quot;cancer&amp;quot;&lt;/code&gt; with the TCGA cancer names for each cell line; a &lt;code&gt;NA&lt;/code&gt; value means it isn&amp;rsquo;t used in this project.
+I also joined &lt;code&gt;kras_mutation_tib&lt;/code&gt;.
+Note, that this will duplicate any rows with multiple &lt;em&gt;KRAS&lt;/em&gt; mutations.&lt;/p&gt;
+
+&lt;h3 id=&#34;gene-effect&#34;&gt;Gene Effect&lt;/h3&gt;
+
+&lt;p&gt;This is the data for the effect of knocking out a gene.
+The tall-format tibble was saved to &lt;code&gt;gene_effect&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;gene-dependency&#34;&gt;Gene Dependency&lt;/h3&gt;
+
+&lt;p&gt;This is the data for the probability that a cell line is dependent upon the target gene.
+The tall-format tibble was saved to &lt;code&gt;dependency_prob&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;rnai&#34;&gt;RNAi&lt;/h3&gt;
+
+&lt;p&gt;KH has indicated some interest in using the RNAi experimental data, too.&lt;/p&gt;
+
+&lt;p&gt;The data was obtained from DepMap.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;wget -O data/depmap19Q3/D2_combined_gene_dep_scores.csv  https://ndownloader.figshare.com/files/13515395
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The tall-format tibble was saved to &lt;code&gt;rnai_effect&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;preparing-data-for-modeling&#34;&gt;Preparing data for modeling&lt;/h2&gt;
+
+&lt;p&gt;A new munging script was created to create the input data for the modeling of depletion effect by &lt;em&gt;KRAS&lt;/em&gt; allele: &amp;ldquo;munge/15_depmap19Q3_model-data-prep.R&amp;rdquo;.&lt;/p&gt;
+
+&lt;p&gt;The first step was to identify the cell lines with multiple oncogenic KRAS mutations.
+They cannot be used for the analysis.&lt;/p&gt;
+
+&lt;p&gt;Cell lines with a &lt;em&gt;BRAF&lt;/em&gt; V600E or oncogenic &lt;em&gt;NRAS&lt;/em&gt; mutation will be removed, too.&lt;/p&gt;
+
+&lt;p&gt;A base data frame was created for the modeling data.
+Only the cell lines for the relevant cancers were kept.
+It has the &lt;em&gt;KRAS&lt;/em&gt; mutation information for each cell line and two columns for whether the gene is noted as essential or nonessential by DepMap (&lt;code&gt;NA&lt;/code&gt; if neither).
+This data frame was cached as &amp;ldquo;model_data_base&amp;rdquo;.&lt;/p&gt;
+
+&lt;p&gt;Only alleles with at least 3 cell lines can be considered for this analysis.
+Another data frame was created to reflect this.&lt;/p&gt;
+
+&lt;p&gt;734 genes for 3 cell lines were &lt;code&gt;NA&lt;/code&gt; in the raw data.
+The cell lines were ACH-000118 (PAAD, &lt;em&gt;KRAS&lt;/em&gt; G12R) ACH-000658 (MM, &lt;em&gt;KRAS&lt;/em&gt; WT) ACH-001061 (COAD, &lt;em&gt;KRAS&lt;/em&gt; WT).
+These data points were removed.&lt;/p&gt;
+
+&lt;p&gt;Not all genes will be tested in the analysis because they do not exhibit a strong enough of a lethal effect.
+There were two criteria:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;a manual threshold of causing a depletion effect of -0.2 in at least two cell lines&lt;/li&gt;
+&lt;li&gt;a metric based on a comparison of the scores in essential and non-essential genes&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;The threshold for the first criteria was two standard deviations above the mean of essential genes.
+The threshold for the second criteria was at the point where the distributions of the depletion effects of the essential and nonessential genes overlapped.
+By eye, these two cut-offs were fairly similar for each cancer.
+I should do an analysis of the effect of various cut-offs for the number of genes (added to TODO/Analyses/)&lt;/p&gt;
+
+&lt;p&gt;RNA expression for each gene of each cell line was added as another column to the model data frame.&lt;/p&gt;
+
+&lt;p&gt;Another column was added to the model data frame called &lt;code&gt;&amp;quot;is_altered&amp;quot;&lt;/code&gt;. It is true if there is a CNA or coding mutation in the cell line&amp;rsquo;s gene (else false).&lt;/p&gt;
+
+&lt;p&gt;This final data frame was saved as &lt;code&gt;model_data_base&lt;/code&gt; where &amp;ldquo;base&amp;rdquo; denotes that it has all of the data to use for all of the models.&lt;/p&gt;
+
+&lt;p&gt;Another data frame was built from &lt;code&gt;model_data_base&lt;/code&gt; that only has the data for &lt;em&gt;KRAS&lt;/em&gt; alleles (including WT) that have at least 3 cell lines.
+This was cached as &lt;code&gt;model_data&lt;/code&gt;.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&#34;todo&#34;&gt;TODO&lt;/h3&gt;
+
+&lt;p&gt;I have forgotten to include the list of genes that can confidently be ignored from analysis for each cancer.
+I need to integrate these data in, too.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>2019-09-28</title>
+      <link>http://localhost:1313/post/2019-09-28/</link>
+      <pubDate>Sat, 28 Sep 2019 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/post/2019-09-28/</guid>
+      <description>
+
+&lt;p&gt;I am beginning the migration process from the only comutation directory to this project.&lt;/p&gt;
+
+&lt;h2 id=&#34;downloading-depmap-2019-q3-release&#34;&gt;Downloading DepMap 2019 Q3 release&lt;/h2&gt;
+
+&lt;p&gt;The first step is moving over the raw data into the new data directory.
+DepMap release 19Q3 data, so the new data sets were downloaded into &amp;ldquo;data/depmap19Q3/&amp;rdquo;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;wget -O Achilles_gene_effect.csv https://ndownloader.figshare.com/files/16757666
+
+wget -O Achilles_gene_dependency.csv https://ndownloader.figshare.com/files/16757660
+
+wget -O Achilles_guide_efficacy.csv https://ndownloader.figshare.com/files/16757669
+
+wget -O Achilles_common_essentials.csv https://ndownloader.figshare.com/files/16757654
+
+wget -O common_essentials.csv https://ndownloader.figshare.com/files/16757714
+
+wget -O nonessentials.csv https://ndownloader.figshare.com/files/16757717
+
+wget -O Achilles_guide_map.csv https://ndownloader.figshare.com/files/16757672
+
+wget -O CCLE_expression.csv https://ndownloader.figshare.com/files/16757690
+
+wget -O CCLE_gene_cn.csv https://ndownloader.figshare.com/files/16757699
+
+wget -O CCLE_fusions.csv https://ndownloader.figshare.com/files/16757696
+
+wget -O CCLE_mutations.csv https://ndownloader.figshare.com/files/16757702
+
+wget -O sample_info.csv https://ndownloader.figshare.com/files/16757723
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;munging-depmap-2019-q3-release&#34;&gt;Munging DepMap 2019 Q3 release&lt;/h2&gt;
+
+&lt;p&gt;I then created the munging script called &amp;ldquo;10_depmap19Q3.R&amp;rdquo; to prepare the data downloaded from DepMap.&lt;/p&gt;
+
+&lt;h3 id=&#34;essentiality&#34;&gt;Essentiality&lt;/h3&gt;
+
+&lt;p&gt;A single data frame was created for all of the data concerning whether a gene is labeled essential or non-essential.
+To help, I created &lt;code&gt;get_huo_from_depmap_ids()&lt;/code&gt; and &lt;code&gt;get_entrez_from_depmap_ids()&lt;/code&gt; to extract the appropriate names from the data tables.
+These functions are in &amp;ldquo;libs/helpers.R&amp;rdquo;.
+Tests were written in &amp;ldquo;tests/test-helpers.R&amp;rdquo;.&lt;/p&gt;
+
+&lt;h3 id=&#34;copy-number&#34;&gt;Copy Number&lt;/h3&gt;
+
+&lt;p&gt;A data frame of CNA was created &lt;code&gt;ccle_copy_number&lt;/code&gt;.
+According to the README from DepMap, the copy number values were &amp;ldquo;Gene level copy number data, log2 transformed with a pseudo count of 1.&amp;rdquo;
+However, looking at the values when converted back ($2^{x}$), I do not think there is a pseudo count because most of the values are 1 is there was.
+Therefore, I did not subtract 1 from the conversion.
+I also added a label for homozygous deletion (&amp;ldquo;homo_del&amp;rdquo;), heterozygous deletion (&amp;ldquo;het_del&amp;rdquo;), amplification (&amp;ldquo;amp&amp;rdquo;), or no change (&amp;ldquo;norm&amp;rdquo;).&lt;/p&gt;
+
+&lt;h3 id=&#34;mutations&#34;&gt;Mutations&lt;/h3&gt;
+
+&lt;p&gt;The CCLE mutations were tidied up, though not much was needed.
+I cached two data frames: &lt;code&gt;ccle_mutations&lt;/code&gt; has all of the mutations, and &lt;code&gt;ccle_mutations_coding&lt;/code&gt; has only coding mutations.&lt;/p&gt;
+
+&lt;h3 id=&#34;rna-expression&#34;&gt;RNA Expression&lt;/h3&gt;
+
+&lt;p&gt;The RNA expression data is described by DepMap as follows:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;RNAseq TPM gene expression data for just protein coding genes using RSEM. Log2 transformed, using a pseudo-count of 1.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;The tall formatted data was cached as &lt;code&gt;ccle_expression&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;kras-mutants&#34;&gt;&lt;em&gt;KRAS&lt;/em&gt; mutants&lt;/h3&gt;
+
+&lt;p&gt;A tibble was made to hold the mutation information KRAS.
+This included coding mutations and copy number amplifications.&lt;/p&gt;
+
+&lt;h2 id=&#34;todo&#34;&gt;TODO&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Finish munging the new DepMap data.&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
       <title>2019-09-24 - New project structure</title>
-      <link>/post/new-project-structure/</link>
+      <link>http://localhost:1313/post/new-project-structure/</link>
       <pubDate>Tue, 24 Sep 2019 00:00:00 +0000</pubDate>
-      <guid>/post/new-project-structure/</guid>
+      <guid>http://localhost:1313/post/new-project-structure/</guid>
       <description>&lt;p&gt;I have used the &lt;a href=&#34;http://projecttemplate.net/index.html&#34; target=&#34;_blank&#34;&gt;&amp;lsquo;ProjectTemplate&amp;rsquo;&lt;/a&gt; R package to build the framework for the analysis. I created a lab notebook in reports using the &lt;a href=&#34;https://bookdown.org/yihui/blogdown/&#34; target=&#34;_blank&#34;&gt;&amp;lsquo;blogdown&amp;rsquo;&lt;/a&gt; package which serves the site to the &amp;lsquo;docs/&amp;rsquo; directory.&lt;/p&gt;
 
 &lt;p&gt;The remote repository is hosted by GitHub at &lt;a href=&#34;https://github.com/jhrcook/comutation&#34; target=&#34;_blank&#34;&gt;jhrcook/comutation&lt;/a&gt; and is private. The lab notebook is hosted by Netlify and is located at &lt;a href=&#34;https://project-notebook-comutation.netlify.com&#34; target=&#34;_blank&#34;&gt;project-notebook-comutation.netlify.com&lt;/a&gt;. It is open to the public, but is not easily found.&lt;/p&gt;
