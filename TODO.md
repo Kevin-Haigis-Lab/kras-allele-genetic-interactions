@@ -10,16 +10,12 @@
 ## Papers to read
 
 
+## Munging
 
+1. Lists of genes to remove from consideration for each tissue.
+2. 
 
 ## Doc
-
-* Format the default academic theme into a useable framework for a lab notebook.
-    * sections:
-    	* Header with general project information (done)
-    	* Posts (done)
-    	* Projects (done)
-    	* relevant papers
 
 
 ## Analyses
@@ -30,7 +26,7 @@
 	* munging of GM co-mutation results
 	* split the main analysis up into multiple scripts
 		* some will also be moved to munging
-
+2. an analysis script to look into how these cutoffs effect the data
 
 ## Tests
 
@@ -40,4 +36,18 @@
 
 ## Easy Wins
 
+
+
 ## Today
+
+Organizing the re-doing of the synthetic lethal analysis:
+
+1. finish preparing the data for modeling
+2. read up on some of the R package for modeling:
+    - 'rms'
+    - 'lme4'
+    - 'glm'
+    - 'lavaan' (tutorial provided)
+3. design architecture for the analysis
+    - account for multiple types of models and comparing them
+

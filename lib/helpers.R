@@ -32,3 +32,4 @@ coding_mut_var_classes <- c(
     "Nonstop_Mutation", "Splice_Site", "Start_Codon_Del", "Start_Codon_Ins",
     "Start_Codon_SNP", "Stop_Codon_Del", "Stop_Codon_Ins"
 )
+

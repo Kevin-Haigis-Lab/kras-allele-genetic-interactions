@@ -1,0 +1,132 @@
+INFO  [2019-09-30 08:23:42] Making a single data frame of gene essentiality.
+INFO  [2019-09-30 08:23:42] `essentiality_tib` has 4168 rows.
+INFO  [2019-09-30 08:23:42] Caching `essentiality_tib`.
+INFO  [2019-09-30 08:23:42] Preparing copy number information for the cell lines.
+INFO  [2019-09-30 08:24:33] `ccle_copy_number` has45670234rows.
+INFO  [2019-09-30 08:24:33] Caching `ccle_copy_number`.
+INFO  [2019-09-30 08:24:52] Cleaning up CCLE mutation data.
+INFO  [2019-09-30 08:24:52] Caching `ccle_mutations`.
+INFO  [2019-09-30 08:24:54] Caching `ccle_mutations_coding`.
+INFO  [2019-09-30 08:25:13] Caching `ccle_expression`.
+INFO  [2019-09-30 08:25:20] Extracting KRAS mutants.
+INFO  [2019-09-30 08:25:22] There were 172 cell lines with KRAS amplifications.
+INFO  [2019-09-30 08:25:22] There were 333 cell lines with a KRAS alteration.
+INFO  [2019-09-30 08:25:22] Caching `kras_mutation_tib`.
+INFO  [2019-09-30 09:05:32] Prepare the data from DepMap (2019 Q3 release)
+INFO  [2019-09-30 09:05:32] Making a single data frame of gene essentiality.
+INFO  [2019-09-30 09:05:32] `essentiality_tib` has 4168 rows.
+INFO  [2019-09-30 09:05:32] Caching `essentiality_tib`.
+INFO  [2019-09-30 09:05:32] Preparing copy number information for the cell lines.
+INFO  [2019-09-30 09:06:22] `ccle_copy_number` has 45670234 rows.
+INFO  [2019-09-30 09:06:22] Caching `ccle_copy_number`.
+INFO  [2019-09-30 09:06:40] Cleaning up CCLE mutation data.
+INFO  [2019-09-30 09:06:40] `ccle_mutations` has 1239235 rows.
+INFO  [2019-09-30 09:06:40] Caching `ccle_mutations`.
+INFO  [2019-09-30 09:06:41] `ccle_mutations_coding` has 841763 rows.
+INFO  [2019-09-30 09:06:41] Caching `ccle_mutations_coding`.
+INFO  [2019-09-30 09:06:59] `ccle_expression` has 23164240 rows.
+INFO  [2019-09-30 09:06:59] Caching `ccle_expression`.
+INFO  [2019-09-30 09:07:05] Extracting KRAS mutants.
+INFO  [2019-09-30 09:07:06] `kras_mutation_tib` has 345 rows.
+INFO  [2019-09-30 09:07:06] There were 172 cell lines with KRAS amplifications.
+INFO  [2019-09-30 09:07:06] There were 333 cell lines with a KRAS alteration.
+INFO  [2019-09-30 09:07:07] Caching `kras_mutation_tib`.
+INFO  [2019-09-30 09:07:07] Preparing sample (cell line) information.
+INFO  [2019-09-30 09:07:07] `cell_lines` has 1748 rows.
+INFO  [2019-09-30 09:07:07] `cell_lines` has 1736 cells.
+INFO  [2019-09-30 09:07:07] Caching `cell_lines.`
+INFO  [2019-09-30 09:07:07] Preparing the gene effect data.
+INFO  [2019-09-30 09:07:17] `gene_effect` has 11458125 rows.
+INFO  [2019-09-30 09:07:17] Caching `gene_effect`.
+INFO  [2019-09-30 09:07:30] Preparing the gene dependency probability data.
+INFO  [2019-09-30 09:07:40] `dependency_prob` has 11458125 rows.
+INFO  [2019-09-30 09:07:40] Caching `dependency_prob`.
+INFO  [2019-09-30 09:25:00] Prepare the data from DepMap (2019 Q3 release)
+INFO  [2019-09-30 09:25:00] Making a single data frame of gene essentiality.
+INFO  [2019-09-30 09:25:00] `essentiality_tib` has 4168 rows.
+INFO  [2019-09-30 09:25:00] Caching `essentiality_tib`.
+INFO  [2019-09-30 09:25:00] Preparing copy number information for the cell lines.
+INFO  [2019-09-30 09:28:38] `ccle_copy_number` has 45670234 rows.
+INFO  [2019-09-30 09:28:38] Caching `ccle_copy_number`.
+INFO  [2019-09-30 09:29:17] Cleaning up CCLE mutation data.
+INFO  [2019-09-30 09:29:18] `ccle_mutations` has 1239235 rows.
+INFO  [2019-09-30 09:29:18] Caching `ccle_mutations`.
+INFO  [2019-09-30 09:29:22] `ccle_mutations_coding` has 841763 rows.
+INFO  [2019-09-30 09:29:22] Caching `ccle_mutations_coding`.
+INFO  [2019-09-30 09:30:20] `ccle_expression` has 23164240 rows.
+INFO  [2019-09-30 09:30:20] Caching `ccle_expression`.
+INFO  [2019-09-30 09:30:33] Extracting KRAS mutants.
+INFO  [2019-09-30 09:30:42] `kras_mutation_tib` has 345 rows.
+INFO  [2019-09-30 09:30:42] There were 172 cell lines with KRAS amplifications.
+INFO  [2019-09-30 09:30:42] There were 333 cell lines with a KRAS alteration.
+INFO  [2019-09-30 09:30:42] Caching `kras_mutation_tib`.
+INFO  [2019-09-30 09:30:42] Preparing sample (cell line) information.
+INFO  [2019-09-30 09:30:42] `cell_lines` has 1748 rows.
+INFO  [2019-09-30 09:30:42] `cell_lines` has 1736 cells.
+INFO  [2019-09-30 09:30:42] Caching `cell_lines.`
+INFO  [2019-09-30 09:30:42] Preparing the gene effect data.
+INFO  [2019-09-30 09:31:07] `gene_effect` has 11458125 rows.
+INFO  [2019-09-30 09:31:07] Caching `gene_effect`.
+INFO  [2019-09-30 09:31:12] Preparing the gene dependency probability data.
+INFO  [2019-09-30 09:31:38] `dependency_prob` has 11458125 rows.
+INFO  [2019-09-30 09:31:38] Caching `dependency_prob`.
+INFO  [2019-09-30 09:45:38] Prepare the data from DepMap (2019 Q3 release)
+INFO  [2019-09-30 09:45:38] Making a single data frame of gene essentiality.
+INFO  [2019-09-30 09:45:39] `essentiality_tib` has 4168 rows.
+INFO  [2019-09-30 09:45:39] Caching `essentiality_tib`.
+INFO  [2019-09-30 09:45:39] Preparing copy number information for the cell lines.
+INFO  [2019-09-30 09:50:27] `ccle_copy_number` has 45670234 rows.
+INFO  [2019-09-30 09:50:27] Caching `ccle_copy_number`.
+INFO  [2019-09-30 09:52:13] Cleaning up CCLE mutation data.
+INFO  [2019-09-30 09:52:14] `ccle_mutations` has 1239235 rows.
+INFO  [2019-09-30 09:52:14] Caching `ccle_mutations`.
+INFO  [2019-09-30 09:52:19] `ccle_mutations_coding` has 841763 rows.
+INFO  [2019-09-30 09:52:19] Caching `ccle_mutations_coding`.
+INFO  [2019-09-30 09:53:01] `ccle_expression` has 23164240 rows.
+INFO  [2019-09-30 09:53:01] Caching `ccle_expression`.
+INFO  [2019-09-30 09:53:18] Extracting KRAS mutants.
+INFO  [2019-09-30 09:53:21] `kras_mutation_tib` has 345 rows.
+INFO  [2019-09-30 09:53:21] There were 172 cell lines with KRAS amplifications.
+INFO  [2019-09-30 09:53:21] There were 333 cell lines with a KRAS alteration.
+INFO  [2019-09-30 09:53:21] Caching `kras_mutation_tib`.
+INFO  [2019-09-30 09:53:21] Preparing sample (cell line) information.
+INFO  [2019-09-30 09:53:21] `cell_lines` has 1748 rows.
+INFO  [2019-09-30 09:53:21] `cell_lines` has 1736 cells.
+INFO  [2019-09-30 09:53:21] Caching `cell_lines.`
+INFO  [2019-09-30 09:53:21] Preparing the gene effect data.
+INFO  [2019-09-30 09:53:44] `gene_effect` has 11458125 rows.
+INFO  [2019-09-30 09:53:44] Caching `gene_effect`.
+INFO  [2019-09-30 09:53:49] Preparing the gene dependency probability data.
+INFO  [2019-09-30 09:54:17] `dependency_prob` has 11458125 rows.
+INFO  [2019-09-30 09:54:17] Caching `dependency_prob`.
+INFO  [2019-09-30 10:11:20] Prepare the data from DepMap (2019 Q3 release)
+INFO  [2019-09-30 10:11:20] Making a single data frame of gene essentiality.
+INFO  [2019-09-30 10:11:20] `essentiality_tib` has 4168 rows.
+INFO  [2019-09-30 10:11:20] Caching `essentiality_tib`.
+INFO  [2019-09-30 10:11:20] Preparing copy number information for the cell lines.
+INFO  [2019-09-30 10:13:23] `ccle_copy_number` has 45670234 rows.
+INFO  [2019-09-30 10:13:23] Caching `ccle_copy_number`.
+INFO  [2019-09-30 10:13:56] Cleaning up CCLE mutation data.
+INFO  [2019-09-30 10:13:56] `ccle_mutations` has 1239235 rows.
+INFO  [2019-09-30 10:13:56] Caching `ccle_mutations`.
+INFO  [2019-09-30 10:14:04] `ccle_mutations_coding` has 841763 rows.
+INFO  [2019-09-30 10:14:04] Caching `ccle_mutations_coding`.
+INFO  [2019-09-30 10:14:46] `ccle_expression` has 23164240 rows.
+INFO  [2019-09-30 10:14:46] Caching `ccle_expression`.
+INFO  [2019-09-30 10:15:04] Extracting KRAS mutants.
+INFO  [2019-09-30 10:15:07] `kras_mutation_tib` has 345 rows.
+INFO  [2019-09-30 10:15:07] There were 172 cell lines with KRAS amplifications.
+INFO  [2019-09-30 10:15:07] There were 333 cell lines with a KRAS alteration.
+INFO  [2019-09-30 10:15:07] Caching `kras_mutation_tib`.
+INFO  [2019-09-30 10:15:07] Preparing sample (cell line) information.
+INFO  [2019-09-30 10:15:07] `cell_lines` has 1748 rows.
+INFO  [2019-09-30 10:15:07] `cell_lines` has 1736 cells.
+INFO  [2019-09-30 10:15:07] Caching `cell_lines.`
+INFO  [2019-09-30 10:15:07] Preparing the gene effect data.
+INFO  [2019-09-30 10:15:24] `gene_effect` has 11458125 rows.
+INFO  [2019-09-30 10:15:24] Caching `gene_effect`.
+INFO  [2019-09-30 10:15:28] Preparing the gene dependency probability data.
+INFO  [2019-09-30 10:15:45] `dependency_prob` has 11458125 rows.
+INFO  [2019-09-30 10:15:45] Caching `dependency_prob`.
+INFO  [2019-09-30 10:16:30] `rnai_effect` has 12324008 rows.
+INFO  [2019-09-30 10:16:30] Caching `rnai_effect`.

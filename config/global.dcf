@@ -12,5 +12,5 @@ libraries: jhcutils, magrittr, tidyverse
 as_factors: FALSE
 tables_type: tibble
 attach_internal_libraries: FALSE
-cache_loaded_data:  FALSE
+cache_loaded_data:  TRUE
 sticky_variables: NONE
