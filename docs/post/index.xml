@@ -5,12 +5,80 @@
     <link>http://localhost:1313/post/</link>
       <atom:link href="http://localhost:1313/post/index.xml" rel="self" type="application/rss+xml" />
     <description>Posts</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Mon, 30 Sep 2019 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Wed, 02 Oct 2019 00:00:00 +0000</lastBuildDate>
     <image>
       <url>http://localhost:1313/img/icon-192.png</url>
       <title>Posts</title>
       <link>http://localhost:1313/post/</link>
     </image>
+    
+    <item>
+      <title>2019-10-02</title>
+      <link>http://localhost:1313/post/2019-10-02/</link>
+      <pubDate>Wed, 02 Oct 2019 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/post/2019-10-02/</guid>
+      <description>
+
+&lt;h2 id=&#34;analysis-to-remove-genes-that-can-confidently-be-removed&#34;&gt;Analysis to remove genes that can confidently be removed&lt;/h2&gt;
+
+&lt;p&gt;This was originally done in the old analysis structure, so can mainly be copied over to this directory system.&lt;/p&gt;
+
+&lt;p&gt;The HPA and GTEx data were moved from &amp;ldquo;/n/no_backup2/dbmi/park/jc604/databases/tissue_gene_expression/&amp;rdquo; to &amp;ldquo;data/tissue-gene-expression/&amp;rdquo;.&lt;/p&gt;
+
+&lt;p&gt;A new munging script, &amp;ldquo;7_tissue-specific-genes.R&amp;rdquo;, was created and contained the same data preparation steps.&lt;/p&gt;
+
+&lt;p&gt;The raw data tables were put on the ignore list because:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;they have a header that must be skipped&lt;/li&gt;
+&lt;li&gt;they are not used for any other analysis&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The TCGA and MMRF gene expression data was also moved to &amp;ldquo;data&amp;rdquo; in a subdirectory called &amp;ldquo;data/tcga/&amp;rdquo;.
+This was added to the ignore list for data.&lt;/p&gt;
+
+&lt;p&gt;The munging begins by organizing the GTEx, HPA, and TCGA data.
+The MMRF data uses Ensembl gene IDs, so &lt;code&gt;org.Hs.eg.db&lt;/code&gt; from Bioconductor was used to get the mappings to Hugo symbols.
+The following was run to create a data frame mapping the Ensembl gene IDs to their Hugo symbols.
+&lt;strong&gt;It is not included in a munging script because I do not want all of the horrible Bioconductor nonsense in my Namespace.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;cache(&amp;quot;gene_name_tib&amp;quot;, {
+    suppressPackageStartupMessages(library(org.Hs.eg.db))
+    gene_name_tib &amp;lt;- full_join(
+            as_tibble(as.data.frame(org.Hs.egENSEMBL)),
+            as_tibble(as.data.frame(org.Hs.egSYMBOL)),
+            by = &amp;quot;gene_id&amp;quot;
+        ) %&amp;gt;%
+        dplyr::select(-gene_id) %&amp;gt;%
+        filter(!is.na(ensembl_id) &amp;amp; !is.na(symbol))
+    return(gene_name_tib)
+})
+gene_name_tib
+#&amp;gt; # A tibble: 30,903 x 2
+#&amp;gt;    ensembl_id      symbol
+#&amp;gt;    &amp;lt;chr&amp;gt;           &amp;lt;chr&amp;gt;
+#&amp;gt;  1 ENSG00000121410 A1BG
+#&amp;gt;  2 ENSG00000175899 A2M
+#&amp;gt;  3 ENSG00000256069 A2MP1
+#&amp;gt;  4 ENSG00000171428 NAT1
+#&amp;gt;  5 ENSG00000156006 NAT2
+#&amp;gt;  6 ENSG00000196136 SERPINA3
+#&amp;gt;  7 ENSG00000114771 AADAC
+#&amp;gt;  8 ENSG00000127837 AAMP
+#&amp;gt;  9 ENSG00000129673 AANAT
+#&amp;gt; 10 ENSG00000090861 AARS
+#&amp;gt; # … with 30,893 more rows
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;todo&#34;&gt;TODO&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;I need to finish make the list of genes to ignore for each caner&lt;/li&gt;
+&lt;li&gt;cache this list&lt;/li&gt;
+&lt;li&gt;do some plotting of the genes&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
     
     <item>
       <title>2019-09-30</title>
