@@ -177,17 +177,34 @@ cache("model_data_base",
 
     log_rows(logger, model_data_base, "model_data_base (3)")
     info(logger, "Caching `model_data_base`.")
+
+
+#### ---- Is the gene expressed? ---- ####
+    # add a column `is_unexpressed` with T/F
+
+    unexpressed_gene_tibble <- enframe(confidently_unexpressed_genes) %>%
+        dplyr::rename(cancer = "name", hugo_symbol = "value") %>%
+        mutate(cancer = str_to_upper(cancer),
+               is_unexpressed = TRUE) %>%
+        unnest(hugo_symbol)
+
+    model_data_base <- model_data_base %>%
+        left_join(unexpressed_gene_tibble, by = c("cancer", "hugo_symbol")) %>%
+        mutate(is_unexpressed = ifelse(is.na(is_unexpressed), FALSE, TRUE))
+
     return(model_data_base)
 })
-
 
 
 cache("model_data", depends = "model_data_base",
 {
     # only allele with at least 3 cell lines
     model_data <- model_data_base %>%
+        filter(!is_unexpressed) %>%
         group_by(cancer, allele) %>%
-        filter(n_distinct(dep_map_id) >= 3)
+        filter(n_distinct(dep_map_id) >= 3) %>%
+        ungroup()
+
     info(logger, "Caching `model_data`.")
     return(model_data)
 })
