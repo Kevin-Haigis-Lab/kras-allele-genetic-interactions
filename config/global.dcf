@@ -1,7 +1,7 @@
 version: 0.9.0
 data_loading: TRUE
 data_loading_header: TRUE
-data_ignore: depmap19Q3/depmap_19Q3_README.txt
+data_ignore: depmap19Q3/depmap_19Q3_README.txt, tissue-gene-expression/*, tcga/*
 cache_loading: TRUE
 recursive_loading: TRUE
 munging: TRUE
