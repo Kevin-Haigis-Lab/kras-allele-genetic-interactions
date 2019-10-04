@@ -4,7 +4,7 @@
 
 cd reports/
 
-hugo ../docs
+hugo -d ../docs
 
 cd ..
 

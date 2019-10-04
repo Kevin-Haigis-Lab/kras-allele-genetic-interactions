@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts | KRAS Comutation</title>
-    <link>http://localhost:1313/post/</link>
-      <atom:link href="http://localhost:1313/post/index.xml" rel="self" type="application/rss+xml" />
+    <link>https://project-notebook-comutation.netlify.com/post/</link>
+      <atom:link href="https://project-notebook-comutation.netlify.com/post/index.xml" rel="self" type="application/rss+xml" />
     <description>Posts</description>
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Thu, 03 Oct 2019 00:00:00 +0000</lastBuildDate>
     <image>
-      <url>http://localhost:1313/img/icon-192.png</url>
+      <url>https://project-notebook-comutation.netlify.com/img/icon-192.png</url>
       <title>Posts</title>
-      <link>http://localhost:1313/post/</link>
+      <link>https://project-notebook-comutation.netlify.com/post/</link>
     </image>
     
     <item>
       <title>2019-10-03</title>
-      <link>http://localhost:1313/post/2019-10-03/</link>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-10-03/</link>
       <pubDate>Thu, 03 Oct 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/2019-10-03/</guid>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-10-03/</guid>
       <description>
 
 &lt;h2 id=&#34;analysis-to-remove-genes-that-can-confidently-be-removed-cont&#34;&gt;Analysis to remove genes that can confidently be removed (cont.)&lt;/h2&gt;
@@ -53,9 +53,9 @@ The goal of the DepMap analysis is to find lethals.&lt;/p&gt;
     
     <item>
       <title>2019-10-02</title>
-      <link>http://localhost:1313/post/2019-10-02/</link>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-10-02/</link>
       <pubDate>Wed, 02 Oct 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/2019-10-02/</guid>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-10-02/</guid>
       <description>
 
 &lt;h2 id=&#34;analysis-to-remove-genes-that-can-confidently-be-removed&#34;&gt;Analysis to remove genes that can confidently be removed&lt;/h2&gt;
@@ -121,9 +121,9 @@ gene_name_tib
     
     <item>
       <title>2019-09-30</title>
-      <link>http://localhost:1313/post/2019-09-30/</link>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-09-30/</link>
       <pubDate>Mon, 30 Sep 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/2019-09-30/</guid>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-09-30/</guid>
       <description>
 
 &lt;h2 id=&#34;munging-depmap-2019-q3-release-cont&#34;&gt;Munging DepMap 2019 Q3 release (cont.)&lt;/h2&gt;
@@ -209,9 +209,9 @@ I need to integrate these data in, too.&lt;/p&gt;
     
     <item>
       <title>2019-09-28</title>
-      <link>http://localhost:1313/post/2019-09-28/</link>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-09-28/</link>
       <pubDate>Sat, 28 Sep 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/2019-09-28/</guid>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-09-28/</guid>
       <description>
 
 &lt;p&gt;I am beginning the migration process from the only comutation directory to this project.&lt;/p&gt;
@@ -295,9 +295,9 @@ This included coding mutations and copy number amplifications.&lt;/p&gt;
     
     <item>
       <title>2019-09-24 - New project structure</title>
-      <link>http://localhost:1313/post/new-project-structure/</link>
+      <link>https://project-notebook-comutation.netlify.com/post/new-project-structure/</link>
       <pubDate>Tue, 24 Sep 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/new-project-structure/</guid>
+      <guid>https://project-notebook-comutation.netlify.com/post/new-project-structure/</guid>
       <description>&lt;p&gt;I have used the &lt;a href=&#34;http://projecttemplate.net/index.html&#34; target=&#34;_blank&#34;&gt;&amp;lsquo;ProjectTemplate&amp;rsquo;&lt;/a&gt; R package to build the framework for the analysis. I created a lab notebook in reports using the &lt;a href=&#34;https://bookdown.org/yihui/blogdown/&#34; target=&#34;_blank&#34;&gt;&amp;lsquo;blogdown&amp;rsquo;&lt;/a&gt; package which serves the site to the &amp;lsquo;docs/&amp;rsquo; directory.&lt;/p&gt;
 
 &lt;p&gt;The remote repository is hosted by GitHub at &lt;a href=&#34;https://github.com/jhrcook/comutation&#34; target=&#34;_blank&#34;&gt;jhrcook/comutation&lt;/a&gt; and is private. The lab notebook is hosted by Netlify and is located at &lt;a href=&#34;https://project-notebook-comutation.netlify.com&#34; target=&#34;_blank&#34;&gt;project-notebook-comutation.netlify.com&lt;/a&gt;. It is open to the public, but is not easily found.&lt;/p&gt;

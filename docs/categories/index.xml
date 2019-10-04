@@ -2,14 +2,14 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories | KRAS Comutation</title>
-    <link>http://localhost:1313/categories/</link>
-      <atom:link href="http://localhost:1313/categories/index.xml" rel="self" type="application/rss+xml" />
+    <link>https://project-notebook-comutation.netlify.com/categories/</link>
+      <atom:link href="https://project-notebook-comutation.netlify.com/categories/index.xml" rel="self" type="application/rss+xml" />
     <description>Categories</description>
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language>
     <image>
-      <url>http://localhost:1313/img/icon-192.png</url>
+      <url>https://project-notebook-comutation.netlify.com/img/icon-192.png</url>
       <title>Categories</title>
-      <link>http://localhost:1313/categories/</link>
+      <link>https://project-notebook-comutation.netlify.com/categories/</link>
     </image>
     
   </channel>
