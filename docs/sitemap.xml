@@ -3,166 +3,171 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://project-notebook-comutation.netlify.com/courses/example/example1/</loc>
+    <loc>http://localhost:1313/courses/example/example1/</loc>
     <lastmod>2019-05-05T00:00:00+01:00</lastmod>
   </url>
   
   <url>
-    <loc>https://project-notebook-comutation.netlify.com/courses/example/</loc>
+    <loc>http://localhost:1313/courses/example/</loc>
     <lastmod>2018-09-09T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://project-notebook-comutation.netlify.com/courses/example/example2/</loc>
+    <loc>http://localhost:1313/courses/example/example2/</loc>
     <lastmod>2019-05-05T00:00:00+01:00</lastmod>
   </url>
   
   <url>
-    <loc>https://project-notebook-comutation.netlify.com/talk/example/</loc>
+    <loc>http://localhost:1313/talk/example/</loc>
     <lastmod>2030-06-01T13:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://project-notebook-comutation.netlify.com/</loc>
+    <loc>http://localhost:1313/</loc>
     <lastmod>2030-06-01T13:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://project-notebook-comutation.netlify.com/talk/</loc>
+    <loc>http://localhost:1313/talk/</loc>
     <lastmod>2030-06-01T13:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://project-notebook-comutation.netlify.com/post/2019-10-02/</loc>
+    <loc>http://localhost:1313/post/2019-10-03/</loc>
+    <lastmod>2019-10-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:1313/post/</loc>
+    <lastmod>2019-10-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:1313/post/2019-10-02/</loc>
     <lastmod>2019-10-02T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://project-notebook-comutation.netlify.com/post/</loc>
-    <lastmod>2019-10-02T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://project-notebook-comutation.netlify.com/post/2019-09-30/</loc>
+    <loc>http://localhost:1313/post/2019-09-30/</loc>
     <lastmod>2019-09-30T07:52:16-04:00</lastmod>
   </url>
   
   <url>
-    <loc>https://project-notebook-comutation.netlify.com/post/2019-09-28/</loc>
+    <loc>http://localhost:1313/post/2019-09-28/</loc>
     <lastmod>2019-09-28T15:28:05-04:00</lastmod>
   </url>
   
   <url>
-    <loc>https://project-notebook-comutation.netlify.com/post/new-project-structure/</loc>
+    <loc>http://localhost:1313/post/new-project-structure/</loc>
     <lastmod>2019-09-24T17:02:07-04:00</lastmod>
   </url>
   
   <url>
-    <loc>https://project-notebook-comutation.netlify.com/authors/admin/</loc>
+    <loc>http://localhost:1313/authors/admin/</loc>
     <lastmod>2019-04-07T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://project-notebook-comutation.netlify.com/publication_types/3/</loc>
+    <loc>http://localhost:1313/publication_types/3/</loc>
     <lastmod>2019-04-07T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://project-notebook-comutation.netlify.com/publication/preprint/</loc>
+    <loc>http://localhost:1313/publication/preprint/</loc>
     <lastmod>2019-04-07T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://project-notebook-comutation.netlify.com/authors/</loc>
+    <loc>http://localhost:1313/authors/</loc>
     <lastmod>2019-04-07T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://project-notebook-comutation.netlify.com/publication_types/</loc>
+    <loc>http://localhost:1313/publication_types/</loc>
     <lastmod>2019-04-07T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://project-notebook-comutation.netlify.com/publication/</loc>
+    <loc>http://localhost:1313/publication/</loc>
     <lastmod>2019-04-07T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://project-notebook-comutation.netlify.com/tags/source-themes/</loc>
+    <loc>http://localhost:1313/tags/source-themes/</loc>
     <lastmod>2019-04-07T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://project-notebook-comutation.netlify.com/tags/</loc>
+    <loc>http://localhost:1313/tags/</loc>
     <lastmod>2019-04-07T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://project-notebook-comutation.netlify.com/slides/</loc>
+    <loc>http://localhost:1313/slides/</loc>
     <lastmod>2019-02-05T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://project-notebook-comutation.netlify.com/slides/example/</loc>
+    <loc>http://localhost:1313/slides/example/</loc>
     <lastmod>2019-02-05T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://project-notebook-comutation.netlify.com/tags/deep-learning/</loc>
+    <loc>http://localhost:1313/tags/deep-learning/</loc>
     <lastmod>2016-04-27T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://project-notebook-comutation.netlify.com/tags/demo/</loc>
+    <loc>http://localhost:1313/tags/demo/</loc>
     <lastmod>2016-04-27T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://project-notebook-comutation.netlify.com/project/external-project/</loc>
+    <loc>http://localhost:1313/project/external-project/</loc>
     <lastmod>2016-04-27T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://project-notebook-comutation.netlify.com/project/internal-project/</loc>
+    <loc>http://localhost:1313/project/internal-project/</loc>
     <lastmod>2016-04-27T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://project-notebook-comutation.netlify.com/project/</loc>
+    <loc>http://localhost:1313/project/</loc>
     <lastmod>2016-04-27T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://project-notebook-comutation.netlify.com/publication_types/2/</loc>
+    <loc>http://localhost:1313/publication_types/2/</loc>
     <lastmod>2015-09-01T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://project-notebook-comutation.netlify.com/publication/journal-article/</loc>
+    <loc>http://localhost:1313/publication/journal-article/</loc>
     <lastmod>2015-09-01T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://project-notebook-comutation.netlify.com/authors/robert-ford/</loc>
+    <loc>http://localhost:1313/authors/robert-ford/</loc>
     <lastmod>2015-09-01T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://project-notebook-comutation.netlify.com/publication_types/1/</loc>
+    <loc>http://localhost:1313/publication_types/1/</loc>
     <lastmod>2013-07-01T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://project-notebook-comutation.netlify.com/publication/conference-paper/</loc>
+    <loc>http://localhost:1313/publication/conference-paper/</loc>
     <lastmod>2013-07-01T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://project-notebook-comutation.netlify.com/categories/</loc>
+    <loc>http://localhost:1313/categories/</loc>
   </url>
   
   <url>
-    <loc>https://project-notebook-comutation.netlify.com/courses/</loc>
+    <loc>http://localhost:1313/courses/</loc>
   </url>
   
 </urlset>

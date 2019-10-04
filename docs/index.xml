@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>KRAS Comutation</title>
-    <link>https://project-notebook-comutation.netlify.com/</link>
-      <atom:link href="https://project-notebook-comutation.netlify.com/index.xml" rel="self" type="application/rss+xml" />
+    <link>http://localhost:1313/</link>
+      <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
     <description>KRAS Comutation</description>
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Sat, 01 Jun 2030 13:00:00 +0000</lastBuildDate>
     <image>
-      <url>https://project-notebook-comutation.netlify.com/img/icon-192.png</url>
+      <url>http://localhost:1313/img/icon-192.png</url>
       <title>KRAS Comutation</title>
-      <link>https://project-notebook-comutation.netlify.com/</link>
+      <link>http://localhost:1313/</link>
     </image>
     
     <item>
       <title>Example Page 1</title>
-      <link>https://project-notebook-comutation.netlify.com/courses/example/example1/</link>
+      <link>http://localhost:1313/courses/example/example1/</link>
       <pubDate>Sun, 05 May 2019 00:00:00 +0100</pubDate>
-      <guid>https://project-notebook-comutation.netlify.com/courses/example/example1/</guid>
+      <guid>http://localhost:1313/courses/example/example1/</guid>
       <description>
 
 &lt;p&gt;In this tutorial, I&amp;rsquo;ll share my top 10 tips for getting started with Academic:&lt;/p&gt;
@@ -49,9 +49,9 @@
     
     <item>
       <title>Example Page 2</title>
-      <link>https://project-notebook-comutation.netlify.com/courses/example/example2/</link>
+      <link>http://localhost:1313/courses/example/example2/</link>
       <pubDate>Sun, 05 May 2019 00:00:00 +0100</pubDate>
-      <guid>https://project-notebook-comutation.netlify.com/courses/example/example2/</guid>
+      <guid>http://localhost:1313/courses/example/example2/</guid>
       <description>
 
 &lt;p&gt;Here are some more tips for getting started with Academic:&lt;/p&gt;
@@ -84,9 +84,9 @@
     
     <item>
       <title>Example Talk</title>
-      <link>https://project-notebook-comutation.netlify.com/talk/example/</link>
+      <link>http://localhost:1313/talk/example/</link>
       <pubDate>Sat, 01 Jun 2030 13:00:00 +0000</pubDate>
-      <guid>https://project-notebook-comutation.netlify.com/talk/example/</guid>
+      <guid>http://localhost:1313/talk/example/</guid>
       <description>&lt;div class=&#34;alert alert-note&#34;&gt;
   &lt;div&gt;
     Click on the &lt;strong&gt;Slides&lt;/strong&gt; button above to view the built-in slides feature.
@@ -106,10 +106,49 @@
     </item>
     
     <item>
+      <title>2019-10-03</title>
+      <link>http://localhost:1313/post/2019-10-03/</link>
+      <pubDate>Thu, 03 Oct 2019 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/post/2019-10-03/</guid>
+      <description>
+
+&lt;h2 id=&#34;analysis-to-remove-genes-that-can-confidently-be-removed-cont&#34;&gt;Analysis to remove genes that can confidently be removed (cont.)&lt;/h2&gt;
+
+&lt;p&gt;I finished up making &lt;code&gt;confidently_unexpressed_genes&lt;/code&gt; (cached).
+I then returned to the munging script for  preparing the model data and removed the genes were are confident are not expressed in the normal or tumor.&lt;/p&gt;
+
+&lt;h2 id=&#34;linear-modeling-allele-specificity&#34;&gt;Linear modeling allele-specificity&lt;/h2&gt;
+
+&lt;h3 id=&#34;linear-model-1&#34;&gt;Linear Model 1&lt;/h3&gt;
+
+&lt;p&gt;The first model I tried was a simple linear model (using &lt;code&gt;lm()&lt;/code&gt;) of the following form.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-txt&#34;&gt;  gene_effect ~ allele + is_altered + rna_scaled
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;It attempts the use the &lt;em&gt;KRAS&lt;/em&gt; allele,
+A step-wise feature selection AIC-based method was applied to each model.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;strong&gt;Other thoughts&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Latent variable analysis of DepMap data.
+Regress on the depletion effect of each gene for a patient.
+The latent variables are signaling pathway.
+Results show which pathways are most important.
+But will I just pull out the essential pathways?
+The goal of the DepMap analysis is to find lethals.&lt;/p&gt;
+
+&lt;p&gt;So instead for each gene, have features be mutational status, RNA expression, CNA of other genes (each feature of each gene linked to each other). Latent variables are pathways.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>2019-10-02</title>
-      <link>https://project-notebook-comutation.netlify.com/post/2019-10-02/</link>
+      <link>http://localhost:1313/post/2019-10-02/</link>
       <pubDate>Wed, 02 Oct 2019 00:00:00 +0000</pubDate>
-      <guid>https://project-notebook-comutation.netlify.com/post/2019-10-02/</guid>
+      <guid>http://localhost:1313/post/2019-10-02/</guid>
       <description>
 
 &lt;h2 id=&#34;analysis-to-remove-genes-that-can-confidently-be-removed&#34;&gt;Analysis to remove genes that can confidently be removed&lt;/h2&gt;
@@ -175,9 +214,9 @@ gene_name_tib
     
     <item>
       <title>2019-09-30</title>
-      <link>https://project-notebook-comutation.netlify.com/post/2019-09-30/</link>
+      <link>http://localhost:1313/post/2019-09-30/</link>
       <pubDate>Mon, 30 Sep 2019 00:00:00 +0000</pubDate>
-      <guid>https://project-notebook-comutation.netlify.com/post/2019-09-30/</guid>
+      <guid>http://localhost:1313/post/2019-09-30/</guid>
       <description>
 
 &lt;h2 id=&#34;munging-depmap-2019-q3-release-cont&#34;&gt;Munging DepMap 2019 Q3 release (cont.)&lt;/h2&gt;
@@ -263,9 +302,9 @@ I need to integrate these data in, too.&lt;/p&gt;
     
     <item>
       <title>2019-09-28</title>
-      <link>https://project-notebook-comutation.netlify.com/post/2019-09-28/</link>
+      <link>http://localhost:1313/post/2019-09-28/</link>
       <pubDate>Sat, 28 Sep 2019 00:00:00 +0000</pubDate>
-      <guid>https://project-notebook-comutation.netlify.com/post/2019-09-28/</guid>
+      <guid>http://localhost:1313/post/2019-09-28/</guid>
       <description>
 
 &lt;p&gt;I am beginning the migration process from the only comutation directory to this project.&lt;/p&gt;
@@ -349,9 +388,9 @@ This included coding mutations and copy number amplifications.&lt;/p&gt;
     
     <item>
       <title>2019-09-24 - New project structure</title>
-      <link>https://project-notebook-comutation.netlify.com/post/new-project-structure/</link>
+      <link>http://localhost:1313/post/new-project-structure/</link>
       <pubDate>Tue, 24 Sep 2019 00:00:00 +0000</pubDate>
-      <guid>https://project-notebook-comutation.netlify.com/post/new-project-structure/</guid>
+      <guid>http://localhost:1313/post/new-project-structure/</guid>
       <description>&lt;p&gt;I have used the &lt;a href=&#34;http://projecttemplate.net/index.html&#34; target=&#34;_blank&#34;&gt;&amp;lsquo;ProjectTemplate&amp;rsquo;&lt;/a&gt; R package to build the framework for the analysis. I created a lab notebook in reports using the &lt;a href=&#34;https://bookdown.org/yihui/blogdown/&#34; target=&#34;_blank&#34;&gt;&amp;lsquo;blogdown&amp;rsquo;&lt;/a&gt; package which serves the site to the &amp;lsquo;docs/&amp;rsquo; directory.&lt;/p&gt;
 
 &lt;p&gt;The remote repository is hosted by GitHub at &lt;a href=&#34;https://github.com/jhrcook/comutation&#34; target=&#34;_blank&#34;&gt;jhrcook/comutation&lt;/a&gt; and is private. The lab notebook is hosted by Netlify and is located at &lt;a href=&#34;https://project-notebook-comutation.netlify.com&#34; target=&#34;_blank&#34;&gt;project-notebook-comutation.netlify.com&lt;/a&gt;. It is open to the public, but is not easily found.&lt;/p&gt;
@@ -362,9 +401,9 @@ This included coding mutations and copy number amplifications.&lt;/p&gt;
     
     <item>
       <title>An example preprint / working paper</title>
-      <link>https://project-notebook-comutation.netlify.com/publication/preprint/</link>
+      <link>http://localhost:1313/publication/preprint/</link>
       <pubDate>Sun, 07 Apr 2019 00:00:00 +0000</pubDate>
-      <guid>https://project-notebook-comutation.netlify.com/publication/preprint/</guid>
+      <guid>http://localhost:1313/publication/preprint/</guid>
       <description>&lt;div class=&#34;alert alert-note&#34;&gt;
   &lt;div&gt;
     Click the &lt;em&gt;Slides&lt;/em&gt; button above to demo Academic&amp;rsquo;s Markdown slides feature.
@@ -377,9 +416,9 @@ This included coding mutations and copy number amplifications.&lt;/p&gt;
     
     <item>
       <title>Slides</title>
-      <link>https://project-notebook-comutation.netlify.com/slides/example/</link>
+      <link>http://localhost:1313/slides/example/</link>
       <pubDate>Tue, 05 Feb 2019 00:00:00 +0000</pubDate>
-      <guid>https://project-notebook-comutation.netlify.com/slides/example/</guid>
+      <guid>http://localhost:1313/slides/example/</guid>
       <description>
 
 &lt;h1 id=&#34;welcome-to-slides&#34;&gt;Welcome to Slides&lt;/h1&gt;
@@ -558,17 +597,17 @@ $$&lt;/p&gt;
     
     <item>
       <title>External Project</title>
-      <link>https://project-notebook-comutation.netlify.com/project/external-project/</link>
+      <link>http://localhost:1313/project/external-project/</link>
       <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
-      <guid>https://project-notebook-comutation.netlify.com/project/external-project/</guid>
+      <guid>http://localhost:1313/project/external-project/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Internal Project</title>
-      <link>https://project-notebook-comutation.netlify.com/project/internal-project/</link>
+      <link>http://localhost:1313/project/internal-project/</link>
       <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
-      <guid>https://project-notebook-comutation.netlify.com/project/internal-project/</guid>
+      <guid>http://localhost:1313/project/internal-project/</guid>
       <description>&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis posuere tellus ac convallis placerat. Proin tincidunt magna sed ex sollicitudin condimentum. Sed ac faucibus dolor, scelerisque sollicitudin nisi. Cras purus urna, suscipit quis sapien eu, pulvinar tempor diam. Quisque risus orci, mollis id ante sit amet, gravida egestas nisl. Sed ac tempus magna. Proin in dui enim. Donec condimentum, sem id dapibus fringilla, tellus enim condimentum arcu, nec volutpat est felis vel metus. Vestibulum sit amet erat at nulla eleifend gravida.&lt;/p&gt;
 
 &lt;p&gt;Nullam vel molestie justo. Curabitur vitae efficitur leo. In hac habitasse platea dictumst. Sed pulvinar mauris dui, eget varius purus congue ac. Nulla euismod, lorem vel elementum dapibus, nunc justo porta mi, sed tempus est est vel tellus. Nam et enim eleifend, laoreet sem sit amet, elementum sem. Morbi ut leo congue, maximus velit ut, finibus arcu. In et libero cursus, rutrum risus non, molestie leo. Nullam congue quam et volutpat malesuada. Sed risus tortor, pulvinar et dictum nec, sodales non mi. Phasellus lacinia commodo laoreet. Nam mollis, erat in feugiat consectetur, purus eros egestas tellus, in auctor urna odio at nibh. Mauris imperdiet nisi ac magna convallis, at rhoncus ligula cursus.&lt;/p&gt;
@@ -583,9 +622,9 @@ $$&lt;/p&gt;
     
     <item>
       <title>An example journal article</title>
-      <link>https://project-notebook-comutation.netlify.com/publication/journal-article/</link>
+      <link>http://localhost:1313/publication/journal-article/</link>
       <pubDate>Tue, 01 Sep 2015 00:00:00 +0000</pubDate>
-      <guid>https://project-notebook-comutation.netlify.com/publication/journal-article/</guid>
+      <guid>http://localhost:1313/publication/journal-article/</guid>
       <description>&lt;div class=&#34;alert alert-note&#34;&gt;
   &lt;div&gt;
     Click the &lt;em&gt;Cite&lt;/em&gt; button above to demo the feature to enable visitors to import publication metadata into their reference management software.
@@ -604,9 +643,9 @@ $$&lt;/p&gt;
     
     <item>
       <title>An example conference paper</title>
-      <link>https://project-notebook-comutation.netlify.com/publication/conference-paper/</link>
+      <link>http://localhost:1313/publication/conference-paper/</link>
       <pubDate>Mon, 01 Jul 2013 00:00:00 +0000</pubDate>
-      <guid>https://project-notebook-comutation.netlify.com/publication/conference-paper/</guid>
+      <guid>http://localhost:1313/publication/conference-paper/</guid>
       <description>&lt;div class=&#34;alert alert-note&#34;&gt;
   &lt;div&gt;
     Click the &lt;em&gt;Cite&lt;/em&gt; button above to demo the feature to enable visitors to import publication metadata into their reference management software.

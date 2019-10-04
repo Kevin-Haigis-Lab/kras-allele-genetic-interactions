@@ -2,7 +2,11 @@
 
 # Run to build, commit, and push notebook
 
-hugo -s reports -d docs --cleanDestinationDir
+cd reports/
+
+hugo ../docs
+
+cd ..
 
 git add -A
 
