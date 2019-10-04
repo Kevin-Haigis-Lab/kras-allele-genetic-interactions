@@ -36,6 +36,7 @@
 
 ## Easy Wins
 
+- logging for munging "07"
 
 
 ## Today
