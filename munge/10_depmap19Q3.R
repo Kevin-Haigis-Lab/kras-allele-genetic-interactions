@@ -179,7 +179,7 @@ cache("cell_lines",
             disease == "Colon/Colorectal Cancer" ~ "COAD",
             disease == "Pancreatic Cancer" ~ "PAAD",
             disease == "Myeloma" ~ "MM",
-            disease == "Lung Cancer" & str_detect(disease_subtype, "Adenocarcinoma") ~ "LUAD"
+            lineage_subtype == "lung_NSC" ~ "LUAD"
         )) %>%
         left_join(kras_mutation_tib, by = "dep_map_id")
 

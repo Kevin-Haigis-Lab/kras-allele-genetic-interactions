@@ -5,12 +5,45 @@
     <link>https://project-notebook-comutation.netlify.com/post/</link>
       <atom:link href="https://project-notebook-comutation.netlify.com/post/index.xml" rel="self" type="application/rss+xml" />
     <description>Posts</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Thu, 03 Oct 2019 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Fri, 04 Oct 2019 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://project-notebook-comutation.netlify.com/img/icon-192.png</url>
       <title>Posts</title>
       <link>https://project-notebook-comutation.netlify.com/post/</link>
     </image>
+    
+    <item>
+      <title>2019-10-04</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-10-04/</link>
+      <pubDate>Fri, 04 Oct 2019 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-10-04/</guid>
+      <description>
+
+&lt;p&gt;I have outlined an estimate for a time-line for the rest of the project to the first submission.
+It is located on the homepage of this website.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;modeling-kras-allele-specific-synthetic-lethality&#34;&gt;Modeling KRAS allele-specific synthetic lethality&lt;/h2&gt;
+
+&lt;p&gt;I began by trying to use a linear model, regressing on KRAS allele, RNA expression of the tarter, and whether the target was altered (CN amplification or coding mutation).
+I then used a step-wise AIC feature selection method to optimize the model for each gene.
+I ran into a problem, however, in how to declare the intercept of the model.
+Originally, I had the WT allele set as the intercept, but this is irrelevant for the RNA expression feature.
+To further complicate matters, PAAD does not have enough WT &lt;em&gt;KRAS&lt;/em&gt; cell lines, so the intercept was set to &lt;em&gt;KRAS&lt;/em&gt; G12D.
+This is obviously not what we want to model&lt;/p&gt;
+
+&lt;p&gt;Therefore, I have changed to a two-step process.
+First, I regress the depletion effect on the RNA expression of the target gene.
+The genes with a significant model (p &amp;lt; 0.01) are discorded.
+The second step is to run an ANOVA and conduct pair-wise T-tests.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Problem: While doing this, I realized that LUAD only has enough cell lines (at least 3) for WT and G12C, but not G12V like there was before.&lt;/strong&gt;
+I found that the problem was I specifically selected cell lines by their disease subtype containing &amp;ldquo;Adenocarcinoma&amp;rdquo;.
+I changed the selection criteria for the lung cell lines to &lt;code&gt;linear_subtype == &amp;quot;lung_NSC&amp;quot;&lt;/code&gt;.
+The problem was resolved.&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>2019-10-03</title>
