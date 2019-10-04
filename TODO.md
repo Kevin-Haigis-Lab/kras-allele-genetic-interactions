@@ -6,16 +6,24 @@
 
 ## Urgent
 
+## Jobs running on O2
+
+(Indexed by tmux screen number.)
+
+1: snakemake to finish LUAD co-mutation for "RC_comutation_2" (started 10-04-19 at 8AM)
+
+
 
 ## Papers to read
 
 
+
 ## Munging
 
-1. Lists of genes to remove from consideration for each tissue.
-2. 
+
 
 ## Doc
+
 
 
 ## Analyses
@@ -28,15 +36,19 @@
 		* some will also be moved to munging
 2. an analysis script to look into how these cutoffs effect the data
 
+
 ## Tests
+
 
 
 ## Misc
 
 
+
 ## Easy Wins
 
 - logging for munging "07"
+
 
 
 ## Today
