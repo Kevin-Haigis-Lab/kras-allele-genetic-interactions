@@ -106,6 +106,131 @@
     </item>
     
     <item>
+      <title>2019-10-05</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-10-05/</link>
+      <pubDate>Sat, 05 Oct 2019 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-10-05/</guid>
+      <description>
+
+&lt;h2 id=&#34;modeling-kras-allele-specific-synthetic-lethality-cont&#34;&gt;Modeling KRAS allele-specific synthetic lethality (cont.)&lt;/h2&gt;
+
+&lt;p&gt;Continuing from yesterday, I worked on plotting the box-plots of genes found to be significantly depleted in &lt;em&gt;KRAS&lt;/em&gt; mutants.
+There was a bug in &amp;lsquo;ggpubr&amp;rsquo; that installing the dev. version from GitHub fixed.
+I also ignored cell lines of LUAD with &lt;em&gt;KRAS&lt;/em&gt; G13D mutations because they are irrelevant to patients.&lt;/p&gt;
+
+&lt;p&gt;Depletion box-plots were made for the genes that passed the following criteria:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;The linear model of depletion effect and RNA expression was non-significant (p-value &amp;lt; 0.01).&lt;/li&gt;
+&lt;li&gt;The ANOVA across all alleles was significant at a relatively stringent cut-off (p-value &amp;lt; 0.01).&lt;/li&gt;
+&lt;li&gt;There was at least one significant pairwise comparison (FDR adj. p-value &amp;lt; 0.05)&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;All of the box-plots are in &amp;ldquo;graphs/10_10_linear-modeling-syn-let_bosplots/&amp;ldquo;.
+Below are some of the more interesting genes to pop out of the analysis.&lt;/p&gt;
+
+&lt;h3 id=&#34;coad&#34;&gt;COAD&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_bosplots/COAD-ARID5B.svg&#34; width = 400 /&gt;&lt;/p&gt;
+
+&lt;p&gt;From &lt;a href=&#34;https://www.uniprot.org/uniprot/Q14865&#34; target=&#34;_blank&#34;&gt;UniProt ARI5B_HUMAN&lt;/a&gt;:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Transcription coactivator that binds to the 5&amp;rsquo;-AATA[CT]-3&amp;rsquo; core sequence and plays a key role in adipogenesis and liver development.
+Acts by forming a complex with phosphorylated PHF2, which mediates demethylation at Lys-336, leading to target the PHF2-ARID5B complex to target promoters, where PHF2 mediates demethylation of dimethylated &amp;lsquo;Lys-9&amp;rsquo; of histone H3 (H3K9me2), followed by transcription activation of target genes&amp;hellip;
+Required for adipogenesis: regulates triglyceride metabolism in adipocytes by regulating expression of adipogenic genes.
+Overexpression leads to induction of smooth muscle marker genes, suggesting that it may also act as a regulator of smooth muscle cell differentiation and proliferation.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_bosplots/COAD-EIF3M.svg&#34; width = 400 /&gt;
+&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_bosplots/COAD-GAS6.svg&#34; width = 400 /&gt;
+&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_bosplots/COAD-SRP9.svg&#34; width = 400 /&gt;&lt;/p&gt;
+
+&lt;p&gt;From &lt;a href=&#34;https://www.uniprot.org/uniprot/P49458&#34; target=&#34;_blank&#34;&gt;UniProt SRP09_HUMAN&lt;/a&gt;:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Signal-recognition-particle assembly has a crucial role in targeting secretory proteins to the rough endoplasmic reticulum membrane.
+SRP9 together with SRP14 and the Alu portion of the SRP RNA, constitutes the elongation arrest domain of SRP.
+The complex of SRP9 and SRP14 is required for SRP RNA binding.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_bosplots/COAD-UNK.svg&#34; width = 400 /&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&#34;luad&#34;&gt;LUAD&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_bosplots/LUAD-CCDC107.svg&#34; width = 400 &gt;
+&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_bosplots/LUAD-CCDC113.svg&#34; width = 400 &gt;
+&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_bosplots/LUAD-DHFR.svg&#34; width = 400 &gt;
+&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_bosplots/LUAD-FAAP100.svg&#34; width = 400 &gt;
+&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_bosplots/LUAD-GPN2.svg&#34; width = 400 &gt;
+&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_bosplots/LUAD-HDAC1.svg&#34; width = 400 &gt;
+&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_bosplots/LUAD-HSBP1.svg&#34; width = 400 &gt;
+&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_bosplots/LUAD-MAPK6.svg&#34; width = 400 &gt;
+&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_bosplots/LUAD-SCAF4.svg&#34; width = 400 &gt;
+&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_bosplots/LUAD-STAMBP.svg&#34; width = 400 &gt;&lt;/p&gt;
+
+&lt;p&gt;From &lt;a href=&#34;https://www.uniprot.org/uniprot/O95630&#34; target=&#34;_blank&#34;&gt;UniProt: STABP_HUMAN&lt;/a&gt;:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Zinc metalloprotease that specifically cleaves &amp;lsquo;Lys-63&amp;rsquo;-linked polyubiquitin chains.
+Does not cleave &amp;lsquo;Lys-48&amp;rsquo;-linked polyubiquitin chains (By similarity).
+Plays a role in signal transduction for cell growth and MYC induction mediated by IL-2 and GM-CSF.
+Potentiates BMP (bone morphogenetic protein) signaling by antagonizing the inhibitory action of SMAD6 and SMAD7.
+Has a key role in regulation of cell surface receptor-mediated endocytosis and ubiquitin-dependent sorting of receptors to lysosomes.
+Endosomal localization of STAMBP is required for efficient EGFR degradation but not for its internalization (By similarity).
+Involved in the negative regulation of PI3K-AKT-mTOR and RAS-MAP signaling pathways.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_bosplots/LUAD-TP53.svg&#34; width = 400 &gt;
+&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_bosplots/LUAD-TP53BP1.svg&#34; width = 400 &gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&#34;paad&#34;&gt;PAAD&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_bosplots/PAAD-CCT8.svg&#34; width = 400 &gt;
+&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_bosplots/PAAD-EGLN2.svg&#34; width = 400 &gt;
+From &lt;a href=&#34;https://www.uniprot.org/uniprot/Q96KS0&#34; target=&#34;_blank&#34;&gt;UniProt: EGLN2_HUMAN&lt;/a&gt;:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Cellular oxygen sensor that catalyzes, under normoxic conditions, the post-translational formation of 4-hydroxyproline in hypoxia-inducible factor (HIF) alpha proteins.
+Hydroxylates a specific proline found in each of the oxygen-dependent degradation (ODD) domains (N-terminal, NODD, and C-terminal, CODD) of HIF1A.
+Also hydroxylates HIF2A&amp;hellip;
+Hydroxylated HIFs are then targeted for proteasomal degradation via the von Hippel-Lindau ubiquitination complex.
+Under hypoxic conditions, the hydroxylation reaction is attenuated allowing HIFs to escape degradation resulting in their translocation to the nucleus, heterodimerization with HIF1B, and increased expression of hypoxy-inducible genes.
+EGLN2 is involved in regulating hypoxia tolerance and apoptosis in cardiac and skeletal muscle.
+Also regulates susceptibility to normoxic oxidative neuronal death.
+Links oxygen sensing to cell cycle and primary cilia formation by hydroxylating the critical centrosome component CEP192 which promotes its ubiquitination and subsequent proteasomal degradation.
+Hydroxylates IKBKB, mediating NF-kappaB activation in hypoxic conditions.
+Target proteins are preferentially recognized via a LXXLAP motif.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_bosplots/PAAD-JUN.svg&#34; width = 400 &gt;&lt;/p&gt;
+
+&lt;p&gt;From &lt;a href=&#34;https://www.uniprot.org/uniprot/P05412&#34; target=&#34;_blank&#34;&gt;UniProt JUN_HUMAN&lt;/a&gt;:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Transcription factor that recognizes and binds to the enhancer heptamer motif 5&amp;rsquo;-TGA[CG]TCA-3&amp;rsquo; (PubMed:10995748, PubMed:22083952).
+Promotes activity of NR5A1 when phosphorylated by HIPK3 leading to increased steroidogenic gene expression upon cAMP signaling pathway stimulation (PubMed:17210646).
+Involved in activated KRAS-mediated transcriptional activation of USP28 in colorectal cancer (CRC) cells (PubMed:24623306).
+Binds to the USP28 promoter in colorectal cancer (CRC) cells (PubMed:24623306).&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;hr /&gt;
+
+&lt;h4 id=&#34;notes-for-tomorrow&#34;&gt;Notes for tomorrow&lt;/h4&gt;
+
+&lt;p&gt;There were some genes that have way too many data points (see example below).
+I need to figure out what is causing this.
+My guess is that they are related genes and the gene names are being truncated by &lt;code&gt;get_hugo_from_depmap_ids()&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_bosplots/COAD-KRTAP2.svg&#34; width = 400&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>2019-10-04</title>
       <link>https://project-notebook-comutation.netlify.com/post/2019-10-04/</link>
       <pubDate>Fri, 04 Oct 2019 00:00:00 +0000</pubDate>
