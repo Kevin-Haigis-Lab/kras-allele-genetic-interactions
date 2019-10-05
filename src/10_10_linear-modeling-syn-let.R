@@ -1,4 +1,6 @@
 
+library(ggpubr)
+library(glue)
 
 #### ---- Linear Model 1 ---- ####
 info(logger, "Beginning linear model 1.")
@@ -34,8 +36,15 @@ lm_on_rna <- function(data, ...) {
 }
 
 
+rna_pvalue_is_significant <- function(pval, cutoff = 0.01) {
+    if (is.na(pval)) { return(FALSE) }
+    if (pval < cutoff) { return(TRUE) }
+    return(FALSE)
+}
+
+
 anova_wrapper <- function(data, rna_pvalue, ...) {
-    if (rna_pvalue < 0.01) { return(NA) }
+    if (rna_pvalue_is_significant(rna_pvalue)) { return(NA) }
 
     data_mod <- lm1_prepare_data(data)
     res <- aov(gene_effect ~ allele, data = data_mod)
@@ -44,7 +53,7 @@ anova_wrapper <- function(data, rna_pvalue, ...) {
 
 
 kruskal_wrapper <- function(data, rna_pvalue, ...) {
-    if (rna_pvalue < 0.01) { return(NA) }
+    if (rna_pvalue_is_significant(rna_pvalue)) { return(NA) }
 
     data_mod <- lm1_prepare_data(data)
     res <- kruskal.test(gene_effect ~ allele, data = data_mod)
@@ -53,7 +62,7 @@ kruskal_wrapper <- function(data, rna_pvalue, ...) {
 
 
 pairwise_wrapper <- function(data, rna_pvalue, ...) {
-    if (rna_pvalue < 0.01) { return(NA) }
+    if (rna_pvalue_is_significant(rna_pvalue)) { return(NA) }
 
     data_mod <- lm1_prepare_data(data)
     res <- pairwise.t.test(data_mod$gene_effect,
@@ -64,11 +73,11 @@ pairwise_wrapper <- function(data, rna_pvalue, ...) {
 
 model1_tib <- model_data %>%
     filter(!cancer %in% c("MM", "SKCM")) %>%
+    filter(!(cancer == "LUAD" & allele == "G13D")) %>%
     group_by(cancer, hugo_symbol) %>%
     filter(sum(gene_effect < cutoff_between_non_essential) >= 2) %>%
     nest() %>%
     ungroup() %>%
-    slice(1:1000) %>% # TEST
     mutate(
         rna_lm_fit = map(data, lm_on_rna),
         rna_pvalue = map_dbl(rna_lm_fit, ~ tidy(.x)$p.value[2]),
@@ -80,13 +89,15 @@ model1_tib <- model_data %>%
 plot_pairwise_test_results <- function(hugo_symbol, cancer, data, allele_aov, allele_pairwise, ...) {
     if (all(is.na(allele_aov)) | all(is.na(allele_pairwise))) { return() }
 
-    if (!any(tidy(allele_pairwise) < 0.10)) { return() }
+    if (tidy(allele_aov)$p.value[[1]] >= 0.01) { return() }
 
     stat_tib <- compare_means(
         gene_effect ~ allele, data = data,
         method = "t.test", p.adjust.method = "BH"
     ) %>%
-        filter(p.adj < 0.10)
+        filter(p.adj < 0.05)
+
+    if (nrow(stat_tib) < 1) { return() }
 
     stat_bar_height <- 0.08
     stat_bar_y_positions <- c(max(data$gene_effect) + stat_bar_height)
@@ -96,9 +107,10 @@ plot_pairwise_test_results <- function(hugo_symbol, cancer, data, allele_aov, al
             stat_bar_y_positions[(i - 1)] + stat_bar_height
         )
     }
+
     stat_tib$y.position <- stat_bar_y_positions
 
-    ggboxplot(
+    p <- ggboxplot(
             data,
             x = "allele",
             y = "gene_effect",
@@ -106,19 +118,30 @@ plot_pairwise_test_results <- function(hugo_symbol, cancer, data, allele_aov, al
             add = "jitter"
         ) +
         stat_pvalue_manual(stat_tib, label = "p.adj") +
+        scale_color_manual(values = short_allele_pal) +
         theme(
+            text = element_text(family = "arial"),
             plot.title = element_text(hjust = 0.5),
             axis.title.x = element_blank(),
             legend.position = "none"
         ) +
         labs(
-            title = glue("Cancer: {cancer}, target gene: {hugo_symbol}"),
+            title = glue("Cancer: {cancer}, gene: {hugo_symbol}"),
+            caption = "*bars indicate FDR-adjusted p-values < 0.05",
             y = "depletion effect"
         )
 
-    browser()
+    plot_fname <- file.path(plot_save_dir, glue("{cancer}-{hugo_symbol}.svg"))
+    ggsave_wrapper(p, plot_fname, size = "small")
 }
 
+
+# directory for save images
+plot_save_dir <- plot_path("10_10_linear-modeling-syn-let_bosplots")
+if (!dir.exists(plot_save_dir)) {
+    info(logger, glue("Making directory for saving boxplots: {plot_save_dir}"))
+    dir.create(plot_save_dir)
+}
 
 model1_tib %>%
     pwalk(plot_pairwise_test_results)
