@@ -20,6 +20,8 @@
 
 ## Munging
 
+* change munging of RC-test output files to read in and parse file name to add meta data information
+
 
 
 ## Doc
@@ -28,14 +30,8 @@
 
 ## Analyses
 
-1. migration with the synthetic lethal analysis
-	* munging of the DepMap data can be put into munging
-		* then add the raw to ignore
-	* munging of GM co-mutation results
-	* split the main analysis up into multiple scripts
-		* some will also be moved to munging
-2. an analysis script to look into how these cutoffs effect the data
-
+* what is the minimum p-value for RC-test
+    * they state it in the original paper
 
 ## Tests
 

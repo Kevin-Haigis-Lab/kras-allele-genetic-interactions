@@ -70,3 +70,10 @@ cancer_palette <- c(
     PAAD = "brown",
     SKCM = "darksalmon"
 )
+
+
+# colors for comutation vs mutual exclusivity
+comut_mutex_pal <- c(
+    comutation = "lightskyblue",
+    exclusivity = "palegreen3"
+)
