@@ -21,8 +21,6 @@ cache("cancer_muts_df",
         unlist() %>%
         unique()
 
-    mutation_type_regex <- "frame|missense|nonsense|splice|nonstop|start|targeted"
-
     cancer_data_frames <- c()
     for (CANCER in names(cancer_data)) {
         cancer_name <- str_to_upper(ifelse(CANCER == "coadread", "coad", CANCER))
@@ -36,47 +34,54 @@ cache("cancer_muts_df",
 
     cancer_muts_df <- bind_rows(cancer_data_frames) %>%
         select(-entrez_gene_id, -tumor_type) %>%
-        dplyr::rename(gene = "gene_symbol", dataset = "genetic_profile_id") %>%
+        dplyr::rename(
+            hugo_symbol = "gene_symbol",
+            dataset = "genetic_profile_id",
+            tumor_sample_barcode = "case_id"
+        ) %>%
         mutate(mutation_type = str_to_lower(mutation_type),
-               is_hypermutant = case_id %in% hypermutants)
+               is_hypermutant = tumor_sample_barcode %in% hypermutants)
 
 
 #### ---- Assigning KRAS mutation ---- ####
 
-    ras_hotspots <- c("12", "13", "61", "146", "170", "117")
     ras_mutant_tib <- cancer_muts_df %>%
         filter(
-            gene == "KRAS" &
-            amino_position %in% !!ras_hotspots &
+            hugo_symbol == "KRAS" &
+            amino_position %in% !!kras_hotspot_codons$char &
             str_detect(mutation_type, !!mutation_type_regex)
         ) %>%
-        dplyr::rename(ras = "gene") %>%
+        dplyr::rename(ras = "hugo_symbol") %>%
         mutate(ras_allele = paste0(ras, "_", amino_acid_change)) %>%
-        group_by(cancer, dataset, case_id) %>%
+        group_by(cancer, dataset, tumor_sample_barcode) %>%
         filter(VAF == max(VAF) | is.na(VAF)) %>%
         ungroup() %>%
         unique()
 
     double_kras_mutants <- ras_mutant_tib %>%
-        group_by(case_id) %>%
+        group_by(tumor_sample_barcode) %>%
         filter(n() > 1) %>%
         ungroup() %>%
-        jhcutils::u_pull(case_id) %T>%
-        saveRDS(get_data_path("double_kras_mutants.rds"))
+        jhcutils::u_pull(tumor_sample_barcode)
+
+    cache("double_kras_mutants", { return(double_kras_mutants) })
 
     ras_mutant_tib %<>%
-        filter(!(case_id %in% !!double_kras_mutants))
+        filter(!(tumor_sample_barcode %in% !!double_kras_mutants))
 
     cancer_muts_df %<>%
-        filter(!(case_id %in% !!double_kras_mutants))
+        filter(!(tumor_sample_barcode %in% !!double_kras_mutants))
 
-    # should be 0 => no double mutants!
+    # should be 0 --> no double mutants!
     num_ras_double_mutants_left <- ras_mutant_tib %>%
-        group_by(case_id) %>%
+        group_by(tumor_sample_barcode) %>%
         filter(n() > 1) %>%
         nrow()
-    stopifnot(num_ras_double_mutants_left == 0)
-    # should be 0
+    if (num_ras_double_mutants_left != 0) {
+        fatal(logger, "There are still double KRAS mutants.")
+    } else {
+        info(logger, "There are no more KRAS double mutants.")
+    }
 
     # cache
     info(logger, "Caching RAS mutant table for cancer data.")
@@ -84,10 +89,10 @@ cache("cancer_muts_df",
 
     # trim to only required cells for join to `cancer_muts_df`
     ras_mutant_tib %<>%
-        select(cancer, dataset, case_id, ras, ras_allele)
+        select(cancer, dataset, tumor_sample_barcode, ras, ras_allele)
 
     cancer_muts_df %<>%
-        left_join(ras_mutant_tib, by = c("cancer", "dataset", "case_id")) %>%
+        left_join(ras_mutant_tib, by = c("cancer", "dataset", "tumor_sample_barcode")) %>%
         mutate(ras = ifelse(is.na(ras), "WT", ras),
                ras_allele = ifelse(is.na(ras_allele), "WT", ras_allele))
 
@@ -103,3 +108,4 @@ cache("cancer_coding_muts_df",
         filter(str_detect(mutation_type, mutation_type_regex))
     return(cancer_coding_muts_df)
 })
+

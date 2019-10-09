@@ -39,7 +39,8 @@ cache("gtex_summary_expr",
     gtex_data <- read_tsv_chunked(gtex_data_dir,
                                   DataFrameCallback$new(f),
                                   chunk_size = 1E4,
-                                  skip = 2)
+                                  skip = 2,
+                                  progress = FALSE)
 
     # summarise GTEx data into a single value (median and mean)
     gtex_summary_expr <- gtex_data %>%
@@ -63,7 +64,7 @@ cache("gtex_summary_expr",
 # HPA
 cache("hpa_expr",
 {
-    hpa_expr <- read_tsv(hpa_data_dir, col_types = cols()) %>%
+    hpa_expr <- read_tsv(hpa_data_dir, col_types = cols(), progress = FALSE) %>%
         filter(Sample %in% c("colon", "lung", "pancreas", "rectum", "skin",
                              "bone marrow")) %>%
         select(-c("Unit", "Gene"))
@@ -110,7 +111,7 @@ mm_rna_dir <- file.path(
 cache("cancer_rna_tib",
 {
     # COAD
-    coad_rna <- read_tsv(coad_rna_dir, col_types = cols()) %>%
+    coad_rna <- read_tsv(coad_rna_dir, col_types = cols(), progress = FALSE) %>%
         filter(!is.na(Hugo_Symbol)) %>%
         gather(
             key = "tumor_sample_barcode", value = "rna_expr",
@@ -121,7 +122,7 @@ cache("cancer_rna_tib",
         janitor::clean_names()
 
     # LUAD
-    luad_rna <- read_tsv(luad_rna_dir, col_types = cols()) %>%
+    luad_rna <- read_tsv(luad_rna_dir, col_types = cols(), progress = FALSE) %>%
         filter(!is.na(Hugo_Symbol)) %>%
         gather(
             key = "tumor_sample_barcode", value = "rna_expr",
@@ -132,7 +133,7 @@ cache("cancer_rna_tib",
         janitor::clean_names()
 
     # PAAD
-    paad_rna <- read_tsv(paad_rna_dir, col_types = cols()) %>%
+    paad_rna <- read_tsv(paad_rna_dir, col_types = cols(), progress = FALSE) %>%
         filter(!is.na(Hugo_Symbol)) %>%
         gather(
             key = "tumor_sample_barcode", value = "rna_expr",
@@ -143,7 +144,7 @@ cache("cancer_rna_tib",
         janitor::clean_names()
 
     # SKCM
-    skcm_rna <- read_tsv(skcm_rna_dir, col_types = cols()) %>%
+    skcm_rna <- read_tsv(skcm_rna_dir, col_types = cols(), progress = FALSE) %>%
         filter(!is.na(Hugo_Symbol)) %>%
         gather(
             key = "tumor_sample_barcode", value = "rna_expr",
@@ -154,7 +155,7 @@ cache("cancer_rna_tib",
         janitor::clean_names()
 
     # MM
-    mm_rna <- read_tsv(mm_rna_dir, col_types = cols()) %>%
+    mm_rna <- read_tsv(mm_rna_dir, col_types = cols(), progress = FALSE) %>%
         filter(!is.na(GENE_ID)) %>%
         gather(
             key = "tumor_sample_barcode", value = "rna_expr",
