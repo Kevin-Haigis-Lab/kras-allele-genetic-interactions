@@ -106,6 +106,69 @@
     </item>
     
     <item>
+      <title>2019-10-08</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-10-08/</link>
+      <pubDate>Tue, 08 Oct 2019 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-10-08/</guid>
+      <description>
+
+&lt;h2 id=&#34;plan-for-analysis&#34;&gt;Plan for analysis&lt;/h2&gt;
+
+&lt;p&gt;I did not have time to work on this project today, but I found time in the evening to think about how I want to progress.&lt;/p&gt;
+
+&lt;h3 id=&#34;rc-test-results-analysis&#34;&gt;RC-test results analysis&lt;/h3&gt;
+
+&lt;p&gt;Tomorrow, I will focus on moving forward with analyzing the results from the RC-test.
+I need to merge in the number of mutation events in order to remove the genetic interactions that do not meet a low standard.
+For comutation, there should be at least 2 co-mutation events.
+For mutual exclusivity, the other gene should be mutated in at least 0.01% of all the cancer&amp;rsquo;s samples.
+This will remove a lot of mutually exclusive events that are caused by the mutation just being very rare.&lt;/p&gt;
+
+&lt;p&gt;I will then compare the results to those from the Fisher&amp;rsquo;s exact test:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;How many genes are shared by each allele between the two analyses (Venn diagram for each allele)&lt;/li&gt;
+&lt;li&gt;For the shared genes, how do the p-values compare (scatter plot with x and y-axis as p-value from each analysis; a line for $y = x$)&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Finally, I will look for interesting results in the significant genes.
+This will start with highlight CGC genes.
+Also those found from the BioID screen of &lt;em&gt;KRAS&lt;/em&gt; and &lt;em&gt;KRAS&lt;/em&gt; mutants.
+Lastly, I will use WebGestalt, EnrichR, or PANTHER (PMID: 23868073 for updated overview) to find functional patterns in the gene lists.&lt;/p&gt;
+
+&lt;p&gt;For the paper, I see the text reading something to the effect of, &amp;ldquo;X tended to comutate with &lt;em&gt;KRAS&lt;/em&gt; A and B but no interaction was detected for &lt;em&gt;KRAS&lt;/em&gt; C nor D,&amp;rdquo; for individual CGC genes. Also, for any enriched biological processes, the text would look something like, &amp;ldquo;There was an enrichment for function Y in the genes found to comutate with &lt;em&gt;KRAS&lt;/em&gt; E, potentially suggesting &amp;hellip;&amp;rdquo;&lt;/p&gt;
+
+&lt;p&gt;Here is where I will stop until completing the synthetic lethal analysis.
+Once I have completed that to a satisfactory degree, I will look for overlap between the hits from each analysis.&lt;/p&gt;
+
+&lt;h3 id=&#34;allele-specific-synthetic-lethality&#34;&gt;Allele-specific synthetic lethality&lt;/h3&gt;
+
+&lt;p&gt;So far, I have only completed the simplest possible analysis to find allele-specific synthetic lethality.
+Briefly, I removed the genes that could be explained by their RNA expression.
+Then, I conducted an ANOVA and pair-wise comparisons to find differences in lethality between cells with the various &lt;em&gt;KRAS&lt;/em&gt; alleles, including WT.
+Some of the most interesting results can be found on yesterday&amp;rsquo;s notebook, and all plots are available in &amp;ldquo;graphs/10_10_linear-modeling-syn-let_bosplots/&amp;ldquo;.&lt;/p&gt;
+
+&lt;p&gt;I want a way of visualizing all of these results (especially for the meeting with KH and PJP).
+The obvious way is to produce a heatmap of patient vs. gene with the genes that were found to have a significant difference.
+Then, I could show specific box-plots for genes of interest (CGC, &lt;em&gt;KRAS&lt;/em&gt; interactors from BioID screen, specific KEGG pathways).&lt;/p&gt;
+
+&lt;p&gt;Another approach could be to look for enriched biological processes/pathways.
+To this end, we could employ an analysis similar to GSEA.
+We could run GSEA as one &lt;em&gt;KRAS&lt;/em&gt; allele against all other cell lines or just the &lt;em&gt;KRAS&lt;/em&gt; WT cell lines.
+I will also look into GSVA and ssGSEA, two popular variants of GSEA.&lt;/p&gt;
+
+&lt;p&gt;A quick analysis that could be very fruitful is to conduct a PCA on the gene-space and see if the cell lines cluster by &lt;em&gt;KRAS&lt;/em&gt; allele.
+If they do, that would lend credence to our claim that the &lt;em&gt;KRAS&lt;/em&gt; allele is important.
+(It may be useful to plot the first few PCs using tSNE or UMAP.)
+If there appear to be clusters, then some sort of clustering (K-means, hierarchical clustering, DBSCAN, spectral clustering, etc.) could be used to make the claim concrete.
+Even just a difference between KRAS and WT would be supportive of our claim.&lt;/p&gt;
+
+&lt;p&gt;LASSO of KRAS WT vs mutant starting with all genes as covariates.
+Use the genes with non-trivial parameters in a random forest classifier or niave bayes classifier to predict the &lt;em&gt;KRAS&lt;/em&gt; allele (including WT).&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>2019-10-07</title>
       <link>https://project-notebook-comutation.netlify.com/post/2019-10-07/</link>
       <pubDate>Mon, 07 Oct 2019 00:00:00 +0000</pubDate>
