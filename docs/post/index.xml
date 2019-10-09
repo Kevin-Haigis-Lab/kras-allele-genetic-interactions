@@ -5,12 +5,29 @@
     <link>https://project-notebook-comutation.netlify.com/post/</link>
       <atom:link href="https://project-notebook-comutation.netlify.com/post/index.xml" rel="self" type="application/rss+xml" />
     <description>Posts</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Tue, 08 Oct 2019 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Wed, 09 Oct 2019 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://project-notebook-comutation.netlify.com/img/icon-192.png</url>
       <title>Posts</title>
       <link>https://project-notebook-comutation.netlify.com/post/</link>
     </image>
+    
+    <item>
+      <title>2019-10-09</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-10-09/</link>
+      <pubDate>Wed, 09 Oct 2019 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-10-09/</guid>
+      <description>
+
+&lt;h2 id=&#34;finish-preparing-rc-test-results&#34;&gt;Finish preparing RC-test results&lt;/h2&gt;
+
+&lt;p&gt;The final step was to merge the actual mutation numbers for each gene to the results from the RC-test.&lt;/p&gt;
+
+&lt;h2 id=&#34;munge-gm-comutation-results&#34;&gt;Munge GM comutation results&lt;/h2&gt;
+
+&lt;p&gt;To compare against the RC test, I prepared the results from GM&amp;rsquo;s test for comutation (a Fisher&amp;rsquo;s exact test).&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>2019-10-08</title>

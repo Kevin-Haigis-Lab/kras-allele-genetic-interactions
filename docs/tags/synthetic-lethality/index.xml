@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Projects | KRAS Comutation</title>
-    <link>https://project-notebook-comutation.netlify.com/project/</link>
-      <atom:link href="https://project-notebook-comutation.netlify.com/project/index.xml" rel="self" type="application/rss+xml" />
-    <description>Projects</description>
+    <title>synthetic lethality | KRAS Comutation</title>
+    <link>https://project-notebook-comutation.netlify.com/tags/synthetic-lethality/</link>
+      <atom:link href="https://project-notebook-comutation.netlify.com/tags/synthetic-lethality/index.xml" rel="self" type="application/rss+xml" />
+    <description>synthetic lethality</description>
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Wed, 09 Oct 2019 06:58:30 -0400</lastBuildDate>
     <image>
       <url>https://project-notebook-comutation.netlify.com/img/icon-192.png</url>
-      <title>Projects</title>
-      <link>https://project-notebook-comutation.netlify.com/project/</link>
+      <title>synthetic lethality</title>
+      <link>https://project-notebook-comutation.netlify.com/tags/synthetic-lethality/</link>
     </image>
     
     <item>
@@ -26,14 +26,6 @@ This overlaps with &amp;ldquo;dependency&amp;rdquo; whereby the first mutation p
 Blocking (by mutation or inhibition) this function would cause the mutant organism to die, but not effect the wild-type organisms.
 Thus, finding synthetic lethal interactions in cancer&lt;/p&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>RC-Test for Comutation</title>
-      <link>https://project-notebook-comutation.netlify.com/project/rc-test-for-comutation/</link>
-      <pubDate>Wed, 09 Oct 2019 06:58:09 -0400</pubDate>
-      <guid>https://project-notebook-comutation.netlify.com/project/rc-test-for-comutation/</guid>
-      <description></description>
     </item>
     
   </channel>

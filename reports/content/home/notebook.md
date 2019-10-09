@@ -15,7 +15,7 @@ subtitle = ""
   page_type = "post"
   
   # Choose how much pages you would like to display (0 = all pages)
-  count = 0
+  count = 10
   
   # Choose how many pages you would like to offset by
   offset = 0
@@ -65,3 +65,5 @@ subtitle = ""
  # CSS class.
  css_class = ""
 +++
+
+[Full Notebook]({{< ref "/post/_index.md" >}})

@@ -28,7 +28,8 @@ kras_hotspot_codons <- list(num = c(12, 13, 61, 117, 146))
 kras_hotspot_codons$char <- as.character(kras_hotspot_codons$num)
 kras_hotspot_codons$regex <- paste0(kras_hotspot_codons$char, collapse = "|")
 
-
+# cancer regex
+cancer_regex <- "COAD|LUAD|PAAD|MM|SKCM"
 
 # coding mutation variant classification terms
 coding_mut_var_classes <- c(

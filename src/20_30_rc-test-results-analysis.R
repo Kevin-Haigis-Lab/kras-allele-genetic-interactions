@@ -6,6 +6,8 @@ library(ggraph)
 #### ---- Barplots for number of sig. results ---- ####
 
 
+# TODO: filter based on mutation frequency of the `hugo_symbol`
+
 sig_results_barplot <- rc_test_results %>%
     filter(p_val < 0.05 & t_AM > 2) %>%
     ggplot(aes(x = allele)) +
@@ -44,6 +46,7 @@ ggsave_wrapper(
     sig_results_barplot_septest,
     plot_path("20_30_rc-test-results-analysis", "sig_results_barplot_septest.svg"),
     "medium")
+
 
 
 #### ---- Networks ---- ####
