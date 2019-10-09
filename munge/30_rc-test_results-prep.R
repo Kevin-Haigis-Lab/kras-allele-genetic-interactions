@@ -69,6 +69,7 @@ cache("rc_test_results",
             num_mut_per_cancer_allele = n_distinct(tumor_sample_barcode)
         )
 
+    assign("cancer_mut_counts", cancer_mut_counts, envir = .GlobalEnv)
     cache("cancer_mut_counts")
 
     rc_test_results <- left_join(
