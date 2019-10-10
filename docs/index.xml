@@ -106,6 +106,188 @@
     </item>
     
     <item>
+      <title>2019-10-10</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-10-10/</link>
+      <pubDate>Thu, 10 Oct 2019 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-10-10/</guid>
+      <description>
+
+&lt;h2 id=&#34;comparing-results-from-fisher-s-test-and-rc-test&#34;&gt;Comparing results from Fisher&amp;rsquo;s test and RC-test&lt;/h2&gt;
+
+&lt;p&gt;Looking at GM&amp;rsquo;s figure 3, I&amp;rsquo;m not sure how he has such a sparse figure for PAAD. From his results, there should be a lot of genes for KRAS G12D (&amp;gt; 800) at even a p-value cut-off of 0.01.&lt;/p&gt;
+
+&lt;p&gt;From yesterday&amp;rsquo;s conclusion to use the Fisher&amp;rsquo;s exact test for comutation and the RC-test for mutual exclusivity, I created a combined data frame with both of these data for future use: &lt;code&gt;genetic_interaction_df&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;analysis-of-hits-from-genetic-interaction-tests&#34;&gt;Analysis of hits from genetic interaction tests&lt;/h2&gt;
+
+&lt;p&gt;This analysis was conducted in &amp;ldquo;src/20_40_genetic-interaction-hits.R&amp;rdquo;.&lt;/p&gt;
+
+&lt;p&gt;For a first pass, I just identified genes that might be of interest by using curated lists:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;the following KEGG gene sets (from &lt;a href=&#34;http://software.broadinstitute.org/gsea/downloads.jsp&#34; target=&#34;_blank&#34;&gt;MSigDB&lt;/a&gt;):&lt;/li&gt;
+&lt;li&gt;the interactors with WT KRAS from &lt;a href=&#34;https://www.ncbi.nlm.nih.gov/pubmed/?term=30639242&#34; target=&#34;_blank&#34;&gt;Kovalski &lt;em&gt;et al.&lt;/em&gt;, 2019&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;and the &lt;a href=&#34;https://cancer.sanger.ac.uk/census&#34; target=&#34;_blank&#34;&gt;COSMIC Cancer Gene Consensus&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;gene-list-preparation&#34;&gt;Gene list preparation&lt;/h3&gt;
+
+&lt;p&gt;These files were all parsed and cached in &amp;ldquo;munge/37_gene-list-preparation.R&amp;rdquo;&lt;/p&gt;
+
+&lt;p&gt;The BioID data was available in an Excel spreadsheet with merged cells.
+Therefore, it was difficult to read in and prepare as-is.
+I manually removed the annoying cells in a new file &amp;ldquo;Kovalski-et-al-2019_BioID_REFORMATTED.xlsx&amp;rdquo;&lt;/p&gt;
+
+&lt;p&gt;The resulting files are:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;cosmic_cgc_df&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;kegg_geneset_df&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;kras_interactors_bioid_df&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;genes_of_interest_df&lt;/code&gt; (a collation of the genes and their sources)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;overlap&#34;&gt;Overlap&lt;/h3&gt;
+
+&lt;p&gt;Looking at each cancer, there is a good amount of overlap between the genetic interactions and the &lt;em&gt;a priori&lt;/em&gt; genes of interest.&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Cancer&lt;/th&gt;
+&lt;th&gt;num. genes&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;COAD&lt;/td&gt;
+&lt;td&gt;108&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;LUAD&lt;/td&gt;
+&lt;td&gt;218&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;MM&lt;/td&gt;
+&lt;td&gt;15&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;PAAD&lt;/td&gt;
+&lt;td&gt;295&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;To see these genes in relation to each other, I imported the STRING pathway and selected just the proteins found in the overlap.&lt;/p&gt;
+
+&lt;p&gt;The STRING data base was downloaded on 2019-09-20 and all the original files are in my data base directory &amp;ldquo;/n/no_backup2/dbmi/park/jc604/databases/networks/STRING/&amp;ldquo;.
+The preparation was done in &amp;ldquo;munge/40_STRING-network-preparation.R&amp;rdquo;.&lt;/p&gt;
+
+&lt;p&gt;During this analysis, I decided to stop because the computation was taking too long and the output was unlikely to be interesting.
+I will revisit this analysis, but I first want to deal with the zoomed-out view of comparing the results of the alleles.&lt;/p&gt;
+
+&lt;h2 id=&#34;high-level-genetic-interaction-figures&#34;&gt;High-level genetic interaction figures&lt;/h2&gt;
+
+&lt;p&gt;This analysis was conducted in &amp;ldquo;src/20_40_highlivel-genetic-interactions.R&amp;rdquo;.&lt;/p&gt;
+
+&lt;p&gt;I began work on the genetic interaction figures with the Fisher&amp;rsquo;s exact test used for comutation and the RC-test used for mutual exclusivity.
+I employed UpSet plots (using UpSetR) to visualize the overlap of the comutation and mutual exclusive interactions.
+As Joe stated, the UpSet plot is essentially a higher-dimensional Venn diagram.&lt;/p&gt;
+
+&lt;p&gt;(The following plots do not have titles because there is no parameter for adding one in UpSetR&amp;hellip;)&lt;/p&gt;
+
+&lt;h3 id=&#34;coad&#34;&gt;COAD&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;Comutation&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_40_highlivel-genetic-interactions/COAD_comutation_upset.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Mutually Exclusive&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_40_highlivel-genetic-interactions/COAD_exclusivity_upset.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;luad&#34;&gt;LUAD&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;Comutation&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_40_highlivel-genetic-interactions/LUAD_comutation_upset.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Mutually Exclusive&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_40_highlivel-genetic-interactions/LUAD_exclusivity_upset.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;mm&#34;&gt;MM&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;Comutation&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_40_highlivel-genetic-interactions/MM_comutation_upset.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Mutually Exclusive&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_40_highlivel-genetic-interactions/MM_exclusivity_upset.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;paad&#34;&gt;PAAD&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;Comutation&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_40_highlivel-genetic-interactions/PAAD_comutation_upset.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Mutually Exclusive&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_40_highlivel-genetic-interactions/PAAD_exclusivity_upset.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;I also re-created the genetic interaction network plots.
+This time, however, I did not include the names all of genes, but instead use the plot to demonstrate higher-level trends.&lt;/p&gt;
+
+&lt;h3 id=&#34;coad-1&#34;&gt;COAD&lt;/h3&gt;
+
+&lt;p&gt;Many of the alleles are connected by shared mutually-exclusive interactions and have their own &amp;ldquo;clouds&amp;rdquo; of comutation interactions.
+This can be seen very clearly between G12D and G12V.&lt;/p&gt;
+
+&lt;p&gt;Interestingly, Q61K and Q61L seem to be quite similar.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_40_highlivel-genetic-interactions/genetic_interaction_network_COAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;luad-1&#34;&gt;LUAD&lt;/h3&gt;
+
+&lt;p&gt;There is a lot of overlap of mutually exclusive interactions between G12C and G12V.
+These alleles are both driven by smoke, but I can&amp;rsquo;t think of an explanation why this would drive mutual exclusivity.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_40_highlivel-genetic-interactions/genetic_interaction_network_LUAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;mm-1&#34;&gt;MM&lt;/h3&gt;
+
+&lt;p&gt;The allele-specific genetic interactions are very sparse, possibly speaking to the large distribution of &lt;em&gt;KRAS&lt;/em&gt; alleles found in the diease.
+This may indicate that the allele is not as impactful in MM as it is in COAD, LUAD, and PAAD.&lt;/p&gt;
+
+&lt;p&gt;There are a few mutually exclusive partners shared by a few alleles.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_40_highlivel-genetic-interactions/genetic_interaction_network_MM.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;paad-1&#34;&gt;PAAD&lt;/h3&gt;
+
+&lt;p&gt;There are a lot of significant interactions here.
+Interestingly (worryingly?) I report here many(!) more comutation interactions than GM does in his figure even though we are use the same results.
+Even if I reduce the p-value cutoff to 0.01, I report at least an order of magnitude more interactions that GM.
+I definitely need to get to the bottom of this&amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_40_highlivel-genetic-interactions/genetic_interaction_network_PAAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;final-notes&#34;&gt;Final notes&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;I need to look into why there is such a large discrepancy between my and GM&amp;rsquo;s figures, especially for PAAD.&lt;/li&gt;
+&lt;li&gt;It appears that there are some genes that comutate with one allele and are mutually exclusive with another. These may be interesting to look further into.&lt;/li&gt;
+&lt;li&gt;Not all of the alleles are appearing in the UpSet plots. I have added a note to the code to fix this.&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
       <title>KRAS Allele-Specific Synthetic Lethality</title>
       <link>https://project-notebook-comutation.netlify.com/project/allele-specific-synthetic-lethality/</link>
       <pubDate>Wed, 09 Oct 2019 06:58:30 -0400</pubDate>
@@ -191,15 +373,15 @@ It is prepared for further use in &amp;ldquo;munge/35_comutation-results-gm.R&am
 &lt;tr&gt;
 &lt;td&gt;&lt;strong&gt;gene&lt;/strong&gt;&lt;/td&gt;
 &lt;td&gt;WT&lt;/td&gt;
-&lt;td&gt;n00&lt;/td&gt;
-&lt;td&gt;n01&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;n00&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;n01&lt;/code&gt;&lt;/td&gt;
 &lt;/tr&gt;
 
 &lt;tr&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;mut&lt;/td&gt;
-&lt;td&gt;n10&lt;/td&gt;
-&lt;td&gt;n11&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;n10&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;n11&lt;/code&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
