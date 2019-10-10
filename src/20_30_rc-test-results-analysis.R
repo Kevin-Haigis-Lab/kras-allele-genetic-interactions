@@ -5,11 +5,11 @@ library(ggraph)
 
 #### ---- Barplots for number of sig. results ---- ####
 
-
-# TODO: filter based on mutation frequency of the `hugo_symbol`
+info(logger, "Making barplots of general results of RC-test.")
 
 sig_results_barplot <- rc_test_results %>%
-    filter(p_val < 0.05 & t_AM > 2) %>%
+    filter(num_mut_per_cancer >= 3) %>%
+    filter(p_val < 0.05 & t_AM >= 3) %>%
     ggplot(aes(x = allele)) +
     facet_wrap(~cancer, scales = "free") +
     geom_bar(aes(fill = cancer)) +
@@ -21,17 +21,21 @@ sig_results_barplot <- rc_test_results %>%
         axis.text.x = element_text(angle = 30, hjust = 1.0)
     )
 
+
+save_path <- plot_path("20_30_rc-test-results-analysis", "sig_results_barplot.svg")
+info(logger, glue("Making plot {save_path}."))
 ggsave_wrapper(
     sig_results_barplot,
-    plot_path("20_30_rc-test-results-analysis", "sig_results_barplot.svg"),
+    save_path,
     "medium")
 
 
 sig_results_barplot_septest <- rc_test_results %>%
-    filter(p_val < 0.05 & t_AM > 2) %>%
+    filter(num_mut_per_cancer >= 3) %>%
+    filter(p_val < 0.05 & t_AM >= 3) %>%
     ggplot(aes(x = allele)) +
     facet_wrap(~cancer, scales = "free") +
-    geom_bar(aes(fill = test), position = "dodge") +
+    geom_bar(aes(fill = rc_test_type), position = "dodge") +
     scale_fill_manual(
         values = comut_mutex_pal) +
     scale_y_continuous(expand = expand_scale(mult = c(0, 0.02))) +
@@ -42,19 +46,21 @@ sig_results_barplot_septest <- rc_test_results %>%
         legend.position = "bottom"
     )
 
-ggsave_wrapper(
-    sig_results_barplot_septest,
-    plot_path("20_30_rc-test-results-analysis", "sig_results_barplot_septest.svg"),
-    "medium")
+save_path <- plot_path("20_30_rc-test-results-analysis", "sig_results_barplot_septest.svg")
+info(logger, glue("Making plot {save_path}."))
+ggsave_wrapper(sig_results_barplot_septest, save_path, "medium")
 
 
 
 #### ---- Networks ---- ####
 
+logger()
+
 rc_test_gr <- rc_test_results %>%
-    filter(p_val < 0.05 & t_AM > 2) %>%
+    filter(num_mut_per_cancer >= 3) %>%
+    filter(p_val < 0.05 & t_AM >= 3) %>%
     mutate(allele = paste("KRAS", allele)) %>%
-    select(allele, hugo_symbol, cancer, test, p_val, t_AM) %>%
+    select(allele, hugo_symbol, cancer, rc_test_type, p_val, t_AM) %>%
     as_tbl_graph() %N>%
     mutate(is_kras = str_detect(name, "KRAS "))
 
@@ -66,7 +72,7 @@ for (CANCER in unique(rc_test_results$cancer)) {
         mutate(color_label = ifelse(is_kras, name, NA)) %>%
         ggraph(layout = "stress") +
         geom_edge_link(
-            aes(color = test,
+            aes(color = rc_test_type,
                 width = -log(p_val + 0.000001)),
             alpha = 0.7
         ) +
@@ -92,9 +98,10 @@ for (CANCER in unique(rc_test_results$cancer)) {
             edge_width = "-log(p-val.)",
             color = "KRAS allele"
         )
-    ggsave_wrapper(
-        rc_gr_plot,
-        plot_path("20_30_rc-test-results-analysis",
-                  glue("{CANCER}_comut-mutex_network.svg")),
-        "large")
+
+    save_path <- plot_path("20_30_rc-test-results-analysis",
+                           glue("{CANCER}_comut-mutex_network.svg"))
+    info(logger, glue("Making plot {save_path}."))
+    ggsave_wrapper(rc_gr_plot, save_path, "large")
 }
+
