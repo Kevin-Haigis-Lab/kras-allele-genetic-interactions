@@ -47,16 +47,18 @@ allele_palette <- c(
     "KRAS G12D" = "#427ff5",
     "KRAS G12R" = "#af5fe4",
     "KRAS G12V" = "#f8d147",
-    "KRAS Other" = "grey76",
-    "KRAS Q61H" = "#fd2c3b",
-    "KRAS Q61R" = "#f33bea",
     "KRAS G12A" = "#fb7810",
     "KRAS G12S" = "#f4cacb",
     "KRAS G13C" = "#afe642",
     "KRAS G13D" = "#1c4585",
     "KRAS A146T" = "#859947",
     "KRAS A146V" = "#9f75a7",
-    "KRAS Q61L" = "#56eead"
+    "KRAS Q61L" = "#56eead",
+    "KRAS Q61K" = "#E76707",
+    "KRAS Q61H" = "#fd2c3b",
+    "KRAS Q61R" = "#f33bea",
+    "KRAS K117N" = "#E707C8",
+    "KRAS Other" = "grey75"
 )
 allele_palette <- c(allele_palette, "WT" = "grey50")
 short_allele_pal <- allele_palette

@@ -1,14 +1,14 @@
 version: 0.9.0
 data_loading: TRUE
 data_loading_header: TRUE
-data_ignore: depmap19Q3/depmap_19Q3_README.txt, tissue-gene-expression/*, tcga/*, rc-test/*, cancer-data/*, fisher-comutation/*
+data_ignore: depmap19Q3/depmap_19Q3_README.txt, tissue-gene-expression/*, tcga/*, rc-test/*, cancer-data/*, fisher-comutation/*, gene-lists/*, STRING-network/*
 cache_loading: TRUE
 recursive_loading: TRUE
 munging: TRUE
 logging: TRUE
 logging_level: INFO
 load_libraries: TRUE
-libraries: stats, glue, jhcutils, magrittr, ggpubr, broom, tidyverse
+libraries: stats, glue, tidygraph, jhcutils, magrittr, ggpubr, broom, tidyverse
 as_factors: FALSE
 tables_type: tibble
 attach_internal_libraries: FALSE

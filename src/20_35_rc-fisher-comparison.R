@@ -5,17 +5,20 @@ test_name_pal <- c(
     Fisher = "chocolate1"
 )
 
+
 #### ---- Significant results from each test ---- ####
+
+p_val_cut <- 0.05
 
 rc_sig <- rc_test_results %>%
     filter(num_mut_per_cancer >= 3) %>%
-    filter(p_val < 0.05 & t_AM >= 3)
+    filter(p_val < p_val_cut & t_AM >= 3)
 
 fisher_sig <- fisher_comut_df %>%
-    filter(p_value_great < 0.05 | p_value_less < 0.05) %>%
+    filter(p_value_great < p_val_cut | p_value_less < p_val_cut) %>%
     filter(n11 >= 3) %>%
     mutate(test_type = ifelse(
-        p_value_great < 0.05, "comutation", "exclusivity"
+        p_value_great < p_val_cut, "comutation", "exclusivity"
     ))
 
 
@@ -101,3 +104,36 @@ save_path <- plot_path("20_35_rc-fisher-comparison", "rc_fisher_comparison_barpl
 info(logger, glue("Saving plot {save_path}"))
 ggsave_wrapper(rc_fisher_comparison_barplot_samenum, save_path, width = 6, height = 8)
 
+
+
+#### ---- Combined data frame ---- ####
+
+exclusivity_df <- rc_sig %>%
+    filter(rc_test_type == "exclusivity") %>%
+    select(
+        hugo_symbol, kras_allele, allele, cancer,
+        p_val, t_AM,
+        num_samples_per_cancer, num_samples_per_cancer_allele,
+        num_mut_per_cancer, num_mut_per_cancer_allele
+    ) %>%
+    mutate(
+        test_name = "RC",
+        genetic_interaction = "exclusivity"
+    )
+
+comutation_df <- fisher_sig %>%
+    select(
+        hugo_symbol, kras_allele, cancer,
+        p_value_great, odds_ratio,
+        n00, n10, n01, n11,
+        allele_freq, gene_freq
+    ) %>%
+    mutate(
+        test_name = "Fisher",
+        allele = str_remove(kras_allele, "KRAS_"),
+        genetic_interaction = "comutation"
+    ) %>%
+    dplyr::rename(p_val = p_value_great)
+
+genetic_interaction_df <- bind_rows(exclusivity_df, comutation_df)
+cache("genetic_interaction_df")

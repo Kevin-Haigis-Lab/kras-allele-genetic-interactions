@@ -23,7 +23,8 @@ cache("fisher_comut_df", {
             kras_allele = jhcutils::str_replace_sp(kras_allele),
             cancer = str_to_upper(cancer),
             cancer = str_remove(cancer, "READ")
-        )
+        ) %>%
+        filter(kras_allele != "KRAS")
 
     return(fisher_comut_df)
 })
