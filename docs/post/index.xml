@@ -23,9 +23,86 @@
 
 &lt;p&gt;The final step was to merge the actual mutation numbers for each gene to the results from the RC-test.&lt;/p&gt;
 
-&lt;h2 id=&#34;munge-gm-comutation-results&#34;&gt;Munge GM comutation results&lt;/h2&gt;
+&lt;p&gt;These new values were used to update the plots made in &amp;ldquo;20_30_rc-test-results-analysis.R&amp;rdquo; (also shown in the notebook for 2019-10-07).&lt;/p&gt;
 
-&lt;p&gt;To compare against the RC test, I prepared the results from GM&amp;rsquo;s test for comutation (a Fisher&amp;rsquo;s exact test).&lt;/p&gt;
+&lt;h3 id=&#34;general-scope-of-results&#34;&gt;General scope of results&lt;/h3&gt;
+
+&lt;p&gt;Below is the number of significant interactions (p-value &amp;lt; 0.05 and at-least 3 events) per cancer found by the RC-test.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_30_rc-test-results-analysis/sig_results_barplot.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The plot below separates the bars by the type of interaction.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_30_rc-test-results-analysis/sig_results_barplot_septest.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;interaction-networks&#34;&gt;Interaction networks&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_30_rc-test-results-analysis/COAD_comut-mutex_network.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_30_rc-test-results-analysis/LUAD_comut-mutex_network.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_30_rc-test-results-analysis/PAAD_comut-mutex_network.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_30_rc-test-results-analysis/MM_comut-mutex_network.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;munge-fisher-s-test-for-comutation-results&#34;&gt;Munge Fisher&amp;rsquo;s test for comutation results&lt;/h2&gt;
+
+&lt;p&gt;To compare against the RC test, I prepared the results from GM&amp;rsquo;s test for comutation (a Fisher&amp;rsquo;s exact test).
+The file &amp;ldquo;OR_fisher_multiTest_Aug2019.txt&amp;rdquo; was copied from the shared DropBox to &amp;ldquo;data/fisher-comutation&amp;rdquo;.
+It is prepared for further use in &amp;ldquo;munge/35_comutation-results-gm.R&amp;rdquo;.&lt;/p&gt;
+
+&lt;p&gt;For future reference, here is the 2x2 table that GM used for the columns &lt;code&gt;n00&lt;/code&gt; through &lt;code&gt;n11&lt;/code&gt;:&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;th&gt;&lt;strong&gt;KRAS&lt;/strong&gt;&lt;/th&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;WT&lt;/td&gt;
+&lt;td&gt;mut&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;gene&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;WT&lt;/td&gt;
+&lt;td&gt;n00&lt;/td&gt;
+&lt;td&gt;n01&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;mut&lt;/td&gt;
+&lt;td&gt;n10&lt;/td&gt;
+&lt;td&gt;n11&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&#34;comparing-results-from-fisher-s-test-and-rc-test&#34;&gt;Comparing results from Fisher&amp;rsquo;s test and RC-test&lt;/h2&gt;
+
+&lt;p&gt;This comparison was conducted in &amp;ldquo;src/20_35_rc-fisher-comparison.R&amp;rdquo;.&lt;/p&gt;
+
+&lt;p&gt;The first plot just shows the gross number of genes found to be signficant for each test, split by comutation and mutual exclusivity.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_35_rc-fisher-comparison/rc_fisher_comparison_barplot.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;This plot shows a large discrepancy between the two tests: the RC-test was more sensitive when testing for mutual exclusivity while the opposite was true for the Fisher&amp;rsquo;s exact test.
+On closer inspection, it seemed that the Fisher&amp;rsquo;s test out-performed the RC-test for detecting comutation because we were able to use the panel data.
+The panel data could not be used for the RC-test because the test accounts for the total number of mutations in the sample.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_35_rc-fisher-comparison/rc_fisher_comparison_barplot_samenum.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;From these results, I propose that we use the Fisher&amp;rsquo;s test for comutation and RC-test for mutual exclusivity.&lt;/strong&gt; This makes sense in so far as the RC-test was originally made for detecting mutual exclusivity and is equivalent (when comparing two genes) to the Fisher&amp;rsquo;s exact test for comutation as it approaches the limit.
+Therefore, it is an approximation where it is not needed because we can just do the Fisher&amp;rsquo;s exact test.&lt;/p&gt;
 </description>
     </item>
     
