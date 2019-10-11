@@ -103,8 +103,7 @@ cache("genes_of_interest_df",
         },
         {
             kegg_geneset_df %>%
-                select(hugo_symbol) %>%
-                add_column(source = "KEGG") %>%
+                dplyr::rename(source = "gene_set") %>%
                 unique()
         },
         {
