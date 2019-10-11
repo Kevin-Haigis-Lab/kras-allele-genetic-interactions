@@ -1,0 +1,3 @@
+datasource	term	overlap	p_value	adjusted_p_value	odds_ratio	combined_score	genes	n_genes
+Panther_2016	Wnt signaling pathway_Homo sapiens_P00057	3/278	2.0974994935467586e-4	0.023491994327723698	23.980815347721826	203.10778067320496	SMAD4;FAT3;CDH8	3
+Panther_2016	Cadherin signaling pathway_Homo sapiens_P00012	2/150	0.0019432269245114177	0.10882070777263939	29.629629629629633	184.98978739594162	FAT3;CDH8	2

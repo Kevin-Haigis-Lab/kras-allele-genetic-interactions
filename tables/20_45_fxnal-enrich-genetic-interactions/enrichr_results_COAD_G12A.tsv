@@ -1,0 +1,3 @@
+datasource	term	overlap	p_value	adjusted_p_value	odds_ratio	combined_score	genes	n_genes
+Transcription_Factor_PPIs	SMC3	3/137	1.9929076041466353e-4	0.057196448239008435	25.762129669386006	219.5125553973602	NUMA1;APC;PRKDC	3
+WikiPathways_2019_Human	Inflammatory Response Pathway WP453	2/30	2.9169286205301905e-4	0.137679030889025	78.43137254901961	638.416404043489	LAMA5;FN1	2
