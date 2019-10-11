@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="Source Themes Academic 4.5.0">
+
+  
+
+  
+  
+  
+  
+  
+    
+    
+    
+  
+  
+
+  <meta name="author" content="Comutation of KRAS">
+
+  
+  
+  
+    
+  
+  <meta name="description" content="Analysis of hits from genetic interaction tests (cont.) I began by fixing the UpSet plots such that they now include all sets and intersections. (The updated images are shown in yesterday&rsquo;s notebook.)
+A priori gene lists For the figure, I see the &ldquo;cloud&rdquo; (ie. high-level) network adjacent to the UpSet plots to describe that the comutation patterns are distinct between the alleles. Then, the next two logical questions would be:">
+
+  
+  <link rel="alternate" hreflang="en-us" href="https://project-notebook-comutation.netlify.com/post/2019-10-11/">
+
+  
+
+
+  
+  
+  
+  <meta name="theme-color" content="#2962ff">
+  
+
+  
+  
+  
+  
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css" integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.0/css/all.css" integrity="sha384-aOkxzJ5uQz7WBObEZcHvV5JvRW3TUc2rNPA7pe3AwnsUohiw1Vj2Rgx2KSOkF5+h" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" integrity="sha256-ygkqlh3CYSUri3LhQxzdcm0n1EQvH2Y+U5S2idbLtxs=" crossorigin="anonymous">
+
+    
+    
+    
+      
+    
+    
+      
+      
+        
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css" crossorigin="anonymous" title="hl-light">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark" disabled>
+        
+      
+    
+
+    
+
+    
+
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7CRoboto:400,400italic,700%7CRoboto+Mono&display=swap">
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="/css/academic.min.a3cda781a9b24f26fefd34a53547835b.css">
+
+  
+
+  
+
+
+
+
+  
+
+
+  
+
+  <link rel="manifest" href="/index.webmanifest">
+  <link rel="icon" type="image/png" href="/img/icon-32.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/icon-192.png">
+
+  <link rel="canonical" href="https://project-notebook-comutation.netlify.com/post/2019-10-11/">
+
+  
+  
+  
+  
+    
+    
+  
+  
+  <meta property="twitter:card" content="summary">
+  
+  <meta property="og:site_name" content="KRAS Comutation">
+  <meta property="og:url" content="https://project-notebook-comutation.netlify.com/post/2019-10-11/">
+  <meta property="og:title" content="2019-10-11 | KRAS Comutation">
+  <meta property="og:description" content="Analysis of hits from genetic interaction tests (cont.) I began by fixing the UpSet plots such that they now include all sets and intersections. (The updated images are shown in yesterday&rsquo;s notebook.)
+A priori gene lists For the figure, I see the &ldquo;cloud&rdquo; (ie. high-level) network adjacent to the UpSet plots to describe that the comutation patterns are distinct between the alleles. Then, the next two logical questions would be:"><meta property="og:image" content="https://project-notebook-comutation.netlify.com/img/icon-192.png">
+  <meta property="twitter:image" content="https://project-notebook-comutation.netlify.com/img/icon-192.png"><meta property="og:locale" content="en-us">
+  
+    
+      <meta property="article:published_time" content="2019-10-11T00:00:00&#43;00:00">
+    
+    <meta property="article:modified_time" content="2019-10-11T00:00:00&#43;00:00">
+  
+
+  
+
+
+    
+
+
+
+
+
+
+  
+
+
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://project-notebook-comutation.netlify.com/post/2019-10-11/"
+  },
+  "headline": "2019-10-11",
+  
+  "datePublished": "2019-10-11T00:00:00Z",
+  "dateModified": "2019-10-11T00:00:00Z",
+  
+  "author": {
+    "@type": "Person",
+    "name": "Comutation of KRAS"
+  },
+  
+  "publisher": {
+    "@type": "Organization",
+    "name": "KRAS Comutation",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://project-notebook-comutation.netlify.com/img/icon-512.png"
+    }
+  },
+  "description": "Analysis of hits from genetic interaction tests (cont.) I began by fixing the UpSet plots such that they now include all sets and intersections. (The updated images are shown in yesterday\u0026rsquo;s notebook.)\nA priori gene lists For the figure, I see the \u0026ldquo;cloud\u0026rdquo; (ie. high-level) network adjacent to the UpSet plots to describe that the comutation patterns are distinct between the alleles. Then, the next two logical questions would be:"
+}
+</script>
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+
+  <title>2019-10-11 | KRAS Comutation</title>
+
+</head>
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" >
+
+  <aside class="search-results" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        <input name="q" id="search-query" placeholder="Search..." autocapitalize="off"
+        autocomplete="off" autocorrect="off" spellcheck="false" type="search">
+        
+      </div>
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+  
+<nav class="navbar navbar-light fixed-top navbar-expand-lg py-0 compensate-for-scrollbar" id="navbar-main">
+  <div class="container">
+
+    
+      <a class="navbar-brand" href="/">KRAS Comutation</a>
+      
+      <button type="button" class="navbar-toggler" data-toggle="collapse"
+              data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+        <span><i class="fas fa-bars"></i></span>
+      </button>
+      
+
+    
+    <div class="collapse navbar-collapse" id="navbar">
+
+      
+      
+      <ul class="navbar-nav mr-auto">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#about"><span>About</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#projects"><span>Projects</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#notebook"><span>Notebook</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#timeline"><span>Timeline</span></a>
+        </li>
+
+        
+        
+
+      
+      </ul>
+      <ul class="navbar-nav ml-auto">
+      
+
+        
+
+        
+        <li class="nav-item">
+          <a class="nav-link js-search" href="#"><i class="fas fa-search" aria-hidden="true"></i></a>
+        </li>
+        
+
+        
+
+        
+        <li class="nav-item">
+          <a class="nav-link js-dark-toggle" href="#"><i class="fas fa-moon" aria-hidden="true"></i></a>
+        </li>
+        
+
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+  <article class="article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+  
+  
+<div class="article-container pt-3">
+  <h1>2019-10-11</h1>
+
+  
+
+  
+    
+
+
+
+<div class="article-metadata">
+
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+    
+    Oct 11, 2019
+  </span>
+  
+
+  
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    3 min read
+  </span>
+  
+
+  
+  
+  
+
+  
+  
+
+  
+    
+
+  
+
+</div>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+</div>
+
+
+
+  <div class="article-container">
+
+    <div class="article-style">
+      
+
+<h2 id="analysis-of-hits-from-genetic-interaction-tests-cont">Analysis of hits from genetic interaction tests (cont.)</h2>
+
+<p>I began by fixing the UpSet plots such that they now include all sets and intersections.
+(The updated images are shown in <a href="https://project-notebook-comutation.netlify.com/post/2019-10-10/" target="_blank">yesterday&rsquo;s notebook</a>.)</p>
+
+<h2 id="a-priori-gene-lists"><em>A priori</em> gene lists</h2>
+
+<p>For the figure, I see the &ldquo;cloud&rdquo; (ie. high-level) network adjacent to the UpSet plots to describe that the comutation patterns are distinct between the alleles.
+Then, the next two logical questions would be:</p>
+
+<ol>
+<li>Are there any important/notable genes in there?</li>
+<li>Are any specific functions enriched for the alleles?</li>
+</ol>
+
+<p>I began this follow up with the first question.
+As noted in <a href="https://project-notebook-comutation.netlify.com/post/2019-10-10/" target="_blank">yesterday&rsquo;s notebook</a>, I have gathered the following gene lists:</p>
+
+<ul>
+<li>the following KEGG gene sets (from <a href="http://software.broadinstitute.org/gsea/downloads.jsp" target="_blank">MSigDB</a>) (a full list is available at the end of this notebook):
+
+<ul>
+<li>apoptosis,</li>
+<li>cell-cycle</li>
+<li>ERBB signaling pathway</li>
+<li>Hedgehog signaling pathway</li>
+<li>MAPK signaling pathway</li>
+<li>mTOR signaling pathway</li>
+<li>Notch signaling pathway</li>
+<li>p53 signaling pathway</li>
+<li>VEGF signaling pathway</li>
+<li>WNT signaling pathway</li>
+</ul></li>
+<li>the interactors with WT <em>KRAS</em> from <a href="https://www.ncbi.nlm.nih.gov/pubmed/?term=30639242" target="_blank">Kovalski <em>et al.</em>, 2019</a></li>
+<li>and the <a href="https://cancer.sanger.ac.uk/census" target="_blank">COSMIC Cancer Gene Consensus</a></li>
+</ul>
+
+<p>The analysis was conducted in &ldquo;src/20_43_apriori-lists-genetic-interactions.R&rdquo;.</p>
+
+<p>During the analysis, I had to go back to &ldquo;munge/30_rc-test_results-prep.R&rdquo; and &ldquo;src/20_35_rc-fisher-comparison.R&rdquo; to fix some filtering mistakes.
+Their effects on the results were minor.</p>
+
+<p>The resulting plots are shown below.
+For some of the LUAD and PAAD, I present separate plots for each source of gene list to keep the plot legible.</p>
+
+<h3 id="coad">COAD</h3>
+
+<p><img src="/img/graphs/20_43_apriori-lists-genetic-interactions/goi_overlap_genetic_interactions_network_COAD_allLists.svg" alt="" /></p>
+
+<h3 id="luad">LUAD</h3>
+
+<p><strong>KEGG pathways</strong></p>
+
+<p><img src="/img/graphs/20_43_apriori-lists-genetic-interactions/goi_overlap_genetic_interactions_network_LUAD_kegg.svg" alt="" /></p>
+
+<p><strong>Physical Interactors</strong></p>
+
+<p><img src="/img/graphs/20_43_apriori-lists-genetic-interactions/goi_overlap_genetic_interactions_network_LUAD_BioID.svg" alt="" /></p>
+
+<p><strong>CGC Genes</strong></p>
+
+<p><img src="/img/graphs/20_43_apriori-lists-genetic-interactions/goi_overlap_genetic_interactions_network_LUAD_cgc.svg" alt="" /></p>
+
+<h3 id="mm">MM</h3>
+
+<p><img src="/img/graphs/20_43_apriori-lists-genetic-interactions/goi_overlap_genetic_interactions_network_MM_allLists.svg" alt="" /></p>
+
+<h3 id="paad">PAAD</h3>
+
+<p><strong>KEGG pathways</strong></p>
+
+<p><img src="/img/graphs/20_43_apriori-lists-genetic-interactions/goi_overlap_genetic_interactions_network_PAAD_kegg.svg" alt="" /></p>
+
+<p><strong>Physical Interactors</strong></p>
+
+<p><img src="/img/graphs/20_43_apriori-lists-genetic-interactions/goi_overlap_genetic_interactions_network_PAAD_BioID.svg" alt="" /></p>
+
+<p><strong>CGC Genes</strong></p>
+
+<p><img src="/img/graphs/20_43_apriori-lists-genetic-interactions/goi_overlap_genetic_interactions_network_PAAD_cgc.svg" alt="" /></p>
+
+<h3 id="a-few-comments">A few comments</h3>
+
+<ul>
+<li>There are some genes that comutate with one allele and are mutually exclusive with another. This is something to look into.</li>
+<li>There are some obvious stand-outs in terms of how &ldquo;strong&rdquo; (low p-value) the interaction is. Again, these are likely worth further investigation.</li>
+</ul>
+
+<h2 id="functional-enrichment">Functional Enrichment</h2>
+
+<p>Instead of using specific gene lists chosen for <em>a priori</em> reasons, I used a statistical tool to identify biological functions that are enriched in the list of genes identified to have a genetic interaction with a <em>KRAS</em> allele.</p>
+
+<h3 id="erncihr">ErncihR</h3>
+
+<p>The first attempt used the Enrichr <a href="https://www.ncbi.nlm.nih.gov/pubmed/23586463" target="_blank">(Chen <em>et al.</em>, 2013)</a> tool available through a R API using the <a href="https://cran.r-project.org/web/packages/enrichR/index.html" target="_blank">&lsquo;enrichR&rsquo;</a> package (link to the <a href="http://amp.pharm.mssm.edu/Enrichr/" target="_blank">web API</a>).</p>
+
+<p>The following data bases were used:</p>
+
+<ul>
+<li>&ldquo;BioCarta_2016&rdquo;,</li>
+<li>&ldquo;GO_Biological_Process_2018&rdquo;,</li>
+<li>&ldquo;KEA_2015&rdquo;,</li>
+<li>&ldquo;KEGG_2019_Human&rdquo;,</li>
+<li>&ldquo;LINCS_L1000_Kinase_Perturbations_down&rdquo;,</li>
+<li>&ldquo;LINCS_L1000_Kinase_Perturbations_up&rdquo;,</li>
+<li>&ldquo;Panther_2016&rdquo;,</li>
+<li>&ldquo;PPI_Hub_Proteins&rdquo;,</li>
+<li>&ldquo;Reactome_2016&rdquo;,</li>
+<li>&ldquo;Transcription_Factor_PPIs&rdquo;,</li>
+<li>&ldquo;WikiPathways_2019_Human&rdquo;</li>
+</ul>
+
+<p>A complete list can be found using the following command in R.</p>
+
+<pre><code class="language-r">sort(enrichR::listEnrichrDbs()$libraryName)
+</code></pre>
+
+<p>The results were filtered by adjusted p-value &lt; 0.20 and at least 2 genes in the gene set.
+The filtered tables were written to &ldquo;tables/20_45_fxnal-enrich-genetic-interactions&rdquo;.</p>
+
+<hr />
+
+<h3 id="full-list-of-kegg-genesets">Full List of KEGG Genesets</h3>
+
+<p>GLYCOLYSIS_GLUCONEOGENESIS, CITRATE_CYCLE_TCA_CYCLE, PENTOSE_PHOSPHATE_PATHWAY, PENTOSE_AND_GLUCURONATE_INTERCONVERSIONS, FRUCTOSE_AND_MANNOSE_METABOLISM, GALACTOSE_METABOLISM, ASCORBATE_AND_ALDARATE_METABOLISM, FATTY_ACID_METABOLISM, STEROID_BIOSYNTHESIS, PRIMARY_BILE_ACID_BIOSYNTHESIS, STEROID_HORMONE_BIOSYNTHESIS, OXIDATIVE_PHOSPHORYLATION, PURINE_METABOLISM, PYRIMIDINE_METABOLISM, ALANINE_ASPARTATE_AND_GLUTAMATE_METABOLISM, GLYCINE_SERINE_AND_THREONINE_METABOLISM, CYSTEINE_AND_METHIONINE_METABOLISM, VALINE_LEUCINE_AND_ISOLEUCINE_DEGRADATION, VALINE_LEUCINE_AND_ISOLEUCINE_BIOSYNTHESIS, LYSINE_DEGRADATION, ARGININE_AND_PROLINE_METABOLISM, HISTIDINE_METABOLISM, TYROSINE_METABOLISM, PHENYLALANINE_METABOLISM, TRYPTOPHAN_METABOLISM, BETA_ALANINE_METABOLISM, TAURINE_AND_HYPOTAURINE_METABOLISM, SELENOAMINO_ACID_METABOLISM, GLUTATHIONE_METABOLISM, STARCH_AND_SUCROSE_METABOLISM, N_GLYCAN_BIOSYNTHESIS, OTHER_GLYCAN_DEGRADATION, O_GLYCAN_BIOSYNTHESIS, AMINO_SUGAR_AND_NUCLEOTIDE_SUGAR_METABOLISM, GLYCOSAMINOGLYCAN_DEGRADATION, GLYCOSAMINOGLYCAN_BIOSYNTHESIS_CHONDROITIN_SULFATE, GLYCOSAMINOGLYCAN_BIOSYNTHESIS_KERATAN_SULFATE, GLYCOSAMINOGLYCAN_BIOSYNTHESIS_HEPARAN_SULFATE, GLYCEROLIPID_METABOLISM, INOSITOL_PHOSPHATE_METABOLISM, GLYCOSYLPHOSPHATIDYLINOSITOL_GPI_ANCHOR_BIOSYNTHESIS, GLYCEROPHOSPHOLIPID_METABOLISM, ETHER_LIPID_METABOLISM, ARACHIDONIC_ACID_METABOLISM, LINOLEIC_ACID_METABOLISM, ALPHA_LINOLENIC_ACID_METABOLISM, SPHINGOLIPID_METABOLISM, GLYCOSPHINGOLIPID_BIOSYNTHESIS_LACTO_AND_NEOLACTO_SERIES, GLYCOSPHINGOLIPID_BIOSYNTHESIS_GLOBO_SERIES, GLYCOSPHINGOLIPID_BIOSYNTHESIS_GANGLIO_SERIES, PYRUVATE_METABOLISM, GLYOXYLATE_AND_DICARBOXYLATE_METABOLISM, PROPANOATE_METABOLISM, BUTANOATE_METABOLISM, ONE_CARBON_POOL_BY_FOLATE, RIBOFLAVIN_METABOLISM, NICOTINATE_AND_NICOTINAMIDE_METABOLISM, PANTOTHENATE_AND_COA_BIOSYNTHESIS, FOLATE_BIOSYNTHESIS, RETINOL_METABOLISM, PORPHYRIN_AND_CHLOROPHYLL_METABOLISM, TERPENOID_BACKBONE_BIOSYNTHESIS, LIMONENE_AND_PINENE_DEGRADATION, NITROGEN_METABOLISM, SULFUR_METABOLISM, AMINOACYL_TRNA_BIOSYNTHESIS, METABOLISM_OF_XENOBIOTICS_BY_CYTOCHROME_P450, DRUG_METABOLISM_CYTOCHROME_P450, DRUG_METABOLISM_OTHER_ENZYMES, BIOSYNTHESIS_OF_UNSATURATED_FATTY_ACIDS, ABC_TRANSPORTERS, RIBOSOME, RNA_DEGRADATION, RNA_POLYMERASE, BASAL_TRANSCRIPTION_FACTORS, DNA_REPLICATION, SPLICEOSOME, PROTEASOME, PROTEIN_EXPORT, PPAR_SIGNALING_PATHWAY, BASE_EXCISION_REPAIR, NUCLEOTIDE_EXCISION_REPAIR, MISMATCH_REPAIR, HOMOLOGOUS_RECOMBINATION, NON_HOMOLOGOUS_END_JOINING, MAPK_SIGNALING_PATHWAY, ERBB_SIGNALING_PATHWAY, CALCIUM_SIGNALING_PATHWAY, CYTOKINE_CYTOKINE_RECEPTOR_INTERACTION, CHEMOKINE_SIGNALING_PATHWAY, PHOSPHATIDYLINOSITOL_SIGNALING_SYSTEM, NEUROACTIVE_LIGAND_RECEPTOR_INTERACTION, CELL_CYCLE, OOCYTE_MEIOSIS, P53_SIGNALING_PATHWAY, UBIQUITIN_MEDIATED_PROTEOLYSIS, SNARE_INTERACTIONS_IN_VESICULAR_TRANSPORT, REGULATION_OF_AUTOPHAGY, LYSOSOME, ENDOCYTOSIS, PEROXISOME, MTOR_SIGNALING_PATHWAY, APOPTOSIS, CARDIAC_MUSCLE_CONTRACTION, VASCULAR_SMOOTH_MUSCLE_CONTRACTION, WNT_SIGNALING_PATHWAY, DORSO_VENTRAL_AXIS_FORMATION, NOTCH_SIGNALING_PATHWAY, HEDGEHOG_SIGNALING_PATHWAY, TGF_BETA_SIGNALING_PATHWAY, AXON_GUIDANCE, VEGF_SIGNALING_PATHWAY, FOCAL_ADHESION, ECM_RECEPTOR_INTERACTION, CELL_ADHESION_MOLECULES_CAMS, ADHERENS_JUNCTION, TIGHT_JUNCTION, GAP_JUNCTION, COMPLEMENT_AND_COAGULATION_CASCADES, ANTIGEN_PROCESSING_AND_PRESENTATION, RENIN_ANGIOTENSIN_SYSTEM, TOLL_LIKE_RECEPTOR_SIGNALING_PATHWAY, NOD_LIKE_RECEPTOR_SIGNALING_PATHWAY, RIG_I_LIKE_RECEPTOR_SIGNALING_PATHWAY, CYTOSOLIC_DNA_SENSING_PATHWAY, JAK_STAT_SIGNALING_PATHWAY, HEMATOPOIETIC_CELL_LINEAGE, NATURAL_KILLER_CELL_MEDIATED_CYTOTOXICITY, T_CELL_RECEPTOR_SIGNALING_PATHWAY, B_CELL_RECEPTOR_SIGNALING_PATHWAY, FC_EPSILON_RI_SIGNALING_PATHWAY, FC_GAMMA_R_MEDIATED_PHAGOCYTOSIS, LEUKOCYTE_TRANSENDOTHELIAL_MIGRATION, INTESTINAL_IMMUNE_NETWORK_FOR_IGA_PRODUCTION, CIRCADIAN_RHYTHM_MAMMAL, LONG_TERM_POTENTIATION, NEUROTROPHIN_SIGNALING_PATHWAY, LONG_TERM_DEPRESSION, OLFACTORY_TRANSDUCTION, TASTE_TRANSDUCTION, REGULATION_OF_ACTIN_CYTOSKELETON, INSULIN_SIGNALING_PATHWAY, GNRH_SIGNALING_PATHWAY, PROGESTERONE_MEDIATED_OOCYTE_MATURATION, MELANOGENESIS, ADIPOCYTOKINE_SIGNALING_PATHWAY, TYPE_II_DIABETES_MELLITUS, TYPE_I_DIABETES_MELLITUS, MATURITY_ONSET_DIABETES_OF_THE_YOUNG, ALDOSTERONE_REGULATED_SODIUM_REABSORPTION, VASOPRESSIN_REGULATED_WATER_REABSORPTION, PROXIMAL_TUBULE_BICARBONATE_RECLAMATION, ALZHEIMERS_DISEASE, PARKINSONS_DISEASE, AMYOTROPHIC_LATERAL_SCLEROSIS_ALS, HUNTINGTONS_DISEASE, PRION_DISEASES, VIBRIO_CHOLERAE_INFECTION, EPITHELIAL_CELL_SIGNALING_IN_HELICOBACTER_PYLORI_INFECTION, PATHOGENIC_ESCHERICHIA_COLI_INFECTION, LEISHMANIA_INFECTION, PATHWAYS_IN_CANCER, COLORECTAL_CANCER, RENAL_CELL_CARCINOMA, PANCREATIC_CANCER, ENDOMETRIAL_CANCER, GLIOMA, PROSTATE_CANCER, THYROID_CANCER, BASAL_CELL_CARCINOMA, MELANOMA, BLADDER_CANCER, CHRONIC_MYELOID_LEUKEMIA, ACUTE_MYELOID_LEUKEMIA, SMALL_CELL_LUNG_CANCER, NON_SMALL_CELL_LUNG_CANCER, ASTHMA, AUTOIMMUNE_THYROID_DISEASE, SYSTEMIC_LUPUS_ERYTHEMATOSUS, ALLOGRAFT_REJECTION, GRAFT_VERSUS_HOST_DISEASE, PRIMARY_IMMUNODEFICIENCY, HYPERTROPHIC_CARDIOMYOPATHY_HCM, ARRHYTHMOGENIC_RIGHT_VENTRICULAR_CARDIOMYOPATHY_ARVC, DILATED_CARDIOMYOPATHY, VIRAL_MYOCARDITIS</p>
+
+    </div>
+
+    
+
+
+    
+
+
+
+    
+      
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+  
+  
+  <div class="media author-card">
+    
+      
+      <img class="portrait mr-3" src="/authors/admin/avatar_hu3d2b6d52e0d21b58bf5a8ffa816d54c8_538771_250x250_fill_lanczos_center_2.png" alt="Avatar">
+    
+
+    <div class="media-body">
+      <h5 class="card-title"><a href="/authors/admin/">Comutation of KRAS</a></h5>
+      
+      
+      <ul class="network-icon" aria-hidden="true">
+        
+          
+          
+          
+            
+          
+          
+          
+          
+          
+            
+          
+          <li>
+            <a href="/#contact" >
+              <i class="fas fa-envelope"></i>
+            </a>
+          </li>
+        
+          
+          
+          
+            
+          
+          
+          
+          
+          
+            
+          
+          <li>
+            <a href="https://github.com/jhrcook/comutation" target="_blank" rel="noopener">
+              <i class="fab fa-github"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+
+      
+      
+    
+
+    
+
+    
+
+
+  </div>
+</article>
+
+      
+
+    
+    
+    
+    <script src="/js/mathjax-config.js"></script>
+    
+
+    
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js" integrity="sha256-lqvxZrPLtfffUl2G/e7szqSvPBILGbwmsGE1MKlOi0Q=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js" integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" integrity="sha256-X5PoE3KU5l+JcX+w09p/wHl9AzK333C4hJ2I9S5mD4M=" crossorigin="anonymous"></script>
+
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/8.0.0/mermaid.min.js" integrity="sha256-0w92bcB21IY5+rGI84MGj52jNfHNbXVeQLrZ0CGdjNY=" crossorigin="anonymous" title="mermaid"></script>
+      
+
+      
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js" integrity="sha256-aYTdUrn6Ow1DDgh5JTc3aDGnnju48y/1c8s1dgkYPQ8=" crossorigin="anonymous"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/r.min.js"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/bash.min.js"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/sh.min.js"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/python.min.js"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/swift.min.js"></script>
+        
+      
+
+      
+      
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS_CHTML-full" integrity="sha256-GhM+5JHb6QUzOQPXSJLEWP7R73CbkisjzK5Eyij4U9w=" crossorigin="anonymous" async></script>
+      
+    
+
+    
+    
+
+    
+    
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+    <script>
+      const search_index_filename = "/index.json";
+      const i18n = {
+        'placeholder': "Search...",
+        'results': "results found",
+        'no_results': "No results found"
+      };
+      const content_type = {
+        'post': "Posts",
+        'project': "Projects",
+        'publication' : "Publications",
+        'talk' : "Talks"
+        };
+    </script>
+    
+
+    
+    
+
+    
+    
+    <script id="search-hit-fuse-template" type="text/x-template">
+      <div class="search-hit" id="summary-{{key}}">
+      <div class="search-hit-content">
+        <div class="search-hit-name">
+          <a href="{{relpermalink}}">{{title}}</a>
+          <div class="article-metadata search-hit-type">{{type}}</div>
+          <p class="search-hit-description">{{snippet}}</p>
+        </div>
+      </div>
+      </div>
+    </script>
+    
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.1/fuse.min.js" integrity="sha256-VzgmKYmhsGNNN4Ph1kMW+BjoYJM2jV5i4IlFoeZA9XI=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+    
+
+    
+    
+
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    
+    
+    
+    <script src="/js/academic.min.0bf1e3db85cbb232372ed31d6f10dc70.js"></script>
+
+    
+
+
+
+
+
+
+  
+  <div class="container">
+    <footer class="site-footer">
+  
+
+  <p class="powered-by">
+    
+
+    Powered by the
+    <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+    <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+    
+    <span class="float-right" aria-hidden="true">
+      <a href="#" class="back-to-top">
+        <span class="button_icon">
+          <i class="fas fa-chevron-up fa-2x"></i>
+        </span>
+      </a>
+    </span>
+    
+  </p>
+</footer>
+
+  </div>
+  
+
+  
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

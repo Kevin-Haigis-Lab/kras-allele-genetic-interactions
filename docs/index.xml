@@ -106,6 +106,141 @@
     </item>
     
     <item>
+      <title>2019-10-11</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-10-11/</link>
+      <pubDate>Fri, 11 Oct 2019 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-10-11/</guid>
+      <description>
+
+&lt;h2 id=&#34;analysis-of-hits-from-genetic-interaction-tests-cont&#34;&gt;Analysis of hits from genetic interaction tests (cont.)&lt;/h2&gt;
+
+&lt;p&gt;I began by fixing the UpSet plots such that they now include all sets and intersections.
+(The updated images are shown in &lt;a href=&#34;https://project-notebook-comutation.netlify.com/post/2019-10-10/&#34; target=&#34;_blank&#34;&gt;yesterday&amp;rsquo;s notebook&lt;/a&gt;.)&lt;/p&gt;
+
+&lt;h2 id=&#34;a-priori-gene-lists&#34;&gt;&lt;em&gt;A priori&lt;/em&gt; gene lists&lt;/h2&gt;
+
+&lt;p&gt;For the figure, I see the &amp;ldquo;cloud&amp;rdquo; (ie. high-level) network adjacent to the UpSet plots to describe that the comutation patterns are distinct between the alleles.
+Then, the next two logical questions would be:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Are there any important/notable genes in there?&lt;/li&gt;
+&lt;li&gt;Are any specific functions enriched for the alleles?&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;I began this follow up with the first question.
+As noted in &lt;a href=&#34;https://project-notebook-comutation.netlify.com/post/2019-10-10/&#34; target=&#34;_blank&#34;&gt;yesterday&amp;rsquo;s notebook&lt;/a&gt;, I have gathered the following gene lists:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;the following KEGG gene sets (from &lt;a href=&#34;http://software.broadinstitute.org/gsea/downloads.jsp&#34; target=&#34;_blank&#34;&gt;MSigDB&lt;/a&gt;) (a full list is available at the end of this notebook):
+
+&lt;ul&gt;
+&lt;li&gt;apoptosis,&lt;/li&gt;
+&lt;li&gt;cell-cycle&lt;/li&gt;
+&lt;li&gt;ERBB signaling pathway&lt;/li&gt;
+&lt;li&gt;Hedgehog signaling pathway&lt;/li&gt;
+&lt;li&gt;MAPK signaling pathway&lt;/li&gt;
+&lt;li&gt;mTOR signaling pathway&lt;/li&gt;
+&lt;li&gt;Notch signaling pathway&lt;/li&gt;
+&lt;li&gt;p53 signaling pathway&lt;/li&gt;
+&lt;li&gt;VEGF signaling pathway&lt;/li&gt;
+&lt;li&gt;WNT signaling pathway&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;the interactors with WT &lt;em&gt;KRAS&lt;/em&gt; from &lt;a href=&#34;https://www.ncbi.nlm.nih.gov/pubmed/?term=30639242&#34; target=&#34;_blank&#34;&gt;Kovalski &lt;em&gt;et al.&lt;/em&gt;, 2019&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;and the &lt;a href=&#34;https://cancer.sanger.ac.uk/census&#34; target=&#34;_blank&#34;&gt;COSMIC Cancer Gene Consensus&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The analysis was conducted in &amp;ldquo;src/20_43_apriori-lists-genetic-interactions.R&amp;rdquo;.&lt;/p&gt;
+
+&lt;p&gt;During the analysis, I had to go back to &amp;ldquo;munge/30_rc-test_results-prep.R&amp;rdquo; and &amp;ldquo;src/20_35_rc-fisher-comparison.R&amp;rdquo; to fix some filtering mistakes.
+Their effects on the results were minor.&lt;/p&gt;
+
+&lt;p&gt;The resulting plots are shown below.
+For some of the LUAD and PAAD, I present separate plots for each source of gene list to keep the plot legible.&lt;/p&gt;
+
+&lt;h3 id=&#34;coad&#34;&gt;COAD&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_43_apriori-lists-genetic-interactions/goi_overlap_genetic_interactions_network_COAD_allLists.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;luad&#34;&gt;LUAD&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;KEGG pathways&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_43_apriori-lists-genetic-interactions/goi_overlap_genetic_interactions_network_LUAD_kegg.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Physical Interactors&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_43_apriori-lists-genetic-interactions/goi_overlap_genetic_interactions_network_LUAD_BioID.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;CGC Genes&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_43_apriori-lists-genetic-interactions/goi_overlap_genetic_interactions_network_LUAD_cgc.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;mm&#34;&gt;MM&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_43_apriori-lists-genetic-interactions/goi_overlap_genetic_interactions_network_MM_allLists.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;paad&#34;&gt;PAAD&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;KEGG pathways&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_43_apriori-lists-genetic-interactions/goi_overlap_genetic_interactions_network_PAAD_kegg.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Physical Interactors&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_43_apriori-lists-genetic-interactions/goi_overlap_genetic_interactions_network_PAAD_BioID.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;CGC Genes&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_43_apriori-lists-genetic-interactions/goi_overlap_genetic_interactions_network_PAAD_cgc.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;a-few-comments&#34;&gt;A few comments&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;There are some genes that comutate with one allele and are mutually exclusive with another. This is something to look into.&lt;/li&gt;
+&lt;li&gt;There are some obvious stand-outs in terms of how &amp;ldquo;strong&amp;rdquo; (low p-value) the interaction is. Again, these are likely worth further investigation.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;functional-enrichment&#34;&gt;Functional Enrichment&lt;/h2&gt;
+
+&lt;p&gt;Instead of using specific gene lists chosen for &lt;em&gt;a priori&lt;/em&gt; reasons, I used a statistical tool to identify biological functions that are enriched in the list of genes identified to have a genetic interaction with a &lt;em&gt;KRAS&lt;/em&gt; allele.&lt;/p&gt;
+
+&lt;h3 id=&#34;erncihr&#34;&gt;ErncihR&lt;/h3&gt;
+
+&lt;p&gt;The first attempt used the Enrichr &lt;a href=&#34;https://www.ncbi.nlm.nih.gov/pubmed/23586463&#34; target=&#34;_blank&#34;&gt;(Chen &lt;em&gt;et al.&lt;/em&gt;, 2013)&lt;/a&gt; tool available through a R API using the &lt;a href=&#34;https://cran.r-project.org/web/packages/enrichR/index.html&#34; target=&#34;_blank&#34;&gt;&amp;lsquo;enrichR&amp;rsquo;&lt;/a&gt; package (link to the &lt;a href=&#34;http://amp.pharm.mssm.edu/Enrichr/&#34; target=&#34;_blank&#34;&gt;web API&lt;/a&gt;).&lt;/p&gt;
+
+&lt;p&gt;The following data bases were used:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&amp;ldquo;BioCarta_2016&amp;rdquo;,&lt;/li&gt;
+&lt;li&gt;&amp;ldquo;GO_Biological_Process_2018&amp;rdquo;,&lt;/li&gt;
+&lt;li&gt;&amp;ldquo;KEA_2015&amp;rdquo;,&lt;/li&gt;
+&lt;li&gt;&amp;ldquo;KEGG_2019_Human&amp;rdquo;,&lt;/li&gt;
+&lt;li&gt;&amp;ldquo;LINCS_L1000_Kinase_Perturbations_down&amp;rdquo;,&lt;/li&gt;
+&lt;li&gt;&amp;ldquo;LINCS_L1000_Kinase_Perturbations_up&amp;rdquo;,&lt;/li&gt;
+&lt;li&gt;&amp;ldquo;Panther_2016&amp;rdquo;,&lt;/li&gt;
+&lt;li&gt;&amp;ldquo;PPI_Hub_Proteins&amp;rdquo;,&lt;/li&gt;
+&lt;li&gt;&amp;ldquo;Reactome_2016&amp;rdquo;,&lt;/li&gt;
+&lt;li&gt;&amp;ldquo;Transcription_Factor_PPIs&amp;rdquo;,&lt;/li&gt;
+&lt;li&gt;&amp;ldquo;WikiPathways_2019_Human&amp;rdquo;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;A complete list can be found using the following command in R.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;sort(enrichR::listEnrichrDbs()$libraryName)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The results were filtered by adjusted p-value &amp;lt; 0.20 and at least 2 genes in the gene set.
+The filtered tables were written to &amp;ldquo;tables/20_45_fxnal-enrich-genetic-interactions&amp;rdquo;.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&#34;full-list-of-kegg-genesets&#34;&gt;Full List of KEGG Genesets&lt;/h3&gt;
+
+&lt;p&gt;GLYCOLYSIS_GLUCONEOGENESIS, CITRATE_CYCLE_TCA_CYCLE, PENTOSE_PHOSPHATE_PATHWAY, PENTOSE_AND_GLUCURONATE_INTERCONVERSIONS, FRUCTOSE_AND_MANNOSE_METABOLISM, GALACTOSE_METABOLISM, ASCORBATE_AND_ALDARATE_METABOLISM, FATTY_ACID_METABOLISM, STEROID_BIOSYNTHESIS, PRIMARY_BILE_ACID_BIOSYNTHESIS, STEROID_HORMONE_BIOSYNTHESIS, OXIDATIVE_PHOSPHORYLATION, PURINE_METABOLISM, PYRIMIDINE_METABOLISM, ALANINE_ASPARTATE_AND_GLUTAMATE_METABOLISM, GLYCINE_SERINE_AND_THREONINE_METABOLISM, CYSTEINE_AND_METHIONINE_METABOLISM, VALINE_LEUCINE_AND_ISOLEUCINE_DEGRADATION, VALINE_LEUCINE_AND_ISOLEUCINE_BIOSYNTHESIS, LYSINE_DEGRADATION, ARGININE_AND_PROLINE_METABOLISM, HISTIDINE_METABOLISM, TYROSINE_METABOLISM, PHENYLALANINE_METABOLISM, TRYPTOPHAN_METABOLISM, BETA_ALANINE_METABOLISM, TAURINE_AND_HYPOTAURINE_METABOLISM, SELENOAMINO_ACID_METABOLISM, GLUTATHIONE_METABOLISM, STARCH_AND_SUCROSE_METABOLISM, N_GLYCAN_BIOSYNTHESIS, OTHER_GLYCAN_DEGRADATION, O_GLYCAN_BIOSYNTHESIS, AMINO_SUGAR_AND_NUCLEOTIDE_SUGAR_METABOLISM, GLYCOSAMINOGLYCAN_DEGRADATION, GLYCOSAMINOGLYCAN_BIOSYNTHESIS_CHONDROITIN_SULFATE, GLYCOSAMINOGLYCAN_BIOSYNTHESIS_KERATAN_SULFATE, GLYCOSAMINOGLYCAN_BIOSYNTHESIS_HEPARAN_SULFATE, GLYCEROLIPID_METABOLISM, INOSITOL_PHOSPHATE_METABOLISM, GLYCOSYLPHOSPHATIDYLINOSITOL_GPI_ANCHOR_BIOSYNTHESIS, GLYCEROPHOSPHOLIPID_METABOLISM, ETHER_LIPID_METABOLISM, ARACHIDONIC_ACID_METABOLISM, LINOLEIC_ACID_METABOLISM, ALPHA_LINOLENIC_ACID_METABOLISM, SPHINGOLIPID_METABOLISM, GLYCOSPHINGOLIPID_BIOSYNTHESIS_LACTO_AND_NEOLACTO_SERIES, GLYCOSPHINGOLIPID_BIOSYNTHESIS_GLOBO_SERIES, GLYCOSPHINGOLIPID_BIOSYNTHESIS_GANGLIO_SERIES, PYRUVATE_METABOLISM, GLYOXYLATE_AND_DICARBOXYLATE_METABOLISM, PROPANOATE_METABOLISM, BUTANOATE_METABOLISM, ONE_CARBON_POOL_BY_FOLATE, RIBOFLAVIN_METABOLISM, NICOTINATE_AND_NICOTINAMIDE_METABOLISM, PANTOTHENATE_AND_COA_BIOSYNTHESIS, FOLATE_BIOSYNTHESIS, RETINOL_METABOLISM, PORPHYRIN_AND_CHLOROPHYLL_METABOLISM, TERPENOID_BACKBONE_BIOSYNTHESIS, LIMONENE_AND_PINENE_DEGRADATION, NITROGEN_METABOLISM, SULFUR_METABOLISM, AMINOACYL_TRNA_BIOSYNTHESIS, METABOLISM_OF_XENOBIOTICS_BY_CYTOCHROME_P450, DRUG_METABOLISM_CYTOCHROME_P450, DRUG_METABOLISM_OTHER_ENZYMES, BIOSYNTHESIS_OF_UNSATURATED_FATTY_ACIDS, ABC_TRANSPORTERS, RIBOSOME, RNA_DEGRADATION, RNA_POLYMERASE, BASAL_TRANSCRIPTION_FACTORS, DNA_REPLICATION, SPLICEOSOME, PROTEASOME, PROTEIN_EXPORT, PPAR_SIGNALING_PATHWAY, BASE_EXCISION_REPAIR, NUCLEOTIDE_EXCISION_REPAIR, MISMATCH_REPAIR, HOMOLOGOUS_RECOMBINATION, NON_HOMOLOGOUS_END_JOINING, MAPK_SIGNALING_PATHWAY, ERBB_SIGNALING_PATHWAY, CALCIUM_SIGNALING_PATHWAY, CYTOKINE_CYTOKINE_RECEPTOR_INTERACTION, CHEMOKINE_SIGNALING_PATHWAY, PHOSPHATIDYLINOSITOL_SIGNALING_SYSTEM, NEUROACTIVE_LIGAND_RECEPTOR_INTERACTION, CELL_CYCLE, OOCYTE_MEIOSIS, P53_SIGNALING_PATHWAY, UBIQUITIN_MEDIATED_PROTEOLYSIS, SNARE_INTERACTIONS_IN_VESICULAR_TRANSPORT, REGULATION_OF_AUTOPHAGY, LYSOSOME, ENDOCYTOSIS, PEROXISOME, MTOR_SIGNALING_PATHWAY, APOPTOSIS, CARDIAC_MUSCLE_CONTRACTION, VASCULAR_SMOOTH_MUSCLE_CONTRACTION, WNT_SIGNALING_PATHWAY, DORSO_VENTRAL_AXIS_FORMATION, NOTCH_SIGNALING_PATHWAY, HEDGEHOG_SIGNALING_PATHWAY, TGF_BETA_SIGNALING_PATHWAY, AXON_GUIDANCE, VEGF_SIGNALING_PATHWAY, FOCAL_ADHESION, ECM_RECEPTOR_INTERACTION, CELL_ADHESION_MOLECULES_CAMS, ADHERENS_JUNCTION, TIGHT_JUNCTION, GAP_JUNCTION, COMPLEMENT_AND_COAGULATION_CASCADES, ANTIGEN_PROCESSING_AND_PRESENTATION, RENIN_ANGIOTENSIN_SYSTEM, TOLL_LIKE_RECEPTOR_SIGNALING_PATHWAY, NOD_LIKE_RECEPTOR_SIGNALING_PATHWAY, RIG_I_LIKE_RECEPTOR_SIGNALING_PATHWAY, CYTOSOLIC_DNA_SENSING_PATHWAY, JAK_STAT_SIGNALING_PATHWAY, HEMATOPOIETIC_CELL_LINEAGE, NATURAL_KILLER_CELL_MEDIATED_CYTOTOXICITY, T_CELL_RECEPTOR_SIGNALING_PATHWAY, B_CELL_RECEPTOR_SIGNALING_PATHWAY, FC_EPSILON_RI_SIGNALING_PATHWAY, FC_GAMMA_R_MEDIATED_PHAGOCYTOSIS, LEUKOCYTE_TRANSENDOTHELIAL_MIGRATION, INTESTINAL_IMMUNE_NETWORK_FOR_IGA_PRODUCTION, CIRCADIAN_RHYTHM_MAMMAL, LONG_TERM_POTENTIATION, NEUROTROPHIN_SIGNALING_PATHWAY, LONG_TERM_DEPRESSION, OLFACTORY_TRANSDUCTION, TASTE_TRANSDUCTION, REGULATION_OF_ACTIN_CYTOSKELETON, INSULIN_SIGNALING_PATHWAY, GNRH_SIGNALING_PATHWAY, PROGESTERONE_MEDIATED_OOCYTE_MATURATION, MELANOGENESIS, ADIPOCYTOKINE_SIGNALING_PATHWAY, TYPE_II_DIABETES_MELLITUS, TYPE_I_DIABETES_MELLITUS, MATURITY_ONSET_DIABETES_OF_THE_YOUNG, ALDOSTERONE_REGULATED_SODIUM_REABSORPTION, VASOPRESSIN_REGULATED_WATER_REABSORPTION, PROXIMAL_TUBULE_BICARBONATE_RECLAMATION, ALZHEIMERS_DISEASE, PARKINSONS_DISEASE, AMYOTROPHIC_LATERAL_SCLEROSIS_ALS, HUNTINGTONS_DISEASE, PRION_DISEASES, VIBRIO_CHOLERAE_INFECTION, EPITHELIAL_CELL_SIGNALING_IN_HELICOBACTER_PYLORI_INFECTION, PATHOGENIC_ESCHERICHIA_COLI_INFECTION, LEISHMANIA_INFECTION, PATHWAYS_IN_CANCER, COLORECTAL_CANCER, RENAL_CELL_CARCINOMA, PANCREATIC_CANCER, ENDOMETRIAL_CANCER, GLIOMA, PROSTATE_CANCER, THYROID_CANCER, BASAL_CELL_CARCINOMA, MELANOMA, BLADDER_CANCER, CHRONIC_MYELOID_LEUKEMIA, ACUTE_MYELOID_LEUKEMIA, SMALL_CELL_LUNG_CANCER, NON_SMALL_CELL_LUNG_CANCER, ASTHMA, AUTOIMMUNE_THYROID_DISEASE, SYSTEMIC_LUPUS_ERYTHEMATOSUS, ALLOGRAFT_REJECTION, GRAFT_VERSUS_HOST_DISEASE, PRIMARY_IMMUNODEFICIENCY, HYPERTROPHIC_CARDIOMYOPATHY_HCM, ARRHYTHMOGENIC_RIGHT_VENTRICULAR_CARDIOMYOPATHY_ARVC, DILATED_CARDIOMYOPATHY, VIRAL_MYOCARDITIS&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>2019-10-10</title>
       <link>https://project-notebook-comutation.netlify.com/post/2019-10-10/</link>
       <pubDate>Thu, 10 Oct 2019 00:00:00 +0000</pubDate>
