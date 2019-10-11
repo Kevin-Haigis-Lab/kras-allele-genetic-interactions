@@ -12,14 +12,15 @@ p_val_cut <- 0.05
 
 rc_sig <- rc_test_results %>%
     filter(num_mut_per_cancer >= 3) %>%
-    filter(p_val < p_val_cut & t_AM >= 3)
+    filter(p_val < !!p_val_cut & t_AM >= 3)
 
 fisher_sig <- fisher_comut_df %>%
     filter(p_value_great < p_val_cut | p_value_less < p_val_cut) %>%
     filter(n11 >= 3) %>%
     mutate(test_type = ifelse(
-        p_value_great < p_val_cut, "comutation", "exclusivity"
-    ))
+        p_value_great < !!p_val_cut, "comutation", "exclusivity"
+    )) %>%
+    filter(str_replace_us(kras_allele) %in% names(allele_palette))
 
 
 #### ---- Comparing gross number of genes ---- ####
@@ -122,6 +123,7 @@ exclusivity_df <- rc_sig %>%
     )
 
 comutation_df <- fisher_sig %>%
+    filter(p_value_great < p_val_cut) %>%
     select(
         hugo_symbol, kras_allele, cancer,
         p_value_great, odds_ratio,

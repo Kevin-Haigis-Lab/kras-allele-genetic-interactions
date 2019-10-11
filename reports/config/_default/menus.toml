@@ -18,6 +18,9 @@
   url = "#notebook"
   weight = 30
 
+[[main]]
+  name = "Timeline"
+  url = "#timeline"
 
 # Link to a PDF of your resume/CV from the menu.
 # To enable, copy your resume/CV to `static/files/cv.pdf` and uncomment the lines below.
