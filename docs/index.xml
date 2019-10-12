@@ -106,6 +106,87 @@
     </item>
     
     <item>
+      <title>2019-10-12</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-10-12/</link>
+      <pubDate>Sat, 12 Oct 2019 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-10-12/</guid>
+      <description>
+
+&lt;h2 id=&#34;bug-fix&#34;&gt;Bug fix&lt;/h2&gt;
+
+&lt;p&gt;At the end of yesterday, I noticed the following bug:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;There is a bug where not all of the interactions are being included.
+For example, &lt;em&gt;BRAF&lt;/em&gt; is only connected to G13D in the KEGG-specific interaction network.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;After a bit of digging I found that the &lt;em&gt;BRAF&lt;/em&gt; mutations were being labeled as significant, but were filtered out by the &lt;code&gt;filter(num_mut_per_cancer &amp;gt;= 3)&lt;/code&gt; in &amp;ldquo;src/20_35_rc-fisher-comparison.R&amp;rdquo;.
+The problem was that the &amp;ldquo;num_mut_per_cancer&amp;rdquo; column was &lt;code&gt;NA&lt;/code&gt; for all of the alleles except for one, G13D.&lt;/p&gt;
+
+&lt;p&gt;Therefore, I adjusted &amp;ldquo;munge/30_rc-test_results-prep.R&amp;rdquo; to fix this bug.
+The problem was with a data frame merging by, among other columns, &lt;em&gt;KRAS&lt;/em&gt; allele.
+However, since there are 0 comutation events between BRAF and some of the alleles, the values were &lt;code&gt;NA&lt;/code&gt; not zero.&lt;/p&gt;
+
+&lt;p&gt;A test was added to make sure this is fixed (available in &amp;ldquo;tests/test-30_rc-test_results-prep.R&amp;rdquo;).&lt;/p&gt;
+
+&lt;p&gt;All of the dependent files were re-run and the figures should now be accurate.&lt;/p&gt;
+
+&lt;h2 id=&#34;functional-enrichment-cont&#34;&gt;Functional Enrichment (cont.)&lt;/h2&gt;
+
+&lt;p&gt;The results from the functional enrichment were written to Excel and TSV files for independent analysis.
+The data frame was also cached.&lt;/p&gt;
+
+&lt;p&gt;I tried multiple plotting modalities to help with parsing the results.
+The attempts included a network and bar-plots, but finally settled on a dot-plot for each data source.
+The x and y-axes are the &lt;em&gt;KRAS&lt;/em&gt; allele and enriched terms, respectively.
+The size and color of the dots indicate the &amp;ldquo;strength&amp;rdquo; of the association by representing the p-value and number of genes with genetic interactions in the gene set, respectively.
+I made one plot for each data source and cancer combination.
+A few examples are shown below.&lt;/p&gt;
+
+&lt;h3 id=&#34;coad&#34;&gt;COAD&lt;/h3&gt;
+
+&lt;p&gt;The following plot is of the Kinase Enrichment Analysis (KEA) gene sets in COAD.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_45_fxnal-enrich-genetic-interactionsenrichr_COAD_KEA_2015.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The plot below is showing the enriched gene sets made up of the protein-protein interaction networks of transcription factors.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_45_fxnal-enrich-genetic-interactionsenrichr_COAD_Transcription_Factor_PPIs.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;luad&#34;&gt;LUAD&lt;/h3&gt;
+
+&lt;p&gt;The following plot shows the pathways (from the PANTHER data base) enriched in the genetic interactions of &lt;em&gt;KRAS&lt;/em&gt; alleles in LUAD.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_45_fxnal-enrich-genetic-interactionsenrichr_LUAD_Panther_2016.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;mm&#34;&gt;MM&lt;/h3&gt;
+
+&lt;p&gt;The following plot shows the pathways (from the PANTHER database) enriched in the genetic interactions of &lt;em&gt;KRAS&lt;/em&gt; alleles in MM.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_45_fxnal-enrich-genetic-interactionsenrichr_MM_Panther_2016.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;In addition, the following shows the same, but using the BioCarta database instead.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_45_fxnal-enrich-genetic-interactionsenrichr_PAAD_BioCarta_2016.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;kea&#34;&gt;KEA&lt;/h3&gt;
+
+&lt;p&gt;The following plot is of the Kinase Enrichment Analysis (KEA) gene sets in PAAD.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_45_fxnal-enrich-genetic-interactionsenrichr_PAAD_KEA_2015.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The following plot shows the pathways (from the PANTHER database) enriched in the genetic interactions of &lt;em&gt;KRAS&lt;/em&gt; alleles in LUAD.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_45_fxnal-enrich-genetic-interactionsenrichr_PAAD_Panther_2016.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;In addition, the following shows the same, but using the WikiPathways database instead.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_45_fxnal-enrich-genetic-interactionsenrichr_PAAD_WikiPathways_2019_Human.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>2019-10-11</title>
       <link>https://project-notebook-comutation.netlify.com/post/2019-10-11/</link>
       <pubDate>Fri, 11 Oct 2019 00:00:00 +0000</pubDate>
@@ -231,6 +312,11 @@ For some of the LUAD and PAAD, I present separate plots for each source of gene 
 
 &lt;p&gt;The results were filtered by adjusted p-value &amp;lt; 0.20 and at least 2 genes in the gene set.
 The filtered tables were written to &amp;ldquo;tables/20_45_fxnal-enrich-genetic-interactions&amp;rdquo;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;TODO&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;There is a bug where not all of the interactions are being included.
+For example, &lt;em&gt;BRAF&lt;/em&gt; is only connected to G13D in the KEGG-specific interaction network.&lt;/p&gt;
 
 &lt;hr /&gt;
 
@@ -432,9 +518,21 @@ I definitely need to get to the bottom of this&amp;hellip;&lt;/p&gt;
 &lt;h2 id=&#34;synthetic-lethality&#34;&gt;Synthetic Lethality&lt;/h2&gt;
 
 &lt;p&gt;Synthetic lethality refers to a genetic interaction whereby one mutation sensitizes an organism to another normally-benign mutation.
-This overlaps with &amp;ldquo;dependency&amp;rdquo; whereby the first mutation pushes the organism into a state of where it relies on specific functions.
+This overlaps with &amp;ldquo;dependency&amp;rdquo; whereby the first mutation pushes the organism into a state of reliance on specific functions.
 Blocking (by mutation or inhibition) this function would cause the mutant organism to die, but not effect the wild-type organisms.
-Thus, finding synthetic lethal interactions in cancer&lt;/p&gt;
+Thus, a current goal of much of cancer research is focussed on finding synthetic lethal interactions with common oncogenes.&lt;/p&gt;
+
+&lt;h2 id=&#34;allele-specific-synthetic-lethality&#34;&gt;Allele-specific synthetic lethality&lt;/h2&gt;
+
+&lt;p&gt;The goal of this portion of the Comutation project is to identify synthetic lethal interactions with specific &lt;em&gt;KRAS&lt;/em&gt; alleles.
+From a theory point-of-view, these interactions would provide information on the differences between the alleles.
+From a therapeutics point-of-view, the identification of allele-specific interactions could be used to further personalize treatment strategies.&lt;/p&gt;
+
+&lt;h2 id=&#34;data&#34;&gt;Data&lt;/h2&gt;
+
+&lt;p&gt;For this analysis, we used the Cancer Dependency Mapping (DepMap) data.
+In this ongoing study, the cell lines from the Cancer Cell Line Encyclopedia (CCLE) were analyzed in a genome-wide, CRISPR-Cas9, loss-of-function screen whereby each gene was systemically knocked-out and the loss of growth of the cell line was measured.
+Thankfully, many omics data are available for the cell lines, including RNA expression, mutations, and CNA.&lt;/p&gt;
 </description>
     </item>
     

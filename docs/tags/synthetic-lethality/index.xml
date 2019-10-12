@@ -22,9 +22,21 @@
 &lt;h2 id=&#34;synthetic-lethality&#34;&gt;Synthetic Lethality&lt;/h2&gt;
 
 &lt;p&gt;Synthetic lethality refers to a genetic interaction whereby one mutation sensitizes an organism to another normally-benign mutation.
-This overlaps with &amp;ldquo;dependency&amp;rdquo; whereby the first mutation pushes the organism into a state of where it relies on specific functions.
+This overlaps with &amp;ldquo;dependency&amp;rdquo; whereby the first mutation pushes the organism into a state of reliance on specific functions.
 Blocking (by mutation or inhibition) this function would cause the mutant organism to die, but not effect the wild-type organisms.
-Thus, finding synthetic lethal interactions in cancer&lt;/p&gt;
+Thus, a current goal of much of cancer research is focussed on finding synthetic lethal interactions with common oncogenes.&lt;/p&gt;
+
+&lt;h2 id=&#34;allele-specific-synthetic-lethality&#34;&gt;Allele-specific synthetic lethality&lt;/h2&gt;
+
+&lt;p&gt;The goal of this portion of the Comutation project is to identify synthetic lethal interactions with specific &lt;em&gt;KRAS&lt;/em&gt; alleles.
+From a theory point-of-view, these interactions would provide information on the differences between the alleles.
+From a therapeutics point-of-view, the identification of allele-specific interactions could be used to further personalize treatment strategies.&lt;/p&gt;
+
+&lt;h2 id=&#34;data&#34;&gt;Data&lt;/h2&gt;
+
+&lt;p&gt;For this analysis, we used the Cancer Dependency Mapping (DepMap) data.
+In this ongoing study, the cell lines from the Cancer Cell Line Encyclopedia (CCLE) were analyzed in a genome-wide, CRISPR-Cas9, loss-of-function screen whereby each gene was systemically knocked-out and the loss of growth of the cell line was measured.
+Thankfully, many omics data are available for the cell lines, including RNA expression, mutations, and CNA.&lt;/p&gt;
 </description>
     </item>
     
