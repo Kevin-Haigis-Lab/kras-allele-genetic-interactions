@@ -10,9 +10,6 @@
 
 (Indexed by tmux screen number.)
 
-1: snakemake to finish LUAD co-mutation for "RC_comutation_2" (started 10-04-19 at 8AM)
-
-
 
 ## Papers to read
 
@@ -20,12 +17,12 @@
 
 ## Munging
 
-* change munging of RC-test output files to read in and parse file name to add meta data information
 
 
 
 ## Doc
 
+* add logs and test output to website
 
 
 ## Analyses

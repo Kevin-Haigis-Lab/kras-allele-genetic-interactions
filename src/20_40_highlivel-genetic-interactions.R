@@ -37,7 +37,7 @@ genetic_interaction_df %>%
 
 library(ggraph)
 
-cache("genetic_interaction_gr",
+cache("genetic_interaction_gr", depends = "genetic_interaction_df",
 {
     genetic_interaction_gr <- genetic_interaction_df %>%
         select(hugo_symbol, kras_allele, cancer, p_val, genetic_interaction) %>%
@@ -49,7 +49,7 @@ cache("genetic_interaction_gr",
     return(genetic_interaction_gr)
 })
 
-set.seed()
+set.seed(0)
 for (CANCER in unique(genetic_interaction_df$cancer)) {
     gr_plot <- genetic_interaction_gr %E>%
         filter(cancer == !!CANCER) %N>%

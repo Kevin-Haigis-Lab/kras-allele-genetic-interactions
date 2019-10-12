@@ -11,7 +11,7 @@ test_name_pal <- c(
 p_val_cut <- 0.05
 
 rc_sig <- rc_test_results %>%
-    filter(num_mut_per_cancer >= 3) %>%
+    filter(num_mut_per_cancer >= 10) %>%
     filter(p_val < !!p_val_cut & t_AM >= 3)
 
 fisher_sig <- fisher_comut_df %>%

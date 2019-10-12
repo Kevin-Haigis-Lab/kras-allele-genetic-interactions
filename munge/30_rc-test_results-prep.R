@@ -47,35 +47,67 @@ cache("rc_test_results",
         mutate(hugo_symbol = get_other_gene_from_genesets(gene_sets)) %>%
         filter(!is.na(hugo_symbol))
 
-    cancer_mut_counts <- cancer_coding_muts_df %>%
+
+    num_samples_per_cancer_df <- cancer_coding_muts_df %>%
         filter(!is_hypermutant) %>%
         group_by(cancer) %>%
-        mutate(
+        summarise(
             num_samples_per_cancer = n_distinct(tumor_sample_barcode)
-        ) %>%
-        group_by(cancer, ras_allele) %>%
-        mutate(
-            num_samples_per_cancer_allele = n_distinct(tumor_sample_barcode)
-        ) %>%
+        )
+
+    cancer_mut_counts <- cancer_coding_muts_df %>%
+        filter(!is_hypermutant) %>%
         group_by(cancer, hugo_symbol) %>%
-        mutate(
+        summarise(
             num_mut_per_cancer = n_distinct(tumor_sample_barcode)
         ) %>%
-        group_by(cancer, ras_allele, hugo_symbol,
-                 num_samples_per_cancer,
-                 num_samples_per_cancer_allele,
-                 num_mut_per_cancer) %>%
+        ungroup()
+
+
+    num_samples_per_cancer_allele_df <- cancer_coding_muts_df %>%
+        group_by(cancer, ras_allele) %>%
+        summarise(
+            num_samples_per_cancer_allele = n_distinct(tumor_sample_barcode)
+        ) %>%
+        ungroup()
+
+    allele_mut_counts <- cancer_coding_muts_df %>%
+        group_by(cancer, ras_allele, hugo_symbol) %>%
         summarise(
             num_mut_per_cancer_allele = n_distinct(tumor_sample_barcode)
-        )
+        ) %>%
+        ungroup()
+
 
     assign("cancer_mut_counts", cancer_mut_counts, envir = .GlobalEnv)
     cache("cancer_mut_counts")
 
-    rc_test_results <- left_join(
-        rc_test_results, cancer_mut_counts,
-        by = c("cancer", "hugo_symbol", "kras_allele" = "ras_allele")
-    )
+    assign("allele_mut_counts", allele_mut_counts, envir = .GlobalEnv)
+    cache("allele_mut_counts")
+
+
+    rc_test_results <- rc_test_results %>%
+        left_join(
+            num_samples_per_cancer_df, by = "cancer"
+        ) %>%
+        left_join(
+            cancer_mut_counts,
+            by = c("cancer", "hugo_symbol")
+        ) %>%
+        mutate(num_mut_per_cancer = ifelse(
+            is.na(num_mut_per_cancer), 0, num_mut_per_cancer)
+        ) %>%
+        left_join(
+            num_samples_per_cancer_allele_df,
+            by = c("cancer", "kras_allele" = "ras_allele")
+        ) %>%
+        left_join(allele_mut_counts,
+                  by = c("cancer", "kras_allele" = "ras_allele", "hugo_symbol")
+        ) %>%
+        mutate(num_mut_per_cancer_allele = ifelse(
+            is.na(num_mut_per_cancer_allele), 0, num_mut_per_cancer_allele
+        ))
+
 
     return(rc_test_results)
 })
