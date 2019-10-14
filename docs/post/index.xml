@@ -30,6 +30,33 @@ I then re-ran all downstream analyses.&lt;/p&gt;
 &lt;p&gt;I fixed a bug in the dot-plots of the Enrichr results.
 If there were no 0 values, then the minimum number would be set to zero for the alpha and point size.
 Now, the minimum values for the alpha and point size are 0.1 and 1, respectively, if there are no zero values.&lt;/p&gt;
+
+&lt;p&gt;Finishing off the summary on the comutation analysis, I turned my attention back to the synthetic lethality portion of the project.&lt;/p&gt;
+
+&lt;h2 id=&#34;continuing-with-simple-linear-model-of-allele-specific-synthetic-lethality&#34;&gt;Continuing with simple linear model of allele-specific synthetic lethality&lt;/h2&gt;
+
+&lt;p&gt;I created heatmaps of the signficiant results from the simple model of allele-specific synthetic lethality.
+They are intended to give an over view of the number of genes and also the intensity of the differences found.&lt;/p&gt;
+
+&lt;h3 id=&#34;coad&#34;&gt;COAD&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_pheatmaps/COAD_pheatmap.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;luad&#34;&gt;LUAD&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_pheatmaps/LUAD_pheatmap.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;paad&#34;&gt;PAAD&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_pheatmaps/PAAD_pheatmap.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;to-do-tomorrow&#34;&gt;To-Do Tomorrow&lt;/h2&gt;
+
+&lt;p&gt;Tomorrow, I would like to figure out a way of partitioning the allele-specific synthetic lethality hits so I can do a functional enrichment test.
+Perhaps, I can use the groups from the heatmap clusters.&lt;/p&gt;
+
+&lt;p&gt;I also want to run the GSEA/GSVA/ssGSEA for the synthetic lethality.
+I need to look back at what these methods do before deciding on which to start with.&lt;/p&gt;
 </description>
     </item>
     
@@ -716,12 +743,12 @@ I also ignored cell lines of LUAD with &lt;em&gt;KRAS&lt;/em&gt; G13D mutations 
 &lt;li&gt;There was at least one significant pairwise comparison (FDR adj. p-value &amp;lt; 0.05)&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;p&gt;All of the box-plots are in &amp;ldquo;graphs/10_10_linear-modeling-syn-let_bosplots/&amp;ldquo;.
+&lt;p&gt;All of the box-plots are in &amp;ldquo;graphs/10_10_linear-modeling-syn-let_boxplots/&amp;ldquo;.
 Below are some of the more interesting genes to pop out of the analysis.&lt;/p&gt;
 
 &lt;h3 id=&#34;coad&#34;&gt;COAD&lt;/h3&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_bosplots/COAD-ARID5B.svg&#34; width = 400 /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/COAD-ARID5B.svg&#34; width = 400 /&gt;&lt;/p&gt;
 
 &lt;p&gt;From &lt;a href=&#34;https://www.uniprot.org/uniprot/Q14865&#34; target=&#34;_blank&#34;&gt;UniProt ARI5B_HUMAN&lt;/a&gt;:&lt;/p&gt;
 
@@ -732,9 +759,9 @@ Required for adipogenesis: regulates triglyceride metabolism in adipocytes by re
 Overexpression leads to induction of smooth muscle marker genes, suggesting that it may also act as a regulator of smooth muscle cell differentiation and proliferation.&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_bosplots/COAD-EIF3M.svg&#34; width = 400 /&gt;
-&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_bosplots/COAD-GAS6.svg&#34; width = 400 /&gt;
-&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_bosplots/COAD-SRP9.svg&#34; width = 400 /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/COAD-EIF3M.svg&#34; width = 400 /&gt;
+&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/COAD-GAS6.svg&#34; width = 400 /&gt;
+&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/COAD-SRP9.svg&#34; width = 400 /&gt;&lt;/p&gt;
 
 &lt;p&gt;From &lt;a href=&#34;https://www.uniprot.org/uniprot/P49458&#34; target=&#34;_blank&#34;&gt;UniProt SRP09_HUMAN&lt;/a&gt;:&lt;/p&gt;
 
@@ -744,22 +771,22 @@ SRP9 together with SRP14 and the Alu portion of the SRP RNA, constitutes the elo
 The complex of SRP9 and SRP14 is required for SRP RNA binding.&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_bosplots/COAD-UNK.svg&#34; width = 400 /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/COAD-UNK.svg&#34; width = 400 /&gt;&lt;/p&gt;
 
 &lt;hr /&gt;
 
 &lt;h3 id=&#34;luad&#34;&gt;LUAD&lt;/h3&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_bosplots/LUAD-CCDC107.svg&#34; width = 400 &gt;
-&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_bosplots/LUAD-CCDC113.svg&#34; width = 400 &gt;
-&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_bosplots/LUAD-DHFR.svg&#34; width = 400 &gt;
-&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_bosplots/LUAD-FAAP100.svg&#34; width = 400 &gt;
-&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_bosplots/LUAD-GPN2.svg&#34; width = 400 &gt;
-&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_bosplots/LUAD-HDAC1.svg&#34; width = 400 &gt;
-&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_bosplots/LUAD-HSBP1.svg&#34; width = 400 &gt;
-&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_bosplots/LUAD-MAPK6.svg&#34; width = 400 &gt;
-&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_bosplots/LUAD-SCAF4.svg&#34; width = 400 &gt;
-&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_bosplots/LUAD-STAMBP.svg&#34; width = 400 &gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-CCDC107.svg&#34; width = 400 &gt;
+&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-CCDC113.svg&#34; width = 400 &gt;
+&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-DHFR.svg&#34; width = 400 &gt;
+&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-FAAP100.svg&#34; width = 400 &gt;
+&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-GPN2.svg&#34; width = 400 &gt;
+&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-HDAC1.svg&#34; width = 400 &gt;
+&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-HSBP1.svg&#34; width = 400 &gt;
+&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-MAPK6.svg&#34; width = 400 &gt;
+&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-SCAF4.svg&#34; width = 400 &gt;
+&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-STAMBP.svg&#34; width = 400 &gt;&lt;/p&gt;
 
 &lt;p&gt;From &lt;a href=&#34;https://www.uniprot.org/uniprot/O95630&#34; target=&#34;_blank&#34;&gt;UniProt: STABP_HUMAN&lt;/a&gt;:&lt;/p&gt;
 
@@ -773,15 +800,15 @@ Endosomal localization of STAMBP is required for efficient EGFR degradation but 
 Involved in the negative regulation of PI3K-AKT-mTOR and RAS-MAP signaling pathways.&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_bosplots/LUAD-TP53.svg&#34; width = 400 &gt;
-&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_bosplots/LUAD-TP53BP1.svg&#34; width = 400 &gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-TP53.svg&#34; width = 400 &gt;
+&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-TP53BP1.svg&#34; width = 400 &gt;&lt;/p&gt;
 
 &lt;hr /&gt;
 
 &lt;h3 id=&#34;paad&#34;&gt;PAAD&lt;/h3&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_bosplots/PAAD-CCT8.svg&#34; width = 400 &gt;
-&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_bosplots/PAAD-EGLN2.svg&#34; width = 400 &gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/PAAD-CCT8.svg&#34; width = 400 &gt;
+&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/PAAD-EGLN2.svg&#34; width = 400 &gt;
 From &lt;a href=&#34;https://www.uniprot.org/uniprot/Q96KS0&#34; target=&#34;_blank&#34;&gt;UniProt: EGLN2_HUMAN&lt;/a&gt;:&lt;/p&gt;
 
 &lt;blockquote&gt;
@@ -797,7 +824,7 @@ Hydroxylates IKBKB, mediating NF-kappaB activation in hypoxic conditions.
 Target proteins are preferentially recognized via a LXXLAP motif.&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_bosplots/PAAD-JUN.svg&#34; width = 400 &gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/PAAD-JUN.svg&#34; width = 400 &gt;&lt;/p&gt;
 
 &lt;p&gt;From &lt;a href=&#34;https://www.uniprot.org/uniprot/P05412&#34; target=&#34;_blank&#34;&gt;UniProt JUN_HUMAN&lt;/a&gt;:&lt;/p&gt;
 
@@ -816,7 +843,7 @@ Binds to the USP28 promoter in colorectal cancer (CRC) cells (PubMed:24623306).&
 I need to figure out what is causing this.
 My guess is that they are related genes and the gene names are being truncated by &lt;code&gt;get_hugo_from_depmap_ids()&lt;/code&gt;.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_bosplots/COAD-KRTAP2.svg&#34; width = 400&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/COAD-KRTAP2.svg&#34; width = 400&gt;&lt;/p&gt;
 </description>
     </item>
     

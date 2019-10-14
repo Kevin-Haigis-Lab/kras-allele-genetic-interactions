@@ -441,7 +441,7 @@ I fixed a bug in the dot-plots of the Enrichr results."><meta property="og:image
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    1 min read
+    2 min read
   </span>
   
 
@@ -495,6 +495,33 @@ I then re-ran all downstream analyses.</p>
 <p>I fixed a bug in the dot-plots of the Enrichr results.
 If there were no 0 values, then the minimum number would be set to zero for the alpha and point size.
 Now, the minimum values for the alpha and point size are 0.1 and 1, respectively, if there are no zero values.</p>
+
+<p>Finishing off the summary on the comutation analysis, I turned my attention back to the synthetic lethality portion of the project.</p>
+
+<h2 id="continuing-with-simple-linear-model-of-allele-specific-synthetic-lethality">Continuing with simple linear model of allele-specific synthetic lethality</h2>
+
+<p>I created heatmaps of the signficiant results from the simple model of allele-specific synthetic lethality.
+They are intended to give an over view of the number of genes and also the intensity of the differences found.</p>
+
+<h3 id="coad">COAD</h3>
+
+<p><img src="/img/graphs/10_10_linear-modeling-syn-let_pheatmaps/COAD_pheatmap.svg" alt="" /></p>
+
+<h3 id="luad">LUAD</h3>
+
+<p><img src="/img/graphs/10_10_linear-modeling-syn-let_pheatmaps/LUAD_pheatmap.svg" alt="" /></p>
+
+<h3 id="paad">PAAD</h3>
+
+<p><img src="/img/graphs/10_10_linear-modeling-syn-let_pheatmaps/PAAD_pheatmap.svg" alt="" /></p>
+
+<h2 id="to-do-tomorrow">To-Do Tomorrow</h2>
+
+<p>Tomorrow, I would like to figure out a way of partitioning the allele-specific synthetic lethality hits so I can do a functional enrichment test.
+Perhaps, I can use the groups from the heatmap clusters.</p>
+
+<p>I also want to run the GSEA/GSVA/ssGSEA for the synthetic lethality.
+I need to look back at what these methods do before deciding on which to start with.</p>
 
     </div>
 
