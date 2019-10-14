@@ -86,12 +86,13 @@ purrr::pwalk(enrichr_tib, write_enrichr_results, pval = 0.2, min_overlap = 2)
 
 # a regular expression to use to remove uninteresting gene sets
 uniteresting_terms_regex <- c(
-      "cardiac", "heart", "muscle",
+      "cardiac", "heart", "muscle", "cardio",
       "disease", "chronic", "cancer",
       "basal", "axon", "amoeb", "glioma",
       "Hepatitis", "infection", "virus", "viral",
-      "circulatory", "nervous", "neuron",
-      "alcohol"
+      "circulatory", "nervous", "neuro",
+      "alcohol", "carcinoma", "microglia", "melanoma", "thyroid",
+      "blastoma", "autism", "oocyte", "depression"
 ) %>%
     paste0(collapse = "|") %>%
     regex(ignore_case = TRUE, dotall = TRUE)
@@ -99,7 +100,7 @@ uniteresting_terms_regex <- c(
 
 # Make a dot-plot of the functions from a data source enriched for a cancer.
 dotplot_top_functions <- function(cancer, datasource, data) {
-    p <- data %>%
+    mod_data <- data %>%
         filter(!str_detect(term, !!uniteresting_terms_regex)) %>%
         mutate(
             term = str_remove_all(term, "_Homo.sapiens+.*$") %>%
@@ -113,7 +114,14 @@ dotplot_top_functions <- function(cancer, datasource, data) {
         mutate(
             adjusted_p_value = ifelse(is.na(adjusted_p_value), 1, adjusted_p_value),
             n_overlap = ifelse(is.na(n_overlap), 0, n_overlap)
-        ) %>%
+        )
+
+    if (nrow(mod_data) == 0) { return() }
+
+    min_size <- ifelse(min(mod_data$n_overlap) == 0,  0,  1 )
+    min_alpha <- ifelse(min(mod_data$n_overlap) == 0,  0,  0.1)
+
+    p <- mod_data %>%
         ggplot(
             aes(x = allele, y = term)
         ) +
@@ -123,13 +131,13 @@ dotplot_top_functions <- function(cancer, datasource, data) {
             color = "blue"
         ) +
         scale_size_continuous(
-            range = c(0, 8),
+            range = c(min_size, 8),
             guide = guide_legend(title.position = "top",
                                  title.hjust = 0.5,
                                  order = 10)
         ) +
         scale_alpha_continuous(
-            range = c(0, 1),
+            range = c(min_alpha, 1),
             guide = guide_legend(title.position = "top",
                                  title.hjust = 0.5,
                                  order = 20)

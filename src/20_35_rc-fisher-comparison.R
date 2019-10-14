@@ -8,17 +8,17 @@ test_name_pal <- c(
 
 #### ---- Significant results from each test ---- ####
 
-p_val_cut <- 0.05
+p_val_cut_mutex <- 0.01
+p_val_cut_comut <- 0.01
 
 rc_sig <- rc_test_results %>%
-    filter(num_mut_per_cancer >= 10) %>%
-    filter(p_val < !!p_val_cut & t_AM >= 3)
+    filter(num_mut_per_cancer >= 10 & t_AM >= 3 & p_val < !!p_val_cut_mutex)
 
 fisher_sig <- fisher_comut_df %>%
-    filter(p_value_great < p_val_cut | p_value_less < p_val_cut) %>%
+    filter(p_value_great < p_val_cut_comut | p_value_less < p_val_cut_comut) %>%
     filter(n11 >= 3) %>%
     mutate(test_type = ifelse(
-        p_value_great < !!p_val_cut, "comutation", "exclusivity"
+        p_value_great < !!p_val_cut_comut, "comutation", "exclusivity"
     )) %>%
     filter(str_replace_us(kras_allele) %in% names(allele_palette))
 
@@ -40,7 +40,8 @@ fisher_summary <- fisher_sig %>%
 
 rc_fisher_comparison_barplot <- bind_rows(rc_summary, fisher_summary) %>%
     mutate(
-        kras_allele = str_remove(kras_allele, "KRAS_")) %>%
+        kras_allele = str_remove(kras_allele, "KRAS_")
+    ) %>%
     ggplot(aes(x = kras_allele, y = num_genes_per_type)) +
     facet_grid(cancer ~ test_type, scales = "free") +
     geom_col(aes(fill = test_name), position = "dodge") +
@@ -86,9 +87,13 @@ fisher_sig_samenum <- fisher_sig %>%
     ungroup() %>%
     mutate(test_name = "Fisher")
 
-rc_fisher_comparison_barplot_samenum <- bind_rows(rc_sig_samenum, fisher_sig_samenum) %>%
+rc_fisher_comparison_barplot_samenum <- bind_rows(
+        rc_sig_samenum,
+        fisher_sig_samenum
+    ) %>%
     mutate(
-        kras_allele = str_remove(kras_allele, "KRAS_")) %>%
+        kras_allele = str_remove(kras_allele, "KRAS_")
+    ) %>%
     ggplot(aes(x = kras_allele, y = num_genes_per_type)) +
     facet_grid(cancer ~ test_type, scales = "free") +
     geom_col(aes(fill = test_name), position = "dodge") +
@@ -104,6 +109,38 @@ rc_fisher_comparison_barplot_samenum <- bind_rows(rc_sig_samenum, fisher_sig_sam
 save_path <- plot_path("20_35_rc-fisher-comparison", "rc_fisher_comparison_barplot_samenum.svg")
 info(logger, glue("Saving plot {save_path}"))
 ggsave_wrapper(rc_fisher_comparison_barplot_samenum, save_path, width = 6, height = 8)
+
+
+#### ---- Fisher for Comut. and RC for mut. ex. ---- ####
+
+
+rc_fisher_comparison_barplot <- bind_rows(
+        { rc_summary %>% filter(test_type == "exclusivity") },
+        { fisher_summary %>% filter(test_type == "comutation") }
+    ) %>%
+    mutate(
+        kras_allele = str_remove(kras_allele, "KRAS_")
+    ) %>%
+    ggplot(aes(x = kras_allele, y = num_genes_per_type)) +
+    facet_wrap(~ cancer, scales = "free", nrow = 2) +
+    geom_col(aes(fill = test_type), position = "dodge") +
+    scale_y_continuous(expand = expand_scale(mult = c(0, 0.02))) +
+    scale_fill_manual(values = comut_mutex_pal) +
+    theme_classic() +
+    theme(
+        text = element_text(family = "arial"),
+        axis.text.x = element_text(angle = 40, hjust = 1.0),
+        axis.title.x = element_blank(),
+        legend.position = "bottom",
+        strip.background = element_blank()
+    ) +
+    labs(
+        y = "number of genetic interactions"
+    )
+save_path <- plot_path("20_35_rc-fisher-comparison", "rc_fisher_comparison_specific.svg")
+info(logger, glue("Saving plot {save_path}"))
+ggsave_wrapper(rc_fisher_comparison_barplot, save_path, width = 6, height = 8)
+
 
 
 
@@ -123,7 +160,7 @@ exclusivity_df <- rc_sig %>%
     )
 
 comutation_df <- fisher_sig %>%
-    filter(p_value_great < p_val_cut) %>%
+    filter(p_value_great < p_val_cut_comut) %>%
     select(
         hugo_symbol, kras_allele, cancer,
         p_value_great, odds_ratio,

@@ -41,11 +41,96 @@ Thankfully, many omics data are available for the cell lines, including RNA expr
     </item>
     
     <item>
-      <title>RC-Test for Comutation</title>
-      <link>https://project-notebook-comutation.netlify.com/project/rc-test-for-comutation/</link>
+      <title>Comutation and Mutual Exclusivity</title>
+      <link>https://project-notebook-comutation.netlify.com/project/comutation-and-mutual-exclusivity/</link>
       <pubDate>Wed, 09 Oct 2019 06:58:09 -0400</pubDate>
-      <guid>https://project-notebook-comutation.netlify.com/project/rc-test-for-comutation/</guid>
-      <description></description>
+      <guid>https://project-notebook-comutation.netlify.com/project/comutation-and-mutual-exclusivity/</guid>
+      <description>
+
+&lt;h2 id=&#34;overview&#34;&gt;Overview&lt;/h2&gt;
+
+&lt;p&gt;&lt;strong&gt;Our hypothesis is that genes with comutate or be mutually exclusive with specific &lt;em&gt;KRAS&lt;/em&gt; alleles depending on the biological properties of the allele.&lt;/strong&gt;
+Comutation would occur when the additional mutation enhances the growth phenotype of the tumor.
+And example of this would be &lt;em&gt;KRAS&lt;/em&gt;, &lt;em&gt;TP53&lt;/em&gt;, and &lt;em&gt;CDKN2A&lt;/em&gt; in PAAD.
+On the other hand, another gene and &lt;em&gt;KRAS&lt;/em&gt; would mutate in a mutually exclusive pattern because doing so leads to a reduction in growth.
+A very strong example of this is the mutually exclusive activation mutations in &lt;em&gt;BRAF&lt;/em&gt; and &lt;em&gt;KRAS&lt;/em&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;analysis&#34;&gt;Analysis&lt;/h2&gt;
+
+&lt;h3 id=&#34;comutation&#34;&gt;Comutation&lt;/h3&gt;
+
+&lt;p&gt;To study comutation, we conducted a one-sided Fisher&amp;rsquo;s exact test for association between each &lt;em&gt;KRAS&lt;/em&gt; allele and all other genes.&lt;/p&gt;
+
+&lt;h3 id=&#34;mutual-exclusivity&#34;&gt;Mutual Exclusivity&lt;/h3&gt;
+
+&lt;p&gt;The Row-Column test for mutual exclusivity (the &amp;ldquo;RC-test&amp;rdquo;) was developed by the &lt;a href=&#34;http://compbio.cs.brown.edu/projects/wext/&#34; target=&#34;_blank&#34;&gt;Raphael Lab&lt;/a&gt; in 2016 and described in &lt;a href=&#34;https://www.ncbi.nlm.nih.gov/pubmed/27587696&#34; target=&#34;_blank&#34;&gt;&lt;em&gt;A weighted exact test for mutually exclusive mutations in cancer&lt;/em&gt; (Leiserson &lt;em&gt;et al.&lt;/em&gt;, 2016)&lt;/a&gt;.
+The software supplied with the paper searched for any groups of genes demonstrating mutually exclusive relationships, but took far too long to compute over all of our samples.
+Therefore, I implemented the RC-test in my own R package (in dev, &lt;a href=&#34;https://github.com/jhrcook/wext&#34; target=&#34;_blank&#34;&gt;WeXT&lt;/a&gt;) and used &lt;a href=&#34;https://snakemake.readthedocs.io/en/stable/&#34; target=&#34;_blank&#34;&gt;Snakemake&lt;/a&gt; to orchestrate the runs on O2 in parallel.
+Again, the test was run between each &lt;em&gt;KRAS&lt;/em&gt; allele and all other genes.&lt;/p&gt;
+
+&lt;h3 id=&#34;high-level-visualization&#34;&gt;High-level visualization&lt;/h3&gt;
+
+&lt;p&gt;To provide a higher-level visualization of the results, the genetic interactions were displayed as a network.
+These are meant to be interpreted as &amp;ldquo;clouds&amp;rdquo; where the density of the cloud provides an idea of the number of interactions.&lt;/p&gt;
+
+&lt;p&gt;I also created [UpSet plots]() to show the size and overlap of the sets.
+These can be interpreted as high-dimensional Venn diagrams.&lt;/p&gt;
+
+&lt;h3 id=&#34;analysis-of-biological-properties-of-the-genetic-interactors&#34;&gt;Analysis of biological properties of the genetic interactors&lt;/h3&gt;
+
+&lt;p&gt;I used &lt;em&gt;a priori&lt;/em&gt; gene lists to identify any genes of interest that have detectable genetic interactions with the &lt;em&gt;KRAS&lt;/em&gt; alleles.
+The lists were notable KEGG pathways, the physical interactors of &lt;em&gt;KRAS&lt;/em&gt; from a BioID experiment conducted in &lt;a href=&#34;https://www.ncbi.nlm.nih.gov/pubmed/?term=30639242&#34; target=&#34;_blank&#34;&gt;Kovalski &lt;em&gt;et al.&lt;/em&gt;, 2019&lt;/a&gt;, and the &lt;a href=&#34;https://cancer.sanger.ac.uk/census&#34; target=&#34;_blank&#34;&gt;COSMIC Cancer Gene Consensus&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;I also used Enrichr (&lt;a href=&#34;https://www.ncbi.nlm.nih.gov/pubmed/23586463&#34; target=&#34;_blank&#34;&gt;Chen &lt;em&gt;et al.&lt;/em&gt;, 2013&lt;/a&gt;) to identify gene sets enriched in the interactors for each &lt;em&gt;KRAS&lt;/em&gt; allele.&lt;/p&gt;
+
+&lt;h2 id=&#34;results&#34;&gt;Results&lt;/h2&gt;
+
+&lt;p&gt;The following figure shows the number of genes with a genetic interaction that was detected for each &lt;em&gt;KRAS&lt;/em&gt; allele.
+For comutation, there had to be at least 3 comutation events to be included.
+For mutual exclusivity, the other gene had to be mutated at least 10 times in the cancer.
+For both tests, a p-value of 0.01 was used for the declaration of statistical significance.&lt;/p&gt;
+
+&lt;p&gt;The plot shows that the number of detectable interactions increases with the number of samples, as expected.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_35_rc-fisher-comparison/rc_fisher_comparison_specific.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The rest of the summary is subdivided by cancer.&lt;/p&gt;
+
+&lt;h3 id=&#34;coad&#34;&gt;COAD&lt;/h3&gt;
+
+&lt;p&gt;Below are the high-level visualizations of the genetic interactions.
+The alleles tend to be connected by mutual exclusive interactions (instead of comutation interactions).
+Each allele also has their own set of comutation and mutually exclusive interactors.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_40_highlivel-genetic-interactions/genetic_interaction_network_COAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_40_highlivel-genetic-interactions/COAD_comutation_upset.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_40_highlivel-genetic-interactions/COAD_exclusivity_upset.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The network below shows all of the interactions with genes in the &lt;em&gt;a priori&lt;/em&gt; lists.
+As expected, &lt;em&gt;BRAF&lt;/em&gt; is strongly mutually exclusive with many of the alleles and &lt;em&gt;PIK3CA&lt;/em&gt; and &lt;em&gt;APC&lt;/em&gt; comutate with several alleles, too.
+Surprisingly, G12D and G13D are mutually exclusive with &lt;em&gt;TP53&lt;/em&gt;.
+A146T has two interesting comutation interactions with &lt;em&gt;PORCN&lt;/em&gt; and &lt;em&gt;MAP3K1&lt;/em&gt;.
+G12V has a very strong comutation interaction with &lt;em&gt;SMAD4&lt;/em&gt;.
+G12C has a strong comutation interaction with &lt;em&gt;RAPGEF2&lt;/em&gt;.
+G12S (bottom left) has a comutation interaction with &lt;em&gt;SMAD3&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_43_apriori-lists-genetic-interactions/goi_overlap_genetic_interactions_network_COAD_allLists.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The KEGG pathway gene set was very informative.
+Notably, G13D was enriched for the mTOR pathway, including &lt;em&gt;RICTOR&lt;/em&gt; as shown in the above network.
+The genes with interactions with G12D are enriched in adhesion pathways (&amp;ldquo;Regulation of actin cytoskeleton&amp;rdquo; and &amp;ldquo;Focal adhesion&amp;rdquo;, &amp;ldquo;Leukocyte TEM&amp;rdquo;), possibly linked to the enrichment for the Rap1 signaling pathway.
+Many of the alleles have interactions with genes involved in ERBB signaling.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_45_fxnal-enrich-genetic-interactions/enrichr_COAD_KEGG_2019_Human.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Also of note, but not shown graphically here, the physical interactors of SMAD2, a transcription factor, were found to be enriched in the G12D genetic interactors by two different gene sets.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&#34;luad&#34;&gt;LUAD&lt;/h3&gt;
+</description>
     </item>
     
   </channel>

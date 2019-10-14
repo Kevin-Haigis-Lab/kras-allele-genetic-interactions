@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="Source Themes Academic 4.5.0">
+
+  
+
+  
+  
+  
+  
+  
+    
+    
+    
+  
+  
+
+  <meta name="author" content="Comutation of KRAS">
+
+  
+  
+  
+    
+  
+  <meta name="description" content="Testing for genetic interactions in human tumor samples based on their mutational patterns.">
+
+  
+  <link rel="alternate" hreflang="en-us" href="https://project-notebook-comutation.netlify.com/project/comutation-and-mutual-exclusivity/">
+
+  
+
+
+  
+  
+  
+  <meta name="theme-color" content="#2962ff">
+  
+
+  
+  
+  
+  
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css" integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.0/css/all.css" integrity="sha384-aOkxzJ5uQz7WBObEZcHvV5JvRW3TUc2rNPA7pe3AwnsUohiw1Vj2Rgx2KSOkF5+h" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" integrity="sha256-ygkqlh3CYSUri3LhQxzdcm0n1EQvH2Y+U5S2idbLtxs=" crossorigin="anonymous">
+
+    
+    
+    
+      
+    
+    
+      
+      
+        
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css" crossorigin="anonymous" title="hl-light">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark" disabled>
+        
+      
+    
+
+    
+
+    
+
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7CRoboto:400,400italic,700%7CRoboto+Mono&display=swap">
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="/css/academic.min.a3cda781a9b24f26fefd34a53547835b.css">
+
+  
+
+  
+
+
+
+
+  
+
+
+  
+
+  <link rel="manifest" href="/index.webmanifest">
+  <link rel="icon" type="image/png" href="/img/icon-32.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/icon-192.png">
+
+  <link rel="canonical" href="https://project-notebook-comutation.netlify.com/project/comutation-and-mutual-exclusivity/">
+
+  
+  
+  
+  
+    
+    
+  
+  
+  <meta property="twitter:card" content="summary">
+  
+  <meta property="og:site_name" content="KRAS Comutation">
+  <meta property="og:url" content="https://project-notebook-comutation.netlify.com/project/comutation-and-mutual-exclusivity/">
+  <meta property="og:title" content="Comutation and Mutual Exclusivity | KRAS Comutation">
+  <meta property="og:description" content="Testing for genetic interactions in human tumor samples based on their mutational patterns."><meta property="og:image" content="https://project-notebook-comutation.netlify.com/img/icon-192.png">
+  <meta property="twitter:image" content="https://project-notebook-comutation.netlify.com/img/icon-192.png"><meta property="og:locale" content="en-us">
+  
+    
+      <meta property="article:published_time" content="2019-10-09T06:58:09-04:00">
+    
+    <meta property="article:modified_time" content="2019-10-09T06:58:09-04:00">
+  
+
+  
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://project-notebook-comutation.netlify.com/project/comutation-and-mutual-exclusivity/"
+  },
+  "headline": "Comutation and Mutual Exclusivity",
+  
+  "datePublished": "2019-10-09T06:58:09-04:00",
+  "dateModified": "2019-10-09T06:58:09-04:00",
+  
+  "author": {
+    "@type": "Person",
+    "name": "KRAS Comutation"
+  },
+  
+  "publisher": {
+    "@type": "Organization",
+    "name": "KRAS Comutation",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://project-notebook-comutation.netlify.com/img/icon-512.png"
+    }
+  },
+  "description": "Testing for genetic interactions in human tumor samples based on their mutational patterns."
+}
+</script>
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+
+  <title>Comutation and Mutual Exclusivity | KRAS Comutation</title>
+
+</head>
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" >
+
+  <aside class="search-results" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        <input name="q" id="search-query" placeholder="Search..." autocapitalize="off"
+        autocomplete="off" autocorrect="off" spellcheck="false" type="search">
+        
+      </div>
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+  
+<nav class="navbar navbar-light fixed-top navbar-expand-lg py-0 compensate-for-scrollbar" id="navbar-main">
+  <div class="container">
+
+    
+      <a class="navbar-brand" href="/">KRAS Comutation</a>
+      
+      <button type="button" class="navbar-toggler" data-toggle="collapse"
+              data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+        <span><i class="fas fa-bars"></i></span>
+      </button>
+      
+
+    
+    <div class="collapse navbar-collapse" id="navbar">
+
+      
+      
+      <ul class="navbar-nav mr-auto">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#about"><span>About</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#projects"><span>Projects</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#notebook"><span>Notebook</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#timeline"><span>Timeline</span></a>
+        </li>
+
+        
+        
+
+      
+      </ul>
+      <ul class="navbar-nav ml-auto">
+      
+
+        
+
+        
+        <li class="nav-item">
+          <a class="nav-link js-search" href="#"><i class="fas fa-search" aria-hidden="true"></i></a>
+        </li>
+        
+
+        
+
+        
+        <li class="nav-item">
+          <a class="nav-link js-dark-toggle" href="#"><i class="fas fa-moon" aria-hidden="true"></i></a>
+        </li>
+        
+
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+  <article class="article article-project">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+  
+  
+<div class="article-container pt-3">
+  <h1>Comutation and Mutual Exclusivity</h1>
+
+  
+
+  
+    
+
+
+
+<div class="article-metadata">
+
+  
+  
+  
+  
+  <div>
+    
+
+
+
+  <span></span>
+
+  </div>
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+    
+    Oct 9, 2019
+  </span>
+  
+
+  
+
+  
+
+  
+  
+  
+
+  
+  
+
+  
+    
+
+  
+
+</div>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+</div>
+
+
+
+  <div class="article-container">
+
+    <div class="article-style">
+      
+
+<h2 id="overview">Overview</h2>
+
+<p><strong>Our hypothesis is that genes with comutate or be mutually exclusive with specific <em>KRAS</em> alleles depending on the biological properties of the allele.</strong>
+Comutation would occur when the additional mutation enhances the growth phenotype of the tumor.
+And example of this would be <em>KRAS</em>, <em>TP53</em>, and <em>CDKN2A</em> in PAAD.
+On the other hand, another gene and <em>KRAS</em> would mutate in a mutually exclusive pattern because doing so leads to a reduction in growth.
+A very strong example of this is the mutually exclusive activation mutations in <em>BRAF</em> and <em>KRAS</em>.</p>
+
+<h2 id="analysis">Analysis</h2>
+
+<h3 id="comutation">Comutation</h3>
+
+<p>To study comutation, we conducted a one-sided Fisher&rsquo;s exact test for association between each <em>KRAS</em> allele and all other genes.</p>
+
+<h3 id="mutual-exclusivity">Mutual Exclusivity</h3>
+
+<p>The Row-Column test for mutual exclusivity (the &ldquo;RC-test&rdquo;) was developed by the <a href="http://compbio.cs.brown.edu/projects/wext/" target="_blank">Raphael Lab</a> in 2016 and described in <a href="https://www.ncbi.nlm.nih.gov/pubmed/27587696" target="_blank"><em>A weighted exact test for mutually exclusive mutations in cancer</em> (Leiserson <em>et al.</em>, 2016)</a>.
+The software supplied with the paper searched for any groups of genes demonstrating mutually exclusive relationships, but took far too long to compute over all of our samples.
+Therefore, I implemented the RC-test in my own R package (in dev, <a href="https://github.com/jhrcook/wext" target="_blank">WeXT</a>) and used <a href="https://snakemake.readthedocs.io/en/stable/" target="_blank">Snakemake</a> to orchestrate the runs on O2 in parallel.
+Again, the test was run between each <em>KRAS</em> allele and all other genes.</p>
+
+<h3 id="high-level-visualization">High-level visualization</h3>
+
+<p>To provide a higher-level visualization of the results, the genetic interactions were displayed as a network.
+These are meant to be interpreted as &ldquo;clouds&rdquo; where the density of the cloud provides an idea of the number of interactions.</p>
+
+<p>I also created [UpSet plots]() to show the size and overlap of the sets.
+These can be interpreted as high-dimensional Venn diagrams.</p>
+
+<h3 id="analysis-of-biological-properties-of-the-genetic-interactors">Analysis of biological properties of the genetic interactors</h3>
+
+<p>I used <em>a priori</em> gene lists to identify any genes of interest that have detectable genetic interactions with the <em>KRAS</em> alleles.
+The lists were notable KEGG pathways, the physical interactors of <em>KRAS</em> from a BioID experiment conducted in <a href="https://www.ncbi.nlm.nih.gov/pubmed/?term=30639242" target="_blank">Kovalski <em>et al.</em>, 2019</a>, and the <a href="https://cancer.sanger.ac.uk/census" target="_blank">COSMIC Cancer Gene Consensus</a>.</p>
+
+<p>I also used Enrichr (<a href="https://www.ncbi.nlm.nih.gov/pubmed/23586463" target="_blank">Chen <em>et al.</em>, 2013</a>) to identify gene sets enriched in the interactors for each <em>KRAS</em> allele.</p>
+
+<h2 id="results">Results</h2>
+
+<p>The following figure shows the number of genes with a genetic interaction that was detected for each <em>KRAS</em> allele.
+For comutation, there had to be at least 3 comutation events to be included.
+For mutual exclusivity, the other gene had to be mutated at least 10 times in the cancer.
+For both tests, a p-value of 0.01 was used for the declaration of statistical significance.</p>
+
+<p>The plot shows that the number of detectable interactions increases with the number of samples, as expected.</p>
+
+<p><img src="/img/graphs/20_35_rc-fisher-comparison/rc_fisher_comparison_specific.svg" alt="" /></p>
+
+<p>The rest of the summary is subdivided by cancer.</p>
+
+<h3 id="coad">COAD</h3>
+
+<p>Below are the high-level visualizations of the genetic interactions.
+The alleles tend to be connected by mutual exclusive interactions (instead of comutation interactions).
+Each allele also has their own set of comutation and mutually exclusive interactors.</p>
+
+<p><img src="/img/graphs/20_40_highlivel-genetic-interactions/genetic_interaction_network_COAD.svg" alt="" /></p>
+
+<p><img src="/img/graphs/20_40_highlivel-genetic-interactions/COAD_comutation_upset.svg" alt="" /></p>
+
+<p><img src="/img/graphs/20_40_highlivel-genetic-interactions/COAD_exclusivity_upset.svg" alt="" /></p>
+
+<p>The network below shows all of the interactions with genes in the <em>a priori</em> lists.
+As expected, <em>BRAF</em> is strongly mutually exclusive with many of the alleles and <em>PIK3CA</em> and <em>APC</em> comutate with several alleles, too.
+Surprisingly, G12D and G13D are mutually exclusive with <em>TP53</em>.
+A146T has two interesting comutation interactions with <em>PORCN</em> and <em>MAP3K1</em>.
+G12V has a very strong comutation interaction with <em>SMAD4</em>.
+G12C has a strong comutation interaction with <em>RAPGEF2</em>.
+G12S (bottom left) has a comutation interaction with <em>SMAD3</em>.</p>
+
+<p><img src="/img/graphs/20_43_apriori-lists-genetic-interactions/goi_overlap_genetic_interactions_network_COAD_allLists.svg" alt="" /></p>
+
+<p>The KEGG pathway gene set was very informative.
+Notably, G13D was enriched for the mTOR pathway, including <em>RICTOR</em> as shown in the above network.
+The genes with interactions with G12D are enriched in adhesion pathways (&ldquo;Regulation of actin cytoskeleton&rdquo; and &ldquo;Focal adhesion&rdquo;, &ldquo;Leukocyte TEM&rdquo;), possibly linked to the enrichment for the Rap1 signaling pathway.
+Many of the alleles have interactions with genes involved in ERBB signaling.</p>
+
+<p><img src="/img/graphs/20_45_fxnal-enrich-genetic-interactions/enrichr_COAD_KEGG_2019_Human.svg" alt="" /></p>
+
+<p>Also of note, but not shown graphically here, the physical interactors of SMAD2, a transcription factor, were found to be enriched in the G12D genetic interactors by two different gene sets.</p>
+
+<hr />
+
+<h3 id="luad">LUAD</h3>
+
+    </div>
+
+    
+
+<div class="article-tags">
+  
+  <a class="badge badge-light" href="/tags/comutation/">comutation</a>
+  
+  <a class="badge badge-light" href="/tags/kras/">KRAS</a>
+  
+</div>
+
+
+    
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+
+  </div>
+</article>
+
+
+
+      
+
+    
+    
+    
+    <script src="/js/mathjax-config.js"></script>
+    
+
+    
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js" integrity="sha256-lqvxZrPLtfffUl2G/e7szqSvPBILGbwmsGE1MKlOi0Q=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js" integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" integrity="sha256-X5PoE3KU5l+JcX+w09p/wHl9AzK333C4hJ2I9S5mD4M=" crossorigin="anonymous"></script>
+
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/8.0.0/mermaid.min.js" integrity="sha256-0w92bcB21IY5+rGI84MGj52jNfHNbXVeQLrZ0CGdjNY=" crossorigin="anonymous" title="mermaid"></script>
+      
+
+      
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js" integrity="sha256-aYTdUrn6Ow1DDgh5JTc3aDGnnju48y/1c8s1dgkYPQ8=" crossorigin="anonymous"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/r.min.js"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/bash.min.js"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/sh.min.js"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/python.min.js"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/swift.min.js"></script>
+        
+      
+
+      
+      
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS_CHTML-full" integrity="sha256-GhM+5JHb6QUzOQPXSJLEWP7R73CbkisjzK5Eyij4U9w=" crossorigin="anonymous" async></script>
+      
+    
+
+    
+    
+
+    
+    
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+    <script>
+      const search_index_filename = "/index.json";
+      const i18n = {
+        'placeholder': "Search...",
+        'results': "results found",
+        'no_results': "No results found"
+      };
+      const content_type = {
+        'post': "Posts",
+        'project': "Projects",
+        'publication' : "Publications",
+        'talk' : "Talks"
+        };
+    </script>
+    
+
+    
+    
+
+    
+    
+    <script id="search-hit-fuse-template" type="text/x-template">
+      <div class="search-hit" id="summary-{{key}}">
+      <div class="search-hit-content">
+        <div class="search-hit-name">
+          <a href="{{relpermalink}}">{{title}}</a>
+          <div class="article-metadata search-hit-type">{{type}}</div>
+          <p class="search-hit-description">{{snippet}}</p>
+        </div>
+      </div>
+      </div>
+    </script>
+    
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.1/fuse.min.js" integrity="sha256-VzgmKYmhsGNNN4Ph1kMW+BjoYJM2jV5i4IlFoeZA9XI=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+    
+
+    
+    
+
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    
+    
+    
+    <script src="/js/academic.min.0bf1e3db85cbb232372ed31d6f10dc70.js"></script>
+
+    
+
+
+
+
+
+
+  
+  <div class="container">
+    <footer class="site-footer">
+  
+
+  <p class="powered-by">
+    
+
+    Powered by the
+    <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+    <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+    
+    <span class="float-right" aria-hidden="true">
+      <a href="#" class="back-to-top">
+        <span class="button_icon">
+          <i class="fas fa-chevron-up fa-2x"></i>
+        </span>
+      </a>
+    </span>
+    
+  </p>
+</footer>
+
+  </div>
+  
+
+  
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
