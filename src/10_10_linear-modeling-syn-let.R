@@ -1,13 +1,23 @@
 
 library(ggpubr)
-library(glue)
+
 
 #### ---- Linear Model 1 ---- ####
+# The first model is a simple two-step process. First, the depletion effect is
+# regressed on the RNA expression of the target gene. If this fails to explain
+# the gene effect (this model is not significant), then an ANOVA and pair-wise
+# test is performed over the alleles.
+
+
 info(logger, "Beginning linear model 1.")
 
+
+# put the alleles in the correct order of turning into factors
+#   if there is WT, put that first
+#   all of the other alleles are in alphabetical order
 get_allele_factor_levels <- function(als) {
     if (any(als == "WT")) {
-        all_but_wt <- als[als != "WT"] %>% sort()
+        all_but_wt <- sort(als[als != "WT"])
         return(c("WT", all_but_wt))
     } else {
         return(sort(als))
@@ -15,6 +25,10 @@ get_allele_factor_levels <- function(als) {
 }
 
 
+# prepare the data for the first linear model
+#   put alleles as factors
+#   dummy variable for if the gene is mutated
+#   scale the RNA expression to mean of 0 and std. dev. of 1
 lm1_prepare_data <- function(tib) {
     allele_levels <- get_allele_factor_levels(unique(tib$allele))
     mod_tib <- tib %>%
@@ -29,6 +43,7 @@ lm1_prepare_data <- function(tib) {
 }
 
 
+# linear model on RNA expression
 lm_on_rna <- function(data, ...) {
     data_mod <- lm1_prepare_data(data)
     fit <- lm(gene_effect ~ rna_scaled, data = data_mod)
@@ -36,6 +51,7 @@ lm_on_rna <- function(data, ...) {
 }
 
 
+# does the linear model on RNA have a significant p-value? (returns Boolean)
 rna_pvalue_is_significant <- function(pval, cutoff = 0.01) {
     if (is.na(pval)) { return(FALSE) }
     if (pval < cutoff) { return(TRUE) }
@@ -43,6 +59,8 @@ rna_pvalue_is_significant <- function(pval, cutoff = 0.01) {
 }
 
 
+# ANOVA on the alleles
+#   only done if the RNA expression of the gene does not explain its effect
 anova_wrapper <- function(data, rna_pvalue, ...) {
     if (rna_pvalue_is_significant(rna_pvalue)) { return(NA) }
 
@@ -52,6 +70,8 @@ anova_wrapper <- function(data, rna_pvalue, ...) {
 }
 
 
+# Kruskal-Wallis rank sum test on the alleles
+#   only done if the RNA expression of the gene does not explain its effect
 kruskal_wrapper <- function(data, rna_pvalue, ...) {
     if (rna_pvalue_is_significant(rna_pvalue)) { return(NA) }
 
@@ -61,6 +81,8 @@ kruskal_wrapper <- function(data, rna_pvalue, ...) {
 }
 
 
+# conduct a pair-wise comparison on each pair of alleles
+#   only done if the RNA expression of the gene does not explain its effect
 pairwise_wrapper <- function(data, rna_pvalue, ...) {
     if (rna_pvalue_is_significant(rna_pvalue)) { return(NA) }
 
@@ -71,6 +93,7 @@ pairwise_wrapper <- function(data, rna_pvalue, ...) {
     return(res)
 }
 
+# conduct the first modeling attempt
 model1_tib <- model_data %>%
     filter(!cancer %in% c("MM", "SKCM")) %>%
     filter(!(cancer == "LUAD" & allele == "G13D")) %>%
@@ -85,8 +108,13 @@ model1_tib <- model_data %>%
         allele_pairwise = map2(data, rna_pvalue, pairwise_wrapper)
     )
 
+info(logger, "Caching results of model 1.")
+cache("model1_tib")
 
-plot_pairwise_test_results <- function(hugo_symbol, cancer, data, allele_aov, allele_pairwise, ...) {
+
+# plot the results of the first ananlysis
+plot_pairwise_test_results <- function(hugo_symbol, cancer, data,
+                                       allele_aov, allele_pairwise, ...) {
     if (all(is.na(allele_aov)) | all(is.na(allele_pairwise))) { return() }
 
     if (tidy(allele_aov)$p.value[[1]] >= 0.01) { return() }
@@ -137,7 +165,7 @@ plot_pairwise_test_results <- function(hugo_symbol, cancer, data, allele_aov, al
 
 
 # directory for save images
-plot_save_dir <- plot_path("10_10_linear-modeling-syn-let_bosplots")
+plot_save_dir <- plot_path("10_10_linear-modeling-syn-let_boxplots")
 if (!dir.exists(plot_save_dir)) {
     info(logger, glue("Making directory for saving boxplots: {plot_save_dir}"))
     dir.create(plot_save_dir)
@@ -145,3 +173,107 @@ if (!dir.exists(plot_save_dir)) {
 
 model1_tib %>%
     pwalk(plot_pairwise_test_results)
+
+
+
+
+
+cancer_pheatmap_manager <- list(
+    COAD = list(
+        col_cuts = 4,
+        row_cuts = 6
+    ),
+    LUAD = list(
+        col_cuts = 2,
+        row_cuts = 4
+    ),
+    PAAD = list(
+        col_cuts = 3,
+        row_cuts = 4
+    )
+)
+
+prep_pheatmap_df <- function(data) {
+    df <- data %>%
+        group_by(hugo_symbol) %>%
+        mutate(gene_effect_scaled = scale(gene_effect)[, 1]) %>%
+        ungroup() %>%
+        select(hugo_symbol, dep_map_id, gene_effect_scaled) %>%
+        unique() %>%
+        group_by(hugo_symbol, dep_map_id) %>%
+        filter(n() == 1) %>%
+        ungroup() %>%
+        pivot_wider(
+            names_from = dep_map_id,
+            values_from = gene_effect_scaled) %>%
+        column_to_rownames("hugo_symbol")
+    invisible(df)
+}
+
+
+merge_wt <- function(df, data) {
+    wt_samples <- data %>%
+        filter(allele == "WT") %>%
+        pull(dep_map_id) %>%
+        unique()
+    wt_df <- apply(df[, wt_samples], 1, mean, na.rm = TRUE)
+    new_df <- df[, !colnames(df) %in% wt_samples]
+    new_df$WT <- wt_df
+    return(new_df)
+}
+
+plot_cancer_heatmaps <- function(cancer, data) {
+
+    df <- prep_pheatmap_df(data)
+
+    if (cancer == "LUAD") {
+        df <- merge_wt(df = df, data = data)
+    }
+
+    row_hclust <- hclust(dist(df))
+    col_hclust <- hclust(dist(t(df)))
+
+    df[df > 2] <- 2
+    df[df < -2] <- -2
+
+    col_anno <- data %>%
+        select(dep_map_id, allele) %>%
+        unique() %>%
+        column_to_rownames("dep_map_id")
+
+    if (cancer == "LUAD") {
+        wt_anno_df <- data.frame(allele = "WT")
+        rownames(wt_anno_df) <- "WT"
+        col_anno <- rbind(col_anno, wt_anno_df)
+    }
+
+    anno_pal <- list(allele = short_allele_pal[unique(col_anno$allele)])
+
+    ph <- pheatmap::pheatmap(
+        df,
+        cluster_rows = row_hclust,
+        cluster_cols = col_hclust,
+        annotation_col = col_anno,
+        annotation_colors = anno_pal,
+        cutree_rows = cancer_pheatmap_manager[[cancer]]$row_cuts,
+        cutree_cols = cancer_pheatmap_manager[[cancer]]$col_cuts,
+        show_rownames = FALSE,
+        silent = TRUE
+    )
+
+    save_path <- plot_path("10_10_linear-modeling-syn-let_pheatmaps",
+                           glue("{cancer}_pheatmap.svg"))
+    save_pheatmap_svg(ph, save_path, width = 7, height = 9)
+}
+
+
+# make a heatmap for the genes in each cancer
+model1_tib %>%
+    filter(rna_pvalue > 0.01) %>%
+    mutate(aov_p_val = purrr::map_dbl(allele_aov, ~ tidy(.x)$p.value[[1]])) %>%
+    filter(aov_p_val < 0.05) %>%
+    select(hugo_symbol, cancer, data) %>%
+    unnest(data) %>%
+    group_by(cancer) %>%
+    nest() %>%
+    purrr::pwalk(plot_cancer_heatmaps)
