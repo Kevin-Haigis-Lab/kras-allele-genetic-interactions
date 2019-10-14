@@ -45,7 +45,7 @@ Again, the test was run between each &lt;em&gt;KRAS&lt;/em&gt; allele and all ot
 &lt;p&gt;To provide a higher-level visualization of the results, the genetic interactions were displayed as a network.
 These are meant to be interpreted as &amp;ldquo;clouds&amp;rdquo; where the density of the cloud provides an idea of the number of interactions.&lt;/p&gt;
 
-&lt;p&gt;I also created [UpSet plots]() to show the size and overlap of the sets.
+&lt;p&gt;I also created &lt;a href=&#34;https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4720993/&#34; target=&#34;_blank&#34;&gt;UpSet plots&lt;/a&gt; to show the size and overlap of the sets.
 These can be interpreted as high-dimensional Venn diagrams.&lt;/p&gt;
 
 &lt;h3 id=&#34;analysis-of-biological-properties-of-the-genetic-interactors&#34;&gt;Analysis of biological properties of the genetic interactors&lt;/h3&gt;
@@ -68,10 +68,10 @@ For both tests, a p-value of 0.01 was used for the declaration of statistical si
 
 &lt;p&gt;The rest of the summary is subdivided by cancer.&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&#34;#COAD&#34;&gt;COAD&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&#34;#LUAD&#34;&gt;LUAD&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&#34;#MM&#34;&gt;MM&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&#34;#PAAD&#34;&gt;PAAD&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#coad&#34;&gt;COAD&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;#luad&#34;&gt;LUAD&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;#mm&#34;&gt;MM&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;#paad&#34;&gt;PAAD&lt;/a&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;coad&#34;&gt;COAD&lt;/h3&gt;
 

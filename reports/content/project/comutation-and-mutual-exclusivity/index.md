@@ -67,7 +67,7 @@ Again, the test was run between each *KRAS* allele and all other genes.
 To provide a higher-level visualization of the results, the genetic interactions were displayed as a network.
 These are meant to be interpreted as "clouds" where the density of the cloud provides an idea of the number of interactions.
 
-I also created [UpSet plots]() to show the size and overlap of the sets.
+I also created [UpSet plots](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4720993/) to show the size and overlap of the sets.
 These can be interpreted as high-dimensional Venn diagrams.
 
 ### Analysis of biological properties of the genetic interactors
@@ -92,10 +92,10 @@ The plot shows that the number of detectable interactions increases with the num
 
 The rest of the summary is subdivided by cancer.
 
-[COAD](#COAD)  
-[LUAD](#LUAD)  
-[MM](#MM)  
-[PAAD](#PAAD)   
+[COAD](#coad)  
+[LUAD](#luad)  
+[MM](#mm)  
+[PAAD](#paad)   
 
 
 ### COAD
