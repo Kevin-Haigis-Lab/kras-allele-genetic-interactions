@@ -92,7 +92,8 @@ uniteresting_terms_regex <- c(
       "Hepatitis", "infection", "virus", "viral",
       "circulatory", "nervous", "neuro",
       "alcohol", "carcinoma", "microglia", "melanoma", "thyroid",
-      "blastoma", "autism", "oocyte", "depression"
+      "blastoma", "autism", "oocyte", "depression", "spinal",
+      "syndrome", "photodynamic", "caffeine"
 ) %>%
     paste0(collapse = "|") %>%
     regex(ignore_case = TRUE, dotall = TRUE)
