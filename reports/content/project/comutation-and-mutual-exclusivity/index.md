@@ -172,3 +172,36 @@ There are several Ras-related processes enriched in the G12C interactors.
 ![](/img/graphs/20_45_fxnal-enrich-genetic-interactions/enrichr_LUAD_GO_Biological_Process_2018.svg)
 
 ---
+
+### MM
+
+Below are the high-level visualizations of the genetic interactions.
+There were not very many hits for multiple myeloma and very little overlap of the interacting genes between *KRAS* alleles.
+
+![](/img/graphs/20_40_highlivel-genetic-interactions/genetic_interaction_network_MM.svg)
+
+![](/img/graphs/20_40_highlivel-genetic-interactions/MM_comutation_upset.svg)
+
+![](/img/graphs/20_40_highlivel-genetic-interactions/MM_exclusivity_upset.svg)
+
+Below is the network of genetic interactions for genes in the *a priori* lists.
+There is a detectable mutually exclusive interaction between Q61H and *BRAF*, though it is documented that MM can be highly multi-clonal.
+Therefore, there are often subpopulations of *KRAS* mutants and *BRAF* mutants within a single disease.
+This is likely true for KRAS and other genes, making the interpretation of these results difficult. 
+
+![](/img/graphs/20_43_apriori-lists-genetic-interactions/goi_overlap_genetic_interactions_network_MM_allLists.svg)
+
+There was little evidence for functional enrichment in these genes.
+
+---
+
+### PAAD
+
+Below are the high-level visualizations of the genetic interactions.
+There were not very many hits for multiple myeloma and very little overlap of the interacting genes between *KRAS* alleles.
+
+![](/img/graphs/20_40_highlivel-genetic-interactions/genetic_interaction_network_PAAD.svg)
+
+![](/img/graphs/20_40_highlivel-genetic-interactions/PAAD_comutation_upset.svg)
+
+![](/img/graphs/20_40_highlivel-genetic-interactions/PAAD_exclusivity_upset.svg)
