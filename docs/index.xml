@@ -690,6 +690,80 @@ There are several Ras-related processes enriched in the G12C interactors.&lt;/p&
 &lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_45_fxnal-enrich-genetic-interactions/enrichr_LUAD_GO_Biological_Process_2018.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;hr /&gt;
+
+&lt;h3 id=&#34;mm&#34;&gt;MM&lt;/h3&gt;
+
+&lt;p&gt;Below are the high-level visualizations of the genetic interactions.
+There were not very many hits for multiple myeloma and very little overlap of the interacting genes between &lt;em&gt;KRAS&lt;/em&gt; alleles.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_40_highlivel-genetic-interactions/genetic_interaction_network_MM.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_40_highlivel-genetic-interactions/MM_comutation_upset.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_40_highlivel-genetic-interactions/MM_exclusivity_upset.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Below is the network of genetic interactions for genes in the &lt;em&gt;a priori&lt;/em&gt; lists.
+There is a detectable mutually exclusive interaction between Q61H and &lt;em&gt;BRAF&lt;/em&gt;, though it is documented that MM can be highly multi-clonal.
+Therefore, there are often subpopulations of &lt;em&gt;KRAS&lt;/em&gt; mutants and &lt;em&gt;BRAF&lt;/em&gt; mutants within a single disease.
+This is likely true for KRAS and other genes, making the interpretation of these results difficult.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_43_apriori-lists-genetic-interactions/goi_overlap_genetic_interactions_network_MM_allLists.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;There was little evidence for functional enrichment in these genes.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&#34;paad&#34;&gt;PAAD&lt;/h3&gt;
+
+&lt;p&gt;Below are the high-level visualizations of the genetic interactions.
+There were many allele-specific comutation and mutually exclusive interactions detected in PAAD.
+Further or more strict thresholds may be applied in future analyses to reduce false-positives.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_40_highlivel-genetic-interactions/genetic_interaction_network_PAAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_40_highlivel-genetic-interactions/PAAD_comutation_upset.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_40_highlivel-genetic-interactions/PAAD_exclusivity_upset.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Below are the interaction networks for genes in the &lt;em&gt;a priori&lt;/em&gt; gene lists.&lt;/p&gt;
+
+&lt;p&gt;The first is of genes found to directly interact with &lt;em&gt;KRAS&lt;/em&gt; in the CGC.
+Along with &lt;em&gt;BRAF&lt;/em&gt;, there were some unexpected genes found to be mutually exclusive with multiple alleles.
+Interestingly, &lt;em&gt;RNF43&lt;/em&gt; was foound to be mutually exclusive with G12R, but comutates with G12D. &lt;em&gt;RNF43&lt;/em&gt; is &amp;ldquo;E3 ubiquitin-protein ligase that acts as a &lt;strong&gt;negative regulator of the Wnt signaling pathway&lt;/strong&gt; by mediating the &amp;hellip; degradation of &amp;hellip; Frizzled,&amp;rdquo; (&lt;a href=&#34;https://www.uniprot.org/uniprot/Q68DV7&#34; target=&#34;_blank&#34;&gt;UniProt Q68DV7&lt;/a&gt;).
+In addition, &lt;em&gt;TP53&lt;/em&gt; is mutually exclusive with G12V, but comutates with Q61H and G12D.
+This is interesting because of the general perception that both KRAS and TP53 mutations are quintessential steps of PAAD progression.
+&lt;em&gt;SMARCA4&lt;/em&gt; is strongly mutually exclusive with G12R.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_43_apriori-lists-genetic-interactions/goi_overlap_genetic_interactions_network_PAAD_cgc.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The following is the network of genetic interactions with genes found to directly interact with &lt;em&gt;KRAS&lt;/em&gt;.
+One of the strongest interactions is between G12V and &lt;em&gt;ATP2B1&lt;/em&gt;, the protein product of which helps regulate intracellular calcium levels at the plasma membrane.
+Another strong interaction is the mutually exclusive relationship between G12D and &lt;em&gt;NF1&lt;/em&gt;.
+The obvious mechanism to propose for this is the same as that for &lt;em&gt;BRAF&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_43_apriori-lists-genetic-interactions/goi_overlap_genetic_interactions_network_PAAD_BioID.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The next genetic network is of the genes from select KEGG pathways.
+An interaction that really pops out is the strong comutation between Q61K and &lt;em&gt;MAP3K13&lt;/em&gt; and compared to the mutually exclusive relationships between G12V and G12R and the same gene.
+A similar case of conflicting interactions is found with &lt;em&gt;MAP2K4&lt;/em&gt; where it comutates with Q61R and is mutually exclusive with G12D.
+G12D strongly comutates with &lt;em&gt;TGFBR2&lt;/em&gt; - this transmembrane S/T-kinase activates SMAD2/4 when it binds with the cytokines TGFB1/2/3 (&lt;a href=&#34;https://www.uniprot.org/uniprot/P37173&#34; target=&#34;_blank&#34;&gt;UniProt P37173&lt;/a&gt;).
+&lt;em&gt;JAG2&lt;/em&gt; is found to comutate with G12R, yet is mutually exclusive with G12V.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_43_apriori-lists-genetic-interactions/goi_overlap_genetic_interactions_network_PAAD_kegg.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Two gene sets with interesting results from the enrichment analysis are shown below.
+The top is of kinases whose substrates are overrepresented in the associations, and the bottom is of Panther pathways.&lt;/p&gt;
+
+&lt;p&gt;There are a lot of substrates for the kinase PKA C-$\alpha$ (gene &lt;em&gt;PRKACA&lt;/em&gt;) that have genetic interactions with G12D and G12V.
+This kinase is involved in many cellular functions including Hedgehog and NF$\kappa$B signaling.
+The substrates of Akt1 are also overrepresented in the genes with genetic interactions with G12D.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_45_fxnal-enrich-genetic-interactions/enrichr_PAAD_KEA_2015.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Many genes involved in Wnt signaling have genetic interactions with several alleles.
+Genes of the EGFR pathway have many interactions with G12D.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_45_fxnal-enrich-genetic-interactions/enrichr_PAAD_Panther_2016.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 </description>
     </item>
     
