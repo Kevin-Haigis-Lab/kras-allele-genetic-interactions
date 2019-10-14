@@ -102,6 +102,49 @@ Many of the alleles have interactions with genes involved in ERBB signaling.&lt;
 &lt;hr /&gt;
 
 &lt;h3 id=&#34;luad&#34;&gt;LUAD&lt;/h3&gt;
+
+&lt;p&gt;Below are the high-level visualizations of the genetic interactions.
+The alleles tend to be connected by mutual exclusive interactions (instead of comutation interactions).
+This is especially true for G12C, G12V, and G12D.
+Each allele also has their own set of comutation and mutually exclusive interactors.
+There are many genes that are mutually exclusive with one allele and comutate with another.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_40_highlivel-genetic-interactions/genetic_interaction_network_LUAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_40_highlivel-genetic-interactions/LUAD_comutation_upset.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_40_highlivel-genetic-interactions/LUAD_exclusivity_upset.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The genetic interaction networks with genes in the &lt;em&gt;a prior&lt;/em&gt; lists are divided in to the KEGG pathways (top) and the CGC (bottom).
+There are very strong mutually exclusive relationships between &lt;em&gt;EGFR&lt;/em&gt;, &lt;em&gt;BRAF&lt;/em&gt;, and &lt;em&gt;TP53&lt;/em&gt;, as expected.
+Also, there is a strong comutation interaction between G12C and &lt;em&gt;STK11&lt;/em&gt;.
+In the CGC network, it appears that G12C is mutually exclusive with &lt;em&gt;CTNNB1&lt;/em&gt; ($\beta$-catenin).
+G12C also is mutually exclusive with three different genes involved in voltage-gated calcium channels.
+G12C is mutually exclusive with &lt;em&gt;JAG2&lt;/em&gt; and comutates with &lt;em&gt;NOTCH1&lt;/em&gt; suggesting a special relationship with the Notch signaling pathway.
+The three alleles linked to the smoking mutational signature, G12A/C/V, and Q61L have strong comutation interactions with ATM.
+There are several comutation interactions that are unexpected, namely between G12D and G12R with &lt;em&gt;NKX2-1&lt;/em&gt;, Homeobox protein Nkx-2.1.
+This gene is a &amp;ldquo;transcription factor that binds and activates the promoter of thyroid specific genes,&amp;rdquo; and &amp;ldquo;may play a role in lung development and surfactant homeostasis,&amp;rdquo; (&lt;a href=&#34;https://www.uniprot.org/uniprot/P43699&#34; target=&#34;_blank&#34;&gt;UniProt P43699&lt;/a&gt;).
+Another interesting relationship is that &lt;em&gt;KRAP1&lt;/em&gt; comutates with G13D and G13C, but is mutually exclusive with G12V and G12C.
+This could indicate an codon-specific property of hyperactivated &lt;em&gt;KRAS&lt;/em&gt; in LUAD.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_43_apriori-lists-genetic-interactions/goi_overlap_genetic_interactions_network_LUAD_kegg.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_43_apriori-lists-genetic-interactions/goi_overlap_genetic_interactions_network_LUAD_cgc.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The results of an enrichment analysis using a gene set of PPI hub proteins are shown first.
+The physical interactors with $\beta$&lt;em&gt;-catenin&lt;/em&gt; and SMARC4 are enriched in the interactors of G12C.
+The interactors of PKC-$\alpha$ (gene &lt;em&gt;PKRCA&lt;/em&gt;) are enriched in G12V genetic interactions.
+PKC-$\alpha$ is a &amp;ldquo;calcium-activated, phospholipid- and diacylglycerol (DAG)-dependent serine/threonine-protein kinase that is involved in positive and negative regulation of cell proliferation, apoptosis, differentiation, migration and adhesion, tumorigenesis, cardiac hypertrophy, angiogenesis, platelet function and inflammation, by directly phosphorylating targets such as RAF1, BCL2, CSPG4, TNNT2/CTNT, or activating signaling cascade involving MAPK1/3 (ERK1/2) and RAP1GAP,&amp;rdquo; (&lt;a href=&#34;https://www.uniprot.org/uniprot/P17252&#34; target=&#34;_blank&#34;&gt;UniProt P17252&lt;/a&gt;).&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_45_fxnal-enrich-genetic-interactions/enrichr_LUAD_PPI_Hub_Proteins.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The results of an enrichment analysis using a gene set of GO Biological Processes are shown below.
+G12A seems to have an enrichment for genes involved in P53-mediated cell cycle arrest.
+There are several Ras-related processes enriched in the G12C interactors.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_45_fxnal-enrich-genetic-interactions/enrichr_LUAD_GO_Biological_Process_2018.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
 </description>
     </item>
     
