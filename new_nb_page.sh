@@ -24,7 +24,6 @@ image:
 projects: []
 ---
 
-
 "
 
 echo "$templateFile" > $newFileName
