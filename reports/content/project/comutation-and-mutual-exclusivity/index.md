@@ -92,6 +92,11 @@ The plot shows that the number of detectable interactions increases with the num
 
 The rest of the summary is subdivided by cancer.
 
+[COAD](#COAD)  
+[LUAD](#LUAD)  
+[MM](#MM)  
+[PAAD](#PAAD)   
+
 
 ### COAD
 
