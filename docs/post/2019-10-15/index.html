@@ -28,10 +28,16 @@
   
     
   
-  <meta name="description" content="">
+  <meta name="description" content="GSEA of DepMap The script &ldquo;src/10_30_gsea-depmap-preparation.R&rdquo; prepares the input data for GSEA.
+The bash script &ldquo;src/10_35_gsea-depmap.sh&rdquo; runs all of the GSEA tests.
+Data preparation GSEA User Guide
+GSEA Data Formats
+Expression Data Set
+It is a tab-delimted file (extension .txt) with the following format:
+   NAME DESCRIPTION sample1 sample2 sample3     gene1 na      gene2 na       For this analysis, the DepMap gene effect values are used in place of RNA expression.">
 
   
-  <link rel="alternate" hreflang="en-us" href="https://project-notebook-comutation.netlify.com/post/">
+  <link rel="alternate" hreflang="en-us" href="https://project-notebook-comutation.netlify.com/post/2019-10-15/">
 
   
 
@@ -94,14 +100,12 @@
 
 
   
-  <link rel="alternate" href="/post/index.xml" type="application/rss+xml" title="KRAS Comutation">
-  
 
   <link rel="manifest" href="/index.webmanifest">
   <link rel="icon" type="image/png" href="/img/icon-32.png">
   <link rel="apple-touch-icon" type="image/png" href="/img/icon-192.png">
 
-  <link rel="canonical" href="https://project-notebook-comutation.netlify.com/post/">
+  <link rel="canonical" href="https://project-notebook-comutation.netlify.com/post/2019-10-15/">
 
   
   
@@ -114,18 +118,71 @@
   <meta property="twitter:card" content="summary">
   
   <meta property="og:site_name" content="KRAS Comutation">
-  <meta property="og:url" content="https://project-notebook-comutation.netlify.com/post/">
-  <meta property="og:title" content="Posts | KRAS Comutation">
-  <meta property="og:description" content=""><meta property="og:image" content="https://project-notebook-comutation.netlify.com/img/icon-192.png">
+  <meta property="og:url" content="https://project-notebook-comutation.netlify.com/post/2019-10-15/">
+  <meta property="og:title" content="2019-10-15 | KRAS Comutation">
+  <meta property="og:description" content="GSEA of DepMap The script &ldquo;src/10_30_gsea-depmap-preparation.R&rdquo; prepares the input data for GSEA.
+The bash script &ldquo;src/10_35_gsea-depmap.sh&rdquo; runs all of the GSEA tests.
+Data preparation GSEA User Guide
+GSEA Data Formats
+Expression Data Set
+It is a tab-delimted file (extension .txt) with the following format:
+   NAME DESCRIPTION sample1 sample2 sample3     gene1 na      gene2 na       For this analysis, the DepMap gene effect values are used in place of RNA expression."><meta property="og:image" content="https://project-notebook-comutation.netlify.com/img/icon-192.png">
   <meta property="twitter:image" content="https://project-notebook-comutation.netlify.com/img/icon-192.png"><meta property="og:locale" content="en-us">
   
-    <meta property="og:updated_time" content="2019-10-15T00:00:00&#43;00:00">
+    
+      <meta property="article:published_time" content="2019-10-15T00:00:00&#43;00:00">
+    
+    <meta property="article:modified_time" content="2019-10-15T00:00:00&#43;00:00">
   
 
   
 
 
+    
 
+
+
+
+
+
+  
+
+
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://project-notebook-comutation.netlify.com/post/2019-10-15/"
+  },
+  "headline": "2019-10-15",
+  
+  "datePublished": "2019-10-15T00:00:00Z",
+  "dateModified": "2019-10-15T00:00:00Z",
+  
+  "author": {
+    "@type": "Person",
+    "name": "Comutation of KRAS"
+  },
+  
+  "publisher": {
+    "@type": "Organization",
+    "name": "KRAS Comutation",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://project-notebook-comutation.netlify.com/img/icon-512.png"
+    }
+  },
+  "description": "GSEA of DepMap The script \u0026ldquo;src/10_30_gsea-depmap-preparation.R\u0026rdquo; prepares the input data for GSEA.\nThe bash script \u0026ldquo;src/10_35_gsea-depmap.sh\u0026rdquo; runs all of the GSEA tests.\nData preparation GSEA User Guide\nGSEA Data Formats\nExpression Data Set\nIt is a tab-delimted file (extension .txt) with the following format:\n   NAME DESCRIPTION sample1 sample2 sample3     gene1 na      gene2 na       For this analysis, the DepMap gene effect values are used in place of RNA expression."
+}
+</script>
+
+  
 
   
 
@@ -133,10 +190,13 @@
   
 
 
+  
 
 
 
-  <title>Posts | KRAS Comutation</title>
+
+
+  <title>2019-10-15 | KRAS Comutation</title>
 
 </head>
 
@@ -339,78 +399,33 @@
 </nav>
 
 
-  
-
-
-
-
-
-
-
-
-
-
-
+  <article class="article">
 
   
 
+
+
+
+
+
+
+
+
+
+
+
+  
+
   
   
+  
+<div class="article-container pt-3">
+  <h1>2019-10-15</h1>
+
+  
+
   
     
-  
-<div class="universal-wrapper pt-3">
-  <h1>Posts</h1>
-
-  
-
-  
-</div>
-
-
-
-<div class="universal-wrapper">
-
-  
-
-  
-  
-    
-      
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-<div class="media stream-item">
-  <div class="media-body">
-
-    <h3 class="article-title mb-0 mt-0">
-      <a href="/post/2019-10-03/" >2019-10-03</a>
-    </h3>
-
-    
-    <div class="article-style">
-      Analysis to remove genes that can confidently be removed (cont.) I finished up making confidently_unexpressed_genes (cached). I then …
-    </div>
-    
-
-    <div class="stream-meta article-metadata">
-
-      
-
-      
-        
 
 
 
@@ -424,10 +439,8 @@
     
     
       
-          Last updated on
-      
     
-    Oct 3, 2019
+    Oct 15, 2019
   </span>
   
 
@@ -448,25 +461,15 @@
   
 
   
-
-</div>
-
-      
-    </div>
-
     
 
-  </div>
-  <div class="ml-3">
-    
-    
-  </div>
-</div>
-
-    
   
+
+</div>
+
     
-      
+
+
 
 
 
@@ -480,366 +483,183 @@
 
 
   
+</div>
 
 
-<div class="media stream-item">
-  <div class="media-body">
 
-    <h3 class="article-title mb-0 mt-0">
-      <a href="/post/2019-10-02/" >2019-10-02</a>
-    </h3>
+  <div class="article-container">
 
-    
     <div class="article-style">
-      Analysis to remove genes that can confidently be removed This was originally done in the old analysis structure, so can mainly be …
+      
+
+<h2 id="gsea-of-depmap">GSEA of DepMap</h2>
+
+<p>The script &ldquo;src/10_30_gsea-depmap-preparation.R&rdquo; prepares the input data for GSEA.<br />
+The bash script &ldquo;src/10_35_gsea-depmap.sh&rdquo; runs all of the GSEA tests.</p>
+
+<h3 id="data-preparation">Data preparation</h3>
+
+<p><a href="http://software.broadinstitute.org/gsea/doc/GSEAUserGuideFrame.html" target="_blank">GSEA User Guide</a><br />
+<a href="http://software.broadinstitute.org/cancer/software/gsea/wiki/index.php/Data_formats" target="_blank">GSEA Data Formats</a></p>
+
+<p><strong>Expression Data Set</strong></p>
+
+<p>It is a tab-delimted file (extension <code>.txt</code>) with the following format:</p>
+
+<table>
+<thead>
+<tr>
+<th>NAME</th>
+<th>DESCRIPTION</th>
+<th>sample1</th>
+<th>sample2</th>
+<th>sample3</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>gene1</td>
+<td>na</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>gene2</td>
+<td>na</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+<p>For this analysis, the DepMap gene effect values are used in place of RNA expression.</p>
+
+<p><strong>Phenotype Labels</strong></p>
+
+<p>A normal text file with extension <code>.cls</code> and the following format:</p>
+
+<pre><code class="language-txt">{numberOfSamples} {numberOfClasses} 1
+# {class0Name} {class1Name}
+0 0 0 0 0 0 1 1 1 1 1
+</code></pre>
+
+<p><strong>Gene Sets</strong></p>
+
+<p>I downloaded gene sets from MSigDB to &ldquo;data/gsea/&rdquo; and added the directory to the ignore list.</p>
+
+<h3 id="running-gsea">Running GSEA</h3>
+
+<p>The following command runs the script.
+It first removes all of the previous results.</p>
+
+<pre><code class="language-bash">sbatch src/10_35_gsea-depmap.sh
+</code></pre>
+
+<h2 id="to-do-tomorrow">To-Do Tomorrow</h2>
+
+<p>Tomorrow, I need to parse the results of the GSEA and address the first portion of the To-Do from yesterday:</p>
+
+<blockquote>
+<p>Tomorrow, I would like to figure out a way of partitioning the allele-specific synthetic lethality hits so I can do a functional enrichment test. Perhaps, I can use the groups from the heatmap clusters.</p>
+</blockquote>
+
     </div>
+
     
 
-    <div class="stream-meta article-metadata">
 
+    
+
+
+
+    
       
 
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+  
+  
+  <div class="media author-card">
+    
       
+      <img class="portrait mr-3" src="/authors/admin/avatar_hu3d2b6d52e0d21b58bf5a8ffa816d54c8_538771_250x250_fill_lanczos_center_2.png" alt="Avatar">
+    
+
+    <div class="media-body">
+      <h5 class="card-title"><a href="/authors/admin/">Comutation of KRAS</a></h5>
+      
+      
+      <ul class="network-icon" aria-hidden="true">
         
-
-
-
-<div class="article-metadata">
-
-  
-  
-
-  
-  <span class="article-date">
-    
-    
-      
-          Last updated on
-      
-    
-    Oct 2, 2019
-  </span>
-  
-
-  
-
-  
-  <span class="middot-divider"></span>
-  <span class="article-reading-time">
-    2 min read
-  </span>
-  
-
-  
-  
-  
-
-  
-  
-
-  
-
-</div>
-
-      
-    </div>
-
-    
-
-  </div>
-  <div class="ml-3">
-    
-    
-  </div>
-</div>
-
-    
-  
-    
-      
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-<div class="media stream-item">
-  <div class="media-body">
-
-    <h3 class="article-title mb-0 mt-0">
-      <a href="/post/2019-09-30/" >2019-09-30</a>
-    </h3>
-
-    
-    <div class="article-style">
-      Munging DepMap 2019 Q3 release (cont.) Sample Info Information about all of the cell lines is available in …
-    </div>
-    
-
-    <div class="stream-meta article-metadata">
-
-      
-
-      
+          
+          
+          
+            
+          
+          
+          
+          
+          
+            
+          
+          <li>
+            <a href="/#contact" >
+              <i class="fas fa-envelope"></i>
+            </a>
+          </li>
         
-
-
-
-<div class="article-metadata">
-
-  
-  
-
-  
-  <span class="article-date">
-    
-    
-      
-          Last updated on
-      
-    
-    Sep 30, 2019
-  </span>
-  
-
-  
-
-  
-  <span class="middot-divider"></span>
-  <span class="article-reading-time">
-    3 min read
-  </span>
-  
-
-  
-  
-  
-
-  
-  
-
-  
-
-</div>
-
-      
-    </div>
-
-    
-
-  </div>
-  <div class="ml-3">
-    
-    
-  </div>
-</div>
-
-    
-  
-    
-      
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-<div class="media stream-item">
-  <div class="media-body">
-
-    <h3 class="article-title mb-0 mt-0">
-      <a href="/post/2019-09-28/" >2019-09-28</a>
-    </h3>
-
-    
-    <div class="article-style">
-      I am beginning the migration process from the only comutation directory to this project.
-Downloading DepMap 2019 Q3 release The first …
-    </div>
-    
-
-    <div class="stream-meta article-metadata">
-
-      
-
-      
+          
+          
+          
+            
+          
+          
+          
+          
+          
+            
+          
+          <li>
+            <a href="https://github.com/jhrcook/comutation" target="_blank" rel="noopener">
+              <i class="fab fa-github"></i>
+            </a>
+          </li>
         
-
-
-
-<div class="article-metadata">
-
-  
-  
-
-  
-  <span class="article-date">
-    
-    
-      
-          Last updated on
-      
-    
-    Sep 28, 2019
-  </span>
-  
-
-  
-
-  
-  <span class="middot-divider"></span>
-  <span class="article-reading-time">
-    2 min read
-  </span>
-  
-
-  
-  
-  
-
-  
-  
-
-  
-
-</div>
-
-      
+      </ul>
     </div>
+  </div>
+
+
+
+      
+      
+    
 
     
+
+    
+
 
   </div>
-  <div class="ml-3">
-    
-    
-  </div>
-</div>
-
-    
-  
-    
-      
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-<div class="media stream-item">
-  <div class="media-body">
-
-    <h3 class="article-title mb-0 mt-0">
-      <a href="/post/new-project-structure/" >2019-09-24 - New project structure</a>
-    </h3>
-
-    
-    <div class="article-style">
-      I have used the &lsquo;ProjectTemplate&rsquo; R package to build the framework for the analysis. I created a lab notebook in reports …
-    </div>
-    
-
-    <div class="stream-meta article-metadata">
-
-      
-
-      
-        
-
-
-
-<div class="article-metadata">
-
-  
-  
-
-  
-  <span class="article-date">
-    
-    
-      
-          Last updated on
-      
-    
-    Sep 24, 2019
-  </span>
-  
-
-  
-
-  
-  <span class="middot-divider"></span>
-  <span class="article-reading-time">
-    1 min read
-  </span>
-  
-
-  
-  
-  
-
-  
-  
-
-  
-
-</div>
-
-      
-    </div>
-
-    
-
-  </div>
-  <div class="ml-3">
-    
-    
-  </div>
-</div>
-
-    
-  
-
-  
-<nav>
-  <ul class="pagination justify-content-center">
-    
-    <li class="page-item"><a class="page-link" href="/post/">&laquo;</a></li>
-    
-    
-  </ul>
-</nav>
-
-
-
-</div>
+</article>
 
       
 

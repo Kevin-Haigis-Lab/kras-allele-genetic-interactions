@@ -106,6 +106,90 @@
     </item>
     
     <item>
+      <title>2019-10-15</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-10-15/</link>
+      <pubDate>Tue, 15 Oct 2019 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-10-15/</guid>
+      <description>
+
+&lt;h2 id=&#34;gsea-of-depmap&#34;&gt;GSEA of DepMap&lt;/h2&gt;
+
+&lt;p&gt;The script &amp;ldquo;src/10_30_gsea-depmap-preparation.R&amp;rdquo; prepares the input data for GSEA.&lt;br /&gt;
+The bash script &amp;ldquo;src/10_35_gsea-depmap.sh&amp;rdquo; runs all of the GSEA tests.&lt;/p&gt;
+
+&lt;h3 id=&#34;data-preparation&#34;&gt;Data preparation&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://software.broadinstitute.org/gsea/doc/GSEAUserGuideFrame.html&#34; target=&#34;_blank&#34;&gt;GSEA User Guide&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://software.broadinstitute.org/cancer/software/gsea/wiki/index.php/Data_formats&#34; target=&#34;_blank&#34;&gt;GSEA Data Formats&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Expression Data Set&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;It is a tab-delimted file (extension &lt;code&gt;.txt&lt;/code&gt;) with the following format:&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;NAME&lt;/th&gt;
+&lt;th&gt;DESCRIPTION&lt;/th&gt;
+&lt;th&gt;sample1&lt;/th&gt;
+&lt;th&gt;sample2&lt;/th&gt;
+&lt;th&gt;sample3&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;gene1&lt;/td&gt;
+&lt;td&gt;na&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;gene2&lt;/td&gt;
+&lt;td&gt;na&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;For this analysis, the DepMap gene effect values are used in place of RNA expression.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Phenotype Labels&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;A normal text file with extension &lt;code&gt;.cls&lt;/code&gt; and the following format:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-txt&#34;&gt;{numberOfSamples} {numberOfClasses} 1
+# {class0Name} {class1Name}
+0 0 0 0 0 0 1 1 1 1 1
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Gene Sets&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;I downloaded gene sets from MSigDB to &amp;ldquo;data/gsea/&amp;rdquo; and added the directory to the ignore list.&lt;/p&gt;
+
+&lt;h3 id=&#34;running-gsea&#34;&gt;Running GSEA&lt;/h3&gt;
+
+&lt;p&gt;The following command runs the script.
+It first removes all of the previous results.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;sbatch src/10_35_gsea-depmap.sh
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;to-do-tomorrow&#34;&gt;To-Do Tomorrow&lt;/h2&gt;
+
+&lt;p&gt;Tomorrow, I need to parse the results of the GSEA and address the first portion of the To-Do from yesterday:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Tomorrow, I would like to figure out a way of partitioning the allele-specific synthetic lethality hits so I can do a functional enrichment test. Perhaps, I can use the groups from the heatmap clusters.&lt;/p&gt;
+&lt;/blockquote&gt;
+</description>
+    </item>
+    
+    <item>
       <title>2019-10-14</title>
       <link>https://project-notebook-comutation.netlify.com/post/2019-10-14/</link>
       <pubDate>Mon, 14 Oct 2019 00:00:00 +0000</pubDate>
