@@ -1,6 +1,7 @@
 
 library(ggpubr)
 
+set.seed(0)
 
 #### ---- Linear Model 1 ---- ####
 # The first model is a simple two-step process. First, the depletion effect is
@@ -176,6 +177,7 @@ model1_tib %>%
 
 
 
+#### ---- Heatmaps ---- ####
 
 
 cancer_pheatmap_manager <- list(
@@ -241,6 +243,14 @@ plot_cancer_heatmaps <- function(cancer, data) {
         unique() %>%
         column_to_rownames("dep_map_id")
 
+    row_anno <- cutree(
+            row_hclust,
+            k = cancer_pheatmap_manager[[cancer]]$row_cuts
+        ) %>%
+        enframe(value = "cluster") %>%
+        mutate(cluster = factor(cluster)) %>%
+        column_to_rownames("name")
+
     if (cancer == "LUAD") {
         wt_anno_df <- data.frame(allele = "WT")
         rownames(wt_anno_df) <- "WT"
@@ -254,6 +264,7 @@ plot_cancer_heatmaps <- function(cancer, data) {
         cluster_rows = row_hclust,
         cluster_cols = col_hclust,
         annotation_col = col_anno,
+        annotation_row = row_anno,
         annotation_colors = anno_pal,
         cutree_rows = cancer_pheatmap_manager[[cancer]]$row_cuts,
         cutree_cols = cancer_pheatmap_manager[[cancer]]$col_cuts,
@@ -277,3 +288,99 @@ model1_tib %>%
     group_by(cancer) %>%
     nest() %>%
     purrr::pwalk(plot_cancer_heatmaps)
+
+
+
+#### ---- Functional annotation of heatmap gene (row) clusters ---- ####
+
+
+cluster_genes <- function(cancer, data) {
+    df <- prep_pheatmap_df(data)
+
+    if (cancer == "LUAD") {
+        df <- merge_wt(df = df, data = data)
+    }
+
+    gene_hclust <- hclust(dist(df))
+    gene_cls <- cutree(
+            gene_hclust,
+            k = cancer_pheatmap_manager[[cancer]]$row_cuts
+        ) %>%
+        enframe(name = "hugo_symbol", value = "gene_cls")
+
+    return(gene_cls)
+}
+
+# make a heatmap for the genes in each cancer
+tt <- model1_tib %>%
+    filter(rna_pvalue > 0.01) %>%
+    mutate(
+        aov_p_val = purrr::map_dbl(allele_aov, ~ broom::tidy(.x)$p.value[[1]])
+    ) %>%
+    filter(aov_p_val < 0.05) %>%
+    select(hugo_symbol, cancer, data) %>%
+    unnest(data) %>%
+    group_by(cancer) %>%
+    nest() %>%
+    mutate(cluster_tib = purrr::map2(cancer, data, cluster_genes))
+
+
+cluster_terms <- tt %>%
+    select(-data) %>%
+    unnest(cluster_tib) %>%
+    group_by(cancer, gene_cls) %>%
+    summarise(genes = list(hugo_symbol)) %>%
+    ungroup() %>%
+    mutate(enrichr_res = purrr::map(genes, enrichr_wrapper)) %>%
+    select(-genes) %>%
+    unnest(enrichr_res) %>%
+    filter(!str_detect(term, !!uniteresting_enrichr_regex)) %>%
+    mutate(n_genes = get_enrichr_overlap_int(overlap)) %>%
+    filter(adjusted_p_value < 0.2 & n_genes >= 3)
+
+cache("cluster_terms", depends = "model1_tib")
+
+
+cluster_terms %>%
+    write_tsv(
+        file.path("tables",
+                  "10_10_linear-modeling-syn-let",
+                  "gene-clusters-fxnal-enrichment.tsv"
+    ))
+
+cluster_terms %>%
+    group_by(cancer, term) %>%
+    filter(n_distinct(gene_cls) == 1) %>%
+    group_by(cancer, datasource, gene_cls) %>%
+    arrange(adjusted_p_value, desc(n_genes)) %>%
+    slice(1:5) %>%
+    ungroup() %>%
+    arrange(cancer, gene_cls, datasource, term, adjusted_p_value, desc(n_genes)) %>%
+    write_tsv(
+        file.path("tables",
+                  "10_10_linear-modeling-syn-let",
+                  "gene-clusters-fxnal-enrichment_top10.tsv"
+    ))
+
+
+common_term_regex <- c(
+    "mitoch", "citric", "transcript", "translat"
+) %>%
+    paste0(collapse = "|") %>%
+    regex(ignore_case = TRUE)
+
+cluster_terms %>%
+    filter(!str_detect(term, common_term_regex)) %>%
+    group_by(cancer, term) %>%
+    filter(n_distinct(gene_cls) == 1) %>%
+    group_by(cancer, datasource, gene_cls) %>%
+    arrange(adjusted_p_value, desc(n_genes)) %>%
+    slice(1:5) %>%
+    ungroup() %>%
+    arrange(cancer, gene_cls, datasource, term, adjusted_p_value, desc(n_genes)) %>%
+    write_tsv(
+        file.path("tables",
+                  "10_10_linear-modeling-syn-let",
+                  "gene-clusters-fxnal-enrichment_uncommon.tsv"
+    ))
+

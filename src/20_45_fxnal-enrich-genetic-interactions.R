@@ -2,40 +2,6 @@
 # Look for functional enrichment in the genes with detectable genetic
 # interactions with KRAS alleles
 
-library(enrichR)
-
-dbs <- as_tibble(listEnrichrDbs())
-# dbs$libraryName %>% sort()
-
-enrichr_dbs <- c(
-    "BioCarta_2016",
-    "GO_Biological_Process_2018",
-    "KEA_2015",
-    "KEGG_2019_Human",
-    "LINCS_L1000_Kinase_Perturbations_down",
-    "LINCS_L1000_Kinase_Perturbations_up",
-    "Panther_2016",
-    "PPI_Hub_Proteins",
-    "Reactome_2016",
-    "Transcription_Factor_PPIs",
-    "WikiPathways_2019_Human"
-)
-
-
-enrichr_wrapper <- function(gene_list) {
-    if (n_distinct(gene_list) == 0) { return(NULL) }
-
-    res <- enrichr(gene_list, enrichr_dbs) %>%
-        enframe(name = "datasource", value = "data") %>%
-        mutate(size_of_res = purrr::map_int(data, ~ nrow(.x))) %>%
-        filter(size_of_res > 0) %>%
-        select(-size_of_res) %>%
-        unnest() %>%
-        janitor::clean_names()
-
-    return(res)
-}
-enrichr_wrapper <- memoise::memoise(enrichr_wrapper)
 
 cache("enrichr_tib", depends = "genetic_interaction_df",
 {
@@ -46,13 +12,6 @@ cache("enrichr_tib", depends = "genetic_interaction_df",
         mutate(enrichr_res = purrr::map(gene_list, enrichr_wrapper))
     return(enrichr_tib)
 })
-
-
-
-# Parse the "overlap" column to get number of genes in the gene set
-get_enrichr_overlap_int <- function(overlap) {
-    as.integer(str_split_fixed(overlap, "/", 2)[, 1])
-}
 
 
 # Write out the results from Enrichr.
@@ -82,27 +41,10 @@ write_enrichr_results <- function(cancer, allele, gene_list, enrichr_res,
 purrr::pwalk(enrichr_tib, write_enrichr_results, pval = 0.2, min_overlap = 2)
 
 
-
-
-# a regular expression to use to remove uninteresting gene sets
-uniteresting_terms_regex <- c(
-      "cardiac", "heart", "muscle", "cardio",
-      "disease", "chronic", "cancer",
-      "basal", "axon", "amoeb", "glioma",
-      "Hepatitis", "infection", "virus", "viral",
-      "circulatory", "nervous", "neuro",
-      "alcohol", "carcinoma", "microglia", "melanoma", "thyroid",
-      "blastoma", "autism", "oocyte", "depression", "spinal",
-      "syndrome", "photodynamic", "caffeine"
-) %>%
-    paste0(collapse = "|") %>%
-    regex(ignore_case = TRUE, dotall = TRUE)
-
-
 # Make a dot-plot of the functions from a data source enriched for a cancer.
 dotplot_top_functions <- function(cancer, datasource, data) {
     mod_data <- data %>%
-        filter(!str_detect(term, !!uniteresting_terms_regex)) %>%
+        filter(!str_detect(term, !!uniteresting_enrichr_regex)) %>%
         mutate(
             term = str_remove_all(term, "_Homo.sapiens+.*$") %>%
                 str_remove_all("_96h.*$") %>%
