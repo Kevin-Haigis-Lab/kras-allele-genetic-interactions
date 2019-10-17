@@ -5,12 +5,53 @@
     <link>https://project-notebook-comutation.netlify.com/post/</link>
       <atom:link href="https://project-notebook-comutation.netlify.com/post/index.xml" rel="self" type="application/rss+xml" />
     <description>Posts</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Wed, 16 Oct 2019 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Thu, 17 Oct 2019 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://project-notebook-comutation.netlify.com/img/icon-192.png</url>
       <title>Posts</title>
       <link>https://project-notebook-comutation.netlify.com/post/</link>
     </image>
+    
+    <item>
+      <title>2019-10-17</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-10-17/</link>
+      <pubDate>Thu, 17 Oct 2019 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-10-17/</guid>
+      <description>
+
+&lt;h2 id=&#34;analysis-of-gsea-results-cont&#34;&gt;Analysis of GSEA results (cont.)&lt;/h2&gt;
+
+&lt;p&gt;I created dot-plots that show which gene sets are enriched for each allele in each cancer.
+They plots are available in &amp;ldquo;graphs/10_37_gsea-depmap-analysis/&amp;ldquo;.&lt;/p&gt;
+
+&lt;p&gt;After looking at the results from just using the Hallmarks of Cancer gene set, I re-ran the GSEA to include the C2 Curated gene sets.
+This took way too long, though, so I remake the script to run as a job-array.
+For some reason, the 11th and final job (PAAD G12V) failed due to X11 errors.
+The log is shown below:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-txt&#34;&gt;slurmstepd: error: x11: job infos are invalid
+slurmstepd: error: spank: required plugin x11.so: user_init() failed with rc=-
+slurmstepd: error: spank_user failed.
+slurmstepd: error: Unable to return to working directory
+slurmstepd: error: job_manager exiting abnormally, rc = 4020
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;I just ran another job array with &lt;code&gt;--array=11-11&lt;/code&gt; and it worked.&lt;/p&gt;
+
+&lt;p&gt;All jobs were successfully running by 2:15 pm.
+From my notes the last time I ran GSEA suing Hallmark and C2 gene sets, this should take about 5 hours.&lt;/p&gt;
+
+&lt;h2 id=&#34;describing-genes-in-clusters-of-simple-model-results&#34;&gt;Describing genes in clusters of simple model results&lt;/h2&gt;
+
+&lt;p&gt;On &lt;sup&gt;10&lt;/sup&gt;&amp;frasl;&lt;sub&gt;14&lt;/sub&gt;, I created the heatmaps in &amp;ldquo;graphs/10_10_linear-modeling-syn-let_pheatmaps&amp;rdquo;.
+The genes were cut into clusters by eye.
+I now want to use Enrichr to describe the genes in each cluster.
+This analysis was conducted in &amp;ldquo;src/10_10_linear-modeling-syn-let.R&amp;rdquo; in the section &amp;ldquo;Functional annotation of heatmap gene (row) clusters&amp;rdquo;.
+Tables of the outputs are available in &amp;ldquo;tables/10_10_linear-modeling-syn-let&amp;rdquo;; two tables are available, one with all of the significant hits (adjusted q-value &amp;lt; 0.20) and one with the top 5 from each data source for each gene cluster.
+This second table is also filtered for terms that are unique compared to the terms in the other clusters (ie. the term was only found for one cluster of genes).
+A third table was created after removing some of the more common terms: &amp;ldquo;gene-clusters-fxnal-enrichment_uncommon.tsv&amp;rdquo;.&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>2019-10-16</title>
@@ -24,7 +65,7 @@
 &lt;p&gt;The code for this section is in &amp;ldquo;src/10_37_gsea-depmap-analysis.R&amp;rdquo;.&lt;/p&gt;
 
 &lt;p&gt;Picking up from yesterday, I began by analyzing the GSEA results.
-I didn&amp;rsquo;t get very very far before having to spend the rest of the day on other nonsense.&lt;/p&gt;
+I didn&amp;rsquo;t get very far before having to spend the rest of the day on other nonsense.&lt;/p&gt;
 </description>
     </item>
     

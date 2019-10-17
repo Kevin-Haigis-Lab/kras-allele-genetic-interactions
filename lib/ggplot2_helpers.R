@@ -16,6 +16,7 @@ plot_size_dict <- list(
 
 # decide on the sizes to use
 decide_size <- function(size = NA, width = NA, height = NA) {
+    dims <- c()
     if (size %in% names(plot_size_dict)) {
         dims <- unlist(plot_size_dict[size])
     } else if (!is.na(width) & !is.na(height)) {
@@ -32,7 +33,7 @@ decide_size <- function(size = NA, width = NA, height = NA) {
 
 #' Save `ggplot` objects in a standardized fashion.
 ggsave_wrapper <- function(p, save_path, size = NA, width = NA, height = NA) {
-    size <- decide_size(size = size[[1]], width = width, height = height)
+    dims <- decide_size(size = size[[1]], width = width, height = height)
 
     if (tools::file_ext(save_path) != "svg") {
         message("File name does not have a 'svg' extension.")
@@ -41,6 +42,10 @@ ggsave_wrapper <- function(p, save_path, size = NA, width = NA, height = NA) {
     ggsave(filename = save_path, plot = p,
            width = dims[[1]], height = dims[[2]])
 }
+
+
+
+#### ---- Saving a 'pheatmap' heatmap ---- ####
 
 
 save_pheatmap_svg <- function(x, save_path, size = NA, width = NA, height = NA) {
