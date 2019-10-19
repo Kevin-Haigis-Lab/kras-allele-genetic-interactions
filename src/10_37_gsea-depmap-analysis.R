@@ -62,16 +62,12 @@ uninteresting_terms_regex <- c(
     paste0(collapse = "|") %>%
     regex(ignore_case = TRUE)
 
-plot_gsea_results <- function(cancer, gene_set_family, data) {
-    mod_data <- data %>%
-        filter(abs(nes) >= 1.2 & fdr_q_val < 0.2) %>%
-        filter(!str_detect(gene_set, uninteresting_terms_regex))
 
-    if (nrow(mod_data) == 0) { return() }
-
-    p <- mod_data %>%
+gsea_plot <- function(tib, title_suffix = "") {
+    p <- tib %>%
         mutate(gene_set = str_replace_us(gene_set),
-               gene_set = str_to_sentence(gene_set)) %>%
+               gene_set = str_to_sentence(gene_set),
+               gene_set = str_wrap(gene_set, width = 50)) %>%
         ggplot() +
         geom_point(
             aes(
@@ -87,20 +83,46 @@ plot_gsea_results <- function(cancer, gene_set_family, data) {
             text = element_text("arial"),
             plot.title = element_text(hjust = 0.5),
             axis.title = element_blank(),
-            axis.text.y = element_text(size = 10)
+            axis.text.y = element_text(size = 7)
         ) +
         labs(
-            title = glue("GSEA of Alleles in {cancer} ({gene_set_family})"),
+            title = glue("GSEA of Alleles in {title_suffix}"),
             color = "NES",
             size = "-log10( adj. p-val. )"
         )
+    return(p)
+}
+
+
+plot_gsea_results <- function(cancer, data) {
+    mod_data <- data %>%
+        filter(abs(nes) >= 1.2 & fdr_q_val < 0.2) %>%
+        filter(!str_detect(gene_set, uninteresting_terms_regex))
+
+    if (nrow(mod_data) == 0) { return() }
+
+    p <- gsea_plot(mod_data, title_suffix = cancer)
     save_path <- plot_path("10_37_gsea-depmap-analysis",
-                           glue("gsea-results-{cancer}-{gene_set_family}.svg"))
-    ggsave_wrapper(p, save_path, "wide")
+                           glue("gsea-results-{cancer}-all.svg"))
+    ggsave_wrapper(p, save_path, "large")
+
+    for (fam in unique(data$gene_set_family)) {
+        suffix <- glue("{cancer} ({fam})")
+        tt <- mod_data %>%
+            filter(gene_set_family == !!fam)
+
+        if (nrow(tt) == 0) { next }
+
+        p <- gsea_plot(tt, title_suffix = suffix)
+        save_path <- plot_path("10_37_gsea-depmap-analysis",
+                               glue("gsea-results-{cancer}-{fam}.svg"))
+        ggsave_wrapper(p, save_path, "large")
+    }
 }
 
 gsea_df %>%
+    filter(!(cancer == "LUAD" & allele == "G13D")) %>%
     filter(gene_set_family %in% c("HALLMARK", "KEGG", "REACTOME", "BIOCARTA", "PID")) %>%
-    group_by(cancer, gene_set_family) %>%
+    group_by(cancer) %>%
     nest() %>%
     purrr::pwalk(plot_gsea_results)
