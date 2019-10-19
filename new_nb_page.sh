@@ -28,4 +28,6 @@ projects: []
 
 echo "$templateFile" > $newFileName
 
+open -a Sublime\ Text.app $newFileName
+
 echo "New notebook page at: $newFileName"

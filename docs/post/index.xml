@@ -5,12 +5,109 @@
     <link>https://project-notebook-comutation.netlify.com/post/</link>
       <atom:link href="https://project-notebook-comutation.netlify.com/post/index.xml" rel="self" type="application/rss+xml" />
     <description>Posts</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Thu, 17 Oct 2019 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Fri, 18 Oct 2019 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://project-notebook-comutation.netlify.com/img/icon-192.png</url>
       <title>Posts</title>
       <link>https://project-notebook-comutation.netlify.com/post/</link>
     </image>
+    
+    <item>
+      <title>2019-10-18</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-10-18/</link>
+      <pubDate>Fri, 18 Oct 2019 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-10-18/</guid>
+      <description>
+
+&lt;h2 id=&#34;analysis-of-gsea-results-cont&#34;&gt;Analysis of GSEA results (cont.)&lt;/h2&gt;
+
+&lt;p&gt;Yesterday, I was able to plot the results from the GSEA before the end of the day.
+The plots of the GSEA results don&amp;rsquo;t show anything terribly interesting.
+Dot-plots for each cancer are shown below.
+The gene set is displayed if it has a Normalized Enrichment Score (NES) of greater than 1.2 or less than -1.2 and a FDR-adjusted p-value of less than 0.20.&lt;/p&gt;
+
+&lt;h3 id=&#34;coad&#34;&gt;COAD&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_37_gsea-depmap-analysis/gsea-results-COAD-all.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;luad&#34;&gt;LUAD&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_37_gsea-depmap-analysis/gsea-results-LUAD-all.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;paad&#34;&gt;PAAD&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_37_gsea-depmap-analysis/gsea-results-PAAD-all.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;strong&gt;Quick side note&lt;/strong&gt; - I was curious about the relationship between the dependency on NF1 and &lt;em&gt;KRAS&lt;/em&gt; allele in COAD cell lines.
+I therefore made a quick bar-plot showing this relationship in &amp;ldquo;src/90_10_NF1-depletion-COAD.R&amp;rdquo;.
+I&amp;rsquo;m not sure how to interpret the results, but will show KH.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/90_10_NF1-depletion-COAD/NF1-depletion-COAD-barplot.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;analysis-of-gene-clusters-from-simple-depmap-model&#34;&gt;Analysis of gene clusters from simple DepMap model.&lt;/h2&gt;
+
+&lt;p&gt;I looked for weakly connected components in the STRING PPI with the genes from each cluster of genes (with at least 4 nodes).
+To be clear, these are the same clusters as those shown in the heatmaps.
+Plots of all the components are in &amp;ldquo;graphs/10_15_linear-modeling-syn-let_ppi-subnetworks/&amp;ldquo;.
+Some are shown below.&lt;/p&gt;
+
+&lt;h3 id=&#34;coad-1&#34;&gt;COAD&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_15_linear-modeling-syn-let_ppi-subnetworks/COAD_cluster-1_component-1.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_15_linear-modeling-syn-let_ppi-subnetworks/COAD_cluster-2_component-1.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;luad-1&#34;&gt;LUAD&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_15_linear-modeling-syn-let_ppi-subnetworks/LUAD_cluster-1_component-1.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_15_linear-modeling-syn-let_ppi-subnetworks/LUAD_cluster-2_component-1.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_15_linear-modeling-syn-let_ppi-subnetworks/LUAD_cluster-2_component-2.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_15_linear-modeling-syn-let_ppi-subnetworks/LUAD_cluster-3_component-2.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_15_linear-modeling-syn-let_ppi-subnetworks/LUAD_cluster-4_component-1.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;paad-1&#34;&gt;PAAD&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_15_linear-modeling-syn-let_ppi-subnetworks/PAAD_cluster-1_component-1.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_15_linear-modeling-syn-let_ppi-subnetworks/PAAD_cluster-2_component-1.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_15_linear-modeling-syn-let_ppi-subnetworks/PAAD_cluster-3_component-1.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_15_linear-modeling-syn-let_ppi-subnetworks/PAAD_cluster-4_component-1.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;to-do&#34;&gt;To-Do&lt;/h2&gt;
+
+&lt;p&gt;For synthetic lethal portion:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;specific plots for types of genes in the gene clusters
+
+&lt;ul&gt;
+&lt;li&gt;transcription factors&lt;/li&gt;
+&lt;li&gt;hubs in PPI&lt;/li&gt;
+&lt;li&gt;chromatin modifiers&lt;/li&gt;
+&lt;li&gt;cell cycle&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;For comutation portion:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;plot p-value vs. cumulative number of genes for comutation and mutually exclusive&lt;/li&gt;
+&lt;li&gt;plot p-value vs. number of events for co-mutation and mutual exclusivity&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
     
     <item>
       <title>2019-10-17</title>
