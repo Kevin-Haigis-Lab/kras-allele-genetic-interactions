@@ -312,7 +312,7 @@ cluster_genes <- function(cancer, data) {
 }
 
 # make a heatmap for the genes in each cancer
-tt <- model1_tib %>%
+depmap_gene_clusters <- model1_tib %>%
     filter(rna_pvalue > 0.01) %>%
     mutate(
         aov_p_val = purrr::map_dbl(allele_aov, ~ broom::tidy(.x)$p.value[[1]])
@@ -322,12 +322,14 @@ tt <- model1_tib %>%
     unnest(data) %>%
     group_by(cancer) %>%
     nest() %>%
-    mutate(cluster_tib = purrr::map2(cancer, data, cluster_genes))
-
-
-cluster_terms <- tt %>%
+    mutate(cluster_tib = purrr::map2(cancer, data, cluster_genes)) %>%
     select(-data) %>%
     unnest(cluster_tib) %>%
+    ungroup()
+
+cache("depmap_gene_clusters")
+
+cluster_terms <- depmap_gene_clusters %>%
     group_by(cancer, gene_cls) %>%
     summarise(genes = list(hugo_symbol)) %>%
     ungroup() %>%
