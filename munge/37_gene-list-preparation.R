@@ -119,3 +119,65 @@ cache("genes_of_interest_df",
     return(genes_of_interest_df)
 })
 
+
+
+cache("kea_geneset_df",
+{
+    kea_path <- file.path("data", "gene-lists", "KEA_2015.txt")
+    kea_geneset_df <- readgmt::read_gmt(kea_path, tidy = TRUE) %>%
+        filter(gene != "")
+    log_rows(logger, kea_geneset_df, "kea_geneset_df")
+    info(logger, "Caching data frame of KEA gene set.")
+    return(kea_geneset_df)
+})
+
+
+
+cache("ppiHub_geneset_df",
+{
+    pppiHub_path <- file.path("data", "gene-lists", "PPI_Hub_Proteins.txt")
+    ppiHub_geneset_df <- readgmt::read_gmt(kea_path, tidy = TRUE) %>%
+        filter(gene != "")
+    log_rows(logger, ppiHub_geneset_df, "ppiHub_geneset_df")
+    info(logger, "Caching data frame of PPI Hub gene set.")
+    return(ppiHub_geneset_df)
+})
+
+
+
+
+cache("chea_geneset_df",
+{
+    pchea_path <- file.path("data", "gene-lists", "ChEA_2016.txt")
+    chea_geneset_df <- readgmt::read_gmt(kea_path, tidy = TRUE) %>%
+        filter(gene != "")
+    log_rows(logger, chea_geneset_df, "chea_geneset_df")
+    info(logger, "Caching data frame of ChEA gene set.")
+    return(chea_geneset_df)
+})
+
+
+
+cache("tf2dna_tfs",
+{
+    tf2dna_dir <- file.path("data", "gene-lists", "human_tf2dna_matrices_symbols")
+    tf2dna_tfs <- list.files(tf2dna_dir) %>%
+        unlist() %>%
+        basename() %>%
+        str_remove_all("\\.mat$") %>%
+        unique()
+    info(logger, "Caching transcription factor list from TF2DNA.")
+    return(tf2dna_tfs)
+})
+
+
+
+
+cache("msigdb_c2_df",
+{
+    c2_all_path <- file.path("data", "gene-lists", "c2.all.v7.0.symbols.gmt")
+    msigdb_c2_df <- readgmt::read_gmt(c2_all_path, tidy = TRUE)
+    log_rows(logger, msigdb_c2_df, "msigdb_c2_df")
+    info(logger, "Caching data frame of MSigDB C2 gene set.")
+    return(msigdb_c2_df)
+})
