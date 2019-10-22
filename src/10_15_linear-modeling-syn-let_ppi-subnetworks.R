@@ -43,4 +43,3 @@ depmap_gene_clusters %>%
     summarise(hugo_symbols = list(hugo_symbol)) %>%
     ungroup() %>%
     purrr::pwalk(weakly_connected_components, min_comp_size = 5)
-    

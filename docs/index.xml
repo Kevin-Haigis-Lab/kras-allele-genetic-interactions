@@ -106,6 +106,45 @@
     </item>
     
     <item>
+      <title>2019-10-21</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-10-21/</link>
+      <pubDate>Mon, 21 Oct 2019 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-10-21/</guid>
+      <description>
+
+&lt;h2 id=&#34;plots-for-specific-types-of-genes&#34;&gt;Plots for specific types of genes&lt;/h2&gt;
+
+&lt;h3 id=&#34;sources&#34;&gt;Sources&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;Transcription Factors&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;I found a list of transcription factors from the &lt;a href=&#34;http://www.fiserlab.org/tf2dna_db/index.html&#34; target=&#34;_blank&#34;&gt;TF2DNA Database&lt;/a&gt;.
+In the &amp;ldquo;Downloads&amp;rdquo; tab, I downloaded and unarchived the &amp;ldquo;TF matrix files&amp;rdquo;.
+The file names were taken as a list of transcription factors.&lt;/p&gt;
+
+&lt;p&gt;I also used the &lt;code&gt;ChEA_2106&lt;/code&gt; gene set from Enrichr that pulled data from &lt;a href=&#34;https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2944209/&#34; target=&#34;_blank&#34;&gt;ChEA&lt;/a&gt;.
+The names of the gene sets contained transcription factors.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Hubs of the PPIN&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;The &lt;code&gt;PPI_Hub_Proteins&lt;/code&gt; gene set was taken from Enrichr.
+The original data source was &lt;a href=&#34;https://amp.pharm.mssm.edu/X2K/&#34; target=&#34;_blank&#34;&gt;X2Kweb&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Kinases&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;A list of kinases was acquired from the &lt;a href=&#34;https://www.maayanlab.net/KEA2/&#34; target=&#34;_blank&#34;&gt;Kinase Enrichment Aalysis&lt;/a&gt;.
+The actual gene set was taken from Enrichr: &lt;code&gt;KEA_2015&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Cell Cycle Regulators&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;A list of cell-cycle regulators was taken from KEGG&amp;rsquo;s &lt;code&gt;CELL_CYCLE&lt;/code&gt; gene set and Reactome&amp;rsquo;s &lt;code&gt;CELL_CYCLE_MITOTIC&lt;/code&gt; gene set.
+The gene sets were taken from the MSigDB C2 list.&lt;/p&gt;
+
+&lt;p&gt;The preparation of each of these data sets was added to &amp;ldquo;munge/37_gene-list-preparation.R&amp;rdquo;.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>2019-10-18</title>
       <link>https://project-notebook-comutation.netlify.com/post/2019-10-18/</link>
       <pubDate>Fri, 18 Oct 2019 00:00:00 +0000</pubDate>
