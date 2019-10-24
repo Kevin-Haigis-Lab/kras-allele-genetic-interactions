@@ -52,6 +52,12 @@ Below are the new heatmaps (though they will replace the originals in a previous
 
 &lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_pheatmaps/PAAD_pheatmap.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
+&lt;p&gt;The number of hits for COAD and PAAD were significantly reduced to where I could show the gene names.
+LUAD still has many hits.&lt;/p&gt;
+
+&lt;p&gt;The functional enrichment clustering did not turn up much for COAD, plenty for LUAD, and a few kinases/hubs for PAAD.
+I will continue working on this, tomorrow.&lt;/p&gt;
+
 &lt;hr /&gt;
 
 &lt;p&gt;Slight digression to make plots for KH&amp;rsquo;s presentation.
