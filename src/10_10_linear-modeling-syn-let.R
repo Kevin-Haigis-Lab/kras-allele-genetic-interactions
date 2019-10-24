@@ -113,7 +113,7 @@ info(logger, "Caching results of model 1.")
 cache("model1_tib")
 
 
-# plot the results of the first ananlysis
+# plot the results of the first analysis
 plot_pairwise_test_results <- function(hugo_symbol, cancer, data,
                                        allele_aov, allele_pairwise, ...) {
     if (all(is.na(allele_aov)) | all(is.na(allele_pairwise))) { return() }
@@ -183,7 +183,7 @@ model1_tib %>%
 cancer_pheatmap_manager <- list(
     COAD = list(
         col_cuts = 4,
-        row_cuts = 6
+        row_cuts = 4
     ),
     LUAD = list(
         col_cuts = 2,
@@ -195,10 +195,20 @@ cancer_pheatmap_manager <- list(
     )
 )
 
-prep_pheatmap_df <- function(data) {
+
+prep_pheatmap_df <- function(data, method = c("scale", "normalize")) {
+    f <- function(x) { x }
+    if (method == "scale") {
+        f <- function(x) { scale(x)[, 1] }
+    } else if (method == "normalize") {
+        f <- function(x) { scales::rescale(x, to = c(-2, 2)) }
+    } else {
+        stop(glue("method not a possible option: {method}"))
+    }
+
     df <- data %>%
         group_by(hugo_symbol) %>%
-        mutate(gene_effect_scaled = scale(gene_effect)[, 1]) %>%
+        mutate(gene_effect_scaled = f(gene_effect)) %>%
         ungroup() %>%
         select(hugo_symbol, dep_map_id, gene_effect_scaled) %>%
         unique() %>%
@@ -226,17 +236,14 @@ merge_wt <- function(df, data) {
 
 plot_cancer_heatmaps <- function(cancer, data) {
 
-    df <- prep_pheatmap_df(data)
+    df <- prep_pheatmap_df(data, "normalize")
 
     if (cancer == "LUAD") {
         df <- merge_wt(df = df, data = data)
     }
 
-    row_hclust <- hclust(dist(df))
-    col_hclust <- hclust(dist(t(df)))
-
-    df[df > 2] <- 2
-    df[df < -2] <- -2
+    row_hclust <- hclust(dist(df, method = "manhattan"))
+    col_hclust <- hclust(dist(t(df), method = "manhattan"))
 
     col_anno <- data %>%
         select(dep_map_id, allele) %>%
@@ -268,7 +275,8 @@ plot_cancer_heatmaps <- function(cancer, data) {
         annotation_colors = anno_pal,
         cutree_rows = cancer_pheatmap_manager[[cancer]]$row_cuts,
         cutree_cols = cancer_pheatmap_manager[[cancer]]$col_cuts,
-        show_rownames = FALSE,
+        treeheight_col = 20,
+        show_rownames = (cancer != "LUAD"),
         silent = TRUE
     )
 
@@ -278,30 +286,14 @@ plot_cancer_heatmaps <- function(cancer, data) {
 }
 
 
-# make a heatmap for the genes in each cancer
-model1_tib %>%
-    filter(rna_pvalue > 0.01) %>%
-    mutate(aov_p_val = purrr::map_dbl(allele_aov, ~ tidy(.x)$p.value[[1]])) %>%
-    filter(aov_p_val < 0.05) %>%
-    select(hugo_symbol, cancer, data) %>%
-    unnest(data) %>%
-    group_by(cancer) %>%
-    nest() %>%
-    purrr::pwalk(plot_cancer_heatmaps)
-
-
-
-#### ---- Functional annotation of heatmap gene (row) clusters ---- ####
-
-
 cluster_genes <- function(cancer, data) {
-    df <- prep_pheatmap_df(data)
+    df <- prep_pheatmap_df(data, method = "normalize")
 
     if (cancer == "LUAD") {
         df <- merge_wt(df = df, data = data)
     }
 
-    gene_hclust <- hclust(dist(df))
+    gene_hclust <- hclust(dist(df, method = "manhattan"))
     gene_cls <- cutree(
             gene_hclust,
             k = cancer_pheatmap_manager[[cancer]]$row_cuts
@@ -311,23 +303,28 @@ cluster_genes <- function(cancer, data) {
     return(gene_cls)
 }
 
+
 # make a heatmap for the genes in each cancer
 depmap_gene_clusters <- model1_tib %>%
     filter(rna_pvalue > 0.01) %>%
-    mutate(
-        aov_p_val = purrr::map_dbl(allele_aov, ~ broom::tidy(.x)$p.value[[1]])
-    ) %>%
-    filter(aov_p_val < 0.05) %>%
+    mutate(aov_p_val = purrr::map_dbl(allele_aov, ~ tidy(.x)$p.value[[1]])) %>%
+    filter(aov_p_val < 0.01) %>%
     select(hugo_symbol, cancer, data) %>%
     unnest(data) %>%
     group_by(cancer) %>%
-    nest() %>%
+    nest() %T>%
+    purrr::pwalk(plot_cancer_heatmaps) %>%
     mutate(cluster_tib = purrr::map2(cancer, data, cluster_genes)) %>%
     select(-data) %>%
     unnest(cluster_tib) %>%
     ungroup()
 
 cache("depmap_gene_clusters")
+
+
+
+#### ---- Functional annotation of heatmap gene (row) clusters ---- ####
+
 
 cluster_terms <- depmap_gene_clusters %>%
     group_by(cancer, gene_cls) %>%

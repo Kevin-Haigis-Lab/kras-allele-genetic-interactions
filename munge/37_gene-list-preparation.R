@@ -136,7 +136,7 @@ cache("kea_geneset_df",
 cache("ppiHub_geneset_df",
 {
     pppiHub_path <- file.path("data", "gene-lists", "PPI_Hub_Proteins.txt")
-    ppiHub_geneset_df <- readgmt::read_gmt(kea_path, tidy = TRUE) %>%
+    ppiHub_geneset_df <- readgmt::read_gmt(pppiHub_path, tidy = TRUE) %>%
         filter(gene != "")
     log_rows(logger, ppiHub_geneset_df, "ppiHub_geneset_df")
     info(logger, "Caching data frame of PPI Hub gene set.")
@@ -149,7 +149,7 @@ cache("ppiHub_geneset_df",
 cache("chea_geneset_df",
 {
     pchea_path <- file.path("data", "gene-lists", "ChEA_2016.txt")
-    chea_geneset_df <- readgmt::read_gmt(kea_path, tidy = TRUE) %>%
+    chea_geneset_df <- readgmt::read_gmt(pchea_path, tidy = TRUE) %>%
         filter(gene != "")
     log_rows(logger, chea_geneset_df, "chea_geneset_df")
     info(logger, "Caching data frame of ChEA gene set.")

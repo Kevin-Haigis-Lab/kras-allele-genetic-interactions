@@ -106,6 +106,67 @@
     </item>
     
     <item>
+      <title>2019-10-23</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-10-23/</link>
+      <pubDate>Wed, 23 Oct 2019 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-10-23/</guid>
+      <description>
+
+&lt;h2 id=&#34;plots-for-specific-types-of-genes-cont&#34;&gt;Plots for specific types of genes (cont.)&lt;/h2&gt;
+
+&lt;p&gt;(This was started on 2019-10-21.)&lt;/p&gt;
+
+&lt;p&gt;The gene sets have been prepared earlier.
+There was a bug though - each gene set was using the path to the KEA file.
+This was fixed.&lt;/p&gt;
+
+&lt;p&gt;I couldn&amp;rsquo;t decide on whether or not to normalize the depletion effect scores for the plots.
+If I don&amp;rsquo;t, then most of the differences are between genes, but if I do, then the y-axis is essentially meaningless.
+I decided to scale the values, but I may want to revisit this decision.&lt;/p&gt;
+
+&lt;p&gt;The plots for the specific gene types for the clusters are in &amp;ldquo;graphs/10_17_linear-modeling-syn-let_specific-protein-types/&amp;ldquo;.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;I decided to return to the original clustering to find more conservative/believable results.
+Therefore, I reduced the p-value cutoff for the ANOVA to p-value &amp;lt; 0.01.
+This obviously reduced the number of hits, but also created tighter clusters.
+Below are the new heatmaps (though they will replace the originals in a previous notebook, anyways).&lt;/p&gt;
+
+&lt;h3 id=&#34;coad&#34;&gt;COAD&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_pheatmaps/COAD_pheatmap.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;luad&#34;&gt;LUAD&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_pheatmaps/LUAD_pheatmap.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;paad&#34;&gt;PAAD&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_pheatmaps/PAAD_pheatmap.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;Slight digression to make plots for KH&amp;rsquo;s presentation.
+They were plots of the high-level genetic interactions for G12V across the cancers.
+They are in &amp;ldquo;graphs/20_40_highlivel-genetic-interactions/&amp;ldquo;.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;plot idea: enriched gene sets from genetic interactions vs. enriched gene sets from syn. let.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;notes-on-kh-s-cruk-presentation&#34;&gt;Notes on KH&amp;rsquo;s CRUK presentation&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;the size of networks is in part determined by statistical&lt;/li&gt;
+&lt;li&gt;use biological &amp;ldquo;priors&amp;rdquo; to prioritize hits&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
       <title>2019-10-22</title>
       <link>https://project-notebook-comutation.netlify.com/post/2019-10-22/</link>
       <pubDate>Tue, 22 Oct 2019 00:00:00 +0000</pubDate>
@@ -116,6 +177,8 @@
 
 &lt;p&gt;OP and I decided that I should just present the comutation project at today&amp;rsquo;s CRUK in-person meeting for the trainees.
 I made new versions of the genetic interaction networks with thicker edges to be more easily viewed on the screens.&lt;/p&gt;
+
+&lt;p&gt;The final presentation was copied to &amp;ldquo;presentations/2019.10.21_CRUK.pptx&amp;rdquo;.&lt;/p&gt;
 </description>
     </item>
     
@@ -190,7 +253,7 @@ The gene set is displayed if it has a Normalized Enrichment Score (NES) of great
 I therefore made a quick bar-plot showing this relationship in &amp;ldquo;src/90_10_NF1-depletion-COAD.R&amp;rdquo;.
 I&amp;rsquo;m not sure how to interpret the results, but will show KH.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/90_10_NF1-depletion-COAD/NF1-depletion-COAD-barplot.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/90_10_NF1-depletion-COAD/NFI-depletion-COAD-barplot.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;hr /&gt;
 
