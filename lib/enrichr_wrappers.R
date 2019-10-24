@@ -39,7 +39,7 @@ enrichr_wrapper <- function(gene_list) {
         mutate(size_of_res = purrr::map_int(data, ~ nrow(.x))) %>%
         filter(size_of_res > 0) %>%
         select(-size_of_res) %>%
-        unnest() %>%
+        unnest(cols = data) %>%
         janitor::clean_names()
 
     return(res)

@@ -199,7 +199,8 @@ cache("gene_effect", depends = "depmap19Q3.Achilles.gene.effect",
 
     gene_effect <- depmap19Q3.Achilles.gene.effect %>%
         gather(key = "gene", value = "gene_effect", -X) %>%
-        mutate(hugo_symbol = get_hugo_from_depmap_ids(gene, "\\.")) %>%
+        mutate(hugo_symbol = get_hugo_from_depmap_ids(gene, "\\.\\."),
+               hugo_symbol = str_replace_all(hugo_symbol, "\\.", "-")) %>%
         dplyr::rename(dep_map_id = "X") %>%
         select(dep_map_id, hugo_symbol, gene_effect)
 
@@ -218,7 +219,8 @@ cache("dependency_prob", depends = "depmap19Q3.Achilles.gene.dependency",
 
     dependency_prob <- depmap19Q3.Achilles.gene.dependency %>%
         gather(key = "gene", value = "prob", -X) %>%
-        mutate(hugo_symbol = get_hugo_from_depmap_ids(gene, "\\.")) %>%
+        mutate(hugo_symbol = get_hugo_from_depmap_ids(gene, "\\.\\."),
+               hugo_symbol = str_replace_all(hugo_symbol, "\\.", "-")) %>%
         dplyr::rename(dep_map_id = "X") %>%
         select(dep_map_id, hugo_symbol, prob)
 

@@ -133,6 +133,7 @@ cache("model_data_base",
         select(cancer, cutoff_between_non_essential) %>%
         right_join(cutoff_tib, by = "cancer")
 
+    assign("cutoff_tib", cutoff_tib, envir = .GlobalEnv)
     info(logger, "Caching `cutoff_tib`.")
     cache("cutoff_tib")
 

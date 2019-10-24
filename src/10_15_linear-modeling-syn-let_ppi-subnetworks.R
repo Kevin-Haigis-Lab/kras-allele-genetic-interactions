@@ -42,4 +42,12 @@ depmap_gene_clusters %>%
     group_by(cancer, gene_cls) %>%
     summarise(hugo_symbols = list(hugo_symbol)) %>%
     ungroup() %>%
-    purrr::pwalk(weakly_connected_components, min_comp_size = 5)
+    purrr::pwalk(weakly_connected_components, min_comp_size = 4)
+
+
+
+# depmap_gene_clusters %>%
+#     group_by(cancer) %>%
+#     summarise(hugo_symbols = list(hugo_symbol)) %>%
+#     ungroup() %>%
+#     purrr::pwalk(weakly_connected_components, gene_cls = 1, min_comp_size = 5)
