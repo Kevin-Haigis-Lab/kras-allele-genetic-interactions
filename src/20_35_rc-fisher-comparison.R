@@ -12,15 +12,110 @@ p_val_cut_mutex <- 0.01
 p_val_cut_comut <- 0.01
 
 rc_sig <- rc_test_results %>%
-    filter(num_mut_per_cancer >= 10 & t_AM >= 3 & p_val < !!p_val_cut_mutex)
+    filter(num_mut_per_cancer >= 15 & t_AM >= 3 & p_val < !!p_val_cut_mutex)
 
-fisher_sig <- fisher_comut_df %>%
+fisher_sig <- fisher_comut_df  %>%
+    filter(str_replace_us(kras_allele) %in% names(allele_palette)) %>%
     filter(p_value_great < p_val_cut_comut | p_value_less < p_val_cut_comut) %>%
     filter(n11 >= 3) %>%
     mutate(test_type = ifelse(
         p_value_great < !!p_val_cut_comut, "comutation", "exclusivity"
+    ))
+
+
+
+#### ---- Distribution of p-values ---- ####
+
+rc_pval_distribution <- rc_test_results %>%
+    filter(num_mut_per_cancer >= 15 & t_AM >= 3) %>%
+    ggplot(aes(x = p_val)) +
+    facet_grid(rc_test_type ~ cancer, scales = "free") +
+    geom_density(aes(color = cancer, fill = cancer), alpha = 0.5) +
+    scale_color_manual(values = cancer_palette) +
+    scale_fill_manual(values = cancer_palette) +
+    scale_x_continuous(expand = c(0, 0)) +
+    scale_y_continuous(expand = expand_scale(mult = c(0, 0.02))) +
+    theme_bw(base_family = "Arial") +
+    labs(
+        x = "p-value",
+        y = "density",
+        title = "Distribution of p-values from RC-test"
+    )
+save_path <- plot_path("20_35_rc-fisher-comparison",
+                       "rc_pval_distribution.svg")
+ggsave_wrapper(rc_pval_distribution, save_path, "wide")
+
+fish_pval_distribution <- fisher_comut_df %>%
+    filter(n10 + n11 > 10) %>%
+    ggplot(aes(x = p_value_great)) +
+    facet_wrap( ~ cancer, scales = "free") +
+    geom_density(aes(color = cancer, fill = cancer), alpha = 0.5) +
+    scale_color_manual(values = cancer_palette) +
+    scale_fill_manual(values = cancer_palette) +
+    scale_x_continuous(expand = c(0, 0)) +
+    scale_y_continuous(expand = expand_scale(mult = c(0, 0.02))) +
+    theme_bw(base_family = "Arial") +
+    labs(
+        x = "p-value",
+        y = "density",
+        title = "Distribution of p-values from Fisher's exact test"
+    )
+save_path <- plot_path("20_35_rc-fisher-comparison",
+                       "fish_pval_distribution.svg")
+ggsave_wrapper(fish_pval_distribution, save_path, "wide")
+
+
+
+#### ---- Distribution of the effect size of mutually exclusivity ---- ####
+
+genes_to_label <- c(
+    "BRAF", "TP53", "NF1", "NRAS",
+    "RYR2", "CSMD3", "FLG", "SPTA1", "ZFHX4", "USH2A", "MUC16",
+    unique(kegg_geneset_df$hugo_symbol),
+    unique(cosmic_cgc_df %>% filter(tier == 1) %>% pull(hugo_symbol))
+)
+
+rc_mutations_distribition <- rc_sig %>%
+    filter(rc_test_type == "exclusivity") %>%
+    mutate(
+        label = ifelse(
+            hugo_symbol %in% !!genes_to_label, hugo_symbol, NA
     )) %>%
-    filter(str_replace_us(kras_allele) %in% names(allele_palette))
+    ggplot(aes(x = -log10(p_val),
+               y = t_AM / num_samples_per_cancer
+    )) +
+    facet_wrap(~ cancer, scales = "free") +
+    geom_point(
+        aes(alpha = num_mut_per_cancer / num_samples_per_cancer,
+            size = num_mut_per_cancer / num_samples_per_cancer,
+            color = allele)
+    ) +
+    ggrepel::geom_text_repel(
+        aes(label = label),
+        family = "Arial",
+        size = 1.5,
+        segment.size = 0.2,
+        segment.alpha = 0.5
+    ) +
+    scale_alpha_continuous(range = c(0.1, 0.7)) +
+    scale_size_continuous(range = c(0.1, 3)) +
+    scale_color_manual(values = short_allele_pal) +
+    theme_bw(base_family = "Arial") +
+    theme(
+        plot.title = element_text(hjust = 0.5)
+    ) +
+    labs(
+        x = "-log10( p-value )",
+        y = "number of mutually exclusive events / number of samples",
+        alpha = "mut. freq",
+        size = "mut. freq",
+        color = "allele",
+        title = "Distribution of the mutual exclusivity values"
+    )
+save_path <- plot_path("20_35_rc-fisher-comparison",
+                       "rc_mutations_distribition.svg")
+ggsave_wrapper(rc_mutations_distribition, save_path, "large")
+
 
 
 #### ---- Comparing gross number of genes ---- ####
