@@ -106,6 +106,92 @@
     </item>
     
     <item>
+      <title>2019-10-26</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-10-26/</link>
+      <pubDate>Sat, 26 Oct 2019 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-10-26/</guid>
+      <description>
+
+&lt;h2 id=&#34;logistic-regression&#34;&gt;Logistic Regression&lt;/h2&gt;
+
+&lt;p&gt;&lt;em&gt;This analysis was done in &amp;ldquo;src/30_10_logisitic-regression-syn-let.R&amp;rdquo;.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Instead of regressing on all of the alleles at once using a multinomial logistic regression, I began by trying to use a logistic model to regress on each allele one-at-a-time comparing it to all of the others.
+The reasons for not using the multinomial model are described on 2019-10-24.&lt;/p&gt;
+
+&lt;p&gt;The results were rather disappointing.
+There were very few significant findings for COAD (1) and PAAD (2) and the ones for LUAD (458) were not very convincing when plotted.
+Since there were only a few, I save the plots for the hits for COAD and PAAD.&lt;/p&gt;
+
+&lt;h4 id=&#34;coad&#34;&gt;COAD&lt;/h4&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/30_10_logisitic-regression-syn-let_model2/COAD_G12D_ARID5B_logreg.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;paad&#34;&gt;PAAD&lt;/h4&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/30_10_logisitic-regression-syn-let_model2/PAAD_G12D_NCBP2_logreg.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/30_10_logisitic-regression-syn-let_model2/PAAD_G12D_U2AF1_logreg.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;luad&#34;&gt;LUAD&lt;/h4&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/30_10_logisitic-regression-syn-let_model2/LUAD_top9_logreg.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;I was planning on doing a LASSO logistic regression, regressing on the alleles with all of the genes at once, but there are not enough samples to split into training and test sets for calculating the $\lambda$ with cross validation.&lt;/p&gt;
+
+&lt;h3 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h3&gt;
+
+&lt;p&gt;Seeing these results, I do not think it is worth further pursuing logistic regression for this analysis.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;comutation-networks&#34;&gt;Comutation networks&lt;/h2&gt;
+
+&lt;h3 id=&#34;minimum-p-value-for-exclusivity-test&#34;&gt;Minimum p-value for exclusivity test&lt;/h3&gt;
+
+&lt;p&gt;I have finally gone back to the munging of the results of the RC-test and included the minimum p-value.
+The minimum p-value I used is the one recommend by the WExT paper:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;We assume that there is a nonzero probability that a gene is mutated in a sample, and thus set [the weight to] $\frac{1}{2N}$ when no mutation in gene $g_i$ is observed in sample $s_j$&amp;hellip;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&amp;ndash; [&amp;ldquo;A weighted exact test for mutually exclusive mutations in cancer.&amp;rdquo; Leiserson &lt;em&gt;et al.&lt;/em&gt;, 2016]&lt;/p&gt;
+
+&lt;p&gt;Therefore, the lowest p-values will be $\frac{1}{2 \times 10000}$.&lt;/p&gt;
+
+&lt;p&gt;Following these changes, I re-ran all downstream analyses.&lt;/p&gt;
+
+&lt;h3 id=&#34;new-exploratory-plots&#34;&gt;New exploratory plots&lt;/h3&gt;
+
+&lt;p&gt;I created a few more exploratory plots that help visualize the results from the RC test a bit better.&lt;/p&gt;
+
+&lt;p&gt;The first two below show the distribution of p-values from the RC-test and Fisher&amp;rsquo;s exact test.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_35_rc-fisher-comparison/rc_pval_distribution.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_35_rc-fisher-comparison/fish_pval_distribution.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The next plot shows the distribution of the effect size of the mutually exclusive interactions found with the RC-test.
+The x-axis is the log-transformed p-value and the y-axis is the ratio of the number of mutually exclusive events and the number of samples in the cancer.
+Each dot is a gene found to have a significant mutually exclusive interaction with the allele that its color points to.
+The size and transparency of each dot indicate the mutational frequency of the gene.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_35_rc-fisher-comparison/rc_mutations_distribition.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;rainfall-plots-for-top-interactions&#34;&gt;Rainfall plots for top interactions&lt;/h3&gt;
+
+&lt;p&gt;As I discussed in yesterday&amp;rsquo;s notebook, Jake Lee (Park Lab) mentioned that I should use a rainfall plot to show some of the mutually exclusive and comutation interactions, the standard visualization for these analyses.&lt;/p&gt;
+
+&lt;p&gt;This analysis was conducted in &amp;ldquo;src/20_50_rainfall-plots.R&amp;rdquo;.&lt;/p&gt;
+
+&lt;p&gt;I began by working to conform to the MAF format so that I could use &amp;lsquo;maftools&amp;rsquo;.
+This process went over my memory budget and canceled my R session.
+I took this as a good stopping point for the day&amp;hellip;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>2019-10-25</title>
       <link>https://project-notebook-comutation.netlify.com/post/2019-10-25/</link>
       <pubDate>Fri, 25 Oct 2019 00:00:00 +0000</pubDate>

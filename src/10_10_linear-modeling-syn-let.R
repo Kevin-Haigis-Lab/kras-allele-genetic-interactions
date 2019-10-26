@@ -180,7 +180,6 @@ model1_tib %>%
 
 #### ---- Heatmaps ---- ####
 
-
 cancer_pheatmap_manager <- list(
     COAD = list(
         col_cuts = 4,

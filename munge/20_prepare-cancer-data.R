@@ -27,7 +27,7 @@ cache("cancer_muts_df",
 
         df <- cancer_data[[CANCER]]$mutations$data %>%
             as_tibble() %>%
-            mutate(cancer = !! cancer_name)
+            mutate(cancer = !!cancer_name)
         cancer_data_frames <- c(cancer_data_frames, list(df))
     }
     rm(cancer_data)
