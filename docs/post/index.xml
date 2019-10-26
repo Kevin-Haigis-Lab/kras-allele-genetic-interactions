@@ -5,12 +5,105 @@
     <link>https://project-notebook-comutation.netlify.com/post/</link>
       <atom:link href="https://project-notebook-comutation.netlify.com/post/index.xml" rel="self" type="application/rss+xml" />
     <description>Posts</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Thu, 24 Oct 2019 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Fri, 25 Oct 2019 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://project-notebook-comutation.netlify.com/img/icon-192.png</url>
       <title>Posts</title>
       <link>https://project-notebook-comutation.netlify.com/post/</link>
     </image>
+    
+    <item>
+      <title>2019-10-25</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-10-25/</link>
+      <pubDate>Fri, 25 Oct 2019 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-10-25/</guid>
+      <description>
+
+&lt;h2 id=&#34;meeting-with-gm&#34;&gt;Meeting with GM&lt;/h2&gt;
+
+&lt;p&gt;I didn&amp;rsquo;t have any time to work on this project today.
+I did meet with GM to go over a few things about his scripts and the figures,
+It went well and he seemed pleased with the current status and my proposed changes.&lt;/p&gt;
+
+&lt;p&gt;Because I couldn&amp;rsquo;t do any coding today, I took some time in the evening to brainstorm for the project.
+My thoughts are below.&lt;/p&gt;
+
+&lt;h2 id=&#34;brainstorming&#34;&gt;Brainstorming&lt;/h2&gt;
+
+&lt;h3 id=&#34;fixing-the-last-panel-of-figure-2&#34;&gt;Fixing the last panel of Figure 2&lt;/h3&gt;
+
+&lt;p&gt;One thing I want to change is the end of Figure 2.
+GM told me that the y-axis is not strictly the probability of getting the mutation.
+This is what Kevin, Peter, and I thought that it represented, but it doesn&amp;rsquo;t according to GM.
+&lt;em&gt;We want to show the observed frequency of the alleles compared to their predicted frequency based on the trinucleotide context.&lt;/em&gt;
+The reader should look at this plot, read the axes as &amp;ldquo;observed vs. predicted&amp;rdquo; and immediately have a strong understanding concept of what is shown.
+There is a paper that previously looked at this for the &lt;em&gt;KRAS&lt;/em&gt; alleles; I should go see how they did the calculation.&lt;/p&gt;
+
+&lt;h3 id=&#34;logisitic-regression-for-synthetic-lethality&#34;&gt;Logisitic regression for synthetic lethality&lt;/h3&gt;
+
+&lt;p&gt;I began working on logistic regression for the synthetic lethality - regressing on the &lt;em&gt;KRAS&lt;/em&gt; allele with the gene effect as the predictor.
+I am still working on it, and it seems like a logical analysis to attempt.
+According to my notes from yesterday, my next attempt is to run a logistic regression on each allele vs. the rest.&lt;/p&gt;
+
+&lt;p&gt;In addition, I could try a logistic LASSO with a logistic regression on the &lt;em&gt;KRAS&lt;/em&gt; alleles using &lt;em&gt;all&lt;/em&gt; of the alleles as predictors.
+From a quick Google search, this seems like a good place to start: &lt;a href=&#34;http://www.sthda.com/english/articles/36-classification-methods-essentials/149-penalized-logistic-regression-essentials-in-r-ridge-lasso-and-elastic-net/&#34; target=&#34;_blank&#34;&gt;&lt;em&gt;Penalized Logistic Regression Essentials in R: Ridge, Lasso and Elastic Net&lt;/em&gt;&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;comparing-overall-dependencies-of-cell-lines-by-kras-alleles&#34;&gt;Comparing overall dependencies of cell lines by &lt;em&gt;KRAS&lt;/em&gt; alleles&lt;/h3&gt;
+
+&lt;p&gt;GM had a good idea during our meeting (credit where credit is due).
+He suggested looking at the overall distribution of lethal genes in the cell lines of each &lt;em&gt;KRAS&lt;/em&gt; allele.
+I am picturing a &lt;a href=&#34;https://cran.r-project.org/web/packages/ggridges/index.html&#34; target=&#34;_blank&#34;&gt;&amp;lsquo;ggridges&amp;rsquo;&lt;/a&gt; plot, one for each allele.
+The thought was that perhaps &amp;ldquo;stronger&amp;rdquo; alleles will have fewer dependencies.
+The tricky part will be figuring out which genes to include.
+I should start by including all of the genes, though it is unlikely to show a difference between any of the alleles.
+I can also use information from the essential and nonessential genes.
+I would be interesting to just see the distributions for the &amp;ldquo;pan-essential&amp;rdquo; genes.&lt;/p&gt;
+
+&lt;p&gt;On a similar note, what about histograms for the genes in the KEGG pathways, CGC genes, and BioID genes?
+Normalize within a gene, and then show &amp;lsquo;ggridges&amp;rsquo; for the genes in each of those.
+Then, underneath, a heatmap of the most variable genes in the gene set showing their values in the cell lines.
+(I included a quick sketch in my notebook relating this thought.)
+I could also do this for any gene sets found to be enriched in the genes in the whole-cancer heatmap (not within individual clusters - they are too small), or with the gene sets found to be enriched in GSEA.&lt;/p&gt;
+
+&lt;h3 id=&#34;a-term-for-reduced-comutation-but-not-mutual-exclusivity&#34;&gt;A term for reduced comutation but not mutual exclusivity&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;We need a different term than &amp;ldquo;mutually exclusive&amp;rdquo; when referring to genes that frequently mutate with a &lt;em&gt;KRAS&lt;/em&gt; allele, just less often than would be predicted by random.&lt;/strong&gt;
+The term &amp;ldquo;mutually exclusive&amp;rdquo; should be saved for &lt;em&gt;BRAF&lt;/em&gt; and &lt;em&gt;EGFR&lt;/em&gt;-like interactions, but not for &lt;em&gt;TP53&lt;/em&gt;.
+However, I do not want to call it &lt;em&gt;reduced&lt;/em&gt; comutation.
+(GM mentioned that I had used a good term a little while ago, but couldn&amp;rsquo;t recall it, I should look in the manuscript to see if it is there.)
+This is essential for the believability of the paper.&lt;/p&gt;
+
+&lt;p&gt;For plotting, we will want to come up with a heurisitc for separating between these three classes.
+Comutation and the others are easy, but between &lt;em&gt;BRAF&lt;/em&gt;-like interactions and &lt;em&gt;TP53&lt;/em&gt;-like interactions will be a bit trickier.&lt;/p&gt;
+
+&lt;h3 id=&#34;comutation-networks&#34;&gt;Comutation networks&lt;/h3&gt;
+
+&lt;p&gt;I need to use more stringent cutoffs for p-value, genetic events, and overall frequency of mutation before continuing further.
+I can also include supplemental plots for the distribution and cumulative distribution of these metrics.&lt;/p&gt;
+
+&lt;p&gt;Jake Lee (Park Lab) brought up the good idea of representing the comutation and reduced comutation genes using a canonical rainfall plot.
+My hesitation is because a lot of these events occur at low frequencies, the plot will be very sparse and unimpressive.
+For example, the &lt;em&gt;PORCN&lt;/em&gt; comutation interaction with &lt;em&gt;A146T&lt;/em&gt; in COAD is interesting because it is mutated in 3 or 4 of the A146T samples and about the same number of other samples.
+Just given the first value, the interaction seems uninteresting; the second value provides context.
+The ratio of these two values is the odds ratio, so perhaps somehow using that will increase the potency.
+Maybe a rainfall plot with the color representing the OR?
+If I can figure out a good plot for these interactions, then I can dive further into a few in particular to make some hypotheses (eg. what are the &lt;em&gt;PORCN&lt;/em&gt; mutations?, are these likely disruptive?, are they located on the same  part of the protein?, etc.)&lt;/p&gt;
+
+&lt;p&gt;For the rainfall plots, one tricky part will be deciding what genes to include.
+A few options are:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;For each allele, the genes with the most number of interactions.&lt;/li&gt;
+&lt;li&gt;For each allele, the genes with the highest OR.&lt;/li&gt;
+&lt;li&gt;Enriched gene sets across all of the hits.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;A priori&lt;/em&gt; selected gene sets.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;I think this should give me plenty to work on, for now.&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>2019-10-24</title>
