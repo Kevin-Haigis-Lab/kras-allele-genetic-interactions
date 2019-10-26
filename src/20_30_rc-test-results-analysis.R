@@ -54,11 +54,9 @@ ggsave_wrapper(sig_results_barplot_septest, save_path, "medium")
 
 #### ---- Networks ---- ####
 
-logger()
-
 rc_test_gr <- rc_test_results %>%
-    filter(num_mut_per_cancer >= 3) %>%
-    filter(p_val < 0.05 & t_AM >= 3) %>%
+    filter(num_mut_per_cancer >= 10) %>%
+    filter(p_val < 0.01 & t_AM >= 3) %>%
     mutate(allele = paste("KRAS", allele)) %>%
     select(allele, hugo_symbol, cancer, rc_test_type, p_val, t_AM) %>%
     as_tbl_graph() %N>%
@@ -73,7 +71,7 @@ for (CANCER in unique(rc_test_results$cancer)) {
         ggraph(layout = "stress") +
         geom_edge_link(
             aes(color = rc_test_type,
-                width = -log(p_val + 0.000001)),
+                width = -log(p_val)),
             alpha = 0.7
         ) +
         scale_edge_width_continuous(range = c(0.1, 1)) +
@@ -104,4 +102,3 @@ for (CANCER in unique(rc_test_results$cancer)) {
     info(logger, glue("Making plot {save_path}."))
     ggsave_wrapper(rc_gr_plot, save_path, "large")
 }
-
