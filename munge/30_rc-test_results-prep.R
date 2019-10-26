@@ -45,7 +45,8 @@ cache("rc_test_results",
         purrr::map(read_rctest_output_file) %>%
         bind_rows() %>%
         mutate(hugo_symbol = get_other_gene_from_genesets(gene_sets)) %>%
-        filter(!is.na(hugo_symbol))
+        filter(!is.na(hugo_symbol)) %>%
+        mutate(p_val = ifelse(p_val == 0, 1 / (2 * n_perms), p_val))
 
 
     num_samples_per_cancer_df <- cancer_coding_muts_df %>%
