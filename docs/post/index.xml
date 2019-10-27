@@ -5,12 +5,61 @@
     <link>https://project-notebook-comutation.netlify.com/post/</link>
       <atom:link href="https://project-notebook-comutation.netlify.com/post/index.xml" rel="self" type="application/rss+xml" />
     <description>Posts</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Sat, 26 Oct 2019 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Sun, 27 Oct 2019 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://project-notebook-comutation.netlify.com/img/icon-192.png</url>
       <title>Posts</title>
       <link>https://project-notebook-comutation.netlify.com/post/</link>
     </image>
+    
+    <item>
+      <title>2019-10-27</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-10-27/</link>
+      <pubDate>Sun, 27 Oct 2019 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-10-27/</guid>
+      <description>
+
+&lt;h2 id=&#34;comutation-networks&#34;&gt;Comutation networks&lt;/h2&gt;
+
+&lt;h3 id=&#34;rainfall-plots-for-top-interactions-cont&#34;&gt;Rainfall plots for top interactions (cont.)&lt;/h3&gt;
+
+&lt;p&gt;I started by getting &lt;code&gt;oncoplot()&lt;/code&gt; and &lt;code&gt;oncostrip()&lt;/code&gt; from [&amp;lsquo;maftools&amp;rsquo;]() working.
+The plots looked interesting so I continued this further to produce more customized plots.&lt;/p&gt;
+
+&lt;p&gt;I want to plot the waterfall oncoplots with KRAS separated into one allele against the others.
+I want these two groups to be at the top of the order for the genes, so I needed to sort the genes myself.
+In order to get this parameterization from &lt;code&gt;oncostrip()&lt;/code&gt;, I needed to update &amp;lsquo;maftools&amp;rsquo; which meant updated BioConductor to version 3.9.&lt;/p&gt;
+
+&lt;p&gt;After updating the BioConductor and all related packages, I finished creating the oncoplots for the alleles.
+I made plots showing each allele and its mutually exclusive partners, separating the &lt;em&gt;KRAS&lt;/em&gt; bar into the allele and &amp;ldquo;other&amp;rdquo;.
+Because I wanted to keep the allele and &lt;em&gt;KRAS&lt;/em&gt; &amp;ldquo;other&amp;rdquo; as the top 2 rows in the plots, I had to implement my own sorting methods.&lt;/p&gt;
+
+&lt;p&gt;Below are some examples of the output.
+They seem to demonstrate the concept very well - there is a clear reduced rate of mutation in the indicated genes compared to the other &lt;em&gt;KRAS&lt;/em&gt;-mutant samples and &lt;em&gt;KRAS&lt;/em&gt; WT samples.&lt;/p&gt;
+
+&lt;h3 id=&#34;coad&#34;&gt;COAD&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/COAD_G12D_exclusivity_oncostrip.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/COAD_G13D_exclusivity_oncostrip.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;luad&#34;&gt;LUAD&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/LUAD_G12C_exclusivity_oncostrip.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/LUAD_G12D_exclusivity_oncostrip.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/LUAD_G12V_exclusivity_oncostrip.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;paad&#34;&gt;PAAD&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/PAAD_G12D_exclusivity_oncostrip.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/PAAD_G12V_exclusivity_oncostrip.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/PAAD_G12R_exclusivity_oncostrip.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>2019-10-26</title>
