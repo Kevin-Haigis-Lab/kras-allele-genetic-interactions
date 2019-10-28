@@ -4,7 +4,7 @@
 # I used multinomial logistic regression identify allele-specific synthetic
 # lethality.
 
-
+library(glmnet)
 library(nnet)
 
 #### ---- Multinomial logisitic regresssion ---- ####
@@ -159,7 +159,6 @@ log_model2_tib %>%
     count(cancer)
 
 
-
 # Save the few for COAD and PAAD
 log_model2_tib %>%
     filter(p_val_corrected < 0.05 & cancer != "LUAD") %>%
@@ -177,3 +176,46 @@ save_path <- plot_path("30_10_logisitic-regression-syn-let_model2",
                        "LUAD_top9_logreg.svg")
 cowplot::save_plot(save_path, luad_plot, base_height = 12, base_width = 12)
 
+
+
+#### ---- LASSO-penalized logistic regression ---- ####
+
+# LASSO-penalized logistic regression on WT vs mutant KRAS
+lasso_log_reg_wrapper <- function(df) {
+    set.seed(0)
+    data <- df %>%
+        select(allele, dep_map_id, hugo_symbol, gene_effect) %>%
+        unique() %>%
+        group_by(hugo_symbol) %>%
+        mutate(gene_effect = unlist(scale(gene_effect)[, 1])) %>%
+        ungroup() %>%
+        pivot_wider(id_cols = c(allele, dep_map_id),
+                    names_from = hugo_symbol,
+                    values_from = gene_effect) %>%
+        select(-dep_map_id)
+
+    data[, -1] <- as.data.frame(data[, -1]) %>%
+        DMwR::knnImputation(k = 5, scale = FALSE) %>%
+        as_tibble()
+
+    x <- model.matrix(allele ~ ., data = data)[, -1]
+    y <- ifelse(data$allele == "WT", 0, 1)
+    fit_cv <- cv.glmnet(x = x,
+                        y = y,
+                        alpha = 1,
+                        family = "binomial",
+                        nfold = nrow(data))
+    fit_model <- glmnet(x = x,
+                        y = y,
+                        family = "binomial",
+                        lambda = fit_cv$lambda.1se)
+    return(fit_model)
+}
+
+# Run a LASSO-penalized logistic regression on WT vs. mutant KRAS
+#   for each cancer.
+# DOES NOT WORK
+model_data %>%
+    group_by(cancer) %>%
+    nest() %>%
+    mutate(lasso_log_model = map(data, lasso_log_reg_wrapper))
