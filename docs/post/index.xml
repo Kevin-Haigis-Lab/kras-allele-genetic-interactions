@@ -5,12 +5,123 @@
     <link>https://project-notebook-comutation.netlify.com/post/</link>
       <atom:link href="https://project-notebook-comutation.netlify.com/post/index.xml" rel="self" type="application/rss+xml" />
     <description>Posts</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Sun, 27 Oct 2019 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Mon, 28 Oct 2019 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://project-notebook-comutation.netlify.com/img/icon-192.png</url>
       <title>Posts</title>
       <link>https://project-notebook-comutation.netlify.com/post/</link>
     </image>
+    
+    <item>
+      <title>2019-10-28</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-10-28/</link>
+      <pubDate>Mon, 28 Oct 2019 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-10-28/</guid>
+      <description>
+
+&lt;h2 id=&#34;comutation-networks&#34;&gt;Comutation networks&lt;/h2&gt;
+
+&lt;h3 id=&#34;rainfall-plots-for-top-interactions-cont&#34;&gt;Rainfall plots for top interactions (cont.)&lt;/h3&gt;
+
+&lt;p&gt;The last thing I wanted to try was to see what the comutation interactions looked like.
+I also added an annotation bar below to denote the &lt;em&gt;KRAS&lt;/em&gt; allele of each sample.&lt;/p&gt;
+
+&lt;h3 id=&#34;coad&#34;&gt;COAD&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;A146T comutation&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/COAD_A146T_comutation_oncostrip_allInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;G12D Comutation&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/COAD_G12D_comutation_oncostrip_allInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;G13D Exclusive&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/COAD_G13D_exclusivity_oncostrip_allInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;G13D Comutation&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/COAD_G13D_comutation_oncostrip_allInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;luad&#34;&gt;LUAD&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;G12A Comutation&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/LUAD_G12A_comutation_oncostrip_allInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;G12C Exclusive&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/LUAD_G12C_exclusivity_oncostrip_allInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;G12V Comutation&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/LUAD_G12V_comutation_oncostrip_allInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;G12V Exclusive&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/LUAD_G12V_exclusivity_oncostrip_allInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;mm&#34;&gt;MM&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;Q61H Comutation&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/MM_Q61H_comutation_oncostrip_allInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Q61H Exclusive&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/MM_Q61H_exclusivity_oncostrip_allInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;paad&#34;&gt;PAAD&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;G12V Comutation&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/PAAD_G12V_comutation_oncostrip_allInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;G12R Comutation&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/PAAD_G12R_comutation_oncostrip_allInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;lasso-penalized-logistic-regression-on-depmap&#34;&gt;LASSO-penalized logistic regression on DepMap&lt;/h2&gt;
+
+&lt;p&gt;I didn&amp;rsquo;t have much time left, so I decided to try something a bit more ambitious.
+I decided to try LASSO-penalized logistic regression.
+Instead of regressing on the &lt;em&gt;KRAS&lt;/em&gt; allele with one gene at a time, I regressed using all of the gene effects, simultaneously.&lt;/p&gt;
+
+&lt;p&gt;Good source for penalized logistic regression: &lt;a href=&#34;http://www.sthda.com/english/articles/36-classification-methods-essentials/149-penalized-logistic-regression-essentials-in-r-ridge-lasso-and-elastic-net/&#34; target=&#34;_blank&#34;&gt;&lt;em&gt;Penalized Logistic Regression Essentials in R: Ridge, Lasso and Elastic Net&lt;/em&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;This analysis was appended to the end of &amp;ldquo;src/30_10_logisitic-regression-syn-let.R&amp;rdquo;.&lt;/p&gt;
+
+&lt;p&gt;Because the data set is rather small - there are a lot of features/dimensions, but only a small number of rows - I used leave-one-out CV.&lt;/p&gt;
+
+&lt;p&gt;Even just trying to separate WT and mutant KRAS failed.
+There is just not enough data to work in that many dimensions.&lt;/p&gt;
+
+&lt;p&gt;The code is still available under the section &amp;ldquo;LASSO-penalized logistic regression.&amp;rdquo;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&#34;lda-on-depmap&#34;&gt;LDA on DepMap&lt;/h3&gt;
+
+&lt;p&gt;I tried using linear discriminant analysis to separate the cell lines from DepMap by KRAS allele.&lt;/p&gt;
+
+&lt;p&gt;This analysis was conducted in &amp;ldquo;src/30_20_discriminant-analysis-syn-let&amp;rdquo;&lt;/p&gt;
+
+&lt;p&gt;The separation is lack-luster to say the least.&lt;/p&gt;
+
+&lt;p&gt;There are simply not enough cell lines for this high-dimensional of an analysis.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graph/30_20_discriminant-analysis-syn-let/COAD_lda.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graph/30_20_discriminant-analysis-syn-let/LUAD_lda.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graph/30_20_discriminant-analysis-syn-let/PAAD_lda.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;TODO:&lt;/strong&gt; need to run script and generate the figures for above.&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>2019-10-27</title>
@@ -39,25 +150,32 @@ They seem to demonstrate the concept very well - there is a clear reduced rate o
 
 &lt;h3 id=&#34;coad&#34;&gt;COAD&lt;/h3&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/COAD_G12D_exclusivity_oncostrip.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/COAD_G12D_exclusivity_oncostrip_notCommonInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/COAD_G13D_exclusivity_oncostrip.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/COAD_G13D_exclusivity_oncostrip_notCommonInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;luad&#34;&gt;LUAD&lt;/h3&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/LUAD_G12C_exclusivity_oncostrip.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/LUAD_G12C_exclusivity_oncostrip_notCommonInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/LUAD_G12D_exclusivity_oncostrip.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/LUAD_G12D_exclusivity_oncostrip_notCommonInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/LUAD_G12V_exclusivity_oncostrip.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/LUAD_G12V_exclusivity_oncostrip_notCommonInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;paad&#34;&gt;PAAD&lt;/h3&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/PAAD_G12D_exclusivity_oncostrip.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/PAAD_G12D_exclusivity_oncostrip_notCommonInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/PAAD_G12V_exclusivity_oncostrip.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/PAAD_G12V_exclusivity_oncostrip_notCommonInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/PAAD_G12R_exclusivity_oncostrip.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/PAAD_G12R_exclusivity_oncostrip_notCommonInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&#34;notes-for-tomorrow&#34;&gt;Notes for tomorrow&lt;/h3&gt;
+
+&lt;p&gt;Use LDA on the DepMap data to separate the alleles.
+What genes are the most descriptive of the new axes?&lt;/p&gt;
 </description>
     </item>
     
