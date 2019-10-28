@@ -86,7 +86,6 @@ ProjectTemplate::cache("cancer_coding_muts_maf", depends = "cancer_muts_df",
 })
 
 
-
 # Filter the complete MAF data frame and return a MAF object for 'maftools'
 # If `replace_kras_with_allele`: set Hugo_Symbol as the allele for KRAS
 # If `group_other_alleles`: then all other KRAS alleles become "KRAS_other"
@@ -111,14 +110,25 @@ get_maf <- function(for_genes, in_cancer, kras_allele,
             ))
     }
 
-    df %>%
+    maf <- df %>%
         dplyr::select(
             Hugo_Symbol, Chromosome, Start_Position, End_Position,
             Reference_Allele, Tumor_Seq_Allele2, Variant_Classification,
             Variant_Type, Tumor_Sample_Barcode, VAF, Protein_Change
         ) %>%
-        as.data.frame() %>%
-        read.maf(verbose = FALSE)
+        as.data.frame()
+
+    clinical_data <- cancer_coding_muts_maf %>%
+        dplyr::filter(cancer %in% !!in_cancer & hugo_symbol %in% !!for_genes) %>%
+        select(Tumor_Sample_Barcode, ras_allele) %>%
+        dplyr::rename(kras_allele = "ras_allele") %>%
+        mutate(
+            kras_allele = str_remove(kras_allele, "KRAS_"),
+            kras_allele = fct_lump(kras_allele, prop = 0.01)
+        ) %>%
+        unique() %>%
+        as.data.frame()
+    read.maf(maf, clinicalData = clinical_data, verbose = FALSE)
 }
 
 
@@ -135,6 +145,7 @@ get_alleles_in_cancer <- function(cancer) {
         filter(cancer == !!cancer) %>%
         u_pull(ras_allele)
 }
+
 
 # Sort genes into: KRAS, "KRAS other", by mut. freq.
 sort_genes <- function(maf) {
@@ -159,6 +170,7 @@ sort_genes <- function(maf) {
 }
 
 
+# If there is a KRAS allele in `genes` return it, otherwise return "WT".
 any_kras_allele <- function(genes) {
     kras_gene <- genes[str_detect(genes, "KRAS ")]
     if (length(kras_gene) > 0) { return(kras_gene[[1]]) }
@@ -166,12 +178,15 @@ any_kras_allele <- function(genes) {
 }
 
 
-sort_samples <- function(maf, gene_order) {
-    gene_score_tib <- tibble(Hugo_Symbol = rev(gene_order)) %>%
-        mutate(value = 2^((1:n()) - 1))
+# Sort samples using a weighted metric.
+#  The first weight is by KRAS allele, with "KRAS_other" at the end.
+#  The second is by the order of the genes in `ordered_genes`.
+sort_samples <- function(maf, ordered_genes) {
+    gene_score_tib <- tibble(Hugo_Symbol = rev(ordered_genes)) %>%
+        mutate(value = 2 ^ ((1:n()) - 1))
 
     kras_tib <- tibble(
-        kras_allele = rev(gene_order[str_detect(gene_order, "KRAS ")])
+        kras_allele = rev(ordered_genes[str_detect(ordered_genes, "KRAS ")])
     ) %>%
         mutate(kras_value = 1:n())
 
@@ -193,7 +208,7 @@ sort_samples <- function(maf, gene_order) {
 # Sort the genes for oncostrip and keep KRAS at the top.
 sort_maf <- function(maf) {
     gene_order <- sort_genes(maf)
-    sample_order <- sort_samples(maf, gene_order = gene_order)
+    sample_order <- sort_samples(maf, ordered_genes = gene_order)
     return(list(
         gene_order = gene_order,
         sample_order = sample_order
@@ -201,17 +216,22 @@ sort_maf <- function(maf) {
 }
 
 
-
-
+# MAIN PLOTTING FUNCTION
+# Plot the oncoplot for a `cancer` and KRAS `allele` for the
+#   top `top_n_genes` genes, ignoring any in `ignore_genes`.
+# (The `...` doesn't go anywhere.)
 allele_exclusivity_oncostrip <- function(cancer, allele,
+                                         save_name_template,
+                                         interaction_type = "exclusivity",
                                          top_n_genes = 20,
                                          ignore_genes = c(),
+                                         annotate_kras_allele = FALSE,
                                          ...) {
     mutex_genes <- genetic_interaction_gr %N>%
         filter(!name %in% !!ignore_genes) %E>%
         filter(cancer == !!cancer &
                kras_allele == !!allele &
-               genetic_interaction == "exclusivity")  %>%
+               genetic_interaction %in% !!interaction_type)  %>%
         top_n(top_n_genes, -p_val) %N>%
         filter(centrality_degree(mode = "all") > 0) %N>%
         as_tibble() %>%
@@ -234,26 +254,51 @@ allele_exclusivity_oncostrip <- function(cancer, allele,
     allele_short <- str_remove(allele, "KRAS_")
     save_path <- plot_path(
         "20_50_rainfall-plots",
-        glue("{cancer}_{allele_short}_exclusivity_oncostrip.svg")
+        glue(save_name_template)
     )
 
-    svg(save_path, width = 9, height = 5)
-    oncoplot(
-        maf,
-        genes = gene_and_sample_orders$gene_order,
-        sampleOrder = gene_and_sample_orders$sample_order,
-        top = top_n_genes,
-        keepGeneOrder = TRUE,
-        GeneOrderSort = FALSE,
-        sepwd_samples = 0,
-        fontSize = 0.6
-    )
-    dev.off()
+    if (annotate_kras_allele) {
+        pal <- short_allele_pal[names(short_allele_pal) %in% getClinicalData(maf)$kras_allele]
+
+        svg(save_path, width = 9, height = 5)
+        oncoplot(
+            maf,
+            # genes = gene_and_sample_orders$gene_order[!str_detect(gene_and_sample_orders$gene_order, "KRAS ")],
+            genes = gene_and_sample_orders$gene_order,
+            sampleOrder = gene_and_sample_orders$sample_order,
+            top = top_n_genes,
+            keepGeneOrder = TRUE,
+            GeneOrderSort = FALSE,
+            removeNonMutated = FALSE,
+            clinicalFeatures = 'kras_allele',
+            annotationColor = list(kras_allele = pal),
+            sepwd_samples = 0,
+            fontSize = 0.6
+        )
+        dev.off()
+    } else {
+        svg(save_path, width = 9, height = 5)
+        oncoplot(
+            maf,
+            genes = gene_and_sample_orders$gene_order,
+            sampleOrder = gene_and_sample_orders$sample_order,
+            top = top_n_genes,
+            keepGeneOrder = TRUE,
+            GeneOrderSort = FALSE,
+            sepwd_samples = 0,
+            fontSize = 0.6
+        )
+        dev.off()
+    }
 }
 
 
+# Uninteresting genes
+uninteresting_genes <- c("TTN", "FN1")
+
+# Genes to ignore in most situations.
 commonly_interacting_genes <- c(
-    "TTN", "FN1",
+    uninteresting_genes,
     "BRAF", "APC", "TP53", "NRAS", "PIK3CA"
 )
 
@@ -267,7 +312,46 @@ cancer_counts_df <- cancer_muts_df %>%
 cancer_counts_df %>%
     filter(n > 10) %>%
     dplyr::rename(allele = "ras_allele") %>%
-    pwalk(allele_exclusivity_oncostrip,
-          top_n_genes = 15,
-          ignore_genes = commonly_interacting_genes)
+    pwalk(
+        allele_exclusivity_oncostrip,
+        save_name_template = "{cancer}_{allele_short}_exclusivity_oncostrip_notCommonInteractors.svg",
+        top_n_genes = 15,
+        ignore_genes = commonly_interacting_genes,
+        annotate_kras_allele = TRUE
+    )
 
+
+cancer_counts_df %>%
+    filter(n > 10) %>%
+    dplyr::rename(allele = "ras_allele") %>%
+    pwalk(
+        allele_exclusivity_oncostrip,
+        save_name_template = "{cancer}_{allele_short}_exclusivity_oncostrip_allInteractors.svg",
+        top_n_genes = 15,
+        ignore_genes = uninteresting_genes,
+        annotate_kras_allele = TRUE
+    )
+
+cancer_counts_df %>%
+    filter(n > 10) %>%
+    dplyr::rename(allele = "ras_allele") %>%
+    pwalk(
+        allele_exclusivity_oncostrip,
+        save_name_template = "{cancer}_{allele_short}_bothInteractions_oncostrip_allInteractors.svg",
+        interaction_type = c("comutation", "exclusivity"),
+        top_n_genes = 15,
+        ignore_genes = uninteresting_genes,
+        annotate_kras_allele = TRUE
+    )
+
+cancer_counts_df %>%
+    filter(n > 10) %>%
+    dplyr::rename(allele = "ras_allele") %>%
+    pwalk(
+        allele_exclusivity_oncostrip,
+        save_name_template = "{cancer}_{allele_short}_comutation_oncostrip_allInteractors.svg",
+        interaction_type = "comutation",
+        top_n_genes = 15,
+        ignore_genes = uninteresting_genes,
+        annotate_kras_allele = TRUE
+    )
