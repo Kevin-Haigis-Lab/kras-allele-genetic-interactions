@@ -27,33 +27,28 @@
 
 ## Analyses
 
-* what is the minimum p-value for RC-test
-    * they state it in the original paper
+- Fix Figure 2 final panel
+    + it is supposed to show observed vs. predicted for the KRAS allele frequency
+    + it currently shows some strange calculations from GM that I do not understand nor can explain
+    + it needs to be something easily interpretable
+- compare overall dependencies of the cell lines by KRAS alleles
+- what mutations are shared by each cell line?
+    + general descriptive plots for the cell lines
+- overlap between hits from comutation and synthetic lethal
+- specify therapeutically viable genes from synthetic lethal hits
+- rainfall plots for comutation interactions in *a priori* lists
+- look into specific genes with genetic interactions
+    + what other plots are available from 'maftools'?
+    + TP53 type of mutations for claims of reduced comutation (are the mutations that do occur considered the hotspots?)
+- functional enrichment from genetic interactions
 
-## Tests
+## Fixes
+
+- Problem with oncoplots in PAAD
+    + G12R in both G12R and other KRAS mutants
+    + WT was thrown into other
 
 
+## Questions
 
-## Misc
-
-
-
-## Easy Wins
-
-- logging for munging "07"
-
-
-
-## Today
-
-Organizing the re-doing of the synthetic lethal analysis:
-
-1. finish preparing the data for modeling
-2. read up on some of the R package for modeling:
-    - 'rms'
-    - 'lme4'
-    - 'glm'
-    - 'lavaan' (tutorial provided)
-3. design architecture for the analysis
-    - account for multiple types of models and comparing them
-
+1. Should I exclude EGFR mutants from LUAD *KRAS* WT?
