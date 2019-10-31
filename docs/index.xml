@@ -106,6 +106,48 @@
     </item>
     
     <item>
+      <title>2019-10-31</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-10-31/</link>
+      <pubDate>Thu, 31 Oct 2019 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-10-31/</guid>
+      <description>
+
+&lt;h2 id=&#34;notes-from-haigis-lab-retreat-2019&#34;&gt;Notes from Haigis Lab Retreat 2019&lt;/h2&gt;
+
+&lt;p&gt;Below are just a few scattered notes from the Haigis Lab Retreat 2019:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Channing Der just published on G12R declaring it relies on a KRAS-independent macropinocyctosis pathway available in the pancreas. It would be interesting to look at this pathway in PAAD.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;descriptive-plots-for-cell-lines-used-by-depmap&#34;&gt;Descriptive plots for cell lines used by DepMap&lt;/h2&gt;
+
+&lt;h3 id=&#34;plan&#34;&gt;Plan&lt;/h3&gt;
+
+&lt;p&gt;The plots to make:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;CGC mutations&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The plots are shown below.&lt;/p&gt;
+
+&lt;h3 id=&#34;cgc-mutations&#34;&gt;CGC Mutations&lt;/h3&gt;
+
+&lt;p&gt;A plot showing the mutations to CGC genes in each cell line was made for each cancer.
+A dot in the tile indicates that it is a known hotspot mutation.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_05_describe-cell-lines/gcg-mutation-tile_COAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_05_describe-cell-lines/gcg-mutation-tile_LUAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_05_describe-cell-lines/gcg-mutation-tile_PAAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>2019-10-28</title>
       <link>https://project-notebook-comutation.netlify.com/post/2019-10-28/</link>
       <pubDate>Mon, 28 Oct 2019 00:00:00 +0000</pubDate>
@@ -206,11 +248,11 @@ There is just not enough data to work in that many dimensions.&lt;/p&gt;
 
 &lt;p&gt;There are simply not enough cell lines for this high-dimensional of an analysis.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graph/30_20_discriminant-analysis-syn-let/COAD_lda.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/30_20_discriminant-analysis-syn-let/COAD_lda.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graph/30_20_discriminant-analysis-syn-let/LUAD_lda.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/30_20_discriminant-analysis-syn-let/LUAD_lda.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graph/30_20_discriminant-analysis-syn-let/PAAD_lda.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/30_20_discriminant-analysis-syn-let/PAAD_lda.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 </description>
     </item>
     
