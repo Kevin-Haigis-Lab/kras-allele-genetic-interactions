@@ -5,6 +5,8 @@ line_count_per_directory <- function(directory) {
     for (file in list.files(directory, full.names = TRUE, pattern = "R")) {
         all_lines <- readLines(file, warn = FALSE) %>% unlist() %>% str_trim()
         all_lines <- all_lines[str_length(all_lines) > 0]
+        comment_line_idx <- str_detect(all_lines, "^#")
+        all_lines <- all_lines[!comment_line_idx]
         counter <- counter + length(all_lines)
     }
     return(counter)
