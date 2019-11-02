@@ -6,24 +6,11 @@
 
 ## Urgent
 
-## Jobs running on O2
-
-(Indexed by tmux screen number.)
-
-
-## Papers to read
-
-
-
-## Munging
-
-
-
+# To-Do List
 
 ## Doc
 
 * add logs and test output to website
-
 
 ## Analyses
 
@@ -31,9 +18,7 @@
     + it is supposed to show observed vs. predicted for the KRAS allele frequency
     + it currently shows some strange calculations from GM that I do not understand nor can explain
     + it needs to be something easily interpretable
-- compare overall dependencies of the cell lines by KRAS alleles
-- what mutations are shared by each cell line?
-    + general descriptive plots for the cell lines
+- general descriptive plots for the cell lines
 - overlap between hits from comutation and synthetic lethal
 - specify therapeutically viable genes from synthetic lethal hits
 - rainfall plots for comutation interactions in *a priori* lists
@@ -41,13 +26,7 @@
     + what other plots are available from 'maftools'?
     + TP53 type of mutations for claims of reduced comutation (are the mutations that do occur considered the hotspots?)
 - functional enrichment from genetic interactions
-
-## Fixes
-
-- Problem with oncoplots in PAAD
-    + G12R in both G12R and other KRAS mutants
-    + WT was thrown into other
-
+- are any of the syn. let. hits classified as pan-nonessential or pan-=essential?
 
 ## Questions
 

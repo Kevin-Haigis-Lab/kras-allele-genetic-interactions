@@ -106,6 +106,121 @@
     </item>
     
     <item>
+      <title>2019-11-01</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-11-01/</link>
+      <pubDate>Fri, 01 Nov 2019 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-11-01/</guid>
+      <description>
+
+&lt;h2 id=&#34;descriptive-plots-for-cell-lines-used-by-depmap-cont&#34;&gt;Descriptive plots for cell lines used by DepMap (cont.)&lt;/h2&gt;
+
+&lt;p&gt;I improved the mutation tile plots from yesterday by adding bar-plots for the margins.
+The images are available in yesterday&amp;rsquo;s notebook.&lt;/p&gt;
+
+&lt;h2 id=&#34;overall-dependencies-of-the-cell-lines-by-kras-allele&#34;&gt;Overall dependencies of the cell lines by &lt;em&gt;KRAS&lt;/em&gt; allele&lt;/h2&gt;
+
+&lt;p&gt;GM had a good suggesting of looking at the overall distribution of dependencies of the cell lines by &lt;em&gt;KRAS&lt;/em&gt; allele.
+Perhaps, the &amp;ldquo;stronger&amp;rdquo; alleles will have reduced dependencies overall.&lt;/p&gt;
+
+&lt;p&gt;The analysis was done in &amp;ldquo;src/10_45_overall-dependencies-by-allele.R&amp;rdquo;&lt;/p&gt;
+
+&lt;p&gt;I made two plots for each cancer and see nothing from either of them.
+The left plot shows the distribution of dependencies for the alleles (each gene&amp;rsquo;s score was averaged across the represented cell lines.)
+The right plot shows the quantile values for the gene scores of each allele.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_45_overall-dependencies-by-allele/dependency-overview_COAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_45_overall-dependencies-by-allele/dependency-overview_LUAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_45_overall-dependencies-by-allele/dependency-overview_PAAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;(I also tried scaling the gene scores across all cell lines before average within each allele, but found nothing interesting, still.)&lt;/p&gt;
+
+&lt;h2 id=&#34;specify-therapeutically-viable-genes-from-synthetic-lethal-hits&#34;&gt;Specify therapeutically viable genes from synthetic lethal hits&lt;/h2&gt;
+
+&lt;p&gt;The heatmaps showing the allele-specific dependencies show any gene with a detectable difference across the alleles.
+I want to specify which hits are &amp;ldquo;therapeutically viable&amp;rdquo;.
+To qualify for this, the gene was be lethal in one context, but not in another.
+Therefore, of the hits, I applied the following filters:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;in at least one, but not all, alleles, the average effect was stronger than the cut-off derived from the non-essential and essential genes&lt;/li&gt;
+&lt;li&gt;the difference is statistically significant&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;This analysis was done in &amp;ldquo;src/10_16_linear-modeling-syn-let_therapeutics.R&amp;rdquo;&lt;/p&gt;
+
+&lt;p&gt;During the analysis, I noticed that some data from cell lines was repeated.
+I looked back and found that that was used for the original analysis.
+I have gone back to &amp;ldquo;src/10_10_linear-modeling-syn-let.R&amp;rdquo; and fixed the problem.
+&lt;strong&gt;TODO:&lt;/strong&gt; I still need to fix one bug in plotting of the results from the fixed analysis.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;notes-on-observed-vs-predicted-kras-allele-frequency&#34;&gt;Notes on observed vs. predicted &lt;em&gt;KRAS&lt;/em&gt; allele frequency&lt;/h2&gt;
+
+&lt;p&gt;In &amp;ldquo;Assessment of mutation probabilities of KRAS G12 missense mutants and their long-timescale dynamics by atomistic molecular simulations and Markov state modeling&amp;rdquo; Pantsar &lt;em&gt;et al.&lt;/em&gt; (2018, PMID: &lt;a href=&#34;https://www.ncbi.nlm.nih.gov/pubmed/?term=30199525&#34; target=&#34;_blank&#34;&gt;30199525&lt;/a&gt;) conducted an analysis of the frequency of &lt;em&gt;KRAS&lt;/em&gt; alleles in different cancers, measuring the extent to which the alleles were distributed at random.
+They found that the alleles could &lt;em&gt;not&lt;/em&gt; be explained by random chance, especially G12R in PAAD.
+Below is their abstract:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;A mutated KRAS protein is frequently observed in human cancers.
+Traditionally, the oncogenic properties of KRAS missense mutants at position 12 (G12X) have been considered as equal.
+Here, by assessing the probabilities of occurrence of all KRAS G12X mutations and KRAS dynamics we show that this assumption does not hold true.
+Instead, our findings revealed an outstanding mutational bias.
+We conducted a thorough mutational analysis of KRAS G12X mutations and assessed to what extent the observed mutation frequencies follow a random distribution.
+Unique tissue-specific frequencies are displayed with specific mutations, especially with G12R, which cannot be explained by random probabilities.
+To clarify the underlying causes for the nonrandom probabilities, we conducted extensive atomistic molecular dynamics simulations (170 μs) to study the differences of G12X mutations on a molecular level.
+The simulations revealed an allosteric hydrophobic signaling network in KRAS, and that protein dynamics is altered among the G12X mutants and as such differs from the wild-type and is mutation-specific.
+The shift in long-timescale conformational dynamics was confirmed with Markov state modeling.
+A G12X mutation was found to modify KRAS dynamics in an allosteric way, which is especially manifested in the switch regions that are responsible for the effector protein binding.
+The findings provide a basis to understand better the oncogenic properties of KRAS G12X mutants and the consequences of the observed nonrandom frequencies of specific G12X mutations.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Below is an excerpt from the analysis of mutation frequencies.
+They used the ratio of transition to transversions to create their null distribution.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;We evaluated how random the occurrences of the specific G12X mutations are.
+To this end, we used the transition:transversion mutation ratio as a figure of merit, and compared this figure to a value of 2.3, which is the ratio for missense mutations observed in large-scale genomic analyses (34,35).
+If the mutations would take place randomly, G12D and G12S mutations should be the most abundant mutations as they are transition mutations (S2 Fig).
+G12D mutation is consistent with this view, as it occurs very often in all tissues.
+Meanwhile, G12S is not consistent with this behavior at all, as it occurs in tumors, perhaps surprisingly, very rarely.
+Also, regardless of the tissue type, the G12V mutation is over-expressed compared to values expected based on the assumption of random occurrences.
+Concluding, the mutations’ probabilities of occurrences are not consistent with a transition:transversion mutation ratio based on a random process.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;strong&gt;Supp. Fig. 2&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://journals.plos.org/ploscompbiol/article/file?id=10.1371/journal.pcbi.1006458.s002&amp;amp;type=supplementary&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;new-metric&#34;&gt;New metric&lt;/h3&gt;
+
+&lt;p&gt;We want to plot observed vs. predicted frequency of the &lt;em&gt;KRAS&lt;/em&gt; mutations; we need a new metric for predicted.
+The null is that the &lt;em&gt;KRAS&lt;/em&gt; allele that each individual has was decided at random - the choice of &lt;em&gt;KRAS&lt;/em&gt; allele was random and any would suffice.
+I need to figure out some measurement that calculates the predicted frequency of each allele given this null.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;notes-from-meeting-with-kh&#34;&gt;Notes from meeting with KH&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;remove &lt;em&gt;EGFR&lt;/em&gt;-activated mutants from &lt;em&gt;KRAS&lt;/em&gt; WT in DepMap.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;comments-from-jake-about-oncoplots&#34;&gt;Comments from Jake about oncoplots&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Overall, he was very positive about them.&lt;/li&gt;
+&lt;li&gt;Look more closely at the overlap of the other genes found to comutate/mut. ex. with a &lt;em&gt;KRAS&lt;/em&gt; allele and see if any of them lie in the same pathways.&lt;/li&gt;
+&lt;li&gt;Limit the number of rows shown to just those with obviously striking results.&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
       <title>2019-10-31</title>
       <link>https://project-notebook-comutation.netlify.com/post/2019-10-31/</link>
       <pubDate>Thu, 31 Oct 2019 00:00:00 +0000</pubDate>

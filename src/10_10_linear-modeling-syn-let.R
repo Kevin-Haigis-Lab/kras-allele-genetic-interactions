@@ -1,6 +1,4 @@
 
-library(ggpubr)
-
 set.seed(0)
 
 #### ---- Linear Model 1 ---- ####
@@ -34,12 +32,14 @@ get_allele_factor_levels <- function(als) {
 lm1_prepare_data <- function(tib) {
     allele_levels <- get_allele_factor_levels(tib$allele)
     mod_tib <- tib %>%
+        group_by(dep_map_id) %>%
+        slice(1) %>%
+        ungroup() %>%
         mutate(
             allele = factor(allele, levels = allele_levels),
             is_altered = as.numeric(is_altered),
             rna_scaled = scale(rna_expression)[, 1]
-        ) %>%
-        select(gene_effect, allele, is_altered, rna_scaled)
+        )
     if (all(is.na(mod_tib$rna_scaled))) { mod_tib$rna_scaled <- 0 }
     return(mod_tib)
 }
@@ -47,8 +47,7 @@ lm1_prepare_data <- function(tib) {
 
 # linear model on RNA expression
 lm_on_rna <- function(data, ...) {
-    data_mod <- lm1_prepare_data(data)
-    fit <- lm(gene_effect ~ rna_scaled, data = data_mod)
+    fit <- lm(gene_effect ~ rna_scaled, data = data)
     return(fit)
 }
 
@@ -66,8 +65,7 @@ rna_pvalue_is_significant <- function(pval, cutoff = 0.01) {
 anova_wrapper <- function(data, rna_pvalue, ...) {
     if (rna_pvalue_is_significant(rna_pvalue)) { return(NA) }
 
-    data_mod <- lm1_prepare_data(data)
-    res <- aov(gene_effect ~ allele, data = data_mod)
+    res <- aov(gene_effect ~ allele, data = data)
     return(res)
 }
 
@@ -77,8 +75,7 @@ anova_wrapper <- function(data, rna_pvalue, ...) {
 kruskal_wrapper <- function(data, rna_pvalue, ...) {
     if (rna_pvalue_is_significant(rna_pvalue)) { return(NA) }
 
-    data_mod <- lm1_prepare_data(data)
-    res <- kruskal.test(gene_effect ~ allele, data = data_mod)
+    res <- kruskal.test(gene_effect ~ allele, data = data)
     return(res)
 }
 
@@ -88,9 +85,8 @@ kruskal_wrapper <- function(data, rna_pvalue, ...) {
 pairwise_wrapper <- function(data, rna_pvalue, ...) {
     if (rna_pvalue_is_significant(rna_pvalue)) { return(NA) }
 
-    data_mod <- lm1_prepare_data(data)
-    res <- pairwise.t.test(data_mod$gene_effect,
-                           data_mod$allele,
+    res <- pairwise.t.test(data$gene_effect,
+                           data$allele,
                            p.adjust.method = "BH")
     return(res)
 }
@@ -102,6 +98,7 @@ model1_tib <- model_data %>%
     group_by(cancer, hugo_symbol) %>%
     filter(sum(gene_effect < cutoff_between_non_essential) >= 2) %>%
     nest() %>%
+    mutate(data = purrr::map(data, lm1_prepare_data)) %>%
     ungroup() %>%
     mutate(
         rna_lm_fit = map(data, lm_on_rna),
@@ -171,6 +168,9 @@ plot_save_dir <- plot_path("10_10_linear-modeling-syn-let_boxplots")
 if (!dir.exists(plot_save_dir)) {
     info(logger, glue("Making directory for saving boxplots: {plot_save_dir}"))
     dir.create(plot_save_dir)
+} else {
+    all_files <- list.files(plot_save_dir, pattern = "svg", full.names = TRUE)
+    file.remove(all_files)
 }
 
 model1_tib %>%
