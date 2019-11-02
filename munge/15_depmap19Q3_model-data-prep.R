@@ -90,6 +90,7 @@ cache("model_data_base",
         filter(!is.na(cancer)) %>%
         unique()
 
+    stopifnot(!any(table(sample_info_tomerge$dep_map_id) > 1))
 
     # construct base data frame of data for modeling
     model_data_base <- gene_effect %>%
@@ -107,6 +108,8 @@ cache("model_data_base",
             hugo_symbol %in% !!nonessential_genes ~ "nonessential"
         )) %>%
         filter(!is.na(gene_effect))
+
+    stopifnot(!any(table(select(model_data_base, dep_map_id, hugo_symbol)) > 1))
 
     log_rows(logger, model_data_base, "model_data_base (1)")
 
@@ -142,6 +145,8 @@ cache("model_data_base",
     info(logger, "Merging the cutoff data frame with the model data.")
     model_data_base <- left_join(model_data_base, cutoff_tib, by = "cancer")
 
+    stopifnot(!any(table(select(model_data_base, dep_map_id, hugo_symbol)) > 1))
+
     log_rows(logger, model_data_base, "model_data_base (2)")
 
 
@@ -152,6 +157,11 @@ cache("model_data_base",
         model_data_base, ccle_expression, by = c("dep_map_id", "hugo_symbol")
     )
 
+    ccle_expression %>%
+        group_by(dep_map_id, hugo_symbol) %>%
+        filter(n() > 1)
+    
+    stopifnot(!any(table(select(model_data_base, dep_map_id, hugo_symbol)) > 1))
 
 #### ---- Add if target gene is mutated/CNA ---- ####
 
