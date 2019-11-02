@@ -29,11 +29,9 @@ get_allele_factor_levels <- function(als) {
 #   put alleles as factors
 #   dummy variable for if the gene is mutated
 #   scale the RNA expression to mean of 0 and std. dev. of 1
-lm1_prepare_data <- function(tib) {
+lm1_prepare_data <- function(tib, hugo_symbol) {
     allele_levels <- get_allele_factor_levels(tib$allele)
     mod_tib <- tib %>%
-        group_by(dep_map_id) %>%
-        slice(1) %>%
         ungroup() %>%
         mutate(
             allele = factor(allele, levels = allele_levels),
@@ -98,7 +96,7 @@ model1_tib <- model_data %>%
     group_by(cancer, hugo_symbol) %>%
     filter(sum(gene_effect < cutoff_between_non_essential) >= 2) %>%
     nest() %>%
-    mutate(data = purrr::map(data, lm1_prepare_data)) %>%
+    mutate(data = purrr::map2(data, hugo_symbol, lm1_prepare_data)) %>%
     ungroup() %>%
     mutate(
         rna_lm_fit = map(data, lm_on_rna),
@@ -170,7 +168,7 @@ if (!dir.exists(plot_save_dir)) {
     dir.create(plot_save_dir)
 } else {
     all_files <- list.files(plot_save_dir, pattern = "svg", full.names = TRUE)
-    file.remove(all_files)
+    aaa <- file.remove(all_files)
 }
 
 model1_tib %>%
@@ -234,16 +232,20 @@ merge_wt <- function(df, data) {
     return(new_df)
 }
 
+
+row_dist_method <- "manhattan"
+col_dist_method <- "manhattan"
+
 plot_cancer_heatmaps <- function(cancer, data) {
 
-    df <- prep_pheatmap_df(data, "normalize")
+    mod_data <- prep_pheatmap_df(data, "normalize")
 
     if (cancer == "LUAD") {
-        df <- merge_wt(df = df, data = data)
+        mod_data <- merge_wt(df = mod_data, data = data)
     }
 
-    row_hclust <- hclust(dist(df, method = "manhattan"))
-    col_hclust <- hclust(dist(t(df), method = "manhattan"))
+    row_hclust <- hclust(dist(mod_data, method = row_dist_method))
+    col_hclust <- hclust(dist(t(mod_data), method = col_dist_method))
 
     col_anno <- data %>%
         select(dep_map_id, allele) %>%
@@ -264,10 +266,10 @@ plot_cancer_heatmaps <- function(cancer, data) {
         col_anno <- rbind(col_anno, wt_anno_df)
     }
 
-    anno_pal <- list(allele = short_allele_pal[unique(col_anno$allele)])
+    anno_pal <- list(allele = short_allele_pal[as.character(unique(col_anno$allele))])
 
     ph <- pheatmap::pheatmap(
-        df,
+        mod_data,
         cluster_rows = row_hclust,
         cluster_cols = col_hclust,
         annotation_col = col_anno,
@@ -287,13 +289,13 @@ plot_cancer_heatmaps <- function(cancer, data) {
 
 
 cluster_genes <- function(cancer, data) {
-    df <- prep_pheatmap_df(data, method = "normalize")
+    mod_data <- prep_pheatmap_df(data, method = "normalize")
 
     if (cancer == "LUAD") {
-        df <- merge_wt(df = df, data = data)
+        mod_data <- merge_wt(df = mod_data, data = data)
     }
 
-    gene_hclust <- hclust(dist(df, method = "manhattan"))
+    gene_hclust <- hclust(dist(mod_data, method = row_dist_method))
     gene_cls <- cutree(
             gene_hclust,
             k = cancer_pheatmap_manager[[cancer]]$row_cuts
