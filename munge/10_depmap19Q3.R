@@ -2,9 +2,11 @@
 # Prepare the data from DepMap (2019 Q3 release)
 info(logger, "Prepare the data from DepMap (2019 Q3 release)")
 
-
-read_depmap_csv <- function(x) {
-    read_csv(file.path("data", "depmap19Q3", x), col_types = cols(), progress = FALSE)
+# Read in a DepMap data file.
+# the `...` is passed to `read_csv()`.
+read_depmap_csv <- function(x, ...) {
+    file.path("data", "depmap19Q3", x) %>%
+        read_csv(col_types = cols(), progress = FALSE, ...)
 }
 
 
@@ -48,10 +50,10 @@ cache('ccle_copy_number',
     info(logger, "Preparing copy number information for the cell lines.")
 
     ccle_copy_number <- read_depmap_csv("CCLE_gene_cn.csv") %>%
-        gather(key = "gene", value = "log_copy_number", -X) %>%
-        mutate(hugo_symbol = get_hugo_from_depmap_ids(gene, "\\.\\."),
+        gather(key = "gene", value = "log_copy_number", -X1) %>%
+        mutate(hugo_symbol = get_hugo_from_depmap_ids(gene, " "),
                hugo_symbol = str_replace_all(hugo_symbol, "\\.", "-")) %>%
-        dplyr::rename(dep_map_id = "X") %>%
+        dplyr::rename(dep_map_id = "X1") %>%
         select(dep_map_id, hugo_symbol, log_copy_number) %>%
         mutate(
             copy_number = 2**log_copy_number,
@@ -115,10 +117,10 @@ cache("ccle_mutations_coding", depends = "ccle_mutations",
 cache("ccle_expression",
 {
     ccle_expression <- read_depmap_csv("CCLE_expression.csv") %>%
-        gather(key = "gene", value = "rna_expression", -X) %>%
-        mutate(hugo_symbol = get_hugo_from_depmap_ids(gene, "\\.\\."),
+        gather(key = "gene", value = "rna_expression", -X1) %>%
+        mutate(hugo_symbol = get_hugo_from_depmap_ids(gene, " "),
                hugo_symbol = str_replace_all(hugo_symbol, "\\.", "-")) %>%
-        dplyr::rename(dep_map_id = "X") %>%
+        dplyr::rename(dep_map_id = "X1") %>%
         select(dep_map_id, hugo_symbol, rna_expression) %>%
         group_by(dep_map_id, hugo_symbol) %>%
         summarise(rna_expression = median(rna_expression)) %>%
@@ -178,11 +180,11 @@ cache("kras_mutation_tib",
 #### ---- Sample Info ---- ####
 
 cache("cell_lines",
-      depends = c("depmap19Q3.sample.info", "kras_mutation_tib"),
+      depends = "kras_mutation_tib",
 {
     info(logger, "Preparing sample (cell line) information.")
 
-    cell_lines <- depmap19Q3.sample.info %>%
+    cell_lines <- read_depmap_csv("sample_info.csv") %>%
         janitor::clean_names() %>%
         select(dep_map_id, stripped_cell_line_name, sex, age,
                lineage, lineage_subtype, lineage_sub_subtype,
@@ -204,24 +206,26 @@ cache("cell_lines",
 })
 
 
+
 #### ---- Gene Effect ---- ####
-# the effect of KOing a gene
+# the effect of knocking-out a gene
 
 cache("gene_effect",
 {
     info(logger, "Preparing the gene effect data.")
 
     gene_effect <- read_depmap_csv("Achilles_gene_effect.csv") %>%
-        gather(key = "gene", value = "gene_effect", -X) %>%
-        mutate(hugo_symbol = get_hugo_from_depmap_ids(gene, "\\.\\."),
+        gather(key = "gene", value = "gene_effect", -X1) %>%
+        mutate(hugo_symbol = get_hugo_from_depmap_ids(gene, " "),
                hugo_symbol = str_replace_all(hugo_symbol, "\\.", "-")) %>%
-        dplyr::rename(dep_map_id = "X") %>%
+        dplyr::rename(dep_map_id = "X1") %>%
         select(dep_map_id, hugo_symbol, gene_effect)
 
     log_rows(logger, gene_effect, "gene_effect")
     info(logger, "Caching `gene_effect`.")
     return(gene_effect)
 })
+
 
 
 #### ---- Dependency Liklihood ---- ####
@@ -232,10 +236,10 @@ cache("dependency_prob",
     info(logger, "Preparing the gene dependency probability data.")
 
     dependency_prob <- read_depmap_csv("Achilles_gene_dependency.csv") %>%
-        gather(key = "gene", value = "prob", -X) %>%
-        mutate(hugo_symbol = get_hugo_from_depmap_ids(gene, "\\.\\."),
+        gather(key = "gene", value = "prob", -X1) %>%
+        mutate(hugo_symbol = get_hugo_from_depmap_ids(gene, " "),
                hugo_symbol = str_replace_all(hugo_symbol, "\\.", "-")) %>%
-        dplyr::rename(dep_map_id = "X") %>%
+        dplyr::rename(dep_map_id = "X1") %>%
         select(dep_map_id, hugo_symbol, prob)
 
     log_rows(logger, dependency_prob, "dependency_prob")
@@ -259,10 +263,10 @@ cache("rnai_effect",
         unique()
 
     rnai_effect <- read_depmap_csv("D2_combined_gene_dep_scores.csv") %>%
-        gather(key = "ccle_name", value = "rnai_effect", -X) %>%
+        gather(key = "ccle_name", value = "rnai_effect", -X1) %>%
         mutate(
-            hugo_symbol = get_hugo_from_depmap_ids(X),
-            ccle_name = str_remove(ccle_name, "^X")) %>%
+            hugo_symbol = get_hugo_from_depmap_ids(X1),
+            ccle_name = str_remove(ccle_name, "^X1")) %>%
         left_join(ccle_to_depmap_names, by = "ccle_name") %>%
         select(dep_map_id, hugo_symbol, rnai_effect)
 
