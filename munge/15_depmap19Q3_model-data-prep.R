@@ -10,16 +10,18 @@ kras_double_mutants <- kras_mutation_tib %>%
     ungroup() %>%
     pull(dep_map_id) %>%
     unique()
+info(logger, glue("There were {n_distinct(kras_double_mutants)} KRAS double mutants."))
 
-info(logger, "Preparing a vector of BRAF and NRAS mutants.")
+info(logger, "Preparing a vector of BRAF, NRAS, and EGFR mutants.")
 mapk_muts <- ccle_mutations_coding %>%
     filter(
         (hugo_symbol == "NRAS" & str_detect(protein_change, "G12|G13|Q61")) |
-        (hugo_symbol == "BRAF" & str_detect(protein_change, "V600"))
+        (hugo_symbol == "BRAF" & str_detect(protein_change, "V600")) |
+        (hugo_symbol == "EGFR" & is_cosmic_hotspot)
     ) %>%
     pull(dep_map_id) %>%
     unique()
-info(logger, paste("There were", n_distinct(mapk_muts), "KRAS double mutants."))
+info(logger, glue("There were {n_distinct(mapk_muts)} MAPK mutants."))
 
 
 #### ---- Model data for CRISPR screen ---- ####
