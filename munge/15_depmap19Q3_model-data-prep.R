@@ -160,7 +160,7 @@ cache("model_data_base",
     ccle_expression %>%
         group_by(dep_map_id, hugo_symbol) %>%
         filter(n() > 1)
-    
+
     stopifnot(!any(table(select(model_data_base, dep_map_id, hugo_symbol)) > 1))
 
 #### ---- Add if target gene is mutated/CNA ---- ####
@@ -216,7 +216,18 @@ cache("model_data", depends = "model_data_base",
         filter(!is_unexpressed) %>%
         group_by(cancer, allele) %>%
         filter(n_distinct(dep_map_id) >= 3) %>%
-        ungroup()
+        ungroup() %>%
+        unique()
+
+
+    # Check that there is no duplicate data.
+    if (any(table(model_data$dep_map_id, model_data$hugo_symbol) > 1)) {
+        stop("Some data is duplicated in `model_data`.")
+        model_data %>%
+            group_by(dep_map_id, hugo_symbol) %>%
+            filter(n() > 1) %>%
+            ungroup()
+    }
 
     info(logger, "Caching `model_data`.")
     return(model_data)

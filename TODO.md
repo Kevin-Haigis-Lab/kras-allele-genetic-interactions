@@ -1,16 +1,17 @@
-# TODO
+# To-Do
 
 ## General project tasks
 
 1. Make timeline for meeting with KH on 2019-09-27
 
+
 ## Urgent
 
-# To-Do List
 
 ## Doc
 
 * add logs and test output to website
+
 
 ## Analyses
 
@@ -26,8 +27,7 @@
     + what other plots are available from 'maftools'?
     + TP53 type of mutations for claims of reduced comutation (are the mutations that do occur considered the hotspots?)
 - functional enrichment from genetic interactions
-- are any of the syn. let. hits classified as pan-nonessential or pan-=essential?
+- are any of the syn. let. hits classified as pan-nonessential or pan-essential?
+- analysis of RNAi screen results
 
 ## Questions
-
-1. Should I exclude EGFR mutants from LUAD *KRAS* WT?

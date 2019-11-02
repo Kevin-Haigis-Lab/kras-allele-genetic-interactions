@@ -106,6 +106,48 @@
     </item>
     
     <item>
+      <title>2019-11-02</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-11-02/</link>
+      <pubDate>Sat, 02 Nov 2019 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-11-02/</guid>
+      <description>
+
+&lt;h2 id=&#34;fix-modeling-of-the-synthetic-lethality&#34;&gt;Fix modeling of the synthetic lethality&lt;/h2&gt;
+
+&lt;h3 id=&#34;fixing-data-issues&#34;&gt;Fixing data issues&lt;/h3&gt;
+
+&lt;p&gt;The first thing to fix was to remove the EGFR-mutant samples from the &lt;em&gt;KRAS&lt;/em&gt; WT.
+Just like with &lt;em&gt;BRAF&lt;/em&gt; and &lt;em&gt;NRAS&lt;/em&gt;, though, I only removed cell lines with known activating mutations.&lt;/p&gt;
+
+&lt;p&gt;I took this as a good time to fix an issue with duplicated data.
+The problem came from rows of the dependency table being copied during joins to other data frames.
+I went through the munging scripts and found the few places where this was happening, fixing this issue.
+(I also fixed some mistakes with gene name parsing.)&lt;/p&gt;
+
+&lt;p&gt;I removed all of the cached data and reloaded the project to build everything from scratch.&lt;/p&gt;
+
+&lt;p&gt;I reran the modeling and recreated the heatmaps and box-plots.&lt;/p&gt;
+
+&lt;h3 id=&#34;next-steps&#34;&gt;Next steps&lt;/h3&gt;
+
+&lt;p&gt;Below are the following next steps for this portion of the paper.&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Conduct a similar analysis with the RNAi screen data.
+
+&lt;ul&gt;
+&lt;li&gt;Any overlapping genes should be highlighted in the paper.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Functional enrichment of the clusters.&lt;/li&gt;
+&lt;li&gt;See if there is any overlap with the comutation and mutually exclusive interactors.&lt;/li&gt;
+&lt;li&gt;Identify and highlight any &amp;ldquo;therapeutically viable&amp;rdquo; targets in the hits.&lt;/li&gt;
+&lt;li&gt;Are any of the hits considered &amp;ldquo;pan-essential&amp;rdquo; or &amp;ldquo;pan-nonessential&amp;rdquo; by DepMap?&lt;/li&gt;
+&lt;li&gt;See if any of the hits in the &lt;em&gt;a priori&lt;/em&gt; genes of interest.&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+    </item>
+    
+    <item>
       <title>2019-11-01</title>
       <link>https://project-notebook-comutation.netlify.com/post/2019-11-01/</link>
       <pubDate>Fri, 01 Nov 2019 00:00:00 +0000</pubDate>
