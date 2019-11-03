@@ -38,6 +38,11 @@ lm1_prepare_data <- function(tib, hugo_symbol) {
             is_altered = as.numeric(is_altered),
             rna_scaled = scale(rna_expression)[, 1]
         )
+
+    if (any(table(mod_tib$dep_map_id) > 1)) {
+        stop(glue("Multiple data points for a cell line in {hugo_symbol}."))
+    }
+
     if (all(is.na(mod_tib$rna_scaled))) { mod_tib$rna_scaled <- 0 }
     return(mod_tib)
 }
@@ -116,6 +121,8 @@ plot_pairwise_test_results <- function(hugo_symbol, cancer, data,
 
     if (tidy(allele_aov)$p.value[[1]] >= 0.01) { return() }
 
+    data <- unique(data)
+
     stat_tib <- compare_means(
         gene_effect ~ allele, data = data,
         method = "t.test", p.adjust.method = "BH"
@@ -142,7 +149,7 @@ plot_pairwise_test_results <- function(hugo_symbol, cancer, data,
             color = "allele",
             add = "jitter"
         ) +
-        stat_pvalue_manual(stat_tib, label = "p.adj") +
+        stat_pvalue_manual(stat_tib, label = "p.adj", family = "Arial") +
         scale_color_manual(values = short_allele_pal) +
         theme(
             text = element_text(family = "arial"),
@@ -151,7 +158,7 @@ plot_pairwise_test_results <- function(hugo_symbol, cancer, data,
             legend.position = "none"
         ) +
         labs(
-            title = glue("Cancer: {cancer}, gene: {hugo_symbol}"),
+            title = glue("{hugo_symbol} in {cancer}"),
             caption = "*bars indicate FDR-adjusted p-values < 0.05",
             y = "depletion effect"
         )
@@ -321,4 +328,4 @@ depmap_gene_clusters <- model1_tib %>%
     unnest(cluster_tib) %>%
     ungroup()
 
-cache("depmap_gene_clusters")
+cache("depmap_gene_clusters", depends = "model1_tib")
