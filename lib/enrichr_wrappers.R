@@ -27,6 +27,12 @@ get_enrichr_overlap_int <- function(overlap) {
 }
 
 
+# Get genes as a list.
+enrichr_genes <- function(genes) {
+    unlist(str_split(genes, ";"))
+}
+
+
 # A thin wrapper around Enrichr (memoised).
 #   Supply a list of genes in `gene_list`.
 #   Returns a tibble of the results.
