@@ -10,14 +10,10 @@ cluster_terms <- depmap_gene_clusters %>%
     unnest(enrichr_res) %>%
     filter(!str_detect(term, !!uniteresting_enrichr_regex)) %>%
     mutate(n_genes = get_enrichr_overlap_int(overlap)) %>%
-    filter(adjusted_p_value < 0.2 & n_genes >= 3)
+    filter(adjusted_p_value < 0.2 & n_genes > 2)
 
 cache("cluster_terms", depends = "model1_tib")
 
-
-cluster_terms %>%
-    filter(cancer == "PAAD") %>%
-    select(datasource, term, adjusted_p_value, genes)
 
 # Write the enrichment results to file.
 cluster_terms %>%
@@ -64,4 +60,99 @@ cluster_terms %>%
     ))
 
 
+#### ---- Plot results ---- ####
 
+# A side-ways bar-plot showing the adj. p-value and genes in enriched groups.
+functional_enrichment_barplot <- function(cancer, data, top_n_fxn = 10, ...) {
+    p <- data %>%
+        group_by(genes) %>%
+        top_n(2, adjusted_p_value) %>%
+        ungroup() %>%
+        mutate(term = str_wrap(term, 50),
+               term = fct_reorder(term, -adjusted_p_value),
+               genes = str_replace_all(genes, ";", ", ")) %>%
+        arrange(adjusted_p_value, n_genes) %>%
+        slice(seq(1, top_n_fxn)) %>%
+        ggplot(aes(x = term, y = -log10(adjusted_p_value))) +
+        geom_col(aes(fill = -log10(adjusted_p_value)), alpha = 0.6) +
+        geom_text(aes(label = genes),
+                  color = "black",
+                  y = 0, family = "Arial", hjust = 0, size = 3) +
+        scale_fill_viridis_c() +
+        scale_y_continuous(expand = expand_scale(mult = c(0, 0.02))) +
+        theme_bw(base_family = "Arial", base_size = 9) +
+        theme(
+            axis.title.x = element_blank(),
+            panel.grid.major.y = element_blank(),
+            panel.grid.minor.y = element_blank(),
+            legend.position = "none"
+        ) +
+        labs(
+            title = glue("Functional enrichment in {cancer} synthetic lethals"),
+            y = "-log10( adj. p-value )"
+        ) +
+        coord_flip()
+
+    save_name <- plot_path("10_13_linear-modeling-syn-let_fxnal-enrichment",
+                           glue("functional-enrichment_{cancer}.svg"))
+    if (cancer == "LUAD") {
+        ggsave_wrapper(p, save_name, "wide")
+    } else {
+        ggsave_wrapper(p, save_name, width = 6, height = 2)
+    }
+
+}
+
+cluster_terms %>%
+    filter(datasource != "LINCS_L1000_Kinase_Perturbations_down") %>%
+    group_by(cancer) %>%
+    nest() %>%
+    pwalk(functional_enrichment_barplot)
+
+
+
+# Bar-plot of the gene effect scores for genes in enriched groups.
+enriched_group_effect_barplot <- function(cancer, term, gene_cls, datasource,
+                                          adjusted_p_value, odds_ratio, genes,
+                                          ...) {
+    p <- model_data %>%
+        filter(cancer == !!cancer & hugo_symbol %in% enrichr_genes(genes)) %>%
+        group_by(hugo_symbol, allele) %>%
+        summarise(avg_gene_effect = mean(gene_effect),
+                  sd_gene_effect = sd(gene_effect)) %>%
+        ungroup() %>%
+        mutate(bar_top_y = avg_gene_effect + sd_gene_effect,
+               bar_bottom_y = avg_gene_effect - sd_gene_effect) %>%
+        group_by(hugo_symbol) %>%
+        mutate(index_value = mean(avg_gene_effect)) %>%
+        ungroup() %>%
+        mutate(hugo_symbol = fct_reorder(hugo_symbol, index_value)) %>%
+        ggplot(aes(x = hugo_symbol, color = allele, fill = allele)) +
+        geom_col(aes(y = avg_gene_effect), position = "dodge", alpha = 0.5) +
+        geom_errorbar(aes(ymin = bar_bottom_y, ymax = bar_top_y),
+                      position = position_dodge2(width = 0.25, padding = 0.75)) +
+        scale_fill_manual(values = short_allele_pal) +
+        scale_color_manual(values = short_allele_pal) +
+        scale_y_continuous(expand = expand_scale(mult = c(0.02, 0.02))) +
+        theme_bw(base_family = "arial") +
+        theme(
+            axis.title.x = element_blank()
+        ) +
+        labs(
+            title = glue("{cancer}: {term}"),
+            y = "depletion effect"
+        )
+    save_term <- str_replace_sp(term) %>%
+        str_replace_all("/", "-") %>%
+        str_replace_all("\\(", "-") %>%
+        str_remove_all("\\)|:")
+    save_name <- plot_path(
+        "10_13_linear-modeling-syn-let_fxnal-enrichment",
+        glue("gene-effect-barplot_{cancer}_{save_term}.svg")
+    )
+    ggsave_wrapper(p, save_name, "wide")
+}
+
+cluster_terms %>%
+    filter(datasource != "LINCS_L1000_Kinase_Perturbations_down") %>%
+    pwalk(enriched_group_effect_barplot)
