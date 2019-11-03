@@ -33,6 +33,8 @@ genesets <- list(
     enframe(name = "gene_type", value = "genes")
 
 
+#### ---- Plotting protein groups ---- ####
+
 # Make a dot-plot for all the genes in `data`.
 multigene_boxplot <- function(data) {
     g <- data %>%
@@ -104,8 +106,29 @@ gene_types_plot <- function(cancer, gene_cls, hugo_symbols) {
 }
 
 
-
 depmap_gene_clusters %>%
     group_by(cancer, gene_cls) %>%
     summarise(hugo_symbols = list(hugo_symbol)) %>%
     purrr::pwalk(gene_types_plot)
+
+
+
+#### ---- Essential or non-essential? ---- ####
+# Are any of the genes found to have varying dependency scores across KRAS
+# allele listed as nonessential or essential by DepMap?
+
+essential_genes <- essentiality_tib %>%
+    mutate(label = ifelse(label != "nonessential", "essential", "nonessential")) %>%
+    unique() %>%
+    group_by(hugo_symbol) %>%
+    filter(n() == 1) %>%
+    ungroup()
+
+tbl_save_path <- file.path(
+    "tables",
+    "10_17_linear-modeling-syn-let_specific-protein-types",
+    "essential-genes-with-allele-specific-dep.tsv"
+)
+inner_join(depmap_gene_clusters, essential_genes, by = "hugo_symbol") %>%
+    arrange(cancer, hugo_symbol, label) %>%
+    write_tsv(tbl_save_path)
