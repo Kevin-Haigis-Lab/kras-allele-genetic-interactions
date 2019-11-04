@@ -106,6 +106,87 @@
     </item>
     
     <item>
+      <title>2019-11-04</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-11-04/</link>
+      <pubDate>Mon, 04 Nov 2019 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-11-04/</guid>
+      <description>
+
+&lt;h2 id=&#34;more-attempts-at-modeling-depmap-data&#34;&gt;More attempts at modeling DepMap data&lt;/h2&gt;
+
+&lt;p&gt;I did some reading and thinking in the morning and came up with a few more linear modeling analyses I wanted to try:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;z(gene_effect) ~ allele
+
+&lt;ul&gt;
+&lt;li&gt;This is essentially what I have already done, but with z-scaled gene-effect scores.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;A rank-sum test for each sample looking for enrichment of genes in &lt;em&gt;a priori&lt;/em&gt; gene sets. I should z-scale the gene-effect scores within a gene first and then conduct the rank-sum within a sample.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&#34;scaled-gene-effect-for-anova&#34;&gt;Scaled gene effect for ANOVA&lt;/h3&gt;
+
+&lt;p&gt;I conducted the simple ANOVA test using the z-scaled gene effect scores.
+The pairwise test was also conducted on the scaled values.
+The results were identical - no new genes, no lost genes.
+The ANOVA test was reverted to the unscaled form.&lt;/p&gt;
+
+&lt;h3 id=&#34;rank-sum-test-for-single-sample-enrichment&#34;&gt;Rank-sum test for single-sample enrichment&lt;/h3&gt;
+
+&lt;p&gt;I ran a rank-sum test for each cell line, where the genes were ranked by the z-scaled gene-effect score.
+The two groups were created by gene-sets, therefore, the test was a sample-wise gene-set enrichment test.
+I used the KEGG and KEA gene sets.
+These results were not very conclusive because it was difficult to make statements on the allele by the effects of a cell line.&lt;/p&gt;
+
+&lt;p&gt;Therefore, I also ran the same test by allele instead of by cell line.
+I used the mean of the gene-effect for the cell lines of an allele and then  z-scaled.
+Some of the results are shown below.&lt;/p&gt;
+
+&lt;p&gt;The first plot is a general overview of the enriched pathways.
+Each dot represents a statistically detectable enrichment and the size of the dot correlates with the FDR-adjusted p-value.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_50_single-sample-rank-sum/enriched_gene_sets.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The following are waterfall plots that show the scaled average gene-effect score for cell lines of a &lt;em&gt;KRAS&lt;/em&gt; allele for the genes in an enriched gene set.
+The x-axis order is by ranking of the y-axis.&lt;/p&gt;
+
+&lt;h3 id=&#34;coad&#34;&gt;COAD&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_50_single-sample-rank-sum/waterfall_COAD_G12D_HIPK2.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_50_single-sample-rank-sum/waterfall_COAD_G12V_CDK14.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_50_single-sample-rank-sum/waterfall_COAD_G12D_ABL2.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_50_single-sample-rank-sum/waterfall_COAD_G12D_PRKCH.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_50_single-sample-rank-sum/waterfall_COAD_G12D_MAP2K1.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;luad&#34;&gt;LUAD&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_50_single-sample-rank-sum/waterfall_LUAD_G12V_DYRK2.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_50_single-sample-rank-sum/waterfall_LUAD_G12C_MAPK7.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;paad&#34;&gt;PAAD&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_50_single-sample-rank-sum/waterfall_PAAD_G12V_PRKCH.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_50_single-sample-rank-sum/waterfall_PAAD_G12D_PRKCE.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_50_single-sample-rank-sum/waterfall_PAAD_G12R_P53 signaling pathway.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_50_single-sample-rank-sum/waterfall_PAAD_G12R_MAP3K8.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;rani-screen-analysis-to-do&#34;&gt;RANi-screen Analysis (To-Do)&lt;/h2&gt;
+
+&lt;p&gt;Compare correlations between RNAi and CRISPR results.
+&amp;ldquo;Integrative&amp;rdquo; analysis with both data sources.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>2019-11-03</title>
       <link>https://project-notebook-comutation.netlify.com/post/2019-11-03/</link>
       <pubDate>Sun, 03 Nov 2019 00:00:00 +0000</pubDate>
