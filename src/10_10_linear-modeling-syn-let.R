@@ -36,7 +36,8 @@ lm1_prepare_data <- function(tib, hugo_symbol) {
         mutate(
             allele = factor(allele, levels = allele_levels),
             is_altered = as.numeric(is_altered),
-            rna_scaled = scale(rna_expression)[, 1]
+            rna_scaled = scale(rna_expression)[, 1],
+            gene_effect_scaled = scale(gene_effect)[, 1]
         )
 
     if (any(table(mod_tib$dep_map_id) > 1)) {
@@ -65,10 +66,14 @@ rna_pvalue_is_significant <- function(pval, cutoff = 0.01) {
 
 # ANOVA on the alleles
 #   only done if the RNA expression of the gene does not explain its effect
-anova_wrapper <- function(data, rna_pvalue, ...) {
+anova_wrapper <- function(data, rna_pvalue, scale_gene_effect = FALSE, ...) {
     if (rna_pvalue_is_significant(rna_pvalue)) { return(NA) }
 
-    res <- aov(gene_effect ~ allele, data = data)
+    if (scale_gene_effect) {
+        res <- aov(gene_effect_scaled ~ allele, data = data)
+    } else {
+        res <- aov(gene_effect ~ allele, data = data)
+    }
     return(res)
 }
 
@@ -85,12 +90,18 @@ kruskal_wrapper <- function(data, rna_pvalue, ...) {
 
 # conduct a pair-wise comparison on each pair of alleles
 #   only done if the RNA expression of the gene does not explain its effect
-pairwise_wrapper <- function(data, rna_pvalue, ...) {
+pairwise_wrapper <- function(data, rna_pvalue, scale_gene_effect = FALSE, ...) {
     if (rna_pvalue_is_significant(rna_pvalue)) { return(NA) }
 
-    res <- pairwise.t.test(data$gene_effect,
-                           data$allele,
-                           p.adjust.method = "BH")
+    if (scale_gene_effect) {
+        res <- pairwise.t.test(data$gene_effect_scaled,
+                               data$allele,
+                               p.adjust.method = "BH")
+    } else {
+        res <- pairwise.t.test(data$gene_effect,
+                               data$allele,
+                               p.adjust.method = "BH")
+    }
     return(res)
 }
 
@@ -113,7 +124,6 @@ model1_tib <- model_data %>%
 info(logger, "Caching results of model 1.")
 cache("model1_tib")
 
-
 # plot the results of the first analysis
 plot_pairwise_test_results <- function(hugo_symbol, cancer, data,
                                        allele_aov, allele_pairwise, ...) {
@@ -124,7 +134,7 @@ plot_pairwise_test_results <- function(hugo_symbol, cancer, data,
     data <- unique(data)
 
     stat_tib <- compare_means(
-        gene_effect ~ allele, data = data,
+        gene_effect_scaled ~ allele, data = data,
         method = "t.test", p.adjust.method = "BH"
     ) %>%
         filter(p.adj < 0.05)
@@ -145,7 +155,7 @@ plot_pairwise_test_results <- function(hugo_symbol, cancer, data,
     p <- ggboxplot(
             data,
             x = "allele",
-            y = "gene_effect",
+            y = "gene_effect_scaled",
             color = "allele",
             add = "jitter"
         ) +
