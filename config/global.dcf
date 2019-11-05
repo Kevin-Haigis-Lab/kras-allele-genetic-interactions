@@ -4,7 +4,7 @@ data_loading_header: TRUE
 data_ignore:
 cache_loading: TRUE
 recursive_loading: TRUE
-munging: TRUE
+munging: FALSE
 logging: TRUE
 logging_level: INFO
 load_libraries: TRUE
@@ -12,5 +12,5 @@ libraries: stats, glue, testthat, tidygraph, jhcutils, magrittr, ggpubr, broom, 
 as_factors: FALSE
 tables_type: tibble
 attach_internal_libraries: FALSE
-cache_loaded_data:  TRUE
+cache_loaded_data:  FALSE
 sticky_variables: NONE
