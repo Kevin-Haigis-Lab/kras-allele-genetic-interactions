@@ -263,12 +263,12 @@ cache("rnai_effect",
         unique()
 
     rnai_effect <- read_depmap_csv("D2_combined_gene_dep_scores.csv") %>%
-        gather(key = "ccle_name", value = "rnai_effect", -X1) %>%
+        gather(key = "ccle_name", value = "gene_effect", -X1) %>%
         mutate(
             hugo_symbol = get_hugo_from_depmap_ids(X1),
             ccle_name = str_remove(ccle_name, "^X1")) %>%
         left_join(ccle_to_depmap_names, by = "ccle_name") %>%
-        select(dep_map_id, hugo_symbol, rnai_effect)
+        select(dep_map_id, hugo_symbol, gene_effect)
 
     log_rows(logger, rnai_effect, "rnai_effect")
     info(logger, "Caching `rnai_effect`.")
