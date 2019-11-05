@@ -30,7 +30,6 @@
 - functional enrichment from genetic interactions
 - are any of the syn. let. hits classified as pan-nonessential or pan-essential?
     + do any of them *become* lethal in an allele?
-- analysis of RNAi screen data
 
 
 ## Questions

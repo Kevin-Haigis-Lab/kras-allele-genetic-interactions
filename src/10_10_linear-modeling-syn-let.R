@@ -257,7 +257,7 @@ merge_wt <- function(df, data) {
 row_dist_method <- "manhattan"
 col_dist_method <- "manhattan"
 
-plot_cancer_heatmaps <- function(cancer, data) {
+plot_cancer_heatmaps <- function(cancer, data, screen) {
 
     mod_data <- prep_pheatmap_df(data, "normalize")
 
@@ -304,7 +304,7 @@ plot_cancer_heatmaps <- function(cancer, data) {
     )
 
     save_path <- plot_path("10_10_linear-modeling-syn-let_pheatmaps",
-                           glue("{cancer}_pheatmap.svg"))
+                           glue("{cancer}_{screen}_pheatmap.svg"))
     save_pheatmap_svg(ph, save_path, width = 7, height = 9)
 }
 
@@ -374,8 +374,7 @@ rnai_model1_tib %>%
     unnest(data) %>%
     group_by(cancer) %>%
     nest() %>%
-    ungroup() %>%
-    mutate(cancer = paste0(cancer, "_RNAi")) %T>%
+    ungroup() %T>%
     purrr::pwalk(plot_cancer_heatmaps, screen = "RNAi")
 
 

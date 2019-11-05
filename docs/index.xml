@@ -106,6 +106,118 @@
     </item>
     
     <item>
+      <title>2019-11-05</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-11-05/</link>
+      <pubDate>Tue, 05 Nov 2019 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-11-05/</guid>
+      <description>
+
+&lt;h2 id=&#34;rani-screen-analysis&#34;&gt;RANi-screen Analysis&lt;/h2&gt;
+
+&lt;p&gt;I conducted the same analysis as was previously done on the CRISPR screen.
+Therefore, the analysis was added to &amp;ldquo;src/10_10_linear-modeling-syn-let.R&amp;rdquo;.&lt;/p&gt;
+
+&lt;p&gt;The data was first prepared in &amp;ldquo;munge/15_depmap19Q3_model-data-prep.R&amp;rdquo;.
+All missing data was removed.
+There are a lot more cell lines per allele.&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;cancer&lt;/th&gt;
+&lt;th&gt;allele&lt;/th&gt;
+&lt;th&gt;n&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;COAD&lt;/td&gt;
+&lt;td&gt;G12V&lt;/td&gt;
+&lt;td&gt;4&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;COAD&lt;/td&gt;
+&lt;td&gt;G13D&lt;/td&gt;
+&lt;td&gt;5&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;COAD&lt;/td&gt;
+&lt;td&gt;G12D&lt;/td&gt;
+&lt;td&gt;7&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;COAD&lt;/td&gt;
+&lt;td&gt;WT&lt;/td&gt;
+&lt;td&gt;13&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;LUAD&lt;/td&gt;
+&lt;td&gt;G12V&lt;/td&gt;
+&lt;td&gt;6&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;LUAD&lt;/td&gt;
+&lt;td&gt;G12C&lt;/td&gt;
+&lt;td&gt;13&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;LUAD&lt;/td&gt;
+&lt;td&gt;WT&lt;/td&gt;
+&lt;td&gt;54&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;PAAD&lt;/td&gt;
+&lt;td&gt;G12R&lt;/td&gt;
+&lt;td&gt;4&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;PAAD&lt;/td&gt;
+&lt;td&gt;G12V&lt;/td&gt;
+&lt;td&gt;8&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;PAAD&lt;/td&gt;
+&lt;td&gt;G12D&lt;/td&gt;
+&lt;td&gt;18&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;The results are rather unimpressive.
+To begin, there is a lot of missing data!
+I looked on DepMaps website and data portal but couldn&amp;rsquo;t find an explanation.
+Also, there were not very many striking differences between the alleles.
+The heatmaps for each cancer are below.&lt;/p&gt;
+
+&lt;h3 id=&#34;coad&#34;&gt;COAD&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_pheatmaps/COAD_RNAi_pheatmap.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;luad&#34;&gt;LUAD&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_pheatmaps/LUAD_RNAi_pheatmap.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;paad&#34;&gt;PAAD&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_pheatmaps/PAAD_RNAi_pheatmap.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h3&gt;
+
+&lt;p&gt;It does not seem like these results are worth further investigating.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>2019-11-04</title>
       <link>https://project-notebook-comutation.netlify.com/post/2019-11-04/</link>
       <pubDate>Mon, 04 Nov 2019 00:00:00 +0000</pubDate>
@@ -1826,15 +1938,15 @@ They are intended to give an over view of the number of genes and also the inten
 
 &lt;h3 id=&#34;coad&#34;&gt;COAD&lt;/h3&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_pheatmaps/COAD_pheatmap.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_pheatmaps/COAD_CRISPR_pheatmap.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;luad&#34;&gt;LUAD&lt;/h3&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_pheatmaps/LUAD_pheatmap.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_pheatmaps/LUAD_CRISPR_pheatmap.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;paad&#34;&gt;PAAD&lt;/h3&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_pheatmaps/PAAD_pheatmap.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_pheatmaps/PAAD_CRISPR_pheatmap.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&#34;to-do-tomorrow&#34;&gt;To-Do Tomorrow&lt;/h2&gt;
 
