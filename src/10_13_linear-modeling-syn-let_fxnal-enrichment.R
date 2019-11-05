@@ -78,6 +78,8 @@ functional_enrichment_barplot <- function(cancer, data, top_n_fxn = 10, ...) {
         geom_text(aes(label = genes),
                   color = "black",
                   y = 0, family = "Arial", hjust = 0, size = 3) +
+        geom_text(aes(label = gene_cls),
+                  hjust = 0.0, size = 3, family = "Arial", nudge_y = 0.01) +
         scale_fill_viridis_c() +
         scale_y_continuous(expand = expand_scale(mult = c(0, 0.02))) +
         theme_bw(base_family = "Arial", base_size = 9) +
