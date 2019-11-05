@@ -17,8 +17,10 @@ compress_gene_set_tibble <- function(gs_tib, gene_col) {
 # All gene sets in one tibble with one row per gene set.
 gene_sets_df <- bind_rows(
     compress_gene_set_tibble(kegg_geneset_df, hugo_symbol),
-    compress_gene_set_tibble(kea_geneset_df, gene)
+    compress_gene_set_tibble(kea_geneset_df, gene),
+    compress_gene_set_tibble(filter(msigdb_c2_df, str_detect(gene_set, "REACTOME")))
 )
+
 
 # Wilcoxon rank-sum test for the genes in a gene set in a single sample.
 ranksum_enrichment <- function(df, gene_set, ...) {
@@ -29,13 +31,10 @@ ranksum_enrichment <- function(df, gene_set, ...) {
         filter(!hugo_symbol %in% !!gene_set) %>%
         pull(gene_effect_scaled)
 
-    if (length(x) < 10 | length(y) < 10) { return(NULL) }
+    if (length(gene_set) < 15 | length(gene_set) > 500) { return(NULL) }
+    if (length(x) < 10 | length(y) < 20) { return(NULL) }
 
-    wcrs_results <- tryCatch(
-        {
-            tidy(wilcox.test(x, y, paried = FALSE))
-        }, error = function(e) { browser() }
-    )
+    wcrs_results <- tidy(wilcox.test(x, y, paried = FALSE))
     return(wcrs_results)
 }
 
