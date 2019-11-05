@@ -72,7 +72,11 @@ anova_wrapper <- function(data, rna_pvalue, scale_gene_effect = FALSE, ...) {
     if (scale_gene_effect) {
         res <- aov(gene_effect_scaled ~ allele, data = data)
     } else {
-        res <- aov(gene_effect ~ allele, data = data)
+        tryCatch(
+        {
+            res <- aov(gene_effect ~ allele, data = data)
+        }, error = function(e) { browser() }
+        )
     }
     return(res)
 }
@@ -332,10 +336,48 @@ depmap_gene_clusters <- model1_tib %>%
     unnest(data) %>%
     group_by(cancer) %>%
     nest() %T>%
-    purrr::pwalk(plot_cancer_heatmaps) %>%
+    purrr::pwalk(plot_cancer_heatmaps, screen = "CRISPR") %>%
     mutate(cluster_tib = purrr::map2(cancer, data, cluster_genes)) %>%
     select(-data) %>%
     unnest(cluster_tib) %>%
     ungroup()
 
 cache("depmap_gene_clusters", depends = "model1_tib")
+
+
+
+
+#### ---- RNAi Screen modeling ---- ####
+
+
+# conduct the first modeling attempt
+rnai_model1_tib <- rnai_model_data %>%
+    group_by(cancer, allele, hugo_symbol) %>%
+    filter(n_distinct(dep_map_id) >= 3) %>%
+    group_by(cancer, hugo_symbol) %>%
+    filter(n_distinct(allele) > 1) %>%
+    nest() %>%
+    mutate(data = purrr::map2(data, hugo_symbol, lm1_prepare_data)) %>%
+    ungroup() %>%
+    mutate(
+        rna_lm_fit = map(data, lm_on_rna),
+        rna_pvalue = map_dbl(rna_lm_fit, ~ tidy(.x)$p.value[2]),
+        allele_aov = map2(data, rna_pvalue, anova_wrapper),
+        allele_pairwise = map2(data, rna_pvalue, pairwise_wrapper)
+    )
+
+rnai_model1_tib %>%
+    filter(rna_pvalue > 0.01) %>%
+    mutate(aov_p_val = purrr::map_dbl(allele_aov, ~ tidy(.x)$p.value[[1]])) %>%
+    filter(aov_p_val < 0.01) %>%
+    select(hugo_symbol, cancer, data) %>%
+    unnest(data) %>%
+    group_by(cancer) %>%
+    nest() %>%
+    ungroup() %>%
+    mutate(cancer = paste0(cancer, "_RNAi")) %T>%
+    purrr::pwalk(plot_cancer_heatmaps, screen = "RNAi")
+
+
+info(logger, "Caching results of RNAi model 1.")
+cache("rnai_model1_tib")
