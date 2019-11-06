@@ -90,6 +90,10 @@ The plot shows that the number of detectable interactions increases with the num
 
 ![](/img/graphs/20_35_rc-fisher-comparison/rc_fisher_comparison_specific.svg)
 
+The plot below shows the distribution of number of mutually exclusive events by p-value of the association.
+
+![](/img/graphs/20_35_rc-fisher-comparison/rc_mutations_distribition.svg)
+
 The rest of the summary is subdivided by cancer.
 
 [COAD](#coad)  
@@ -104,7 +108,7 @@ Below are the high-level visualizations of the genetic interactions.
 The alleles tend to be connected by mutual exclusive interactions (instead of comutation interactions).
 Each allele also has their own set of comutation and mutually exclusive interactors.
 
-![](/img/graphs/20_40_highlivel-genetic-interactions/genetic_interaction_network_COAD.svg)
+![](/img/graphs/20_40_highlivel-genetic-interactions/genetic_interaction_network_COAD_thick.svg)
 
 ![](/img/graphs/20_40_highlivel-genetic-interactions/COAD_comutation_upset.svg)
 
@@ -130,6 +134,22 @@ Many of the alleles have interactions with genes involved in ERBB signaling.
 
 Also of note, but not shown graphically here, the physical interactors of SMAD2, a transcription factor, were found to be enriched in the G12D genetic interactors by two different gene sets.
 
+A more direct visualization of the mutually exclusive and comutation interactions is via an oncoplot.
+On a heatmap, it shows a sample per column and a gene per row.
+The cell is filled with a color if the sample is mutated in the gene.
+The arrangement of the samples highlights the genetic interactions by showing either the overlap or exclusivity.
+
+I have shown them here for a select few of the alleles with interesting interactions.
+For the paper, a more selective portion of the interactions will be shown.
+
+![](/img/graphs/20_50_rainfall-plots/COAD_A146T_comutation_oncostrip_allInteractors.svg)
+
+![](/img/graphs/20_50_rainfall-plots/COAD_G12D_comutation_oncostrip_allInteractors.svg)
+
+![](/img/graphs/20_50_rainfall-plots/COAD_G13D_comutation_oncostrip_allInteractors.svg)
+
+![](/img/graphs/20_50_rainfall-plots/COAD_G13D_exclusivity_oncostrip_allInteractors.svg)
+
 ---
 
 ### LUAD
@@ -140,7 +160,7 @@ This is especially true for G12C, G12V, and G12D.
 Each allele also has their own set of comutation and mutually exclusive interactors.
 There are many genes that are mutually exclusive with one allele and comutate with another.
 
-![](/img/graphs/20_40_highlivel-genetic-interactions/genetic_interaction_network_LUAD.svg)
+![](/img/graphs/20_40_highlivel-genetic-interactions/genetic_interaction_network_LUAD_thick.svg)
 
 ![](/img/graphs/20_40_highlivel-genetic-interactions/LUAD_comutation_upset.svg)
 
@@ -176,6 +196,21 @@ There are several Ras-related processes enriched in the G12C interactors.
 
 ![](/img/graphs/20_45_fxnal-enrich-genetic-interactions/enrichr_LUAD_GO_Biological_Process_2018.svg)
 
+Below are the oncoplots for the more common alleles in LUAD.
+
+![](/img/graphs/20_50_rainfall-plots/LUAD_G12D_exclusivity_oncostrip_allInteractors.svg)
+
+![](/img/graphs/20_50_rainfall-plots/LUAD_G12D_comutation_oncostrip_allInteractors.svg)
+
+![](/img/graphs/20_50_rainfall-plots/LUAD_G12C_comutation_oncostrip_allInteractors.svg)
+
+![](/img/graphs/20_50_rainfall-plots/LUAD_G12C_exclusivity_oncostrip_allInteractors.svg)
+
+![](/img/graphs/20_50_rainfall-plots/LUAD_G12V_exclusivity_oncostrip_allInteractors.svg)
+
+![](/img/graphs/20_50_rainfall-plots/LUAD_G12V_comutation_oncostrip_allInteractors.svg)
+
+
 ---
 
 ### MM
@@ -183,7 +218,7 @@ There are several Ras-related processes enriched in the G12C interactors.
 Below are the high-level visualizations of the genetic interactions.
 There were not very many hits for multiple myeloma and very little overlap of the interacting genes between *KRAS* alleles.
 
-![](/img/graphs/20_40_highlivel-genetic-interactions/genetic_interaction_network_MM.svg)
+![](/img/graphs/20_40_highlivel-genetic-interactions/genetic_interaction_network_MM_thick.svg)
 
 ![](/img/graphs/20_40_highlivel-genetic-interactions/MM_comutation_upset.svg)
 
@@ -206,7 +241,7 @@ Below are the high-level visualizations of the genetic interactions.
 There were many allele-specific comutation and mutually exclusive interactions detected in PAAD.
 Further or more strict thresholds may be applied in future analyses to reduce false-positives.
 
-![](/img/graphs/20_40_highlivel-genetic-interactions/genetic_interaction_network_PAAD.svg)
+![](/img/graphs/20_40_highlivel-genetic-interactions/genetic_interaction_network_PAAD_thick.svg)
 
 ![](/img/graphs/20_40_highlivel-genetic-interactions/PAAD_comutation_upset.svg)
 
@@ -255,3 +290,16 @@ Genes of the EGFR pathway have many interactions with G12D.
 
 ![](/img/graphs/20_45_fxnal-enrich-genetic-interactions/enrichr_PAAD_Panther_2016.svg)
 
+Below are the oncoplots for the more interesting alleles in PAAD.
+
+![](/img/graphs/20_50_rainfall-plots/PAAD_G12D_bothInteractions_oncostrip_allInteractors.svg)
+
+![](/img/graphs/20_50_rainfall-plots/PAAD_G12D_comutation_oncostrip_allInteractors.svg)
+
+![](/img/graphs/20_50_rainfall-plots/PAAD_G12R_comutation_oncostrip_allInteractors.svg)
+
+![](/img/graphs/20_50_rainfall-plots/PAAD_G12R_exclusivity_oncostrip_allInteractors.svg)
+
+![](/img/graphs/20_50_rainfall-plots/PAAD_Q61H_comutation_oncostrip_allInteractors.svg)
+
+![](/img/graphs/20_50_rainfall-plots/PAAD_Q61H_exclusivity_oncostrip_allInteractors.svg)
