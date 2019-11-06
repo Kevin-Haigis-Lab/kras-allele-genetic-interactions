@@ -75,11 +75,11 @@ Below the heatmaps are specific genes with strong allele-specific effects.
 
 ![](/img/graphs/10_10_linear-modeling-syn-let_pheatmaps/COAD_CRISPR_pheatmap.svg)
 
-![](/img/graphs/10_10_linear-modeling-syn-let_boxplots/COAD-IDH1.svg)
+<img src="/img/graphs/10_10_linear-modeling-syn-let_boxplots/COAD-IDH1.svg" width=500 />
 
-![](/img/graphs/10_10_linear-modeling-syn-let_boxplots/COAD-PIP5K1A.svg)
+<img src="/img/graphs/10_10_linear-modeling-syn-let_boxplots/COAD-PIP5K1A.svg" width=500 />
 
-![](/img/graphs/10_10_linear-modeling-syn-let_boxplots/COAD-WDR26.svg)
+<img src="/img/graphs/10_10_linear-modeling-syn-let_boxplots/COAD-WDR26.svg" width=500 />
 
 **LUAD**
 
@@ -88,37 +88,37 @@ Below the heatmaps are specific genes with strong allele-specific effects.
 Because there are too many genes to show their names for LUAD, I identified enriched functions in the clusters.
 The functions that are a single gene are either transcription factors or kinases with their targets enriched in the cluster (the number at the end of each bar indicates the cluster).
 
-<img src="/img/graphs/10_13_linear-modeling-syn-let_fxnal-enrichment/functional-enrichment_LUAD.svg" width=300 />
+![](/img/graphs/10_13_linear-modeling-syn-let_fxnal-enrichment/functional-enrichment_LUAD.svg)
 
-<img src="/img/graphs/10_13_linear-modeling-syn-let_fxnal-enrichment/LUAD-ARMC6.svg" width=300 />
+<img src="/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-ARMC6.svg" width=500 />
 
-<img src="/img/graphs/10_13_linear-modeling-syn-let_fxnal-enrichment/LUAD-EPN2.svg" width=300 />
+<img src="/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-EPN2.svg" width=500 />
 
-<img src="/img/graphs/10_13_linear-modeling-syn-let_fxnal-enrichment/LUAD-FOXJ3.svg" width=300 />
+<img src="/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-FOXJ3.svg" width=500 />
 
-<img src="/img/graphs/10_13_linear-modeling-syn-let_fxnal-enrichment/LUAD-HSBP1.svg" width=300 />
+<img src="/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-HSBP1.svg" width=500 />
 
-<img src="/img/graphs/10_13_linear-modeling-syn-let_fxnal-enrichment/LUAD-MAPK6.svg" width=300 />
+<img src="/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-MAPK6.svg" width=500 />
 
-<img src="/img/graphs/10_13_linear-modeling-syn-let_fxnal-enrichment/LUAD-P4HTM.svg" width=300 />
+<img src="/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-P4HTM.svg" width=500 />
 
-<img src="/img/graphs/10_13_linear-modeling-syn-let_fxnal-enrichment/LUAD-PTBP3.svg" width=300 />
+<img src="/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-PTBP3.svg" width=500 />
 
-<img src="/img/graphs/10_13_linear-modeling-syn-let_fxnal-enrichment/LUAD-TP53BP1.svg" width=300 />
+<img src="/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-TP53BP1.svg" width=500 />
 
-<img src="/img/graphs/10_13_linear-modeling-syn-let_fxnal-enrichment/LUAD-STAMBP.svg" width=300 />
+<img src="/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-STAMBP.svg" width=500 />
 
 **PAAD**
 
 ![](/img/graphs/10_10_linear-modeling-syn-let_pheatmaps/PAAD_CRISPR_pheatmap.svg)
 
-<img src="/img/graphs/10_13_linear-modeling-syn-let_fxnal-enrichment/PAAD-JUN.svg" width=300 />
+<img src="/img/graphs/10_10_linear-modeling-syn-let_boxplots/PAAD-JUN.svg" width=500 />
 
-<img src="/img/graphs/10_13_linear-modeling-syn-let_fxnal-enrichment/PAAD-EGLN2.svg" width=300 />
+<img src="/img/graphs/10_10_linear-modeling-syn-let_boxplots/PAAD-EGLN2.svg" width=500 />
 
-<img src="/img/graphs/10_13_linear-modeling-syn-let_fxnal-enrichment/PAAD-GPT2.svg" width=300 />
+<img src="/img/graphs/10_10_linear-modeling-syn-let_boxplots/PAAD-GPT2.svg" width=500 />
 
-<img src="/img/graphs/10_13_linear-modeling-syn-let_fxnal-enrichment/PAAD-MRPS25.svg" width=300 />
+<img src="/img/graphs/10_10_linear-modeling-syn-let_boxplots/PAAD-MRPS25.svg" width=500 />
 
 
 ### Functional enrichment of synthetic lethal interactions
