@@ -140,8 +140,6 @@ plot_gsea_results <- function(cancer, data) {
 
     if (nrow(mod_data) == 0) { return() }
 
-    purrr::pwalk(mod_data, pull_gsea_enplot, cancer = cancer)
-
     p <- gsea_plot(mod_data, title_suffix = cancer)
     save_path <- plot_path("10_37_gsea-depmap-analysis",
                            glue("gsea-results-{cancer}-all.svg"))
@@ -235,6 +233,8 @@ select_gsea_plot <- function(cancer, data, ...) {
     save_path <- plot_path("10_37_gsea-depmap-analysis",
                            glue("gsea-results-{cancer}-select.svg"))
     ggsave_wrapper(p, save_path, "wide")
+
+     purrr::pwalk(mod_data, pull_gsea_enplot, cancer = cancer)
 }
 
 
