@@ -1,38 +1,4 @@
-
 # Analyzing the results of GSEA on the DepMap data.
-
-
-#### ---- Move output images to graphs/10_37_gsea-depmap-output ---- ####
-
-gsea_output_dirs <- file.path("data", "gsea", "output") %>%
-    list.dirs(recursive = FALSE)
-
-OVERWRITE_DIRS <- FALSE
-
-for (gsea_dir in gsea_output_dirs) {
-    svg_files <- list.files(gsea_dir, pattern = "^enplot.*svg.gz$", full.names = TRUE)
-    if (length(svg_files) == 0) next
-
-    cancer_allele <- basename(gsea_dir) %>% str_extract(".+(?=\\.Gsea)")
-
-    target_dir <- file.path("graphs", "10_37_gsea-depmap-output", cancer_allele)
-    if (dir.exists(target_dir) & OVERWRITE_DIRS) {
-        unlink(target_dir, recursive = TRUE)
-    } else if (dir.exists(target_dir) & !OVERWRITE_DIRS) {
-        next
-    }
-    cat(glue("Creating directory for {cancer_allele}.\n"))
-    dir.create(target_dir)
-
-
-    for (svg_file in svg_files) {
-        target_path <- file.path(target_dir, basename(svg_file))
-        a <- file.copy(svg_file, target_path)
-        a <- R.utils::gunzip(target_path)
-    }
-}
-
-
 
 
 #### ---- Read in results ---- ####
@@ -60,7 +26,6 @@ get_gsea_reports <- function(dirs) {
             unnest(data)
         return(report_df)
     }
-
     purrr::map(dirs, get_gsea_report)
 }
 
@@ -114,7 +79,7 @@ pull_gsea_enplot <- function(cancer, allele, gene_set, gene_set_family,
     target_path <- file.path(target_dir, basename(svg_file))
     unziped_target_path <- gsub("[.]gz$", "", target_path)
 
-    if(length(target_path) != 1) browser()
+    if (length(target_path) != 1) { return(NULL) }
 
     if (file.exists(unziped_target_path) & !force_overwrite) {
         return(NULL)
