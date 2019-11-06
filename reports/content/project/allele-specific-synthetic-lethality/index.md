@@ -125,12 +125,70 @@ The functions that are a single gene are either transcription factors or kinases
 
 I use GSEA to identify functions that were generally enriched by *KRAS* allele.
 Select results are shown below, but the full results are available in the notebook page from [2019-10-18]({{< ref "/post/2019-10-18-2019-10-18.md" >}}).
+Note that a **positive** NES corresponds to **stronger** depletion effect.
+
+
 
 ![](/img/graphs/10_37_gsea-depmap-analysis/gsea-results-COAD-select.svg)
 
+G12V de-enriched for nonsense-mediated decay
+
+![](/img/graphs/10_37_gsea-depmap-output/COAD_G12V/enplot_REACTOME_NONSENSE_MEDIATED_DECAY_NMD_66.svg)
+
+G12V enriched in TP53-regulated metabolism
+
+![](/img/graphs/10_37_gsea-depmap-output/COAD_G12V/enplot_REACTOME_TP53_REGULATES_METABOLIC_GENES_57.svg)
+
+G13D de-enriched for complement
+
+![](/img/graphs/10_37_gsea-depmap-output/COAD_G13D/enplot_REACTOME_COMPLEMENT_CASCADE_117.svg)
+
+G13D de-enriched for the ETC
+
+![](/img/graphs/10_37_gsea-depmap-output/COAD_G13D/enplot_REACTOME_RESPIRATORY_ELECTRON_TRANSPORT_69.svg)
+
+
+**LUAD**
+
 ![](/img/graphs/10_37_gsea-depmap-analysis/gsea-results-LUAD-select.svg)
 
+G12C enriched in the Bard1 pathway
+
+![](/img/graphs/10_37_gsea-depmap-output/LUAD_G12C/enplot_PID_BARD1_PATHWAY_33.svg)
+
+G12C enriched in the Faconi anemia pathway
+
+![](/img/graphs/10_37_gsea-depmap-output/LUAD_G12C/enplot_REACTOME_FANCONI_ANEMIA_PATHWAY_3.svg)
+
+G12C de-enriched for $\beta$ alanine metabolism
+
+![](/img/graphs/10_37_gsea-depmap-output/LUAD_G12C/enplot_KEGG_BETA_ALANINE_METABOLISM_66.svg)
+
+
+**PAAD**
+
 ![](/img/graphs/10_37_gsea-depmap-analysis/gsea-results-PAAD-select.svg)
+
+G12R enriched in JNK (c-Jun kinases) phosphorylation and activation mediated by activated human TAK1
+
+![](/img/graphs/10_37_gsea-depmap-output/PAAD_G12R/enplot_REACTOME_JNK_C_JUN_KINASES_PHOSPHORYLATION_AND_ACTIVATION_MEDIATED_BY_ACTIVATED_HUMAN_TAK1_57.svg)
+
+G12R enriched in NF-kB Signaling Pathway
+
+![](/img/graphs/10_37_gsea-depmap-output/PAAD_G12R/enplot_BIOCARTA_NFKB_PATHWAY_45.svg)
+
+G12R enriched in G2/M DNA damage checkpoint
+
+![](/img/graphs/10_37_gsea-depmap-output/PAAD_G12R/enplot_REACTOME_G2_M_DNA_DAMAGE_CHECKPOINT_24.svg)
+
+G12V de-enriched in the hedgehog signaling pathway
+
+![](/img/graphs/10_37_gsea-depmap-output/PAAD_G12V/enplot_HALLMARK_HEDGEHOG_SIGNALING_72.svg)
+
+G12V de-enriched in the regulation of cholesterol biosynthesis by SREBP (SREBF)
+
+![](/img/graphs/10_37_gsea-depmap-output/PAAD_G12V/enplot_REACTOME_REGULATION_OF_CHOLESTEROL_BIOSYNTHESIS_BY_SREBP_SREBF_69.svg)
+
 
 ### No obvious differences in the general distribution of depletion effects per allele
 
