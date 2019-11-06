@@ -72,11 +72,7 @@ anova_wrapper <- function(data, rna_pvalue, scale_gene_effect = FALSE, ...) {
     if (scale_gene_effect) {
         res <- aov(gene_effect_scaled ~ allele, data = data)
     } else {
-        tryCatch(
-        {
-            res <- aov(gene_effect ~ allele, data = data)
-        }, error = function(e) { browser() }
-        )
+        res <- aov(gene_effect ~ allele, data = data)
     }
     return(res)
 }
@@ -138,7 +134,7 @@ plot_pairwise_test_results <- function(hugo_symbol, cancer, data,
     data <- unique(data)
 
     stat_tib <- compare_means(
-        gene_effect_scaled ~ allele, data = data,
+        gene_effect ~ allele, data = data,
         method = "t.test", p.adjust.method = "BH"
     ) %>%
         filter(p.adj < 0.05)
@@ -159,7 +155,7 @@ plot_pairwise_test_results <- function(hugo_symbol, cancer, data,
     p <- ggboxplot(
             data,
             x = "allele",
-            y = "gene_effect_scaled",
+            y = "gene_effect",
             color = "allele",
             add = "jitter"
         ) +

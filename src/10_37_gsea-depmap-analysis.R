@@ -2,6 +2,39 @@
 # Analyzing the results of GSEA on the DepMap data.
 
 
+#### ---- Move output images to graphs/10_37_gsea-depmap-output ---- ####
+
+gsea_output_dirs <- file.path("data", "gsea", "output") %>%
+    list.dirs(recursive = FALSE)
+
+OVERWRITE_DIRS <- FALSE
+
+for (gsea_dir in gsea_output_dirs) {
+    svg_files <- list.files(gsea_dir, pattern = "^enplot.*svg.gz$", full.names = TRUE)
+    if (length(svg_files) == 0) next
+
+    cancer_allele <- basename(gsea_dir) %>% str_extract(".+(?=\\.Gsea)")
+
+    target_dir <- file.path("graphs", "10_37_gsea-depmap-output", cancer_allele)
+    if (dir.exists(target_dir) & OVERWRITE_DIRS) {
+        unlink(target_dir, recursive = TRUE)
+    } else if (dir.exists(target_dir) & !OVERWRITE_DIRS) {
+        next
+    }
+    cat(glue("Creating directory for {cancer_allele}.\n"))
+    dir.create(target_dir)
+
+
+    for (svg_file in svg_files) {
+        target_path <- file.path(target_dir, basename(svg_file))
+        a <- file.copy(svg_file, target_path)
+        a <- R.utils::gunzip(target_path)
+    }
+}
+
+
+
+
 #### ---- Read in results ---- ####
 
 # Read in a GSEA report file.
@@ -52,6 +85,47 @@ gsea_df <- file.path("data", "gsea", "output") %>%
 cache("gsea_df")
 
 
+# Pull a waterfall plot ("enplot"?) from the GSEA results for a the specified
+#   cancer, allele, and name (gene-set).
+pull_gsea_enplot <- function(cancer, allele, gene_set, gene_set_family,
+                             force_overwrite = FALSE,
+                             ...) {
+    cancer_allele <- paste0(cancer, "_", allele)
+
+    gsea_dirs <- file.path("data", "gsea", "output") %>%
+        list.dirs(recursive = FALSE)
+    gsea_dir <- gsea_dirs[str_detect(gsea_dirs, cancer_allele)]
+
+    svg_files <- list.files(gsea_dir, pattern = "^enplot.*svg.gz", full.names = TRUE)
+
+    if (str_length(gene_set) > 100) {
+        gene_set_regex <- glue("{gene_set_family}_{str_sub(gene_set, 1, 100)}")
+    } else {
+        gene_set_regex <- glue("{gene_set_family}_{gene_set}_[:digit:]+")
+    }
+
+    svg_file <- svg_files[str_detect(basename(svg_files), gene_set_regex)]
+
+    target_dir <- file.path("graphs", "10_37_gsea-depmap-output", cancer_allele)
+    if (!dir.exists(target_dir)) {
+        dir.create(target_dir)
+    }
+
+    target_path <- file.path(target_dir, basename(svg_file))
+    unziped_target_path <- gsub("[.]gz$", "", target_path)
+
+    if(length(target_path) != 1) browser()
+
+    if (file.exists(unziped_target_path) & !force_overwrite) {
+        return(NULL)
+    }
+
+    a <- file.copy(svg_file, target_path)
+    a <- R.utils::gunzip(target_path, overwrite = TRUE)
+
+    return(NULL)
+}
+
 
 #### ---- Plot GSEA results ---- ####
 
@@ -101,6 +175,8 @@ plot_gsea_results <- function(cancer, data) {
 
     if (nrow(mod_data) == 0) { return() }
 
+    purrr::pwalk(mod_data, pull_gsea_enplot, cancer = cancer)
+
     p <- gsea_plot(mod_data, title_suffix = cancer)
     save_path <- plot_path("10_37_gsea-depmap-analysis",
                            glue("gsea-results-{cancer}-all.svg"))
@@ -126,3 +202,83 @@ gsea_df %>%
     group_by(cancer) %>%
     nest() %>%
     purrr::pwalk(plot_gsea_results)
+
+
+
+#### ---- Plot select GSEA results ---- ####
+
+
+select_gsea_results <- list(
+    COAD = c(
+        "vegfr2 mediated cell proliferation",
+        "tp53 regulates metabolic genes",
+        "srp dependent cotranslational protein targeting to membrane",
+        "respiratory electron transport",
+        "regulation of expression of slits and robos",
+        "complement cascade",
+        "oxidative phosphorylation",
+        "gpcr pathway",
+        "nonsense mediated decay nmd"
+    ),
+    LUAD = c(
+        "srp dependent cotranslational protein targeting to membrane",
+        "nkt pathway",
+        "fanconi anemia pathway",
+        "eukaryotic translation initiation",
+        "hdr through homologous recombination hrr",
+        "beta alanine metabolism",
+        "bard1 pathway",
+        "nonsense mediated decay nmd",
+        "steroid hormone biosynthesis"
+    ),
+    PAAD = c(
+        "toll pathway",
+        "tp53 regulates metabolic genes",
+        "regulation of cholesterol biosynthesis by srebp srebf",
+        "tgfb pathway",
+        "nfkb pathway",
+        "jnk c jun kinases phosphorylation and activation mediated by activated human tak1",
+        "hedgehog signaling",
+        "g2 m dna damage checkpoint",
+        "fak pathway"
+    )
+)
+
+
+standardize_names <- function(x) {
+    str_to_lower(x) %>%
+        str_replace_all("_", " ")
+}
+
+filter_gsea_for_select_results <- function(cancer, df, key) {
+    gene_sets_to_keep <- standardize_names(unlist(key[[cancer]]))
+    df %>%
+        mutate(.gene_set = standardize_names(gene_set)) %>%
+        filter(.gene_set %in% !!gene_sets_to_keep) %>%
+        select(-.gene_set)
+}
+
+
+select_gsea_plot <- function(cancer, data, ...) {
+    mod_data <- data %>%
+        filter(abs(nes) >= 1.2 & fdr_q_val < 0.2) %>%
+        filter(!str_detect(gene_set, uninteresting_terms_regex))
+
+    if (nrow(mod_data) == 0) { return() }
+
+    p <- gsea_plot(mod_data, title_suffix = cancer)
+    save_path <- plot_path("10_37_gsea-depmap-analysis",
+                           glue("gsea-results-{cancer}-select.svg"))
+    ggsave_wrapper(p, save_path, "wide")
+}
+
+
+gsea_df %>%
+    filter(!(cancer == "LUAD" & allele == "G13D")) %>%
+    filter(gene_set_family %in% c("HALLMARK", "KEGG", "REACTOME", "BIOCARTA", "PID")) %>%
+    group_by(cancer) %>%
+    nest() %>%
+    mutate(data = purrr::map2(cancer, data,
+                              filter_gsea_for_select_results,
+                              key = select_gsea_results)) %>%
+    purrr::pwalk(select_gsea_plot)
