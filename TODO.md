@@ -30,6 +30,8 @@
 - functional enrichment from genetic interactions
 - are any of the syn. let. hits classified as pan-nonessential or pan-essential?
     + do any of them *become* lethal in an allele?
-
+- Functional enrichment of synthetic lethal hits
+    + run for all hits in a cancer (will be included in the text)
+    + add cluster number of cluster functional enrichment
 
 ## Questions

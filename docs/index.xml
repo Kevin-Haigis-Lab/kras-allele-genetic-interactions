@@ -214,6 +214,12 @@ The heatmaps for each cancer are below.&lt;/p&gt;
 &lt;h3 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h3&gt;
 
 &lt;p&gt;It does not seem like these results are worth further investigating.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;I spent the rest of the day working on summarizing the current status of the DepMap analysis.
+I did find a bug on the parsing of the GSEA results that I still have yet to resolve.
+There is a &lt;code&gt;browser()&lt;/code&gt; call in &amp;ldquo;src/10_37_gsea-depmap-analysis.R&amp;rdquo;.&lt;/p&gt;
 </description>
     </item>
     
@@ -322,41 +328,41 @@ There was no enrichment in COAD.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/COAD-PIP5K1A.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;COAD-CLK3.svg&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/COAD-CLK3.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;COAD-FDPS.svg&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/COAD-FDPS.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;COAD-UNK.svg&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/COAD-UNK.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;luad&#34;&gt;LUAD&lt;/h3&gt;
 
-&lt;p&gt;LUAD-ARMC6.svg&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-ARMC6.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;LUAD-BNIP1.svg&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-BNIP1.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;LUAD-EPN2.svg&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-EPN2.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;LUAD-FOXJ3.svg&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-FOXJ3.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;LUAD-MAPK6.svg&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-MAPK6.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;LUAD-PTBP3.svg&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-PTBP3.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;LUAD-STAMBP.svg&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-STAMBP.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;gene-effect-barplot_LUAD_regulation_of_vascular_endothelial_growth_factor_receptor_signaling&lt;em&gt;pathway&lt;/em&gt;-GO0030947.svg&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/gene-effect-barplot_LUAD_regulation_of_vascular_endothelial_growth_factor_receptor_signaling_pathway_-GO0030947.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;gene-effect-barplot_LUAD_positive_regulation_of_I-kappaB_kinase-NF-kappaB&lt;em&gt;signaling&lt;/em&gt;-GO0043123.svg&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/gene-effect-barplot_LUAD_positive_regulation_of_I-kappaB_kinase-NF-kappaB_signaling_-GO0043123.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;gene-effect-barplot_LUAD_Regulation_of_TP53_Activity_through_Phosphorylation_Homo_sapiens_R-HSA-6804756.svg&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/gene-effect-barplot_LUAD_Regulation_of_TP53_Activity_through_Phosphorylation_Homo_sapiens_R-HSA-6804756.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;paad&#34;&gt;PAAD&lt;/h3&gt;
 
-&lt;p&gt;PAAD-JUN.svg&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/PAAD-JUN.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;gene-effect-barplot_PAAD_ARRB2.svg&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/gene-effect-barplot_PAAD_ARRB2.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;gene-effect-barplot_PAAD_IKBKG.svg&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/gene-effect-barplot_PAAD_IKBKG.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&#34;essential-or-nonessential-genes&#34;&gt;Essential or Nonessential genes?&lt;/h2&gt;
 
@@ -2373,19 +2379,101 @@ I definitely need to get to the bottom of this&amp;hellip;&lt;/p&gt;
 &lt;p&gt;Synthetic lethality refers to a genetic interaction whereby one mutation sensitizes an organism to another normally-benign mutation.
 This overlaps with &amp;ldquo;dependency&amp;rdquo; whereby the first mutation pushes the organism into a state of reliance on specific functions.
 Blocking (by mutation or inhibition) this function would cause the mutant organism to die, but not effect the wild-type organisms.
-Thus, a current goal of much of cancer research is focussed on finding synthetic lethal interactions with common oncogenes.&lt;/p&gt;
+Thus, much of current cancer therapy research is focused on finding synthetic lethal interactions with common oncogenes.&lt;/p&gt;
 
 &lt;h2 id=&#34;allele-specific-synthetic-lethality&#34;&gt;Allele-specific synthetic lethality&lt;/h2&gt;
 
 &lt;p&gt;The goal of this portion of the Comutation project is to identify synthetic lethal interactions with specific &lt;em&gt;KRAS&lt;/em&gt; alleles.
 From a theory point-of-view, these interactions would provide information on the differences between the alleles.
-From a therapeutics point-of-view, the identification of allele-specific interactions could be used to further personalize treatment strategies.&lt;/p&gt;
+From a therapeutics point-of-view, the identification of allele-specific interactions could be used to further personalize treatment strategies towards the pursuit of precision medicine.&lt;/p&gt;
 
 &lt;h2 id=&#34;data&#34;&gt;Data&lt;/h2&gt;
 
 &lt;p&gt;For this analysis, we used the Cancer Dependency Mapping (DepMap) data.
 In this ongoing study, the cell lines from the Cancer Cell Line Encyclopedia (CCLE) were analyzed in a genome-wide, CRISPR-Cas9, loss-of-function screen whereby each gene was systemically knocked-out and the loss of growth of the cell line was measured.
 Thankfully, many omics data are available for the cell lines, including RNA expression, mutations, and CNA.&lt;/p&gt;
+
+&lt;p&gt;(Of note, there was an RNAi screen, though it was not as extensive as the CRISPR screen, and thus, was not used for this analysis.)&lt;/p&gt;
+
+&lt;h2 id=&#34;results&#34;&gt;Results&lt;/h2&gt;
+
+&lt;h3 id=&#34;identification-synthetic-lethal-interactions&#34;&gt;Identification synthetic lethal interactions&lt;/h3&gt;
+
+&lt;p&gt;The first test employed searched for individual genes with allele-specific synthetic lethality.
+Any depletion effects of knocking-out a gene that could be explained by the gene&amp;rsquo;s own RNA expression were removed first, as this was likely the cause.
+Then, an ANOVA was used to find genes that had differential effects across cell lines when grouped by their &lt;em&gt;KRAS&lt;/em&gt; allele.
+The genes with a statistically significant (p &amp;lt; 0.01) difference are shown below.
+Below the heatmaps are specific genes with strong allele-specific effects.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;COAD&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_pheatmaps/COAD_CRISPR_pheatmap.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/COAD-IDH1.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/COAD-PIP5K1A.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/COAD-WDR26.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;LUAD&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_pheatmaps/LUAD_CRISPR_pheatmap.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Because there are too many genes to show their names for LUAD, I identified enriched functions in the clusters.
+The functions that are a single gene are either transcription factors or kinases with their targets enriched in the cluster (the number at the end of each bar indicates the cluster).&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_13_linear-modeling-syn-let_fxnal-enrichment/functional-enrichment_LUAD.svg&#34; width=300 /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_13_linear-modeling-syn-let_fxnal-enrichment/LUAD-ARMC6.svg&#34; width=300 /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_13_linear-modeling-syn-let_fxnal-enrichment/LUAD-EPN2.svg&#34; width=300 /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_13_linear-modeling-syn-let_fxnal-enrichment/LUAD-FOXJ3.svg&#34; width=300 /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_13_linear-modeling-syn-let_fxnal-enrichment/LUAD-HSBP1.svg&#34; width=300 /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_13_linear-modeling-syn-let_fxnal-enrichment/LUAD-MAPK6.svg&#34; width=300 /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_13_linear-modeling-syn-let_fxnal-enrichment/LUAD-P4HTM.svg&#34; width=300 /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_13_linear-modeling-syn-let_fxnal-enrichment/LUAD-PTBP3.svg&#34; width=300 /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_13_linear-modeling-syn-let_fxnal-enrichment/LUAD-TP53BP1.svg&#34; width=300 /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_13_linear-modeling-syn-let_fxnal-enrichment/LUAD-STAMBP.svg&#34; width=300 /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;PAAD&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_pheatmaps/PAAD_CRISPR_pheatmap.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_13_linear-modeling-syn-let_fxnal-enrichment/PAAD-JUN.svg&#34; width=300 /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_13_linear-modeling-syn-let_fxnal-enrichment/PAAD-EGLN2.svg&#34; width=300 /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_13_linear-modeling-syn-let_fxnal-enrichment/PAAD-GPT2.svg&#34; width=300 /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_13_linear-modeling-syn-let_fxnal-enrichment/PAAD-MRPS25.svg&#34; width=300 /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;functional-enrichment-of-synthetic-lethal-interactions&#34;&gt;Functional enrichment of synthetic lethal interactions&lt;/h3&gt;
+
+&lt;p&gt;I use GSEA to identify functions that were generally enriched by &lt;em&gt;KRAS&lt;/em&gt; allele.
+Select results are shown below, but the full results are available in the notebook page from &lt;a href=&#34;https://project-notebook-comutation.netlify.com/post/2019-10-18/&#34; target=&#34;_blank&#34;&gt;2019-10-18&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_37_gsea-depmap-analysis/gsea-results-COAD-select.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_37_gsea-depmap-analysis/gsea-results-LUAD-select.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_37_gsea-depmap-analysis/gsea-results-PAAD-select.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;no-obvious-differences-in-the-general-distribution-of-depletion-effects-per-allele&#34;&gt;No obvious differences in the general distribution of depletion effects per allele&lt;/h3&gt;
+
+&lt;p&gt;Of note, there are no obvious differences in the overall distribution of depletion effects per &lt;em&gt;KRAS&lt;/em&gt; allele.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_45_overall-dependencies-by-allele/dependency-overview_COAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_45_overall-dependencies-by-allele/dependency-overview_LUAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_45_overall-dependencies-by-allele/dependency-overview_PAAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 </description>
     </item>
     

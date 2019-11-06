@@ -121,6 +121,12 @@ The heatmaps for each cancer are below.&lt;/p&gt;
 &lt;h3 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h3&gt;
 
 &lt;p&gt;It does not seem like these results are worth further investigating.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;I spent the rest of the day working on summarizing the current status of the DepMap analysis.
+I did find a bug on the parsing of the GSEA results that I still have yet to resolve.
+There is a &lt;code&gt;browser()&lt;/code&gt; call in &amp;ldquo;src/10_37_gsea-depmap-analysis.R&amp;rdquo;.&lt;/p&gt;
 </description>
     </item>
     
@@ -229,41 +235,41 @@ There was no enrichment in COAD.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/COAD-PIP5K1A.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;COAD-CLK3.svg&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/COAD-CLK3.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;COAD-FDPS.svg&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/COAD-FDPS.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;COAD-UNK.svg&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/COAD-UNK.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;luad&#34;&gt;LUAD&lt;/h3&gt;
 
-&lt;p&gt;LUAD-ARMC6.svg&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-ARMC6.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;LUAD-BNIP1.svg&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-BNIP1.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;LUAD-EPN2.svg&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-EPN2.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;LUAD-FOXJ3.svg&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-FOXJ3.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;LUAD-MAPK6.svg&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-MAPK6.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;LUAD-PTBP3.svg&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-PTBP3.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;LUAD-STAMBP.svg&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-STAMBP.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;gene-effect-barplot_LUAD_regulation_of_vascular_endothelial_growth_factor_receptor_signaling&lt;em&gt;pathway&lt;/em&gt;-GO0030947.svg&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/gene-effect-barplot_LUAD_regulation_of_vascular_endothelial_growth_factor_receptor_signaling_pathway_-GO0030947.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;gene-effect-barplot_LUAD_positive_regulation_of_I-kappaB_kinase-NF-kappaB&lt;em&gt;signaling&lt;/em&gt;-GO0043123.svg&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/gene-effect-barplot_LUAD_positive_regulation_of_I-kappaB_kinase-NF-kappaB_signaling_-GO0043123.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;gene-effect-barplot_LUAD_Regulation_of_TP53_Activity_through_Phosphorylation_Homo_sapiens_R-HSA-6804756.svg&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/gene-effect-barplot_LUAD_Regulation_of_TP53_Activity_through_Phosphorylation_Homo_sapiens_R-HSA-6804756.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;paad&#34;&gt;PAAD&lt;/h3&gt;
 
-&lt;p&gt;PAAD-JUN.svg&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/PAAD-JUN.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;gene-effect-barplot_PAAD_ARRB2.svg&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/gene-effect-barplot_PAAD_ARRB2.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;gene-effect-barplot_PAAD_IKBKG.svg&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/gene-effect-barplot_PAAD_IKBKG.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&#34;essential-or-nonessential-genes&#34;&gt;Essential or Nonessential genes?&lt;/h2&gt;
 
