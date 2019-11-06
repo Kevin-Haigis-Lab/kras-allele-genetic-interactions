@@ -5,12 +5,33 @@
     <link>https://project-notebook-comutation.netlify.com/post/</link>
       <atom:link href="https://project-notebook-comutation.netlify.com/post/index.xml" rel="self" type="application/rss+xml" />
     <description>Posts</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Tue, 05 Nov 2019 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Wed, 06 Nov 2019 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://project-notebook-comutation.netlify.com/img/icon-192.png</url>
       <title>Posts</title>
       <link>https://project-notebook-comutation.netlify.com/post/</link>
     </image>
+    
+    <item>
+      <title>2019-11-06</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-11-06/</link>
+      <pubDate>Wed, 06 Nov 2019 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-11-06/</guid>
+      <description>
+
+&lt;h2 id=&#34;fix-gsea&#34;&gt;Fix GSEA&lt;/h2&gt;
+
+&lt;p&gt;The problem I ran into yesterday was that there are some enriched gene sets that do not have enrichment plots (&amp;ldquo;enplot&amp;rdquo;).
+I guess that&amp;rsquo;s just how GSEA does it.&lt;/p&gt;
+
+&lt;p&gt;While figuring this out, though, I saw that GSSEA thought there were 18 COAD G12V samples and 3 &amp;ldquo;other&amp;rdquo; - this is backwards.
+After some careful inspection, I was able to confirm the relationship between the depletion effect in DepMap and NES from GSEA:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;stronger to weaker depletion = positive to negative NES&lt;/p&gt;
+&lt;/blockquote&gt;
+</description>
+    </item>
     
     <item>
       <title>2019-11-05</title>
