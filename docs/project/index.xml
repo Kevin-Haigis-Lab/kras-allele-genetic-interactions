@@ -229,6 +229,10 @@ For both tests, a p-value of 0.01 was used for the declaration of statistical si
 
 &lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_35_rc-fisher-comparison/rc_fisher_comparison_specific.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
+&lt;p&gt;The plot below shows the distribution of number of mutually exclusive events by p-value of the association.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_35_rc-fisher-comparison/rc_mutations_distribition.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
 &lt;p&gt;The rest of the summary is subdivided by cancer.&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&#34;#coad&#34;&gt;COAD&lt;/a&gt;&lt;br /&gt;
@@ -242,7 +246,7 @@ For both tests, a p-value of 0.01 was used for the declaration of statistical si
 The alleles tend to be connected by mutual exclusive interactions (instead of comutation interactions).
 Each allele also has their own set of comutation and mutually exclusive interactors.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_40_highlivel-genetic-interactions/genetic_interaction_network_COAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_40_highlivel-genetic-interactions/genetic_interaction_network_COAD_thick.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_40_highlivel-genetic-interactions/COAD_comutation_upset.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
@@ -267,6 +271,22 @@ Many of the alleles have interactions with genes involved in ERBB signaling.&lt;
 
 &lt;p&gt;Also of note, but not shown graphically here, the physical interactors of SMAD2, a transcription factor, were found to be enriched in the G12D genetic interactors by two different gene sets.&lt;/p&gt;
 
+&lt;p&gt;A more direct visualization of the mutually exclusive and comutation interactions is via an oncoplot.
+On a heatmap, it shows a sample per column and a gene per row.
+The cell is filled with a color if the sample is mutated in the gene.
+The arrangement of the samples highlights the genetic interactions by showing either the overlap or exclusivity.&lt;/p&gt;
+
+&lt;p&gt;I have shown them here for a select few of the alleles with interesting interactions.
+For the paper, a more selective portion of the interactions will be shown.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/COAD_A146T_comutation_oncostrip_allInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/COAD_G12D_comutation_oncostrip_allInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/COAD_G13D_comutation_oncostrip_allInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/COAD_G13D_exclusivity_oncostrip_allInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
 &lt;hr /&gt;
 
 &lt;h3 id=&#34;luad&#34;&gt;LUAD&lt;/h3&gt;
@@ -277,7 +297,7 @@ This is especially true for G12C, G12V, and G12D.
 Each allele also has their own set of comutation and mutually exclusive interactors.
 There are many genes that are mutually exclusive with one allele and comutate with another.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_40_highlivel-genetic-interactions/genetic_interaction_network_LUAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_40_highlivel-genetic-interactions/genetic_interaction_network_LUAD_thick.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_40_highlivel-genetic-interactions/LUAD_comutation_upset.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
@@ -312,6 +332,20 @@ There are several Ras-related processes enriched in the G12C interactors.&lt;/p&
 
 &lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_45_fxnal-enrich-genetic-interactions/enrichr_LUAD_GO_Biological_Process_2018.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
+&lt;p&gt;Below are the oncoplots for the more common alleles in LUAD.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/LUAD_G12D_exclusivity_oncostrip_allInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/LUAD_G12D_comutation_oncostrip_allInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/LUAD_G12C_comutation_oncostrip_allInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/LUAD_G12C_exclusivity_oncostrip_allInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/LUAD_G12V_exclusivity_oncostrip_allInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/LUAD_G12V_comutation_oncostrip_allInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
 &lt;hr /&gt;
 
 &lt;h3 id=&#34;mm&#34;&gt;MM&lt;/h3&gt;
@@ -319,7 +353,7 @@ There are several Ras-related processes enriched in the G12C interactors.&lt;/p&
 &lt;p&gt;Below are the high-level visualizations of the genetic interactions.
 There were not very many hits for multiple myeloma and very little overlap of the interacting genes between &lt;em&gt;KRAS&lt;/em&gt; alleles.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_40_highlivel-genetic-interactions/genetic_interaction_network_MM.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_40_highlivel-genetic-interactions/genetic_interaction_network_MM_thick.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_40_highlivel-genetic-interactions/MM_comutation_upset.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
@@ -342,7 +376,7 @@ This is likely true for KRAS and other genes, making the interpretation of these
 There were many allele-specific comutation and mutually exclusive interactions detected in PAAD.
 Further or more strict thresholds may be applied in future analyses to reduce false-positives.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_40_highlivel-genetic-interactions/genetic_interaction_network_PAAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_40_highlivel-genetic-interactions/genetic_interaction_network_PAAD_thick.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_40_highlivel-genetic-interactions/PAAD_comutation_upset.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
@@ -387,6 +421,20 @@ The substrates of Akt1 are also overrepresented in the genes with genetic intera
 Genes of the EGFR pathway have many interactions with G12D.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_45_fxnal-enrich-genetic-interactions/enrichr_PAAD_Panther_2016.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Below are the oncoplots for the more interesting alleles in PAAD.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/PAAD_G12D_bothInteractions_oncostrip_allInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/PAAD_G12D_comutation_oncostrip_allInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/PAAD_G12R_comutation_oncostrip_allInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/PAAD_G12R_exclusivity_oncostrip_allInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/PAAD_Q61H_comutation_oncostrip_allInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/PAAD_Q61H_exclusivity_oncostrip_allInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 </description>
     </item>
     
