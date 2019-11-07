@@ -93,6 +93,7 @@ get_maf <- function(for_genes, in_cancer, kras_allele,
                     replace_kras_with_allele = FALSE,
                     group_other_alleles = TRUE) {
     df <- cancer_coding_muts_maf %>%
+        # dplyr::filter(cancer %in% !!in_cancer)
         dplyr::filter(cancer %in% !!in_cancer & hugo_symbol %in% !!for_genes)
 
     if (replace_kras_with_allele) {
@@ -216,12 +217,29 @@ sort_maf <- function(maf) {
 }
 
 
+# Tibble of number of samples per cancer to be used for the oncoplot.
+cancer_count_tib <- cancer_muts_df %>%
+    group_by(cancer, tumor_sample_barcode) %>%
+    slice(1) %>%
+    ungroup() %>%
+    unique() %>%
+    count(cancer)
+
+
 oncoplot_wrapper <- function(maf,
                              gene_and_sample_orders,
                              save_path,
                              top = 10,
+                             cancer = NULL,
                              annotate_kras_allele = FALSE,
                              save_size = list(width = 9, height = 5)) {
+
+    if (!is.null(cancer)) {
+        cohortSize <- unlist(filter(cancer_count_tib, cancer == !!cancer)$n)
+    } else {
+        cohortSize <- NULL
+    }
+
     if (annotate_kras_allele) {
         idx <- names(short_allele_pal) %in% getClinicalData(maf)$kras_allele
         pal <- short_allele_pal[idx]
@@ -232,9 +250,10 @@ oncoplot_wrapper <- function(maf,
             genes = gene_and_sample_orders$gene_order,
             sampleOrder = gene_and_sample_orders$sample_order,
             top = top,
+            cohortSize = cohortSize,
             keepGeneOrder = TRUE,
             GeneOrderSort = FALSE,
-            removeNonMutated = FALSE,
+            removeNonMutated = TRUE,
             clinicalFeatures = 'kras_allele',
             annotationColor = list(kras_allele = pal),
             sepwd_samples = 0,
@@ -247,9 +266,11 @@ oncoplot_wrapper <- function(maf,
             maf,
             genes = gene_and_sample_orders$gene_order,
             sampleOrder = gene_and_sample_orders$sample_order,
-            top = top_n_genes,
+            top = top,
+            cohortSize = cohortSize,
             keepGeneOrder = TRUE,
             GeneOrderSort = FALSE,
+            removeNonMutated = TRUE,
             sepwd_samples = 0,
             fontSize = 0.6
         )
@@ -304,6 +325,7 @@ allele_exclusivity_oncoplot <- function(cancer, allele,
         gene_and_sample_orders = gene_and_sample_orders,
         save_path = save_path,
         top = top_n_genes,
+        cancer = cancer,
         annotate_kras_allele = annotate_kras_allele
     )
 }
@@ -335,7 +357,6 @@ cancer_counts_df %>%
         ignore_genes = commonly_interacting_genes,
         annotate_kras_allele = TRUE
     )
-
 
 cancer_counts_df %>%
     filter(n > 10) %>%
@@ -384,6 +405,7 @@ allele_specificgenes_oncoplot <- function(cancer,
                                           genes,
                                           interaction_type,
                                           save_name,
+                                          save_dir,
                                           ignore_genes = c(),
                                           top_n_genes = 10,
                                           annotate_kras_allele = FALSE,
@@ -393,14 +415,13 @@ allele_specificgenes_oncoplot <- function(cancer,
     checked_genes <- genetic_interaction_gr %N>%
         filter(!(name %in% !!ignore_genes)) %E>%
         filter(cancer == !!cancer &
-               kras_allele == !!kras_allele &
-               genetic_interaction %in% !!interaction_type) %N>%
+               kras_allele == !!kras_allele) %N>%
         filter(centrality_degree(mode = "all") > 0) %>%
         as_tibble() %>%
         filter(!is_kras & name %in% !!genes) %>%
         u_pull(name)
 
-    cat(glue("{n_distinct(genes) - n_distinct(checked_genes)} gene(s) were removed."), "\n")
+    cat(glue("{cancer}, {kras_allele}: {n_distinct(genes) - n_distinct(checked_genes)} gene(s) were removed."), "\n")
 
     if (length(checked_genes) == 0) {
         cat("**There were zero genes to plot; returning early.\n")
@@ -419,16 +440,20 @@ allele_specificgenes_oncoplot <- function(cancer,
     gene_and_sample_orders <- sort_maf(maf)
 
     save_path <- plot_path(
-        "20_50_rainfall-plots-select",
+        save_dir,
         save_name
     )
+
+    img_height <- ((length(checked_genes) + 1) / 5) + 1
 
     oncoplot_wrapper(
         maf = maf,
         gene_and_sample_orders = gene_and_sample_orders,
         save_path = save_path,
         top = top_n_genes + 1 + as.numeric(replace_kras_with_allele),
-        annotate_kras_allele = annotate_kras_allele
+        cancer = cancer,
+        annotate_kras_allele = annotate_kras_allele,
+        save_size = list(width = 9, height = img_height)
     )
 }
 
@@ -438,70 +463,186 @@ specific_oncoplot_info_tib <- bind_rows(
         cancer = "COAD",
         allele = "A146T",
         interaction_type = "comutation",
+        name_suffix = "",
         genes = c("PORCN", "RGS20", "DAPK1"),
     ),
     tibble(
         cancer = "COAD",
         allele = "G12D",
         interaction_type = "exclusivity",
+        name_suffix = "",
         genes = c("SCN10A", "DICER1", "SDK1", "TRPM2")
     ),
     tibble(
         cancer = "COAD",
         allele = "G12D",
         interaction_type = "comutation",
+        name_suffix = "",
         genes = c("MAGEC1", "AMER1", "TGIF1")
     ),
     tibble(
         cancer = "COAD",
         allele = "G12V",
         interaction_type = "exclusivity",
-        genes = c("DNAH2", "RYR1", "PKHD1", "DIDO1", "PDPK1", "KALRN")
+        name_suffix = "",
+        genes = c("DNAH2", "RYR1", "PKHD1", "DIDO1", "PKD1", "KALRN")
     ),
     tibble(
-        cancer = "",
-        allele = "",
-        interaction_type = "exclusivity comutation",
-        genes = c()
+        cancer = "COAD",
+        allele = "G12V",
+        interaction_type = "comutation",
+        name_suffix = "",
+        genes = c("APC", "PIK3CA", "SMAD4", "AMER1", "MCC")
     ),
     tibble(
-        cancer = "",
-        allele = "",
-        interaction_type = "exclusivity comutation",
-        genes = c()
+        cancer = "COAD",
+        allele = "G13D",
+        interaction_type = "comutation",
+        name_suffix = "",
+        genes = c("ANK3", "KIF4B", "SPHKAP")
     ),
     tibble(
-        cancer = "",
-        allele = "",
-        interaction_type = "exclusivity comutation",
-        genes = c()
+        cancer = "COAD",
+        allele = "G13D",
+        interaction_type = "exclusivity",
+        name_suffix = "",
+        genes = c("TP53", "CAMTA1", "ZFHX4")
     ),
     tibble(
-        cancer = "",
-        allele = "",
-        interaction_type = "exclusivity comutation",
-        genes = c()
+        cancer = "LUAD",
+        allele = "G12C",
+        interaction_type = "exclusivity",
+        name_suffix = "(MUC)",
+        genes = c("MUC4", "MUC17")
     ),
     tibble(
-        cancer = "",
-        allele = "",
-        interaction_type = "exclusivity comutation",
-        genes = c()
+        cancer = "LUAD",
+        allele = "G12C",
+        interaction_type = "exclusivity",
+        name_suffix = "",
+        genes = c("CSMD2", "DNAH5", "SMARCA4", "CHD5"),
     ),
     tibble(
-        cancer = "",
-        allele = "",
-        interaction_type = "exclusivity comutation",
-        genes = c()
+        cancer = "LUAD",
+        allele = "G12C",
+        interaction_type = "comutation",
+        name_suffix = "",
+        genes = c("PRDM9", "RIMS2", "STK11", "SLITRK2")
     ),
     tibble(
-        cancer = "",
-        allele = "",
-        interaction_type = "exclusivity comutation",
-        genes = c()
-    )
+        cancer = "LUAD",
+        allele = "G12D",
+        interaction_type = "exclusivity",
+        name_suffix = "",
+        genes = c("TP53")
+    ),
+    tibble(
+        cancer = "LUAD",
+        allele = "G12V",
+        interaction_type = "exclusivity",
+        name_suffix = "",
+        genes = c("FAT4", "LAMA2", "SPHKAP", "ZNF804A")
+    ),
+    tibble(
+        cancer = "PAAD",
+        allele = "G12D",
+        interaction_type = "exclusivity",
+        name_suffix = "(RYR)",
+        genes = c("RYR3", "RYR2")
+    ),
+    tibble(
+        cancer = "PAAD",
+        allele = "G12D",
+        interaction_type = "exclusivity",
+        name_suffix = "",
+        genes = c("RYR3", "RYR2", "TGFBR2", "GNAS")
+    ),
+    tibble(
+        cancer = "PAAD",
+        allele = "G12D",
+        interaction_type = "comutation",
+        name_suffix = "_TP53",
+        genes = c("TP53")
+    ),
+    tibble(
+        cancer = "PAAD",
+        allele = "G12D",
+        interaction_type = "comutation",
+        name_suffix = "",
+        genes = c("ABCC9", "ZNF831")
+    ),
+    tibble(
+        cancer = "PAAD",
+        allele = "G12R",
+        interaction_type = "exclusivity",
+        name_suffix = "",
+        genes = c("RNF43", "DNAH11", "GNAS", "DNAH5", "ARID2", "SMARCA4", "TAF1")
+    ),
+    tibble(
+        cancer = "PAAD",
+        allele = "G12R",
+        interaction_type = "comutation",
+        name_suffix = "",
+        genes = c("RAF1", "IRAK1")
+    ),
+    tibble(
+        cancer = "PAAD",
+        allele = "G12V",
+        interaction_type = "exclusivity",
+        name_suffix = "",
+        genes = c("RYR1", "FAT4", "DNAH17", "MYH1", "LRRK2")
+    ),
+    tibble(
+        cancer = "PAAD",
+        allele = "G12V",
+        interaction_type = "comutation",
+        name_suffix = "",
+        genes = c("RYR3", "PCDHA4", "MAGI1")
+    ),
+    tibble(
+        cancer = "PAAD",
+        allele = "G12V",
+        interaction_type = "exclusivitycomutation",
+        name_suffix = "(RYR)",
+        genes = c("RYR1", "RYR3")
+    ),
+    tibble(
+        cancer = "PAAD",
+        allele = "Q61H",
+        interaction_type = "exclusivity",
+        name_suffix = "",
+        genes = c("SMAD4", "ARID1A", "DNAH5", "ATM", "KDM6A")
+    ),
+    tibble(
+        cancer = "PAAD",
+        allele = "Q61H",
+        interaction_type = "comutation",
+        name_suffix = "",
+        genes = c("TP53", "PTPRB", "CREB3L3")
+    ),
+    tibble(
+        cancer = "PAAD",
+        allele = "Q61H",
+        interaction_type = "comutation",
+        name_suffix = "_TP53",
+        genes = c("TP53")
+    ),
+    tibble(
+        cancer = "PAAD",
+        allele = "Q61H",
+        interaction_type = "exclusivitycomutation",
+        name_suffix = "_oncogenes",
+        genes = c("TP53", "SMAD4", "ARID1A")
+    ),
+    # tibble(
+    #     cancer = "",
+    #     allele = "",
+    #     interaction_type = "exclusivity comutation",
+    #     name_suffix = "",
+    #     genes = c()
+    # )
 ) %>%
-    group_by(cancer, allele, interaction_type) %>%
+    group_by(cancer, allele, interaction_type, name_suffix) %>%
     summarise(genes = list(genes)) %>%
     ungroup() %>%
     mutate(kras_allele = paste0("KRAS_", allele))
@@ -511,10 +652,44 @@ specific_oncoplot_info_tib %>%
         save_name = paste0(cancer, "_",
                            allele, "_",
                            interaction_type,
-                           "_oncostrip_select.svg")
+                           "_oncostrip_select",
+                           name_suffix,
+                           ".svg")
     ) %>%
     pwalk(
         allele_specificgenes_oncoplot,
         top_n_genes = 15,
+        save_dir = "20_50_rainfall-plots-select",
         annotate_kras_allele = TRUE
     )
+
+
+
+#### ---- Oncoplots for a priori lists ---- ####
+# Oncoplots to accompany the subsetted genetic networks.
+
+gene_sets <- list(
+    kegg = unique(kegg_geneset_df$hugo_symbol),
+    cgc = unique(filter(cosmic_cgc_df, tier == 1)$hugo_symbol),
+    bioid = unique(kras_interactors_bioid_df$hugo_symbol)
+)
+
+for (i in 1:length(gene_sets)) {
+    gene_set_name <- names(gene_sets)[[i]]
+    gene_set <- unname(unlist(gene_sets[i]))
+
+
+    cancer_counts_df %>%
+        mutate(kras_allele = allele,
+               allele = str_remove_all(allele, "KRAS_"),
+               save_name = paste0(cancer, "_",
+                                  allele, "_",
+                                  !!gene_set_name, "_",
+                                  "oncoplot.svg")) %>%
+        pwalk(allele_specificgenes_oncoplot,
+              genes = gene_set,
+              top_n_genes = 10,
+              save_dir = "20_50_rainfall-plots-apriori",
+              annotate_kras_allele = TRUE)
+
+}
