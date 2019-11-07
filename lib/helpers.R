@@ -79,6 +79,31 @@ mapping_mutation_types_to_human_readable <- list(
 )
 
 
+## make color palette: does NOT run on O2, but does on Mac
+# set.seed(12)
+# n <- 35
+# cols <- randomcoloR::distinctColorPalette(n)
+# for (i in 1:n) {
+#     if (i == 1) { cat("\t") }
+
+#     if (i %% 6 == 0) { cat("\n\t") }
+#     cat("\"", cols[[i]], "\", ", sep = "")
+
+#     if (i == n) { cat("\n") }
+# }
+
+mutation_pal <- list(
+    "#E1B954", "#66E7AE", "#BD9BE3", "#ABC9E0", "#776BE3",
+    "#B8887A", "#AAB6A8", "#689658", "#8B569F", "#D26C3F", "#AFE6AF",
+    "#73A2DA", "#549C97", "#E9A783", "#EBD4D1", "#74E63D", "#CFC1E8",
+    "#E88ED5", "#E44DB5", "#D5E041", "#62E5D7", "#E33E68", "#DC46E7",
+    "#D76C8D", "#8942EB", "#5D86E0", "#65CCEA", "#91778D", "#DED5A2",
+    "#A8E9E3", "#E1F0D9", "#CC73DF", "#EAA9C9", "#DAED88", "#7BDF7A"
+)
+names(mutation_pal) <- mapping_mutation_types_to_human_readable
+
+
+
 # colors for KRAS alleles
 allele_palette <- c(
     "KRAS G12C" = "#0a4f4e",
