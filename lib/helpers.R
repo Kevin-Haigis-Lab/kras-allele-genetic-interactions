@@ -40,6 +40,44 @@ coding_mut_var_classes <- c(
 )
 
 
+mapping_mutation_types_to_human_readable <- list(
+    "missense_mutation" = "missense mutation",
+    "frame_shift_ins" = "frameshift insertion",
+    "frame_shift_del" = "frameshift deletion",
+    "3'utr" = "3' UTR",
+    "intron" = "intronic",
+    "in_frame_del" = "in-frame deletion",
+    "5'utr" = "5' UTR",
+    "5'flank" = "5' flank",
+    "silent" = "silent",
+    "3'flank" = "3' flank",
+    "splice_site" = "splice-site",
+    "nonstop_mutation" = "nonstop mutation",
+    "nonsense_mutation" = "nonsense mutation",
+    "in_frame_ins" = "in-frame insertion",
+    "translation_start_site" = "translation start site",
+    "splice_region" = "slice region",
+    "rna" = "RNA",
+    "igr" = "IGR",
+    "intronic" = "intronic",
+    "3flank" = "3' flank",
+    "5flank" = "5' flank",
+    "3utr" = "3' UTR",
+    "flank" = "flank",
+    "5utr" = "5' UTR",
+    "inframe_insertion" = "in-frame insertion",
+    "frameshift_insertion" = "frameshift insertion",
+    "inframe_deletion" = "inframe deletion",
+    "frameshift_deletion" = "frameshift deletion",
+    "unknown" = "unknown",
+    "utr" = "UTR",
+    "targeted_region" = "targeted region",
+    "de_novo_start_outofframe" = "de novo start (out-of-frame)",
+    "start_codon_snp" = "start codon SNV",
+    "de_novo_start_inframe" = "de novo start (in-frame)",
+    "missense" = "missense mutation"
+)
+
 
 # colors for KRAS alleles
 allele_palette <- c(

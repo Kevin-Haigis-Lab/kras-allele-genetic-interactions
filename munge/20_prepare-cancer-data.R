@@ -2,8 +2,6 @@
 ## Prepare GM data for my uses ##
 #################################
 
-# use ~18GB of RAM
-
 mutation_type_regex <- "frame|missense|nonsense|splice|nonstop|start|targeted"
 
 cache("cancer_muts_df",
@@ -40,6 +38,7 @@ cache("cancer_muts_df",
             tumor_sample_barcode = "case_id"
         ) %>%
         mutate(mutation_type = str_to_lower(mutation_type),
+               mutation_type = unlist(mapping_mutation_types_to_human_readable[mutation_type]),
                is_hypermutant = tumor_sample_barcode %in% hypermutants)
 
 
