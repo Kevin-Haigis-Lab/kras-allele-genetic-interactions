@@ -4,7 +4,7 @@
 
 mutation_type_regex <- "frame|missense|nonsense|splice|nonstop|start|targeted"
 
-cache("cancer_muts_df",
+ProjectTemplate::cache("cancer_muts_df",
 {
     info(logger, "Preparing cancer data from GM.")
 
@@ -38,7 +38,7 @@ cache("cancer_muts_df",
             tumor_sample_barcode = "case_id"
         ) %>%
         mutate(mutation_type = str_to_lower(mutation_type),
-               mutation_type = unlist(mapping_mutation_types_to_human_readable[mutation_type]),
+               mutation_type_hr = unlist(mapping_mutation_types_to_human_readable[mutation_type]),
                is_hypermutant = tumor_sample_barcode %in% hypermutants)
 
 
@@ -64,7 +64,7 @@ cache("cancer_muts_df",
         jhcutils::u_pull(tumor_sample_barcode)
 
     assign("double_kras_mutants", double_kras_mutants, envir = .GlobalEnv)
-    cache("double_kras_mutants")
+    ProjectTemplate::cache("double_kras_mutants")
 
     ras_mutant_tib %<>%
         filter(!(tumor_sample_barcode %in% !!double_kras_mutants))
@@ -85,7 +85,7 @@ cache("cancer_muts_df",
 
     info(logger, "Caching RAS mutant table for cancer data.")
     assign("ras_mutant_tib", ras_mutant_tib, envir = .GlobalEnv)
-    cache("ras_mutant_tib")
+    ProjectTemplate::cache("ras_mutant_tib")
 
     # trim to only required cells for join to `cancer_muts_df`
     ras_mutant_tib %<>%
@@ -100,7 +100,7 @@ cache("cancer_muts_df",
 })
 
 
-cache("cancer_coding_muts_df",
+ProjectTemplate::cache("cancer_coding_muts_df",
       depends = "cancer_muts_df",
 {
     # save only non-silent mutations

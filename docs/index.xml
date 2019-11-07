@@ -106,6 +106,108 @@
     </item>
     
     <item>
+      <title>2019-11-07</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-11-07/</link>
+      <pubDate>Thu, 07 Nov 2019 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-11-07/</guid>
+      <description>
+
+&lt;h2 id=&#34;oncoplots&#34;&gt;Oncoplots&lt;/h2&gt;
+
+&lt;p&gt;I completed making oncogenes for hand-selected genes.
+The goal was to focus attention on interactions with notable genes or especially striking interactions.
+(These plots are available in &amp;ldquo;graphs/20_50_rainfall-plots-select/&amp;ldquo;.)&lt;/p&gt;
+
+&lt;h3 id=&#34;coad&#34;&gt;COAD&lt;/h3&gt;
+
+&lt;p&gt;A striking plot is of the comutation interactions with A146T in COAD.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots-select/COAD_A146T_comutation_oncostrip_select.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The plot for G12D mutually exclusive interactions in COAD was impressive.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots-select/COAD_G12D_exclusivity_oncostrip_select.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;luad&#34;&gt;LUAD&lt;/h3&gt;
+
+&lt;p&gt;The plot for G12D in LUAD, though, shows a definite reduction in the rate of comutation with TP53.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots-select/LUAD_G12D_exclusivity_oncostrip_select.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;paad&#34;&gt;PAAD&lt;/h3&gt;
+
+&lt;p&gt;Another interesting comutation event is found in PAAD between G12R and &lt;em&gt;RAF1&lt;/em&gt; and &lt;em&gt;IRAK1&lt;/em&gt;.
+While the mutations are rare, in general, there is a definite enrichment for tumors with G12R.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots-select/PAAD_G12R_comutation_oncostrip_select.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots-select/PAAD_G12R_exclusivity_oncostrip_select.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Overall, there were a substantial number of interactions with &lt;em&gt;RYR&lt;/em&gt; genes.
+In PAAD, &lt;em&gt;RYR3&lt;/em&gt; comutates with G12V and &lt;em&gt;RYR1&lt;/em&gt; is mutually exclusive with G12V.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots-select/PAAD_G12V_exclusivitycomutation_oncostrip_select(RYR).svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Some of the most interesting and striking results were from the PAAD Q61H plots.
+Below are some of the mutually exclusive interactions.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots-select/PAAD_Q61H_exclusivity_oncostrip_select.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The plot below shows the strong comutation interaction with TP53.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots-select/PAAD_Q61H_comutation_oncostrip_select_TP53.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;I then made oncoplots of the genes in the &lt;em&gt;a priori&lt;/em&gt; gene lists.
+These accompany the genetic subnetworks from the &lt;em&gt;a priori&lt;/em&gt; gene sets.
+(These plots are available in &amp;ldquo;graphs/20_50_rainfall-plots-apriori/&amp;ldquo;.)
+They don&amp;rsquo;t generally show anything different than in the above selection.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;distribution-of-mutations-per-sample-across-cancers&#34;&gt;Distribution of mutations per sample across cancers&lt;/h2&gt;
+
+&lt;p&gt;We will want to include the distribution of mutational burden in our tumor samples as a supplemental figure for the paper.
+These plots were made in &amp;ldquo;src/90_03_mutation-burden-distribution.R&amp;rdquo; and were saved to &amp;ldquo;graphs/90_03_mutation-burden-distribution/&amp;ldquo;.
+For each plot shown below, the top is of all mutations and bottom is of coding mutations.
+For COAD, the hypermutants have an &amp;ldquo;x&amp;rdquo; shape.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/90_03_mutation-burden-distribution/COAD_all_muts_distribution.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/90_03_mutation-burden-distribution/COAD_coding_muts_distribution.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/90_03_mutation-burden-distribution/LUAD_all_muts_distribution.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/90_03_mutation-burden-distribution/LUAD_coding_muts_distribution.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/90_03_mutation-burden-distribution/MM_all_muts_distribution.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/90_03_mutation-burden-distribution/MM_coding_muts_distribution.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/90_03_mutation-burden-distribution/PAAD_all_muts_distribution.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/90_03_mutation-burden-distribution/PAAD_coding_muts_distribution.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/90_03_mutation-burden-distribution/SKCM_all_muts_distribution.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/90_03_mutation-burden-distribution/SKCM_coding_muts_distribution.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;I also made plots showing the distribution of the types of mutation found in each samples from each data source.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/90_03_mutation-burden-distribution/COAD_mutation_types.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/90_03_mutation-burden-distribution/LUAD_mutation_types.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/90_03_mutation-burden-distribution/MM_mutation_types.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/90_03_mutation-burden-distribution/PAAD_mutation_types.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/90_03_mutation-burden-distribution/SKCM_mutation_types.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;(I had to return to the munging of the mutation data from GM to standardize the types of mutation in the &lt;code&gt;mutation_type&lt;/code&gt; column - I created a new column &lt;code&gt;mutation_type_hr&lt;/code&gt; where &amp;ldquo;hr&amp;rdquo; stands for &amp;ldquo;human-readable&amp;rdquo;.)&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>2019-11-06</title>
       <link>https://project-notebook-comutation.netlify.com/post/2019-11-06/</link>
       <pubDate>Wed, 06 Nov 2019 00:00:00 +0000</pubDate>

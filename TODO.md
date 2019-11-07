@@ -33,5 +33,12 @@
 - Functional enrichment of synthetic lethal hits
     + run for all hits in a cancer (will be included in the text)
     + add cluster number of cluster functional enrichment
+- (Supp. figure) Distribution of mutations per sample per cancer.
+    + I will need to separate by WES, WGS, panel.
+    + It may be best to separate them by data source.
+- Make a plot showing the correlation between the frequency of the *KRAS* allele and number of comutation and mutually exclusive interactions.
+    + Also make a distribution of types of mutations (`cancer_muts_df$mutation_type`)
+- 
+
 
 ## Questions
