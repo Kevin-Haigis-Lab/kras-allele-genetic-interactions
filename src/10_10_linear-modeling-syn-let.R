@@ -198,7 +198,7 @@ model1_tib %>%
 cancer_pheatmap_manager <- list(
     COAD = list(
         col_cuts = 4,
-        row_cuts = 4
+        row_cuts = 5
     ),
     LUAD = list(
         col_cuts = 2,
@@ -206,7 +206,7 @@ cancer_pheatmap_manager <- list(
     ),
     PAAD = list(
         col_cuts = 3,
-        row_cuts = 4
+        row_cuts = 6
     )
 )
 
@@ -250,19 +250,23 @@ merge_wt <- function(df, data) {
 }
 
 
-row_dist_method <- "manhattan"
-col_dist_method <- "manhattan"
-
-plot_cancer_heatmaps <- function(cancer, data, screen) {
+plot_cancer_heatmaps <- function(cancer, data, screen,
+                                 merge_luad = TRUE,
+                                 row_dist_method = "euclidean",
+                                 col_dist_method = "euclidean",
+                                 row_hclust_method = "complete",
+                                 col_hclust_method = "complete") {
 
     mod_data <- prep_pheatmap_df(data, "normalize")
 
-    if (cancer == "LUAD") {
+    if (cancer == "LUAD" & merge_luad) {
         mod_data <- merge_wt(df = mod_data, data = data)
     }
 
-    row_hclust <- hclust(dist(mod_data, method = row_dist_method))
-    col_hclust <- hclust(dist(t(mod_data), method = col_dist_method))
+    row_hclust <- hclust(dist(mod_data, method = row_dist_method),
+                         method = row_hclust_method)
+    col_hclust <- hclust(dist(t(mod_data), method = col_dist_method),
+                         method = col_hclust_method)
 
     col_anno <- data %>%
         select(dep_map_id, allele) %>%
@@ -299,20 +303,25 @@ plot_cancer_heatmaps <- function(cancer, data, screen) {
         silent = TRUE
     )
 
-    save_path <- plot_path("10_10_linear-modeling-syn-let_pheatmaps",
-                           glue("{cancer}_{screen}_pheatmap.svg"))
+    save_path <- plot_path(
+        "10_10_linear-modeling-syn-let_pheatmaps",
+        glue("{cancer}_{screen}_{row_dist_method}_{row_hclust_method}_pheatmap.svg")
+    )
     save_pheatmap_svg(ph, save_path, width = 7, height = 9)
 }
 
 
-cluster_genes <- function(cancer, data) {
+cluster_genes <- function(cancer, data,
+                          row_dist_method = "euclidean",
+                          row_hclust_method = "complete") {
     mod_data <- prep_pheatmap_df(data, method = "normalize")
 
     if (cancer == "LUAD") {
         mod_data <- merge_wt(df = mod_data, data = data)
     }
 
-    gene_hclust <- hclust(dist(mod_data, method = row_dist_method))
+    gene_hclust <- hclust(dist(mod_data, method = row_dist_method),
+                          method = row_hclust_method)
     gene_cls <- cutree(
             gene_hclust,
             k = cancer_pheatmap_manager[[cancer]]$row_cuts
@@ -321,6 +330,25 @@ cluster_genes <- function(cancer, data) {
 
     return(gene_cls)
 }
+
+
+# Run `plot_cancer_heatmaps()` with a bunch of distance and clustering methods.
+plot_cancer_heatmaps_multiple_methods <- function(cancer, data, screen,
+                                                  merge_luad = TRUE,
+                                                  methods_df) {
+    pwalk(methods_df, plot_cancer_heatmaps,
+          cancer = cancer, data = data,
+          screen = screen, merge_luad = merge_luad)
+}
+
+
+# Combinations of `dist()` and `hclust()` methods.
+dist_methods <- c("euclidean", "manhattan")
+hclust_methods <- c("ward.D", "ward.D2", "single", "complete",
+                    "average", "mcquitty", "median", "centroid")
+methods_tib <- expand.grid(dist_methods, hclust_methods) %>%
+    as_tibble()
+colnames(methods_tib) <- c("row_dist_method", "row_hclust_method")
 
 
 # make a heatmap for the genes in each cancer
@@ -332,8 +360,11 @@ depmap_gene_clusters <- model1_tib %>%
     unnest(data) %>%
     group_by(cancer) %>%
     nest() %T>%
-    purrr::pwalk(plot_cancer_heatmaps, screen = "CRISPR") %>%
-    mutate(cluster_tib = purrr::map2(cancer, data, cluster_genes)) %>%
+    purrr::pwalk(plot_cancer_heatmaps_multiple_methods,
+             screen = "CRISPR", methods_df = methods_tib) %>%
+    mutate(cluster_tib = purrr::map2(cancer, data, cluster_genes,
+                                     row_dist_method = "manhattan",
+                                     row_hclust_method = "ward.D2")) %>%
     select(-data) %>%
     unnest(cluster_tib) %>%
     ungroup()
