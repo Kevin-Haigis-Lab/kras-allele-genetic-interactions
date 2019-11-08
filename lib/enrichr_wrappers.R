@@ -21,6 +21,20 @@ enrichr_dbs <- c(
     "WikiPathways_2019_Human"
 )
 
+mapping_datasource_names <- list(
+    "BioCarta_2016" = "BioCarta",
+    "GO_Biological_Process_2018" = "GO_BP",
+    "KEA_2015" = "KEA",
+    "KEGG_2019_Human" = "KEGG",
+    "LINCS_L1000_Kinase_Perturbations_down" = "LINCS_down",
+    "LINCS_L1000_Kinase_Perturbations_up" = "LINCS_up",
+    "Panther_2016" = "Panther",
+    "PPI_Hub_Proteins" = "Hub",
+    "Reactome_2016" = "Reactome",
+    "Transcription_Factor_PPIs" = "TF",
+    "WikiPathways_2019_Human" = "WikiPathways"
+)
+
 # Parse the "overlap" column to get number of genes in the gene set
 get_enrichr_overlap_int <- function(overlap) {
     as.integer(str_split_fixed(overlap, "/", 2)[, 1])

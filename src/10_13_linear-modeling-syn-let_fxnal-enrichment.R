@@ -10,7 +10,8 @@ cluster_terms <- depmap_gene_clusters %>%
     unnest(enrichr_res) %>%
     filter(!str_detect(term, !!uniteresting_enrichr_regex)) %>%
     mutate(n_genes = get_enrichr_overlap_int(overlap)) %>%
-    filter(adjusted_p_value < 0.2 & n_genes > 2)
+    filter(adjusted_p_value < 0.2 & n_genes > 2) %>%
+    mutate(datasource_hr = unlist(mapping_datasource_names[datasource]))
 
 cache("cluster_terms", depends = "model1_tib")
 
@@ -98,7 +99,7 @@ gene_cluster_functional_enrichment_barplot <- function(cancer,
         group_by(genes) %>%
         top_n(2, adjusted_p_value) %>%
         ungroup() %>%
-        mutate(term = paste0(datasource, "-", term),
+        mutate(term = paste0(datasource_hr, "-", term),
                term = str_wrap(term, 50),
                term = fct_reorder(term, -adjusted_p_value),
                genes = str_replace_all(genes, ";", ", ")) %>%
@@ -115,7 +116,7 @@ gene_cluster_functional_enrichment_barplot <- function(cancer,
 }
 
 cluster_terms %>%
-    filter(datasource != "LINCS_L1000_Kinase_Perturbations_down") %>%
+    filter(!str_detect(datasource, "LINCS_L1000_Kinase_Perturbations")) %>%
     group_by(cancer) %>%
     nest() %>%
     pwalk(gene_cluster_functional_enrichment_barplot)
@@ -123,7 +124,8 @@ cluster_terms %>%
 
 
 # Bar-plot of the gene effect scores for genes in enriched groups.
-enriched_group_effect_barplot <- function(cancer, term, gene_cls, datasource,
+enriched_group_effect_barplot <- function(cancer, term, gene_cls,
+                                          datasource, datasource_hr,
                                           adjusted_p_value, odds_ratio, genes,
                                           ...) {
     p <- model_data %>%
@@ -150,7 +152,7 @@ enriched_group_effect_barplot <- function(cancer, term, gene_cls, datasource,
             axis.title.x = element_blank()
         ) +
         labs(
-            title = glue("{cancer}: {term}"),
+            title = glue("{cancer}: {term} ({datasource_hr})"),
             y = "depletion effect"
         )
 
@@ -167,7 +169,7 @@ enriched_group_effect_barplot <- function(cancer, term, gene_cls, datasource,
 }
 
 cluster_terms %>%
-    filter(datasource != "LINCS_L1000_Kinase_Perturbations_down") %>%
+    filter(!str_detect(datasource, "LINCS_L1000_Kinase_Perturbations")) %>%
     pwalk(enriched_group_effect_barplot)
 
 
@@ -183,7 +185,8 @@ cluster_terms_cancer <- depmap_gene_clusters %>%
     unnest(enrichr_res) %>%
     filter(!str_detect(term, !!uniteresting_enrichr_regex)) %>%
     mutate(n_genes = get_enrichr_overlap_int(overlap)) %>%
-    filter(adjusted_p_value < 0.2 & n_genes > 2)
+    filter(adjusted_p_value < 0.2 & n_genes > 2) %>%
+    mutate(datasource_hr = unlist(mapping_datasource_names[datasource]))
 
 cluster_terms_cancer %>%
     write_tsv(
@@ -191,7 +194,6 @@ cluster_terms_cancer %>%
                   "10_10_linear-modeling-syn-let",
                   "cancer-fxnal-enrichment.tsv"
     ))
-
 
 cluster_terms_cancer %>%
     group_by(cancer, term) %>%
@@ -226,7 +228,7 @@ cancer_functional_enrichment_barplot <- function(cancer, data, ...) {
         group_by(genes) %>%
         top_n(2, adjusted_p_value) %>%
         ungroup() %>%
-        mutate(term = paste(datasource, "-", term),
+        mutate(term = paste(datasource_hr, "-", term),
                term = str_wrap(term, 50),
                term = fct_reorder(term, -adjusted_p_value),
                genes = str_replace_all(genes, ";", ", ")) %>%
@@ -248,7 +250,7 @@ cancer_functional_enrichment_barplot <- function(cancer, data, ...) {
 
 # make bar-plots
 cluster_terms_cancer %>%
-    filter(datasource != "LINCS_L1000_Kinase_Perturbations_down") %>%
+    filter(!str_detect(datasource, "LINCS_L1000_Kinase_Perturbations")) %>%
     group_by(cancer) %>%
     nest() %>%
     pwalk(cancer_functional_enrichment_barplot)
