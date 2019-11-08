@@ -28,7 +28,7 @@ cluster_terms %>%
     filter(n_distinct(gene_cls) == 1) %>%
     group_by(cancer, datasource, gene_cls) %>%
     arrange(adjusted_p_value, desc(n_genes)) %>%
-    slice(1:5) %>%
+    slice(1:10) %>%
     ungroup() %>%
     arrange(cancer, gene_cls, datasource, term, adjusted_p_value, desc(n_genes)) %>%
     write_tsv(
@@ -63,21 +63,13 @@ cluster_terms %>%
 #### ---- Plot results ---- ####
 
 # A side-ways bar-plot showing the adj. p-value and genes in enriched groups.
-functional_enrichment_barplot <- function(cancer, data, top_n_fxn = 10, ...) {
+functional_enrichment_barplot <- function(cancer, data, genes_names_size = 3) {
     p <- data %>%
-        group_by(genes) %>%
-        top_n(2, adjusted_p_value) %>%
-        ungroup() %>%
-        mutate(term = str_wrap(term, 50),
-               term = fct_reorder(term, -adjusted_p_value),
-               genes = str_replace_all(genes, ";", ", ")) %>%
-        arrange(adjusted_p_value, n_genes) %>%
-        slice(seq(1, top_n_fxn)) %>%
         ggplot(aes(x = term, y = -log10(adjusted_p_value))) +
         geom_col(aes(fill = -log10(adjusted_p_value)), alpha = 0.6) +
         geom_text(aes(label = genes),
                   color = "black",
-                  y = 0, family = "Arial", hjust = 0, size = 3) +
+                  y = 0, family = "Arial", hjust = 0, size = genes_names_size) +
         geom_text(aes(label = gene_cls),
                   hjust = 0.0, size = 3, family = "Arial", nudge_y = 0.01) +
         scale_fill_viridis_c() +
@@ -94,7 +86,24 @@ functional_enrichment_barplot <- function(cancer, data, top_n_fxn = 10, ...) {
             y = "-log10( adj. p-value )"
         ) +
         coord_flip()
+    return(p)
+}
 
+# Make the side-ways bar-plot for the enriched functions of a gene-cluster
+gene_cluster_functional_enrichment_barplot <- function(cancer,
+                                                       data,
+                                                       top_n_fxn = 10,
+                                                       ...) {
+    mod_data <- data %>%
+        group_by(genes) %>%
+        top_n(2, adjusted_p_value) %>%
+        ungroup() %>%
+        mutate(term = str_wrap(term, 50),
+               term = fct_reorder(term, -adjusted_p_value),
+               genes = str_replace_all(genes, ";", ", ")) %>%
+        arrange(adjusted_p_value, n_genes) %>%
+        slice(seq(1, top_n_fxn))
+    p <- functional_enrichment_barplot(cancer, mod_data)
     save_name <- plot_path("10_13_linear-modeling-syn-let_fxnal-enrichment",
                            glue("functional-enrichment_{cancer}.svg"))
     if (cancer == "LUAD") {
@@ -102,14 +111,13 @@ functional_enrichment_barplot <- function(cancer, data, top_n_fxn = 10, ...) {
     } else {
         ggsave_wrapper(p, save_name, width = 6, height = 2)
     }
-
 }
 
 cluster_terms %>%
     filter(datasource != "LINCS_L1000_Kinase_Perturbations_down") %>%
     group_by(cancer) %>%
     nest() %>%
-    pwalk(functional_enrichment_barplot)
+    pwalk(gene_cluster_functional_enrichment_barplot)
 
 
 
@@ -158,3 +166,86 @@ enriched_group_effect_barplot <- function(cancer, term, gene_cls, datasource,
 cluster_terms %>%
     filter(datasource != "LINCS_L1000_Kinase_Perturbations_down") %>%
     pwalk(enriched_group_effect_barplot)
+
+
+
+#### ---- Functional enrichment for each cancer (not gene clusters) ---- ####
+
+cluster_terms_cancer <- depmap_gene_clusters %>%
+    group_by(cancer) %>%
+    summarise(genes = list(hugo_symbol)) %>%
+    ungroup() %>%
+    mutate(enrichr_res = purrr::map(genes, enrichr_wrapper)) %>%
+    select(-genes) %>%
+    unnest(enrichr_res) %>%
+    filter(!str_detect(term, !!uniteresting_enrichr_regex)) %>%
+    mutate(n_genes = get_enrichr_overlap_int(overlap)) %>%
+    filter(adjusted_p_value < 0.2 & n_genes > 2)
+
+cluster_terms_cancer %>%
+    write_tsv(
+        file.path("tables",
+                  "10_10_linear-modeling-syn-let",
+                  "cancer-fxnal-enrichment.tsv"
+    ))
+
+
+cluster_terms_cancer %>%
+    group_by(cancer, term) %>%
+    group_by(cancer, datasource) %>%
+    arrange(adjusted_p_value, desc(n_genes)) %>%
+    slice(1:10) %>%
+    ungroup() %>%
+    arrange(cancer, datasource, term, adjusted_p_value, desc(n_genes)) %>%
+    write_tsv(
+        file.path("tables",
+                  "10_10_linear-modeling-syn-let",
+                  "cancer-fxnal-enrichment_top10.tsv"
+    ))
+
+cluster_terms_cancer %>%
+    filter(!str_detect(term, common_term_regex)) %>%
+    group_by(cancer, datasource) %>%
+    arrange(adjusted_p_value, desc(n_genes)) %>%
+    slice(1:10) %>%
+    ungroup() %>%
+    arrange(cancer, datasource, term, adjusted_p_value, desc(n_genes)) %>%
+    write_tsv(
+        file.path("tables",
+                  "10_10_linear-modeling-syn-let",
+                  "cancer-fxnal-enrichment_uncommon.tsv"
+    ))
+
+
+# Make the side-ways bar-plot for the enriched functions of a cancer
+cancer_functional_enrichment_barplot <- function(cancer, data, ...) {
+    mod_data <- data %>%
+        group_by(genes) %>%
+        top_n(2, adjusted_p_value) %>%
+        ungroup() %>%
+        mutate(term = paste(datasource, "-", term),
+               term = str_wrap(term, 50),
+               term = fct_reorder(term, -adjusted_p_value),
+               genes = str_replace_all(genes, ";", ", ")) %>%
+        arrange(adjusted_p_value, n_genes) %>%
+        mutate(gene_cls = NA)
+    p <- functional_enrichment_barplot(
+        cancer, mod_data,
+        genes_names_size = ifelse(cancer == "LUAD", 1.5, 3)
+    )
+    save_name <- plot_path("10_13_linear-modeling-syn-let_fxnal-enrichment",
+                           glue("functional-enrichment_{cancer}_overall.svg"))
+    if (cancer == "LUAD") {
+        ggsave_wrapper(p, save_name, "large")
+    } else {
+        ggsave_wrapper(p, save_name, "wide")
+    }
+
+}
+
+# make bar-plots
+cluster_terms_cancer %>%
+    filter(datasource != "LINCS_L1000_Kinase_Perturbations_down") %>%
+    group_by(cancer) %>%
+    nest() %>%
+    pwalk(cancer_functional_enrichment_barplot)
