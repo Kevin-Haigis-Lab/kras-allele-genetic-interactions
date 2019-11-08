@@ -98,7 +98,8 @@ gene_cluster_functional_enrichment_barplot <- function(cancer,
         group_by(genes) %>%
         top_n(2, adjusted_p_value) %>%
         ungroup() %>%
-        mutate(term = str_wrap(term, 50),
+        mutate(term = paste0(datasource, "-", term),
+               term = str_wrap(term, 50),
                term = fct_reorder(term, -adjusted_p_value),
                genes = str_replace_all(genes, ";", ", ")) %>%
         arrange(adjusted_p_value, n_genes) %>%
@@ -152,7 +153,9 @@ enriched_group_effect_barplot <- function(cancer, term, gene_cls, datasource,
             title = glue("{cancer}: {term}"),
             y = "depletion effect"
         )
-    save_term <- str_replace_sp(term) %>%
+
+    save_term <- paste0(datasource, "_", term) %>%
+        str_replace_sp() %>%
         str_replace_all("/", "-") %>%
         str_replace_all("\\(", "-") %>%
         str_remove_all("\\)|:")
