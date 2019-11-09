@@ -74,12 +74,12 @@ network_node_shapes <- list(
 )
 
 network_node_colors <- list(
-    "comutation" = "#FDA253",
-    "exclusivity" = "#F4E388",
-    "synthetic lethal up" = "#AFE5FF",
-    "synthetic lethal down" = "#74D1FF",
+    "comutation" = comut_mutex_pal[["comutation"]],
+    "exclusivity" = comut_mutex_pal[["exclusivity"]],
+    "synthetic lethal up" = synthetic_lethal_pal[["up"]],
+    "synthetic lethal down" = synthetic_lethal_pal[["down"]],
     "both" = "#ED6165",
-    "other" = "#68DC66"
+    "other" = "#99999C"
 )
 
 
