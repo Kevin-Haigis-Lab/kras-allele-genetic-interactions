@@ -28,6 +28,6 @@
 - functional enrichment from genetic interactions
 - are any of the syn. let. hits classified as pan-nonessential or pan-essential?
     + do any of them *become* lethal in an allele?
-
+- Fix the heatmaps for syn. let to use the new colors.
 
 ## Questions

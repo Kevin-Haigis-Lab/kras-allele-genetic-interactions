@@ -106,6 +106,70 @@
     </item>
     
     <item>
+      <title>2019-11-09</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-11-09/</link>
+      <pubDate>Sat, 09 Nov 2019 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-11-09/</guid>
+      <description>
+
+&lt;h2 id=&#34;touch-ups-and-preparations-for-figures-quality-images&#34;&gt;Touch-ups and preparations for figures-quality images&lt;/h2&gt;
+
+&lt;p&gt;I spent today taking casre of some smaller, but necessary, adjustments to previously created figures in order to prepare them for use a figure.&lt;/p&gt;
+
+&lt;h3 id=&#34;standardizing-color-palettes-for-comutation-and-synthetic-lethality&#34;&gt;Standardizing color palettes for comutation and synthetic lethality&lt;/h3&gt;
+
+&lt;p&gt;I want a pair of colors for comutation vs. mutual exclusivity and another pair for synthetic lethal up and down.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/00_miscellaneous/genetic_interaction_pal.svg&#34; width=300 /&gt;&lt;/p&gt;
+
+&lt;p&gt;While I was at it, I made my own palette-display function. Below are the rest of the palettes used throughout the paper.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/00_miscellaneous/cancer_palette.svg&#34; width=300 /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/00_miscellaneous/short_alleles_pal.svg&#34; width=500 /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/00_miscellaneous/mutation_pal.svg&#34; width=500 /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;make-more-tightly-packed-high-level-genetic-interaction-networks&#34;&gt;Make more tightly packed high-level genetic interaction networks&lt;/h3&gt;
+
+&lt;p&gt;Since the purpose of the high-level genetic interaction networks is to show thee relations between the alleles, it need not take up too much space.
+I made small figures that will still relay our point, but not take up half the figure.
+These replace the &amp;ldquo;thick&amp;rdquo; versions.&lt;/p&gt;
+
+&lt;h4 id=&#34;coad&#34;&gt;COAD&lt;/h4&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_40_highlivel-genetic-interactions/genetic_interaction_network_COAD_thick.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;luad&#34;&gt;LUAD&lt;/h4&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_40_highlivel-genetic-interactions/genetic_interaction_network_LUAD_thick.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;mm&#34;&gt;MM&lt;/h4&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_40_highlivel-genetic-interactions/genetic_interaction_network_MM_thick.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;paad&#34;&gt;PAAD&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_40_highlivel-genetic-interactions/genetic_interaction_network_PAAD_thick.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;finalize-distribution-of-interactions-plot&#34;&gt;Finalize distribution of interactions plot&lt;/h3&gt;
+
+&lt;p&gt;I just tidied up this plot that was originally just for my own use.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_35_rc-fisher-comparison/rc_mutations_distribition.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;to-do-tomorrow&#34;&gt;To-Do tomorrow&lt;/h2&gt;
+
+&lt;p&gt;What I should do tomorrow:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Update the heatmap for synthetic lethality to use the new color palette.&lt;/li&gt;
+&lt;li&gt;Finally fix the observed vs. predicted &lt;em&gt;KRAS&lt;/em&gt; alleles.&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+    </item>
+    
+    <item>
       <title>2019-11-08</title>
       <link>https://project-notebook-comutation.netlify.com/post/2019-11-08/</link>
       <pubDate>Fri, 08 Nov 2019 00:00:00 +0000</pubDate>
