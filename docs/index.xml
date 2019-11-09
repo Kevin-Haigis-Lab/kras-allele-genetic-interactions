@@ -106,6 +106,100 @@
     </item>
     
     <item>
+      <title>2019-11-08</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-11-08/</link>
+      <pubDate>Fri, 08 Nov 2019 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-11-08/</guid>
+      <description>
+
+&lt;h2 id=&#34;correlating-mutation-frequency-and-number-of-genetic-interactors&#34;&gt;Correlating mutation frequency and number of genetic interactors&lt;/h2&gt;
+
+&lt;p&gt;I created a scatter plot of the frequency of the &lt;em&gt;KRAS&lt;/em&gt; allele against the number of genetic interactors (comutation or mutual exclusivity).
+This analysis was added to the end of &amp;ldquo;src/20_40_highlivel-genetic-interactions.R&amp;rdquo;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_40_highlivel-genetic-interactions/corr_allele-freq_num-interactors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;some-minor-changes&#34;&gt;Some minor changes&lt;/h2&gt;
+
+&lt;p&gt;I took care of a few small changes to various parts of the analysis:&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;I fixed some typos in to the &lt;code&gt;mapping_mutation_types_to_human_readable&lt;/code&gt;.
+I had to re-run &amp;ldquo;munge/20_prepare-cancer-data.R&amp;rdquo; and &amp;ldquo;src/90_03_mutation-burden-distribution.R&amp;rdquo; to update data tables and figures.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;I ran functional enrichment on the synthetic lethal hits without separating by cluster.
+These results will be referenced in the text, included as a supplementary table, and (maybe) a supplementary figure.
+This analysis was tacked onto the end of &amp;ldquo;src/10_13_linear-modeling-syn-let_fxnal-enrichment.R&amp;rdquo;
+The TSVs of the results are available in &amp;ldquo;tables/10_10_linear-modeling-syn-let&amp;rdquo; and the plots are in &amp;ldquo;graphs/10_13_linear-modeling-syn-let_fxnal-enrichment&amp;rdquo; with the &amp;ldquo;overall.svg&amp;rdquo; suffix.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_13_linear-modeling-syn-let_fxnal-enrichment/functional-enrichment_COAD_overall.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_13_linear-modeling-syn-let_fxnal-enrichment/functional-enrichment_LUAD_overall.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_13_linear-modeling-syn-let_fxnal-enrichment/functional-enrichment_PAAD_overall.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;comparison-of-synthetic-lethal-hits-and-comutation-interactions&#34;&gt;Comparison of synthetic lethal hits and comutation interactions&lt;/h2&gt;
+
+&lt;p&gt;I first needed to solidify the clusters for the heatmaps of the synthetic lethal hits.
+I tried a bunch of clustering and distance methods for the creation of the clusters and found the &amp;ldquo;manhattan&amp;rdquo; distance method with the &amp;ldquo;ward.D2&amp;rdquo; clustering method to work the best.&lt;/p&gt;
+
+&lt;p&gt;With the clusters established, I had to re-run all of the downstream analyses.
+This will break some images earlier in the notebook.
+(I will also need to go and fix the Project page for the synthetic lethal analysis.)&lt;/p&gt;
+
+&lt;p&gt;This first analysis was done in &amp;ldquo;src/40_10_overlap-synlet-comutation.R&amp;rdquo;.&lt;/p&gt;
+
+&lt;p&gt;I originally tried to bin the genes into manually-defined clusters based on visual interpretation of the heatmaps, but this lacked nuance, was not scalable, was too fragile, etc.
+Instead, I calculated the pairwise t-tests between all alleles for each gene that passed the ANOVA.
+These results were filtered at a FDR-adjusted p-value &amp;lt; 0.10.&lt;/p&gt;
+
+&lt;p&gt;The first round of plots were created and some are copied below - I have yet to pick through them and decide which to investigate further.
+The shape indicates in which genetic test the interaction was found.
+The color indicates a detail about the genetic interaction in the context of the test; for genetic interactions, the color indicates comutation or mutual exclusivity, while for synthetic lethality, the color indicates the direction in which the depletion effect is different from the average of the rest.&lt;/p&gt;
+
+&lt;p&gt;Some information that is missing but would be interesting to try to include if it doesn&amp;rsquo;t get too cluttered would be more specifics on which comparison was  significantly different for the synthetic lethal interaction.
+Perhaps, I can include the box-plots for a few of the genes and manually draw a line to the respective node.&lt;/p&gt;
+
+&lt;p&gt;I also want to include some sort of comparisons amongst the plots, especially between the subnetworks that contain &lt;em&gt;KRAS&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;SOME EXAMPLES&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;coad-g12d&#34;&gt;COAD G12D&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/40_10_overlap-synlet-comutation/overlap_ppi_COAD_G12D_1.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;coad-g13d&#34;&gt;COAD G13D&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/40_10_overlap-synlet-comutation/overlap_ppi_COAD_G13D_1.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;luad-g12v&#34;&gt;LUAD G12V&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/40_10_overlap-synlet-comutation/overlap_ppi_LUAD_G12V_1.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;luad-wt&#34;&gt;LUAD WT&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/40_10_overlap-synlet-comutation/overlap_ppi_LUAD_WT_1.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;paad-g12d&#34;&gt;PAAD G12D&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/40_10_overlap-synlet-comutation/overlap_ppi_PAAD_G12D_2.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;paad-g12r&#34;&gt;PAAD G12R&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/40_10_overlap-synlet-comutation/overlap_ppi_PAAD_G12R_1.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;paad-g12v&#34;&gt;PAAD G12V&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/40_10_overlap-synlet-comutation/overlap_ppi_PAAD_G12V_1.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>2019-11-07</title>
       <link>https://project-notebook-comutation.netlify.com/post/2019-11-07/</link>
       <pubDate>Thu, 07 Nov 2019 00:00:00 +0000</pubDate>
