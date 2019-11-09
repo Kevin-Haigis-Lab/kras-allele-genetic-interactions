@@ -173,3 +173,52 @@ g12v_plot_overlap <- g12v_gr_overlap %>%
 save_path <- plot_path("20_40_highlivel-genetic-interactions",
                        glue("genetic_interaction_network_G12V_overlap_thick.svg"))
 ggsave_wrapper(g12v_plot_overlap, save_path, width = 11, height = 8)
+
+
+
+#### ---- Correlate number of interactors KRAS allele frequency ---- ####
+
+# A function factory for getting integer y-axis values.
+integer_breaks <- function(n = 5, ...) {
+    fxn <- function(x) {
+        breaks <- floor(pretty(x, n, ...))
+        names(breaks) <- attr(breaks, "labels")
+        breaks
+    }
+    return(fxn)
+}
+
+interaction_counts_data <- genetic_interaction_df %>%
+    mutate(allele_freq = ifelse(
+        genetic_interaction == "comutation",
+        allele_freq,
+        num_samples_per_cancer_allele / num_samples_per_cancer)) %>%
+    group_by(cancer, allele, allele_freq, genetic_interaction) %>%
+    count() %>%
+    ungroup()
+
+interaction_counts_plot <- interaction_counts_data %>%
+    filter(n > 0) %>%
+    ggplot(aes(x = allele_freq, y = n)) +
+    facet_wrap(~ cancer, scales = "free") +
+    geom_point(aes(color = allele, shape = genetic_interaction)) +
+    scale_color_manual(values = short_allele_pal) +
+    scale_shape_manual(values = c(0, 2)) +
+    scale_x_continuous(limits = c(0, NA)) +
+    scale_y_continuous(breaks = integer_breaks(),
+                       limits = c(0, NA)) +
+    theme_bw(base_size = 8, base_family = "Arial") +
+    theme(
+        plot.title = element_text(hjust = 0.5),
+        strip.background = element_blank()
+    ) +
+    labs(
+        title = "Association of allele frequency and number of interactors",
+        x = "KRAS allele frequency",
+        y = "number of genetic interactors",
+        color = "allele",
+        shape = "interaction"
+    )
+save_path <- plot_path("20_40_highlivel-genetic-interactions",
+                       "corr_allele-freq_num-interactors.svg")
+ggsave_wrapper(interaction_counts_plot, save_path, "medium")
