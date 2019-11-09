@@ -66,57 +66,6 @@ ggsave_wrapper(fish_pval_distribution, save_path, "wide")
 
 
 
-#### ---- Distribution of the effect size of mutually exclusivity ---- ####
-
-genes_to_label <- c(
-    "BRAF", "TP53", "NF1", "NRAS",
-    "RYR2", "CSMD3", "FLG", "SPTA1", "ZFHX4", "USH2A", "MUC16",
-    unique(kegg_geneset_df$hugo_symbol),
-    unique(cosmic_cgc_df %>% filter(tier == 1) %>% pull(hugo_symbol))
-)
-
-rc_mutations_distribition <- rc_sig %>%
-    filter(rc_test_type == "exclusivity") %>%
-    mutate(
-        label = ifelse(
-            hugo_symbol %in% !!genes_to_label, hugo_symbol, NA
-    )) %>%
-    ggplot(aes(x = -log10(p_val),
-               y = t_AM / num_samples_per_cancer
-    )) +
-    facet_wrap(~ cancer, scales = "free") +
-    geom_point(
-        aes(alpha = num_mut_per_cancer / num_samples_per_cancer,
-            size = num_mut_per_cancer / num_samples_per_cancer,
-            color = allele)
-    ) +
-    ggrepel::geom_text_repel(
-        aes(label = label),
-        family = "Arial",
-        size = 1.5,
-        segment.size = 0.2,
-        segment.alpha = 0.5
-    ) +
-    scale_alpha_continuous(range = c(0.1, 0.7)) +
-    scale_size_continuous(range = c(0.1, 3)) +
-    scale_color_manual(values = short_allele_pal) +
-    theme_bw(base_family = "Arial") +
-    theme(
-        plot.title = element_text(hjust = 0.5)
-    ) +
-    labs(
-        x = "-log10( p-value )",
-        y = "number of mutually exclusive events / number of samples",
-        alpha = "mut. freq",
-        size = "mut. freq",
-        color = "allele",
-        title = "Distribution of the mutual exclusivity values"
-    )
-save_path <- plot_path("20_35_rc-fisher-comparison",
-                       "rc_mutations_distribition.svg")
-ggsave_wrapper(rc_mutations_distribition, save_path, "large")
-
-
 
 #### ---- Comparing gross number of genes ---- ####
 
@@ -271,3 +220,76 @@ comutation_df <- fisher_sig %>%
 
 genetic_interaction_df <- bind_rows(exclusivity_df, comutation_df)
 cache("genetic_interaction_df")
+
+
+
+#### ---- Distribution of the effect size of genetc interactions ---- ####
+
+set.seed(0)
+genes_to_label <- c(
+    "BRAF", "TP53", "NF1", "NRAS", "PIK3CA",
+    unique(cosmic_cgc_df %>% filter(tier == 1) %>% pull(hugo_symbol))
+)
+
+rc_mutations_distribition <- genetic_interaction_df %>%
+    mutate(
+        label = ifelse(
+            hugo_symbol %in% !!genes_to_label, hugo_symbol, NA
+        ),
+        y = ifelse(
+            genetic_interaction == "exclusivity",
+            t_AM / num_samples_per_cancer,
+            n11 / (n00 + n10 + n01 + n11)
+        ),
+        point_size = ifelse(
+            genetic_interaction == "exclusivity",
+            num_mut_per_cancer / num_samples_per_cancer,
+            gene_freq
+        )
+    ) %>%
+    ggplot(aes(x = -log10(p_val), y = y)) +
+    facet_grid(genetic_interaction ~ cancer, scales = "free") +
+    geom_point(
+        aes(alpha = point_size,
+            size = point_size,
+            color = allele)
+    ) +
+    ggrepel::geom_text_repel(
+        aes(label = label),
+        family = "Arial",
+        size = 1.5,
+        segment.size = 0.2,
+        segment.alpha = 0.5
+    ) +
+    scale_alpha_continuous(
+        range = c(0.1, 0.7),
+        guide = guide_legend(label.position = "left", order = 0)
+    ) +
+    scale_size_continuous(
+        range = c(0.1, 3),
+        guide = guide_legend(label.position = "left", order = 0)
+    ) +
+    scale_color_manual(
+        values = short_allele_pal,
+        guide = guide_legend(label.position = "left", order = 1)
+    ) +
+    theme_bw(base_family = "Arial", base_size = 8) +
+    theme(
+        plot.title = element_blank(),
+        strip.background = element_blank(),
+        legend.position = "right",
+        legend.text = element_text(size = 6),
+        plot.margin = unit(c(0, 0, 0, 0), "mm"),
+        legend.key.size = unit(4, "mm")
+    ) +
+    labs(
+        x = "-log10( p-value )",
+        y = "number of events per number of samples",
+        alpha = "mut. freq",
+        size = "mut. freq",
+        color = "allele"
+    )
+save_path <- plot_path("20_35_rc-fisher-comparison",
+                       "rc_mutations_distribition.svg")
+ggsave_wrapper(rc_mutations_distribition, save_path,
+               width = 10, height = 5)
