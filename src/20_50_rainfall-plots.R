@@ -93,7 +93,6 @@ get_maf <- function(for_genes, in_cancer, kras_allele,
                     replace_kras_with_allele = FALSE,
                     group_other_alleles = TRUE) {
     df <- cancer_coding_muts_maf %>%
-        # dplyr::filter(cancer %in% !!in_cancer)
         dplyr::filter(cancer %in% !!in_cancer & hugo_symbol %in% !!for_genes)
 
     if (replace_kras_with_allele) {
