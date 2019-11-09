@@ -88,26 +88,36 @@ for (CANCER in unique(genetic_interaction_df$cancer)) {
         filter(centrality_degree(mode = "all") > 0) %>%
         mutate(node_label = ifelse(is_kras, name, NA),
                node_label = str_remove_all(node_label, "KRAS_")) %>%
-        jhcutils::get_giant_component() %>%
-        ggraph(layout = "stress") +
-        geom_edge_link(aes(color = genetic_interaction), width = 0.3) +
+        ggraph(layout = "nicely") +
+        geom_edge_link(
+            aes(color = genetic_interaction),
+            width = 0.3
+        ) +
         scale_edge_color_manual(values = comut_mutex_pal) +
-        geom_node_point(aes(color = node_label), size = 2) +
-        geom_node_text(aes(label = node_label), repel = TRUE, family = "Arial") +
+        geom_node_point(
+            aes(color = node_label),
+            size = 2
+        ) +
+        geom_node_text(
+            aes(label = node_label),
+            repel = TRUE,
+            family = "Arial",
+            size = 5
+        ) +
         scale_color_manual(values = short_allele_pal, na.value = NA) +
-        theme_graph() +
+        theme_graph(base_family = "Arial", base_size = 8) +
         theme(
-            text = element_text(family = "Arial"),
-            plot.title = element_text(hjust = 0.5)
+            plot.title = element_blank(),
+            legend.position = "none"
         ) +
         labs(
-            title = glue("Allele-specific genetic interactions in {CANCER}"),
+            title = glue("Genetic interactions in {CANCER}"),
             color = "KRAS allele",
             edge_color = "genetic\ninteraction"
         )
     save_path <- plot_path("20_40_highlivel-genetic-interactions",
                            glue("genetic_interaction_network_{CANCER}_thick.svg"))
-    ggsave_wrapper(gr_plot, save_path, size = "large")
+    ggsave_wrapper(gr_plot, save_path, size = "medium")
 }
 
 
