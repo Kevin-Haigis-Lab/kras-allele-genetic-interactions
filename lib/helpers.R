@@ -80,27 +80,40 @@ mapping_mutation_types_to_human_readable <- list(
 
 
 ## make color palette: does NOT run on O2, but does on Mac
-# set.seed(12)
-# n <- 35
-# cols <- randomcoloR::distinctColorPalette(n)
-# for (i in 1:n) {
-#     if (i == 1) { cat("\t") }
+s <- 0
+while(TRUE) {
+    cat("Using", s, "as the seed value. ")
+    set.seed(s)
+    unique_muts <- unique(unname(unlist(mapping_mutation_types_to_human_readable)))
+    n <- length(unique_muts)
+    cols <- randomcoloR::randomColor(n, luminosity = "light")
+    scales::show_col(cols)
+    a <- readline(prompt = "Press Enter to continue... ")
+    if (a == "s") { break }
+    s <- s + 1
+}
 
-#     if (i %% 6 == 0) { cat("\n\t") }
-#     cat("\"", cols[[i]], "\", ", sep = "")
+set.seed(30)
+unique_muts <- unique(unname(unlist(mapping_mutation_types_to_human_readable)))
+n <- length(unique_muts)
+cols <- randomcoloR::randomColor(n)
+for (i in 1:n) {
+    if (i == 1) { cat("\t") }
 
-#     if (i == n) { cat("\n") }
-# }
+    if (i %% 6 == 0) { cat("\n\t") }
+    cat("\"", cols[[i]], "\", ", sep = "")
+
+    if (i == n) { cat("\n") }
+}
 
 mutation_pal <- list(
-    "#E1B954", "#66E7AE", "#BD9BE3", "#ABC9E0", "#776BE3",
-    "#B8887A", "#AAB6A8", "#689658", "#8B569F", "#D26C3F", "#AFE6AF",
-    "#73A2DA", "#549C97", "#E9A783", "#EBD4D1", "#74E63D", "#CFC1E8",
-    "#E88ED5", "#E44DB5", "#D5E041", "#62E5D7", "#E33E68", "#DC46E7",
-    "#D76C8D", "#8942EB", "#5D86E0", "#65CCEA", "#91778D", "#DED5A2",
-    "#A8E9E3", "#E1F0D9", "#CC73DF", "#EAA9C9", "#DAED88", "#7BDF7A"
+    "#fce094", "#bf7909", "#a4f9c8", "#8cf2b3", "#7e5cb5",
+    "#dd8c2e", "#be2ecc", "#c254d8", "#e27bfc", "#1372d8", "#110bc4",
+    "#eef9a7", "#075f82", "#fc6ab3", "#917add", "#fca69f", "#d67b0c",
+    "#a8eae9", "#d8841e", "#e51c02", "#d4b9f7", "#d87b34", "#e575df",
+    "#ef64a7"
 )
-names(mutation_pal) <- mapping_mutation_types_to_human_readable
+names(mutation_pal) <- unique(unname(unlist(mapping_mutation_types_to_human_readable)))
 
 
 
