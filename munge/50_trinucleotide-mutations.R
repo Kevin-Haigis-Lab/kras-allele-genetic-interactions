@@ -18,6 +18,15 @@ ProjectTemplate::cache("trinucleotide_mutations_df",
         mutate(kras_allele = str_remove(ras_allele, "KRAS_")) %>%
         select(cancer, dataset, tumor_sample_barcode, kras_allele)
 
+
+    # Extract the context from the `tricontext`.
+    extract_context <- function(x) {
+        nuc1 <- str_sub(x, 1, 1)
+        nuc2 <- str_sub(x, 3, 3)
+        nuc3 <- str_sub(x, -1, -1)
+        return(paste0(nuc1, nuc2, nuc3))
+    }
+    
     trinucleotide_mutations_df <- readRDS(file.path(
             gm_root_dir, "paad_luad_coadread_skcm_mm_tricLong_newAug2019.rds"
         )) %>%
@@ -30,14 +39,15 @@ ProjectTemplate::cache("trinucleotide_mutations_df",
             dataset = genetic_profile_id,
             cancer = tumor_type
         ) %>%
+        filter(!(tumor_sample_barcode %in% !!double_kras_mutants)) %>%
         mutate(
             mutation_type = str_to_lower(mutation_type),
             mutation_type_hr = unlist(mapping_mutation_types_to_human_readable[mutation_type]),
             is_hypermutant = tumor_sample_barcode %in% hypermutants,
             cancer = str_to_upper(cancer),
-            cancer = ifelse(cancer == "COADREAD", "COAD", cancer)
+            cancer = ifelse(cancer == "COADREAD", "COAD", cancer),
+            context = purrr::map_chr(tricontext, extract_context)
         ) %>%
-        filter(!(tumor_sample_barcode %in% !!double_kras_mutants)) %>%
         left_join(ras_muts,
                   by = c("cancer", "dataset", "tumor_sample_barcode")) %>%
         mutate(kras_allele = ifelse(is.na(kras_allele), "WT", kras_allele))
