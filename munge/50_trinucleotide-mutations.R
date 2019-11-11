@@ -26,7 +26,7 @@ ProjectTemplate::cache("trinucleotide_mutations_df",
         nuc3 <- str_sub(x, -1, -1)
         return(paste0(nuc1, nuc2, nuc3))
     }
-    
+
     trinucleotide_mutations_df <- readRDS(file.path(
             gm_root_dir, "paad_luad_coadread_skcm_mm_tricLong_newAug2019.rds"
         )) %>%
@@ -70,8 +70,7 @@ ProjectTemplate::cache("kras_trinucleotide_contexts",
         mutate(kras_codon = as.numeric(kras_codon)) %>%
         arrange(kras_codon, kras_allele)
 
-    return("kras_trinucleotide_contexts")
-
+    return(kras_trinucleotide_contexts)
 })
 
 
@@ -89,7 +88,7 @@ ProjectTemplate::cache("tricontext_counts_df",
         ),
         by = "context"
     )
-
+    
     return(tricontext_counts_df)
 })
 

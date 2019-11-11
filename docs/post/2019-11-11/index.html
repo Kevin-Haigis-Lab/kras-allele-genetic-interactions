@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="Source Themes Academic 4.5.0">
+
+  
+
+  
+  
+  
+  
+  
+    
+    
+    
+  
+  
+
+  <meta name="author" content="Comutation of KRAS">
+
+  
+  
+  
+    
+  
+  <meta name="description" content="Refine rainfall plots I first had to fix a mistake in the creation of the MAF-compliant tibble by removing hypermutants. This had no effects on the results because the hypermutants were removed from the initial tests for comutation and mutual exclusivity. The only effect was to make some comutation interactions look even more striking.
+The second fix was to set some custom sizes for the manually-selected plots. This was purely aesthetic.">
+
+  
+  <link rel="alternate" hreflang="en-us" href="https://project-notebook-comutation.netlify.com/post/2019-11-11/">
+
+  
+
+
+  
+  
+  
+  <meta name="theme-color" content="#2962ff">
+  
+
+  
+  
+  
+  
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css" integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.0/css/all.css" integrity="sha384-aOkxzJ5uQz7WBObEZcHvV5JvRW3TUc2rNPA7pe3AwnsUohiw1Vj2Rgx2KSOkF5+h" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" integrity="sha256-ygkqlh3CYSUri3LhQxzdcm0n1EQvH2Y+U5S2idbLtxs=" crossorigin="anonymous">
+
+    
+    
+    
+      
+    
+    
+      
+      
+        
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css" crossorigin="anonymous" title="hl-light">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark" disabled>
+        
+      
+    
+
+    
+
+    
+
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7CRoboto:400,400italic,700%7CRoboto+Mono&display=swap">
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="/css/academic.min.a3cda781a9b24f26fefd34a53547835b.css">
+
+  
+
+  
+
+
+
+
+  
+
+
+  
+
+  <link rel="manifest" href="/index.webmanifest">
+  <link rel="icon" type="image/png" href="/img/icon-32.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/icon-192.png">
+
+  <link rel="canonical" href="https://project-notebook-comutation.netlify.com/post/2019-11-11/">
+
+  
+  
+  
+  
+    
+    
+  
+  
+  <meta property="twitter:card" content="summary">
+  
+  <meta property="og:site_name" content="KRAS Comutation">
+  <meta property="og:url" content="https://project-notebook-comutation.netlify.com/post/2019-11-11/">
+  <meta property="og:title" content="2019-11-11 | KRAS Comutation">
+  <meta property="og:description" content="Refine rainfall plots I first had to fix a mistake in the creation of the MAF-compliant tibble by removing hypermutants. This had no effects on the results because the hypermutants were removed from the initial tests for comutation and mutual exclusivity. The only effect was to make some comutation interactions look even more striking.
+The second fix was to set some custom sizes for the manually-selected plots. This was purely aesthetic."><meta property="og:image" content="https://project-notebook-comutation.netlify.com/img/icon-192.png">
+  <meta property="twitter:image" content="https://project-notebook-comutation.netlify.com/img/icon-192.png"><meta property="og:locale" content="en-us">
+  
+    
+      <meta property="article:published_time" content="2019-11-11T00:00:00&#43;00:00">
+    
+    <meta property="article:modified_time" content="2019-11-11T00:00:00&#43;00:00">
+  
+
+  
+
+
+    
+
+
+
+
+
+
+  
+
+
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://project-notebook-comutation.netlify.com/post/2019-11-11/"
+  },
+  "headline": "2019-11-11",
+  
+  "datePublished": "2019-11-11T00:00:00Z",
+  "dateModified": "2019-11-11T00:00:00Z",
+  
+  "author": {
+    "@type": "Person",
+    "name": "Comutation of KRAS"
+  },
+  
+  "publisher": {
+    "@type": "Organization",
+    "name": "KRAS Comutation",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://project-notebook-comutation.netlify.com/img/icon-512.png"
+    }
+  },
+  "description": "Refine rainfall plots I first had to fix a mistake in the creation of the MAF-compliant tibble by removing hypermutants. This had no effects on the results because the hypermutants were removed from the initial tests for comutation and mutual exclusivity. The only effect was to make some comutation interactions look even more striking.\nThe second fix was to set some custom sizes for the manually-selected plots. This was purely aesthetic."
+}
+</script>
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+
+  <title>2019-11-11 | KRAS Comutation</title>
+
+</head>
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" >
+
+  <aside class="search-results" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        <input name="q" id="search-query" placeholder="Search..." autocapitalize="off"
+        autocomplete="off" autocorrect="off" spellcheck="false" type="search">
+        
+      </div>
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+  
+<nav class="navbar navbar-light fixed-top navbar-expand-lg py-0 compensate-for-scrollbar" id="navbar-main">
+  <div class="container">
+
+    
+      <a class="navbar-brand" href="/">KRAS Comutation</a>
+      
+      <button type="button" class="navbar-toggler" data-toggle="collapse"
+              data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+        <span><i class="fas fa-bars"></i></span>
+      </button>
+      
+
+    
+    <div class="collapse navbar-collapse" id="navbar">
+
+      
+      
+      <ul class="navbar-nav mr-auto">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#about"><span>About</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#projects"><span>Projects</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#notebook"><span>Notebook</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#timeline"><span>Timeline</span></a>
+        </li>
+
+        
+        
+
+      
+      </ul>
+      <ul class="navbar-nav ml-auto">
+      
+
+        
+
+        
+        <li class="nav-item">
+          <a class="nav-link js-search" href="#"><i class="fas fa-search" aria-hidden="true"></i></a>
+        </li>
+        
+
+        
+
+        
+        <li class="nav-item">
+          <a class="nav-link js-dark-toggle" href="#"><i class="fas fa-moon" aria-hidden="true"></i></a>
+        </li>
+        
+
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+  <article class="article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+  
+  
+<div class="article-container pt-3">
+  <h1>2019-11-11</h1>
+
+  
+
+  
+    
+
+
+
+<div class="article-metadata">
+
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+    
+    Nov 11, 2019
+  </span>
+  
+
+  
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    3 min read
+  </span>
+  
+
+  
+  
+  
+
+  
+  
+
+  
+    
+
+  
+
+</div>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+</div>
+
+
+
+  <div class="article-container">
+
+    <div class="article-style">
+      
+
+<h2 id="refine-rainfall-plots">Refine rainfall plots</h2>
+
+<p>I first had to fix a mistake in the creation of the MAF-compliant tibble by removing hypermutants.
+This had no effects on the results because the hypermutants were removed from the initial tests for comutation and mutual exclusivity.
+The only effect was to make some comutation interactions look even more striking.</p>
+
+<p>The second fix was to set some custom sizes for the manually-selected plots.
+This was purely aesthetic.</p>
+
+<hr />
+
+<h2 id="coloration-of-synthetic-lethal-heat-maps">Coloration of synthetic lethal heat maps</h2>
+
+<p>I updated the color scale used for the heatmaps to use the orange and purple for up and down effects, respectively:</p>
+
+<p><img src="/img/graphs/00_miscellaneous/genetic_interaction_pal.svg" width=400 /></p>
+
+<p>This was pretty simple to do, and for future reference, here was all I had to do.</p>
+
+<pre><code class="language-r">pal &lt;- c(synthetic_lethal_pal[&quot;down&quot;], &quot;grey95&quot;, synthetic_lethal_pal[&quot;up&quot;])
+pal &lt;- colorRampPalette(pal)(7)
+
+ph &lt;- pheatmap::pheatmap(
+    mod_data,
+    color = pal,
+    ...
+)
+</code></pre>
+
+<h2 id="fix-observed-vs-predicted-allele-frequency-plots">Fix observed vs. predicted allele frequency plots</h2>
+
+<p>Originally, GM used some funky formulation to create the observed vs. predicted plots was way to convoluted - he wasn&rsquo;t even able to explain it to me in person, so how could I do it in text?
+Therefore, I wanted to create a simpler formulation to answer the question: <strong>If a sample was to have a KRAS mutation, what is the most likely one for it to get if decided by mutational signatures?</strong></p>
+
+<p>My formulation is as follows:</p>
+
+<ul>
+<li>for a tumor sample:
+
+<ul>
+<li>for each trinucleotide mutation $m$ with context $c$ that can cause a KRAS mutation:
+
+<ul>
+<li>calculate: $\frac{|m|}{|c|}$</li>
+</ul></li>
+<li>for each allele $a$:
+
+<ul>
+<li>$p(a) = \sum{p(m)} \quad \text{where} \quad m \rightarrow a$</li>
+</ul></li>
+<li>normalize such that ${A} \Rightarrow \sum^{A}{a} = 1$</li>
+</ul></li>
+</ul>
+
+<p>This approach assumes that all codons are the same.
+If we were interested in only G12 mutations (the null hypothesis being that all G12 mutations are equal), then the same approach is followed again, but only normalizing the G12 mutations at the end.</p>
+
+<p>The data I used was from GM:</p>
+
+<ul>
+<li>&rdquo;/n/data1/hms/dbmi/park/gmelloni/cooc_mutex_driver/data/cbioportal/&rdquo;:
+
+<ul>
+<li>&ldquo;paad_luad_coadread_skcm_mm_tricLong_newAug2019.rds&rdquo;</li>
+<li>&ldquo;context_and_signa_paad_luad_coadread_skcm_mm_NEW.rds&rdquo;</li>
+</ul></li>
+</ul>
+
+<p>It was prepared in &ldquo;munge/50_trinucleotide-mutations.R&rdquo;</p>
+
+<p>The analysis was conducted in &ldquo;src/50_10_observed-predicted-kras-alleles.R&rdquo;.
+The box plot below shows the distribution of predicted allele frequencies in each cancer.</p>
+
+<p><img src="/img/graphs/50_10_observed-predicted-kras-alleles/predicted_kras_allele_frequency_boxplot.svg" alt="" /></p>
+
+<p>The bar plot shows the same data, just taking the average across all samples.
+The error bars indicate the SEM.</p>
+
+<p><img src="/img/graphs/50_10_observed-predicted-kras-alleles/predict_kras_allele_frequency_barplot1.svg" alt="" /></p>
+
+<p>The following bar plot, again, shows the same results, just stratified by allele across cancers.</p>
+
+<p><img src="/img/graphs/50_10_observed-predicted-kras-alleles/predict_kras_allele_frequency_barplot2.svg" alt="" /></p>
+
+<p>Below are the results two different null hypothesis: 1) all <em>KRAS</em> hotspots are equivalent, and 2) all <em>KRAS</em> G12 alleles are equivalent.</p>
+
+<p><img src="/img/graphs/50_10_observed-predicted-kras-alleles/obs_pred_plot.svg" alt="" /></p>
+
+<p><img src="/img/graphs/50_10_observed-predicted-kras-alleles/obs_pred_plot_g12.svg" alt="" /></p>
+
+<p>I ran a binomial test to find which observed rates of the alleles matched the predicted.
+The alleles that could be predicted (p &gt; 0.05) trinucleotide context are shown below.</p>
+
+<table>
+<thead>
+<tr>
+<th align="center">Cancer</th>
+<th align="center">Allele</th>
+<th align="center">Obs. allele freq.</th>
+<th align="center">Pred. allele freq</th>
+<th align="center"><em>p</em>-value</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="center">COAD</td>
+<td align="center">G12A</td>
+<td align="center">0.0371</td>
+<td align="center">0.0314</td>
+<td align="center">0.445</td>
+</tr>
+
+<tr>
+<td align="center">COAD</td>
+<td align="center">G12R</td>
+<td align="center">0.00977</td>
+<td align="center">0.0171</td>
+<td align="center">0.301</td>
+</tr>
+
+<tr>
+<td align="center">COAD</td>
+<td align="center">Q61L</td>
+<td align="center">0.00977</td>
+<td align="center">0.0133</td>
+<td align="center">0.697</td>
+</tr>
+
+<tr>
+<td align="center">LUAD</td>
+<td align="center">Q61L</td>
+<td align="center">0.0141</td>
+<td align="center">0.0249</td>
+<td align="center">0.503</td>
+</tr>
+
+<tr>
+<td align="center">MM</td>
+<td align="center">G12A</td>
+<td align="center">0.0604</td>
+<td align="center">0.0431</td>
+<td align="center">0.171</td>
+</tr>
+
+<tr>
+<td align="center">MM</td>
+<td align="center">G12C</td>
+<td align="center">0.0302</td>
+<td align="center">0.0332</td>
+<td align="center">1</td>
+</tr>
+
+<tr>
+<td align="center">MM</td>
+<td align="center">G12D</td>
+<td align="center">0.121</td>
+<td align="center">0.0910</td>
+<td align="center">0.108</td>
+</tr>
+
+<tr>
+<td align="center">MM</td>
+<td align="center">G12V</td>
+<td align="center">0.0717</td>
+<td align="center">0.0602</td>
+<td align="center">0.436</td>
+</tr>
+
+<tr>
+<td align="center">MM</td>
+<td align="center">G13D</td>
+<td align="center">0.128</td>
+<td align="center">0.104</td>
+<td align="center">0.191</td>
+</tr>
+
+<tr>
+<td align="center">MM</td>
+<td align="center">Q61R</td>
+<td align="center">0.0528</td>
+<td align="center">0.0453</td>
+<td align="center">0.552</td>
+</tr>
+</tbody>
+</table>
+
+<p>The alleles that could be predicted (p &gt; 0.05) when only considering the G12 alleles are show below.</p>
+
+<table>
+<thead>
+<tr>
+<th align="center">Cancer</th>
+<th align="center">Allele</th>
+<th align="center">Obs. allele freq.</th>
+<th align="center">Pred. allele freq</th>
+<th align="center"><em>p</em>-value</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="center">COAD</td>
+<td align="center">G12D</td>
+<td align="center">150</td>
+<td align="center">0.293</td>
+<td align="center">0.321</td>
+</tr>
+
+<tr>
+<td align="center">COAD</td>
+<td align="center">G12V</td>
+<td align="center">100</td>
+<td align="center">0.195</td>
+<td align="center">0.196</td>
+</tr>
+
+<tr>
+<td align="center">LUAD</td>
+<td align="center">G12A</td>
+<td align="center">19</td>
+<td align="center">0.0892</td>
+<td align="center">0.0717</td>
+</tr>
+
+<tr>
+<td align="center">LUAD</td>
+<td align="center">G12D</td>
+<td align="center">26</td>
+<td align="center">0.122</td>
+<td align="center">0.139</td>
+</tr>
+
+<tr>
+<td align="center">LUAD</td>
+<td align="center">G12V</td>
+<td align="center">48</td>
+<td align="center">0.225</td>
+<td align="center">0.253</td>
+</tr>
+
+<tr>
+<td align="center">MM</td>
+<td align="center">G12R</td>
+<td align="center">14</td>
+<td align="center">0.0528</td>
+<td align="center">0.0621</td>
+</tr>
+</tbody>
+</table>
+
+<hr />
+
+<p>Minor changes to make:</p>
+
+<ol>
+<li>To waterfall plots in &ldquo;90_03_mutation-burden-distribution&rdquo;: make shorter and wider</li>
+<li>&ldquo;20_35_rc-fisher-comparison/rc_mutations_distribition.svg&rdquo;: let each axis scale separately.</li>
+</ol>
+
+    </div>
+
+    
+
+
+    
+
+
+
+    
+      
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+  
+  
+  <div class="media author-card">
+    
+      
+      <img class="portrait mr-3" src="/authors/admin/avatar_hu3d2b6d52e0d21b58bf5a8ffa816d54c8_538771_250x250_fill_lanczos_center_2.png" alt="Avatar">
+    
+
+    <div class="media-body">
+      <h5 class="card-title"><a href="/authors/admin/">Comutation of KRAS</a></h5>
+      
+      
+      <ul class="network-icon" aria-hidden="true">
+        
+          
+          
+          
+            
+          
+          
+          
+          
+          
+            
+          
+          <li>
+            <a href="/#contact" >
+              <i class="fas fa-envelope"></i>
+            </a>
+          </li>
+        
+          
+          
+          
+            
+          
+          
+          
+          
+          
+            
+          
+          <li>
+            <a href="https://github.com/jhrcook/comutation" target="_blank" rel="noopener">
+              <i class="fab fa-github"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+
+      
+      
+    
+
+    
+
+    
+
+
+  </div>
+</article>
+
+      
+
+    
+    
+    
+    <script src="/js/mathjax-config.js"></script>
+    
+
+    
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js" integrity="sha256-lqvxZrPLtfffUl2G/e7szqSvPBILGbwmsGE1MKlOi0Q=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js" integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" integrity="sha256-X5PoE3KU5l+JcX+w09p/wHl9AzK333C4hJ2I9S5mD4M=" crossorigin="anonymous"></script>
+
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/8.0.0/mermaid.min.js" integrity="sha256-0w92bcB21IY5+rGI84MGj52jNfHNbXVeQLrZ0CGdjNY=" crossorigin="anonymous" title="mermaid"></script>
+      
+
+      
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js" integrity="sha256-aYTdUrn6Ow1DDgh5JTc3aDGnnju48y/1c8s1dgkYPQ8=" crossorigin="anonymous"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/r.min.js"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/bash.min.js"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/sh.min.js"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/python.min.js"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/swift.min.js"></script>
+        
+      
+
+      
+      
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS_CHTML-full" integrity="sha256-GhM+5JHb6QUzOQPXSJLEWP7R73CbkisjzK5Eyij4U9w=" crossorigin="anonymous" async></script>
+      
+    
+
+    
+    
+
+    
+    
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+    <script>
+      const search_index_filename = "/index.json";
+      const i18n = {
+        'placeholder': "Search...",
+        'results': "results found",
+        'no_results': "No results found"
+      };
+      const content_type = {
+        'post': "Posts",
+        'project': "Projects",
+        'publication' : "Publications",
+        'talk' : "Talks"
+        };
+    </script>
+    
+
+    
+    
+
+    
+    
+    <script id="search-hit-fuse-template" type="text/x-template">
+      <div class="search-hit" id="summary-{{key}}">
+      <div class="search-hit-content">
+        <div class="search-hit-name">
+          <a href="{{relpermalink}}">{{title}}</a>
+          <div class="article-metadata search-hit-type">{{type}}</div>
+          <p class="search-hit-description">{{snippet}}</p>
+        </div>
+      </div>
+      </div>
+    </script>
+    
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.1/fuse.min.js" integrity="sha256-VzgmKYmhsGNNN4Ph1kMW+BjoYJM2jV5i4IlFoeZA9XI=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+    
+
+    
+    
+
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    
+    
+    
+    <script src="/js/academic.min.0bf1e3db85cbb232372ed31d6f10dc70.js"></script>
+
+    
+
+
+
+
+
+
+  
+  <div class="container">
+    <footer class="site-footer">
+  
+
+  <p class="powered-by">
+    
+
+    Powered by the
+    <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+    <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+    
+    <span class="float-right" aria-hidden="true">
+      <a href="#" class="back-to-top">
+        <span class="button_icon">
+          <i class="fas fa-chevron-up fa-2x"></i>
+        </span>
+      </a>
+    </span>
+    
+  </p>
+</footer>
+
+  </div>
+  
+
+  
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

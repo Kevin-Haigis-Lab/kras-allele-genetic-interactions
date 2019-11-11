@@ -106,6 +106,275 @@
     </item>
     
     <item>
+      <title>2019-11-11</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-11-11/</link>
+      <pubDate>Mon, 11 Nov 2019 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-11-11/</guid>
+      <description>
+
+&lt;h2 id=&#34;refine-rainfall-plots&#34;&gt;Refine rainfall plots&lt;/h2&gt;
+
+&lt;p&gt;I first had to fix a mistake in the creation of the MAF-compliant tibble by removing hypermutants.
+This had no effects on the results because the hypermutants were removed from the initial tests for comutation and mutual exclusivity.
+The only effect was to make some comutation interactions look even more striking.&lt;/p&gt;
+
+&lt;p&gt;The second fix was to set some custom sizes for the manually-selected plots.
+This was purely aesthetic.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;coloration-of-synthetic-lethal-heat-maps&#34;&gt;Coloration of synthetic lethal heat maps&lt;/h2&gt;
+
+&lt;p&gt;I updated the color scale used for the heatmaps to use the orange and purple for up and down effects, respectively:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/00_miscellaneous/genetic_interaction_pal.svg&#34; width=400 /&gt;&lt;/p&gt;
+
+&lt;p&gt;This was pretty simple to do, and for future reference, here was all I had to do.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;pal &amp;lt;- c(synthetic_lethal_pal[&amp;quot;down&amp;quot;], &amp;quot;grey95&amp;quot;, synthetic_lethal_pal[&amp;quot;up&amp;quot;])
+pal &amp;lt;- colorRampPalette(pal)(7)
+
+ph &amp;lt;- pheatmap::pheatmap(
+    mod_data,
+    color = pal,
+    ...
+)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;fix-observed-vs-predicted-allele-frequency-plots&#34;&gt;Fix observed vs. predicted allele frequency plots&lt;/h2&gt;
+
+&lt;p&gt;Originally, GM used some funky formulation to create the observed vs. predicted plots was way to convoluted - he wasn&amp;rsquo;t even able to explain it to me in person, so how could I do it in text?
+Therefore, I wanted to create a simpler formulation to answer the question: &lt;strong&gt;If a sample was to have a KRAS mutation, what is the most likely one for it to get if decided by mutational signatures?&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;My formulation is as follows:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;for a tumor sample:
+
+&lt;ul&gt;
+&lt;li&gt;for each trinucleotide mutation $m$ with context $c$ that can cause a KRAS mutation:
+
+&lt;ul&gt;
+&lt;li&gt;calculate: $\frac{|m|}{|c|}$&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;for each allele $a$:
+
+&lt;ul&gt;
+&lt;li&gt;$p(a) = \sum{p(m)} \quad \text{where} \quad m \rightarrow a$&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;normalize such that ${A} \Rightarrow \sum^{A}{a} = 1$&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;This approach assumes that all codons are the same.
+If we were interested in only G12 mutations (the null hypothesis being that all G12 mutations are equal), then the same approach is followed again, but only normalizing the G12 mutations at the end.&lt;/p&gt;
+
+&lt;p&gt;The data I used was from GM:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&amp;rdquo;/n/data1/hms/dbmi/park/gmelloni/cooc_mutex_driver/data/cbioportal/&amp;rdquo;:
+
+&lt;ul&gt;
+&lt;li&gt;&amp;ldquo;paad_luad_coadread_skcm_mm_tricLong_newAug2019.rds&amp;rdquo;&lt;/li&gt;
+&lt;li&gt;&amp;ldquo;context_and_signa_paad_luad_coadread_skcm_mm_NEW.rds&amp;rdquo;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;It was prepared in &amp;ldquo;munge/50_trinucleotide-mutations.R&amp;rdquo;&lt;/p&gt;
+
+&lt;p&gt;The analysis was conducted in &amp;ldquo;src/50_10_observed-predicted-kras-alleles.R&amp;rdquo;.
+The box plot below shows the distribution of predicted allele frequencies in each cancer.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/50_10_observed-predicted-kras-alleles/predicted_kras_allele_frequency_boxplot.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The bar plot shows the same data, just taking the average across all samples.
+The error bars indicate the SEM.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/50_10_observed-predicted-kras-alleles/predict_kras_allele_frequency_barplot1.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The following bar plot, again, shows the same results, just stratified by allele across cancers.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/50_10_observed-predicted-kras-alleles/predict_kras_allele_frequency_barplot2.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Below are the results two different null hypothesis: 1) all &lt;em&gt;KRAS&lt;/em&gt; hotspots are equivalent, and 2) all &lt;em&gt;KRAS&lt;/em&gt; G12 alleles are equivalent.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/50_10_observed-predicted-kras-alleles/obs_pred_plot.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/50_10_observed-predicted-kras-alleles/obs_pred_plot_g12.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;I ran a binomial test to find which observed rates of the alleles matched the predicted.
+The alleles that could be predicted (p &amp;gt; 0.05) trinucleotide context are shown below.&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th align=&#34;center&#34;&gt;Cancer&lt;/th&gt;
+&lt;th align=&#34;center&#34;&gt;Allele&lt;/th&gt;
+&lt;th align=&#34;center&#34;&gt;Obs. allele freq.&lt;/th&gt;
+&lt;th align=&#34;center&#34;&gt;Pred. allele freq&lt;/th&gt;
+&lt;th align=&#34;center&#34;&gt;&lt;em&gt;p&lt;/em&gt;-value&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;COAD&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;G12A&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0.0371&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0.0314&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0.445&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;COAD&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;G12R&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0.00977&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0.0171&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0.301&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;COAD&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;Q61L&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0.00977&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0.0133&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0.697&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;LUAD&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;Q61L&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0.0141&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0.0249&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0.503&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;MM&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;G12A&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0.0604&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0.0431&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0.171&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;MM&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;G12C&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0.0302&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0.0332&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;1&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;MM&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;G12D&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0.121&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0.0910&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0.108&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;MM&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;G12V&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0.0717&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0.0602&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0.436&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;MM&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;G13D&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0.128&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0.104&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0.191&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;MM&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;Q61R&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0.0528&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0.0453&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0.552&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;The alleles that could be predicted (p &amp;gt; 0.05) when only considering the G12 alleles are show below.&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th align=&#34;center&#34;&gt;Cancer&lt;/th&gt;
+&lt;th align=&#34;center&#34;&gt;Allele&lt;/th&gt;
+&lt;th align=&#34;center&#34;&gt;Obs. allele freq.&lt;/th&gt;
+&lt;th align=&#34;center&#34;&gt;Pred. allele freq&lt;/th&gt;
+&lt;th align=&#34;center&#34;&gt;&lt;em&gt;p&lt;/em&gt;-value&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;COAD&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;G12D&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;150&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0.293&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0.321&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;COAD&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;G12V&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;100&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0.195&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0.196&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;LUAD&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;G12A&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;19&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0.0892&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0.0717&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;LUAD&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;G12D&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;26&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0.122&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0.139&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;LUAD&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;G12V&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;48&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0.225&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0.253&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;MM&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;G12R&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;14&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0.0528&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0.0621&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;Minor changes to make:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;To waterfall plots in &amp;ldquo;90_03_mutation-burden-distribution&amp;rdquo;: make shorter and wider&lt;/li&gt;
+&lt;li&gt;&amp;ldquo;20_35_rc-fisher-comparison/rc_mutations_distribition.svg&amp;rdquo;: let each axis scale separately.&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+    </item>
+    
+    <item>
       <title>2019-11-09</title>
       <link>https://project-notebook-comutation.netlify.com/post/2019-11-09/</link>
       <pubDate>Sat, 09 Nov 2019 00:00:00 +0000</pubDate>

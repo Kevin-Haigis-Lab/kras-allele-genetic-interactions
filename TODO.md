@@ -31,3 +31,12 @@
 - Fix the heatmaps for syn. let to use the new colors.
 
 ## Questions
+
+
+---
+
+## Thoughts
+
+Looking at the PPI subnetworks pulled out from the overlap of comutation and mutual exclusivity, there seem to be some striking clusters when looking for patterns in shape and color. 
+Perhaps these are worth looking into as a whole for finishing up the paper.
+For instance.

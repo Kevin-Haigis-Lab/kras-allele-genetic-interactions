@@ -289,8 +289,12 @@ plot_cancer_heatmaps <- function(cancer, data, screen,
 
     anno_pal <- list(allele = short_allele_pal[as.character(unique(col_anno$allele))])
 
+    pal <- c(synthetic_lethal_pal["down"], "grey95", synthetic_lethal_pal["up"])
+    pal <- colorRampPalette(pal)(7)
+
     ph <- pheatmap::pheatmap(
         mod_data,
+        color = pal,
         cluster_rows = row_hclust,
         cluster_cols = col_hclust,
         annotation_col = col_anno,
@@ -346,7 +350,8 @@ plot_cancer_heatmaps_multiple_methods <- function(cancer, data, screen,
 dist_methods <- c("euclidean", "manhattan")
 hclust_methods <- c("ward.D", "ward.D2", "single", "complete",
                     "average", "mcquitty", "median", "centroid")
-methods_tib <- expand.grid(dist_methods, hclust_methods) %>%
+methods_tib <- expand.grid(dist_methods, hclust_methods,
+                           stringsAsFactors = FALSE) %>%
     as_tibble()
 colnames(methods_tib) <- c("row_dist_method", "row_hclust_method")
 
