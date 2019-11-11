@@ -64,9 +64,11 @@ fix_variant_classification <- function(vc) {
 }
 
 
+# A tibble of cancer mutation data that is MAF-compliant.
 ProjectTemplate::cache("cancer_coding_muts_maf", depends = "cancer_muts_df",
 {
     cancer_coding_muts_maf <- cancer_coding_muts_df %>%
+        filter(!is_hypermutant) %>%
         group_by(tumor_sample_barcode) %>%
         dplyr::mutate(
             Hugo_Symbol = hugo_symbol,
@@ -86,9 +88,9 @@ ProjectTemplate::cache("cancer_coding_muts_maf", depends = "cancer_muts_df",
 })
 
 
-# Filter the complete MAF data frame and return a MAF object for 'maftools'
-# If `replace_kras_with_allele`: set Hugo_Symbol as the allele for KRAS
-# If `group_other_alleles`: then all other KRAS alleles become "KRAS_other"
+# Filter the complete MAF data frame and return a MAF object for 'maftools'.
+# If `replace_kras_with_allele`: set Hugo_Symbol as the allele for KRAS.
+# If `group_other_alleles`: then all other KRAS alleles become "KRAS_other".
 get_maf <- function(for_genes, in_cancer, kras_allele,
                     replace_kras_with_allele = FALSE,
                     group_other_alleles = TRUE) {
@@ -443,7 +445,7 @@ allele_specificgenes_oncoplot <- function(cancer,
         save_name
     )
 
-    img_height <- ((length(checked_genes) + 1) / 5) + 1
+    img_height <- ((length(checked_genes) + 1) / 5) + 2
 
     oncoplot_wrapper(
         maf = maf,
