@@ -24,6 +24,13 @@ get_entrez_from_depmap_ids <- function(x, convert_to_num = FALSE) {
 }
 
 
+#' Standard error of the mean
+#'
+#' Calculate the standard error of the mean.
+#' 
+sem <- function(x) sd(x) / sqrt(length(x))
+
+
 
 #### ---- Helpful regular expressions ---- ####
 
@@ -38,54 +45,6 @@ cancer_regex <- "COAD|LUAD|PAAD|MM|SKCM"
 
 
 #### ---- Helpful colors/palettes ---- ####
-
-
-# Make a tile plot for a palette of colors.
-# Is simillar to `scales::show_col()` except this returns a `ggplot2` object.
-show_palette <- function(cols,
-                         num_rows = "square",
-                         label_size = 5,
-                         base_size = label_size) {
-
-    if (is.null(names(cols))) {
-        col_names <- cols
-    } else {
-        col_names <- names(cols)
-    }
-
-    if (num_rows == "square") {
-        num_rows <- ceiling(sqrt(length(cols)))
-    } else if (!is.numeric(num_rows)) {
-        stop("The `num_rows` argument must be either 'smart' or a numeric value.")
-    }
-    num_cols <- ceiling(length(cols) / num_rows)
-
-    col_assignments <- c()
-    for (j in seq(num_rows, 1)) {
-        col_assignments <- c(col_assignments, rep(j, num_cols))
-    }
-    row_assignments <- rep(seq(1, num_cols), num_rows)
-
-    tibble(col_names = col_names,
-           color_vals = cols,
-           x = row_assignments[1:length(cols)],
-           y = col_assignments[1:length(cols)]) %>%
-        ggplot(aes(x = x, y = y)) +
-        geom_tile(aes(fill = color_vals), color = NA) +
-        geom_text(aes(label = col_names), size = label_size, family = "Arial") +
-        scale_fill_identity() +
-        scale_x_discrete(expand = c(0, 0)) +
-        scale_y_discrete(expand = c(0, 0)) +
-        theme_bw(
-            base_family = "Arial",
-            base_size = base_size
-        ) +
-        theme(
-            axis.text = element_blank(),
-            axis.title = element_blank(),
-            axis.ticks = element_blank(),
-        )
-}
 
 
 # coding mutation variant classification terms
@@ -148,19 +107,19 @@ mapping_mutation_types_to_human_readable <- list(
 #     if (a == "s") { break }
 #     s <- s + 1
 # }
+#
+# set.seed(30)
+# unique_muts <- unique(unname(unlist(mapping_mutation_types_to_human_readable)))
+# n <- length(unique_muts)
+# cols <- randomcoloR::randomColor(n)
+# for (i in 1:n) {
+#     if (i == 1) { cat("\t") }
 
-set.seed(30)
-unique_muts <- unique(unname(unlist(mapping_mutation_types_to_human_readable)))
-n <- length(unique_muts)
-cols <- randomcoloR::randomColor(n)
-for (i in 1:n) {
-    if (i == 1) { cat("\t") }
+#     if (i %% 6 == 0) { cat("\n\t") }
+#     cat("\"", cols[[i]], "\", ", sep = "")
 
-    if (i %% 6 == 0) { cat("\n\t") }
-    cat("\"", cols[[i]], "\", ", sep = "")
-
-    if (i == n) { cat("\n") }
-}
+#     if (i == n) { cat("\n") }
+# }
 
 mutation_pal <- list(
     "#fce094", "#bf7909", "#a4f9c8", "#8cf2b3", "#7e5cb5",
@@ -172,7 +131,7 @@ mutation_pal <- list(
 names(mutation_pal) <- unique(unname(unlist(mapping_mutation_types_to_human_readable)))
 
 ggsave_wrapper(
-    show_palette(mutation_pal, "square", label_size = 4),
+    show_palette(mutation_pal, "square", label_size = 4, font_family = "Arial"),
     plot_path("00_miscellaneous", "mutation_pal.svg"),
     width = 12, height = 4
 )
@@ -180,29 +139,30 @@ ggsave_wrapper(
 
 # colors for KRAS alleles
 allele_palette <- c(
+    "KRAS G12A" = "#fb7810",
     "KRAS G12C" = "#0a4f4e",
     "KRAS G12D" = "#427ff5",
     "KRAS G12R" = "#af5fe4",
-    "KRAS G12V" = "#f8d147",
-    "KRAS G12A" = "#fb7810",
     "KRAS G12S" = "#f4cacb",
+    "KRAS G12V" = "#f8d147",
     "KRAS G13C" = "#afe642",
     "KRAS G13D" = "#1c4585",
-    "KRAS A146T" = "#859947",
-    "KRAS A146V" = "#9f75a7",
-    "KRAS Q61L" = "#56eead",
-    "KRAS Q61K" = "#E76707",
     "KRAS Q61H" = "#fd2c3b",
+    "KRAS Q61K" = "#E76707",
+    "KRAS Q61L" = "#56eead",
     "KRAS Q61R" = "#f33bea",
     "KRAS K117N" = "#E707C8",
+    "KRAS A146T" = "#859947",
+    "KRAS A146V" = "#9f75a7",
     "KRAS Other" = "grey75"
 )
+
 allele_palette <- c(allele_palette, "WT" = "grey50")
 short_allele_pal <- allele_palette
 names(short_allele_pal) <- str_remove_all(names(short_allele_pal), "KRAS ")
 
 ggsave_wrapper(
-    show_palette(short_allele_pal, "square"),
+    show_palette(short_allele_pal, "square", font_family = "Arial"),
     plot_path("00_miscellaneous", "short_alleles_pal.svg"),
     "small"
 )
@@ -218,7 +178,7 @@ cancer_palette <- c(
 )
 
 ggsave_wrapper(
-    show_palette(cancer_palette, num_rows = 1),
+    show_palette(cancer_palette, num_rows = 1, font_family = "Arial"),
     plot_path("00_miscellaneous", "cancer_palette.svg"),
     width = 6, height = 0.3
 )
@@ -238,7 +198,7 @@ synthetic_lethal_pal <- c(
 )
 
 ggsave_wrapper(
-    show_palette(c(comut_mutex_pal, synthetic_lethal_pal)),
+    show_palette(c(comut_mutex_pal, synthetic_lethal_pal), font_family = "Arial"),
     plot_path("00_miscellaneous", "genetic_interaction_pal.svg"),
     width = 3.5, height = 2
 )
