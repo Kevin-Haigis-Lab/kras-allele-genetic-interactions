@@ -248,7 +248,7 @@ rc_mutations_distribition <- genetic_interaction_df %>%
         )
     ) %>%
     ggplot(aes(x = -log10(p_val), y = y)) +
-    facet_grid(genetic_interaction ~ cancer, scales = "free") +
+    facet_wrap(genetic_interaction ~ cancer, scales = "free", nrow = 2) +
     geom_point(
         aes(alpha = point_size,
             size = point_size,
@@ -257,7 +257,7 @@ rc_mutations_distribition <- genetic_interaction_df %>%
     ggrepel::geom_text_repel(
         aes(label = label),
         family = "Arial",
-        size = 1.5,
+        size = 2,
         segment.size = 0.2,
         segment.alpha = 0.5
     ) +
@@ -292,4 +292,4 @@ rc_mutations_distribition <- genetic_interaction_df %>%
 save_path <- plot_path("20_35_rc-fisher-comparison",
                        "rc_mutations_distribition.svg")
 ggsave_wrapper(rc_mutations_distribition, save_path,
-               width = 10, height = 5)
+               width = 10, height = 6)
