@@ -66,6 +66,7 @@ kras_hostspot_probability <- predicted_kras_allele_frequency %>%
    ungroup()
 
 
+
 #### ---- Plotting ---- ####
 
 # Box plot for distribution of liklihood for each allele in each sample.
@@ -204,57 +205,118 @@ ggsave_wrapper(
 )
 
 
+# Make a single scatter plot for an individual cancer.
+# This was made to be called from `obs_v_pred_scatter_plot` for each cancer.
+individual_obs_v_pred_scatter_plot <- function(plot_df, cancer, stats = FALSE) {
 
-# Scatter plot of observed vs. predicted KRAS allele frequency.
-obs_v_pred_scatter_plot <- function(real_tib, pred_tib) {
-    p <- left_join(real_tib, pred_tib, by = c("cancer", "kras_allele")) %>%
-        filter(kras_allele %in% names(short_allele_pal)) %>%
-        filter(cancer != "SKCM") %>%
-        ggplot(aes(
-            x = real_kras_allele_frequency,
-            y = avg_kras_allele_prob
-        )) +
-        facet_wrap(~ cancer) +
-        geom_point(
-            aes(
-                color = kras_allele
-            ),
-            size = 1
-        ) +
+    axis_lim <- max(c(plot_df$real_kras_allele_frequency,
+                      plot_df$avg_kras_allele_prob))
+
+    p <- ggplot(plot_df,
+                aes(x = real_kras_allele_frequency,
+                    y = avg_kras_allele_prob))
+
+    if (stats) {
+        p <- p + geom_point(aes(color = kras_allele,
+                                size = log_p_value,
+                                shape = point_shape),
+                            alpha = 0.8) +
+            scale_shape_identity() +
+            scale_size_continuous(
+                range = c(1, 3),
+                guide = guide_legend(
+                    title.position = "left",
+                    keywidth = unit(4, "mm"),
+                    label.position = "top",
+                    nrow = 1,
+                    order = 1
+            ))
+    } else {
+        p <- p + geom_point(aes(color = kras_allele),
+                            size = 1, alpha = 0.7)
+    }
+
+    p <- p +
         geom_abline(intercept = 0, slope = 1) +
         ggrepel::geom_text_repel(
             aes(label = kras_allele),
             color = "grey25",
             family = "Arial",
-            size = 2,
+            size = 2.5,
             force = 0.1,
             segment.alpha = 0.5,
             segment.size = 0.1,
             seed = 0
         ) +
-        scale_color_manual(values = short_allele_pal) +
+        scale_color_manual(
+            values = short_allele_pal,
+            guide = FALSE
+        ) +
         scale_x_continuous(
-            limits = c(0, NA),
+            limits = c(0, axis_lim),
             expand = expand_scale(mult = c(0, 0.02))
         ) +
         scale_y_continuous(
-            limits = c(0, NA),
+            limits = c(0, axis_lim),
             expand = expand_scale(mult = c(0, 0.02))
         ) +
         coord_fixed() +
         theme_bw(base_size = 8, base_family = "Arial") +
         theme(
-            aspect.ratio = 1,
-            legend.title = element_blank(),
+            plot.title = element_text(hjust = 0.5),
             legend.position = "bottom",
+            legend.title.align = 0.5,
+            legend.spacing = unit(2, "mm"),
+            legend.text = element_text(size = 6),
+            legend.key.size = unit(2, "mm"),
             strip.background = element_blank()
         ) +
         labs(
+            title = cancer,
+            color = "KRAS allele",
+            size = "-log10( p-value )",
             x = "observed KRAS allele frequency",
             y = "predicted KRAS allele frequency"
         )
     return(p)
 }
+
+
+# Scatter plot of observed vs. predicted KRAS allele frequency.
+obs_v_pred_scatter_plot <- function(real_tib, pred_tib,
+                                    save_template,
+                                    stats_tib = NULL, p_value_cut = 0.05,
+                                    save_size = "small") {
+    pdata <- left_join(real_tib, pred_tib,
+                        by = c("cancer", "kras_allele")) %>%
+        filter(kras_allele %in% names(short_allele_pal)) %>%
+        filter(!is.na(avg_kras_allele_prob)) %>%
+        filter(cancer != "SKCM")
+
+    if (!is.null(stats_tib)) {
+        pdata <- stats_tib %>%
+            select(cancer, kras_allele, p_value) %>%
+            right_join(pdata, by = c("cancer", "kras_allele")) %>%
+            mutate(log_p_value = -log10(p_value),
+                   point_shape = ifelse(p_value < 0.05, 16, 17))
+    }
+
+    for (CANCER in pdata$cancer) {
+        p <- pdata %>%
+            filter(cancer == !!CANCER) %>%
+            individual_obs_v_pred_scatter_plot(cancer = CANCER,
+                                               stats = !is.null(stats_tib))
+        ggsave_wrapper(
+            p,
+            plot_path("50_10_observed-predicted-kras-alleles",
+                      glue(save_template)),
+            save_size
+        )
+    }
+}
+
+
+
 
 # Scatter plot of all alleles observed vs. predicted KRAS allele frequency.
 real_af <- cancer_muts_df %>%
@@ -280,13 +342,8 @@ predicted_af <- kras_hostspot_probability %>%
     ) %>%
     ungroup()
 
-obs_pred_plot <- obs_v_pred_scatter_plot(real_af, predicted_af)
-ggsave_wrapper(
-    obs_pred_plot,
-    plot_path("50_10_observed-predicted-kras-alleles",
-              "obs_pred_plot.svg"),
-    "large"
-)
+obs_v_pred_scatter_plot(real_af, predicted_af,
+                        save_template = "obs_pred_plot_{CANCER}.svg")
 
 
 
@@ -306,13 +363,9 @@ predicted_af_g12 <- predicted_kras_allele_frequency %>%
     ) %>%
     ungroup()
 
-obs_pred_plot_g12 <- obs_v_pred_scatter_plot(real_af, predicted_af_g12)
-ggsave_wrapper(
-    obs_pred_plot_g12,
-    plot_path("50_10_observed-predicted-kras-alleles",
-              "obs_pred_plot_g12.svg"),
-    "medium"
-)
+obs_v_pred_scatter_plot(real_af, predicted_af_g12,
+                        save_template = "obs_pred_plot_g12_{CANCER}.svg")
+
 
 
 
@@ -361,6 +414,11 @@ kras_allele_freq_stats %>%
            real_kras_allele_frequency, avg_kras_allele_prob,
            p_value)
 
+obs_v_pred_scatter_plot(real_af, predicted_af,
+                        stats_tib = kras_allele_freq_stats,
+                        save_template = "obs_pred_plot_stats_{CANCER}.svg")
+
+
 
 
 # Just G12 mutations.
@@ -385,4 +443,11 @@ write_tsv(
 )
 
 kras_g12_freq_stats %>%
-    filter(p_value >= 0.05)
+    filter(p_value >= 0.05) %>%
+    select(cancer, kras_allele,
+           real_kras_allele_frequency, avg_kras_allele_prob,
+           p_value)
+
+obs_v_pred_scatter_plot(real_af, predicted_af_g12,
+                        stats_tib = kras_g12_freq_stats,
+                        save_template = "obs_pred_plot_g12_stats_{CANCER}.svg")
