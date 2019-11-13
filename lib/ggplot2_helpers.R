@@ -54,3 +54,22 @@ save_pheatmap_svg <- function(x, save_path, size = NA, width = NA, height = NA) 
     grid::grid.draw(x$gtable)
     dev.off()
 }
+
+
+#### ---- Adjust colors ---- ####
+
+darken <- function(color, factor = 1.4){
+    (col2rgb(color) / factor) %>%
+        t() %>%
+        rgb(maxColorValue = 255)
+}
+
+lighten <- function(colors, factor = 1.4){
+    f <- function(color) {
+        apply(col2rgb(color) * factor, 1, function(x) min(255, x)) %>%
+        as.matrix() %>%
+        t() %>%
+        rgb(maxColorValue = 255)
+    }
+    purrr::map(colors, f)
+}
