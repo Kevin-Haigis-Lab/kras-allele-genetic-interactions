@@ -79,8 +79,11 @@ network_node_colors <- list(
     "synthetic lethal up" = synthetic_lethal_pal[["up"]],
     "synthetic lethal down" = synthetic_lethal_pal[["down"]],
     "both" = "#ED6165",
-    "other" = "#99999C"
-)
+    "other" = "#F44C4C"
+) %>%
+    lighten(factor = 2)
+
+
 
 
 plot_fancy_overlap_ppin <- function(gr, cancer, allele) {
@@ -92,7 +95,7 @@ plot_fancy_overlap_ppin <- function(gr, cancer, allele) {
                 color = node_color),
             size = 8
         ) +
-        geom_node_text(aes(label = name), size = 2, family = "Arial") +
+        geom_node_text(aes(label = name), size = 3, family = "Arial") +
         scale_shape_manual(
             values = unlist(network_node_shapes),
             guide = guide_legend(title.position = "top",
@@ -159,7 +162,7 @@ fancy_overlap_ppin <- function(cancer, allele,
             "40_10_overlap-synlet-comutation",
             paste0("overlap_ppi_", cancer, "_", allele, "_", name, ".svg")
         )
-        ggsave_wrapper(gr_plot, save_path, "large")
+        ggsave_wrapper(gr_plot, save_path, width = 8, height = 6)
     }
 
     gr_components <- gr %N>%
