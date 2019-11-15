@@ -2,7 +2,7 @@
 ## Prepare PPI networks ##
 ##########################
 
-cache("string_gr",
+ProjectTemplate::cache("string_gr",
 {
     info(logger, "Beginning preparation of the STRING PPI network.")
 
@@ -25,7 +25,8 @@ cache("string_gr",
     ) %>%
         select(-taxid)
 
-    string_gr <- string_gr %N>%
+    string_gr <- string_gr  %E>%
+        filter(combined_score > 800) %N>%
         left_join(name_tbl, by = c("name" = "string_id")) %>%
         mutate(string_id = name,
                name = hugo_symbol) %>%
@@ -39,7 +40,7 @@ cache("string_gr",
 
 
 
-cache("bioplex_gr",
+ProjectTemplate::cache("bioplex_gr",
 {
     info(logger, "Beginning preparation of the BioPlex2 PPI network.")
 
@@ -64,14 +65,14 @@ cache("bioplex_gr",
 
 
 
-# cache("intact_gr",
+# ProjectTemplate::cache("intact_gr",
 # {
 
 # })
 
 
 
-cache("hint_gr",
+ProjectTemplate::cache("hint_gr",
 {
     info(logger, "Beginning preparation of the HINT PPI network.")
 
@@ -102,4 +103,81 @@ cache("hint_gr",
     info(logger, "Caching HINT network.")
 
     return(hint_gr)
+})
+
+
+
+# Some summary stats of for the graphs.
+ProjectTemplate::cache("ppi_graph_summary_stats",
+                       depends = c("string_gr", "bioplex_gr", "hint_gr"),
+{
+    # Calculates, prints, and returns (as a tibble) summary statistics
+    #   for a graph (igraph or tidygraph objects.
+    print_graph_summary_stats <- function(gr, name) {
+
+        num_edges <- igraph::vcount(gr)
+        num_vertices <- igraph::ecount(gr)
+        num_mult <- sum(igraph::count_multiple(gr) > 1)
+        gr_diameter <- igraph::diameter(gr)
+        gr_clqs <- igraph::count_max_cliques(gr)
+        gr_dist <- igraph::mean_distance(gr)
+        gr_trans <- igraph::transitivity(gr, type = 'global')
+
+        cat("Summary stats for", name, "\n")
+        cat("  number of nodes:", num_edges, "\n")
+        cat("  number of edges:", num_vertices, "\n")
+        cat("  number of multiple or loop edges:", num_mult, "\n")
+        cat("  diameter:", gr_diameter, "\n")
+        cat("  num. maximum cliques:", gr_clqs, "\n")
+        cat("  mean distance:", gr_dist, "\n")
+        cat("  global transitivity:", gr_trans, "\n")
+        cat("---------\n")
+
+        tibble(
+            graph_name = name,
+            metric_name = c("num_edges", "num_vertices", "num_multiple",
+                            "diameter", "num_max_cliques", "mean_distance",
+                            "transitivity"),
+            value = c(num_edges, num_vertices, num_mult, gr_diameter,
+                      gr_clqs, gr_dist, gr_trans)
+        )
+    }
+
+    ppi_graph_summary_stats <- purrr::map2(
+        list(string_gr, bioplex_gr, hint_gr),
+        list("STRING", "BioPlex2", "HINT"),
+        print_graph_summary_stats
+    ) %>%
+        bind_rows()
+
+    return(ppi_graph_summary_stats)
+})
+
+ppi_graph_summary_stats %>%
+    pivot_wider(names_from = graph_name, values_from = value)
+
+
+
+ProjectTemplate::cache("combined_ppi_gr",
+                       depends = c("string_gr", "bioplex_gr", "hint_gr"),
+{
+    combined_ppi_gr <- graph_join(
+        {
+            string_gr %E>%
+                select(from, to, combined_score) %>%
+                mutate(source = "STRING")
+        },
+        {
+            bioplex_gr %E>%
+                select(from, to, p_interaction) %>%
+                mutate(source = "BioPlex2")
+        },
+        by = "name"
+    ) %N>%
+        graph_join(
+            { hint_gr %E>% select(from, to) %>% mutate(source = "HINT") },
+            by = "name"
+        )
+
+    return(combined_ppi_gr)
 })
