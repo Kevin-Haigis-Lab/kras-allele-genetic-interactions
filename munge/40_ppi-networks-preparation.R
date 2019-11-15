@@ -1,12 +1,12 @@
-################################
-## Prepare STRING PPI network ##
-################################
+##########################
+## Prepare PPI networks ##
+##########################
 
-cache("string_gr", {
-
+cache("string_gr",
+{
     info(logger, "Beginning preparation of the STRING PPI network.")
 
-    string_data_path <- file.path("data", "STRING-network")
+    string_data_path <- file.path("data", "ppi-networks", "string")
 
     edge_list_path <- file.path(string_data_path, "9606.protein.links.full.v11.0.txt")
     edge_list <- read_delim(edge_list_path, " ", n_max = Inf, col_types = cols(), progress = FALSE)
@@ -31,4 +31,25 @@ cache("string_gr", {
     info(logger, glue("Number of edges in STRING network: {igraph::ecount(string_gr)}"))
     info(logger, "Caching STRING network.")
     return(string_gr)
+})
+
+
+
+cache("bioplex_gr",
+{
+
+})
+
+
+
+cache("intact_gr",
+{
+
+})
+
+
+
+cache("hint_gr",
+{
+    
 })
