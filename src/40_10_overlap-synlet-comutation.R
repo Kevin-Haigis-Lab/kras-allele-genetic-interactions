@@ -62,10 +62,6 @@ get_genetic_interaction_data <- function(cancer, allele) {
         select(hugo_symbol, p_val, genetic_interaction)
 }
 
-# A filtered STRING PPI network
-string_gr_prefilt <- string_gr %E>% filter(combined_score >= 800)
-
-
 network_node_shapes <- list(
     "genetic" = 15,
     "synthetic lethal" = 17,
@@ -89,12 +85,29 @@ network_node_colors["synthetic lethal down"] <- lighten(
     factor = 1.4
 )
 
+simple_combined_ppi_gr <- convert(combined_ppi_gr, to_simple) %E>%
+    mutate(num_source = purrr::map_dbl(.orig_data,
+                                       ~ n_distinct(.x$source))) %>%
+    select(-.tidygraph_edge_index, -.orig_data) %N>%
+    select(-.tidygraph_node_index)
+
 
 
 plot_fancy_overlap_ppin <- function(gr, cancer, allele) {
     print(glue("plotting: {cancer} - {allele}"))
     p <- ggraph(gr, layout = "kk") +
-        geom_edge_link(color = "grey75", width = 0.75, alpha = 0.7) +
+        geom_edge_link(
+            aes(color = num_source,
+                width = num_source),
+            alpha = 0.7) +
+        scale_edge_width_continuous(
+            range = c(0.75, 1.5),
+            guide = guide_legend(title.position = "top",
+                                 label.position = "top",
+                                 order = 3)) +
+        scale_edge_color_continuous(
+            low = "grey80", high = "grey50",
+            guide = FALSE) +
         geom_node_point(
             aes(shape = interaction_source,
                 color = node_color),
@@ -105,13 +118,13 @@ plot_fancy_overlap_ppin <- function(gr, cancer, allele) {
             values = unlist(network_node_shapes),
             guide = guide_legend(title.position = "top",
                                  label.position = "top",
-                                 order = 0)
+                                 order = 1)
         ) +
         scale_color_manual(
             values = network_node_colors,
             guide = guide_legend(title.position = "top",
                                  label.position = "top",
-                                 order = 1)
+                                 order = 2)
         ) +
         theme_graph(base_family = "Arial", base_size = 8) +
         theme(
@@ -125,12 +138,8 @@ plot_fancy_overlap_ppin <- function(gr, cancer, allele) {
     return(p)
 }
 
-fancy_overlap_ppin <- function(cancer, allele,
-                               min_comp_size = 4) {
-    set.seed(0)
 
-    print(glue("beginning: {cancer} - {allele}"))
-
+get_overlapped_gr <- function(cancer, allele, min_comp_size, ignore_genes) {
     synlet_df <- get_synthetic_lethal_data(cancer, allele) %>%
         mutate(
             allele = !!allele,
@@ -154,9 +163,25 @@ fancy_overlap_ppin <- function(cancer, allele,
             TRUE ~ "both"
         ))
 
-    gr <- string_gr_prefilt %N>%
+    gr <- simple_combined_ppi_gr %N>%
+        filter(!(name %in% !!ignore_genes)) %>%
         filter(name %in% c(df$hugo_symbol, "KRAS")) %>%
         jhcutils::filter_component_size(min_size = min_comp_size)
+
+    return(list(graph = gr, data = df))
+}
+
+
+fancy_overlap_ppin <- function(cancer, allele,
+                               min_comp_size = 4,
+                               ignore_genes = c()) {
+    set.seed(0)
+
+    print(glue("beginning: {cancer} - {allele}"))
+
+    res <- get_overlapped_gr(cancer, allele, min_comp_size, ignore_genes)
+    gr <- res[["graph"]]
+    df <- res[["data"]]
 
     if (igraph::vcount(gr) == 0 | igraph::ecount(gr) == 0) return(NULL)
 
@@ -197,6 +222,63 @@ fancy_overlap_ppin <- function(cancer, allele,
 
 }
 
+
+clustered_fancy_overlap_ppin <- function(cancer, allele,
+                               min_comp_size = 4,
+                               ignore_genes = c()) {
+    set.seed(0)
+    print(glue("beginning (clustered): {cancer} - {allele}"))
+
+    res <- get_overlapped_gr(cancer, allele, min_comp_size, ignore_genes)
+    gr <- res[["graph"]]
+    df <- res[["data"]]
+
+    if (igraph::vcount(gr) == 0 | igraph::ecount(gr) == 0) return(NULL)
+
+    save_graph_plot <- function(name, gr_plot, ...) {
+        print(glue("saving (clustered): {cancer} - {allele}"))
+
+        save_path <- plot_path(
+            "40_10_overlap-synlet-comutation-clustered",
+            paste0("overlap_ppi_", cancer, "_", allele, "_", name, ".svg")
+        )
+        ggsave_wrapper(gr_plot, save_path, width = 10, height = 8)
+    }
+
+    gr_components <- gr %N>%
+        left_join(df, by = c("name" = "hugo_symbol")) %>%
+        mutate(
+            interaction_source = ifelse(
+                is.na(interaction_source), "other", interaction_source
+            ),
+            synlet_direction = ifelse(
+                allele_diff < 0, "synthetic lethal down", "synthetic lethal up"
+            ),
+            node_shape = network_node_shapes[interaction_source],
+            node_color = case_when(
+                interaction_source == "genetic" ~ genetic_interaction,
+                interaction_source == "synthetic lethal" ~ synlet_direction,
+                interaction_source == "other" ~ "other",
+                interaction_source == "both" ~ "both"
+            )
+        ) %N>%
+        morph(to_components) %>%
+        mutate(cls = group_spinglass()) %>%
+        unmorph() %E>%
+        filter(.N()$cls[from] == .N()$cls[to]) %N>%
+        morph(to_components) %>%
+        crystallize() %>%
+        mutate(
+            gr_plot = purrr::map(graph, plot_fancy_overlap_ppin,
+                                 cancer = !!cancer, allele = !!allele)
+        ) %>%
+        pwalk(save_graph_plot)
+
+}
+
+
+genes_to_ignore <- c("TTN")
+
 depmap_gene_clusters_pairwise_df %>%
     select(cancer, group1, group2) %>%
     unique() %>%
@@ -204,4 +286,7 @@ depmap_gene_clusters_pairwise_df %>%
     summarise(allele = list(unique(c(unlist(group1), unlist(group2))))) %>%
     ungroup() %>%
     unnest(allele) %>%
-    pwalk(fancy_overlap_ppin)
+    # pwalk(fancy_overlap_ppin, ignore_genes = genes_to_ignore) %>%
+    pwalk(clustered_fancy_overlap_ppin, ignore_genes = genes_to_ignore)
+
+

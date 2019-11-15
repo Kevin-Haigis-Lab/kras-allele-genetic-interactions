@@ -5,12 +5,135 @@
     <link>https://project-notebook-comutation.netlify.com/post/</link>
       <atom:link href="https://project-notebook-comutation.netlify.com/post/index.xml" rel="self" type="application/rss+xml" />
     <description>Posts</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Thu, 14 Nov 2019 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Fri, 15 Nov 2019 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://project-notebook-comutation.netlify.com/img/icon-192.png</url>
       <title>Posts</title>
       <link>https://project-notebook-comutation.netlify.com/post/</link>
     </image>
+    
+    <item>
+      <title>2019-11-15</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-11-15/</link>
+      <pubDate>Fri, 15 Nov 2019 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-11-15/</guid>
+      <description>
+
+&lt;h2 id=&#34;add-bootstrapped-95-ci-to-predicted-kras-allele-frequency&#34;&gt;Add bootstrapped 95% CI to predicted KRAS allele frequency&lt;/h2&gt;
+
+&lt;p&gt;I added the bootstrapped 95% CI as error bars to the bar plots and as line ranges to the scatter plots.
+Here are the results for &amp;ldquo;any-hotspot&amp;rdquo; null hypothesis.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/50_10_observed-predicted-kras-alleles/obs_pred_plot_stats_COAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/50_10_observed-predicted-kras-alleles/obs_pred_plot_stats_LUAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/50_10_observed-predicted-kras-alleles/obs_pred_plot_stats_MM.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/50_10_observed-predicted-kras-alleles/obs_pred_plot_stats_PAAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;preparing-additional-ppi-networks&#34;&gt;Preparing additional PPI networks&lt;/h2&gt;
+
+&lt;p&gt;I added the steps for downloading all of the PPI networks to &lt;a href=&#34;https://project-notebook-comutation.netlify.com/post/2019-11-14/&#34; target=&#34;_blank&#34;&gt;yesterday&amp;rsquo;s notebook&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;When trying to parse the IntAct data, it was very difficult to see a scalable method.
+I will talk to OP and see what she recommends and how she uses IntAct.&lt;/p&gt;
+
+&lt;p&gt;I prepared both BioPlex2 and HINT PPI networks as &lt;code&gt;tidygraph&lt;/code&gt; objects and cached them as &lt;code&gt;bioplex_gr&lt;/code&gt; and &lt;code&gt;hint_gr&lt;/code&gt;.
+Below are some summary statistics of the graphs (the data is stored in a cached data frame &lt;code&gt;ppi_graph_summary_stats&lt;/code&gt;).&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Metric&lt;/th&gt;
+&lt;th&gt;STRING&lt;/th&gt;
+&lt;th&gt;BioPlex2&lt;/th&gt;
+&lt;th&gt;HINT&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;num_edges&lt;/td&gt;
+&lt;td&gt;19354&lt;/td&gt;
+&lt;td&gt;10961&lt;/td&gt;
+&lt;td&gt;15674&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;num_vertices&lt;/td&gt;
+&lt;td&gt;725882&lt;/td&gt;
+&lt;td&gt;56553&lt;/td&gt;
+&lt;td&gt;179332&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;num_multiple&lt;/td&gt;
+&lt;td&gt;725882&lt;/td&gt;
+&lt;td&gt;0&lt;/td&gt;
+&lt;td&gt;26413&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;diameter&lt;/td&gt;
+&lt;td&gt;14&lt;/td&gt;
+&lt;td&gt;11&lt;/td&gt;
+&lt;td&gt;9&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;num_max_cliques&lt;/td&gt;
+&lt;td&gt;210988&lt;/td&gt;
+&lt;td&gt;46073&lt;/td&gt;
+&lt;td&gt;145594&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;mean_distance&lt;/td&gt;
+&lt;td&gt;3.79&lt;/td&gt;
+&lt;td&gt;4.28&lt;/td&gt;
+&lt;td&gt;3.47&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;transitivity&lt;/td&gt;
+&lt;td&gt;0.536&lt;/td&gt;
+&lt;td&gt;0.0605&lt;/td&gt;
+&lt;td&gt;0.0823&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&#34;analysis-of-ppi-subnetworks-from-hits-of-comutation-and-dependency&#34;&gt;Analysis of PPI subnetworks from hits of comutation and dependency&lt;/h2&gt;
+
+&lt;p&gt;I began the deeper analysis of the PPI subnetworks by incorporating  multiple subnetworks (as shown above).
+The number of data sources that support the presence of an interaction is shown by the weight of the edge in the network.&lt;/p&gt;
+
+&lt;p&gt;I then used simulated annealing to identify clusters within the subnetworks.
+This likely most useful for very busy, &amp;ldquo;hairball&amp;rdquo; subnetworks, such as for LUAD G12C.
+Below is the full subnetwork for LUAD G12C that includes &lt;em&gt;KRAS&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/40_10_overlap-synlet-comutation/overlap_ppi_LUAD_G12C_1.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;and the following are some of the extracted clusters.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/40_10_overlap-synlet-comutation-clustered/overlap_ppi_LUAD_G12C_2.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/40_10_overlap-synlet-comutation-clustered/overlap_ppi_LUAD_G12C_3.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/40_10_overlap-synlet-comutation-clustered/overlap_ppi_LUAD_G12C_5.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/40_10_overlap-synlet-comutation-clustered/overlap_ppi_LUAD_G12C_6.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/40_10_overlap-synlet-comutation-clustered/overlap_ppi_LUAD_G12C_7.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/40_10_overlap-synlet-comutation-clustered/overlap_ppi_LUAD_G12C_8.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/40_10_overlap-synlet-comutation-clustered/overlap_ppi_LUAD_G12C_9.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/40_10_overlap-synlet-comutation-clustered/overlap_ppi_LUAD_G12C_15.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>2019-11-14</title>
@@ -54,8 +177,14 @@ curl https://bioplex.hms.harvard.edu/data/BioPlex_interactionList_v4a.tsv \
   --insecure
 
 # Download IntAct network.
-
+cd intact
+curl -O ftp://ftp.ebi.ac.uk/pub/databases/intact/current/all.zip
+unzip all.zip
+cd ..
 &lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The HINT website id not provide a download URL nad I don&amp;rsquo;t care to discover their API for two simple downloads.
+I downloaded the &amp;ldquo;Binary&amp;rdquo; and &amp;ldquo;Co-complex&amp;rdquo; &amp;ldquo;High quality interactomes&amp;rdquo; for &lt;em&gt;H. sapiens&lt;/em&gt;.&lt;/p&gt;
 </description>
     </item>
     

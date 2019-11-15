@@ -17,8 +17,6 @@
 
 ## Analyses
 
-- Bootstrap 95% CI for KRAS allele frequency predictions.
-    + I just need to plot these
 - Use multiple PPI networks for the analysis of the overlapping interactions.
     + BioPlex2, INTACT, HINT, STRING
     + OP suggests including other genes that interact with multiple of the hits
@@ -36,6 +34,14 @@
     + do any of them *become* lethal in an allele?
 - Look into Synthetic Lethal Consortium for list of KRAS synthetic lethals
     + Tim's Cell Reports paper may be a good source to cross reference.
+
+
+During lab meeting:
+
+- what to do next with clusters
+- look through the cluster results
+- what kind of motifs to identify (strongly connected)
+- practice with result types
 
 
 ## Questions

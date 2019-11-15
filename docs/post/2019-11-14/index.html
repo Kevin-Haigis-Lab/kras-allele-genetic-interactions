@@ -519,8 +519,14 @@ curl https://bioplex.hms.harvard.edu/data/BioPlex_interactionList_v4a.tsv \
   --insecure
 
 # Download IntAct network.
-
+cd intact
+curl -O ftp://ftp.ebi.ac.uk/pub/databases/intact/current/all.zip
+unzip all.zip
+cd ..
 </code></pre>
+
+<p>The HINT website id not provide a download URL nad I don&rsquo;t care to discover their API for two simple downloads.
+I downloaded the &ldquo;Binary&rdquo; and &ldquo;Co-complex&rdquo; &ldquo;High quality interactomes&rdquo; for <em>H. sapiens</em>.</p>
 
     </div>
 

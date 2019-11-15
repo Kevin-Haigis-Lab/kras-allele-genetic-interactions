@@ -30,7 +30,8 @@ ProjectTemplate::cache("string_gr",
         left_join(name_tbl, by = c("name" = "string_id")) %>%
         mutate(string_id = name,
                name = hugo_symbol) %>%
-        select(-hugo_symbol)
+        select(-hugo_symbol) %>%
+        convert(to_simple, .clean = TRUE)
 
     info(logger, glue("Number of nodes in STRING network: {igraph::vcount(string_gr)}"))
     info(logger, glue("Number of edges in STRING network: {igraph::ecount(string_gr)}"))
@@ -164,7 +165,7 @@ ProjectTemplate::cache("combined_ppi_gr",
     combined_ppi_gr <- graph_join(
         {
             string_gr %E>%
-                select(from, to, combined_score) %>%
+                select(from, to) %>%
                 mutate(source = "STRING")
         },
         {
@@ -177,7 +178,8 @@ ProjectTemplate::cache("combined_ppi_gr",
         graph_join(
             { hint_gr %E>% select(from, to) %>% mutate(source = "HINT") },
             by = "name"
-        )
+        ) %>%
+        convert(to_undirected, .clean = TRUE)
 
     return(combined_ppi_gr)
 })
