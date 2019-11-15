@@ -17,10 +17,16 @@
 
 ## Analyses
 
-- Fix Figure 2 final panel
-    + it is supposed to show observed vs. predicted for the KRAS allele frequency
-    + it currently shows some strange calculations from GM that I do not understand nor can explain
-    + it needs to be something easily interpretable
+- Bootstrap 95% CI for KRAS allele frequency predictions.
+    + I just need to plot these
+- Use multiple PPI networks for the analysis of the overlapping interactions.
+    + BioPlex2, INTACT, HINT, STRING
+    + OP suggests including other genes that interact with multiple of the hits
+
+
+- Rethink Figure  1
+    + It may be a better choice to merge it into Figure 2
+        * I am expecting to have to completely re-do Figure 2 anyways, and I know where the data for it is.
 - overlap between hits from comutation and synthetic lethal
 - look into specific genes with genetic interactions
     + what other plots are available from 'maftools'?
@@ -28,10 +34,11 @@
 - functional enrichment from genetic interactions
 - are any of the syn. let. hits classified as pan-nonessential or pan-essential?
     + do any of them *become* lethal in an allele?
-- Fix the heatmaps for syn. let to use the new colors.
+- Look into Synthetic Lethal Consortium for list of KRAS synthetic lethals
+    + Tim's Cell Reports paper may be a good source to cross reference.
+
 
 ## Questions
-
 
 ---
 

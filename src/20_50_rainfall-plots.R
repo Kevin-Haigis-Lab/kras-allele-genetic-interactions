@@ -1,5 +1,59 @@
 # Rainfall plots for the more interesting and strongest genetic interactions.
 
+
+#### ---- Rate of mutation for each gene per allele, WT, and overall ---- ####
+
+ProjectTemplate::cache("comutation_rates_df",
+                       depends = "cancer_coding_muts_df",
+{
+    cancer_mut_comutation_df <- cancer_coding_muts_df %>%
+        filter(!is_hypermutant) %>%
+        group_by(cancer) %>%
+        mutate(number_samples_cancer = n_distinct(tumor_sample_barcode)) %>%
+        group_by(cancer, hugo_symbol, number_samples_cancer) %>%
+        summarise(number_mutations_cancer = n_distinct(tumor_sample_barcode)) %>%
+        ungroup() %>%
+        mutate(freq_mutations_cancer = number_mutations_cancer / number_samples_cancer)
+
+    kras_mut_comutation_df <- cancer_coding_muts_df %>%
+        filter(!is_hypermutant) %>%
+        group_by(cancer, ras) %>%
+        mutate(number_samples_ras = n_distinct(tumor_sample_barcode)) %>%
+        group_by(cancer, ras, hugo_symbol, number_samples_ras) %>%
+        summarise(number_mutations_ras = n_distinct(tumor_sample_barcode)) %>%
+        ungroup() %>%
+        mutate(freq_mutations_ras = number_mutations_ras / number_samples_ras) %>%
+        dplyr::rename(ras_allele = "ras")
+
+    allele_mut_comutation <- cancer_coding_muts_df %>%
+        filter(!is_hypermutant) %>%
+        group_by(cancer, ras_allele) %>%
+        mutate(number_samples_ras = n_distinct(tumor_sample_barcode)) %>%
+        group_by(cancer, ras_allele, hugo_symbol, number_samples_ras) %>%
+        summarise(number_mutations_ras = n_distinct(tumor_sample_barcode)) %>%
+        ungroup() %>%
+        mutate(freq_mutations_ras = number_mutations_ras / number_samples_ras)
+
+
+    comutation_rates_df <- full_join(
+            cancer_mut_comutation_df,
+            bind_rows(kras_mut_comutation_df, allele_mut_comutation),
+            by = c("cancer", "hugo_symbol")
+        ) %>%
+        group_by(hugo_symbol) %>%
+        unique() %>%
+        ungroup()
+
+    return(comutation_rates_df)
+})
+
+
+# comutation_rates_df %>%
+#     filter(cancer == "PAAD" & hugo_symbol == "TP53") %>%
+#     filter(ras_allele %in% c("KRAS_G12D", "KRAS_G12V", "KRAS_Q61H", "WT", "KRAS")) %>%
+#     select(ras_allele, freq_mutations_cancer, freq_mutations_ras)
+
+
 # CAREFUL: THIS BRINGS IN A LOT OF BIOCONDUCTOR BAGGAGE!
 library(maftools)
 
@@ -188,7 +242,7 @@ sort_samples <- function(maf, ordered_genes) {
         mutate(value = 2 ^ ((1:n()) - 1))
 
     kras_tib <- tibble(
-        kras_allele = rev(ordered_genes[str_detect(ordered_genes, "KRAS ")])
+        kras_allele = rev(ordered_genes[str_detect(ordered_genes, "KRAS")])
     ) %>%
         mutate(kras_value = 1:n())
 
@@ -409,6 +463,7 @@ allele_specificgenes_oncoplot <- function(cancer,
                                           save_dir,
                                           ignore_genes = c(),
                                           top_n_genes = 10,
+                                          replace_kras_with_allele = TRUE,
                                           annotate_kras_allele = FALSE,
                                           ...) {
     genes <- unlist(genes)
@@ -416,7 +471,7 @@ allele_specificgenes_oncoplot <- function(cancer,
     checked_genes <- genetic_interaction_gr %N>%
         filter(!(name %in% !!ignore_genes)) %E>%
         filter(cancer == !!cancer &
-               kras_allele == !!kras_allele) %N>%
+               (kras_allele == !!kras_allele | !!kras_allele == "KRAS_ALL")) %N>%
         filter(centrality_degree(mode = "all") > 0) %>%
         as_tibble() %>%
         filter(!is_kras & name %in% !!genes) %>%
@@ -435,8 +490,8 @@ allele_specificgenes_oncoplot <- function(cancer,
     )
 
     maf <- get_maf(checked_genes, cancer, kras_allele,
-                   replace_kras_with_allele = TRUE,
-                   group_other_alleles = TRUE)
+                   replace_kras_with_allele = replace_kras_with_allele,
+                   group_other_alleles = replace_kras_with_allele)
 
     gene_and_sample_orders <- sort_maf(maf)
 
@@ -589,6 +644,13 @@ specific_oncoplot_info_tib <- bind_rows(
     tibble(
         cancer = "PAAD",
         allele = "G12V",
+        interaction_type = "comutation",
+        name_suffix = "_TP53",
+        genes = c("TP53")
+    ),
+    tibble(
+        cancer = "PAAD",
+        allele = "G12V",
         interaction_type = "exclusivity",
         name_suffix = "",
         genes = c("RYR1", "FAT4", "DNAH17", "MYH1", "LRRK2")
@@ -664,6 +726,74 @@ specific_oncoplot_info_tib %>%
         annotate_kras_allele = TRUE
     )
 
+
+#### ---- Oncoplots for known interactors ---- ####
+
+known_oncoplot_info_tib <- bind_rows(
+    tibble(
+        cancer = "COAD",
+        interaction_type = "comutation",
+        name_suffix = "_KNOWN",
+        allele = "ALL",
+        genes = c("PIK3CA")
+    ),
+    tibble(
+        cancer = "COAD",
+        interaction_type = "exclusivity",
+        name_suffix = "_KNOWN",
+        allele = "ALL",
+        genes = c("BRAF", "NRAS")
+    ),
+    tibble(
+        cancer = "LUAD",
+        interaction_type = "exclusivity",
+        name_suffix = "_KNOWN",
+        allele = "ALL",
+        genes = c("BRAF", "EGFR")
+    ),
+    tibble(
+        cancer = "LUAD",
+        interaction_type = "comutation",
+        name_suffix = "_KNOWN",
+        allele = "ALL",
+        genes = c("STK11")
+    ),
+    tibble(
+        cancer = "MM",
+        interaction_type = "exclusivity",
+        name_suffix = "_KNOWN",
+        allele = "ALL",
+        genes = c("NRAS", "BRAF")
+    ),
+    tibble(
+        cancer = "PAAD",
+        interaction_type = "exclusivitycomutation",
+        name_suffix = "_KNOWN",
+        allele = "ALL",
+        genes = c("BRAF", "TP53")
+    )
+) %>%
+    group_by(cancer, allele, interaction_type, name_suffix) %>%
+    summarise(genes = list(genes)) %>%
+    ungroup() %>%
+    mutate(kras_allele = paste0("KRAS_", allele))
+
+known_oncoplot_info_tib %>%
+    mutate(
+        save_name = paste0(cancer, "_",
+                           allele, "_",
+                           interaction_type,
+                           "_oncostrip_select",
+                           name_suffix,
+                           ".svg")
+    ) %>%
+    pwalk(
+        allele_specificgenes_oncoplot,
+        top_n_genes = 15,
+        save_dir = "20_50_rainfall-plots-select",
+        replace_kras_with_allele = FALSE,
+        annotate_kras_allele = TRUE
+    )
 
 
 #### ---- Oncoplots for a priori lists ---- ####

@@ -106,6 +106,103 @@
     </item>
     
     <item>
+      <title>2019-11-14</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-11-14/</link>
+      <pubDate>Thu, 14 Nov 2019 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-11-14/</guid>
+      <description>
+
+&lt;h2 id=&#34;haigis-lab-presentation&#34;&gt;Haigis Lab presentation&lt;/h2&gt;
+
+&lt;p&gt;I presented for the Haigis Lab meeting.
+The PowerPoint is in &amp;ldquo;presentations/&amp;rdquo;.
+I got some good feedback and added the recommendations to &amp;ldquo;TODO.md&amp;rdquo;.&lt;/p&gt;
+
+&lt;h2 id=&#34;confidence-intervals-for-kras-allele-frequency&#34;&gt;Confidence intervals for &lt;em&gt;KRAS&lt;/em&gt; allele frequency&lt;/h2&gt;
+
+&lt;p&gt;I bootstrapped 95% CI for the predictions on the &lt;em&gt;KRAS&lt;/em&gt; allele frequencies.
+The &lt;a href=&#34;https://www.statmethods.net/advstats/bootstrapping.html&#34; target=&#34;_blank&#34;&gt;&amp;ldquo;Quick-R: Bootstrapping&amp;rdquo;&lt;/a&gt; article from DataCamp was a good resource for bootstrapping in R.&lt;/p&gt;
+
+&lt;p&gt;This analysis was added to &amp;ldquo;src/50_10_observed-predicted-kras-alleles.R&amp;rdquo;.
+The results are cached as &lt;code&gt;kras_allele_freq_bootstrap_ci&lt;/code&gt;.
+&lt;strong&gt;TODO: I still need to add these values to the plots.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;additional-ppi-networks&#34;&gt;Additional PPI networks&lt;/h2&gt;
+
+&lt;p&gt;OP suggested that I use additional PPI networks along with STRING to increase the confidence of the reported interactions.
+With her help, I decided to use the following:
+    - &lt;a href=&#34;https://bioplex.hms.harvard.edu/index.php&#34; target=&#34;_blank&#34;&gt;BioPlex 2.0&lt;/a&gt;
+    - &lt;a href=&#34;https://www.ebi.ac.uk/intact/&#34; target=&#34;_blank&#34;&gt;IntAct&lt;/a&gt;
+    - &lt;a href=&#34;http://hint.yulab.org&#34; target=&#34;_blank&#34;&gt;HINT&lt;/a&gt;
+    - &lt;a href=&#34;https://string-db.org&#34; target=&#34;_blank&#34;&gt;STRING&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;They were all downloaded to individual directories in &amp;ldquo;data/ppi-networks/&amp;rdquo;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;# Move to directory for PPI networks.
+cd data/ppi-networks
+
+# Download BioPlex 2.0 network.
+curl https://bioplex.hms.harvard.edu/data/BioPlex_interactionList_v4a.tsv \
+  -o bioplex2/bioplex2.txt \
+  --insecure
+
+# Download IntAct network.
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>2019-11-13</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-11-13/</link>
+      <pubDate>Wed, 13 Nov 2019 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-11-13/</guid>
+      <description>
+
+&lt;h2 id=&#34;preparation-for-lab-meeting-presentation&#34;&gt;Preparation for lab meeting presentation&lt;/h2&gt;
+
+&lt;p&gt;Today, I just needed to make a few simple plots and augment some others for my lab meeting presentation.&lt;/p&gt;
+
+&lt;p&gt;The first was a plot of the distribution of &lt;em&gt;KRAS&lt;/em&gt; alleles across the cancers.
+This was done in &amp;ldquo;src/90_05_kras-allele-distribution.R&amp;rdquo;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/grpahs/90_05_kras-allele-distribution/allele_dist_barplot_stackplot.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The next change was to make the overlap-network plots more &amp;ldquo;presentation-friendly&amp;rdquo; by adjusting the dimensions, color hues, and font size.
+I did not put an image here, because they are likely to be changed for the publication.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>2019-11-12</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-11-12/</link>
+      <pubDate>Tue, 12 Nov 2019 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-11-12/</guid>
+      <description>
+
+&lt;h2 id=&#34;fix-observed-vs-predicted-kras-allele-frequency-plots&#34;&gt;Fix observed vs predicted &lt;em&gt;KRAS&lt;/em&gt; allele frequency plots&lt;/h2&gt;
+
+&lt;p&gt;I separated each cancer into its own plot and also provided a copy showing the statistical significance in the shape and size of the point.
+I fixed yesterday&amp;rsquo;s notebook to reflect these changes.&lt;/p&gt;
+
+&lt;p&gt;I also removed the &lt;em&gt;KRAS&lt;/em&gt; mutations themselves from factoring into the prediction, but the change had little effect on any of the predictions.&lt;/p&gt;
+
+&lt;h2 id=&#34;minor-fixes-to-other-plots&#34;&gt;Minor fixes to other plots&lt;/h2&gt;
+
+&lt;p&gt;I addressed the minor styling changes to the plots mentioned in yesterday notebook:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;To waterfall plots in &amp;ldquo;90_03_mutation-burden-distribution&amp;rdquo;: make shorter and wider&lt;/li&gt;
+&lt;li&gt;&amp;ldquo;20_35_rc-fisher-comparison/rc_mutations_distribition.svg&amp;rdquo;: let each axis scale separately.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;table-of-mutation-rates-of-all-genes&#34;&gt;Table of mutation rates of all genes&lt;/h2&gt;
+
+&lt;p&gt;I added a section to &amp;ldquo;src/20_50_rainfall-plots.R&amp;rdquo; to make a table of rates of comutation with each allele, with mutant KRAS, with WT, and overall.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>2019-11-11</title>
       <link>https://project-notebook-comutation.netlify.com/post/2019-11-11/</link>
       <pubDate>Mon, 11 Nov 2019 00:00:00 +0000</pubDate>
@@ -196,11 +293,31 @@ The error bars indicate the SEM.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/50_10_observed-predicted-kras-alleles/predict_kras_allele_frequency_barplot2.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;Below are the results two different null hypothesis: 1) all &lt;em&gt;KRAS&lt;/em&gt; hotspots are equivalent, and 2) all &lt;em&gt;KRAS&lt;/em&gt; G12 alleles are equivalent.&lt;/p&gt;
+&lt;p&gt;Below are the results for two different null hypothesis: 1) all &lt;em&gt;KRAS&lt;/em&gt; hotspots are equivalent, and 2) all &lt;em&gt;KRAS&lt;/em&gt; G12 alleles are equivalent.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/50_10_observed-predicted-kras-alleles/obs_pred_plot.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;h3 id=&#34;coad&#34;&gt;COAD&lt;/h3&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/50_10_observed-predicted-kras-alleles/obs_pred_plot_g12.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/50_10_observed-predicted-kras-alleles/obs_pred_plot_stats_COAD.svg&#34; width=400 /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/50_10_observed-predicted-kras-alleles/obs_pred_plot_g12_stats_COAD.svg&#34; width=400 /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;luad&#34;&gt;LUAD&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/50_10_observed-predicted-kras-alleles/obs_pred_plot_stats_LUAD.svg&#34; width=400 /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/50_10_observed-predicted-kras-alleles/obs_pred_plot_g12_stats_LUAD.svg&#34; width=400 /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;mm&#34;&gt;MM&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/50_10_observed-predicted-kras-alleles/obs_pred_plot_stats_MM.svg&#34; width=400 /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/50_10_observed-predicted-kras-alleles/obs_pred_plot_g12_stats_MM.svg&#34; width=400 /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;paad&#34;&gt;PAAD&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/50_10_observed-predicted-kras-alleles/obs_pred_plot_stats_PAAD.svg&#34; width=400 /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/50_10_observed-predicted-kras-alleles/obs_pred_plot_g12_stats_PAAD.svg&#34; width=400 /&gt;&lt;/p&gt;
 
 &lt;p&gt;I ran a binomial test to find which observed rates of the alleles matched the predicted.
 The alleles that could be predicted (p &amp;gt; 0.05) trinucleotide context are shown below.&lt;/p&gt;
@@ -316,49 +433,49 @@ The alleles that could be predicted (p &amp;gt; 0.05) trinucleotide context are 
 &lt;tr&gt;
 &lt;td align=&#34;center&#34;&gt;COAD&lt;/td&gt;
 &lt;td align=&#34;center&#34;&gt;G12D&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;150&lt;/td&gt;
 &lt;td align=&#34;center&#34;&gt;0.293&lt;/td&gt;
 &lt;td align=&#34;center&#34;&gt;0.321&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0.185&lt;/td&gt;
 &lt;/tr&gt;
 
 &lt;tr&gt;
 &lt;td align=&#34;center&#34;&gt;COAD&lt;/td&gt;
 &lt;td align=&#34;center&#34;&gt;G12V&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;100&lt;/td&gt;
 &lt;td align=&#34;center&#34;&gt;0.195&lt;/td&gt;
 &lt;td align=&#34;center&#34;&gt;0.196&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;1&lt;/td&gt;
 &lt;/tr&gt;
 
 &lt;tr&gt;
 &lt;td align=&#34;center&#34;&gt;LUAD&lt;/td&gt;
 &lt;td align=&#34;center&#34;&gt;G12A&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;19&lt;/td&gt;
 &lt;td align=&#34;center&#34;&gt;0.0892&lt;/td&gt;
 &lt;td align=&#34;center&#34;&gt;0.0717&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0.350&lt;/td&gt;
 &lt;/tr&gt;
 
 &lt;tr&gt;
 &lt;td align=&#34;center&#34;&gt;LUAD&lt;/td&gt;
 &lt;td align=&#34;center&#34;&gt;G12D&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;26&lt;/td&gt;
 &lt;td align=&#34;center&#34;&gt;0.122&lt;/td&gt;
 &lt;td align=&#34;center&#34;&gt;0.139&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0.552&lt;/td&gt;
 &lt;/tr&gt;
 
 &lt;tr&gt;
 &lt;td align=&#34;center&#34;&gt;LUAD&lt;/td&gt;
 &lt;td align=&#34;center&#34;&gt;G12V&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;48&lt;/td&gt;
 &lt;td align=&#34;center&#34;&gt;0.225&lt;/td&gt;
 &lt;td align=&#34;center&#34;&gt;0.253&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0.386&lt;/td&gt;
 &lt;/tr&gt;
 
 &lt;tr&gt;
 &lt;td align=&#34;center&#34;&gt;MM&lt;/td&gt;
 &lt;td align=&#34;center&#34;&gt;G12R&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;14&lt;/td&gt;
 &lt;td align=&#34;center&#34;&gt;0.0528&lt;/td&gt;
 &lt;td align=&#34;center&#34;&gt;0.0621&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0.612&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;

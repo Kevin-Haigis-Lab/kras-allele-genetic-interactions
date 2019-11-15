@@ -57,7 +57,7 @@ plot_genetic_interaction_graph <- function(gr_to_plot, CANCER, SUFFIX = "") {
         "20_43_apriori-lists-genetic-interactions",
         glue("goi_overlap_genetic_interactions_network_{CANCER}{SUFFIX}.svg")
     )
-    ggsave_wrapper(gr_plot, save_path, "large")
+    ggsave_wrapper(gr_plot, save_path, "wide")
 }
 
 

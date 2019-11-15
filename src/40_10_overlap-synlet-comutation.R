@@ -81,8 +81,13 @@ network_node_colors <- list(
     "both" = "#ED6165",
     "other" = "#F44C4C"
 ) %>%
-    lighten(factor = 2)
+    lighten(factor = 1.4)
 
+# Make the purple even brighter.
+network_node_colors["synthetic lethal down"] <- lighten(
+    network_node_colors[["synthetic lethal down"]],
+    factor = 1.4
+)
 
 
 
@@ -162,7 +167,7 @@ fancy_overlap_ppin <- function(cancer, allele,
             "40_10_overlap-synlet-comutation",
             paste0("overlap_ppi_", cancer, "_", allele, "_", name, ".svg")
         )
-        ggsave_wrapper(gr_plot, save_path, width = 8, height = 6)
+        ggsave_wrapper(gr_plot, save_path, width = 10, height = 8)
     }
 
     gr_components <- gr %N>%
