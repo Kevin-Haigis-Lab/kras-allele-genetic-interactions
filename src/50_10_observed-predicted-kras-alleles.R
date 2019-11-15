@@ -26,10 +26,11 @@ predict_kras_allele_frequency <- function(tib, sequencing_type) {
         count(context, tricontext, name = "mut_count") %>%
         right_join(counts_df, by = c("context", "tricontext")) %>%
         mutate(
+            total_num_mutations = sum(mut_count, na.rm = TRUE),
             tricontext_mut_count = ifelse(is.na(mut_count), 0, mut_count)
         ) %>%
         select(kras_allele, kras_codon, context, tricontext, tricontext_count,
-               tricontext_mut_count)
+               tricontext_mut_count, total_num_mutations)
 }
 
 
@@ -37,16 +38,19 @@ predict_kras_allele_frequency <- function(tib, sequencing_type) {
 predicted_kras_allele_frequency <- trinucleotide_mutations_df %>%
     filter(cancer != "SKCM" & !is_hypermutant) %>%
     filter(target %in% c("exome", "genome")) %>%
+    filter(hugo_symbol != "KRAS") %>%
     dplyr::rename(actual_kras_allele = "kras_allele") %>%
     group_by(cancer, dataset, tumor_sample_barcode, target,
              actual_kras_allele) %>%
     nest() %>%
     ungroup() %>%
-    mutate(kras_liklihoods = purrr::map2(data, target, predict_kras_allele_frequency)) %>%
+    mutate(kras_liklihoods = purrr::map2(
+        data, target, predict_kras_allele_frequency
+    )) %>%
     select(-data) %>%
     unnest(kras_liklihoods) %>%
     group_by(tumor_sample_barcode, dataset, target, cancer, actual_kras_allele,
-             kras_allele, kras_codon, context, tricontext_count) %>%
+             kras_allele, kras_codon, context, tricontext_count, total_num_mutations) %>%
     summarise(
         tricontext = paste(tricontext, collapse = ", "),
         tricontext_mut_count = sum(tricontext_mut_count)
@@ -59,18 +63,92 @@ ProjectTemplate::cache("predicted_kras_allele_frequency",
 
 # For each sample, the liklihood of getting each of the KRAS alleles, given
 # that they will get a KRAS mutation at a hotspot.
-kras_hostspot_probability <- predicted_kras_allele_frequency %>%
+kras_hotspot_probability <- predicted_kras_allele_frequency %>%
     group_by(tumor_sample_barcode) %>%
-    mutate(kras_allele_prob = tricontext_mut_count / tricontext_count,
-           kras_allele_prob = kras_allele_prob / sum(kras_allele_prob)) %>%
+    mutate(
+        kras_allele_prob = tricontext_mut_count / tricontext_count,
+        kras_allele_prob = kras_allele_prob / sum(kras_allele_prob),
+    ) %>%
    ungroup()
+
+
+
+#### ---- Bootstrap 95% CI for predictions ---- ####
+
+# A function to be passed as `statistic` to `boot::boot()`.
+# `df` is the original data frame with one row per data point.
+# `index` is the index to use for the sampling process.
+#
+# This function uses the already calculated frequency of each KRAS allele-type
+#   mutation in each sample and just re-calculates the average prediction across
+#   all samples.
+boot_predict_kras_allele_frequency <- function(df, index) {
+    mod_df <- df[index, ]
+    mod_df$tumor_sample_barcode <- paste0(mod_df$tumor_sample_barcode, "_", index)
+    res <- mod_df %>%
+        unnest(data) %>%
+        group_by(tumor_sample_barcode) %>%
+        mutate(
+            kras_allele_prob = tricontext_mut_count / tricontext_count,
+            kras_allele_prob = kras_allele_prob / sum(kras_allele_prob, na.rm = TRUE),
+        ) %>%
+        ungroup() %>%
+        group_by(kras_allele) %>%
+        summarise(avg_kras_allele_prob = mean(kras_allele_prob,
+                                              na.rm = TRUE)) %>%
+        ungroup() %>%
+        select(kras_allele, avg_kras_allele_prob) %>%
+        deframe()
+    return(res)
+}
+
+# Run the bootstrapping process for a cancer.
+# `data` should be a data frame with one row per tumor sample.
+bootstrap_allele_confidence_intervals <- function(cancer, data, R = 1e3) {
+    grouped_data <- data %>%
+        group_by(tumor_sample_barcode) %>%
+        nest() %>%
+        ungroup()
+
+    allele_bs <- boot::boot(
+        data = grouped_data,
+        statistic = boot_predict_kras_allele_frequency,
+        R = R
+    )
+
+    result_tib <- tibble(
+            kras_allele = names(allele_bs$t0)
+        ) %>%
+        mutate(
+            index = seq(1, n(), 1),
+            ci_obj = purrr::map(index, ~ boot::boot.ci(allele_bs,
+                                                       type = "perc",
+                                                       index = .x)),
+            ci_upper = purrr::map_dbl(ci_obj, ~ .x$percent[[4]]),
+            ci_lower = purrr::map_dbl(ci_obj, ~ .x$percent[[5]])
+        )
+    return(result_tib)
+}
+
+# Run the bootstrapping process to estimate the 95% CI for the KRAS allele
+# frequency prediction.
+kras_allele_freq_bootstrap_ci <- predicted_kras_allele_frequency %>%
+    group_by(cancer) %>%
+    nest() %>%
+    ungroup() %>%
+    mutate(bs_results = purrr::map2(cancer, data,
+                                    bootstrap_allele_confidence_intervals)) %>%
+    select(-data) %>%
+    unnest(bs_results)
+
+ProjectTemplate::cache("kras_allele_freq_bootstrap_ci")
 
 
 
 #### ---- Plotting ---- ####
 
 # Box plot for distribution of liklihood for each allele in each sample.
-predicted_kras_allele_frequency_boxplot <- kras_hostspot_probability %>%
+predicted_kras_allele_frequency_boxplot <- kras_hotspot_probability %>%
     filter(!is.na(kras_allele_prob)) %>%
     mutate(kras_allele = factor(kras_allele,
                                 levels = names(short_allele_pal))) %>%
@@ -109,19 +187,27 @@ ggsave_wrapper(
 
 # Bar plot for the average predicted frequency of KRAS allele.
 # Error bars are SEM.
-predict_kras_allele_frequency_barplot1 <- kras_hostspot_probability %>%
+barplot_df <- kras_hotspot_probability %>%
     filter(!is.na(kras_allele_prob)) %>%
+    mutate(
+        kras_allele_prob_weighted = kras_allele_prob * log2(total_num_mutations)
+    ) %>%
     group_by(cancer, kras_allele) %>%
     summarise(
         avg_kras_allele_prob = mean(kras_allele_prob),
-        sem_kras_allele_prob = sem(kras_allele_prob),
+        avg_kras_allele_prob_weighted = mean(kras_allele_prob_weighted)
     ) %>%
-    ungroup() %>%
+    group_by(cancer) %>%
     mutate(
-        kras_allele = factor(kras_allele, levels = names(short_allele_pal)),
-        upper_line_y = avg_kras_allele_prob + sem_kras_allele_prob,
-        lower_line_y = avg_kras_allele_prob - sem_kras_allele_prob,
-        lower_line_y = ifelse(lower_line_y < 0, 0, lower_line_y)
+        avg_kras_allele_prob = avg_kras_allele_prob / sum(avg_kras_allele_prob),
+        avg_kras_allele_prob_weighted = avg_kras_allele_prob_weighted / sum(avg_kras_allele_prob_weighted)
+    ) %>%
+    ungroup()
+
+
+predict_kras_allele_frequency_barplot1 <- barplot_df %>%
+    mutate(
+        kras_allele = factor(kras_allele, levels = names(short_allele_pal))
     ) %>%
     ggplot(aes(
         x = kras_allele, y = avg_kras_allele_prob,
@@ -129,10 +215,6 @@ predict_kras_allele_frequency_barplot1 <- kras_hostspot_probability %>%
     )) +
     facet_wrap(. ~ cancer, scales = "free") +
     geom_col(alpha = 0.5) +
-    geom_errorbar(
-        aes(ymax = upper_line_y, ymin = lower_line_y),
-        width = 0.2
-    ) +
     scale_fill_manual(values = short_allele_pal) +
     scale_color_manual(values = short_allele_pal) +
     scale_y_continuous(limits = c(0, NA),
@@ -155,9 +237,110 @@ ggsave_wrapper(
     size = "wide"
 )
 
+predict_kras_allele_frequency_weighted_barplot1 <- barplot_df %>%
+    mutate(
+        kras_allele = factor(kras_allele, levels = names(short_allele_pal))
+    ) %>%
+    ggplot(aes(
+        x = kras_allele, y = avg_kras_allele_prob_weighted,
+        color = kras_allele, fill = kras_allele
+    )) +
+    facet_wrap(. ~ cancer, scales = "free") +
+    geom_col(alpha = 0.5) +
+    scale_fill_manual(values = short_allele_pal) +
+    scale_color_manual(values = short_allele_pal) +
+    scale_y_continuous(limits = c(0, NA),
+                       expand = expand_scale(mult = c(0, 0.02))) +
+    theme_bw(base_size = 8, base_family = "Arial") +
+    theme(
+        legend.title = element_blank(),
+        legend.position = 'none',
+        axis.title.x = element_blank(),
+        axis.text.x = element_text(angle = 45, hjust = 1.0),
+        strip.background = element_blank()
+    ) +
+    labs(
+        y = "predicted rate of KRAS allele"
+    )
+ggsave_wrapper(
+    predict_kras_allele_frequency_weighted_barplot1,
+    plot_path("50_10_observed-predicted-kras-alleles",
+              "predict_kras_allele_frequency_weighted_barplot1.svg"),
+    size = "wide"
+)
+
+
+single_kras_allele_freq_barplot <- function(cancer, data, y_max = NA) {
+    p <- data %>%
+        mutate(
+            kras_allele = fct_reorder(kras_allele, avg_kras_allele_prob)
+        ) %>%
+        ggplot(aes(
+            x = kras_allele, y = avg_kras_allele_prob,
+            color = kras_allele, fill = kras_allele
+        )) +
+        geom_col(alpha = 0.5) +
+        scale_fill_manual(values = short_allele_pal) +
+        scale_color_manual(values = short_allele_pal) +
+        scale_y_continuous(limits = c(0, y_max),
+                           expand = expand_scale(mult = c(0, 0.02))) +
+        theme_bw(base_size = 8, base_family = "Arial") +
+        theme(
+            plot.title = element_text(hjust = 0.5),
+            legend.title = element_blank(),
+            legend.position = 'none',
+            axis.title = element_blank(),
+            axis.text.x = element_text(angle = 45, hjust = 1.0),
+            strip.background = element_blank()
+        ) +
+        labs(title = cancer)
+    return(p)
+}
+
+# Bar plots of the un-weighted predicted frequencies.
+predict_kras_allele_frequency_barplot2_df <- barplot_df %>%
+    group_by(cancer) %>%
+    nest() %>%
+    mutate(barplot = purrr::map2(
+        cancer, data, single_kras_allele_freq_barplot,
+        y_max = max(barplot_df$avg_kras_allele_prob)
+    ))
+
+predict_kras_allele_frequency_barplot2 <- cowplot::plot_grid(
+    plotlist = predict_kras_allele_frequency_barplot2_df$barplot,
+    nrow = 2
+)
+
+cowplot::save_plot(
+    plot_path("50_10_observed-predicted-kras-alleles",
+              "predict_kras_allele_frequency_barplot2.svg"),
+    plot = predict_kras_allele_frequency_barplot2
+)
+
+
+# Use the weighted prediction.
+predict_kras_allele_frequency_weighted_barplot2_df <- barplot_df %>%
+    mutate(avg_kras_allele_prob = avg_kras_allele_prob_weighted) %>%
+    group_by(cancer) %>%
+    nest() %>%
+    mutate(barplot = purrr::map2(
+        cancer, data, single_kras_allele_freq_barplot,
+        y_max = max(barplot_df$avg_kras_allele_prob)
+    ))
+
+predict_kras_allele_frequency_weighted_barplot2 <- cowplot::plot_grid(
+    plotlist = predict_kras_allele_frequency_weighted_barplot2_df$barplot,
+    nrow = 2
+)
+
+cowplot::save_plot(
+    plot_path("50_10_observed-predicted-kras-alleles",
+              "predict_kras_allele_frequency_weighted_barplot2.svg"),
+    plot = predict_kras_allele_frequency_weighted_barplot2
+)
 
 # The same bar plot as above, but separated by allele to compare across cancer.
-predict_kras_allele_frequency_barplot2 <- kras_hostspot_probability %>%
+predict_kras_allele_frequency_barplot3 <- kras_hotspot_probability %>%
     filter(!is.na(kras_allele_prob)) %>%
     group_by(cancer, kras_allele) %>%
     summarise(
@@ -198,11 +381,13 @@ predict_kras_allele_frequency_barplot2 <- kras_hostspot_probability %>%
     )
 
 ggsave_wrapper(
-    predict_kras_allele_frequency_barplot2,
+    predict_kras_allele_frequency_barplot3,
     plot_path("50_10_observed-predicted-kras-alleles",
-              "predict_kras_allele_frequency_barplot2.svg"),
+              "predict_kras_allele_frequency_barplot3.svg"),
     size = "large"
 )
+
+
 
 
 # Make a single scatter plot for an individual cancer.
@@ -223,7 +408,7 @@ individual_obs_v_pred_scatter_plot <- function(plot_df, cancer, stats = FALSE) {
                             alpha = 0.8) +
             scale_shape_identity() +
             scale_size_continuous(
-                range = c(1, 3),
+                range = c(2, 3),
                 guide = guide_legend(
                     title.position = "left",
                     keywidth = unit(4, "mm"),
@@ -316,8 +501,6 @@ obs_v_pred_scatter_plot <- function(real_tib, pred_tib,
 }
 
 
-
-
 # Scatter plot of all alleles observed vs. predicted KRAS allele frequency.
 real_af <- cancer_muts_df %>%
     filter(ras == "KRAS") %>%
@@ -333,7 +516,7 @@ real_af <- cancer_muts_df %>%
     dplyr::rename(kras_allele = "ras_allele") %>%
     mutate(kras_allele = str_remove(kras_allele, "KRAS_"))
 
-predicted_af <- kras_hostspot_probability %>%
+predicted_af <- kras_hotspot_probability %>%
     filter(!is.na(kras_allele_prob)) %>%
     group_by(cancer, kras_allele) %>%
     summarise(
