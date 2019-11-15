@@ -19,7 +19,9 @@ predict_kras_allele_frequency <- function(tib, sequencing_type) {
             select(-exome_count) %>%
             dplyr::rename(tricontext_count = "genome_count")
     } else {
-        stop(glue("'{sequencing_type}' is not a viable option for `sequencing_type`."))
+        stop(glue(
+            "'{sequencing_type}' is not a viable option for `sequencing_type`."
+        ))
     }
 
     tib %>%
@@ -69,7 +71,7 @@ kras_hotspot_probability <- predicted_kras_allele_frequency %>%
         kras_allele_prob = tricontext_mut_count / tricontext_count,
         kras_allele_prob = kras_allele_prob / sum(kras_allele_prob),
     ) %>%
-   ungroup()
+    ungroup()
 
 
 
@@ -132,16 +134,20 @@ bootstrap_allele_confidence_intervals <- function(cancer, data, R = 1e3) {
 
 # Run the bootstrapping process to estimate the 95% CI for the KRAS allele
 # frequency prediction.
-kras_allele_freq_bootstrap_ci <- predicted_kras_allele_frequency %>%
-    group_by(cancer) %>%
-    nest() %>%
-    ungroup() %>%
-    mutate(bs_results = purrr::map2(cancer, data,
-                                    bootstrap_allele_confidence_intervals)) %>%
-    select(-data) %>%
-    unnest(bs_results)
+ProjectTemplate::cache("kras_allele_freq_bootstrap_ci",
+                       depends = "predicted_kras_allele_frequency"
+{
+    kras_allele_freq_bootstrap_ci <- predicted_kras_allele_frequency %>%
+        group_by(cancer) %>%
+        nest() %>%
+        ungroup() %>%
+        mutate(bs_results = purrr::map2(cancer, data,
+                                        bootstrap_allele_confidence_intervals)) %>%
+        select(-data) %>%
+        unnest(bs_results)
+    return(kras_allele_freq_bootstrap_ci)
+})
 
-ProjectTemplate::cache("kras_allele_freq_bootstrap_ci")
 
 
 
@@ -202,7 +208,13 @@ barplot_df <- kras_hotspot_probability %>%
         avg_kras_allele_prob = avg_kras_allele_prob / sum(avg_kras_allele_prob),
         avg_kras_allele_prob_weighted = avg_kras_allele_prob_weighted / sum(avg_kras_allele_prob_weighted)
     ) %>%
-    ungroup()
+    ungroup() %>%
+    left_join(kras_allele_freq_bootstrap_ci,
+              by = c("cancer", "kras_allele")) %>%
+    mutate(
+        ci_upper_avg_kras_allele_prob = avg_kras_allele_prob + ci_upper,
+        ci_lower_avg_kras_allele_prob = avg_kras_allele_prob - ci_lower
+    )
 
 
 predict_kras_allele_frequency_barplot1 <- barplot_df %>%
@@ -215,6 +227,11 @@ predict_kras_allele_frequency_barplot1 <- barplot_df %>%
     )) +
     facet_wrap(. ~ cancer, scales = "free") +
     geom_col(alpha = 0.5) +
+    geom_errorbar(
+        aes(ymin = ci_lower_avg_kras_allele_prob,
+            ymax = ci_upper_avg_kras_allele_prob),
+        width = 0.2
+    ) +
     scale_fill_manual(values = short_allele_pal) +
     scale_color_manual(values = short_allele_pal) +
     scale_y_continuous(limits = c(0, NA),
@@ -270,7 +287,9 @@ ggsave_wrapper(
 )
 
 
-single_kras_allele_freq_barplot <- function(cancer, data, y_max = NA) {
+single_kras_allele_freq_barplot <- function(cancer, data,
+                                            y_max = NA,
+                                            with_errorbars = TRUE) {
     p <- data %>%
         mutate(
             kras_allele = fct_reorder(kras_allele, avg_kras_allele_prob)
@@ -279,7 +298,17 @@ single_kras_allele_freq_barplot <- function(cancer, data, y_max = NA) {
             x = kras_allele, y = avg_kras_allele_prob,
             color = kras_allele, fill = kras_allele
         )) +
-        geom_col(alpha = 0.5) +
+        geom_col(alpha = 0.5)
+
+    if (with_errorbars) {
+        p <- p + geom_errorbar(
+                               aes(ymin = ci_lower_avg_kras_allele_prob,
+                                   ymax = ci_upper_avg_kras_allele_prob),
+                               width = 0.2
+                               )
+    }
+
+    p <- p +
         scale_fill_manual(values = short_allele_pal) +
         scale_color_manual(values = short_allele_pal) +
         scale_y_continuous(limits = c(0, y_max),
@@ -303,7 +332,7 @@ predict_kras_allele_frequency_barplot2_df <- barplot_df %>%
     nest() %>%
     mutate(barplot = purrr::map2(
         cancer, data, single_kras_allele_freq_barplot,
-        y_max = max(barplot_df$avg_kras_allele_prob)
+        y_max = max(barplot_df$ci_upper_avg_kras_allele_prob)
     ))
 
 predict_kras_allele_frequency_barplot2 <- cowplot::plot_grid(
@@ -325,7 +354,8 @@ predict_kras_allele_frequency_weighted_barplot2_df <- barplot_df %>%
     nest() %>%
     mutate(barplot = purrr::map2(
         cancer, data, single_kras_allele_freq_barplot,
-        y_max = max(barplot_df$avg_kras_allele_prob)
+        y_max = max(barplot_df$avg_kras_allele_prob),
+        with_errorbars = FALSE
     ))
 
 predict_kras_allele_frequency_weighted_barplot2 <- cowplot::plot_grid(
@@ -340,20 +370,7 @@ cowplot::save_plot(
 )
 
 # The same bar plot as above, but separated by allele to compare across cancer.
-predict_kras_allele_frequency_barplot3 <- kras_hotspot_probability %>%
-    filter(!is.na(kras_allele_prob)) %>%
-    group_by(cancer, kras_allele) %>%
-    summarise(
-        avg_kras_allele_prob = mean(kras_allele_prob),
-        sem_kras_allele_prob = sem(kras_allele_prob),
-    ) %>%
-    ungroup() %>%
-    mutate(
-        kras_allele = factor(kras_allele, levels = names(short_allele_pal)),
-        upper_line_y = avg_kras_allele_prob + sem_kras_allele_prob,
-        lower_line_y = avg_kras_allele_prob - sem_kras_allele_prob,
-        lower_line_y = ifelse(lower_line_y < 0, 0, lower_line_y)
-    ) %>%
+predict_kras_allele_frequency_barplot3 <- barplot_df %>%
     ggplot(aes(
         x = cancer, y = avg_kras_allele_prob,
         color = cancer, fill = cancer
@@ -361,7 +378,8 @@ predict_kras_allele_frequency_barplot3 <- kras_hotspot_probability %>%
     facet_wrap(~ kras_allele, scales = "free") +
     geom_col(alpha = 0.5) +
     geom_errorbar(
-        aes(ymax = upper_line_y, ymin = lower_line_y),
+        aes(ymax = ci_upper_avg_kras_allele_prob,
+            ymin = ci_lower_avg_kras_allele_prob),
         width = 0.2
     ) +
     scale_fill_manual(values = cancer_palette) +
@@ -392,10 +410,18 @@ ggsave_wrapper(
 
 # Make a single scatter plot for an individual cancer.
 # This was made to be called from `obs_v_pred_scatter_plot` for each cancer.
-individual_obs_v_pred_scatter_plot <- function(plot_df, cancer, stats = FALSE) {
+individual_obs_v_pred_scatter_plot <- function(plot_df, cancer,
+                                               stats = FALSE,
+                                               with_errorbars = FALSE) {
 
-    axis_lim <- max(c(plot_df$real_kras_allele_frequency,
-                      plot_df$avg_kras_allele_prob))
+    if (with_errorbars) {
+        axis_lim <- max(c(plot_df$real_kras_allele_frequency,
+                          plot_df$ci_upper_avg_kras_allele_prob))
+    } else {
+        axis_lim <- max(c(plot_df$real_kras_allele_frequency,
+                          plot_df$avg_kras_allele_prob))
+    }
+
 
     p <- ggplot(plot_df,
                 aes(x = real_kras_allele_frequency,
@@ -419,6 +445,15 @@ individual_obs_v_pred_scatter_plot <- function(plot_df, cancer, stats = FALSE) {
     } else {
         p <- p + geom_point(aes(color = kras_allele),
                             size = 1, alpha = 0.7)
+    }
+
+    if (with_errorbars) {
+        p <- p + geom_linerange(
+                aes(ymin = ci_lower_avg_kras_allele_prob,
+                    ymax = ci_upper_avg_kras_allele_prob,
+                    color = kras_allele),
+                alpha = 0.3
+            )
     }
 
     p <- p +
@@ -470,7 +505,9 @@ individual_obs_v_pred_scatter_plot <- function(plot_df, cancer, stats = FALSE) {
 # Scatter plot of observed vs. predicted KRAS allele frequency.
 obs_v_pred_scatter_plot <- function(real_tib, pred_tib,
                                     save_template,
-                                    stats_tib = NULL, p_value_cut = 0.05,
+                                    stats_tib = NULL,
+                                    p_value_cut = 0.05,
+                                    with_errorbars = FALSE,
                                     save_size = "small") {
     pdata <- left_join(real_tib, pred_tib,
                         by = c("cancer", "kras_allele")) %>%
@@ -490,7 +527,8 @@ obs_v_pred_scatter_plot <- function(real_tib, pred_tib,
         p <- pdata %>%
             filter(cancer == !!CANCER) %>%
             individual_obs_v_pred_scatter_plot(cancer = CANCER,
-                                               stats = !is.null(stats_tib))
+                                               stats = !is.null(stats_tib),
+                                               with_errorbars = with_errorbars)
         ggsave_wrapper(
             p,
             plot_path("50_10_observed-predicted-kras-alleles",
@@ -521,12 +559,18 @@ predicted_af <- kras_hotspot_probability %>%
     group_by(cancer, kras_allele) %>%
     summarise(
         avg_kras_allele_prob = mean(kras_allele_prob),
-        sem_kras_allele_prob = sem(kras_allele_prob),
     ) %>%
-    ungroup()
+    ungroup() %>%
+    left_join(kras_allele_freq_bootstrap_ci,
+              by = c("cancer", "kras_allele")) %>%
+    mutate(
+        ci_upper_avg_kras_allele_prob = avg_kras_allele_prob + ci_upper,
+        ci_lower_avg_kras_allele_prob = avg_kras_allele_prob - ci_lower
+    )
 
 obs_v_pred_scatter_plot(real_af, predicted_af,
-                        save_template = "obs_pred_plot_{CANCER}.svg")
+                        save_template = "obs_pred_plot_{CANCER}.svg",
+                        with_errorbars = TRUE)
 
 
 
@@ -542,12 +586,18 @@ predicted_af_g12 <- predicted_kras_allele_frequency %>%
     group_by(cancer, kras_allele) %>%
     summarise(
         avg_kras_allele_prob = mean(kras_allele_prob),
-        sem_kras_allele_prob = sem(kras_allele_prob),
     ) %>%
-    ungroup()
+    ungroup() %>%
+    left_join(kras_allele_freq_bootstrap_ci,
+              by = c("cancer", "kras_allele")) %>%
+    mutate(
+        ci_upper_avg_kras_allele_prob = avg_kras_allele_prob + ci_upper,
+        ci_lower_avg_kras_allele_prob = avg_kras_allele_prob - ci_lower
+    )
 
 obs_v_pred_scatter_plot(real_af, predicted_af_g12,
-                        save_template = "obs_pred_plot_g12_{CANCER}.svg")
+                        save_template = "obs_pred_plot_g12_{CANCER}.svg",
+                        with_errorbars = TRUE)
 
 
 
@@ -599,6 +649,7 @@ kras_allele_freq_stats %>%
 
 obs_v_pred_scatter_plot(real_af, predicted_af,
                         stats_tib = kras_allele_freq_stats,
+                        with_errorbars = TRUE,
                         save_template = "obs_pred_plot_stats_{CANCER}.svg")
 
 
@@ -633,4 +684,5 @@ kras_g12_freq_stats %>%
 
 obs_v_pred_scatter_plot(real_af, predicted_af_g12,
                         stats_tib = kras_g12_freq_stats,
+                        with_errorbars = TRUE,
                         save_template = "obs_pred_plot_g12_stats_{CANCER}.svg")
