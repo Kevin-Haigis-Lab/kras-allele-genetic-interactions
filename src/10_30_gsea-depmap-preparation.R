@@ -50,7 +50,7 @@ make_cls_file <- function(wide_data, data, output_path) {
     # collect line 3 info
     cls_nums <- tibble(dep_map_id = colnames(wide_data)[c(-1, -2)]) %>%
         left_join(
-            {data %>% select(dep_map_id, allele) %>% unique() },
+            { data %>% select(dep_map_id, allele) %>% unique() },
             by = "dep_map_id"
         ) %>%
         mutate(
