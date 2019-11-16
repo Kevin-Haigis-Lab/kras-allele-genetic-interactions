@@ -7,7 +7,11 @@ library(foreach)
 library(dplyr)
 library(wext)
 
-process_permuted_graph <- function(results_tib_path, perm_grs_paths, which_test, save_name, n_cores) {
+process_permuted_graph <- function(results_tib_path,
+                                   perm_grs_paths,
+                                   which_test,
+                                   save_name,
+                                   n_cores) {
 
     # check for multiple files
     if (length(perm_grs_paths) < 2) {
@@ -30,7 +34,8 @@ process_permuted_graph <- function(results_tib_path, perm_grs_paths, which_test,
     tic("Process permutations")
     cl <- makeCluster(n_cores, type = "FORK")
     registerDoParallel(cl)
-    processed_perms <- foreach(p = perm_grs_paths, .combine = dplyr::bind_rows) %dopar%
+    processed_perms <- foreach(p = perm_grs_paths,
+                               .combine = dplyr::bind_rows) %dopar%
         process_perm(perm_gr_path = p, res_tib = results_tib, f = test_func)
     stopCluster(cl)
     toc()
@@ -87,11 +92,3 @@ process_permuted_graph(
     save_name = snakemake@output[["save_name"]],
     n_cores = snakemake@params[["n_cores"]]
 )
-
-
-# # TEST - small manual example
-# results_file <- "intermediate/COAD_exclusivity_KRASG12D_results_df.rds"
-# all_perm_files <- list.files("permuted_graphs/COAD", full.names = TRUE, pattern = "COAD_perm")
-# sample_perm_files <- sample(all_perm_files, 5)
-# process_permuted_graph(results_file, sample_perm_files, "e", save_name = "test_output.rds", 2)
-# readRDS("test_output.rds")
