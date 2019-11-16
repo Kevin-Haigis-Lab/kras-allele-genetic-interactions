@@ -1,11 +1,12 @@
 
 .libPaths(c(.libPaths(), "/home/jc604/R-3.5.1/library"))
+
 library(tictoc)
 library(tidygraph)
 library(dplyr)
 library(wext)
 
-
+# A modified RC-test from the 'wext' package optimized for this analysis.
 mod_rc_test <- function(bipartite_gr,
                         which_test = c("exclusivity", "comutation"),
                         k = 2,
@@ -45,9 +46,11 @@ mod_rc_test <- function(bipartite_gr,
 #### ---- INTERACTIONS WITH SNAKEMAKE ---- ####
 
 # WRAPPER: run the RC test with the real and permuted bipartite graphs
-run_rc_test <- function(
-        real_gr, which_test, seed_genes, min_times_mut, output_name
-    ) {
+run_rc_test <- function(real_gr,
+                        which_test,
+                        seed_genes,
+                        min_times_mut,
+                        output_name) {
 
     if (seed_genes == "NULL") seed_genes <- c()
     stopifnot(length(seed_genes) > 0)
@@ -69,11 +72,6 @@ convert_rasallele <- function(rasallele) {
     return(paste0(ras, "_", allele))
 }
 
-# save.image(paste0("snakemake_imgs/snakemake_",
-#                   snakemake@wildcards[["which_test"]], "_",
-#                   snakemake@wildcards[["cancer"]],
-#                   "_rctest.RData"))
-
 
 # run by Snakemake
 run_rc_test(
@@ -83,7 +81,3 @@ run_rc_test(
     as.numeric(snakemake@params[["min_times_mut"]]),
     snakemake@output[["output_name"]]
 )
-
-# TEST - small example run manually
-# real_gr <- "intermediate/COAD_bgr.rds"
-# mod_rc_test(real_gr, "c", seed_genes = "KRAS_A146T")
