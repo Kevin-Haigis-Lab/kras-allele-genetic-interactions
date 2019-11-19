@@ -1,6 +1,6 @@
 # Annotate the coding mutation using ANNOVAR
 
-#### ---- Prepare input to ANNOVAR ---- ####
+#### ---- Functions for preparing ANNOVAR input ---- ####
 
 # Split he `genomic_position` column into the input for ANNOVAR.
 split_genomic_position_col <- function(v) {
@@ -33,45 +33,8 @@ transform_to_annovar_input <- function(df) {
       )
 }
 
-annovar_in_file <- file.path("data", "annovar", "annovar_input.tsv")
 
-transform_to_annovar_input(cancer_coding_muts_df) %>%
-    write_tsv(annovar_in_file,
-              append = FALSE,
-              col_names = FALSE)
-
-
-#### ---- Run ANNOVAR and look for final log tag. ---- ####
-
-annovar_out_file <- file.path("data", "annovar", "annovar_out")
-
-system(glue("sbatch munge/24_annovar-annotation-mutations.sh {annovar_in_file} {annovar_out_file}"))
-
-annovar_out_file <- paste0(annovar_out_file, ".hg19_multianno.txt")
-
-annovar_log_file <- file.path(
-    "logs", "annovar", "24_annovar-annotation-mutations.log"
-)
-
-ANNOVAR_DONE <- FALSE
-
-while (!ANNOVAR_DONE) {
-    # If file exists and the specific finish tag exists, then continue with
-    # this R script.
-    if (file.exists(annovar_log_file)) {
-        annovar_log <- unlist(tail(readLines(annovar_log_file)))
-        if (any(str_detect(annovar_log, "ANNOVAR FINISHED"))) {
-            if (file.exists(annovar_out_file)) ANNOVAR_DONE <- TRUE
-        }
-    }
-    Sys.sleep(10)
-}
-
-# Provide a short hold to make sure ANNOVAR is done and some O2 lag.
-Sys.sleep(120)
-
-
-#### ---- Read in ANNOVAR output ---- ####
+#### ---- Functions for preparing ANNOVAR output ---- ####
 
 # Is the mutation clinically significant.
 is_clinisig_pathogenic <- function(cs) {
@@ -83,7 +46,7 @@ is_clinisig_pathogenic <- function(cs) {
 
 
 # Add logical columns for each prediction for if they predict harmful mutations.
-asses_predictions <- function(avdf) {
+access_predictions <- function(avdf) {
     avdf %>%
         mutate(
             is_sift_pred = sift_pred == "D",
@@ -104,14 +67,67 @@ asses_predictions <- function(avdf) {
                 si_phy_29way_log_odds > quantile(si_phy_29way_log_odds, 0.70, na.rm = TRUE),
             is_icgc = !is.na(icgc_occurrence),
             is_cosmic = !is.na(cosmic68wgs),
-            is_clinsig = purrr::map(clinsig, is_clinisig_pathogenic)
+            is_clinsig = purrr::map_lgl(clinsig, is_clinisig_pathogenic)
         )
 }
 
 
-annovar_df <- read_tsv(annovar_out_file) %>%
-    janitor::clean_names() %>%
-    mutate(matched_row = as.numeric(str_extract(otherinfo, "[:digit:]+"))) %>%
-    asses_predictions()
+# Replace the "." from ANNOVAR
+replace_annovar_nas <- function(df) {
+    df[df == "."] <- NA
+    return(df)
+}
 
-annovar_df[annovar_df == "."] <- NA
+
+#### ---- Run ANNOVAR annotation ---- ####
+
+ProjectTemplate::cache("cancer_coding_av_muts_df",
+                       depends = "cancer_coding_muts_df",
+{
+    # Make input for ANNOVAR
+    annovar_in_file <- file.path("data", "annovar", "annovar_input.tsv")
+
+    transform_to_annovar_input(cancer_coding_muts_df) %>%
+        write_tsv(annovar_in_file,
+                  append = FALSE,
+                  col_names = FALSE)
+
+
+    # Run ANNOVAR script and wait for output.
+
+    annovar_out_file <- file.path("data", "annovar", "annovar_out")
+    annovar_out_file_final <- paste0(annovar_out_file, ".hg19_multianno.txt")
+
+    system(glue("sbatch munge/24_annovar-annotation-mutations.sh {annovar_in_file} {annovar_out_file}"))
+
+    annovar_log_file <- file.path(
+        "logs", "annovar", "24_annovar-annotation-mutations.log"
+    )
+
+    ANNOVAR_DONE <- FALSE
+    while (!ANNOVAR_DONE) {
+        # If file exists and the specific finish tag exists, then continue with
+        # this R script.
+        if (file.exists(annovar_log_file)) {
+            annovar_log <- unlist(tail(readLines(annovar_log_file)))
+            if (any(str_detect(annovar_log, "ANNOVAR FINISHED"))) {
+                if (file.exists(annovar_out_file_final)) ANNOVAR_DONE <- TRUE
+            }
+        }
+        Sys.sleep(10)
+    }
+    # Provide a short hold to make sure ANNOVAR is done and some O2 lag.
+    Sys.sleep(120)
+
+    annovar_df <- read_tsv(annovar_out_file_final, progress = FALSE) %>%
+        janitor::clean_names() %>%
+        mutate(matched_row = as.numeric(str_extract(otherinfo, "[:digit:]+"))) %>%
+        replace_annovar_nas() %>%
+        access_predictions()
+
+    cancer_coding_av_muts_df <- cancer_coding_muts_df %>%
+        mutate(matched_row = seq(1, n())) %>%
+        left_join(annovar_df, by = "matched_row")
+
+    return(cancer_coding_av_muts_df)
+})
