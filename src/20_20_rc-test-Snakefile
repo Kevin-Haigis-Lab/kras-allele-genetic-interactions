@@ -75,7 +75,7 @@ rule make_bipartite_graph:
 	output:
 		save_name = 'data/rc-test/intermediate/{cancer}_bgr.rds'
 	script:
-		'src/20_05_make-bipartite-graph.R'
+		'20_05_make-bipartite-graph.R'
 
 
 
@@ -107,7 +107,7 @@ rule permute_bipartite_graph:
 		partition = lambda w: 'medium' if w.cancer == 'LUAD' else 'short',
 		Q = 20
 	script:
-		'src/20_06_permute-bipartite-graph.R'
+		'20_06_permute-bipartite-graph.R'
 
 
 
@@ -137,7 +137,7 @@ rule make_results_df:
 		mem = lambda w: results_df_mem_dict[w.cancer][w.which_test],
 		min_times_mut = lambda w: 2 if w.which_test == 'comutation' else 3
 	script:
-		'src/20_07_make-results-df.R'
+		'20_07_make-results-df.R'
 
 
 
@@ -169,6 +169,6 @@ rule process_permuted_graph:
 		which_test_short = lambda w: 'co' if w.which_test == 'comutation' else 'ex',
 		time = lambda w: process_permuted_graph_time_dict[w.cancer][w.which_test],
 		mem = lambda w: process_permuted_graph_mem_dict[w.cancer][w.which_test],
-		partition = lambda w: 'long' if w.which_test == 'comutation' else 'long'
+		partition = lambda w: 'medium' if w.which_test == 'comutation' else 'long'
 	script:
-		'src/20_08_process-permuted-graph.R'
+		'20_08_process-permuted-graph.R'
