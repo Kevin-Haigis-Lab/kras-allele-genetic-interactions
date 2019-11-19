@@ -27,9 +27,21 @@ get_entrez_from_depmap_ids <- function(x, convert_to_num = FALSE) {
 #' Standard error of the mean
 #'
 #' Calculate the standard error of the mean.
-#' 
+#'
 sem <- function(x) sd(x) / sqrt(length(x))
 
+
+#' Create or reset a directory in 'graphs'
+#'
+#' This is useful to call at the top of an analysis to remove the old graphs
+#' such that there are no phantom plots from old analyses.
+reset_graph_directory <- function(dir_name) {
+    dir_path <- file.path("graphs", dir_name)
+    if (dir.exists(dir_path)) {
+        unlink(dir_path, recursive = TRUE)
+    }
+    dir.create(dir_path)
+}
 
 
 #### ---- Helpful regular expressions ---- ####
