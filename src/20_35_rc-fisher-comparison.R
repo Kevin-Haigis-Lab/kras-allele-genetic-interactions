@@ -11,13 +11,23 @@ test_name_pal <- c(
 p_val_cut_mutex <- 0.01
 p_val_cut_comut <- 0.01
 
-rc_sig <- rc_test_results %>%
-    filter(num_mut_per_cancer >= 15 & t_AM >= 3 & p_val < !!p_val_cut_mutex)
+mutfreq_mutex <- 0.02
+mutfreq_comut <- 0.01
 
-fisher_sig <- fisher_comut_df  %>%
+rc_sig <- rc_test_results %>%
+    filter(
+        t_AM >= 10 &
+        num_mut_per_cancer / num_samples_per_cancer > !!mutfreq_mutex &
+        p_val < !!p_val_cut_mutex
+    )
+
+fisher_sig <- fisher_comut_df %>%
     filter(str_replace_us(kras_allele) %in% names(allele_palette)) %>%
-    filter(p_value_great < p_val_cut_comut | p_value_less < p_val_cut_comut) %>%
-    filter(n11 >= 3) %>%
+    filter(p_value_great < p_val_cut_comut | p_value_less < p_val_cut_mutex) %>%
+    filter(
+        n11 >= 3 &
+        (n10 + n11) / (n00 + n10 + n01 + n11) > !!mutfreq_comut
+    ) %>%
     mutate(test_type = ifelse(
         p_value_great < !!p_val_cut_comut, "comutation", "exclusivity"
     ))
