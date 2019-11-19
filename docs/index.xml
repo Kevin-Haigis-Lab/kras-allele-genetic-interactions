@@ -106,6 +106,71 @@
     </item>
     
     <item>
+      <title>2019-11-18</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-11-18/</link>
+      <pubDate>Mon, 18 Nov 2019 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-11-18/</guid>
+      <description>
+
+&lt;h2 id=&#34;api-for-maftools-lollipop-plots&#34;&gt;API for maftools &amp;ldquo;lollipop&amp;rdquo; plots&lt;/h2&gt;
+
+&lt;p&gt;I created my own API for using the &lt;code&gt;maftools::lollipopPlot()&lt;/code&gt; and &lt;code&gt;maftools::lollipopPlot2()&lt;/code&gt; functions.
+I can create either for any gene in any &lt;em&gt;KRAS&lt;/em&gt;-mutant samples for a specific cancer.
+Now I just need to generate plots for mutations of genes in the desired &lt;em&gt;KRAS&lt;/em&gt; mutants.&lt;/p&gt;
+
+&lt;h2 id=&#34;prioritize-comutation-hits-for-kh&#34;&gt;Prioritize comutation hits for KH&lt;/h2&gt;
+
+&lt;p&gt;KH is using the results of the increased comutation analysis in COAD for his RO1 resubmission.
+However, he needs a way of prioritizing the hits to a more manageable number (&amp;lt;40).
+One way to do this is to prioritize genes with mutations known or predicted to be oncogenic.
+Therefore, I have parsed the results of &lt;a href=&#34;https://genomemedicine.biomedcentral.com/articles/10.1186/s13073-016-0393-x#Sec22&#34; target=&#34;_blank&#34;&gt;&amp;ldquo;3D clusters of somatic mutations in cancer reveal numerous rare mutations as functional targets&amp;rdquo;&lt;/a&gt; (Gao &lt;em&gt;et al.&lt;/em&gt;, 2017, PMID 28115009).
+The parsed data frame is cached as &lt;code&gt;mutation_3d_hotspots&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;I decided to just make a file for the code used for KH&amp;rsquo;s resubmission: &amp;ldquo;src/90_15_kh-resubmission.R&amp;rdquo;.&lt;/p&gt;
+
+&lt;p&gt;To get information on the mutations, I needed to annotate the mutations.
+This was accomplished using ANNOVAR and is implemented in two munge scripts,  &amp;ldquo;munge/23_annovar-annotation-mutations.R&amp;rdquo; and &amp;ldquo;munge/23_annovar-annotation-mutations.sh&amp;rdquo;, where the latter is called within the former.&lt;/p&gt;
+
+&lt;p&gt;It was pretty late, so I set the ANNOVAR script to run and went to bed.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>2019-11-16</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-11-16/</link>
+      <pubDate>Sat, 16 Nov 2019 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-11-16/</guid>
+      <description>
+
+&lt;h2 id=&#34;bootstrap-ci-for-comutation-tests&#34;&gt;Bootstrap CI for comutation tests&lt;/h2&gt;
+
+&lt;p&gt;The test for increased frequency of comutation, a one-sided Fisher&amp;rsquo;s exact test, provides a confidence interval for its measured statistic.
+The test for reduced frequency of comutation, the RC-test, does not automatically provide a confidence interval.
+Therefore, I bootstrapped 95% CI from the real results.
+This analysis was conducted in &amp;ldquo;src/20_33_rc-test-bootstrap-ci.R&amp;rdquo;.&lt;/p&gt;
+
+&lt;h3 id=&#34;test-snakemake-run-rc-test&#34;&gt;Test Snakemake-run RC-test&lt;/h3&gt;
+
+&lt;p&gt;I have yet to test if I properly adapted the Snakemake work-flow for use in this ProjectTemplate architecture.
+I ran the following small-scale analysis (after copying the real intermediates and results to backups):&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;only 100 permutations by setting &lt;code&gt;NUM_PERMS = 10&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;run the work-flow for COAD A146T and G12A&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;I created a new example DAG with these parameters set.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_20_rc-test-Snakefile/dag.pdf&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The work-flow starts by generating the input using &amp;ldquo;src/20_02_prepare-input-tables.R&amp;rdquo;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;source(&amp;quot;src/20_02_prepare-input-tables.R&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
       <title>2019-11-15</title>
       <link>https://project-notebook-comutation.netlify.com/post/2019-11-15/</link>
       <pubDate>Fri, 15 Nov 2019 00:00:00 +0000</pubDate>

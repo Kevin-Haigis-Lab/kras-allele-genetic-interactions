@@ -20,7 +20,10 @@
 - Use multiple PPI networks for the analysis of the overlapping interactions.
     + BioPlex2, INTACT, HINT, STRING
     + OP suggests including other genes that interact with multiple of the hits
-
+- Analyze comutation + dependency subnetworks:
+    + include genes that interact with a few hits
+    + identify specific motifs of *a priori* interest
+    + statistics on submodules and clusters
 
 - Rethink Figure  1
     + It may be a better choice to merge it into Figure 2
@@ -34,14 +37,7 @@
     + do any of them *become* lethal in an allele?
 - Look into Synthetic Lethal Consortium for list of KRAS synthetic lethals
     + Tim's Cell Reports paper may be a good source to cross reference.
-
-
-During lab meeting:
-
-- what to do next with clusters
-- look through the cluster results
-- what kind of motifs to identify (strongly connected)
-- practice with result types
+- Expected vs. observed frequency -> save to color-scaled table
 
 
 ## Questions
@@ -53,3 +49,9 @@ During lab meeting:
 Looking at the PPI subnetworks pulled out from the overlap of comutation and mutual exclusivity, there seem to be some striking clusters when looking for patterns in shape and color. 
 Perhaps these are worth looking into as a whole for finishing up the paper.
 For instance.
+
+
+## Final global changes
+
+- Change all `cache()` to `ProjectTemplate::cache()`
+- A single script or command line to run the entire project.

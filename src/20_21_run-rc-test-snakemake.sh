@@ -2,7 +2,7 @@
 
 #SBATCH -c 1
 #SBATCH -p priority
-#SBATCH -t 20-00:00
+#SBATCH -t 1-00:00
 #SBATCH --mem 4G
 #SBATCH -o logs/rc-test_slurm_logs/snakemake_%A.log
 #SBATCH -e logs/rc-test_slurm_logs/snakemake_%A.log
