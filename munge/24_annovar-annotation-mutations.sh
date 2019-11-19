@@ -8,6 +8,9 @@
 #SBATCH -o logs/annovar/24_annovar-annotation-mutations.log
 #SBATCH -e annovar_run.log
 
+## INPUT (positional)
+#   1: path to input file
+#   2: path for output file
 
 module load gcc annovar/20170601
 
