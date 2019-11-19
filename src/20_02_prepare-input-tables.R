@@ -14,8 +14,8 @@
 #    min_mut_events: minimum number of mutations in the gene to be considered
 # RETURNS:
 #    writes a tsv file and (invisibly) returns the cancer name
-write_mutation_tables <- function(cancer, data, ...) {
-    file_name <- make_file_name(cancer)
+write_mutation_tables <- function(cancer, data, save_dir, ...) {
+    file_name <- make_file_name(cancer, save_dir)
     data %>%
         dplyr::select(sampleid, gene) %>%
         unique() %>%
@@ -24,23 +24,31 @@ write_mutation_tables <- function(cancer, data, ...) {
 }
 
 # create the file name to write to
-make_file_name <- function(cancer) {
+make_file_name <- function(cancer, dir) {
     file.path(
-        "data", "rc-test", "input",
+        dir,
         paste(cancer, "mutations.tsv", sep = "_")
     )
 }
 
 
-# cancer data
-cancer_data <- cancer_coding_muts_df %>%
-    filter(!is_hypermutant)
+input_directory <- file.path("data", "rc-test", "input")
+if (!dir.exists(input_directory)) {
+    dir.create(input_directory)
+}
+
 
 # write out the mutation tables for each cancer
-cancer_data %>%
+a <- cancer_coding_muts_df %>%
+    filter(!is_hypermutant) %>%
     filter(cancer != "SKCM") %>%
-    dplyr::mutate(gene = ifelse(gene == "KRAS", ras_allele, gene)) %>%
-    dplyr::rename(sampleid = "case_id") %>%
+    dplyr::mutate(gene = ifelse(
+        hugo_symbol == "KRAS", ras_allele, hugo_symbol
+    )) %>%
+    dplyr::rename(sampleid = "tumor_sample_barcode") %>%
     dplyr::select(cancer, sampleid, gene) %>%
-    tidyr::nest(sampleid, gene) %>%
-    purrr::pmap(write_mutation_tables)
+    dplyr::group_by(cancer) %>%
+    tidyr::nest() %>%
+    purrr::pwalk(write_mutation_tables, save_dir = input_directory)
+
+rm(a)
