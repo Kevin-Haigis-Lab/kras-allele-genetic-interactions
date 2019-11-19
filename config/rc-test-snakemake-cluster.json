@@ -5,8 +5,8 @@
 		"cores"     : 1,
 		"mem"       : "1000",
 		"time"      : "00:10:00",
-		"out"       : "slurm_logs/%j_{rule}.log",
-		"err"       : "slurm_logs/%j_{rule}.log",
+		"out"       : "logs/rc-test_slurm_logs/%j_{rule}.log",
+		"err"       : "logs/rc-test_slurm_logs/%j_{rule}.log",
 		"mail"      : "NONE",
 		"J"			: "snakejob"
 	},
@@ -22,16 +22,16 @@
 		"mem"       : "{params.mem}",
 		"time"      : "{params.time_alloc}",
 		"J"	        : "2_{wildcards.cancer}",
-		"out"       : "slurm_logs/%j_{rule}_{wildcards.cancer}_{wildcards.perm_num}.log",
-		"err"       : "slurm_logs/%j_{rule}_{wildcards.cancer}_{wildcards.perm_num}.log"
+		"out"       : "logs/rc-test_slurm_logs/%j_{rule}_{wildcards.cancer}_{wildcards.perm_num}.log",
+		"err"       : "logs/rc-test_slurm_logs/%j_{rule}_{wildcards.cancer}_{wildcards.perm_num}.log"
 	},
 	"make_results_df" :
 	{
 		"mem"       : "{params.mem}",
 		"time"      : "{params.time}",
 		"J"	        : "3_{wildcards.cancer}_{params.which_test_short}",
-		"out"       : "slurm_logs/%j_{rule}_{wildcards.cancer}_{wildcards.which_test}_{wildcards.rasallele}.log",
-		"err"       : "slurm_logs/%j_{rule}_{wildcards.cancer}_{params.which_test_short}_{wildcards.rasallele}.log"
+		"out"       : "logs/rc-test_slurm_logs/%j_{rule}_{wildcards.cancer}_{wildcards.which_test}_{wildcards.rasallele}.log",
+		"err"       : "logs/rc-test_slurm_logs/%j_{rule}_{wildcards.cancer}_{params.which_test_short}_{wildcards.rasallele}.log"
 	},
 	"process_permuted_graph" :
 	{
@@ -40,7 +40,7 @@
 		"mem"       : "{params.mem}",
 		"time"      : "{params.time}",
 		"J"	        : "4_{wildcards.cancer}_{params.which_test_short}",
-		"out"       : "slurm_logs/%j_{rule}_{wildcards.cancer}_{wildcards.which_test}_{wildcards.rasallele}.log",
-		"err"       : "slurm_logs/%j_{rule}_{wildcards.cancer}_{wildcards.which_test}_{wildcards.rasallele}.log"
+		"out"       : "logs/rc-test_slurm_logs/%j_{rule}_{wildcards.cancer}_{wildcards.which_test}_{wildcards.rasallele}.log",
+		"err"       : "logs/rc-test_slurm_logs/%j_{rule}_{wildcards.cancer}_{wildcards.which_test}_{wildcards.rasallele}.log"
 	}
 }
