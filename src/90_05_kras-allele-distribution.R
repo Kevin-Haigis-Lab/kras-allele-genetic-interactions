@@ -7,7 +7,7 @@ GRAPHS_DIR <- "90_05_kras-allele-distribution"
 reset_graph_directory(GRAPHS_DIR)
 
 # A data frame of the KRAS allele for each `tumor_sample_barcode`.
-alleles_df <- cancer_muts_df %>%
+alleles_df <- cancer_full_coding_muts_df %>%
     group_by(tumor_sample_barcode) %>%
     slice(1) %>%
     ungroup() %>%
@@ -188,16 +188,18 @@ ggsave_wrapper(fullplot,
 
 #### ---- Lollipop plot of KRAS mutations ---- ####
 
-kras_maf <- cancer_coding_muts_maf %>%
+kras_maf <- cancer_full_coding_muts_maf %>%
     filter(hugo_symbol == "KRAS") %>%
     maftools::read.maf(verbose = FALSE)
 
-svg(plot_path(GRAPHS_DIR, "lollipop-kras.svg"), width = 5, height = 4)
+svg(plot_path(GRAPHS_DIR, "lollipop-kras.svg"), width = 6, height = 4)
 maftools::lollipopPlot(kras_maf,
                        "KRAS",
                        AACol = "amino_position",
                        labelPos = c(12, 13, 61, 146),
                        titleSize = c(0.1, 0.1),
+                       pointSize = 1.2,
+                       axisTextSize = c(0.75, 0.75),
                        showDomainLabel = FALSE)
 dev.off()
 
