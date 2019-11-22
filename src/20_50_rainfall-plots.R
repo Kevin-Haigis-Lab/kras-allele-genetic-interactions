@@ -117,12 +117,9 @@ fix_variant_classification <- function(vc) {
     return(new_vc)
 }
 
-
-# A tibble of cancer mutation data that is MAF-compliant.
-ProjectTemplate::cache("cancer_coding_muts_maf", depends = "cancer_muts_df",
-{
-    cancer_coding_muts_maf <- cancer_coding_muts_df %>%
-        filter(!is_hypermutant) %>%
+# Add the MAF-required columns.
+cancer_mut_df_to_maf <- function(df) {
+    df %>%
         group_by(tumor_sample_barcode) %>%
         dplyr::mutate(
             Hugo_Symbol = hugo_symbol,
@@ -136,9 +133,31 @@ ProjectTemplate::cache("cancer_coding_muts_maf", depends = "cancer_muts_df",
             Tumor_Sample_Barcode = tumor_sample_barcode,
             Protein_Change = paste0("p.", amino_acid_change)
         ) %>%
-        ungroup() %>%
+        ungroup()
+}
+
+
+# A tibble of cancer mutation data that is MAF-compliant.
+ProjectTemplate::cache("cancer_coding_muts_maf", depends = "cancer_muts_df",
+{
+    cancer_coding_muts_maf <- cancer_coding_muts_df %>%
+        filter(!is_hypermutant & cancer != "SKCM") %>%
+        cancer_mut_df_to_maf() %>%
         filter(!is.na(Hugo_Symbol))
     return(cancer_coding_muts_maf)
+})
+
+
+# A tibble of cancer mutation data that is MAF-compliant.
+# DO NOT USE THIS FOR THE RAINFALL PLOTS! -- only lollipop plots
+ProjectTemplate::cache("cancer_full_coding_muts_maf",
+                       depends = "cancer_full_coding_muts_df",
+{
+    cancer_full_coding_muts_maf <- cancer_full_coding_muts_df %>%
+        filter(!is_hypermutant & cancer != "SKCM") %>%
+        cancer_mut_df_to_maf() %>%
+        filter(!is.na(Hugo_Symbol))
+    return(cancer_full_coding_muts_maf)
 })
 
 
