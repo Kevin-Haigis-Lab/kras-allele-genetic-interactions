@@ -188,6 +188,9 @@ ggsave_wrapper(fullplot,
 
 #### ---- Lollipop plot of KRAS mutations ---- ####
 
+codons_to_label <- c(12, 13, 61, 146)
+
+# 'maftools' lollipop plot.
 kras_maf <- cancer_full_coding_muts_maf %>%
     filter(hugo_symbol == "KRAS") %>%
     maftools::read.maf(verbose = FALSE)
@@ -196,12 +199,78 @@ svg(plot_path(GRAPHS_DIR, "lollipop-kras.svg"), width = 6, height = 4)
 maftools::lollipopPlot(kras_maf,
                        "KRAS",
                        AACol = "amino_position",
-                       labelPos = c(12, 13, 61, 146),
+                       labelPos = codons_to_label,
                        titleSize = c(0.1, 0.1),
                        pointSize = 1.2,
                        axisTextSize = c(0.75, 0.75),
                        showDomainLabel = FALSE)
 dev.off()
+
+
+
+
+my_trans_log10 <- scales::trans_new(
+    name = "log10 pseudo-count +1",
+    transform = function(x) { log10(x + 1) },
+    inverse = function(x) { exp(x) - 1 }
+)
+
+
+# My lollipop plot.
+kras_lollipop_plot <- cancer_full_coding_muts_maf %>%
+    filter(!is_hypermutant & hugo_symbol == "KRAS") %>%
+    mutate(amino_position = as.numeric(amino_position)) %>%
+    filter(!is.na(amino_position)) %>%
+    group_by(cancer, amino_position) %>%
+    summarise(num_amino_position = n_distinct(tumor_sample_barcode)) %>%
+    ungroup() %>%
+    mutate(log_amino_position = log(num_amino_position)) %>%
+    group_by(amino_position) %>%
+    mutate(
+        total_num_amino_position = sum(num_amino_position),
+        total_log_amino_position = sum(log_amino_position),
+        point_label = ifelse(
+            amino_position %in% !!codons_to_label,
+            as.character(amino_position),
+            NA
+        )
+    ) %>%
+    ungroup() %>%
+    ggplot(aes(x = amino_position)) +
+    geom_col(
+        aes(y = num_amino_position, fill = cancer)
+    ) +
+    geom_point(
+        aes(y = total_num_amino_position, color = total_num_amino_position),
+        size = 1
+    ) +
+    geom_text(
+        aes(label = point_label, y = total_num_amino_position),
+        family = "Arial",
+        hjust = 0,
+        nudge_x = 2,
+        nudge_y = 1
+    ) +
+    scale_fill_manual(values = cancer_palette) +
+    scale_color_viridis_c(
+        begin = 0.3, end = 0.9,
+        option = "A",
+        guide = FALSE
+    ) +
+    theme_bw(base_size = 8, base_family = "Arial") +
+    theme(
+        legend.position = c(0.9, 0.7),
+        legend.title = element_blank()
+    ) +
+    coord_trans(y = my_trans_log10) +
+    labs(
+        x = "KRAS amino acid sequence",
+        y = "log10( number of mutations + 1 )"
+    )
+ggsave_wrapper(kras_lollipop_plot,
+               plot_path(GRAPHS_DIR, "lollipop-kras_2.svg"),
+               width = 7, height = 3)
+
 
 
 #### ---- Table of the distribution of alleles ---- ####

@@ -5,12 +5,58 @@
     <link>https://project-notebook-comutation.netlify.com/post/</link>
       <atom:link href="https://project-notebook-comutation.netlify.com/post/index.xml" rel="self" type="application/rss+xml" />
     <description>Posts</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Mon, 18 Nov 2019 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Fri, 22 Nov 2019 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://project-notebook-comutation.netlify.com/img/icon-192.png</url>
       <title>Posts</title>
       <link>https://project-notebook-comutation.netlify.com/post/</link>
     </image>
+    
+    <item>
+      <title>2019-11-22</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-11-22/</link>
+      <pubDate>Fri, 22 Nov 2019 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-11-22/</guid>
+      <description>
+
+&lt;h2 id=&#34;distribution-of-kras-alleles-including-panel-data&#34;&gt;Distribution of KRAS alleles including panel data&lt;/h2&gt;
+
+&lt;p&gt;I recently prepared the panel data from GM and now have used it to obtain a better estimate of the real distribution of &lt;em&gt;KRAS&lt;/em&gt; alleles.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>2019-11-19</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-11-19/</link>
+      <pubDate>Tue, 19 Nov 2019 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-11-19/</guid>
+      <description>
+
+&lt;h2 id=&#34;prioritize-comutation-hits-for-kh-cont&#34;&gt;Prioritize comutation hits for KH (cont.)&lt;/h2&gt;
+
+&lt;p&gt;I finished up preparing the mutation annotation from ANNOVAR and merged it back with &lt;code&gt;cancer_coding_muts_df&lt;/code&gt; to make a new cached data frame &lt;code&gt;cancer_coding_av_muts_df&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;To limit the number of genes used in the screen, I filtered by the strength of the consensus on the likelihood of a mutation being damaging over several algorithms.
+The final figure is below.
+There were 42 unique genes in the final figure.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/90_15_kh-resubmission/genetic_interaction_network_COAD_thick_comutation_goi_damaging.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;manuscript&#34;&gt;Manuscript&lt;/h2&gt;
+
+&lt;p&gt;I began working through the manuscript with the hope of eventually seeing the light at the end of the tunnel.&lt;/p&gt;
+
+&lt;p&gt;I changed the lollipop plot that GM made to a small one that just shows the distribution of mutations across alleles.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/90_05_kras-allele-distribution/lollipop-kras.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;A table for the allele distributions across all cancers is available at &amp;ldquo;tables/90_05_kras-allele-distribution/kras-allele-distribution.tsv&amp;rdquo;.
+A table for the codon distributions across all cancers is available at &amp;ldquo;tables/90_05_kras-allele-distribution/kras-codon-distribution.tsv&amp;rdquo;.
+A table for the codon distribution with all cancers combined is available at &amp;ldquo;tables/90_05_kras-allele-distribution/kras-codon-distribution-allcancers.tsv&amp;rdquo;.&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>2019-11-18</title>

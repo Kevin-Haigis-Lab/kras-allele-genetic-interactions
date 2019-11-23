@@ -2,8 +2,8 @@
 
 #SBATCH -p priority
 #SBATCH -c 1
-#SBATCH -t 0-6:00
-#SBATCH --mem 8G
+#SBATCH -t 0-0:40
+#SBATCH --mem 5G
 #SBATCH --mail-type NONE
 #SBATCH -o logs/annovar/24_annovar-annotation-mutations.log
 #SBATCH -e annovar_run.log
@@ -29,3 +29,5 @@ $ANNOVAR_PATH/table_annovar.pl \
 	-out $2
 
 echo "ANNOVAR FINISHED"
+
+exit

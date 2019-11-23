@@ -43,6 +43,27 @@ ggsave_wrapper <- function(p, save_path, size = NA, width = NA, height = NA) {
            width = dims[[1]], height = dims[[2]])
 }
 
+# A function factory for getting integer y-axis values.
+integer_breaks <- function(n = 5, ...) {
+    fxn <- function(x) {
+        breaks <- floor(pretty(x, n, ...))
+        names(breaks) <- attr(breaks, "labels")
+        breaks
+    }
+    return(fxn)
+}
+
+# A function factory for getting rounded y-axis values.
+round_breaks <- function(n = 5, n_dec = 2, ...) {
+    fxn <- function(x) {
+        breaks <- round(pretty(x, n, ...), n_dec)
+        names(breaks) <- attr(breaks, "labels")
+        breaks
+    }
+    return(fxn)
+}
+
+
 
 
 #### ---- Saving a 'pheatmap' heatmap ---- ####
