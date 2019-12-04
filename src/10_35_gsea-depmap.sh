@@ -52,7 +52,8 @@ java -cp $GSEA_PATH \
 	-set_min 15 \
 	-zip_report false \
 	-out $OUT_DIR \
-	-gui false
+	-gui false \
+	-plot_top_x 50
 
 
 exit
