@@ -5,12 +5,34 @@
     <link>https://project-notebook-comutation.netlify.com/post/</link>
       <atom:link href="https://project-notebook-comutation.netlify.com/post/index.xml" rel="self" type="application/rss+xml" />
     <description>Posts</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Wed, 04 Dec 2019 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Thu, 05 Dec 2019 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://project-notebook-comutation.netlify.com/img/icon-192.png</url>
       <title>Posts</title>
       <link>https://project-notebook-comutation.netlify.com/post/</link>
     </image>
+    
+    <item>
+      <title>2019-12-05</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-12-05/</link>
+      <pubDate>Thu, 05 Dec 2019 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-12-05/</guid>
+      <description>
+
+&lt;h2 id=&#34;mutational-signature-distributions&#34;&gt;Mutational signature distributions&lt;/h2&gt;
+
+&lt;p&gt;I added descriptors to some of the mutational signatures as GM did, previously.
+The only difference is that I did not designate a specific POLE signature because it was only the accumulation of signature 10A through 10C.&lt;/p&gt;
+
+&lt;p&gt;The final product is below.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/50_20_mutsignatures-distributions/mutsig-dist_combined.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;To-Do&lt;/strong&gt;: I need to make a plot of the probability of each mutational signature creating each mutation in the samples with the allele.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;To-Do&lt;/strong&gt;: What is the probability for each mutational signature causing the KRAS mutation of a sample. (&amp;ldquo;src/50_30_mutsignatures_prob-causing-allele.R&amp;rdquo;.)&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>2019-12-04</title>

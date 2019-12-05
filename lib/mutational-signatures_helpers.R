@@ -39,7 +39,7 @@ signature_description_df <- tibble::tribble(
 # Generated with the 'randomcoloR' package.
 mutsig_pal <- c(
     "1" = "#F3635E",
-    "2" = "#71e989",
+    "2" = "#71E989",
     "3" = "#E58E53",
     "4" = "#E480DC",
     "5" = "#56B7E0",
@@ -80,20 +80,20 @@ ggsave_wrapper(
 # Generated with the 'randomcoloR' package.
 mutsig_descrpt_pal <- c(
     "1" = "#F3635E",
-    "2" = "#71e989",
-    "3" = "#93cbed",
+    "2" = "#71E989",
+    "3" = "#93CBED",
     "4" = "#878787",
-    "5" = "#efa61c",
+    "5" = "#EFA61C",
     "6" = "#DBE93E",
     "9" = "#5BE4DF",
     "10" = "#BF9DFB",
-    "13" = "#10b21a",
-    "17" = "#50A789",
+    "13" = "#10B21A",
+    "17" = "#ED93C8",
     "18" = "#03A1FC",
-    "26" = "#efa61c",
+    "26" = "#EFA61C",
     "30" = "#E2B798",
-    "N3v2" = "#9A9C59",
-    "UV" = "#b279d1",
+    "N3V2" = "#9A9C59",
+    "UV" = "#B279D1",
     "MSI" = "#C9DE6A",
     "artifact" = "gray50"
 )
