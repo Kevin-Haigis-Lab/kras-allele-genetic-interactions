@@ -53,7 +53,7 @@ ProjectTemplate::cache("kegg_geneset_df",
     )
 
     kegg_geneset_df <- file.path(
-            "data", "gene-lists", "c2.cp.kegg.v7.0.symbols.gmt"
+            "data", "gsea", "genesets", "c2.cp.kegg.v7.0.symbols.gmt"
         ) %>%
         readgmt::read_gmt(tidy = TRUE) %>%
         filter(str_detect(gene_set, paste0(genesets_to_keep, collapse = "|"))) %>%
@@ -145,7 +145,6 @@ ProjectTemplate::cache("ppiHub_geneset_df",
 
 
 
-
 ProjectTemplate::cache("chea_geneset_df",
 {
     pchea_path <- file.path("data", "gene-lists", "ChEA_2016.txt")
@@ -172,14 +171,24 @@ ProjectTemplate::cache("tf2dna_tfs",
 
 
 
-
 ProjectTemplate::cache("msigdb_c2_df",
 {
-    c2_all_path <- file.path("data", "gene-lists", "c2.all.v7.0.symbols.gmt")
+    c2_all_path <- file.path("data", "gsea", "genesets", "c2.all.v7.0.symbols.gmt")
     msigdb_c2_df <- readgmt::read_gmt(c2_all_path, tidy = TRUE)
     log_rows(logger, msigdb_c2_df, "msigdb_c2_df")
     info(logger, "Caching data frame of MSigDB C2 gene set.")
     return(msigdb_c2_df)
+})
+
+
+
+ProjectTemplate::cache("msigdb_hallmark_df",
+{
+    h_all_path <- file.path("data", "gsea", "genesets", "h.all.v7.0.symbols.gmt")
+    msigdb_hallmark_df <- readgmt::read_gmt(h_all_path, tidy = TRUE)
+    log_rows(logger, msigdb_hallmark_df, "msigdb_hallmark_df")
+    info(logger, "Caching data frame of MSigDB Hallmark gene set.")
+    return(msigdb_hallmark_df)
 })
 
 
