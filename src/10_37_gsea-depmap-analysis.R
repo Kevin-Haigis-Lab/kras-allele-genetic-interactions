@@ -1,7 +1,17 @@
 # Analyzing the results of GSEA on the DepMap data.
 
+GRAPHS_DIR <- "10_37_gsea-depmap-analysis"
+reset_graph_directory(GRAPHS_DIR)
+
 
 #### ---- Read in results ---- ####
+
+# Standard filtering for GSEA results.
+standard_gsea_results_filter <- function(df) {
+    df %>%
+        filter(abs(nes) >= 1.2 & fdr_q_val < 0.2) %>%
+        filter(!str_detect(gene_set, uninteresting_terms_regex))
+}
 
 # Read in a GSEA report file.
 #   They have the file extension "xls" but are really just TSV files.
@@ -45,7 +55,8 @@ gsea_df <- file.path("data", "gsea", "output") %>%
     mutate(
         gene_set_family = str_split_fixed(name, "_", 2)[, 1],
         gene_set = str_split_fixed(name, "_", 2)[, 2]
-    )
+    ) %>%
+    filter(!(cancer == "LUAD" & allele == "G13D"))
 
 cache("gsea_df")
 
@@ -116,7 +127,8 @@ gsea_plot <- function(tib, title_suffix = "") {
                 size = -log10(fdr_q_val)
             )
         ) +
-        scale_color_gradient2() +
+        scale_color_gradient2(low = synthetic_lethal_pal["down"],
+                              high = synthetic_lethal_pal["up"]) +
         theme_bw() +
         theme(
             text = element_text("arial"),
@@ -134,9 +146,7 @@ gsea_plot <- function(tib, title_suffix = "") {
 
 
 plot_gsea_results <- function(cancer, data) {
-    mod_data <- data %>%
-        filter(abs(nes) >= 1.2 & fdr_q_val < 0.2) %>%
-        filter(!str_detect(gene_set, uninteresting_terms_regex))
+    mod_data <- standard_gsea_results_filter(data)
 
     if (nrow(mod_data) == 0) { return() }
 
@@ -160,7 +170,6 @@ plot_gsea_results <- function(cancer, data) {
 }
 
 gsea_df %>%
-    filter(!(cancer == "LUAD" & allele == "G13D")) %>%
     filter(gene_set_family %in% c("HALLMARK", "KEGG", "REACTOME", "BIOCARTA", "PID")) %>%
     group_by(cancer) %>%
     nest() %>%
@@ -223,9 +232,7 @@ filter_gsea_for_select_results <- function(cancer, df, key) {
 
 
 select_gsea_plot <- function(cancer, data, ...) {
-    mod_data <- data %>%
-        filter(abs(nes) >= 1.2 & fdr_q_val < 0.2) %>%
-        filter(!str_detect(gene_set, uninteresting_terms_regex))
+    mod_data <- standard_gsea_results_filter(data)
 
     if (nrow(mod_data) == 0) { return() }
 
@@ -239,7 +246,6 @@ select_gsea_plot <- function(cancer, data, ...) {
 
 
 gsea_df %>%
-    filter(!(cancer == "LUAD" & allele == "G13D")) %>%
     filter(gene_set_family %in% c("HALLMARK", "KEGG", "REACTOME", "BIOCARTA", "PID")) %>%
     group_by(cancer) %>%
     nest() %>%
@@ -247,3 +253,157 @@ gsea_df %>%
                               filter_gsea_for_select_results,
                               key = select_gsea_results)) %>%
     purrr::pwalk(select_gsea_plot)
+
+
+#### ---- Ranking heatmap ---- ####
+
+# Gene sets used in the GSEA
+gsea_geneset_df <- bind_rows(msigdb_hallmark_df, msigdb_c2_df)
+
+# A list of genes that are missing data in at least one cell line.
+# These should not be used for plotting.
+genes_to_not_plot_df <- model_data %>%
+    group_by(cancer, hugo_symbol) %>%
+    summarise(n_cell_lines = n_distinct(dep_map_id)) %>%
+    group_by(cancer) %>%
+    filter(n_cell_lines != max(n_cell_lines)) %>%
+    ungroup()
+
+# Get the genes that should not be used for plotting for a `cancer`.
+genes_to_not_plot <- function(cancer) {
+    genes_to_not_plot_df %>%
+        filter(cancer == !!cancer) %>%
+        pull(hugo_symbol)
+}
+
+# Read in the GSEA results for a gene set.
+# Pass the full file path to `xls_path`.
+read_gsea_geneset_xls <- function(xls_path) {
+    suppressWarnings(read_tsv(xls_path, col_types = cols())) %>%
+        janitor::clean_names() %>%
+        select(probe, rank_in_gene_list, rank_metric_score,
+               running_es, core_enrichment) %>%
+        mutate(core_enrichment = core_enrichment == "Yes")
+}
+read_gsea_geneset_xls <- memoise::memoise(read_gsea_geneset_xls)
+
+# Get the enrichment results for the gene set `name` in `cancer` and `allele`.
+get_geneset_enrichment_results <- function(cancer, allele, name) {
+    dir <- list.dirs(file.path("data", "gsea", "output"), recursive = FALSE)
+    dir <- dir[str_detect(dir, cancer) & str_detect(dir, allele)]
+
+    if (length(dir) != 1) {
+        cat("Below are the directories:\n")
+        print(dir)
+        cat(glue("cancer: {cancer}, allele: {allele}"), "\n")
+        stop("There is ambiguity about which dir to use.")
+    }
+
+    fpath <- list.files(dir, full.names = TRUE)
+    idx <- basename(fpath) == paste0(name, ".xls")
+    if (sum(idx)== 0) {
+        all_file_names <- tools::file_path_sans_ext(basename(fpath))
+        idx <- purrr::map_lgl(all_file_names, ~ str_detect(.x, name))
+    }
+    fpath <- fpath[idx]
+
+    if (length(fpath) > 1) {
+        cat("Below are the file paths:\n")
+        print(fpath)
+        cat(glue("cancer: {cancer}, allele: {allele}"), "\n")
+        cat("gene set:", name, "\n")
+        stop("There is ambiguity about which file to use.")
+    } else if (length(fpath) == 0) {
+        cat("There are no files for the following parameters:\n")
+        cat("    cancer:", cancer, "\n")
+        cat("    allele:", allele, "\n")
+        cat("  gene set:", name, "\n")
+        return(NULL)
+    }
+
+    return(read_gsea_geneset_xls(fpath))
+}
+
+rank_depmap_data <- function(data) {
+    data %>%
+        group_by(hugo_symbol) %>%
+        mutate(effect_rank = rank(gene_effect, ties.method = "random")) %>%
+        ungroup()
+}
+
+
+get_alpha_values_by_distance <- function(data) {
+    data %>%
+        group_by(hugo_symbol) %>%
+        mutate(
+            alpha_val = abs(effect_rank - median(effect_rank)),
+            alpha_val = scales::rescale(alpha_val, to = c(0.3, 1.0))
+        ) %>%
+        ungroup()
+}
+
+get_alpha_values_to_highlight_allele <- function(data, allele) {
+    data %>%
+        mutate(
+            alpha_val = ifelse(allele == !!allele, 1.0, 0.7)
+        )
+}
+
+get_color_values_to_highlight_allele <- function(data, allele) {
+    data %>%
+        mutate(color_val = ifelse(allele == !!allele, "black", NA))
+}
+
+plot_ranked_data <- function(df, cancer, allele, geneset) {
+    p <- df %>%
+        get_alpha_values_by_distance() %>%
+        get_color_values_to_highlight_allele(allele = allele) %>%
+        ggplot(aes(x = effect_rank, y = hugo_symbol)) +
+        geom_tile(aes(fill = allele, alpha = alpha_val, color = color_val), size = 0.5) +
+        scale_fill_manual(values = short_allele_pal) +
+        scale_color_identity(na.value = NA) +
+        scale_alpha_identity() +
+        scale_x_discrete(expand = c(0, 0)) +
+        scale_y_discrete(expand = c(0, 0)) +
+        theme_bw(base_size = 12, base_family = "Arial") +
+        theme(
+            axis.title = element_blank(),
+            legend.title = element_blank(),
+            legend.position = "bottom",
+            panel.grid = element_blank(),
+            plot.title = element_text(hjust = 0.5, size = 12),
+            legend.key.size = unit(2, "mm")
+        ) +
+        labs(
+            title = glue("{cancer} - {allele}\n{geneset}")
+        )
+    ggsave_wrapper(
+        p,
+        plot_path(GRAPHS_DIR, glue("rankplot_{cancer}_{allele}_{geneset}.svg")),
+        width = 5, height = 3
+    )
+    return(df)
+}
+
+plot_enrichment_heatmap <- function(cancer, name, allele, n_genes = 10, ...) {
+    genes_to_plot <- get_geneset_enrichment_results(cancer, allele, name)
+    if (is.null(genes_to_plot)) {
+        return(NULL)
+    } else {
+        genes_to_plot %<>%
+            filter(!(probe %in% genes_to_not_plot(!!cancer))) %>%
+            slice(seq(1, n_genes)) %>%
+            pull(probe) %>%
+            rev()
+    }
+
+    model_data %>%
+        filter(cancer == !!cancer & hugo_symbol %in% !!genes_to_plot) %>%
+        mutate(hugo_symbol = factor(hugo_symbol, levels = genes_to_plot)) %>%
+        rank_depmap_data() %>%
+        plot_ranked_data(cancer = cancer, allele = allele, geneset = name)
+}
+
+gsea_df %>%
+    standard_gsea_results_filter() %>%
+    pwalk(plot_enrichment_heatmap)
