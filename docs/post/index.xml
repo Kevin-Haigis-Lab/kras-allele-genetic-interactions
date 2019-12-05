@@ -5,12 +5,38 @@
     <link>https://project-notebook-comutation.netlify.com/post/</link>
       <atom:link href="https://project-notebook-comutation.netlify.com/post/index.xml" rel="self" type="application/rss+xml" />
     <description>Posts</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Fri, 22 Nov 2019 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Wed, 04 Dec 2019 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://project-notebook-comutation.netlify.com/img/icon-192.png</url>
       <title>Posts</title>
       <link>https://project-notebook-comutation.netlify.com/post/</link>
     </image>
+    
+    <item>
+      <title>2019-12-04</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-12-04/</link>
+      <pubDate>Wed, 04 Dec 2019 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-12-04/</guid>
+      <description>
+
+&lt;h2 id=&#34;ranked-plots-for-enriched-gene-sets&#34;&gt;Ranked plots for enriched gene sets&lt;/h2&gt;
+
+&lt;p&gt;I added these new plots to the end of &amp;ldquo;src/10_37_gsea-depmap-analysis.R&amp;rdquo;.
+In order to get the data for more of the gene sets, I re-ran the GSEA and instructed it to save the reports for more of the top gene sets.&lt;/p&gt;
+
+&lt;h2 id=&#34;kras-allele-distribution&#34;&gt;KRAS allele distribution&lt;/h2&gt;
+
+&lt;p&gt;I finished up the lollipop plot for the distribution of mutations along KRAS.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/90_05_kras-allele-distribution/lollipop-kras_2.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;mutational-signature-distributions&#34;&gt;Mutational signature distributions&lt;/h2&gt;
+
+&lt;p&gt;I began remaking the bar plots of the distribution of mutational signatures.
+These will be in the new Figure 1.
+I prepared the mutational signature calling results from GM in &amp;ldquo;munge/55_mutational-signatures.R&amp;rdquo;.&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>2019-11-22</title>
