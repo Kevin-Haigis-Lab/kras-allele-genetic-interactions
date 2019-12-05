@@ -63,9 +63,20 @@ ProjectTemplate::cache("predicted_kras_allele_frequency",
                        depends = "trinucleotide_mutations_df")
 
 
+
+alleles_frequency_per_cancer_df <- predicted_kras_allele_frequency %>%
+    select(tumor_sample_barcode, cancer, actual_kras_allele) %>%
+    unique() %>%
+    count(cancer, actual_kras_allele) %>%
+    dplyr::rename(kras_allele = actual_kras_allele)
+
+
 # For each sample, the liklihood of getting each of the KRAS alleles, given
 # that they will get a KRAS mutation at a hotspot.
 kras_hotspot_probability <- predicted_kras_allele_frequency %>%
+    left_join(alleles_frequency_per_cancer_df, by = c("cancer", "kras_allele")) %>%
+    filter(n >= 15) %>%
+    select(-n) %>%
     group_by(tumor_sample_barcode) %>%
     mutate(
         kras_allele_prob = tricontext_mut_count / tricontext_count,
@@ -135,7 +146,7 @@ bootstrap_allele_confidence_intervals <- function(cancer, data, R = 1e3) {
 # Run the bootstrapping process to estimate the 95% CI for the KRAS allele
 # frequency prediction.
 ProjectTemplate::cache("kras_allele_freq_bootstrap_ci",
-                       depends = "predicted_kras_allele_frequency"
+                       depends = "predicted_kras_allele_frequency",
 {
     kras_allele_freq_bootstrap_ci <- predicted_kras_allele_frequency %>%
         group_by(cancer) %>%
