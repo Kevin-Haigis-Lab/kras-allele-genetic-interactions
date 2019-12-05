@@ -73,10 +73,17 @@ alleles_frequency_per_cancer_df <- predicted_kras_allele_frequency %>%
 
 # For each sample, the liklihood of getting each of the KRAS alleles, given
 # that they will get a KRAS mutation at a hotspot.
+remove_alleles_with_low_frequency <- function(tib, min_num = 15) {
+    left_join(
+        tib, alleles_frequency_per_cancer_df,
+        by = c("cancer", "kras_allele")
+    ) %>%
+        filter(n >= !!min_num) %>%
+        select(-n)
+}
+
 kras_hotspot_probability <- predicted_kras_allele_frequency %>%
-    left_join(alleles_frequency_per_cancer_df, by = c("cancer", "kras_allele")) %>%
-    filter(n >= 15) %>%
-    select(-n) %>%
+    remove_alleles_with_low_frequency() %>%
     group_by(tumor_sample_barcode) %>%
     mutate(
         kras_allele_prob = tricontext_mut_count / tricontext_count,
@@ -149,6 +156,7 @@ ProjectTemplate::cache("kras_allele_freq_bootstrap_ci",
                        depends = "predicted_kras_allele_frequency",
 {
     kras_allele_freq_bootstrap_ci <- predicted_kras_allele_frequency %>%
+        remove_alleles_with_low_frequency() %>%
         group_by(cancer) %>%
         nest() %>%
         ungroup() %>%
