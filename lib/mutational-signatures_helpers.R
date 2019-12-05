@@ -33,3 +33,72 @@ signature_description_df <- tibble::tribble(
          "AR2",    "artifact",
         "N3V2",    "N3v2"
 )
+
+
+# Palette for all of the mutational signatures.
+# Generated with the 'randomcoloR' package.
+mutsig_pal <- c(
+    "1" = "#F3635E",
+    "2" = "#71e989",
+    "3" = "#E58E53",
+    "4" = "#E480DC",
+    "5" = "#56B7E0",
+    "6" = "#5BE4DF",
+    "7A" = "#92DC87",
+    "7B" = "#E1B344",
+    "7C" = "#E046D3",
+    "7D" = "#E3E39B",
+    "8" = "#E68EA0",
+    "9" = "#DBE93E",
+    "10A" = "#5D64DB",
+    "10B" = "#7E5B9E",
+    "10C" = "#E2A8D9",
+    "13" = "#55E4A7",
+    "14" = "#C9DE6A",
+    "15" = "#CFE1BF",
+    "17" = "#50A789",
+    "17V2" = "#5737B8",
+    "18" = "#E2D1DC",
+    "20" = "#72E756",
+    "21" = "#E35194",
+    "26" = "#B270E4",
+    "30" = "#E2B798",
+    "38" = "#A56673",
+    "45" = "#8B9AE6",
+    "55" = "#DA564D",
+    "AR1" = "#B3BAE0",
+    "AR2" = "#953CE6",
+    "N3V2" = "#9A9C59"
+)
+ggsave_wrapper(
+    show_palette(mutsig_pal, font_family = "Arial"),
+    plot_path("00_miscellaneous", "mutational-signatures_pal.svg"),
+    width = 3.5, height = 2
+)
+
+# Palette for all of the mutational signatures.
+# Generated with the 'randomcoloR' package.
+mutsig_descrpt_pal <- c(
+    "1" = "#F3635E",
+    "2" = "#71e989",
+    "3" = "#93cbed",
+    "4" = "#E480DC",
+    "5" = "#efa61c",
+    "6" = "#DBE93E",
+    "9" = "#5BE4DF",
+    "10" = "#BF9DFB",
+    "13" = "#10b21a",
+    "17" = "#50A789",
+    "18" = "#E2D1DC",
+    "26" = "#efa61c",
+    "30" = "#E2B798",
+    "N3v2" = "#9A9C59",
+    "UV" = "#9066d9",
+    "MSI" = "#C9DE6A",
+    "artifact" = "gray50"
+)
+ggsave_wrapper(
+    show_palette(mutsig_descrpt_pal, font_family = "Arial"),
+    plot_path("00_miscellaneous", "mutational-signature-descriptions_pal.svg"),
+    width = 3.5, height = 2
+)
