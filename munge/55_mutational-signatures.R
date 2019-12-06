@@ -45,3 +45,40 @@ ProjectTemplate::cache("mutational_signatures_df",
     info(logger, "Caching `mutational_signatures_df`.")
     return(mutational_signatures_df)
 })
+
+
+ProjectTemplate::cache("mutsig_noartifact_df",
+{
+    mutsig_noartifact_df <- mutational_signatures_df %>%
+        filter(description != "artifact") %>%
+        group_by(tumor_sample_barcode) %>%
+        mutate(
+            all_zeros = all(contribution == 0),
+            contribution = contribution / sum(contribution),
+            contribution = ifelse(all_zeros, 0, contribution)
+        ) %>%
+        ungroup()
+    log_rows(logger, mutsig_noartifact_df, "mutsig_noartifact_df")
+    info(logger, "Caching `mutsig_noartifact_df`.")
+    return(mutsig_noartifact_df)
+})
+
+
+
+ProjectTemplate::cache("mutational_signature_spectra",
+{
+    mutational_signature_spectra <- file.path(
+            "data", "mutational-signatures", "cosmic_signatures_extended.csv"
+        ) %>%
+        read_csv(col_types = cols(), progress = FALSE) %>%
+        janitor::clean_names() %>%
+        add_column(tricontext = mutsigs_contexts) %>%
+        pivot_longer(-tricontext,
+                     names_to = "signature",
+                     values_to = "composition") %>%
+        mutate(
+            signature = str_remove(signature, "signature_"),
+            signature = str_to_upper(signature)
+        )
+    return(mutational_signature_spectra)
+})
