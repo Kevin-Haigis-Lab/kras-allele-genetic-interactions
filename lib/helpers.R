@@ -36,11 +36,18 @@ sem <- function(x) sd(x) / sqrt(length(x))
 #' This is useful to call at the top of an analysis to remove the old graphs
 #' such that there are no phantom plots from old analyses.
 reset_graph_directory <- function(dir_name) {
+    message(glue("Reseting directory: {dir_name}"))
     dir_path <- file.path("graphs", dir_name)
     if (dir.exists(dir_path)) {
         unlink(dir_path, recursive = TRUE)
     }
     dir.create(dir_path)
+}
+
+
+#' Source the files in the 'lib' directory.
+sourse_lib <- function() {
+    for (f in list.files("lib", full.names=T)) source(f)
 }
 
 
