@@ -181,7 +181,7 @@ predicted_kras_allele_frequency_boxplot <- kras_hotspot_probability %>%
         x = kras_allele, y = kras_allele_prob,
         color = kras_allele, fill = kras_allele
     )) +
-    facet_wrap(. ~ cancer) +
+    facet_wrap(. ~ cancer, scales = "free_x") +
     geom_boxplot(
         alpha = 0.1,
         outlier.shape = NA
@@ -499,7 +499,7 @@ individual_obs_v_pred_scatter_plot <- function(plot_df, cancer,
             limits = c(0, axis_lim),
             expand = expand_scale(mult = c(0, 0.02))
         ) +
-        coord_fixed() +
+        # coord_fixed() +
         theme_bw(base_size = 8, base_family = "Arial") +
         theme(
             plot.title = element_text(hjust = 0.5),
@@ -643,6 +643,7 @@ kras_allele_binomial_test <- function(df) {
 kras_allele_freq_stats <- left_join(
         real_af, predicted_af, by = c("cancer", "kras_allele")
     ) %>%
+    filter(!is.na(avg_kras_allele_prob)) %>%
     filter(kras_allele %in% names(short_allele_pal)) %>%
     filter(cancer != "SKCM") %>%
     left_join(cancer_sample_count_df, by = "cancer") %>%
@@ -653,12 +654,13 @@ kras_allele_freq_stats <- left_join(
     unnest(c(data, binom_res)) %>%
     janitor::clean_names()
 
-write_tsv(
-    kras_allele_freq_stats,
-    file.path("tables",
-              "50_10_observed-predicted-kras-alleles",
-              "kras_allele_freq_stats.tsv")
-)
+kras_allele_freq_stats %>%
+    select(-ci_obj) %>%
+    write_tsv(file.path(
+        "tables",
+        "50_10_observed-predicted-kras-alleles",
+        "kras_allele_freq_stats.tsv"
+    ))
 
 kras_allele_freq_stats %>%
     filter(p_value >= 0.05) %>%
@@ -688,12 +690,13 @@ kras_g12_freq_stats <- left_join(
     unnest(c(data, binom_res)) %>%
     janitor::clean_names()
 
-write_tsv(
-    kras_g12_freq_stats,
-    file.path("tables",
-              "50_10_observed-predicted-kras-alleles",
-              "kras_g12_freq_stats.tsv")
-)
+kras_g12_freq_stats %>%
+    select(-ci_obj) %>%
+    write_tsv(file.path(
+        "tables",
+        "50_10_observed-predicted-kras-alleles",
+        "kras_g12_freq_stats.tsv"
+    ))
 
 kras_g12_freq_stats %>%
     filter(p_value >= 0.05) %>%
