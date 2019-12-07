@@ -106,6 +106,59 @@
     </item>
     
     <item>
+      <title>2019-12-07</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-12-07/</link>
+      <pubDate>Sat, 07 Dec 2019 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-12-07/</guid>
+      <description>
+
+&lt;h2 id=&#34;comparisons-of-the-probability-of-a-mutational-signature-causing-an-allele&#34;&gt;Comparisons of the probability of a mutational signature causing an allele&lt;/h2&gt;
+
+&lt;p&gt;I remade some of the plots showing the probability that a mutational signature caused a &lt;em&gt;KRAS&lt;/em&gt; allele.
+The selections and the reason for their selection are as follows:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;COAD sig. 18: G12C spike&lt;/li&gt;
+&lt;li&gt;LUAD sig. 4: smoking&lt;/li&gt;
+&lt;li&gt;MM sig. 9: spike in Q61H&lt;/li&gt;
+&lt;li&gt;PAAD sig. 8: uneven distribution of this unknown mutational signature&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;50_30_mutsignatures_prob-causing-allele/probability-mutsig-caused-allele.svg&lt;/p&gt;
+
+&lt;p&gt;50_30_mutsignatures_prob-causing-allele/contribution-of-select-signatures.svg&lt;/p&gt;
+
+&lt;h2 id=&#34;distribution-of-mutational-signature-levels-focusing-on-clock&#34;&gt;Distribution of mutational signature levels: focusing on Clock&lt;/h2&gt;
+
+&lt;p&gt;I made boxplots of the cumulative levels of the clock signatures (1 and 5) to the rest.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/50_20_mutsignatures-distributions/mutsig-dist_combined.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/50_20_mutsignatures-distributions/clock-signatures.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;I also made a scatter plot of the clock vs. smoke levels in LUAD.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/50_20_mutsignatures-distributions/clock_vs_smoke.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;allele-frequency-for-all-alleles&#34;&gt;Allele frequency for all alleles&lt;/h2&gt;
+
+&lt;p&gt;I made a barplot of KRAS allele frequency that includes all alleles with at least 3 appearances.
+These were grouped in &amp;ldquo;Other&amp;rdquo; in the first plot.
+This will be included as a supplemental.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/90_05_kras-allele-distribution/allele_dist_barplot_stackplot.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/90_05_kras-allele-distribution/allele_dist_barplot_stackplot_all.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;strong&gt;To-Do:&lt;/strong&gt;
+Assemble the final Figure 1.
+I need to save the graph images to a new directory for this step in the paper (something like: &amp;ldquo;figures/figure_1_1/&amp;hellip;.rds&amp;rdquo;) and then use patchwork to put everything together.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>2019-12-06</title>
       <link>https://project-notebook-comutation.netlify.com/post/2019-12-06/</link>
       <pubDate>Fri, 06 Dec 2019 00:00:00 +0000</pubDate>
