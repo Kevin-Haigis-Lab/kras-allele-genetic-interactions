@@ -2,6 +2,8 @@
 library(gtable)
 library(gridExtra)
 
+library(patchwork)
+
 
 GRAPHS_DIR <- "90_05_kras-allele-distribution"
 reset_graph_directory(GRAPHS_DIR)
@@ -103,7 +105,6 @@ make_allele_stackedplot <- function(cancer, data, ...) {
         )
 
     return(p)
-
 }
 
 # A wrapper to save the bar plot for a cancer.
@@ -136,54 +137,42 @@ plots <- df %>%
     ) %>%
     pwalk(save_allele_dist_barplot, width = 4, height = 2.5)
 
-
-p <- cowplot::plot_grid(plotlist = plots$barplot, align = "hv", nrow = 2)
-cowplot::save_plot(
+ggsave_wrapper(
+    wrap_plots(plots$barplot),
     plot_path(GRAPHS_DIR,
               glue("allele_dist_barplot_all.svg")),
-    plot = p,
-    base_width = 8, base_height = 4.5
+    width = 8, height = 4.5
 )
 
-# A place-holder for plotting.
-empty_grob <- ggplotGrob(
-    model_data  %>%
-    sample_n(10) %>%
-    ggplot(aes(x = dep_map_id, y = hugo_symbol)) +
-    geom_tile(fill = NA, color = NA) +
-    theme_void()
-)
 
-subplotlist <- rep(list(NA), 4)
-names(subplotlist) <- sort(unique(df$cancer))
-for (CANCER in unique(df$cancer)) {
-    bp <- ggplotGrob(plots$barplot[[which(plots$cancer == CANCER)]])
-    sp <- ggplotGrob(plots$stackedplot[[which(plots$cancer == CANCER)]])
 
-    shared_height <- grid::unit.pmax(bp$heights, sp$heights)
-    bp$heights <- shared_height
-    sp$heights <- shared_height
+plot_distribution_and_stacked <- function(cancer, data, with_extra_space = FALSE) {
+    bp <- make_allele_dist_barplot(cancer, data)
+    sp <- make_allele_stackedplot(cancer, data)
 
-    subplotlist[[CANCER]] <- arrangeGrob(
-        grobs = list(bp, sp),
-        nrow = 1,
-        widths = c(6, 1)
-    )
+    p <- bp + sp + plot_layout(widths = c(20, 1))
+
+    if (with_extra_space) {
+        p <- p + plot_spacer() + plot_layout(widths = c(20, 1, 1))
+    }
+
+    return(p)
 }
 
-fullplot <- arrangeGrob(
-    grobs = subplotlist,
-    layout_matrix = rbind(
-        c(1, NA, 2),
-        c(3, NA, 4)
-    ),
-    nrow = 2,
-    widths = c(10, 1, 10)
-    )
-ggsave_wrapper(fullplot,
-               plot_path(GRAPHS_DIR,
-                         glue("allele_dist_barplot_stackplot.svg")),
-               "wide")
+plots <- df %>%
+    group_by(cancer) %>%
+    nest() %>%
+    ungroup() %>%
+    arrange(cancer) %>%
+    mutate(with_extra_space = rep(c(TRUE, FALSE), 2)) %>%
+    pmap(plot_distribution_and_stacked)
+ggsave_wrapper(
+    patchwork::wrap_plots(plots),
+    plot_path(GRAPHS_DIR,
+              glue("allele_dist_barplot_stackplot.svg")),
+    width = 8, height = 4.5
+)
+
 
 
 #### ---- Lollipop plot of KRAS mutations ---- ####
