@@ -355,6 +355,10 @@ get_color_values_to_highlight_allele <- function(data, allele) {
 }
 
 plot_ranked_data <- function(df, cancer, allele, geneset) {
+    plot_title <- str_replace_all(geneset, "_", " ") %>%
+        str_to_sentence() %>%
+        str_wrap(50)
+
     p <- df %>%
         get_alpha_values_by_distance() %>%
         get_color_values_to_highlight_allele(allele = allele) %>%
@@ -371,11 +375,11 @@ plot_ranked_data <- function(df, cancer, allele, geneset) {
             legend.title = element_blank(),
             legend.position = "bottom",
             panel.grid = element_blank(),
-            plot.title = element_text(hjust = 0.5, size = 12),
+            plot.title = element_text(hjust = 0.5, size = 10),
             legend.key.size = unit(2, "mm")
         ) +
         labs(
-            title = glue("{cancer} - {allele}\n{geneset}")
+            title = glue("{cancer} - {allele}\n{plot_title}")
         )
     ggsave_wrapper(
         p,

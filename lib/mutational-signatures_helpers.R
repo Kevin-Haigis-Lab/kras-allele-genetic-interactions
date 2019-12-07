@@ -11,7 +11,7 @@ signature_description_df <- tibble::tribble(
           "7B",    "UV",
           "7C",    "UV",
           "7D",    "UV",
-           "8",    "UV",
+           "8",    "8",
            "9",    "9",
          "10A",    "10",
          "10B",    "10",
@@ -31,7 +31,7 @@ signature_description_df <- tibble::tribble(
           "55",    "artifact",
          "AR1",    "artifact",
          "AR2",    "artifact",
-        "N3V2",    "N3v2"
+        "N3V2",    "N3V2"
 )
 
 
@@ -48,7 +48,7 @@ mutsig_pal <- c(
     "7B" = "#E1B344",
     "7C" = "#E046D3",
     "7D" = "#E3E39B",
-    "8" = "#E68EA0",
+    "8" = "#AAC476",
     "9" = "#DBE93E",
     "10A" = "#5D64DB",
     "10B" = "#7E5B9E",
@@ -85,6 +85,7 @@ mutsig_descrpt_pal <- c(
     "4" = "#878787",
     "5" = "#EFA61C",
     "6" = "#DBE93E",
+    "8" = "#AAC476",
     "9" = "#5BE4DF",
     "10" = "#BF9DFB",
     "13" = "#10B21A",
@@ -102,3 +103,6 @@ ggsave_wrapper(
     plot_path("00_miscellaneous", "mutational-signature-descriptions_pal.svg"),
     width = 3.5, height = 2
 )
+
+# Mutational signature contexts
+mutsigs_contexts <- colnames(deconstructSigs::signatures.cosmic)

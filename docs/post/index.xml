@@ -5,12 +5,37 @@
     <link>https://project-notebook-comutation.netlify.com/post/</link>
       <atom:link href="https://project-notebook-comutation.netlify.com/post/index.xml" rel="self" type="application/rss+xml" />
     <description>Posts</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Thu, 05 Dec 2019 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Fri, 06 Dec 2019 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://project-notebook-comutation.netlify.com/img/icon-192.png</url>
       <title>Posts</title>
       <link>https://project-notebook-comutation.netlify.com/post/</link>
     </image>
+    
+    <item>
+      <title>2019-12-06</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-12-06/</link>
+      <pubDate>Fri, 06 Dec 2019 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-12-06/</guid>
+      <description>
+
+&lt;h2 id=&#34;re-make-plots-from-new-gsea-run&#34;&gt;Re-make plots from new GSEA run&lt;/h2&gt;
+
+&lt;p&gt;I re-ran the script that makes the plots from the GSEA results.
+I will look through the results, later.&lt;/p&gt;
+
+&lt;h2 id=&#34;re-make-plots-for-predicting-kras-allele-from-mutational-signatures&#34;&gt;Re-make plots for predicting &lt;em&gt;KRAS&lt;/em&gt; allele from mutational signatures&lt;/h2&gt;
+
+&lt;p&gt;I remade the plots for the prediction of the &lt;em&gt;KRAS&lt;/em&gt; allele frequency by the mutational signatures, this time, only using alleles for each cancer that are the most prevalent.
+The general conclusion is that the mutational signatures are poor predictors of allele frequency.
+Where the p-value of the binomial test is greater than 0.05, the 95% CI bars are massive.
+Therefore, the lack of significant difference from the predicted frequency is likely due to a large amount of variation rather than accuracy of the prediction.&lt;/p&gt;
+
+&lt;h2 id=&#34;plot-the-probability-that-the-mutations-from-a-mutational-signature-created-the-observed-kras-allele&#34;&gt;Plot the probability that the mutations from a mutational signature created the observed &lt;em&gt;KRAS&lt;/em&gt; allele&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/50_30_mutsignatures_prob-causing-allele/probability-mutsig-caused-allele.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>2019-12-05</title>
@@ -30,7 +55,11 @@ The only difference is that I did not designate a specific POLE signature becaus
 
 &lt;p&gt;&lt;strong&gt;To-Do&lt;/strong&gt;: I need to make a plot of the probability of each mutational signature creating each mutation in the samples with the allele.&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;To-Do&lt;/strong&gt;: What is the probability for each mutational signature causing the KRAS mutation of a sample. (&amp;ldquo;src/50_30_mutsignatures_prob-causing-allele.R&amp;rdquo;.)&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;To-Do&lt;/strong&gt;: What is the probability for each mutational signature causing the KRAS mutation of a sample.
+(&amp;ldquo;src/50_30_mutsignatures_prob-causing-allele.R&amp;rdquo;.)&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;To-Do:&lt;/strong&gt; Re-run the analysis script for GSEA results.
+There should be fewer genesets without data.&lt;/p&gt;
 </description>
     </item>
     
