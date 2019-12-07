@@ -115,3 +115,75 @@ ggsave_wrapper(
     plot_path(GRAPHS_DIR, "probability-mutsig-caused-allele.svg"),
     'wide'
 )
+
+
+#### ---- Distribution of select signatures ---- ####
+
+{
+plot_signature_probability <- function(cancer, signature, min_allele_num = 15) {
+    # Alleles to include in the plots.
+    alleles <- alleles_to_plot(cancer, min_allele_num)
+
+    # Prepare the data for plotting.
+    plot_data <- kras_allele_mutsig_df %>%
+        filter(
+            !is_hypermutant &
+            cancer == !!cancer &
+            signature %in% !!signature &
+            kras_allele %in% !!alleles
+        )
+
+    p <- plot_data %>%
+        mutate(
+            kras_allele = factor(kras_allele,
+                                levels = rev(names(short_allele_pal)))
+        ) %>%
+        ggplot(aes(x = kras_allele, y = causation_prob)) +
+        ggbeeswarm::geom_quasirandom(
+            aes(color = kras_allele),
+            alpha = 0.7,
+            size = 0.15,
+            varwidth = FALSE,
+            method = "quasirandom"
+        ) +
+        scale_color_manual(
+            values = short_allele_pal,
+            guide = FALSE
+        ) +
+        scale_fill_manual(
+            values = short_allele_pal,
+            guide = FALSE
+        ) +
+        scale_y_continuous(
+            expand = expand_scale(mult = c(0.01, 0.05))
+        ) +
+        theme_bw(
+            base_size = 8,
+            base_family = "Arial"
+        ) +
+        theme(
+            axis.title.x = element_blank(),
+            legend.position = "none"
+        ) +
+        labs(
+            y = glue("Sig. {signature} levels in {cancer}")
+        )
+
+    return(p)
+}
+
+select_sig_plots <- tibble::tribble(
+    ~cancer, ~signature,
+     "COAD",       "18",
+     "LUAD",        "4",
+       "MM",        "9",
+     "PAAD",        "8"
+) %>%
+    pmap(plot_signature_probability)
+select_sig_combined_plots <-  wrap_plots(select_sig_plots)
+ggsave_wrapper(
+    select_sig_combined_plots,
+    plot_path(GRAPHS_DIR, "contribution-of-select-signatures.svg"),
+    width = 5, height = 4
+)
+}
