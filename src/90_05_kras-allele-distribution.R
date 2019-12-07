@@ -22,21 +22,38 @@ alleles_to_keep <- names(short_allele_pal)
 alleles_to_keep <- alleles_to_keep[alleles_to_keep != "Other"]
 
 # A data frame of the distribution of alleles across cancer.
-allele_dist <- alleles_df %>%
-    filter(!is_hypermutant) %>%
-    mutate(
-        ras_allele = str_remove(ras_allele, "KRAS_"),
-        ras_allele = fct_other(ras_allele, keep = alleles_to_keep)
-    ) %>%
-    group_by(cancer) %>%
-    mutate(
-        ras_allele = as.character(fct_lump(ras_allele, prop = 0.01)),
-        num_cancer_samples = n_distinct(tumor_sample_barcode)
-    ) %>%
-    group_by(cancer, ras, ras_allele, num_cancer_samples) %>%
-    summarise(num_allele_samples = n_distinct(tumor_sample_barcode)) %>%
-    ungroup()
+get_allele_distribtion_dataframe <- function(with_other = TRUE) {
+    df <- alleles_df %>%
+        filter(!is_hypermutant) %>%
+        mutate(ras_allele = str_remove(ras_allele, "KRAS_"))
 
+    if (with_other) {
+        df %<>%
+            mutate(
+                ras_allele = fct_other(ras_allele, keep = alleles_to_keep)
+            ) %>%
+            group_by(cancer) %>%
+            mutate(
+                ras_allele = as.character(fct_lump(ras_allele, prop = 0.01)),
+            )
+    }
+    df %<>%
+        group_by(cancer) %>%
+        mutate(
+            num_cancer_samples = n_distinct(tumor_sample_barcode)
+        ) %>%
+        group_by(cancer, ras, ras_allele, num_cancer_samples) %>%
+        summarise(num_allele_samples = n_distinct(tumor_sample_barcode)) %>%
+        ungroup()
+
+    df %<>%
+        filter(cancer != "SKCM") %>%
+        mutate(allele_freq = num_allele_samples / num_cancer_samples)
+
+    return(df)
+}
+allele_dist <- get_allele_distribtion_dataframe(with_other = TRUE)
+allele_dist_all <- get_allele_distribtion_dataframe(FALSE)
 
 # Return the alleles in order of the frequency, except with "Other" always
 # at the end.
@@ -119,15 +136,11 @@ save_allele_dist_barplot <- function(barplot, cancer,
     )
 }
 
-# A temporary data frame to use for plotting. It has a column `allele_freq`
-# that has the frequency of each KRAS allele in each cancer.
-df <- allele_dist %>%
-    filter(cancer != "SKCM") %>%
-    mutate(allele_freq = num_allele_samples / num_cancer_samples)
 
-max_freq <- df %>% filter(ras_allele != "WT") %>% pull(allele_freq) %>% max()
 
-plots <- df %>%
+max_freq <- allele_dist %>% filter(ras_allele != "WT") %>% pull(allele_freq) %>% max()
+
+plots <- allele_dist %>%
     group_by(cancer) %>%
     nest() %>%
     mutate(
@@ -159,7 +172,7 @@ plot_distribution_and_stacked <- function(cancer, data, with_extra_space = FALSE
     return(p)
 }
 
-plots <- df %>%
+plots <- allele_dist %>%
     group_by(cancer) %>%
     nest() %>%
     ungroup() %>%
@@ -173,6 +186,35 @@ ggsave_wrapper(
     width = 8, height = 4.5
 )
 
+
+# Plot all of the alleles (with at least 3 appearences)
+# Need to add the new colors to the palette - I just changed the
+#   `short_allele_pal`, though, if this analysis gets any bigger, then I will
+#   parameterize the palette for the plotting functions (or pass in `...`).
+ORIGINAL_PAL <- short_allele_pal
+added_alleles <- setdiff(unique(allele_dist_all$ras_allele), names(short_allele_pal))
+short_allele_pal <- c(
+    short_allele_pal,
+    rep(short_allele_pal["Other"], length(added_alleles))
+)
+names(short_allele_pal) <- c(names(ORIGINAL_PAL), added_alleles)
+
+plots <- allele_dist_all %>%
+    filter(num_allele_samples > 2) %>%
+    group_by(cancer) %>%
+    nest() %>%
+    ungroup() %>%
+    arrange(cancer) %>%
+    mutate(with_extra_space = rep(c(TRUE, FALSE), 2)) %>%
+    pmap(plot_distribution_and_stacked)
+ggsave_wrapper(
+    patchwork::wrap_plots(plots),
+    plot_path(GRAPHS_DIR,
+              glue("allele_dist_barplot_stackplot_all.svg")),
+    width = 8, height = 4.5
+)
+
+short_allele_pal <- ORIGINAL_PAL
 
 
 #### ---- Lollipop plot of KRAS mutations ---- ####
