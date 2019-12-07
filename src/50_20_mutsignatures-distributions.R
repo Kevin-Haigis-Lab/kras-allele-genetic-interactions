@@ -157,8 +157,8 @@ clock_vs_smoke_plot <- mutsig_noartifact_df %>%
             allele %in% names(short_allele_pal), allele, "Other"
         ),
         allele = factor(allele, levels = names(short_allele_pal)),
-        alpha = ifelse(allele == "G12C", 0.9, 0.5),
-        size = ifelse(allele == "G12C", 1.5, 1.2)
+        alpha = ifelse(allele == "G12C", 0.8, 0.6),
+        size = ifelse(allele == "G12C", 1.1, 0.7)
     ) %>%
     ggplot(aes(x = clock, y = smoke)) +
     geom_point(
@@ -171,9 +171,16 @@ clock_vs_smoke_plot <- mutsig_noartifact_df %>%
     theme_bw(
         base_size = 8,
         base_family = "Arial"
+    ) +
+    theme(
+        legend.title = element_blank(),
+    ) +
+    labs(
+        title = "Clock vs. smoke in LUAD of KRAS mutants.",
+        subtitle = "There is a focus on the smoking-related allele, G12C."
     )
 ggsave_wrapper(
     clock_vs_smoke_plot,
     plot_path(GRAPHS_DIR, "clock_vs_smoke.svg"),
-    "medium"
+    "small"
 )
