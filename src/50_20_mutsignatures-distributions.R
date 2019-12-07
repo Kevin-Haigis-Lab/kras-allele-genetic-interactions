@@ -75,3 +75,105 @@ ggsave_wrapper(
     plot_path(GRAPHS_DIR, "mutsig-dist_combined.svg"),
     'wide'
 )
+
+
+
+#### ---- Clock vs. non-clock ---- ####
+
+clock_sigs <- c("1", "5")
+clock_pal <- c(
+    "clock" = "grey25",
+    "non-clock" = "grey80"
+)
+
+plot_clock_vs_nonclock <- function(cancer, data) {
+    plot_data <- data %>%
+        mutate(clock_signature = ifelse(
+            signature %in% !!clock_sigs, "clock", "non-clock"
+        )) %>%
+        group_by(tumor_sample_barcode, clock_signature) %>%
+        summarise(contribution = sum(contribution)) %>%
+        ungroup()
+
+
+    p <- plot_data %>%
+        ggplot(aes(x = clock_signature, y = contribution)) +
+        geom_boxplot(
+            aes(fill = clock_signature),
+            alpha = 0.7,
+            outlier.shape = NA,
+            notch = FALSE
+        ) +
+        scale_fill_manual(
+            values = clock_pal
+        ) +
+        scale_y_continuous(expand = expand_scale(mult = c(0, 0.05))) +
+        theme_bw(
+            base_size = 9,
+            base_family = "Arial"
+        ) +
+        theme(
+            plot.title = element_text(hjust = 0.5),
+            axis.title.x = element_blank(),
+            legend.position = "right",
+            legend.title = element_blank()
+        ) +
+        ggtitle(cancer)
+    return(p)
+}
+
+clock_plots <- mutsig_noartifact_df %>%
+    group_by(cancer) %>%
+    nest() %>%
+    pmap(plot_clock_vs_nonclock)
+clock_combined_plots <- wrap_plots(clock_plots) +
+    plot_layout(guides = 'collect')
+ggsave_wrapper(
+    clock_combined_plots,
+    plot_path(GRAPHS_DIR, "clock-signatures.svg"),
+    width = 5, height = 4
+)
+
+
+#### ---- Plot Clock vs. Smoke contribution in KRAS mutants ---- ####
+
+clock_vs_smoke_plot <- mutsig_noartifact_df %>%
+    filter(
+        cancer == "LUAD" &
+        signature %in% c(clock_sigs, "4"),
+        ras_allele != "WT"
+    ) %>%
+    mutate(signature = paste0("Sig_", signature)) %>%
+    select(tumor_sample_barcode, ras_allele, signature, contribution) %>%
+    pivot_wider(
+        names_from = signature,
+        values_from = contribution
+    ) %>%
+    mutate(
+        clock = Sig_1 + Sig_5,
+        smoke = Sig_4,
+        allele = str_remove(ras_allele, "KRAS_"),
+        allele = ifelse(
+            allele %in% names(short_allele_pal), allele, "Other"
+        ),
+        allele = factor(allele, levels = names(short_allele_pal)),
+        alpha = ifelse(allele == "G12C", 0.9, 0.5),
+        size = ifelse(allele == "G12C", 1.5, 1.2)
+    ) %>%
+    ggplot(aes(x = clock, y = smoke)) +
+    geom_point(
+        aes(color = allele, alpha = alpha, size = size)
+    ) +
+    geom_abline(intercept = 0, slope = 1, color = "black", linetype = 2) +
+    scale_color_manual(values = short_allele_pal) +
+    scale_alpha_identity() +
+    scale_size_identity() +
+    theme_bw(
+        base_size = 8,
+        base_family = "Arial"
+    )
+ggsave_wrapper(
+    clock_vs_smoke_plot,
+    plot_path(GRAPHS_DIR, "clock_vs_smoke.svg"),
+    "medium"
+)
