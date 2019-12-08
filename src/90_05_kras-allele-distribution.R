@@ -1,6 +1,4 @@
-
-library(gtable)
-library(gridExtra)
+# Plot the distribution of KRAS mutations.
 
 library(patchwork)
 
@@ -186,6 +184,11 @@ ggsave_wrapper(
     width = 8, height = 4.5
 )
 
+saveRDS(
+    plots,
+    get_fig_proto_path("allele_dist_barplot_stackplot", 1),
+)
+
 
 # Plot all of the alleles (with at least 3 appearences)
 # Need to add the new colors to the palette - I just changed the
@@ -310,6 +313,11 @@ ggsave_wrapper(kras_lollipop_plot,
                plot_path(GRAPHS_DIR, "lollipop-kras_2.svg"),
                width = 5, height = 4)
 
+# Save for use in Figure 1.
+saveRDS(
+    kras_lollipop_plot,
+    get_fig_proto_path("lollipop-kras_2", 1)
+)
 
 
 #### ---- Table of the distribution of alleles ---- ####
