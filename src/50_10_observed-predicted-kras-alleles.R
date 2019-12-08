@@ -542,7 +542,7 @@ obs_v_pred_scatter_plot <- function(real_tib, pred_tib,
                    point_shape = ifelse(p_value < 0.05, 16, 17))
     }
 
-    for (CANCER in pdata$cancer) {
+    make_scatter_plot_and_save <- function(CANCER) {
         p <- pdata %>%
             filter(cancer == !!CANCER) %>%
             individual_obs_v_pred_scatter_plot(cancer = CANCER,
@@ -554,7 +554,14 @@ obs_v_pred_scatter_plot <- function(real_tib, pred_tib,
                       glue(save_template)),
             save_size
         )
+        return(p)
     }
+
+    all_plots <- purrr::map(
+        sort(unique(pdata$cancer)), make_scatter_plot_and_save
+    )
+
+    invisible(all_plots)
 }
 
 
@@ -668,11 +675,15 @@ kras_allele_freq_stats %>%
            real_kras_allele_frequency, avg_kras_allele_prob,
            p_value)
 
-obs_v_pred_scatter_plot(real_af, predicted_af,
+plots <- obs_v_pred_scatter_plot(real_af, predicted_af,
                         stats_tib = kras_allele_freq_stats,
                         with_errorbars = TRUE,
                         save_template = "obs_pred_plot_stats_{CANCER}.svg")
 
+saveRDS(
+    plots,
+    get_fig_proto_path("obs_pred_plot_stats", 1)
+)
 
 
 
@@ -704,7 +715,11 @@ kras_g12_freq_stats %>%
            real_kras_allele_frequency, avg_kras_allele_prob,
            p_value)
 
-obs_v_pred_scatter_plot(real_af, predicted_af_g12,
+plots <- obs_v_pred_scatter_plot(real_af, predicted_af_g12,
                         stats_tib = kras_g12_freq_stats,
                         with_errorbars = TRUE,
                         save_template = "obs_pred_plot_g12_stats_{CANCER}.svg")
+saveRDS(
+    plots,
+    get_fig_proto_path("obs_pred_plot_g12_stats", 1)
+)
