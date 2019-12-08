@@ -191,30 +191,32 @@ ggsave_wrapper(
 # Need to add the new colors to the palette - I just changed the
 #   `short_allele_pal`, though, if this analysis gets any bigger, then I will
 #   parameterize the palette for the plotting functions (or pass in `...`).
-ORIGINAL_PAL <- short_allele_pal
-added_alleles <- setdiff(unique(allele_dist_all$ras_allele), names(short_allele_pal))
-short_allele_pal <- c(
-    short_allele_pal,
-    rep(short_allele_pal["Other"], length(added_alleles))
-)
-names(short_allele_pal) <- c(names(ORIGINAL_PAL), added_alleles)
+{
+    ORIGINAL_PAL <- short_allele_pal
+    added_alleles <- setdiff(unique(allele_dist_all$ras_allele), names(short_allele_pal))
+    short_allele_pal <- c(
+        short_allele_pal,
+        rep(short_allele_pal["Other"], length(added_alleles))
+    )
+    names(short_allele_pal) <- c(names(ORIGINAL_PAL), added_alleles)
 
-plots <- allele_dist_all %>%
-    filter(num_allele_samples > 2) %>%
-    group_by(cancer) %>%
-    nest() %>%
-    ungroup() %>%
-    arrange(cancer) %>%
-    mutate(with_extra_space = rep(c(TRUE, FALSE), 2)) %>%
-    pmap(plot_distribution_and_stacked)
-ggsave_wrapper(
-    patchwork::wrap_plots(plots),
-    plot_path(GRAPHS_DIR,
-              glue("allele_dist_barplot_stackplot_all.svg")),
-    width = 8, height = 4.5
-)
+    plots <- allele_dist_all %>%
+        filter(num_allele_samples > 2) %>%
+        group_by(cancer) %>%
+        nest() %>%
+        ungroup() %>%
+        arrange(cancer) %>%
+        mutate(with_extra_space = rep(c(TRUE, FALSE), 2)) %>%
+        pmap(plot_distribution_and_stacked)
+    ggsave_wrapper(
+        patchwork::wrap_plots(plots),
+        plot_path(GRAPHS_DIR,
+                  glue("allele_dist_barplot_stackplot_all.svg")),
+        width = 8, height = 4.5
+    )
 
-short_allele_pal <- ORIGINAL_PAL
+    short_allele_pal <- ORIGINAL_PAL
+}
 
 
 #### ---- Lollipop plot of KRAS mutations ---- ####
