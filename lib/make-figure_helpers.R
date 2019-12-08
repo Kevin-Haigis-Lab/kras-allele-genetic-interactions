@@ -44,7 +44,9 @@ get_figure_dimensions <- function(n_col = 1, height_class = "medium") {
 #### ---- Saving and retrieving figure protos ---- ####
 
 # The root directory for the protos.
-FIGURE_PROTOS_DIR <- file.path("paper", "figures", "figure_protos")
+FIGURE_DIR <- file.path("paper", "figures")
+FIGURE_PROTOS_DIR <- file.path(FIGURE_DIR, "figure_protos")
+
 
 #' Returns the numeric value for the lowest subversion of Figure `figure_num`.
 get_latest_version_of_figure <- function(figure_num) {
@@ -75,6 +77,52 @@ get_fig_proto_path <- function(name, figure_num, version = "latest") {
     full_name <- glue("{name}.rds")
 
     file.path(FIGURE_PROTOS_DIR, fig_dir, full_name)
+}
+
+
+#' Get the path for the final figure file.
+get_figure_path <- function(figure_num, version = "latest") {
+    base_n <- str_pad(as.character(figure_num), 2, pad = "0")
+    if (version == "latest") {
+        version <- get_latest_version_of_figure(base_n)
+    }
+    sub_n <- str_pad(as.character(version), 3, pad = "0")
+
+    fig_dir <- glue("figure_{base_n}-{sub_n}")
+    versioned_name <- glue("Figure_{base_n}-{sub_n}.svg")
+    unversioned_name <- glue("Figure_{base_n}.svg")
+
+    return(list(
+        versioned = file.path(FIGURE_PROTOS_DIR, fig_dir, versioned_name),
+        unversioned = file.path(FIGURE_DIR, unversioned_name)
+    ))
+}
+
+
+#' Save the final SVG for Figure `figure_num`.
+#' Two files are saved, one with the version number and one without.
+save_figure <- function(p,
+                        figure_num, version = "latest",
+                        dim=NULL,
+                        n_col=NULL, height_class = NULL,
+                        unversioned_only = FALSE) {
+    if (is.null(dim)) {
+        dim <- get_figure_dimensions(n_col, height_class)
+    }
+
+    file_names <- get_figure_path(figure_num, version)
+
+    # Save versioned.
+    ggsave(
+        file_names$versioned, p,
+        width = dim$width, height = dim$height, unit = "mm"
+    )
+    if (!unversioned_only) {
+        ggsave(
+            file_names$unversioned, p,
+            width = dim$width, height = dim$height, unit = "mm"
+        )
+    }
 }
 
 
