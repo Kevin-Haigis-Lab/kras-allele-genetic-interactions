@@ -116,10 +116,14 @@ ggsave_wrapper(
     'wide'
 )
 
+saveRDS(
+    combined_plots,
+    get_fig_proto_path("probability-mutsig-caused-allele", 1)
+)
 
 #### ---- Distribution of select signatures ---- ####
 
-{
+
 plot_signature_probability <- function(cancer, signature, min_allele_num = 15) {
     # Alleles to include in the plots.
     alleles <- alleles_to_plot(cancer, min_allele_num)
@@ -186,4 +190,8 @@ ggsave_wrapper(
     plot_path(GRAPHS_DIR, "contribution-of-select-signatures.svg"),
     width = 5, height = 4
 )
-}
+
+saveRDS(
+    select_sig_combined_plots,
+    get_fig_proto_path("contribution-of-select-signatures", 1)
+)
