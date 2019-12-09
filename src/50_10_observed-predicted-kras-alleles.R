@@ -300,6 +300,7 @@ predict_kras_allele_frequency_weighted_barplot1 <- barplot_df %>%
     labs(
         y = "predicted rate of KRAS allele"
     )
+
 ggsave_wrapper(
     predict_kras_allele_frequency_weighted_barplot1,
     plot_path("50_10_observed-predicted-kras-alleles",
@@ -356,15 +357,16 @@ predict_kras_allele_frequency_barplot2_df <- barplot_df %>%
         y_max = max(barplot_df$ci_upper_avg_kras_allele_prob)
     ))
 
-predict_kras_allele_frequency_barplot2 <- cowplot::plot_grid(
-    plotlist = predict_kras_allele_frequency_barplot2_df$barplot,
+predict_kras_allele_frequency_barplot2 <- patchwork::wrap_plots(
+    predict_kras_allele_frequency_barplot2_df$barplot,
     nrow = 2
 )
 
-cowplot::save_plot(
+ggsave_wrapper(
+    predict_kras_allele_frequency_barplot2,
     plot_path("50_10_observed-predicted-kras-alleles",
               "predict_kras_allele_frequency_barplot2.svg"),
-    plot = predict_kras_allele_frequency_barplot2
+    "wide"
 )
 
 
@@ -375,19 +377,20 @@ predict_kras_allele_frequency_weighted_barplot2_df <- barplot_df %>%
     nest() %>%
     mutate(barplot = purrr::map2(
         cancer, data, single_kras_allele_freq_barplot,
-        y_max = max(barplot_df$avg_kras_allele_prob),
+        y_max = max(barplot_df$avg_kras_allele_prob) * 1.1,
         with_errorbars = FALSE
     ))
 
-predict_kras_allele_frequency_weighted_barplot2 <- cowplot::plot_grid(
-    plotlist = predict_kras_allele_frequency_weighted_barplot2_df$barplot,
+predict_kras_allele_frequency_weighted_barplot2 <- patchwork::wrap_plots(
+    predict_kras_allele_frequency_weighted_barplot2_df$barplot,
     nrow = 2
 )
 
-cowplot::save_plot(
+ggsave_wrapper(
+    predict_kras_allele_frequency_weighted_barplot2,
     plot_path("50_10_observed-predicted-kras-alleles",
               "predict_kras_allele_frequency_weighted_barplot2.svg"),
-    plot = predict_kras_allele_frequency_weighted_barplot2
+    "wide"
 )
 
 # The same bar plot as above, but separated by allele to compare across cancer.
