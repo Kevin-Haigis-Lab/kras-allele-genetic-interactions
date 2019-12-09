@@ -38,10 +38,7 @@
     + do any of them *become* lethal in an allele?
 - Expected vs. observed frequency -> save to color-scaled table
 
-### TOMORROW
 
-- Remove cowplot from src/50_10_... --> replace with patchwork
-- finish Figure 1 assembly
 
 ## Questions
 
@@ -58,3 +55,4 @@ For instance.
 
 - Change all `cache()` to `ProjectTemplate::cache()`
 - A single script or command line to run the entire project.
+- A script in libs to load all required packages (with specific versions).

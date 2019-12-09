@@ -135,8 +135,10 @@ save_allele_dist_barplot <- function(barplot, cancer,
 }
 
 
-
-max_freq <- allele_dist %>% filter(ras_allele != "WT") %>% pull(allele_freq) %>% max()
+max_freq <- allele_dist %>%
+    filter(ras_allele != "WT") %>%
+    pull(allele_freq) %>%
+    max()
 
 plots <- allele_dist %>%
     group_by(cancer) %>%
@@ -274,44 +276,60 @@ kras_lollipop_plot <- cancer_full_coding_muts_maf %>%
     ungroup() %>%
     ggplot(aes(x = amino_position)) +
     geom_col(
-        aes(y = num_amino_position, fill = cancer)
+        aes(y = num_amino_position,
+            fill = cancer)
     ) +
     geom_point(
-        aes(y = total_num_amino_position, color = log10(total_num_amino_position)),
+        aes(y = total_num_amino_position,
+            color = log10(total_num_amino_position)),
         size = 1
     ) +
     geom_text(
-        aes(label = point_label, y = total_num_amino_position),
+        aes(label = point_label,
+            y = total_num_amino_position),
         family = "Arial",
+        size = 2,
         hjust = 0,
-        nudge_x = 2,
-        nudge_y = 1
+        nudge_x = 5,
+        nudge_y = 2
     ) +
-    scale_fill_manual(values = cancer_palette) +
+    scale_fill_manual(
+        values = cancer_palette,
+        guide = guide_legend(
+            title = NULL,
+            label.hjust = 0,
+            keywidth = unit(2, "mm"),
+            keyheight = unit(2, "mm"),
+            ncol = 1
+        )
+    ) +
     scale_color_viridis_c(
         begin = 0.3, end = 0.9,
-        option = "A"
+        option = "A",
+        guide = FALSE
     ) +
     scale_y_continuous(
         expand = c(0, 0),
         limits = c(0, 6000),
-        breaks = c(0, 10, 100, 500, 1000, 2000, 3000, 4000, 6000)
+        breaks = c(0, 10, 100, 500, 1000, 2000, 4000, 6000)
     ) +
     theme_bw(base_size = 8, base_family = "Arial") +
     theme(
-        legend.position = "right",
+        legend.position = c(0.8, 0.8),
+        legend.spacing.x = unit(1, "mm"),
         plot.margin = unit(c(1, 1, 1, 1), "mm")
     ) +
     coord_trans(y = my_trans_log10) +
     labs(
         x = "KRAS amino acid sequence",
-        y = "log10( number of mutations + 1 )",
-        color = "log10( count )",
-        fill = ""
+        y = "log10( count )"
     )
-ggsave_wrapper(kras_lollipop_plot,
-               plot_path(GRAPHS_DIR, "lollipop-kras_2.svg"),
-               width = 5, height = 4)
+
+ggsave_wrapper(
+    kras_lollipop_plot,
+    plot_path(GRAPHS_DIR, "lollipop-kras_2.svg"),
+    width = 3, height = 2
+)
 
 # Save for use in Figure 1.
 saveRDS(

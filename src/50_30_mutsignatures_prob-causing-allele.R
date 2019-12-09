@@ -9,17 +9,17 @@ reset_graph_directory(GRAPHS_DIR)
 
 # A data frame of the number of samples with each allele.
 alleles_frequency_per_cancer_df <- mutational_signatures_df %>%
-    mutate(ras_allele = str_remove_all(ras_allele, "KRAS_")) %>%
-    select(tumor_sample_barcode, cancer, ras_allele) %>%
+    mutate(kras_allele = str_remove_all(ras_allele, "KRAS_")) %>%
+    select(tumor_sample_barcode, cancer, kras_allele) %>%
     unique() %>%
-    count(cancer, ras_allele)
+    count(cancer, kras_allele)
 
 # Which alleles to plot for a cancer based off of the number of samples
 # available with the allele.
 alleles_to_plot <- function(cancer, min_num = 15) {
     alleles_frequency_per_cancer_df %>%
         filter(cancer == !!cancer & n >= min_num) %>%
-        pull(ras_allele) %>%
+        pull(kras_allele) %>%
         unique()
 }
 
@@ -78,6 +78,7 @@ plot_probability_of_causation <- function(cancer, data,
             guide = guide_legend(
                 nrow = 1,
                 title.position = "left",
+                title.vjust = 0.2,
                 label.position = "top",
                 label.hjust = 0.5,
                 label.vjust = -5
@@ -98,7 +99,8 @@ plot_probability_of_causation <- function(cancer, data,
         ) +
         labs(
             title = cancer,
-            y = "prob. of causing allele"
+            y = "probability",
+            fill = "signature"
         )
     return(p)
 }
@@ -115,7 +117,6 @@ ggsave_wrapper(
     plot_path(GRAPHS_DIR, "probability-mutsig-caused-allele.svg"),
     'wide'
 )
-
 saveRDS(
     combined_plots,
     get_fig_proto_path("probability-mutsig-caused-allele", 1)
@@ -170,7 +171,8 @@ plot_signature_probability <- function(cancer, signature, min_allele_num = 15) {
             legend.position = "none"
         ) +
         labs(
-            y = glue("Sig. {signature} levels in {cancer}")
+            title = glue("Sig. {signature} in {cancer}"),
+            y = "signature level"
         )
 
     return(p)
