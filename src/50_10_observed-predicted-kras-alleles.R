@@ -37,31 +37,33 @@ predict_kras_allele_frequency <- function(tib, sequencing_type) {
 
 
 # The number of mutations that mimic that of the KRAS allele.
-predicted_kras_allele_frequency <- trinucleotide_mutations_df %>%
-    filter(cancer != "SKCM" & !is_hypermutant) %>%
-    filter(target %in% c("exome", "genome")) %>%
-    filter(hugo_symbol != "KRAS") %>%
-    dplyr::rename(actual_kras_allele = "kras_allele") %>%
-    group_by(cancer, dataset, tumor_sample_barcode, target,
-             actual_kras_allele) %>%
-    nest() %>%
-    ungroup() %>%
-    mutate(kras_liklihoods = purrr::map2(
-        data, target, predict_kras_allele_frequency
-    )) %>%
-    select(-data) %>%
-    unnest(kras_liklihoods) %>%
-    group_by(tumor_sample_barcode, dataset, target, cancer, actual_kras_allele,
-             kras_allele, kras_codon, context, tricontext_count, total_num_mutations) %>%
-    summarise(
-        tricontext = paste(tricontext, collapse = ", "),
-        tricontext_mut_count = sum(tricontext_mut_count)
-    ) %>%
-    ungroup()
-
 ProjectTemplate::cache("predicted_kras_allele_frequency",
-                       depends = "trinucleotide_mutations_df")
-
+                       depends = "trinucleotide_mutations_df",
+{
+    predicted_kras_allele_frequency <- trinucleotide_mutations_df %>%
+        filter(cancer != "SKCM" & !is_hypermutant) %>%
+        filter(target %in% c("exome", "genome")) %>%
+        filter(hugo_symbol != "KRAS") %>%
+        dplyr::rename(actual_kras_allele = "kras_allele") %>%
+        group_by(cancer, dataset, tumor_sample_barcode, target,
+                 actual_kras_allele) %>%
+        nest() %>%
+        ungroup() %>%
+        mutate(kras_liklihoods = purrr::map2(
+            data, target, predict_kras_allele_frequency
+        )) %>%
+        select(-data) %>%
+        unnest(kras_liklihoods) %>%
+        group_by(tumor_sample_barcode, dataset, target, cancer,
+                 actual_kras_allele, kras_allele, kras_codon,
+                 context, tricontext_count, total_num_mutations) %>%
+        summarise(
+            tricontext = paste(tricontext, collapse = ", "),
+            tricontext_mut_count = sum(tricontext_mut_count)
+        ) %>%
+        ungroup()
+    return(predicted_kras_allele_frequency)
+})
 
 
 alleles_frequency_per_cancer_df <- predicted_kras_allele_frequency %>%
