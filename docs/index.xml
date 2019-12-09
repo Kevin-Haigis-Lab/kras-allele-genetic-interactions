@@ -106,6 +106,32 @@
     </item>
     
     <item>
+      <title>2019-12-08</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-12-08/</link>
+      <pubDate>Sun, 08 Dec 2019 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-12-08/</guid>
+      <description>
+
+&lt;h2 id=&#34;figure-building-system&#34;&gt;Figure building system&lt;/h2&gt;
+
+&lt;p&gt;I developed a system for building the figures for the paper.
+It is described below.&lt;/p&gt;
+
+&lt;p&gt;All files for the figures are in &amp;ldquo;paper/figures/&amp;rdquo;.
+Each figure has a folder in &amp;ldquo;figure&lt;em&gt;protos/&amp;rdquo; that follow the format of &amp;ldquo;figure&lt;/em&gt;{figure number}-{version of the figure}&amp;ldquo;.
+In this folder, all of the &lt;code&gt;ggplot&lt;/code&gt; objects are saved for use in the full figure.
+These are then used by the script &amp;ldquo;make-figure_{figure number}-{version of the figure}.R&amp;rdquo; to build the figure from these protos.
+Each figure gets saved in two places: 1) as a versioned figure in the protos folder and 2) as a final figure in the &amp;ldquo;figures&amp;rdquo; directory.&lt;/p&gt;
+
+&lt;p&gt;The library script &amp;ldquo;libs/make-figure_helper.R&amp;rdquo; provide a standardized interface to the system.
+Further, it keeps and integrates the information on formatting from the journal (NRJ).
+These functions standardize the naming and paths of the protos for each figure.
+Additionally, it has some helpful features for automatically using the latest version number.
+There are specific functions for loading protos and for saving the final figures in the multiple locations.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>2019-12-07</title>
       <link>https://project-notebook-comutation.netlify.com/post/2019-12-07/</link>
       <pubDate>Sat, 07 Dec 2019 00:00:00 +0000</pubDate>

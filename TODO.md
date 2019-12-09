@@ -38,6 +38,10 @@
     + do any of them *become* lethal in an allele?
 - Expected vs. observed frequency -> save to color-scaled table
 
+### TOMORROW
+
+- Remove cowplot from src/50_10_... --> replace with patchwork
+- finish Figure 1 assembly
 
 ## Questions
 
