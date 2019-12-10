@@ -168,7 +168,7 @@ panel_F[[1]] <- panel_F[[1]] + labs(tag = "f")
 
     save_figure(
         full_figure,
-        figure_num = 1,
+        figure_num = FIGNUM,
         dim = FIG_DIMENSIONS
     )
 }

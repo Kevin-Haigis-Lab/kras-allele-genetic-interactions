@@ -206,8 +206,8 @@ ggsave_wrapper(
 
 # colors for comutation vs mutual exclusivity
 comut_mutex_pal <- c(
-    comutation = "#18BCF2",  # blue
-    exclusivity = "#19C462"  # green
+    comutation = "#1f71c2",  # blue
+    exclusivity = "#3deb74"  # green
 )
 
 # Colors for extremes of synthetic lethal values.

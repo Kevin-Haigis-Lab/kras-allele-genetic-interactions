@@ -5,12 +5,37 @@
     <link>https://project-notebook-comutation.netlify.com/post/</link>
       <atom:link href="https://project-notebook-comutation.netlify.com/post/index.xml" rel="self" type="application/rss+xml" />
     <description>Posts</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Sun, 08 Dec 2019 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Mon, 09 Dec 2019 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://project-notebook-comutation.netlify.com/img/icon-192.png</url>
       <title>Posts</title>
       <link>https://project-notebook-comutation.netlify.com/post/</link>
     </image>
+    
+    <item>
+      <title>2019-12-09</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-12-09/</link>
+      <pubDate>Mon, 09 Dec 2019 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-12-09/</guid>
+      <description>
+
+&lt;h2 id=&#34;remove-cowplot-from-src-50-10-observed-predicted-kras-alleles-r&#34;&gt;Remove &amp;lsquo;cowplot&amp;rsquo; from &amp;ldquo;src/50_10_observed-predicted-kras-alleles.R&amp;rdquo;&lt;/h2&gt;
+
+&lt;p&gt;I replaced the use of &amp;lsquo;cowplot&amp;rsquo; with &amp;lsquo;patchwork&amp;rsquo; in &amp;ldquo;src/50_10_observed-predicted-kras-alleles.R&amp;rdquo; so there is no dependency on X11.&lt;/p&gt;
+
+&lt;h2 id=&#34;figure-1-version-1&#34;&gt;Figure 1 (version 1)&lt;/h2&gt;
+
+&lt;p&gt;I complete the first draft of Figure 1.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;img/figures/Figure_01-001.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;figure-2&#34;&gt;Figure 2&lt;/h2&gt;
+
+&lt;p&gt;I began laying Figure 2.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;img/figures/Figure_02-001.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>2019-12-08</title>
