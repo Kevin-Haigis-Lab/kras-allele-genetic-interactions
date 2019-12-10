@@ -46,9 +46,10 @@ reset_graph_directory <- function(dir_name) {
 
 
 #' Source the files in the 'lib' directory.
-sourse_lib <- function() {
-    for (f in list.files("lib", full.names=T)) source(f)
+source_lib <- function() {
+    for (f in list.files("lib", full.name = TRUE)) source(f)
 }
+
 
 
 #### ---- Helpful regular expressions ---- ####
@@ -209,6 +210,17 @@ comut_mutex_pal <- c(
     comutation = "#1f71c2",  # blue
     exclusivity = "#3deb74"  # green
 )
+comut_updown_pal <- comut_mutex_pal
+names(comut_updown_pal) <- c("increased", "reduced")
+
+
+#' Convert from "comutation" and "exclusivity" to "increased" and "reduced".
+switch_comut_terms <- function(old_terms) {
+    conversion_vect <- names(comut_updown_pal)
+    names(conversion_vect) <- names(comut_mutex_pal)
+    return(unname(conversion_vect[old_terms]))
+}
+
 
 # Colors for extremes of synthetic lethal values.
 synthetic_lethal_pal <- c(
@@ -217,7 +229,8 @@ synthetic_lethal_pal <- c(
 )
 
 ggsave_wrapper(
-    show_palette(c(comut_mutex_pal, synthetic_lethal_pal), font_family = "Arial"),
+    show_palette(c(comut_mutex_pal, synthetic_lethal_pal),
+                 font_family = "Arial"),
     plot_path("00_miscellaneous", "genetic_interaction_pal.svg"),
     width = 3.5, height = 2
 )
