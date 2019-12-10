@@ -222,13 +222,9 @@ get_alleles_in_cancer <- function(cancer) {
 }
 
 
-# Sort genes into: KRAS, "KRAS other", by mut. freq.
-sort_genes <- function(maf) {
-    gene_order <- maf@data %>%
-        as_tibble() %>%
-        count(Hugo_Symbol) %>%
-        arrange(-n) %>%
-        pull(Hugo_Symbol)
+#' Sort genes into: KRAS, "KRAS other", the rest by mutation frequency.
+sort_genes_elevate_kras <- function(maf) {
+    gene_order <- sort_genes(maf)
 
     kras_allele <- gene_order[str_detect(gene_order, "KRAS ")]
     if (any(kras_allele == "KRAS other")) {
@@ -245,44 +241,10 @@ sort_genes <- function(maf) {
 }
 
 
-# If there is a KRAS allele in `genes` return it, otherwise return "WT".
-any_kras_allele <- function(genes) {
-    kras_gene <- genes[str_detect(genes, "KRAS ")]
-    if (length(kras_gene) > 0) { return(kras_gene[[1]]) }
-    else { return("WT") }
-}
-
-
-# Sort samples using a weighted metric.
-#  The first weight is by KRAS allele, with "KRAS_other" at the end.
-#  The second is by the order of the genes in `ordered_genes`.
-sort_samples <- function(maf, ordered_genes) {
-    gene_score_tib <- tibble(Hugo_Symbol = rev(ordered_genes)) %>%
-        mutate(value = 2 ^ ((1:n()) - 1))
-
-    kras_tib <- tibble(
-        kras_allele = rev(ordered_genes[str_detect(ordered_genes, "KRAS")])
-    ) %>%
-        mutate(kras_value = 1:n())
-
-    maf@data %>%
-        as_tibble() %>%
-        select(Hugo_Symbol, Tumor_Sample_Barcode) %>%
-        left_join(gene_score_tib, by = "Hugo_Symbol") %>%
-        group_by(Tumor_Sample_Barcode) %>%
-        summarise(score = sum(value),
-                  kras_allele = any_kras_allele(Hugo_Symbol)) %>%
-        ungroup() %>%
-        left_join(kras_tib, by = "kras_allele") %>%
-        mutate(kras_value = ifelse(is.na(kras_value), 0, kras_value)) %>%
-        arrange(-kras_value, -score) %>%
-        pull(Tumor_Sample_Barcode)
-}
-
 
 # Sort the genes for oncostrip and keep KRAS at the top.
 sort_maf <- function(maf) {
-    gene_order <- sort_genes(maf)
+    gene_order <- sort_genes_elevate_kras(maf)
     sample_order <- sort_samples(maf, ordered_genes = gene_order)
     return(list(
         gene_order = gene_order,
@@ -306,7 +268,8 @@ oncoplot_wrapper <- function(maf,
                              top = 10,
                              cancer = NULL,
                              annotate_kras_allele = FALSE,
-                             save_size = list(width = 9, height = 5)) {
+                             save_size = list(width = 9, height = 5),
+                             return_ggonco = FALSE) {
 
     if (!is.null(cancer)) {
         cohortSize <- unlist(filter(cancer_count_tib, cancer == !!cancer)$n)
@@ -328,12 +291,25 @@ oncoplot_wrapper <- function(maf,
             keepGeneOrder = TRUE,
             GeneOrderSort = FALSE,
             removeNonMutated = TRUE,
-            clinicalFeatures = 'kras_allele',
+            clinicalFeatures = "kras_allele",
             annotationColor = list(kras_allele = pal),
             sepwd_samples = 0,
             fontSize = 0.6
         )
         dev.off()
+
+        if (return_ggonco) {
+            p <- ggoncoplot(maf = maf,
+                            genes = gene_and_sample_orders$gene_order,
+                            sampleOrder = gene_and_sample_orders$sample_order,
+                            top = top,
+                            cohortSize = cohortSize,
+                            keepGeneOrder = TRUE,
+                            removeNonMutated = TRUE,
+                            clinicalFeatures = "kras_allele",
+                            annotation_pal = pal)
+            return(p)
+        }
     } else {
         svg(save_path, width = 9, height = 5)
         oncoplot(
@@ -350,6 +326,50 @@ oncoplot_wrapper <- function(maf,
         )
         dev.off()
     }
+}
+
+ggoncoplot_wrapper <- function(maf,
+                               gene_and_sample_orders,
+                               save_path,
+                               top = 10,
+                               cancer = NULL,
+                               annotate_kras_allele = FALSE,
+                               save_size = NULL) {
+
+    if (!is.null(cancer)) {
+        cohortSize <- unlist(filter(cancer_count_tib, cancer == !!cancer)$n)
+    } else {
+        cohortSize <- NULL
+    }
+    if (annotate_kras_allele) {
+        idx <- names(short_allele_pal) %in% getClinicalData(maf)$kras_allele
+        pal <- short_allele_pal[idx]
+
+        p <- ggoncoplot(
+            maf,
+            genes = gene_and_sample_orders$gene_order,
+            sampleOrder = gene_and_sample_orders$sample_order,
+            top = top,
+            cohortSize = cohortSize,
+            keepGeneOrder = TRUE,
+            removeNonMutated = TRUE,
+            clinicalFeatures = "kras_allele",
+            annotationColor = list(kras_allele = pal)
+        )
+        return(p)
+    } else {
+        p <- ggoncoplot(
+            maf,
+            genes = gene_and_sample_orders$gene_order,
+            sampleOrder = gene_and_sample_orders$sample_order,
+            top = top,
+            cohortSize = cohortSize,
+            keepGeneOrder = TRUE,
+            removeNonMutated = TRUE
+        )
+        return(p)
+    }
+
 }
 
 
