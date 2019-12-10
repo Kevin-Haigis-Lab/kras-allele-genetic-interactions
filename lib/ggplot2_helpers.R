@@ -45,9 +45,10 @@ ggsave_wrapper <- function(p, save_path, size = NA, width = NA, height = NA) {
 
 
 #' A function factory for getting integer y-axis values.
-integer_breaks <- function(n = 5, ...) {
+integer_breaks <- function(n = 5, ..., rm_vals = c()) {
     fxn <- function(x) {
         breaks <- floor(pretty(x, n, ...))
+        breaks <- breaks[!breaks %in% rm_vals]
         names(breaks) <- attr(breaks, "labels")
         breaks
     }
