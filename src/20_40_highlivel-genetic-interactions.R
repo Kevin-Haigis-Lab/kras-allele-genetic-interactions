@@ -4,6 +4,7 @@
 GRAPHS_DIR <- "20_40_highlivel-genetic-interactions"
 reset_graph_directory(GRAPHS_DIR)
 
+
 #### ---- UpSetR plot for similarity of alleles ---- ####
 
 # Make UpSetR plots for data nested by `cancer` and `genetic_interaction`
@@ -71,7 +72,16 @@ make_network_plot <- function(gr) {
             aes(color = genetic_interaction),
             width = 0.3
         ) +
-        scale_edge_color_manual(values = comut_mutex_pal) +
+        scale_edge_color_manual(
+            values = comut_updown_pal,
+            guide = guide_legend(
+                title = "comutation",
+                keywidth = unit(2, "mm"),
+                keyheight = unit(1, "mm"),
+                row = 1,
+                label.position = "top"
+            )
+        ) +
         geom_node_point(
             aes(color = node_color,
                 size = node_size),
@@ -84,7 +94,14 @@ make_network_plot <- function(gr) {
         ) +
         scale_color_manual(
             values = short_allele_pal,
-            na.value = NA
+            na.value = NA,
+            guide = guide_legend(
+                title = NULL,
+                keywidth = unit(2, "mm"),
+                keyheight = unit(3, "mm"),
+                ncol = 1,
+                order = 1
+            )
         ) +
         scale_size_identity() +
         theme_graph(
@@ -102,13 +119,16 @@ make_network_plot <- function(gr) {
 for (CANCER in sort(unique(genetic_interaction_df$cancer))) {
     set.seed(0)
     gr_plot <- genetic_interaction_gr %E>%
-        filter(cancer == !!CANCER) %N>%
+        filter(cancer == !!CANCER)  %>%
+        mutate(
+            genetic_interaction = switch_comut_terms(genetic_interaction)
+        ) %N>%
         filter(centrality_degree(mode = "all") > 0) %>%
         mutate(node_label = ifelse(is_kras, name, NA),
                node_label = str_remove_all(node_label, "KRAS_"),
                node_color = node_label,
-               node_size = 2,
-               label_size = 5) %>%
+               node_size = 1,
+               label_size = 2) %>%
         make_network_plot() +
         labs(
             edge_color = "interaction"
