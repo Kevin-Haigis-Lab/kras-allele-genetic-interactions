@@ -1,6 +1,9 @@
 # Rainfall plots for the more interesting and strongest genetic interactions.
 
 
+GRAPHS_DIR <- "20_50_rainfall-plots"
+reset_graph_directory(GRAPHS_DIR)
+
 #### ---- Rate of mutation for each gene per allele, WT, and overall ---- ####
 
 ProjectTemplate::cache("comutation_rates_df",
@@ -46,12 +49,6 @@ ProjectTemplate::cache("comutation_rates_df",
 
     return(comutation_rates_df)
 })
-
-
-# comutation_rates_df %>%
-#     filter(cancer == "PAAD" & hugo_symbol == "TP53") %>%
-#     filter(ras_allele %in% c("KRAS_G12D", "KRAS_G12V", "KRAS_Q61H", "WT", "KRAS")) %>%
-#     select(ras_allele, freq_mutations_cancer, freq_mutations_ras)
 
 
 # CAREFUL: THIS BRINGS IN A LOT OF BIOCONDUCTOR BAGGAGE!
@@ -222,7 +219,7 @@ get_alleles_in_cancer <- function(cancer) {
 }
 
 
-#' Sort genes into: KRAS, "KRAS other", the rest by mutation frequency.
+# Sort genes into: KRAS, "KRAS other", the rest by mutation frequency.
 sort_genes_elevate_kras <- function(maf) {
     gene_order <- sort_genes(maf)
 
@@ -261,7 +258,7 @@ cancer_count_tib <- cancer_muts_df %>%
     unique() %>%
     count(cancer)
 
-
+# A thin wrapper around `maftools::oncoplot`.
 oncoplot_wrapper <- function(maf,
                              gene_and_sample_orders,
                              save_path,
@@ -269,7 +266,8 @@ oncoplot_wrapper <- function(maf,
                              cancer = NULL,
                              annotate_kras_allele = FALSE,
                              save_size = list(width = 9, height = 5),
-                             return_ggonco = FALSE) {
+                             return_ggonco = FALSE,
+                             ggonco_only = FALSE) {
 
     if (!is.null(cancer)) {
         cohortSize <- unlist(filter(cancer_count_tib, cancer == !!cancer)$n)
@@ -281,22 +279,24 @@ oncoplot_wrapper <- function(maf,
         idx <- names(short_allele_pal) %in% getClinicalData(maf)$kras_allele
         pal <- short_allele_pal[idx]
 
-        svg(save_path, width = save_size$width, height = save_size$height)
-        oncoplot(
-            maf,
-            genes = gene_and_sample_orders$gene_order,
-            sampleOrder = gene_and_sample_orders$sample_order,
-            top = top,
-            cohortSize = cohortSize,
-            keepGeneOrder = TRUE,
-            GeneOrderSort = FALSE,
-            removeNonMutated = TRUE,
-            clinicalFeatures = "kras_allele",
-            annotationColor = list(kras_allele = pal),
-            sepwd_samples = 0,
-            fontSize = 0.6
-        )
-        dev.off()
+        if (!ggonco_only) {
+            svg(save_path, width = save_size$width, height = save_size$height)
+            oncoplot(
+                maf,
+                genes = gene_and_sample_orders$gene_order,
+                sampleOrder = gene_and_sample_orders$sample_order,
+                top = top,
+                cohortSize = cohortSize,
+                keepGeneOrder = TRUE,
+                GeneOrderSort = FALSE,
+                removeNonMutated = TRUE,
+                clinicalFeatures = "kras_allele",
+                annotationColor = list(kras_allele = pal),
+                sepwd_samples = 0,
+                fontSize = 0.6
+            )
+            dev.off()
+        }
 
         if (return_ggonco) {
             p <- ggoncoplot(maf = maf,
@@ -311,26 +311,41 @@ oncoplot_wrapper <- function(maf,
             return(p)
         }
     } else {
-        svg(save_path, width = 9, height = 5)
-        oncoplot(
-            maf,
-            genes = gene_and_sample_orders$gene_order,
-            sampleOrder = gene_and_sample_orders$sample_order,
-            top = top,
-            cohortSize = cohortSize,
-            keepGeneOrder = TRUE,
-            GeneOrderSort = FALSE,
-            removeNonMutated = TRUE,
-            sepwd_samples = 0,
-            fontSize = 0.6
-        )
-        dev.off()
+        if (!ggonco_only) {
+            svg(save_path, width = 9, height = 5)
+            oncoplot(
+                maf,
+                genes = gene_and_sample_orders$gene_order,
+                sampleOrder = gene_and_sample_orders$sample_order,
+                top = top,
+                cohortSize = cohortSize,
+                keepGeneOrder = TRUE,
+                GeneOrderSort = FALSE,
+                removeNonMutated = TRUE,
+                sepwd_samples = 0,
+                fontSize = 0.6
+            )
+            dev.off()
+        }
+
+        if (return_ggonco) {
+            p <- ggoncoplot(maf = maf,
+                            genes = gene_and_sample_orders$gene_order,
+                            sampleOrder = gene_and_sample_orders$sample_order,
+                            top = top,
+                            cohortSize = cohortSize,
+                            keepGeneOrder = TRUE,
+                            removeNonMutated = TRUE,
+                            annotation_pal = pal)
+            return(p)
+        }
     }
 }
 
+
 ggoncoplot_wrapper <- function(maf,
                                gene_and_sample_orders,
-                               save_path,
+                               save_path = NULL,  # NOT USED
                                top = 10,
                                cancer = NULL,
                                annotate_kras_allele = FALSE,
@@ -367,7 +382,7 @@ ggoncoplot_wrapper <- function(maf,
             keepGeneOrder = TRUE,
             removeNonMutated = TRUE
         )
-        return(p)
+        invisible(p)
     }
 
 }
@@ -379,6 +394,7 @@ ggoncoplot_wrapper <- function(maf,
 # (The `...` doesn't go anywhere.)
 allele_exclusivity_oncoplot <- function(cancer, allele,
                                          save_name_template,
+                                         gg_save_name_template = NULL,
                                          interaction_type = "exclusivity",
                                          top_n_genes = 20,
                                          ignore_genes = c(),
@@ -410,18 +426,33 @@ allele_exclusivity_oncoplot <- function(cancer, allele,
 
     allele_short <- str_remove(allele, "KRAS_")
     save_path <- plot_path(
-        "20_50_rainfall-plots",
+        GRAPHS_DIR,
         glue(save_name_template)
     )
 
-    oncoplot_wrapper(
+    if (!is.null(gg_save_name_template)) {
+        gg_save_path <- plot_path(
+            GRAPHS_DIR,
+            glue(gg_save_name_template)
+        )
+    } else {
+        gg_save_path <- plot_path(
+            GRAPHS_DIR,
+            paste0("gg_", glue(save_name_template))
+        )
+    }
+
+    g <- oncoplot_wrapper(
         maf = maf,
         gene_and_sample_orders = gene_and_sample_orders,
         save_path = save_path,
-        top = top_n_genes,
+        top = top_n_genes + 2,
         cancer = cancer,
-        annotate_kras_allele = annotate_kras_allele
+        annotate_kras_allele = annotate_kras_allele,
+        return_ggonco = TRUE
     )
+    ggsave_wrapper(g, gg_save_path, "wide")
+
 }
 
 
@@ -500,10 +531,11 @@ allele_specificgenes_oncoplot <- function(cancer,
                                           interaction_type,
                                           save_name,
                                           save_dir,
-                                          ignore_genes = c(),
+                                          ignore_genes = NULL,
                                           top_n_genes = 10,
                                           replace_kras_with_allele = TRUE,
                                           annotate_kras_allele = FALSE,
+                                          print_missing_genes = TRUE,
                                           ...) {
     genes <- unlist(genes)
 
@@ -516,7 +548,12 @@ allele_specificgenes_oncoplot <- function(cancer,
         filter(!is_kras & name %in% !!genes) %>%
         u_pull(name)
 
-    cat(glue("{cancer}, {kras_allele}: {n_distinct(genes) - n_distinct(checked_genes)} gene(s) were removed."), "\n")
+    n_g <- n_distinct(genes)
+    n_cg <- n_distinct(checked_genes)
+    cat(glue("{cancer}, {kras_allele}: {n_g - n_cg} gene(s) were removed."), "\n")
+    if (n_g != n_cg & print_missing_genes) {
+        cat(genes[!genes %in% checked_genes], "\n")
+    }
 
     if (length(checked_genes) == 0) {
         cat("**There were zero genes to plot; returning early.\n")
@@ -539,17 +576,34 @@ allele_specificgenes_oncoplot <- function(cancer,
         save_name
     )
 
+    gg_save_path <- plot_path(
+        save_dir,
+        glue("gg_{save_name}")
+    )
+
     img_height <- ((length(checked_genes) + 1) / 5) + 2
 
-    oncoplot_wrapper(
+    g <- oncoplot_wrapper(
         maf = maf,
         gene_and_sample_orders = gene_and_sample_orders,
         save_path = save_path,
         top = top_n_genes + 1 + as.numeric(replace_kras_with_allele),
         cancer = cancer,
         annotate_kras_allele = annotate_kras_allele,
-        save_size = list(width = 9, height = img_height)
+        save_size = list(width = 9, height = img_height),
+        return_ggonco = TRUE
     )
+    ggsave_wrapper(g, gg_save_path, "wide")
+
+    # oncoplot_wrapper(
+    #     maf = maf,
+    #     gene_and_sample_orders = gene_and_sample_orders,
+    #     save_path = save_path,
+    #     top = top_n_genes + 1 + as.numeric(replace_kras_with_allele),
+    #     cancer = cancer,
+    #     annotate_kras_allele = annotate_kras_allele,
+    #     save_size = list(width = 9, height = img_height)
+    # )
 }
 
 
@@ -671,14 +725,14 @@ specific_oncoplot_info_tib <- bind_rows(
         allele = "G12R",
         interaction_type = "exclusivity",
         name_suffix = "",
-        genes = c("RNF43", "DNAH11", "GNAS", "DNAH5", "ARID2", "SMARCA4", "TAF1")
+        genes = c("RNF43", "DNAH11", "GNAS", "DNAH5", "SMARCA4", "PCDH15")
     ),
     tibble(
         cancer = "PAAD",
         allele = "G12R",
         interaction_type = "comutation",
         name_suffix = "",
-        genes = c("RAF1", "IRAK1")
+        genes = c("BRCA2", "SCN10A")
     ),
     tibble(
         cancer = "PAAD",
@@ -692,21 +746,21 @@ specific_oncoplot_info_tib <- bind_rows(
         allele = "G12V",
         interaction_type = "exclusivity",
         name_suffix = "",
-        genes = c("RYR1", "FAT4", "DNAH17", "MYH1", "LRRK2")
+        genes = c("GNAS", "FAT4", "HMCN1", "CSMD2")
     ),
     tibble(
         cancer = "PAAD",
         allele = "G12V",
         interaction_type = "comutation",
         name_suffix = "",
-        genes = c("RYR3", "PCDHA4", "MAGI1")
+        genes = c("RYR3", "RYR2", "PCDHA4")
     ),
     tibble(
         cancer = "PAAD",
         allele = "G12V",
         interaction_type = "exclusivitycomutation",
         name_suffix = "(RYR)",
-        genes = c("RYR1", "RYR3")
+        genes = c("RYR1", "RYR3", "RYR2")
     ),
     tibble(
         cancer = "PAAD",
@@ -720,7 +774,7 @@ specific_oncoplot_info_tib <- bind_rows(
         allele = "Q61H",
         interaction_type = "comutation",
         name_suffix = "",
-        genes = c("TP53", "PTPRB", "CREB3L3")
+        genes = c("TP53", "RBM10")
     ),
     tibble(
         cancer = "PAAD",
@@ -749,6 +803,9 @@ specific_oncoplot_info_tib <- bind_rows(
     ungroup() %>%
     mutate(kras_allele = paste0("KRAS_", allele))
 
+SELECT_DIR <- glue("{GRAPHS_DIR}-select")
+reset_graph_directory(SELECT_DIR)
+
 specific_oncoplot_info_tib %>%
     mutate(
         save_name = paste0(cancer, "_",
@@ -761,7 +818,7 @@ specific_oncoplot_info_tib %>%
     pwalk(
         allele_specificgenes_oncoplot,
         top_n_genes = 15,
-        save_dir = "20_50_rainfall-plots-select",
+        save_dir = SELECT_DIR,
         annotate_kras_allele = TRUE
     )
 
@@ -829,7 +886,7 @@ known_oncoplot_info_tib %>%
     pwalk(
         allele_specificgenes_oncoplot,
         top_n_genes = 15,
-        save_dir = "20_50_rainfall-plots-select",
+        save_dir = SELECT_DIR,
         replace_kras_with_allele = FALSE,
         annotate_kras_allele = TRUE
     )
@@ -843,6 +900,9 @@ gene_sets <- list(
     cgc = unique(filter(cosmic_cgc_df, tier == 1)$hugo_symbol),
     bioid = unique(kras_interactors_bioid_df$hugo_symbol)
 )
+
+APRIORI_DIR <- glue("{GRAPHS_DIR}-apriori")
+reset_graph_directory(APRIORI_DIR)
 
 for (i in 1:length(gene_sets)) {
     gene_set_name <- names(gene_sets)[[i]]
@@ -859,6 +919,7 @@ for (i in 1:length(gene_sets)) {
         pwalk(allele_specificgenes_oncoplot,
               genes = gene_set,
               top_n_genes = 10,
-              save_dir = "20_50_rainfall-plots-apriori",
-              annotate_kras_allele = TRUE)
+              save_dir = APRIORI_DIR,
+              annotate_kras_allele = TRUE,
+              print_missing_genes = FALSE)
 }
