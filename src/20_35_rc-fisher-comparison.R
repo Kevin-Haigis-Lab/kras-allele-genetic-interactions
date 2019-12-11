@@ -1,19 +1,24 @@
 
-
+# A palette for some plots in this script.
 test_name_pal <- c(
     RC = "deepskyblue1",
     Fisher = "chocolate1"
 )
 
-
 #### ---- Significant results from each test ---- ####
 
+# p-value thresholds for mutual exclusivity and comutation
 p_val_cut_mutex <- 0.01
 p_val_cut_comut <- 0.01
 
+# Thresholds for the mutation frequency of other gene for mut. ex. and comut.
 mutfreq_mutex <- 0.02
 mutfreq_comut <- 0.01
 
+# Threshold for the frequency of comutation between the allele and other gene.
+comutfreq_comut <- 0.10
+
+# Filter RC-test results using the above thresholds.
 rc_sig <- rc_test_results %>%
     filter(
         t_AM >= 10 &
@@ -26,7 +31,10 @@ fisher_sig <- fisher_comut_df %>%
     filter(p_value_great < p_val_cut_comut | p_value_less < p_val_cut_mutex) %>%
     filter(
         n11 >= 3 &
-        (n10 + n11) / (n00 + n10 + n01 + n11) > !!mutfreq_comut
+        (
+            ((n10 + n11) / (n00 + n10 + n01 + n11) > !!mutfreq_comut) |
+            (n11 / n01 > !!comutfreq_comut)
+        )
     ) %>%
     mutate(test_type = ifelse(
         p_value_great < !!p_val_cut_comut, "comutation", "exclusivity"
@@ -214,7 +222,7 @@ exclusivity_df <- rc_sig %>%
     )
 
 comutation_df <- fisher_sig %>%
-    filter(p_value_great < p_val_cut_comut) %>%
+    filter(test_type == "comutation") %>%
     select(
         hugo_symbol, kras_allele, cancer,
         p_value_great, odds_ratio,
@@ -229,11 +237,11 @@ comutation_df <- fisher_sig %>%
     dplyr::rename(p_val = p_value_great)
 
 genetic_interaction_df <- bind_rows(exclusivity_df, comutation_df)
-cache("genetic_interaction_df")
+ProjectTemplate::cache("genetic_interaction_df")
 
 
 
-#### ---- Distribution of the effect size of genetc interactions ---- ####
+#### ---- Distribution of the effect size of genetic interactions ---- ####
 
 set.seed(0)
 genes_to_label <- c(
@@ -283,7 +291,15 @@ rc_mutations_distribition <- genetic_interaction_df %>%
         values = short_allele_pal,
         guide = guide_legend(label.position = "left", order = 1)
     ) +
-    theme_bw(base_family = "Arial", base_size = 8) +
+    scale_x_continuous(
+        expand = expand_scale(mult = c(0.02, 0.02))
+    ) +
+    scale_y_continuous(
+        expand = expand_scale(mult = c(0.02, 0.02))
+    ) +
+    theme_bw(
+        base_family = "Arial",
+        base_size = 8) +
     theme(
         plot.title = element_blank(),
         strip.background = element_blank(),
