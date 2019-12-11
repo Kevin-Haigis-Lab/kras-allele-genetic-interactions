@@ -5,12 +5,31 @@
     <link>https://project-notebook-comutation.netlify.com/post/</link>
       <atom:link href="https://project-notebook-comutation.netlify.com/post/index.xml" rel="self" type="application/rss+xml" />
     <description>Posts</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Mon, 09 Dec 2019 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Tue, 10 Dec 2019 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://project-notebook-comutation.netlify.com/img/icon-192.png</url>
       <title>Posts</title>
       <link>https://project-notebook-comutation.netlify.com/post/</link>
     </image>
+    
+    <item>
+      <title>2019-12-10</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-12-10/</link>
+      <pubDate>Tue, 10 Dec 2019 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-12-10/</guid>
+      <description>
+
+&lt;h2 id=&#34;figure-2-version-1-continued&#34;&gt;Figure 2 (version 1, continued)&lt;/h2&gt;
+
+&lt;p&gt;The oncoplots from &amp;lsquo;maftools&amp;rsquo; are only available as SVG files.
+While I found a potential way of reading them and incorporating them into &amp;lsquo;patchwork&amp;rsquo;, it was not flexible enough for the iterative and precise process of figure making.
+Therefore, I implemented oncoplots using &amp;lsquo;ggplot&amp;rsquo; in &amp;ldquo;lib/ggmaftools.R&amp;rdquo;&lt;/p&gt;
+
+&lt;p&gt;I used patchwork for laying out the grid of subplots.
+I created an algorithmic solution to the layout that can be adjusted via a parameter to the function.
+There is an ASCII diagram in `&lt;code&gt;ggmaftools.R&lt;/code&gt; to explain what each parameter controls on the grid.&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>2019-12-09</title>

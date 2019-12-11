@@ -353,13 +353,21 @@ format_var_names <- function(x) {
     return(y)
 }
 
+
 #' Color palette for variants from 'mafools'.
 #' https://github.com/PoisonAlien/maftools/blob/50318fd437fe299244f0f919659eeb8c6246d70f/R/oncomatrix.R
+# maftools_variant_pal <- c(
+#     RColorBrewer::brewer.pal(12, name = "Paired"),
+#     RColorBrewer::brewer.pal(11, name = "Spectral")[1:3],
+#     'black', 'violet', 'royalblue', '#7b7060'
+# )
+
 maftools_variant_pal <- c(
-    RColorBrewer::brewer.pal(12,name = "Paired"),
-    RColorBrewer::brewer.pal(11,name = "Spectral")[1:3],
-    'black', 'violet', 'royalblue', '#7b7060'
+    "#A6CEE3", "#1F78B4", "#B2DF8A", "#33A02C", "#FB9A99", "#E31A1C",
+    "#FDBF6F", "#FF7F00", "#CAB2D6", "#6A3D9A", "#FFFF99", "#B15928",
+    "#9E0142", "#D53E4F", "#F46D43", "black", "violet", "royalblue", "#7b7060"
 )
+
 names(maftools_variant_pal) <-c(
     'Nonstop_Mutation', 'Frame_Shift_Del', 'IGR', 'Missense_Mutation','Silent',
     'Nonsense_Mutation', 'RNA','Splice_Site', 'Intron', 'Frame_Shift_Ins',

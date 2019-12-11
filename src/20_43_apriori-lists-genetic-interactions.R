@@ -6,6 +6,7 @@ reset_graph_directory(GRAPHS_DIR)
 
 library(ggraph)
 
+
 #### ---- Manual inspection of hits ---- ####
 
 cache("wide_genetic_interaction_df", depends = "genetic_interaction_gr",
@@ -53,7 +54,11 @@ plot_genetic_interaction_graph <- function(gr_to_plot, CANCER, SUFFIX = "") {
             guide = FALSE
         ) +
         scale_edge_width_continuous(
-            range = c(0.2, 1.5)
+            range = c(0.2, 1.5),
+            guide = guide_legend(
+                label.position = "top",
+                keyheight = unit(1, "mm")
+            )
         ) +
         geom_node_point(
             aes(color = node_color,
