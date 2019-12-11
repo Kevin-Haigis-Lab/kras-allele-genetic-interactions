@@ -9,7 +9,8 @@ library(ggraph)
 
 #### ---- Manual inspection of hits ---- ####
 
-cache("wide_genetic_interaction_df", depends = "genetic_interaction_gr",
+ProjectTemplate::cache("wide_genetic_interaction_df",
+                       depends = "genetic_interaction_gr",
 {
     wide_genetic_interaction_df <- kegg_geneset_df %>%
         group_by(hugo_symbol) %>%
