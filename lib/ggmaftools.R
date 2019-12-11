@@ -83,10 +83,10 @@ ggoncoplot <- function(maf,
 
     x <- 1
     if (is.null(patchwork_layout_params)) {
-        m <- 8 * x
-        n <- 15 * x
+        m <- 5 * x
+        n <- 20 * x
         o <- 25 * x
-        p <- 8 * x
+        p <- 5 * x
         q <- 8 * x
     } else {
         pm <- patchwork_layout_params
@@ -109,7 +109,7 @@ ggoncoplot <- function(maf,
 
     A <- make_top_bar_plot(variants_per_sample,
                            sample_order)
-    B <- make_main_tile_plot(mutation_df,
+    B <- make_main_tile_plot(mutations_df,
                              gene_order,
                              sample_order)
     C <- make_right_bar_plot(variants_per_gene_long,
@@ -163,7 +163,7 @@ ggoncoplot <- function(maf,
 #### ---- Plotting components ---- ####
 
 #' Main heat/tile plot of mutations for each gene (y) in each sample (x).
-make_main_tile_plot <- function(mutation_df, gene_order, sample_order) {
+make_main_tile_plot <- function(mutations_df, gene_order, sample_order) {
     p <- mutations_df %>%
         mutate(
             Tumor_Sample_Barcode = factor(Tumor_Sample_Barcode,
@@ -241,6 +241,7 @@ make_top_bar_plot <- function(variants_per_sample, sample_order) {
 make_right_bar_plot <- function(variants_per_gene_long, maf, cohort_size, gene_order) {
     total_variants_per_gene <- as_tibble(maf@gene.summary) %>%
         select(Hugo_Symbol, total) %>%
+        filter(Hugo_Symbol %in% !!gene_order) %>%
         mutate(
             percent_mut = round(total / !!cohort_size * 100),
             percent_mut = paste0(percent_mut, "%"),
@@ -248,7 +249,7 @@ make_right_bar_plot <- function(variants_per_gene_long, maf, cohort_size, gene_o
         ) %>%
         arrange(arrange_order)
 
-    p <- variants_per_gene %>%
+    p <- variants_per_gene_long %>%
         mutate(
             Hugo_Symbol = factor(Hugo_Symbol, levels = rev(gene_order)),
             Variant_Classification = format_var_names(Variant_Classification)
@@ -299,7 +300,6 @@ make_right_bar_plot <- function(variants_per_gene_long, maf, cohort_size, gene_o
 
 #' A strip below to show a clinical feature.
 make_clinical_feature_strip <- function(clinical_df, sample_order, pal) {
-    # browser()
     colnames(clinical_df)[[2]] <- "a"
     clinical_df$a <- factor(clinical_df$a, levels = names(pal))
 
