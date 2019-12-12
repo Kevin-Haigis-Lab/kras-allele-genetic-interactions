@@ -43,7 +43,8 @@ ggoncoplot <- function(maf,
                        removeNonMutated = TRUE,
                        clinicalFeatures = NULL,
                        annotation_pal = NULL,
-                       patchwork_layout_params = NULL) {
+                       patchwork_layout_params = NULL,
+                       with_legend_section = TRUE) {
     # Extract the various data frames from a MAF
     mutations_df <- as_tibble(maf@data)
     variants_per_sample <- as_tibble(maf@variants.per.sample)
@@ -98,7 +99,6 @@ ggoncoplot <- function(maf,
         rm(pm)
     }
 
-
     patch_layout <- c(
         area(t = 1, l = 1, b = m, r = o),
         area(t = m+1, l = 1, b = m+n+1, r = o),
@@ -106,6 +106,24 @@ ggoncoplot <- function(maf,
         area(t = m+n+2, l = 1, b = m+n+x+2, r = o),
         area(t = m+n+x+3, l = 1, b = m+n+x+q+3, r = p+o+1)
     )
+
+
+    if (with_legend_section) {
+        patch_layout <- c(
+            area(t = 1, l = 1, b = m, r = o),
+            area(t = m+1, l = 1, b = m+n+1, r = o),
+            area(t = m+1, l = o+1, b = m+n+1, r = p+o+1),
+            area(t = m+n+2, l = 1, b = m+n+x+2, r = o),
+            area(t = m+n+x+3, l = 1, b = m+n+x+q+3, r = p+o+1)
+        )
+    } else {
+        patch_layout <- c(
+            area(t = 1, l = 1, b = m, r = o),
+            area(t = m+1, l = 1, b = m+n+1, r = o),
+            area(t = m+1, l = o+1, b = m+n+1, r = p+o+1),
+            area(t = m+n+2, l = 1, b = m+n+x+2, r = o)
+        )
+    }
 
     A <- make_top_bar_plot(variants_per_sample,
                            sample_order)
@@ -124,40 +142,19 @@ ggoncoplot <- function(maf,
         D <- plot_spacer()
     }
 
+    onco_patch <- A + B + C + D
 
-    plot_widths <- c(3, 1)
+    if (with_legend_section) {
+        onco_patch <- onco_patch + guide_area()
+    }
 
-    onco_patch <- A + B + C + D + guide_area() +
-        plot_layout(design = patch_layout,
+    onco_patch <- onco_patch + plot_layout(design = patch_layout,
                     guides = "collect")
-    # onco_patch <- (A + plot_spacer() + plot_layout(widths = plot_widths)) /
-    #     (B + C + plot_layout(widths = plot_widths)) /
-    #     (D + plot_spacer() + plot_layout(widths = plot_widths)) /
-    #     guide_area() +
-    #     plot_layout(guides = "collect", heights = c(1, 2, 0.1, 1))
 
     return(onco_patch)
 }
 
-####### DELETE ME!
-# {
-#     ggonco_dir <- "lib/ggmaftools_test_objs"
-#     p <- ggoncoplot(maf = readRDS(file.path(ggonco_dir, "maf.rds")),
-#                     genes = readRDS(file.path(ggonco_dir, "genes.rds")),
-#                     sampleOrder = NULL,
-#                     top = 20,
-#                     cohortSize = NULL,
-#                     keepGeneOrder = TRUE,
-#                     removeNonMutated = TRUE,
-#                     clinicalFeatures = NULL,
-#                     annotation_pal = readRDS(file.path(ggonco_dir, "annotation_pal.rds")))
-#     ggsave(
-#         file.path(save_dir, "run_ggoncoplot.svg"),
-#         p,
-#         width = 10, height = 7, unit = "cm"
-#     )
-# }
-#######
+
 
 
 #### ---- Plotting components ---- ####
@@ -327,20 +324,22 @@ make_clinical_feature_strip <- function(clinical_df,
         ) +
         scale_x_discrete(expand = c(0, 0)) +
         scale_y_discrete(expand = c(0, 0)) +
-        theme_void(
+        theme_minimal(
             base_size = 6,
             base_family = "Arial"
         ) +
         theme(
+            axis.title = element_blank(),
+            axis.text.x = element_blank(),
+            axis.text.y = element_text(size = 5,
+                                       hjust = 1,
+                                       vjust = 0.5,
+                                       angle = 0,
+                                       family = "Arial"),
             legend.key.size = unit(2, "mm"),
             legend.text = element_text(size = 5),
             plot.margin = margin(0, 0, 0, 0, "mm"),
             legend.margin = margin(0, 0, -4, 0, "mm"),
-            axis.text.y = element_text(size = 5, "mm",
-                                        hjust = 1,
-                                        vjust = 0.5,
-                                        angle = 0,
-                                        family = "Arial")
         )
     return(p)
 }
