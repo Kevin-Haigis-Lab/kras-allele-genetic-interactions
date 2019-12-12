@@ -267,7 +267,8 @@ oncoplot_wrapper <- function(maf,
                              annotate_kras_allele = FALSE,
                              save_size = list(width = 9, height = 5),
                              return_ggonco = FALSE,
-                             ggonco_only = FALSE) {
+                             ggonco_only = FALSE,
+                             with_legend_section = TRUE) {
 
     if (!is.null(cancer)) {
         cohortSize <- unlist(filter(cancer_count_tib, cancer == !!cancer)$n)
@@ -307,7 +308,8 @@ oncoplot_wrapper <- function(maf,
                             keepGeneOrder = TRUE,
                             removeNonMutated = TRUE,
                             clinicalFeatures = "kras_allele",
-                            annotation_pal = pal)
+                            annotation_pal = pal,
+                            with_legend_section = with_legend_section)
             return(p)
         }
     } else {
@@ -336,7 +338,8 @@ oncoplot_wrapper <- function(maf,
                             cohortSize = cohortSize,
                             keepGeneOrder = TRUE,
                             removeNonMutated = TRUE,
-                            annotation_pal = pal)
+                            annotation_pal = pal,
+                            with_legend_section = with_legend_section)
             return(p)
         }
     }
@@ -520,7 +523,6 @@ cancer_counts_df %>%
 #### ---- Specific genes to  make oncoplots for ---- ####
 
 
-
 # MAIN PLOTTING FUNCTION
 # Plot the oncoplot for a `cancer` and KRAS `allele` for a specific set of
 #   genes. The genes are checked against the interaction graph.
@@ -592,24 +594,28 @@ allele_specificgenes_oncoplot <- function(cancer,
         cancer = cancer,
         annotate_kras_allele = annotate_kras_allele,
         save_size = list(width = 9, height = img_height),
-        return_ggonco = TRUE
+        return_ggonco = TRUE,
+        with_legend_section = TRUE
+    )
+
+    ggsave_wrapper(g, gg_save_path, "wide")
+
+    g <- oncoplot_wrapper(
+        maf = maf,
+        gene_and_sample_orders = gene_and_sample_orders,
+        save_path = save_path,
+        top = top_n_genes + 1 + as.numeric(replace_kras_with_allele),
+        cancer = cancer,
+        annotate_kras_allele = annotate_kras_allele,
+        save_size = list(width = 9, height = img_height),
+        return_ggonco = TRUE,
+        ggonco_only = TRUE,
+        with_legend_section = FALSE
     )
 
     if (keep_gg_onco_proto) {
         save_gg_onco_proto(g, save_name)
     }
-
-    ggsave_wrapper(g, gg_save_path, "wide")
-
-    # oncoplot_wrapper(
-    #     maf = maf,
-    #     gene_and_sample_orders = gene_and_sample_orders,
-    #     save_path = save_path,
-    #     top = top_n_genes + 1 + as.numeric(replace_kras_with_allele),
-    #     cancer = cancer,
-    #     annotate_kras_allele = annotate_kras_allele,
-    #     save_size = list(width = 9, height = img_height)
-    # )
 }
 
 
@@ -948,3 +954,49 @@ for (i in 1:length(gene_sets)) {
               annotate_kras_allele = TRUE,
               print_missing_genes = FALSE)
 }
+
+
+
+#### ---- Oncoplots for enriched functions ---- ####
+
+ENRICHED_DIR <- glue("{GRAPHS_DIR}-enriched")
+reset_graph_directory(ENRICHED_DIR)
+
+allele_enriched_functions_oncoplot <- function(cancer,
+                                               datasource,
+                                               term,
+                                               allele,
+                                               term_genes,
+                                               ...) {
+    allele_specificgenes_oncoplot(
+        cancer = cancer,
+        kras_allele = paste0("KRAS_", allele),
+        genes = term_genes,
+        interaction_type = "exclusivitycomutation",
+        save_name = glue("{cancer}_{allele}_{term}_oncoplot.svg"),
+        save_dir = ENRICHED_DIR,
+        ignore_genes = NULL,
+        top_n_genes = 20,
+        replace_kras_with_allele = TRUE,
+        annotate_kras_allele = TRUE,
+        print_missing_genes = TRUE,
+        keep_gg_onco_proto = TRUE,
+        ...
+    )
+}
+
+
+
+
+enrichr_tib %>%
+    select(-gene_list) %>%
+    unnest(cols = enrichr_res) %>%
+    mutate(n_overlap = get_enrichr_overlap_int(overlap)) %>%
+    filter(adjusted_p_value < 0.05 & n_overlap >= 3) %>%
+    mutate(overlap_genes = str_split(genes, ";")) %>%
+    select(-genes) %>%
+    group_by(term) %>%
+    mutate(term_genes = list(unique(unlist(overlap_genes)))) %>%
+    ungroup() %>%
+    mutate(term = standardize_enricher_terms(term)) %>%
+    pwalk(allele_enriched_functions_oncoplot)
