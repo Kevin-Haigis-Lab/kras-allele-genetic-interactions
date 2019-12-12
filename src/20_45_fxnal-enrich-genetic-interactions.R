@@ -2,8 +2,12 @@
 # Look for functional enrichment in the genes with detectable genetic
 # interactions with KRAS alleles
 
+GRAPHS_DIR <- "20_45_fxnal-enrich-genetic-interactions"
+reset_graph_directory(GRAPHS_DIR)
 
-cache("enrichr_tib", depends = "genetic_interaction_df",
+
+ProjectTemplate::cache("enrichr_tib",
+                       depends = "genetic_interaction_df",
 {
     enrichr_tib <- genetic_interaction_df %>%
         group_by(cancer, allele) %>%
@@ -21,7 +25,7 @@ write_enrichr_results <- function(cancer, allele, gene_list, enrichr_res,
                                   pval = 0.05, min_overlap = -1) {
     xlsx_save_path <- file.path(
         "tables",
-        "20_45_fxnal-enrich-genetic-interactions",
+        GRAPHS_DIR,
         glue("enrichr_results_{cancer}_{allele}.xlsx")
     )
     tsv_save_path <- str_replace(xlsx_save_path, "xlsx$", "tsv")
@@ -40,18 +44,42 @@ write_enrichr_results <- function(cancer, allele, gene_list, enrichr_res,
 
 purrr::pwalk(enrichr_tib, write_enrichr_results, pval = 0.2, min_overlap = 2)
 
+#' Standardize terms from Enrichr.
+standardize_enricher_terms <- function(terms) {
+    str_remove_all(terms, "_Homo.sapiens+.*$") %>%
+        str_remove_all("_96h.*$") %>%
+        str_remove_all("[:space:]WP.*$") %>%
+        str_remove_all("[:space:]\\(GO.*$") %>%
+        str_replace_all("_", " ")
+}
+
+#' Modify the `term` based on the data source `ds`.
+mod_term_for_datasource <- function(term, ds) {
+
+    templates <- list(
+        Transcription_Factor_PPIs = "PPI of {term} (TF)",
+        KEA_2015 = "Targets of {term} (kinase)",
+        PPI_Hub_Proteins = "PPI of {term} (hub)"
+    )
+
+    if (!ds %in% names(templates)) {
+        return(term)
+    } else {
+        return(glue(templates[[ds]]))
+    }
+}
+
 
 # Make a dot-plot of the functions from a data source enriched for a cancer.
-dotplot_top_functions <- function(cancer, datasource, data) {
+dotplot_top_functions <- function(cancer,
+                                  datasource,
+                                  data,
+                                  keep_term_order = FALSE) {
     mod_data <- data %>%
         filter(!str_detect(term, !!uniteresting_enrichr_regex)) %>%
         mutate(
-            term = str_remove_all(term, "_Homo.sapiens+.*$") %>%
-                str_remove_all("_96h.*$") %>%
-                str_remove_all("[:space:]WP.*$") %>%
-                str_remove_all("[:space:]\\(GO.*$") %>%
-                str_replace_all("_", " ") %>%
-                str_wrap(40)
+            term = str_wrap(term, 40),
+            term = map2_chr(term, datasource, mod_term_for_datasource)
         ) %>%
         complete(allele, term) %>%
         mutate(
@@ -59,10 +87,22 @@ dotplot_top_functions <- function(cancer, datasource, data) {
             n_overlap = ifelse(is.na(n_overlap), 0, n_overlap)
         )
 
-    if (nrow(mod_data) == 0) { return() }
+    if (nrow(mod_data) == 0) return()
 
     min_size <- ifelse(min(mod_data$n_overlap) == 0,  0,  1 )
     min_alpha <- ifelse(min(mod_data$n_overlap) == 0,  0,  0.1)
+
+    if (keep_term_order) {
+        term_levels <- mod_data %>%
+            filter(!is.na(allele) & !is.na(adjusted_p_value) & n_overlap > 0) %>%
+            group_by(term) %>%
+            mutate(n_alleles = n_distinct(allele)) %>%
+            ungroup() %>%
+            arrange(desc(allele), n_alleles, -adjusted_p_value) %>%
+            pull(term)
+
+        mod_data$term <- factor(mod_data$term, levels = unique(term_levels))
+    }
 
     p <- mod_data %>%
         ggplot(
@@ -97,10 +137,34 @@ dotplot_top_functions <- function(cancer, datasource, data) {
             alpha = "no. of genes",
             size = "-log10(adj. p-val)"
         )
-    save_path <- plot_path("20_45_fxnal-enrich-genetic-interactions",
+    save_path <- plot_path(GRAPHS_DIR,
                            glue("enrichr_{cancer}_{datasource}.svg"))
     ggsave_wrapper(p, save_path, "large")
+    invisible(p)
 }
+
+
+dotplot_selected_functions <- function(cancer, data) {
+    p <- dotplot_top_functions(cancer, "SELECT", data, keep_term_order = TRUE)
+    saveRDS(p, get_fig_proto_path(glue("enrichr_{cancer}"), 2))
+}
+
+selected_enrichments <- tibble::tribble(
+    ~cancer, ~datasource, ~term,
+    "COAD", "WikiPathways_2019_Human", "Focal Adhesion",
+    "COAD", "Panther_2016", "Hedgehog signaling pathway",
+    "COAD", "Reactome_2016", "Beta-catenin phosphorylation cascade",
+    "COAD", "Transcription_Factor_PPIs", "SMAD2",
+    "COAD", "KEA_2015", "ATM",
+    "COAD", 'PPI_Hub_Proteins', "YWHAZ",
+    "COAD", "KEGG_2019_Human", "mTOR signaling pathway",
+    "COAD", "KEGG_2019_Human", "Hippo signaling pathway",
+    "COAD", "KEGG_2019_Human", "Cellular senescence",
+    "COAD", "KEGG_2019_Human", "Apoptosis",
+    "COAD", "KEGG_2019_Human", "PI3K-Akt signaling pathway",
+    "COAD", "KEGG_2019_Human", "Wnt signaling pathway"
+) %>%
+    mutate(term_order = seq(n(), 1))
 
 
 enrichr_tib %>%
@@ -113,6 +177,13 @@ enrichr_tib %>%
     group_by(term) %>%
     mutate(term_genes = list(unique(unlist(overlap_genes)))) %>%
     ungroup() %>%
+    mutate(term = standardize_enricher_terms(term)) %>%
     group_by(cancer, datasource) %>%
-    nest() %>%
-    purrr::pwalk(dotplot_top_functions)
+    nest() %>%  # %T>%
+    # purrr::pwalk(dotplot_top_functions) %>%
+    unnest(data) %>%
+    right_join(selected_enrichments,
+               by = c("cancer", "datasource", "term")) %>%
+    group_by(cancer) %>%
+    nest() %T>%
+    purrr::pmap(dotplot_selected_functions)
