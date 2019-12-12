@@ -5,6 +5,8 @@ library(patchwork)
 
 GRAPHS_DIR <- "90_05_kras-allele-distribution"
 reset_graph_directory(GRAPHS_DIR)
+reset_table_directory(GRAPHS_DIR)
+
 
 # A data frame of the KRAS allele for each `tumor_sample_barcode`.
 alleles_df <- cancer_full_coding_muts_df %>%
@@ -340,59 +342,93 @@ saveRDS(
 
 #### ---- Table of the distribution of alleles ---- ####
 
+alleles_df %<>%
+    filter(cancer != "SKCM" & !is_hypermutant) %>%
+    mutate(kras_allele = str_remove(ras_allele, "KRAS_"),
+           codon = str_extract(ras_allele, "[:digit:]+|WT"))
+
+# Calculate the frequency of the alleles of KRAS by cancer.
+calc_frequency_of_alleles_by_cancer <- function(df) {
+    df %>%
+        group_by(cancer) %>%
+        mutate(
+            num_cancer_samples = n_distinct(tumor_sample_barcode)
+        ) %>%
+        group_by(cancer, ras, kras_allele, num_cancer_samples) %>%
+        summarise(num_allele_samples = n_distinct(tumor_sample_barcode)) %>%
+        ungroup() %>%
+        mutate(allele_frequency = num_allele_samples / num_cancer_samples) %>%
+        arrange(cancer, -allele_frequency) %>%
+        select(cancer, kras_allele,
+               num_allele_samples, num_cancer_samples, allele_frequency)
+}
+
 # Frequency of each allele across cancers.
 alleles_df %>%
-    filter(cancer != "SKCM") %>%
-    filter(!is_hypermutant) %>%
-    mutate(
-        kras_allele = str_remove(ras_allele, "KRAS_")
-    ) %>%
-    group_by(cancer) %>%
-    mutate(
-        num_cancer_samples = n_distinct(tumor_sample_barcode)
-    ) %>%
-    group_by(cancer, ras, kras_allele, num_cancer_samples) %>%
-    summarise(num_allele_samples = n_distinct(tumor_sample_barcode)) %>%
-    ungroup() %>%
-    mutate(allele_frequency = num_allele_samples / num_cancer_samples) %>%
-    arrange(cancer, -allele_frequency) %>%
-    select(cancer, kras_allele,
-           num_allele_samples, num_cancer_samples, allele_frequency) %>%
-    write_tsv(file.path("tables", GRAPHS_DIR, "kras-allele-distribution.tsv"))
+    calc_frequency_of_alleles_by_cancer() %>%
+    write_tsv(table_path(GRAPHS_DIR, "kras-allele-distribution.tsv"))
+
+# Frequency of each allele across cancers without WT.
+alleles_df %>%
+    filter(kras_allele != "WT") %>%
+    calc_frequency_of_alleles_by_cancer() %>%
+    write_tsv(table_path(GRAPHS_DIR, "kras-allele-distribution-noWT.tsv"))
+
+
+# Frequency of each allele for all cancers without WT.
+alleles_df %>%
+    mutate(cancer = "ALL") %>%
+    calc_frequency_of_alleles_by_cancer() %>%
+    write_tsv(table_path(GRAPHS_DIR, "kras-allele-distribution-all.tsv"))
+
+# Frequency of each allele for all cancers without WT.
+alleles_df %>%
+    mutate(cancer = "ALL") %>%
+    filter(kras_allele != "WT") %>%
+    calc_frequency_of_alleles_by_cancer() %>%
+    write_tsv(table_path(GRAPHS_DIR, "kras-allele-distribution-all-noWT.tsv"))
+
+
+
+
+
+#' Calculate the frequency of mutations of KRAS codons by cancer.
+calc_frequency_of_codons_by_cancer <- function(df) {
+    df %>%
+        group_by(cancer) %>%
+        mutate(
+            num_cancer_samples = n_distinct(tumor_sample_barcode)
+        ) %>%
+        group_by(cancer, codon, num_cancer_samples) %>%
+        summarise(num_codon_samples = n_distinct(tumor_sample_barcode)) %>%
+        ungroup() %>%
+        mutate(codon_frequency = num_codon_samples / num_cancer_samples) %>%
+        arrange(cancer, -codon_frequency) %>%
+        select(cancer, codon,
+               num_codon_samples, num_cancer_samples, codon_frequency)
+}
 
 # The frequency of each codon across cancers.
 alleles_df %>%
-    filter(cancer != "SKCM") %>%
-    filter(!is_hypermutant) %>%
-    mutate(
-        codon = str_extract(ras_allele, "[:digit:]+|WT")
-    ) %>%
-    group_by(cancer) %>%
-    mutate(
-        num_cancer_samples = n_distinct(tumor_sample_barcode)
-    ) %>%
-    group_by(cancer, codon, num_cancer_samples) %>%
-    summarise(num_codon_samples = n_distinct(tumor_sample_barcode)) %>%
-    ungroup() %>%
-    mutate(codon_frequency = num_codon_samples / num_cancer_samples) %>%
-    arrange(cancer, -codon_frequency) %>%
-    select(cancer, codon,
-           num_codon_samples, num_cancer_samples, codon_frequency) %>%
-    write_tsv(file.path("tables", GRAPHS_DIR, "kras-codon-distribution.tsv"))
+    calc_frequency_of_codons_by_cancer() %>%
+    write_tsv(table_path(GRAPHS_DIR, "kras-codon-distribution.tsv"))
+
+# The frequency of each codon across cancers without WT.
+alleles_df %>%
+    filter(kras_allele != "WT") %>%
+    calc_frequency_of_codons_by_cancer() %>%
+    write_tsv(table_path(GRAPHS_DIR, "kras-codon-distribution-noWT.tsv"))
+
 
 # The frequency of codon with all cancers combined.
 alleles_df %>%
-    filter(cancer != "SKCM") %>%
-    filter(!is_hypermutant) %>%
-    mutate(
-        codon = str_extract(ras_allele, "[:digit:]+|WT"),
-        num_samples = n_distinct(tumor_sample_barcode)
-    ) %>%
-    group_by(codon, num_samples) %>%
-    summarise(num_codon_samples = n_distinct(tumor_sample_barcode)) %>%
-    ungroup() %>%
-    mutate(codon_frequency = num_codon_samples / num_samples) %>%
-    arrange(-codon_frequency) %>%
-    select(codon, num_codon_samples, num_samples, codon_frequency) %>%
-    write_tsv(file.path("tables", GRAPHS_DIR,
-                        "kras-codon-distribution-allcancers.tsv"))
+    mutate(cancer = "ALL") %>%
+    calc_frequency_of_codons_by_cancer() %>%
+    write_tsv(table_path(GRAPHS_DIR, "kras-codon-distribution-all.tsv"))
+
+# The frequency of codon with all cancers combined without WT.
+alleles_df %>%
+    filter(kras_allele != "WT") %>%
+    mutate(cancer = "ALL") %>%
+    calc_frequency_of_codons_by_cancer() %>%
+    write_tsv(table_path(GRAPHS_DIR, "kras-codon-distribution-all-noWT.tsv"))
