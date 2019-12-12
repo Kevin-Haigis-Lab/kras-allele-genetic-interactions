@@ -68,7 +68,7 @@ enrichr_wrapper <- memoise::memoise(enrichr_wrapper)
 
 
 # A regular expression to use to remove uninteresting gene sets
-uniteresting_enrichr_regex <- c(
+uninteresting_enrichr_regex <- c(
       "cardiac", "heart", "muscle", "cardio",
       "disease", "chronic", "cancer",
       "basal", "axon", "amoeb", "glioma",

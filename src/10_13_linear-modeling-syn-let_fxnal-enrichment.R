@@ -8,7 +8,7 @@ cluster_terms <- depmap_gene_clusters %>%
     mutate(enrichr_res = purrr::map(genes, enrichr_wrapper)) %>%
     select(-genes) %>%
     unnest(enrichr_res) %>%
-    filter(!str_detect(term, !!uniteresting_enrichr_regex)) %>%
+    filter(!str_detect(term, !!uninteresting_enrichr_regex)) %>%
     mutate(n_genes = get_enrichr_overlap_int(overlap)) %>%
     filter(adjusted_p_value < 0.2 & n_genes > 2) %>%
     mutate(datasource_hr = unlist(mapping_datasource_names[datasource]))
@@ -183,7 +183,7 @@ cluster_terms_cancer <- depmap_gene_clusters %>%
     mutate(enrichr_res = purrr::map(genes, enrichr_wrapper)) %>%
     select(-genes) %>%
     unnest(enrichr_res) %>%
-    filter(!str_detect(term, !!uniteresting_enrichr_regex)) %>%
+    filter(!str_detect(term, !!uninteresting_enrichr_regex)) %>%
     mutate(n_genes = get_enrichr_overlap_int(overlap)) %>%
     filter(adjusted_p_value < 0.2 & n_genes > 2) %>%
     mutate(datasource_hr = unlist(mapping_datasource_names[datasource]))
