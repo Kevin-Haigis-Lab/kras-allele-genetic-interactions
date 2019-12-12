@@ -536,6 +536,7 @@ allele_specificgenes_oncoplot <- function(cancer,
                                           replace_kras_with_allele = TRUE,
                                           annotate_kras_allele = FALSE,
                                           print_missing_genes = TRUE,
+                                          keep_gg_onco_proto = FALSE,
                                           ...) {
     genes <- unlist(genes)
 
@@ -593,6 +594,11 @@ allele_specificgenes_oncoplot <- function(cancer,
         save_size = list(width = 9, height = img_height),
         return_ggonco = TRUE
     )
+
+    if (keep_gg_onco_proto) {
+        save_gg_onco_proto(g, save_name)
+    }
+
     ggsave_wrapper(g, gg_save_path, "wide")
 
     # oncoplot_wrapper(
@@ -604,6 +610,15 @@ allele_specificgenes_oncoplot <- function(cancer,
     #     annotate_kras_allele = annotate_kras_allele,
     #     save_size = list(width = 9, height = img_height)
     # )
+}
+
+
+# Save a ggoncoplot (or any plot really) for use in Figure 2.
+save_gg_onco_proto <- function(gg_obj, save_name) {
+    n <- tools::file_path_sans_ext(save_name)
+    cat("saving gg object for:", n, "\n")
+    saveRDS(gg_obj, get_fig_proto_path(n, 2))
+    invisible(NULL)
 }
 
 
@@ -620,28 +635,32 @@ specific_oncoplot_info_tib <- bind_rows(
         allele = "G12D",
         interaction_type = "exclusivity",
         name_suffix = "",
-        genes = c("SCN10A", "DICER1", "SDK1", "TRPM2")
+        genes = c("SCN10A", "DICER1", "SDK1", "TRPM2"),
+        keep_gg_onco_proto = TRUE
     ),
     tibble(
         cancer = "COAD",
         allele = "G12D",
         interaction_type = "comutation",
         name_suffix = "",
-        genes = c("MAGEC1", "AMER1", "TGIF1")
+        genes = c("MAGEC1", "AMER1", "TGIF1"),
+        keep_gg_onco_proto = TRUE
     ),
     tibble(
         cancer = "COAD",
         allele = "G12V",
         interaction_type = "exclusivity",
         name_suffix = "",
-        genes = c("DNAH2", "RYR1", "PKHD1", "DIDO1", "PKD1", "KALRN")
+        genes = c("DNAH2", "RYR1", "PKHD1", "DIDO1", "PKD1", "KALRN"),
+        keep_gg_onco_proto = TRUE
     ),
     tibble(
         cancer = "COAD",
         allele = "G12V",
         interaction_type = "comutation",
         name_suffix = "",
-        genes = c("APC", "PIK3CA", "SMAD4", "AMER1", "MCC")
+        genes = c("APC", "PIK3CA", "SMAD4", "AMER1", "MCC"),
+        keep_gg_onco_proto = TRUE
     ),
     tibble(
         cancer = "COAD",
@@ -798,15 +817,21 @@ specific_oncoplot_info_tib <- bind_rows(
     #     genes = c()
     # )
 ) %>%
-    group_by(cancer, allele, interaction_type, name_suffix) %>%
+    group_by(
+        cancer, allele, interaction_type, name_suffix, keep_gg_onco_proto
+    ) %>%
     summarise(genes = list(genes)) %>%
     ungroup() %>%
-    mutate(kras_allele = paste0("KRAS_", allele))
+    mutate(kras_allele = paste0("KRAS_", allele),
+           keep_gg_onco_proto = ifelse(is.na(keep_gg_onco_proto),
+                                       FALSE,
+                                       keep_gg_onco_proto))
 
 SELECT_DIR <- glue("{GRAPHS_DIR}-select")
 reset_graph_directory(SELECT_DIR)
 
 specific_oncoplot_info_tib %>%
+    filter(keep_gg_onco_proto) %>%
     mutate(
         save_name = paste0(cancer, "_",
                            allele, "_",
