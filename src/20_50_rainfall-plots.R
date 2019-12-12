@@ -348,11 +348,11 @@ oncoplot_wrapper <- function(maf,
 
 ggoncoplot_wrapper <- function(maf,
                                gene_and_sample_orders,
-                               save_path = NULL,  # NOT USED
+                               save_path = NULL,                # PARAM NOT USED
                                top = 10,
                                cancer = NULL,
                                annotate_kras_allele = FALSE,
-                               save_size = NULL) {
+                               save_size = NULL) {              # PARAM NOT USED
 
     if (!is.null(cancer)) {
         cohortSize <- unlist(filter(cancer_count_tib, cancer == !!cancer)$n)
@@ -391,6 +391,7 @@ ggoncoplot_wrapper <- function(maf,
 }
 
 
+
 # MAIN PLOTTING FUNCTION
 # Plot the oncoplot for a `cancer` and KRAS `allele` for the
 #   top `top_n_genes` genes, ignoring any in `ignore_genes`.
@@ -400,7 +401,7 @@ allele_exclusivity_oncoplot <- function(cancer, allele,
                                          gg_save_name_template = NULL,
                                          interaction_type = "exclusivity",
                                          top_n_genes = 20,
-                                         ignore_genes = c(),
+                                         ignore_genes = NULL,
                                          annotate_kras_allele = FALSE,
                                          ...) {
     mutex_genes <- genetic_interaction_gr %N>%
@@ -542,14 +543,11 @@ allele_specificgenes_oncoplot <- function(cancer,
                                           ...) {
     genes <- unlist(genes)
 
-    checked_genes <- genetic_interaction_gr %N>%
-        filter(!(name %in% !!ignore_genes)) %E>%
+    checked_genes <- genetic_interaction_df %>%
         filter(cancer == !!cancer &
-               (kras_allele == !!kras_allele | !!kras_allele == "KRAS_ALL")) %N>%
-        filter(centrality_degree(mode = "all") > 0) %>%
-        as_tibble() %>%
-        filter(!is_kras & name %in% !!genes) %>%
-        u_pull(name)
+               kras_allele == kras_allele &
+               hugo_symbol %in% !!genes) %>%
+        jhcutils::u_pull(hugo_symbol)
 
     n_g <- n_distinct(genes)
     n_cg <- n_distinct(checked_genes)
@@ -650,6 +648,22 @@ specific_oncoplot_info_tib <- bind_rows(
         interaction_type = "comutation",
         name_suffix = "",
         genes = c("MAGEC1", "AMER1", "TGIF1"),
+        keep_gg_onco_proto = TRUE
+    ),
+    tibble(
+        cancer = "COAD",
+        allele = "G12D",
+        interaction_type = "exclusiveYWHAZ",
+        name_suffix = "",
+        genes = c("BRAF", "ZC3H13", "DYNC1H1", "MYH9", "MLLT4"),
+        keep_gg_onco_proto = TRUE
+    ),
+    tibble(
+        cancer = "COAD",
+        allele = "G12D",
+        interaction_type = "comutYWHAZ",
+        name_suffix = "",
+        genes = c("FAM65B", "IPO7", "CTNNB1", "PCBP1", "PIK3CA", "APC"),
         keep_gg_onco_proto = TRUE
     ),
     tibble(
@@ -965,18 +979,19 @@ reset_graph_directory(ENRICHED_DIR)
 allele_enriched_functions_oncoplot <- function(cancer,
                                                datasource,
                                                term,
+                                               mod_term,
                                                allele,
-                                               term_genes,
+                                               overlap_genes,
                                                ...) {
     allele_specificgenes_oncoplot(
         cancer = cancer,
         kras_allele = paste0("KRAS_", allele),
-        genes = term_genes,
+        genes = overlap_genes,
         interaction_type = "exclusivitycomutation",
-        save_name = glue("{cancer}_{allele}_{term}_oncoplot.svg"),
+        save_name = glue("{cancer}_{allele}_{datasource}_{term}_oncoplot.svg"),
         save_dir = ENRICHED_DIR,
         ignore_genes = NULL,
-        top_n_genes = 20,
+        top_n_genes = 50,
         replace_kras_with_allele = TRUE,
         annotate_kras_allele = TRUE,
         print_missing_genes = TRUE,
@@ -986,17 +1001,18 @@ allele_enriched_functions_oncoplot <- function(cancer,
 }
 
 
-
-
 enrichr_tib %>%
     select(-gene_list) %>%
     unnest(cols = enrichr_res) %>%
     mutate(n_overlap = get_enrichr_overlap_int(overlap)) %>%
     filter(adjusted_p_value < 0.05 & n_overlap >= 3) %>%
     mutate(overlap_genes = str_split(genes, ";")) %>%
+    filter(!str_detect(term, !!uninteresting_enrichr_regex)) %>%
+    mutate(
+        mod_term = standardize_enricher_terms(term),
+        mod_term = str_wrap(mod_term, 40),
+        mod_term = map2_chr(mod_term, datasource, mod_term_for_datasource)
+    ) %>%
     select(-genes) %>%
-    group_by(term) %>%
-    mutate(term_genes = list(unique(unlist(overlap_genes)))) %>%
-    ungroup() %>%
-    mutate(term = standardize_enricher_terms(term)) %>%
+    filter(n_overlap >= 5) %>%
     pwalk(allele_enriched_functions_oncoplot)
