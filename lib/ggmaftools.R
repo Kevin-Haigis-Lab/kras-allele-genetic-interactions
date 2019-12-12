@@ -87,7 +87,7 @@ ggoncoplot <- function(maf,
         n <- 20 * x
         o <- 25 * x
         p <- 5 * x
-        q <- 8 * x
+        q <- 4 * x
     } else {
         pm <- patchwork_layout_params
         m <- pm[["m"]] * x
@@ -189,7 +189,7 @@ make_main_tile_plot <- function(mutations_df, gene_order, sample_order) {
         ) +
         theme(
             axis.text.x = element_blank(),
-            axis.text.y = element_text(hjust = 1),
+            axis.text.y = element_text(size = 5, hjust = 1),
             axis.title = element_blank(),
             legend.position = "bottom",
             axis.ticks = element_blank(),
@@ -222,7 +222,7 @@ make_top_bar_plot <- function(variants_per_sample, sample_order) {
         ) +
         theme(
             axis.text.x = element_blank(),
-            axis.text.y = element_text(hjust = 1),
+            axis.text.y = element_text(size = 5, hjust = 1),
             axis.title = element_blank(),
             legend.position = "none",
             axis.ticks.x = element_blank(),
@@ -299,18 +299,22 @@ make_right_bar_plot <- function(variants_per_gene_long, maf, cohort_size, gene_o
 
 
 #' A strip below to show a clinical feature.
-make_clinical_feature_strip <- function(clinical_df, sample_order, pal) {
-    colnames(clinical_df)[[2]] <- "a"
-    clinical_df$a <- factor(clinical_df$a, levels = names(pal))
+make_clinical_feature_strip <- function(clinical_df,
+                                        sample_order,
+                                        pal,
+                                        row_label = "KRAS allele") {
+    clinical_df[, 3] <- row_label
+    colnames(clinical_df)[c(2, 3)] <- c("fill_val", "y_val")
+    clinical_df$fill_val <- factor(clinical_df$fill_val, levels = names(pal))
 
     p <- clinical_df %>%
         mutate(
             Tumor_Sample_Barcode = factor(Tumor_Sample_Barcode,
                                           levels = sample_order)
         ) %>%
-        ggplot(aes(x = Tumor_Sample_Barcode, y = "")) +
+        ggplot(aes(x = Tumor_Sample_Barcode, y = y_val)) +
         geom_tile(
-            aes(fill = a),
+            aes(fill = fill_val),
             color = NA
         ) +
         scale_fill_manual(
@@ -331,10 +335,12 @@ make_clinical_feature_strip <- function(clinical_df, sample_order, pal) {
             legend.key.size = unit(2, "mm"),
             legend.text = element_text(size = 5),
             plot.margin = margin(0, 0, 0, 0, "mm"),
-            legend.margin = margin(0, 0, -4, 0, "mm")
-        ) +
-        labs(
-            y = "tumor samples"
+            legend.margin = margin(0, 0, -4, 0, "mm"),
+            axis.text.y = element_text(size = 5, "mm",
+                                        hjust = 1,
+                                        vjust = 0.5,
+                                        angle = 0,
+                                        family = "Arial")
         )
     return(p)
 }

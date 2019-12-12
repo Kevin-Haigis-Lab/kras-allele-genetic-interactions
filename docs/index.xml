@@ -106,6 +106,27 @@
     </item>
     
     <item>
+      <title>2019-12-11</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-12-11/</link>
+      <pubDate>Wed, 11 Dec 2019 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-12-11/</guid>
+      <description>
+
+&lt;h1 id=&#34;genetic-interaction-graphs&#34;&gt;Genetic interaction graphs&lt;/h1&gt;
+
+&lt;p&gt;I added an additional filter to the genetic interactions that allows for lower-frequency mutations to pass if they have a high rate of comutation with an allele.&lt;/p&gt;
+
+&lt;p&gt;I updated all downstream results.&lt;/p&gt;
+
+&lt;h2 id=&#34;figure-2&#34;&gt;Figure 2&lt;/h2&gt;
+
+&lt;p&gt;I worked on Figure 2, mainly making adjustments to the networks and oncoplots.&lt;/p&gt;
+
+&lt;p&gt;I also worked on the method for getting a selection of the enriched functions.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>2019-12-10</title>
       <link>https://project-notebook-comutation.netlify.com/post/2019-12-10/</link>
       <pubDate>Tue, 10 Dec 2019 00:00:00 +0000</pubDate>
