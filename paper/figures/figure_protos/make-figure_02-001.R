@@ -3,7 +3,7 @@
 FIGNUM <- 2
 VERSION <- 1
 FIGFILENAME <- glue("figure_{FIGNUM}_{VERSION}.svg")
-FIG_DIMENSIONS <- get_figure_dimensions(2, "medium")
+FIG_DIMENSIONS <- get_figure_dimensions(2, "short")
 
 library(ggraph)
 library(patchwork)
@@ -230,11 +230,6 @@ panel_G <- remove_oncoplot_legend(panel_G)
 
 
 
-
-
-
-
-
 #### ---- Figure assembly ---- ####
 
 {
@@ -249,9 +244,6 @@ panel_G <- remove_oncoplot_legend(panel_G)
     #         widths = c(1, 1000, 1000, 400)
     #     )
 
-
-
-
     rows_2_3 <- plot_spacer() +
     (
         (panel_D | panel_E) / (panel_F | panel_G )
@@ -261,7 +253,7 @@ panel_G <- remove_oncoplot_legend(panel_G)
 
     # COMPLETE FIGURE
     full_figure <- (row_1) / (rows_2_3) +
-        plot_layout(heights = c(2, 2, 1)) +
+        plot_layout(heights = c(2, 3)) +
         plot_annotation(
             title = glue("Figure {FIGNUM}"),
             theme = theme(
