@@ -44,6 +44,7 @@ write_enrichr_results <- function(cancer, allele, gene_list, enrichr_res,
 
 purrr::pwalk(enrichr_tib, write_enrichr_results, pval = 0.2, min_overlap = 2)
 
+
 #' Standardize terms from Enrichr.
 standardize_enricher_terms <- function(terms) {
     str_remove_all(terms, "_Homo.sapiens+.*$") %>%
@@ -55,7 +56,6 @@ standardize_enricher_terms <- function(terms) {
 
 #' Modify the `term` based on the data source `ds`.
 mod_term_for_datasource <- function(term, ds) {
-
     templates <- list(
         Transcription_Factor_PPIs = "PPI of {term} (TF)",
         KEA_2015 = "Targets of {term} (kinase)",
@@ -74,9 +74,9 @@ mod_term_for_datasource <- function(term, ds) {
 dotplot_top_functions <- function(cancer,
                                   datasource,
                                   data,
-                                  keep_term_order = FALSE) {
+                                  reorder_terms = TRUE) {
     mod_data <- data %>%
-        filter(!str_detect(term, !!uniteresting_enrichr_regex)) %>%
+        filter(!str_detect(term, !!uninteresting_enrichr_regex)) %>%
         mutate(
             term = str_wrap(term, 40),
             term = map2_chr(term, datasource, mod_term_for_datasource)
@@ -92,7 +92,7 @@ dotplot_top_functions <- function(cancer,
     min_size <- ifelse(min(mod_data$n_overlap) == 0,  0,  1 )
     min_alpha <- ifelse(min(mod_data$n_overlap) == 0,  0,  0.1)
 
-    if (keep_term_order) {
+    if (reorder_terms) {
         term_levels <- mod_data %>%
             filter(!is.na(allele) & !is.na(adjusted_p_value) & n_overlap > 0) %>%
             group_by(term) %>%
@@ -111,7 +111,7 @@ dotplot_top_functions <- function(cancer,
         geom_point(
             aes(size = -log10(adjusted_p_value),
                 alpha = n_overlap),
-            color = "blue"
+            color = "dodgerblue"
         ) +
         scale_size_continuous(
             range = c(min_size, 8),
@@ -145,7 +145,7 @@ dotplot_top_functions <- function(cancer,
 
 
 dotplot_selected_functions <- function(cancer, data) {
-    p <- dotplot_top_functions(cancer, "SELECT", data, keep_term_order = TRUE)
+    p <- dotplot_top_functions(cancer, "SELECT", data)
     saveRDS(p, get_fig_proto_path(glue("enrichr_{cancer}"), 2))
 }
 
@@ -163,8 +163,7 @@ selected_enrichments <- tibble::tribble(
     "COAD", "KEGG_2019_Human", "Apoptosis",
     "COAD", "KEGG_2019_Human", "PI3K-Akt signaling pathway",
     "COAD", "KEGG_2019_Human", "Wnt signaling pathway"
-) %>%
-    mutate(term_order = seq(n(), 1))
+)
 
 
 enrichr_tib %>%
@@ -179,11 +178,11 @@ enrichr_tib %>%
     ungroup() %>%
     mutate(term = standardize_enricher_terms(term)) %>%
     group_by(cancer, datasource) %>%
-    nest() %>%  # %T>%
-    # purrr::pwalk(dotplot_top_functions) %>%
+    nest() %T>%
+    purrr::pwalk(dotplot_top_functions) %>%
     unnest(data) %>%
     right_join(selected_enrichments,
                by = c("cancer", "datasource", "term")) %>%
     group_by(cancer) %>%
-    nest() %T>%
-    purrr::pmap(dotplot_selected_functions)
+    nest() %>%
+    purrr::pwalk(dotplot_selected_functions)
