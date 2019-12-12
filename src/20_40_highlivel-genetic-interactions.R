@@ -76,10 +76,12 @@ make_network_plot <- function(gr) {
             values = comut_updown_pal,
             guide = guide_legend(
                 title = "comutation",
+                title.position = "top",
                 keywidth = unit(2, "mm"),
                 keyheight = unit(1, "mm"),
-                row = 1,
-                label.position = "top"
+                ncol = 1,
+                label.position = "top",
+                order = 2
             )
         ) +
         geom_node_point(
@@ -99,7 +101,7 @@ make_network_plot <- function(gr) {
                 title = NULL,
                 keywidth = unit(2, "mm"),
                 keyheight = unit(3, "mm"),
-                ncol = 1,
+                nrow = 3,
                 order = 1
             )
         ) +
@@ -110,7 +112,7 @@ make_network_plot <- function(gr) {
         ) +
         theme(
             plot.title = element_blank(),
-            legend.position = "left"
+            legend.position = "bottom"
         )
     return(p)
 }
@@ -139,7 +141,7 @@ for (CANCER in sort(unique(genetic_interaction_df$cancer))) {
 
     saveRDS(
         gr_plot,
-        get_fig_proto_path(glue("genetic_interaction_network_{CANCER}.svg"), 2)
+        get_fig_proto_path(glue("genetic_interaction_network_{CANCER}"), 2)
     )
 }
 
