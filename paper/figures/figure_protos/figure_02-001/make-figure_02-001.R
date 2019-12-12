@@ -29,13 +29,37 @@ theme_graph_fig2 <- function() {
     theme_graph(base_size = 7, base_family = "Arial") %+replace%
     theme(
         plot.title = element_blank(),
-        legend.position = "left",
         plot.tag = element_text(size = 7,
                                 face = "bold",
-                                margin = margin(-3, -3, -3, -3, "mm")),
+                                margin = margin(0, 0, 0, 0, "mm")),
         legend.margin = margin(0, 0, 0, 0, "mm"),
+        legend.position = "bottom",
+        legend.title = element_text(size = 5, hjust = 0.5),
+        legend.text = element_text(size = 5, hjust = 0.5),
         plot.margin = margin(0, 0, 0, 0, "mm")
     )
+}
+
+
+adjust_oncoplot_theme <- function(pw) {
+    # Top bar plot
+    pw[[1]] <- pw[[1]] +
+        theme(
+            axis.text.y = element_text(size = 5, hjust = 1),
+            plot.tag = element_text(size = 7,
+                                face = "bold",
+                                margin = margin(0, 0, 0, 0, "mm"))
+        )
+
+    # Middle main tile plot
+    pw[[2]] <- pw[[2]] +
+        theme(axis.text.y = element_text(size = 6, hjust = 1))
+
+    # Top bar plot
+    pw[[3]] <- pw[[3]] +
+        theme(axis.text.x = element_text(size = 5, vjust = 1))
+
+    return(pw)
 }
 
 
@@ -45,14 +69,12 @@ theme_graph_fig2 <- function() {
 # The high-level network plot for the comutation graph for COAD.
 # original script: "src/20_40_highlivel-genetic-interactions.R"
 
-panel_A <- read_fig_proto("genetic_interaction_network_COAD.svg", 2) *
+panel_A <- read_fig_proto("genetic_interaction_network_COAD", 2) +
     theme_graph_fig2() %+replace%
     theme(
-        legend.spacing.x = unit(1.5, "mm")
-    )
-
-panel_A <- guide_area() + (panel_A + labs(tag = "a")) +
-    plot_layout(guides = "collect", widths = c(1, 10))
+        legend.spacing.x = unit(1, "mm")
+    ) +
+    labs(tag = "a")
 
 
 #### ---- B. A priori genes of interest comutation network for COAD ---- ####
@@ -65,32 +87,39 @@ panel_B <- read_fig_proto("goi_overlap_genetic_interactions_network_COAD_allList
     theme_graph_fig2() +
     theme(
         legend.position = "bottom"
-    )
+    ) +
+    labs(tag = "b")
 
-panel_B <- panel_B + labs(tag = "b")
 
-
-#### ---- C. Rainfall plot ---- ####
+#### ---- C. Lollipop ---- ####
 
 # Panel C.
-# A rainfall plot.
+# A lollipop plot.
 # original script: "src/20_43_apriori-lists-genetic-interactions.R"
 
-library(grImport2)
-library(grid)
 
-plot_file_name <- "COAD_G12D_exclusivity_oncostrip_select.svg"
-graphs_dir <- file.path("graphs", "20_50_rainfall-plots-select")
-file_path <- file.path(graphs_dir, plot_file_name)
 
-oncoplot_pic <- readPicture(file_path)
-oncoplot_grob <- gTree(children = gList(pictureGrob(oncoplot_pic)))
+#### ---- D. Oncoplot ---- ####
 
-panel_C <- ggplot(tibble()) +
-    annotation_custom(oncoplot_grob) +
-    theme(
-        panel.background = element_blank()
-    )
+# Panel D.
+# A rainfall plot.
+# original script: "src/20_50_rainfall-plots.R"
+
+panel_D <- read_fig_proto("COAD_G12D_comutation_oncostrip_select", FIGNUM)
+panel_D <- adjust_oncoplot_theme(panel_D)
+panel_D[[1]] <- panel_D[[1]] + labs(tag = "d") +
+    theme()
+
+
+#### ---- E. Oncoplot ---- ####
+
+# Panel E.
+# A rainfall plot.
+# original script: "src/20_50_rainfall-plots.R"
+
+panel_E <- read_fig_proto("COAD_G12D_exclusivity_oncostrip_select", FIGNUM)
+panel_E <- adjust_oncoplot_theme(panel_E)
+panel_E[[1]] <- panel_E[[1]] + labs(tag = "e")
 
 
 #### ---- Figure assembly ---- ####
@@ -98,12 +127,17 @@ panel_C <- ggplot(tibble()) +
 {
     set.seed(0)  # Because the graph-plotting algorithm is stochastic.
 
-    # ROW 1
-    row_1 <- (panel_A | panel_B) / (panel_C + plot_spacer()) +
-        plot_layout(heights = c(2, 1))
+    row_1 <- (panel_A | panel_B | plot_spacer()) +
+        plot_layout(widths = 1)
+
+    row_2 <- (plot_spacer() | panel_D | panel_E) +
+              plot_layout(widths = c(1, 1000, 1000))
+
+    row_3 <- plot_spacer()
 
     # COMPLETE FIGURE
-    full_figure <- row_1 +
+    full_figure <- (row_1) / (row_2)  / (row_3) +
+        plot_layout(heights = c(2, 1, 2)) +
         plot_annotation(
             title = glue("Figure {FIGNUM}"),
             theme = theme(
