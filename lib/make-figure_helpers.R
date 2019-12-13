@@ -1,4 +1,9 @@
 
+
+build_comutation_figures <- function(numbers = NULL) {
+    stop("This function has not been implemented.")
+}
+
 #### ---- Figure dimensions ---- ####
 
 # Data sourced from NRJ guidelines.
