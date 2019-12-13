@@ -4,6 +4,7 @@ GRAPHS_DIR <- "50_20_mutsignatures-distributions"
 reset_graph_directory(GRAPHS_DIR)
 
 alleles_frequency_per_cancer_df <- mutational_signatures_df %>%
+    filter(!is_hypermutant) %>%
     mutate(ras_allele = str_remove_all(ras_allele, "KRAS_")) %>%
     select(tumor_sample_barcode, cancer, ras_allele) %>%
     unique() %>%
@@ -15,6 +16,195 @@ alleles_to_plot <- function(cancer, min_num = 15) {
         pull(ras_allele) %>%
         unique()
 }
+
+
+
+#### ---- Mutational signature levels for all samples ---- ####
+
+data_to_dataframe_for_clustering <- function(dat) {
+    df <- dat %>%
+        ungroup() %>%
+        select(tumor_sample_barcode, description, contribution) %>%
+        # mutate(description = paste0("sig", description)) %>%
+        pivot_wider(names_from = description,
+                    values_from = contribution) %>%
+        as.data.frame() %>%
+        column_to_rownames("tumor_sample_barcode")
+    return(df)
+}
+
+dist_hclust <- function(df) {
+    hc <- df %>%
+        dist(method = "maximum") %>%
+        hclust(method = "ward.D")
+    return(hc)
+}
+
+order_samples_by_hclust <- function(dat) {
+    hc <- data_to_dataframe_for_clustering(dat)%>%
+        dist_hclust()
+
+    sample_order_df <- tibble(
+        tumor_sample_barcode = hc$labels,
+        sample_idx = hc$order
+    )
+
+    mod_dat <- full_join(dat, sample_order_df, by = "tumor_sample_barcode")
+    if(any(is.na(mod_dat))) {
+        stop("Joining in `order_samples_by_hclust()` went wrong.")
+    }
+    return(mod_dat)
+}
+
+order_signatures_by_hclust <- function(dat) {
+    hc <- data_to_dataframe_for_clustering(dat) %>%
+        t() %>%
+        dist_hclust()
+
+    sample_order_df <- tibble(
+        description = hc$labels,
+        signature_idx = hc$order
+    )
+
+    mod_dat <- full_join(dat, sample_order_df, by = "description")
+    if(any(is.na(mod_dat))) {
+        stop("Joining in `order_signatures_by_hclust()` went wrong.")
+    }
+    return(mod_dat)
+}
+
+
+prep_barplot_distribution_per_sample <- function(data,
+                                                 order_signatures = FALSE) {
+    plot_data <- data
+    plot_data$tumor_sample_barcode <- fct_reorder(
+        plot_data$tumor_sample_barcode,
+        plot_data$sample_idx
+    )
+
+    if (order_signatures) {
+        plot_data$description <- fct_reorder(
+            plot_data$description,
+            plot_data$signature_idx
+        )
+    }
+
+    return(plot_data)
+}
+
+
+barplot_distribution_per_sample <- function(data, title) {
+    p <- data %>%
+        ggplot(aes(x = tumor_sample_barcode, y = contribution)) +
+        geom_col(
+            aes(fill = description),
+            position = "fill",
+            width = 1.0
+        ) +
+        scale_fill_manual(
+            values = mutsig_descrpt_pal,
+            guide = guide_legend(
+                nrow = 1,
+                label.position = "top",
+                label.hjust = 0.5,
+                label.vjust = -2
+            )
+        ) +
+        scale_x_discrete(expand = c(0, 0)) +
+        scale_y_discrete(expand = c(0, 0)) +
+        theme_bw(
+            base_size = 7,
+            base_family = "Arial"
+        ) +
+        theme(
+            plot.title = element_text(hjust = 0.5),
+            axis.text.x = element_blank(),
+            axis.ticks.x = element_blank(),
+            strip.background = element_blank(),
+            legend.position = "bottom",
+            legend.key.size = unit(4, "mm")
+        ) +
+        labs(
+            title = title,
+            x = "tumor samples",
+            y = "level",
+            fill = "signature"
+        )
+    return(p)
+}
+
+
+save_barplot_distribution_per_sample_plots <- function(cancer, gg_obj, ...) {
+    ggsave_wrapper(
+        gg_obj,
+        plot_path(GRAPHS_DIR, glue("signature-level-per-sample_{cancer}.jpeg")),
+        "wide"
+    )
+}
+
+
+mutsig_per_sample_plots <- mutsig_noartifact_df %>%
+    filter(!all_zeros) %>%
+    group_by(tumor_sample_barcode, cancer, description) %>%
+    summarise(contribution = sum(contribution)) %>%
+    group_by(cancer) %>%
+    nest() %>%
+    ungroup() %>%
+    mutate(
+        data = purrr::map(data, order_signatures_by_hclust),
+        data = purrr::map(data, order_samples_by_hclust),
+        data = purrr::map(data,
+                          prep_barplot_distribution_per_sample,
+                          order_signatures = TRUE),
+        gg_obj = purrr::map2(data, cancer, barplot_distribution_per_sample)
+    ) %>%
+    pwalk(save_barplot_distribution_per_sample_plots)
+
+
+
+mutsig_per_sample_plot <- mutsig_noartifact_df %>%
+    filter(!all_zeros) %>%
+    group_by(tumor_sample_barcode, cancer, description) %>%
+    summarise(contribution = sum(contribution)) %>%
+    group_by(cancer) %>%
+    nest() %>%
+    ungroup() %>%
+    mutate(
+        data = purrr::map(data, order_signatures_by_hclust),
+        data = purrr::map(data, order_samples_by_hclust),
+        data = purrr::map(data, prep_barplot_distribution_per_sample)
+    ) %>%
+    unnest(data) %>%
+    barplot_distribution_per_sample(title = NULL) +
+    facet_wrap(~cancer, scales = "free", ncol = 1)
+
+ggsave_wrapper(
+    mutsig_per_sample_plot,
+    plot_path(GRAPHS_DIR, "signature-level-per-sample.jpeg"),
+    "large"
+)
+
+ggsave_wrapper(
+    mutsig_per_sample_plot,
+    plot_path(GRAPHS_DIR, "signature-level-per-sample.svg"),
+    "large"
+)
+
+saveRDS(
+    mutsig_per_sample_plot,
+    get_fig_proto_path("signature-level-per-sample", 2, supp = TRUE)
+)
+
+
+#### ---- Boxplot of mutational signature levels ---- ####
+
+
+mutsig_noartifact_df
+
+
+
+
+#### ---- Mutational signatures per KRAS allele ---- ####
 
 
 # Make a barplot of the mutational signature distribution per allele.
@@ -55,7 +245,7 @@ barplot_by_allele <- function(cancer, data, ...) {
 
 # Combine the plots into a grid using 'patchwork'.
 distribution_plots <- mutational_signatures_df %>%
-    filter(description != "artifact") %>%
+    filter(description != "artifact" & !is_hypermutant) %>%
     mutate(
         signature = factor(signature, levels = names(mutsig_pal)),
         description = factor(description, levels = names(mutsig_descrpt_pal)),
@@ -121,6 +311,7 @@ plot_clock_vs_nonclock <- function(cancer, data) {
 }
 
 clock_plots <- mutsig_noartifact_df %>%
+    filter(!is_hypermutant) %>%
     group_by(cancer) %>%
     nest() %>%
     pmap(plot_clock_vs_nonclock)
@@ -131,6 +322,7 @@ ggsave_wrapper(
     plot_path(GRAPHS_DIR, "clock-signatures.svg"),
     width = 5, height = 4
 )
+
 
 
 #### ---- Plot Clock vs. Smoke contribution in KRAS mutants ---- ####
