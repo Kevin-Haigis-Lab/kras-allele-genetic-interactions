@@ -1,9 +1,4 @@
 
-
-build_comutation_figures <- function(numbers = NULL) {
-    stop("This function has not been implemented.")
-}
-
 #### ---- Figure dimensions ---- ####
 
 # Data sourced from NRJ guidelines.
@@ -97,7 +92,8 @@ get_fig_proto_path <- function(name,
 #' Get the path for the final figure file.
 get_figure_path <- function(figure_num,
                             version = "latest",
-                            supp = FALSE) {
+                            supp = FALSE,
+                            file_fmt = "svg") {
     base_n <- str_pad(as.character(figure_num), 2, pad = "0")
     if (version == "latest") {
         version <- get_latest_version_of_figure(base_n, supp = supp)
@@ -106,12 +102,12 @@ get_figure_path <- function(figure_num,
 
     if (!supp) {
         fig_dir <- glue("figure_{base_n}-{sub_n}")
-        versioned_name <- glue("Figure_{base_n}-{sub_n}.svg")
-        unversioned_name <- glue("Figure_{base_n}.svg")
+        versioned_name <- glue("Figure_{base_n}-{sub_n}.{file_fmt}")
+        unversioned_name <- glue("Figure_{base_n}.{file_fmt}")
     } else {
         fig_dir <- glue("suppfigure_{base_n}-{sub_n}")
-        versioned_name <- glue("SuppFigure_{base_n}-{sub_n}.svg")
-        unversioned_name <- glue("SuppFigure_{base_n}.svg")
+        versioned_name <- glue("SuppFigure_{base_n}-{sub_n}.{file_fmt}")
+        unversioned_name <- glue("SuppFigure_{base_n}.{file_fmt}")
     }
 
     return(list(
@@ -130,12 +126,16 @@ save_figure <- function(p,
                         dim = NULL,
                         n_col = NULL,
                         height_class = NULL,
-                        unversioned_only = FALSE) {
+                        unversioned_only = FALSE,
+                        file_fmt = "svg") {
     if (is.null(dim)) {
         dim <- get_figure_dimensions(n_col, height_class)
     }
 
-    file_names <- get_figure_path(figure_num, version, supp = supp)
+    file_names <- get_figure_path(figure_num,
+                                  version,
+                                  supp = supp,
+                                  file_fmt = file_fmt)
 
     # Save versioned.
     ggsave(
@@ -156,4 +156,38 @@ save_figure <- function(p,
 read_fig_proto <- function(name, figure_num, version = "latest", supp = FALSE) {
     path <- get_fig_proto_path(name, figure_num, version, supp = supp)
     readRDS(path)
+}
+
+
+
+#### ---- Build all figures ---- ####
+
+#' Extract the title, number, and version of the make script.
+#' Information is returned as a labeled list.
+get_figure_info_from_name <- function(make_file_name) {
+    info <- list()
+    fn <- basename(tools::file_path_sans_ext(make_file_name))
+    info$title <- ifelse(str_detect(fn, "supp"), "Supp. Figure", "Figure")
+    info$number <- as.numeric(str_extract(fn, "(?<=figure_)[:digit:]+(?=-)"))
+    info$version <- as.numeric(str_extract(fn, "(?<=\\-)[:digit:]+$"))
+    return(info)
+}
+
+# Build all of the figures.
+build_comutation_figures <- function() {
+    figure_make_scripts <- list.files(FIGURE_PROTOS_DIR, full.names = TRUE)
+    idx <- str_detect(basename(figure_make_scripts), "^make.*\\.R$")
+    figure_make_scripts <- figure_make_scripts[idx]
+
+    for (f in figure_make_scripts) {
+        info <- get_figure_info_from_name(f)
+        msg <- glue("=> Making {info$title} {info$number} (v{info$version})")
+        cat(str_pad("", str_length(msg), pad = "="), "\n")
+        cat(msg, "\n")
+
+        source(f)
+
+        cat(str_pad("", str_length(msg), pad = "="), "\n\n")
+    }
+    cat("Done\n")
 }
