@@ -369,40 +369,10 @@ saveRDS(
 
 #### ---- Mutational signatures per KRAS allele ---- ####
 
-
 # Make a barplot of the mutational signature distribution per allele.
 barplot_by_allele <- function(cancer, data, ...) {
     p <- data %>%
-        filter(ras_allele %in% alleles_to_plot(cancer = !!cancer)) %>%
-        group_by(ras_allele, description) %>%
-        summarise(contribution = sum(contribution)) %>%
-        ungroup() %>%
-        ggplot(aes(x = ras_allele, y = contribution)) +
-        geom_col(aes(fill = description), position = "fill") +
-        scale_fill_manual(
-            values = mutsig_descrpt_pal,
-            guide = guide_legend(
-                nrow = 1,
-                title.position = "left",
-                label.position = "top",
-                label.hjust = 0.5,
-                label.vjust = -5
-            )
-        ) +
-        scale_x_discrete(expand = c(0, 0)) +
-        scale_y_continuous(expand = c(0, 0)) +
-        theme_bw(
-            base_size = 9,
-            base_family = "Arial"
-        ) +
-        theme(
-            plot.title = element_text(hjust = 0.5),
-            axis.title.x = element_blank(),
-            legend.position = "bottom",
-            legend.key.size = unit(4, "mm"),
-            legend.spacing.y = unit(0, "mm")
-        ) +
-        ggtitle(cancer)
+
     return(p)
 }
 
@@ -416,13 +386,45 @@ distribution_plots <- mutational_signatures_df %>%
         ras_allele = factor(ras_allele, levels = names(short_allele_pal))
     ) %>%
     group_by(cancer) %>%
-    nest() %>%
-    pmap(barplot_by_allele)
+    filter(ras_allele %in% alleles_to_plot(cancer = unique(cancer))) %>%
+    group_by(cancer, ras_allele, description) %>%
+    summarise(contribution = sum(contribution)) %>%
+    ungroup() %>%
+    ggplot(aes(x = ras_allele, y = contribution)) +
+    facet_wrap(~ cancer, scales = "free", nrow = 2) +
+    geom_col(aes(fill = description), position = "fill") +
+    scale_fill_manual(
+        values = mutsig_descrpt_pal,
+        guide = guide_legend(
+            title = "signature",
+            nrow = 1,
+            title.position = "left",
+            title.vjust = 0.5,
+            label.position = "top",
+            label.hjust = 0.5,
+            label.vjust = -6
+        )
+    ) +
+    scale_x_discrete(expand = c(0, 0)) +
+    scale_y_continuous(expand = c(0, 0)) +
+    theme_bw(
+        base_size = 7,
+        base_family = "Arial"
+    ) +
+    theme(
+        plot.title = element_text(hjust = 0.5),
+        axis.title.x = element_blank(),
+        legend.position = "bottom",
+        legend.key.size = unit(4, "mm"),
+        legend.spacing.y = unit(0, "mm"),
+        strip.background = element_blank()
+    ) +
+    labs(
+        y = "average level"
+    )
 
-combined_plots <-  wrap_plots(distribution_plots) / guide_area() +
-    plot_layout(guides = 'collect', heights = c(14, 1))
 ggsave_wrapper(
-    combined_plots,
+    distribution_plots,
     plot_path(GRAPHS_DIR, "mutsig-dist_combined.svg"),
     'wide'
 )
@@ -444,58 +446,89 @@ clock_pal <- c(
     "non-clock" = "grey80"
 )
 
-plot_clock_vs_nonclock <- function(cancer, data) {
-    plot_data <- data %>%
-        mutate(clock_signature = ifelse(
-            signature %in% !!clock_sigs, "clock", "non-clock"
-        )) %>%
-        group_by(tumor_sample_barcode, clock_signature) %>%
-        summarise(contribution = sum(contribution)) %>%
-        ungroup()
-
-
-    p <- plot_data %>%
-        ggplot(aes(x = clock_signature, y = contribution)) +
-        geom_boxplot(
-            aes(fill = clock_signature),
-            alpha = 0.7,
-            outlier.shape = NA,
-            notch = FALSE
-        ) +
-        scale_fill_manual(
-            values = clock_pal
-        ) +
-        scale_y_continuous(expand = expand_scale(mult = c(0, 0.05))) +
-        theme_bw(
-            base_size = 9,
-            base_family = "Arial"
-        ) +
+# A theme for the clock vs. non-clock plots (below)
+clock_plot_theme <- function() {
+    theme_bw(
+        base_size = 7,
+        base_family = "Arial"
+    ) %+replace%
         theme(
             plot.title = element_text(hjust = 0.5),
             axis.title.x = element_blank(),
-            legend.position = "right",
-            legend.title = element_blank()
-        ) +
-        ggtitle(cancer)
-    return(p)
+            legend.position = "none",
+            legend.title = element_blank(),
+            strip.background = element_blank()
+        )
 }
 
-clock_plots <- mutsig_noartifact_df %>%
-    filter(!is_hypermutant) %>%
-    group_by(cancer) %>%
-    nest() %>%
-    pmap(plot_clock_vs_nonclock)
-clock_combined_plots <- wrap_plots(clock_plots) +
-    plot_layout(guides = 'collect')
+# Prepare the signatures to plot clock vs. non-clock.
+prepare_clock_signature_data <- function(data) {
+    plot_data <- data %>%
+        filter(!is_hypermutant) %>%
+        mutate(clock_signature = ifelse(
+            signature %in% !!clock_sigs, "clock", "non-clock"
+        )) %>%
+        group_by(cancer, tumor_sample_barcode, clock_signature) %>%
+        summarise(contribution = sum(contribution)) %>%
+        ungroup()
+    return(plot_data)
+}
+
+# Distribution of levels of clock vs. non-clock signatures.
+# A violin with overlaid boxplots.
+clock_violin_box <- mutsig_noartifact_df %>%
+    prepare_clock_signature_data() %>%
+    ggplot(aes(x = clock_signature, y = contribution)) +
+    geom_violin(
+        aes(fill = clock_signature),
+        alpha = 0.7
+    ) +
+    geom_boxplot(
+        fill = "white",
+        width = 0.15,
+        outlier.shape = NA,
+        notch = FALSE
+    ) +
+    scale_fill_manual(
+        values = clock_pal
+    ) +
+    scale_y_continuous(expand = c(0, 0)) +
+    clock_plot_theme() +
+    facet_wrap(~ cancer, scales = "free", nrow = 2)
+
 ggsave_wrapper(
-    clock_combined_plots,
-    plot_path(GRAPHS_DIR, "clock-signatures.svg"),
+    clock_violin_box,
+    plot_path(GRAPHS_DIR, "clock-signatures_violin-box.svg"),
     width = 5, height = 4
 )
+
 saveRDS(
-    clock_plots,
-    get_fig_proto_path("clock-signature-plots", 2, supp = TRUE)
+    clock_violin_box,
+    get_fig_proto_path("clock-signatures_violin-box", 2, supp = TRUE)
 )
+
+# Distribution of levels of clock vs. non-clock signatures.
+# horizontal density plot.
+clock_ridges <- mutsig_noartifact_df %>%
+    prepare_clock_signature_data() %>%
+    ggplot(aes(y = clock_signature, x = contribution)) +
+    ggridges::geom_density_ridges(
+        aes(fill = clock_signature),
+        alpha = 0.7
+    ) +
+    scale_fill_manual(
+        values = clock_pal
+    ) +
+    scale_x_continuous(expand = c(0, 0)) +
+    clock_plot_theme() +
+    facet_wrap(~ cancer, scales = "free", nrow = 2)
+
+ggsave_wrapper(
+    clock_ridges,
+    plot_path(GRAPHS_DIR, "clock-signatures_ridges.svg"),
+    width = 5, height = 4
+)
+
 
 
 
