@@ -1,7 +1,5 @@
 # Plot the distribution of mutational signatures by allele.
 
-library(patchwork)
-
 GRAPHS_DIR <- "50_20_mutsignatures-distributions"
 reset_graph_directory(GRAPHS_DIR)
 
