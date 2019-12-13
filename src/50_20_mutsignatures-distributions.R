@@ -33,6 +33,7 @@ data_to_dataframe_for_clustering <- function(dat) {
     return(df)
 }
 
+
 dist_hclust <- function(df) {
     hc <- df %>%
         dist(method = "maximum") %>%
@@ -40,9 +41,17 @@ dist_hclust <- function(df) {
     return(hc)
 }
 
+scale_dist_hclust <- function(df) {
+    scaled_df <- t(apply(df, 1, scale))
+    scaled_df <- as.data.frame(scaled_df)
+    colnames(scaled_df) <- colnames(df)
+    scaled_df[is.na(scaled_df)] <- 0
+    return(dist_hclust(scaled_df))
+}
+
 order_samples_by_hclust <- function(dat) {
     hc <- data_to_dataframe_for_clustering(dat)%>%
-        dist_hclust()
+        scale_dist_hclust()
 
     sample_order_df <- tibble(
         tumor_sample_barcode = hc$labels,
@@ -59,7 +68,7 @@ order_samples_by_hclust <- function(dat) {
 order_signatures_by_hclust <- function(dat) {
     hc <- data_to_dataframe_for_clustering(dat) %>%
         t() %>%
-        dist_hclust()
+        scale_dist_hclust()
 
     sample_order_df <- tibble(
         description = hc$labels,
@@ -145,6 +154,8 @@ save_barplot_distribution_per_sample_plots <- function(cancer, gg_obj, ...) {
 
 mutsig_per_sample_plots <- mutsig_noartifact_df %>%
     filter(!all_zeros) %>%
+    group_by(cancer, description) %>%
+    filter(!all(contribution == 0)) %>%
     group_by(tumor_sample_barcode, cancer, description) %>%
     summarise(contribution = sum(contribution)) %>%
     group_by(cancer) %>%
@@ -196,12 +207,60 @@ saveRDS(
 )
 
 
-#### ---- Boxplot of mutational signature levels ---- ####
+#### ---- Boxplots of mutational signature levels ---- ####
 
 
-mutsig_noartifact_df
+# Make boxplots of the signature levels in all samples.
+signature_distribution_boxplots <- function(tib) {
+    p <- tib %>%
+        mutate(
+            description = factor(description,
+                                 levels = names(mutsig_descrpt_pal))
+        ) %>%
+        ggplot(aes(x = description, y = contribution)) +
+        facet_wrap(~ cancer, scales = "free", ncol = 1) +
+        geom_boxplot(
+            aes(fill = description),
+            outlier.shape = NA
+        ) +
+        scale_fill_manual(
+            values = mutsig_descrpt_pal
+        ) +
+        theme_bw(
+            base_size = 7,
+            base_family = "Arial"
+        ) +
+        labs(
+            x = "mutational signature",
+            y = "level"
+        )
+    return(p)
+}
 
+# Boxplots of mutational signatures in each sample (values of zero ignored).
+sig_boxes_with0s <- mutsig_noartifact_df %>%
+    group_by(tumor_sample_barcode, cancer, description) %>%
+    summarise(contribution = sum(contribution)) %>%
+    ungroup() %>%
+    filter(contribution > 0) %>%
+    signature_distribution_boxplots()
+ggsave_wrapper(
+    sig_boxes_with0s,
+    plot_path(GRAPHS_DIR, "signature-level-boxplots_with0.svg"),
+    "tall"
+)
 
+# Boxplots of mutational signatures in each sample (values of zero maintained).
+sig_boxes <- mutsig_noartifact_df %>%
+    group_by(tumor_sample_barcode, cancer, description) %>%
+    summarise(contribution = sum(contribution)) %>%
+    ungroup() %>%
+    signature_distribution_boxplots()
+ggsave_wrapper(
+    sig_boxes,
+    plot_path(GRAPHS_DIR, "signature-level-boxplots.svg"),
+    "tall"
+)
 
 
 #### ---- Mutational signatures per KRAS allele ---- ####
