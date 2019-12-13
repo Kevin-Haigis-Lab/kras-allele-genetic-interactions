@@ -9,6 +9,7 @@ reset_graph_directory(GRAPHS_DIR)
 
 # A data frame of the number of samples with each allele.
 alleles_frequency_per_cancer_df <- mutational_signatures_df %>%
+    filter(!is_hypermutant)
     mutate(kras_allele = str_remove_all(ras_allele, "KRAS_")) %>%
     select(tumor_sample_barcode, cancer, kras_allele) %>%
     unique() %>%
@@ -26,6 +27,7 @@ alleles_to_plot <- function(cancer, min_num = 15) {
 
 # Just the columns with mutational signature information.
 mutsig_noartifact_df_select <- mutsig_noartifact_df %>%
+    filter(!is_hypermutant) %>%
     select(tumor_sample_barcode, signature, contribution, description)
 
 
