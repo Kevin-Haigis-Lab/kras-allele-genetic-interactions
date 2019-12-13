@@ -4,6 +4,7 @@
 
 GRAPHS_DIR <- "20_45_fxnal-enrich-genetic-interactions"
 reset_graph_directory(GRAPHS_DIR)
+reset_table_directory(GRAPHS_DIR)
 
 
 ProjectTemplate::cache("enrichr_tib",
@@ -23,8 +24,7 @@ ProjectTemplate::cache("enrichr_tib",
 #  min_overlap: minimum number of genes in the gene set
 write_enrichr_results <- function(cancer, allele, gene_list, enrichr_res,
                                   pval = 0.05, min_overlap = -1) {
-    xlsx_save_path <- file.path(
-        "tables",
+    xlsx_save_path <- table_path(
         GRAPHS_DIR,
         glue("enrichr_results_{cancer}_{allele}.xlsx")
     )
