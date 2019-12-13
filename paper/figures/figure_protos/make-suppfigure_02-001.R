@@ -8,7 +8,6 @@ FIG_DIMENSIONS <- get_figure_dimensions(2, "short")
 
 
 
-
 theme_figS2 <- function() {
     theme_bw(base_size = 7, base_family = "Arial") %+replace%
     theme(
@@ -19,7 +18,7 @@ theme_figS2 <- function() {
         axis.ticks = element_blank(),
         plot.tag = element_text(size = 7,
                                 face = "bold",
-                                margin = margin(0, 0, 0, 0, "mm")),
+                                margin = margin(-1, -1, -1, -1, "mm")),
         strip.background = element_blank()
     )
 }
@@ -77,19 +76,8 @@ panel_B <- read_fig_proto("signature-level-boxplots_with0",
 # original script: "src/50_20_mutsignatures-distributions.R"
 
 panel_C <- read_fig_proto("mutational-signatures-distribution-by-allele",
-                          FIGNUM, supp = SUPPLEMENTAL)
-
-for (i in seq(1, length(panel_C))) {
-    panel_C[[i]] <- panel_C[[i]] +
-        labs(
-            y = "level"
-        )
-}
-
-panel_C[[1]] <- panel_C[[1]] + labs(tag = "c")
-
-panel_C <- panel_C %>%
-    wrap_plots(nrow = 2) &
+                          FIGNUM, supp = SUPPLEMENTAL) +
+    labs(tag = "c") &
     theme_figS2() +
     theme(
         legend.position = "none",
@@ -102,20 +90,9 @@ panel_C <- panel_C %>%
 # The levels of clock and non-clock mutational signatures per cancer.
 # original script: "src/50_20_mutsignatures-distributions.R"
 
-panel_D <- read_fig_proto("clock-signature-plots",
-                          FIGNUM, supp = SUPPLEMENTAL)
-
-for (i in seq(1, length(panel_D))) {
-    panel_D[[i]] <- panel_D[[i]] +
-        labs(
-            y = "level"
-        )
-}
-
-panel_D[[1]] <- panel_D[[1]] + labs(tag = "d")
-
-panel_D <- panel_D %>%
-    wrap_plots(nrow = 2) &
+panel_D <- read_fig_proto("clock-signatures_violin-box",
+                          FIGNUM, supp = SUPPLEMENTAL) +
+    labs(tag = "d") &
     theme_figS2() +
     theme(
         legend.position = "none",
