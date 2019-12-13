@@ -1,9 +1,4 @@
 
-#' Get the full path for a plot name.
-plot_path <- function(...) {
-    file.path("graphs", ...)
-}
-
 #' Predetermined plot dimensions.
 plot_size_dict <- list(
     small = c(4, 4),

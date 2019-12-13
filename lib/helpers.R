@@ -34,10 +34,30 @@ sem <- function(x) sd(x) / sqrt(length(x))
 #' Create or reset a directory in 'graphs'
 #'
 #' This is useful to call at the top of an analysis to remove the old graphs
-#' such that there are no phantom plots from old analyses.
+#' such that there are no phantom results from old analyses.
 reset_graph_directory <- function(dir_name) {
-    message(glue("Reseting directory: {dir_name}"))
     dir_path <- file.path("graphs", dir_name)
+    reset_directory(dir_path, "graph")
+}
+
+
+#' Create or reset a directory in 'tables'
+#'
+#' This is useful to call at the top of an analysis to remove the old tables
+#' such that there are no phantom results from old analyses.
+reset_table_directory <- function(dir_name) {
+    dir_path <- file.path("tables", dir_name)
+    reset_directory(dir_path, "table")
+}
+
+
+#' Create or reset a directory
+#'
+#' Do not call this directly. There are helpers for "graphs" and "tables".
+#' If additional result locations need to be accessed, create a helper function
+#' to maintain the API.
+reset_directory <- function(dir_path, location) {
+    message(glue("Reseting {location} directory: {basename(dir_path)}"))
     if (dir.exists(dir_path)) {
         unlink(dir_path, recursive = TRUE)
     }
@@ -48,6 +68,18 @@ reset_graph_directory <- function(dir_name) {
 #' Source the files in the 'lib' directory.
 source_lib <- function() {
     for (f in list.files("lib", full.name = TRUE)) source(f)
+}
+
+
+#' Get the full path for a plot name.
+plot_path <- function(...) {
+    file.path("graphs", ...)
+}
+
+
+#' Get the full path for a plot name.
+table_path <- function(...) {
+    file.path("tables", ...)
 }
 
 
