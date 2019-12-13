@@ -54,11 +54,12 @@ FIGURE_PROTOS_DIR <- file.path(FIGURE_DIR, "figure_protos")
 
 
 #' Returns the numeric value for the lowest subversion of Figure `figure_num`.
-get_latest_version_of_figure <- function(figure_num) {
+get_latest_version_of_figure <- function(figure_num, supp) {
     all_dirs <- list.dirs(FIGURE_PROTOS_DIR,
                           full.names = FALSE,
                           recursive = FALSE)
-    idx <- str_detect(all_dirs, glue("_{figure_num}-"))
+    fig_type <- ifelse(supp, "suppfigure", "figure")
+    idx <- str_detect(all_dirs, glue("{fig_type}_{figure_num}-"))
     all_dirs <- all_dirs[idx]
     subversions <- str_split_fixed(all_dirs, "_|-", 3)[, 3] %>%
         unlist() %>%
@@ -69,33 +70,49 @@ get_latest_version_of_figure <- function(figure_num) {
 
 #' Get the path to proto file for version `version` of Figure `figure_num`.
 #' The general format is "figure_protos/figure_00-000/filename.rds".
-get_fig_proto_path <- function(name, figure_num, version = "latest") {
+get_fig_proto_path <- function(name,
+                               figure_num,
+                               version = "latest",
+                               supp = FALSE) {
 
     base_n <- str_pad(as.character(figure_num), 2, pad = "0")
     if (version == "latest") {
-        version <- get_latest_version_of_figure(base_n)
+        version <- get_latest_version_of_figure(base_n, supp = supp)
     }
     sub_n <- str_pad(as.character(version), 3, pad = "0")
 
+    if (!supp) {
+        fig_dir <- glue("figure_{base_n}-{sub_n}")
+        full_name <- glue("{name}.rds")
+    } else {
+        fig_dir <- glue("suppfigure_{base_n}-{sub_n}")
+        full_name <- glue("{name}.rds")
+    }
 
-    fig_dir <- glue("figure_{base_n}-{sub_n}")
-    full_name <- glue("{name}.rds")
 
     file.path(FIGURE_PROTOS_DIR, fig_dir, full_name)
 }
 
 
 #' Get the path for the final figure file.
-get_figure_path <- function(figure_num, version = "latest") {
+get_figure_path <- function(figure_num,
+                            version = "latest",
+                            supp = FALSE) {
     base_n <- str_pad(as.character(figure_num), 2, pad = "0")
     if (version == "latest") {
-        version <- get_latest_version_of_figure(base_n)
+        version <- get_latest_version_of_figure(base_n, supp = supp)
     }
     sub_n <- str_pad(as.character(version), 3, pad = "0")
 
-    fig_dir <- glue("figure_{base_n}-{sub_n}")
-    versioned_name <- glue("Figure_{base_n}-{sub_n}.svg")
-    unversioned_name <- glue("Figure_{base_n}.svg")
+    if (!supp) {
+        fig_dir <- glue("figure_{base_n}-{sub_n}")
+        versioned_name <- glue("Figure_{base_n}-{sub_n}.svg")
+        unversioned_name <- glue("Figure_{base_n}.svg")
+    } else {
+        fig_dir <- glue("suppfigure_{base_n}-{sub_n}")
+        versioned_name <- glue("SuppFigure_{base_n}-{sub_n}.svg")
+        unversioned_name <- glue("SuppFigure_{base_n}.svg")
+    }
 
     return(list(
         versioned = file.path(FIGURE_PROTOS_DIR, fig_dir, versioned_name),
@@ -107,15 +124,18 @@ get_figure_path <- function(figure_num, version = "latest") {
 #' Save the final SVG for Figure `figure_num`.
 #' Two files are saved, one with the version number and one without.
 save_figure <- function(p,
-                        figure_num, version = "latest",
-                        dim=NULL,
-                        n_col=NULL, height_class = NULL,
+                        figure_num,
+                        version = "latest",
+                        supp = FALSE,
+                        dim = NULL,
+                        n_col = NULL,
+                        height_class = NULL,
                         unversioned_only = FALSE) {
     if (is.null(dim)) {
         dim <- get_figure_dimensions(n_col, height_class)
     }
 
-    file_names <- get_figure_path(figure_num, version)
+    file_names <- get_figure_path(figure_num, version, supp = supp)
 
     # Save versioned.
     ggsave(
@@ -133,7 +153,7 @@ save_figure <- function(p,
 
 #' Read in the proto RDS file names `name` for version `version` of
 #' Figure `figure_num`.
-read_fig_proto <- function(name, figure_num, version = "latest") {
-    path <- get_fig_proto_path(name, figure_num, version)
+read_fig_proto <- function(name, figure_num, version = "latest", supp = FALSE) {
+    path <- get_fig_proto_path(name, figure_num, version, supp = supp)
     readRDS(path)
 }
