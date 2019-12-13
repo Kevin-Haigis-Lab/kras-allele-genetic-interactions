@@ -1,15 +1,13 @@
 # What is the probability that each mutational signature caused the allele
 # of each sample.
 
-library(patchwork)
-
 GRAPHS_DIR <- "50_30_mutsignatures_prob-causing-allele"
 reset_graph_directory(GRAPHS_DIR)
 
 
 # A data frame of the number of samples with each allele.
 alleles_frequency_per_cancer_df <- mutational_signatures_df %>%
-    filter(!is_hypermutant)
+    filter(!is_hypermutant) %>%
     mutate(kras_allele = str_remove_all(ras_allele, "KRAS_")) %>%
     select(tumor_sample_barcode, cancer, kras_allele) %>%
     unique() %>%
