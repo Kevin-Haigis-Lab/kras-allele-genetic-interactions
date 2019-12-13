@@ -28,7 +28,7 @@ ProjectTemplate::cache("mutational_signatures_df",
             signature = str_to_upper(signature)
         ) %>%
         left_join(kras_muts, by = "tumor_sample_barcode") %>%
-        filter(!is_hypermutant & cancer != "SKCM") %>%
+        filter(cancer != "SKCM") %>%
         left_join(signature_description_df, by = "signature")
 
     # Check no missing data for KRAS allele.
@@ -48,6 +48,7 @@ ProjectTemplate::cache("mutational_signatures_df",
 
 
 ProjectTemplate::cache("mutsig_noartifact_df",
+                       depends = "mutational_signatures_df",
 {
     mutsig_noartifact_df <- mutational_signatures_df %>%
         filter(description != "artifact") %>%
