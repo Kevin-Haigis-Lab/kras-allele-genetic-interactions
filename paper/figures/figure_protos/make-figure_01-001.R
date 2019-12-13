@@ -2,11 +2,8 @@
 
 FIGNUM <- 1
 VERSION <- 1
-FIGFILENAME <- glue("figure_{FIGNUM}_{VERSION}.svg")
 FIG_DIMENSIONS <- get_figure_dimensions(2, "medium")
 
-
-library(patchwork)
 
 
 #### ---- Figure theme ---- ####
