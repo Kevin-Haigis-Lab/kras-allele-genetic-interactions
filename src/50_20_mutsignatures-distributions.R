@@ -10,6 +10,7 @@ alleles_frequency_per_cancer_df <- mutational_signatures_df %>%
     unique() %>%
     count(cancer, ras_allele)
 
+# Get the alleles that reach a minimum number `min_num` of samples.
 alleles_to_plot <- function(cancer, min_num = 15) {
     alleles_frequency_per_cancer_df %>%
         filter(cancer == !!cancer & n >= min_num) %>%
@@ -21,11 +22,12 @@ alleles_to_plot <- function(cancer, min_num = 15) {
 
 #### ---- Mutational signature levels for all samples ---- ####
 
+
+# Pivot the long tibble to a wide data frame for h. clustering.
 data_to_dataframe_for_clustering <- function(dat) {
     df <- dat %>%
         ungroup() %>%
         select(tumor_sample_barcode, description, contribution) %>%
-        # mutate(description = paste0("sig", description)) %>%
         pivot_wider(names_from = description,
                     values_from = contribution) %>%
         as.data.frame() %>%
@@ -34,24 +36,32 @@ data_to_dataframe_for_clustering <- function(dat) {
 }
 
 
+# Perform hierarchical clustering on a wide data frame.
+# Prepare `mutsig_noartifact_df` with `data_to_dataframe_for_clustering()`.
 dist_hclust <- function(df) {
     hc <- df %>%
-        dist(method = "maximum") %>%
-        hclust(method = "ward.D")
+        dist(method = "manhattan") %>%
+        hclust(method = "complete")
     return(hc)
 }
 
+
+# Perform scaling and hierarchical clustering on a wide data frame.
+# Prepare `mutsig_noartifact_df` with `data_to_dataframe_for_clustering()`.
 scale_dist_hclust <- function(df) {
-    scaled_df <- t(apply(df, 1, scale))
-    scaled_df <- as.data.frame(scaled_df)
+    scaled_df <- as.data.frame(t(apply(df, 1, scale)))
     colnames(scaled_df) <- colnames(df)
-    scaled_df[is.na(scaled_df)] <- 0
     return(dist_hclust(scaled_df))
 }
 
+
+# Order the samples by hierarchical clustering.
+# Input should have columns:
+#     'tumor_sample_barcode', 'description', 'contribution'
+# Output is the same as the input data frame with a new column 'sample_idx'.
 order_samples_by_hclust <- function(dat) {
-    hc <- data_to_dataframe_for_clustering(dat)%>%
-        scale_dist_hclust()
+    hc <- data_to_dataframe_for_clustering(dat) %>%
+        dist_hclust()
 
     sample_order_df <- tibble(
         tumor_sample_barcode = hc$labels,
@@ -65,17 +75,61 @@ order_samples_by_hclust <- function(dat) {
     return(mod_dat)
 }
 
+
+# Order the samples by MEMO sort.
+# Input should have columns:
+#     'tumor_sample_barcode', 'description', 'contribution'
+# Output is the same as the input data frame with a new column 'sample_idx'.
+order_samples_by_memosort <- function(dat) {
+
+    if (!any(colnames(dat) == "signature_idx")) {
+        stop("Sort signatures before calling `order_samples_by_memosort()`.")
+    }
+
+    sig_score_tib <- dat %>%
+        select(description, signature_idx, contribution) %>%
+        unique() %>%
+        mutate(value = (2 ^ (signature_idx)) - 1) %>%
+        select(-signature_idx, -contribution)
+
+
+    sample_order_df <- dat %>%
+        select(tumor_sample_barcode, description, contribution) %>%
+        unique() %>%
+        left_join(sig_score_tib, by = "description") %>%
+        mutate(value = value * contribution) %>%
+        group_by(tumor_sample_barcode) %>%
+        summarise(
+            score = sum(value)
+        ) %>%
+        ungroup() %>%
+        arrange(score) %>%
+        mutate(sample_idx = seq(1:n())) %>%
+        select(-score)
+
+    mod_dat <- full_join(dat, sample_order_df, by = "tumor_sample_barcode")
+    if(any(is.na(mod_dat))) {
+        stop("Joining in `order_samples_by_hclust()` went wrong.")
+    }
+    return(mod_dat)
+}
+
+
+# Order the signatures by hierarchical clustering.
+# Input should have columns:
+#     'tumor_sample_barcode', 'description', 'contribution'
+# Output is the same as the input data frame with a new column 'signature_idx'.
 order_signatures_by_hclust <- function(dat) {
     hc <- data_to_dataframe_for_clustering(dat) %>%
         t() %>%
-        scale_dist_hclust()
+        dist_hclust()
 
-    sample_order_df <- tibble(
+    sig_order_df <- tibble(
         description = hc$labels,
         signature_idx = hc$order
     )
 
-    mod_dat <- full_join(dat, sample_order_df, by = "description")
+    mod_dat <- full_join(dat, sig_order_df, by = "description")
     if(any(is.na(mod_dat))) {
         stop("Joining in `order_signatures_by_hclust()` went wrong.")
     }
@@ -83,6 +137,29 @@ order_signatures_by_hclust <- function(dat) {
 }
 
 
+# Order the signatures by mean value.
+# Input should have columns:
+#     'tumor_sample_barcode', 'description', 'contribution'
+# Output is the same as the input data frame with a new column 'signature_idx'.
+order_signatures_by_avg <- function(dat) {
+    sig_order_df <- dat %>%
+        group_by(description) %>%
+        summarise(avg_val = mean(description)) %>%
+        ungroup() %>%
+        arrange(avg_val) %>%
+        mutate(signature_idx = seq(1, n())) %>%
+        select(description, signature_idx)
+
+    mod_dat <- full_join(dat, sig_order_df, by = "description")
+    if(any(is.na(mod_dat))) {
+        stop("Joining in `order_signatures_by_avg()` went wrong.")
+    }
+    return(mod_dat)
+}
+
+
+# Prepare the data for bar-plots with `barplot_distribution_per_sample()`.
+# Option to order the signatures.
 prep_barplot_distribution_per_sample <- function(data,
                                                  order_signatures = FALSE) {
     plot_data <- data
@@ -102,6 +179,7 @@ prep_barplot_distribution_per_sample <- function(data,
 }
 
 
+# Stacked bar-plot of the mutational signatures for each tumor sample.
 barplot_distribution_per_sample <- function(data, title) {
     p <- data %>%
         ggplot(aes(x = tumor_sample_barcode, y = contribution)) +
@@ -143,17 +221,23 @@ barplot_distribution_per_sample <- function(data, title) {
 }
 
 
+# Save a plot to `GRAPHS_DIR`.
 save_barplot_distribution_per_sample_plots <- function(cancer, gg_obj, ...) {
     ggsave_wrapper(
         gg_obj,
         plot_path(GRAPHS_DIR, glue("signature-level-per-sample_{cancer}.jpeg")),
-        "wide"
+        width = 12, height = 2
     )
+    return(gg_obj)
 }
 
 
+
+# Stacked bar-plot of mutational signatures per tumor sample barcode.
+# One plot per cancer.
 mutsig_per_sample_plots <- mutsig_noartifact_df %>%
-    filter(!all_zeros) %>%
+    group_by(tumor_sample_barcode) %>%
+    filter(!all(contribution == 0)) %>%
     group_by(cancer, description) %>%
     filter(!all(contribution == 0)) %>%
     group_by(tumor_sample_barcode, cancer, description) %>%
@@ -162,17 +246,25 @@ mutsig_per_sample_plots <- mutsig_noartifact_df %>%
     nest() %>%
     ungroup() %>%
     mutate(
-        data = purrr::map(data, order_signatures_by_hclust),
-        data = purrr::map(data, order_samples_by_hclust),
+        data = purrr::map(data, order_signatures_by_avg),
+        data = purrr::map(data, order_samples_by_memosort),
         data = purrr::map(data,
                           prep_barplot_distribution_per_sample,
-                          order_signatures = TRUE),
+                          order_signatures = FALSE),
         gg_obj = purrr::map2(data, cancer, barplot_distribution_per_sample)
     ) %>%
     pwalk(save_barplot_distribution_per_sample_plots)
 
+# Save faceted plot as proto for Supp. Figure 2.
+saveRDS(
+    mutsig_per_sample_plots,
+    get_fig_proto_path("mutsig_per_sample_plots", 2, supp = TRUE)
+)
 
 
+
+# Stacked bar-plot of mutational signatures per tumor sample barcode.
+# Facet by cancer.
 mutsig_per_sample_plot <- mutsig_noartifact_df %>%
     filter(!all_zeros) %>%
     group_by(tumor_sample_barcode, cancer, description) %>%
@@ -181,34 +273,37 @@ mutsig_per_sample_plot <- mutsig_noartifact_df %>%
     nest() %>%
     ungroup() %>%
     mutate(
-        data = purrr::map(data, order_signatures_by_hclust),
-        data = purrr::map(data, order_samples_by_hclust),
-        data = purrr::map(data, prep_barplot_distribution_per_sample)
+        data = purrr::map(data, order_signatures_by_avg),
+        data = purrr::map(data, order_samples_by_memosort),
+        data = purrr::map(data,
+                          prep_barplot_distribution_per_sample,
+                          order_signatures = FALSE)
     ) %>%
     unnest(data) %>%
     barplot_distribution_per_sample(title = NULL) +
     facet_wrap(~cancer, scales = "free", ncol = 1)
 
+# Save faceted plot as JPEG.
 ggsave_wrapper(
     mutsig_per_sample_plot,
     plot_path(GRAPHS_DIR, "signature-level-per-sample.jpeg"),
     "large"
 )
-
+# Save faceted plot as SVG
 ggsave_wrapper(
     mutsig_per_sample_plot,
     plot_path(GRAPHS_DIR, "signature-level-per-sample.svg"),
     "large"
 )
-
+# Save faceted plot as proto for Supp. Figure 2.
 saveRDS(
     mutsig_per_sample_plot,
     get_fig_proto_path("signature-level-per-sample", 2, supp = TRUE)
 )
 
 
-#### ---- Boxplots of mutational signature levels ---- ####
 
+#### ---- Boxplots of mutational signature levels ---- ####
 
 # Make boxplots of the signature levels in all samples.
 signature_distribution_boxplots <- function(tib) {
@@ -249,6 +344,10 @@ ggsave_wrapper(
     plot_path(GRAPHS_DIR, "signature-level-boxplots_with0.svg"),
     "tall"
 )
+saveRDS(
+    sig_boxes_with0s,
+    get_fig_proto_path("signature-level-boxplots_with0", 2, supp = TRUE)
+)
 
 # Boxplots of mutational signatures in each sample (values of zero maintained).
 sig_boxes <- mutsig_noartifact_df %>%
@@ -261,6 +360,11 @@ ggsave_wrapper(
     plot_path(GRAPHS_DIR, "signature-level-boxplots.svg"),
     "tall"
 )
+saveRDS(
+    sig_boxes,
+    get_fig_proto_path("signature-level-boxplots", 2, supp = TRUE)
+)
+
 
 
 #### ---- Mutational signatures per KRAS allele ---- ####
@@ -323,6 +427,13 @@ ggsave_wrapper(
     'wide'
 )
 
+saveRDS(
+    distribution_plots,
+    get_fig_proto_path(
+        "mutational-signatures-distribution-by-allele", 2, supp = TRUE
+    ),
+)
+
 
 
 #### ---- Clock vs. non-clock ---- ####
@@ -380,6 +491,10 @@ ggsave_wrapper(
     clock_combined_plots,
     plot_path(GRAPHS_DIR, "clock-signatures.svg"),
     width = 5, height = 4
+)
+saveRDS(
+    clock_plots,
+    get_fig_proto_path("clock-signature-plots", 2, supp = TRUE)
 )
 
 
