@@ -494,7 +494,10 @@ clock_violin_box <- mutsig_noartifact_df %>%
     ) +
     scale_y_continuous(expand = c(0, 0)) +
     clock_plot_theme() +
-    facet_wrap(~ cancer, scales = "free", nrow = 2)
+    facet_wrap(~ cancer, scales = "free", nrow = 2) +
+    labs(
+        y = "total level"
+    )
 
 ggsave_wrapper(
     clock_violin_box,
@@ -521,7 +524,10 @@ clock_ridges <- mutsig_noartifact_df %>%
     ) +
     scale_x_continuous(expand = c(0, 0)) +
     clock_plot_theme() +
-    facet_wrap(~ cancer, scales = "free", nrow = 2)
+    facet_wrap(~ cancer, scales = "free", nrow = 2) +
+    labs(
+        y = "total level"
+    )
 
 ggsave_wrapper(
     clock_ridges,
