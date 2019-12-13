@@ -1,8 +1,5 @@
 # Plot the distribution of KRAS mutations.
 
-library(patchwork)
-
-
 GRAPHS_DIR <- "90_05_kras-allele-distribution"
 reset_graph_directory(GRAPHS_DIR)
 reset_table_directory(GRAPHS_DIR)
@@ -220,6 +217,11 @@ saveRDS(
         plot_path(GRAPHS_DIR,
                   glue("allele_dist_barplot_stackplot_all.svg")),
         width = 8, height = 4.5
+    )
+
+    saveRDS(
+        plots,
+        get_fig_proto_path("allele_dist_barplot_stackplot_all", 1, supp = TRUE)
     )
 
     short_allele_pal <- ORIGINAL_PAL
