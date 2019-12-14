@@ -165,6 +165,20 @@ save_figure <- function(p,
             width = dim$width, height = dim$height, unit = "mm"
         )
     }
+
+    # Save a JPEG to "reports/content/home/gallery/gallery/"
+    gallery_path <- file.path(
+        "reports", "content", "home", "gallery", "gallery",
+        paste0(
+            tools::file_path_sans_ext(basename(file_names$unversioned)),
+            ".jpeg"
+        )
+    )
+    ggsave(
+        gallery_path, p,
+        width = dim$width, height = dim$height, unit = "mm"
+    )
+
 }
 
 
@@ -189,6 +203,7 @@ get_figure_info_from_name <- function(make_file_name) {
     info$version <- as.numeric(str_extract(fn, "(?<=\\-)[:digit:]+$"))
     return(info)
 }
+
 
 # Build all of the figures.
 build_comutation_figures <- function() {

@@ -2,45 +2,45 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags | KRAS Comutation</title>
-    <link>https://project-notebook-comutation.netlify.com/tags/</link>
-      <atom:link href="https://project-notebook-comutation.netlify.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <link>http://localhost:1313/tags/</link>
+      <atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
     <description>Tags</description>
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Wed, 09 Oct 2019 06:58:30 -0400</lastBuildDate>
     <image>
-      <url>https://project-notebook-comutation.netlify.com/img/icon-192.png</url>
+      <url>http://localhost:1313/img/icon-192.png</url>
       <title>Tags</title>
-      <link>https://project-notebook-comutation.netlify.com/tags/</link>
+      <link>http://localhost:1313/tags/</link>
     </image>
     
     <item>
       <title>KRAS</title>
-      <link>https://project-notebook-comutation.netlify.com/tags/kras/</link>
+      <link>http://localhost:1313/tags/kras/</link>
       <pubDate>Wed, 09 Oct 2019 06:58:30 -0400</pubDate>
-      <guid>https://project-notebook-comutation.netlify.com/tags/kras/</guid>
+      <guid>http://localhost:1313/tags/kras/</guid>
       <description></description>
     </item>
     
     <item>
       <title>synthetic lethality</title>
-      <link>https://project-notebook-comutation.netlify.com/tags/synthetic-lethality/</link>
+      <link>http://localhost:1313/tags/synthetic-lethality/</link>
       <pubDate>Wed, 09 Oct 2019 06:58:30 -0400</pubDate>
-      <guid>https://project-notebook-comutation.netlify.com/tags/synthetic-lethality/</guid>
+      <guid>http://localhost:1313/tags/synthetic-lethality/</guid>
       <description></description>
     </item>
     
     <item>
       <title>comutation</title>
-      <link>https://project-notebook-comutation.netlify.com/tags/comutation/</link>
+      <link>http://localhost:1313/tags/comutation/</link>
       <pubDate>Wed, 09 Oct 2019 06:58:09 -0400</pubDate>
-      <guid>https://project-notebook-comutation.netlify.com/tags/comutation/</guid>
+      <guid>http://localhost:1313/tags/comutation/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Source Themes</title>
-      <link>https://project-notebook-comutation.netlify.com/tags/source-themes/</link>
+      <link>http://localhost:1313/tags/source-themes/</link>
       <pubDate>Sun, 07 Apr 2019 00:00:00 +0000</pubDate>
-      <guid>https://project-notebook-comutation.netlify.com/tags/source-themes/</guid>
+      <guid>http://localhost:1313/tags/source-themes/</guid>
       <description></description>
     </item>
     
