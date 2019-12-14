@@ -6,19 +6,14 @@ VERSION <- 1
 FIGFILENAME <- glue("figure_{FIGNUM}_{VERSION}.svg")
 FIG_DIMENSIONS <- get_figure_dimensions(2, "short")
 
-
 FIG_DIMENSIONS$height <- 100  # specific change for this figure
+
 
 #### ---- Figure theme ---- ####
 
 theme_figS1 <- function() {
-    theme_bw(base_size = 7, base_family = "Arial") %+replace%
+    theme_comutation() %+replace%
     theme(
-        plot.title = element_text(size = 7, hjust = 0.5),
-        axis.title = element_text(size = 6),
-        axis.text.y = element_text(size = 5, hjust = 1),
-        axis.text.x = element_blank(),
-        axis.ticks = element_blank(),
         plot.tag = element_text(size = 7,
                                 face = "bold",
                                 margin = margin(-3, -3, -3, -3, "mm"))
