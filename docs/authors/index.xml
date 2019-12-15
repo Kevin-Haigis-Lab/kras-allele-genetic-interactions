@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Authors | KRAS Comutation</title>
-    <link>http://localhost:1313/authors/</link>
-      <atom:link href="http://localhost:1313/authors/index.xml" rel="self" type="application/rss+xml" />
+    <link>https://project-notebook-comutation.netlify.com/authors/</link>
+      <atom:link href="https://project-notebook-comutation.netlify.com/authors/index.xml" rel="self" type="application/rss+xml" />
     <description>Authors</description>
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Wed, 09 Oct 2019 06:58:30 -0400</lastBuildDate>
     <image>
-      <url>http://localhost:1313/img/icon-192.png</url>
+      <url>https://project-notebook-comutation.netlify.com/img/icon-192.png</url>
       <title>Authors</title>
-      <link>http://localhost:1313/authors/</link>
+      <link>https://project-notebook-comutation.netlify.com/authors/</link>
     </image>
     
     <item>
       <title></title>
-      <link>http://localhost:1313/authors/admin/</link>
+      <link>https://project-notebook-comutation.netlify.com/authors/admin/</link>
       <pubDate>Sun, 07 Apr 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/authors/admin/</guid>
+      <guid>https://project-notebook-comutation.netlify.com/authors/admin/</guid>
       <description>&lt;p&gt;The various alleles of &lt;em&gt;KRAS&lt;/em&gt; have known differences in their biochemical and signaling properties. Further, there are some correlations that suggest the allele has an effect on patient outcome.&lt;/p&gt;
 
 &lt;p&gt;In this analysis, we aim to compare the genetic landscapes of patient tumors with the common &lt;em&gt;KRAS&lt;/em&gt; alleles.&lt;/p&gt;
@@ -25,9 +25,9 @@
     
     <item>
       <title>Robert Ford</title>
-      <link>http://localhost:1313/authors/robert-ford/</link>
+      <link>https://project-notebook-comutation.netlify.com/authors/robert-ford/</link>
       <pubDate>Tue, 01 Sep 2015 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/authors/robert-ford/</guid>
+      <guid>https://project-notebook-comutation.netlify.com/authors/robert-ford/</guid>
       <description></description>
     </item>
     
