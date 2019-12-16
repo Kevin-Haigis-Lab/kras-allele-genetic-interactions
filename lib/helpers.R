@@ -31,6 +31,12 @@ get_entrez_from_depmap_ids <- function(x, convert_to_num = FALSE) {
 sem <- function(x) sd(x) / sqrt(length(x))
 
 
+#' Replace all `NA` values in a vector `x` with `0`.
+replace_na_zero <- function(x) {
+    ifelse(is.na(x), 0, x)
+}
+
+
 #' Create or reset a directory in 'graphs'
 #'
 #' This is useful to call at the top of an analysis to remove the old graphs
@@ -274,8 +280,17 @@ ggsave_wrapper(
 # Where to store the citations.
 CITATIONS_FILE <- file.path("paper", "misc", "R_citations.bib")
 
+list_all_packages <- function() {
+    installed.packages() %>%
+        as.data.frame() %>%
+        as_tibble() %>%
+        pull(Package) %>%
+        unlist() %>%
+        as.character()
+}
+
 #' Write a file with all citations for R packages.
-make_citations_bib <- function(dest = CITATIONS_FILE){
-    knitr::write_bib(file = CITATIONS_FILE)
+make_citations_bib <- function(dest = CITATIONS_FILE) {
+    knitr::write_bib(list_all_packages(), file = CITATIONS_FILE)
 }
 make_citations_bib()

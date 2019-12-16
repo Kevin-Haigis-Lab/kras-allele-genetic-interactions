@@ -61,6 +61,7 @@ cache("gtex_summary_expr",
     return(gtex_summary_expr)
 })
 
+
 # HPA
 cache("hpa_expr",
 {
@@ -74,6 +75,7 @@ cache("hpa_expr",
         dplyr::rename(HPA_expr = expr)
     return(hpa_expr)
 })
+
 
 # one data frame with all of the information
 cache("normal_tissue_expr",
