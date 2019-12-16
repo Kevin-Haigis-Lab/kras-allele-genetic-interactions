@@ -62,6 +62,20 @@ round_breaks <- function(n = 5, n_dec = 2, ...) {
 }
 
 
+#' A function for `coord_trans()` to prevent `log(0)`.
+#' use:
+#'   ggplot(...) +
+#'     ... +
+#'     coord_trans(y = my_trans_log10) +
+#'     .... +
+my_trans_log10 <- scales::trans_new(
+    name = "log10 pseudo-count +1",
+    transform = function(x) { log10(x + 1) },
+    inverse = function(x) { exp(x) - 1 }
+)
+
+
+
 
 
 #### ---- Saving a 'pheatmap' heatmap ---- ####

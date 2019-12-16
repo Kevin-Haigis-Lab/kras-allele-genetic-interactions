@@ -250,14 +250,6 @@ dev.off()
 
 
 
-
-my_trans_log10 <- scales::trans_new(
-    name = "log10 pseudo-count +1",
-    transform = function(x) { log10(x + 1) },
-    inverse = function(x) { exp(x) - 1 }
-)
-
-
 # My lollipop plot.
 kras_lollipop_plot <- cancer_full_coding_muts_maf %>%
     filter(!is_hypermutant & hugo_symbol == "KRAS") %>%
