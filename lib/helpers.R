@@ -266,3 +266,16 @@ ggsave_wrapper(
     plot_path("00_miscellaneous", "genetic_interaction_pal.svg"),
     width = 3.5, height = 2
 )
+
+
+
+#### ---- Make citations list ---- ####
+
+# Where to store the citations.
+CITATIONS_FILE <- file.path("paper", "misc", "R_citations.bib")
+
+#' Write a file with all citations for R packages.
+make_citations_bib <- function(dest = CITATIONS_FILE){
+    knitr::write_bib(file = CITATIONS_FILE)
+}
+make_citations_bib()
