@@ -23,11 +23,34 @@ rename_datasets <- function(ds) {
 rename_datasets <- memoise::memoise(rename_datasets)
 
 
+#### ---- Find hypermutant cut-off for COAD ---- ####
+
+upper_hypermut_bound <- cancer_coding_muts_df %>%
+    filter(cancer == "COAD" & is_hypermutant) %>%
+    count(tumor_sample_barcode, dataset) %>%
+    group_by(dataset) %>%
+    summarise(min_hypermut_muts = min(n))
+
+lower_hypermut_bound <- cancer_coding_muts_df %>%
+    filter(cancer == "COAD" & !is_hypermutant) %>%
+    count(tumor_sample_barcode, dataset) %>%
+    group_by(dataset) %>%
+    summarise(min_hypermut_muts = max(n))
+
+
+coad_hypermutant_boundary <- mean(lower_hypermut_bound, upper_hypermut_bound)
+
+
 
 #### ---- Mut. burden distribution ---- ####
 # Plots showing the distribution of the mutations per sample.
 
-plot_distribution_of_mutation_count <- function(cancer, data, save_name) {
+# Plot the distribution of mutational burden per sample.
+# (Also saves to SVG and proto for figures.)
+plot_distribution_of_mutation_count <- function(cancer,
+                                                data,
+                                                save_name,
+                                                hypermutant_rug = FALSE) {
     p <- data %>%
         mutate(tumor_sample_barcode = fct_reorder(tumor_sample_barcode, n),
                dataset_label = paste0(dataset, "\n", target)) %>%
@@ -37,15 +60,10 @@ plot_distribution_of_mutation_count <- function(cancer, data, save_name) {
         ) +
         facet_grid(~ dataset_label, scales = "free_x") +
         geom_point(
-            aes(color = log10(n),
-                shape = is_hypermutant),
+            aes(color = log10(n)),
             size = 0.1
         ) +
         scale_color_viridis_c(
-            guide = FALSE
-        ) +
-        scale_shape_manual(
-            values = c(20, 4),
             guide = FALSE
         ) +
         theme_bw(base_size = 7, base_family = "Arial") +
@@ -61,6 +79,19 @@ plot_distribution_of_mutation_count <- function(cancer, data, save_name) {
             x = "tumor samples",
             y = "log10( num. mutations )"
         )
+
+    if (hypermutant_rug) {
+        p <- p +
+            geom_rug(
+                aes(alpha = is_hypermutant),
+                sides = "b",
+                color = "black"
+            ) +
+            scale_alpha_manual(
+                values = c("TRUE" = 0.2, "FALSE" = 0.0),
+                guide = FALSE
+            )
+    }
     save_path <- plot_path(GRAPHS_DIR, save_name)
     ggsave_wrapper(p, save_path, width = 8, height = 2.5)
 
@@ -87,7 +118,10 @@ cancer_coding_muts_df %>%
     count() %>%
     group_by(cancer) %>%
     nest() %>%
-    mutate(save_name = paste0(cancer, "_coding_muts_distribution.svg")) %>%
+    mutate(
+        save_name = paste0(cancer, "_coding_muts_distribution.svg"),
+        hypermutant_rug = cancer == "COAD"
+    ) %>%
     pwalk(plot_distribution_of_mutation_count)
 
 
@@ -115,6 +149,7 @@ plot_distribution_of_mutation_type <- function(cancer, data, save_name) {
             aes(fill = mutation_type_hr),
             position = "fill"
         ) +
+        scale_x_discrete(expand = c(0, 0)) +
         scale_y_continuous(expand = c(0, 0)) +
         scale_fill_manual(
             values = mutation_pal,
@@ -133,13 +168,14 @@ plot_distribution_of_mutation_type <- function(cancer, data, save_name) {
             legend.title = element_blank()
         ) +
         labs(
-            y = "number of mutations detected",
+            y = "fraction of mutations",
             fill = "mutation type"
         )
 
     save_path <- plot_path("90_03_mutation-burden-distribution", save_name)
     ggsave_wrapper(p, save_path, width = 6, height = 4)
 
+    # Save the ggplot objects for figures.
     save_fig_proto_wrapper(p, save_path)
 
     return(p)
