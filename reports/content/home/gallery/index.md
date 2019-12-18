@@ -7,6 +7,7 @@ weight = 66  # Order that this section will appear.
 
 title = "Figures"
 subtitle = ""
+
 +++
 
 {{< gallery >}}

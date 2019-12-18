@@ -150,13 +150,7 @@ panel_F[[1]] <- panel_F[[1]] + labs(tag = "f")
 
     # COMPLETE FIGURE
     full_figure <- row_1 / row_2 / panel_E / panel_F +
-        plot_layout(heights = c(1, 1, 0.7, 0.7)) +
-        plot_annotation(
-            title = glue("Figure {FIGNUM}"),
-            theme = theme(
-                plot.title = element_text(size = 10, family = "Arial")
-            )
-        )
+        plot_layout(heights = c(1, 1, 0.7, 0.7))
 
     save_figure(
         full_figure,

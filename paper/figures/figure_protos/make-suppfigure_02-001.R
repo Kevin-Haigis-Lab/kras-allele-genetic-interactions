@@ -99,23 +99,8 @@ panel_D <- read_fig_proto("clock-signatures_violin-box",
 {
     # COMPLETE FIGURE
     full_figure <- (panel_A | panel_B) / (panel_C | panel_D)  / guide_area() +
-        plot_layout(heights = c(15, 10, 1), guides = "collect") +
-        plot_annotation(
-            title = glue("Supp Figure {FIGNUM}"),
-            theme = theme(
-                plot.title = element_text(size = 10,
-                                          family = "Arial",
-                                          hjust = 0)
-            )
-        )
+        plot_layout(heights = c(15, 10, 1), guides = "collect")
 
-    save_figure(
-        full_figure,
-        figure_num = FIGNUM,
-        supp = SUPPLEMENTAL,
-        dim = FIG_DIMENSIONS,
-        file_fmt = "jpeg"
-    )
     save_figure(
         full_figure,
         figure_num = FIGNUM,

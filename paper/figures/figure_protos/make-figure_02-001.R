@@ -248,13 +248,7 @@ panel_G <- remove_oncoplot_legend(panel_G)
 
     # COMPLETE FIGURE
     full_figure <- (row_1) / (rows_2_3) +
-        plot_layout(heights = c(2, 3)) +
-        plot_annotation(
-            title = glue("Figure {FIGNUM}"),
-            theme = theme(
-                plot.title = element_text(size = 10, family = "Arial")
-            )
-        )
+        plot_layout(heights = c(2, 3))
 
     save_figure(
         full_figure,

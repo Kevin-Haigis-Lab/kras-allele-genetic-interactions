@@ -1,5 +1,6 @@
 
-# Supplemental Figure 2. Distribution of mutational signatures across alleles
+# Supplemental Figure 3. Distribution of mutation frequency for genes that were
+# removed due to low expression.
 
 FIGNUM <- 3
 SUPPLEMENTAL <- TRUE
@@ -36,15 +37,7 @@ panel_A <- read_fig_proto("mutation-frequency-hist",
 
 {
     # COMPLETE FIGURE
-    full_figure <- panel_A +
-        plot_annotation(
-            title = glue("Supp Figure {FIGNUM}"),
-            theme = theme(
-                plot.title = element_text(size = 10,
-                                          family = "Arial",
-                                          hjust = 0)
-            )
-        )
+    full_figure <- panel_A
 
     save_figure(
         full_figure,

@@ -49,15 +49,7 @@ for (i in 1:4) {
 
 {
     # COMPLETE FIGURE
-    full_figure <- panel_A +
-        plot_annotation(
-            title = glue("Figure {FIGNUM}"),
-            theme = theme(
-                plot.title = element_text(size = 10,
-                                          family = "Arial",
-                                          hjust = 0)
-            )
-        )
+    full_figure <- panel_A
 
     save_figure(
         full_figure,
