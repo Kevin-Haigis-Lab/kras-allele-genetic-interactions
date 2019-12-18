@@ -281,7 +281,7 @@ ggsave_wrapper(
 CITATIONS_FILE <- file.path("paper", "misc", "R_citations.bib")
 
 list_all_packages <- function() {
-    installed.packages() %>%
+    utils::installed.packages() %>%
         as.data.frame() %>%
         as_tibble() %>%
         pull(Package) %>%
