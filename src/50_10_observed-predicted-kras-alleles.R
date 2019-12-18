@@ -167,8 +167,10 @@ ProjectTemplate::cache("kras_allele_freq_bootstrap_ci",
         group_by(cancer) %>%
         nest() %>%
         ungroup() %>%
-        mutate(bs_results = purrr::map2(cancer, data,
-                                        bootstrap_allele_confidence_intervals)) %>%
+        mutate(
+            bs_results = purrr::map2(cancer, data,
+                                     bootstrap_allele_confidence_intervals)
+        ) %>%
         select(-data) %>%
         unnest(bs_results)
     return(kras_allele_freq_bootstrap_ci)
