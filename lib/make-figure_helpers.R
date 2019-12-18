@@ -143,36 +143,42 @@ save_figure <- function(p,
                         dim = NULL,
                         n_col = NULL,
                         height_class = NULL,
-                        unversioned_only = FALSE,
-                        file_fmt = "svg") {
+                        unversioned_only = FALSE) {
     if (is.null(dim)) {
         dim <- get_figure_dimensions(n_col, height_class)
     }
 
-    file_names <- get_figure_path(figure_num,
+    svg_names <- get_figure_path(figure_num,
                                   version,
                                   supp = supp,
-                                  file_fmt = file_fmt)
+                                  file_fmt = "svg")
+
+    jpg_names <- get_figure_path(figure_num,
+                                  version,
+                                  supp = supp,
+                                  file_fmt = "jpeg")
 
     # Save versioned.
-    ggsave(
-        file_names$versioned, p,
-        width = dim$width, height = dim$height, unit = "mm"
-    )
-    if (!unversioned_only) {
+    for (names_list in list(svg_names, jpg_names)) {
         ggsave(
-            file_names$unversioned, p,
+            names_list$versioned, p,
             width = dim$width, height = dim$height, unit = "mm"
         )
+    }
+
+    if (!unversioned_only) {
+        for (names_list in list(svg_names, jpg_names)) {
+            ggsave(
+                names_list$unversioned, p,
+                width = dim$width, height = dim$height, unit = "mm"
+            )
+        }
     }
 
     # Save a JPEG to "reports/content/home/gallery/gallery/"
     gallery_path <- file.path(
         "reports", "content", "home", "gallery", "gallery",
-        paste0(
-            tools::file_path_sans_ext(basename(file_names$unversioned)),
-            ".jpeg"
-        )
+        basename(jpg_names$unversioned)
     )
     ggsave(
         gallery_path, p,
