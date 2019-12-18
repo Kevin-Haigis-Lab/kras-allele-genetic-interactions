@@ -32,7 +32,8 @@ get_panel_pieces <- function(cancer) {
         theme(
             axis.text.x = element_blank(),
             panel.grid.major.x = element_blank(),
-            panel.grid.minor.x = element_blank()
+            panel.grid.minor.x = element_blank(),
+            strip.text = element_blank()
         ) +
         labs(
             tag = cancer_panel_letters[cancer]
@@ -40,7 +41,11 @@ get_panel_pieces <- function(cancer) {
     b <- read_fig_proto(glue("{cancer}_mutation_types"),
                        figure_num = FIGNUM,
                        supp = SUPPLEMENTAL) +
-        theme_figS4()
+        theme_figS4() +
+        theme(
+            axis.title.x = element_blank(),
+            axis.text.x = element_text(angle = 45, hjust = 1)
+        )
 
     if (cancer != "PAAD") {
         b <- b +
@@ -80,16 +85,8 @@ get_panel_pieces <- function(cancer) {
         (panel_A | panel_B)  / (panel_C | panel_D) / guide_area()
     ) +
         plot_layout(
-            heights = c(5, 5, 1),
+            heights = c(8, 8, 1),
             guides = "collect"
-        ) +
-        plot_annotation(
-            title = glue("Supp Figure {FIGNUM}"),
-            theme = theme(
-                plot.title = element_text(size = 10,
-                                          family = "Arial",
-                                          hjust = 0)
-            )
         )
 
     save_figure(
@@ -99,6 +96,3 @@ get_panel_pieces <- function(cancer) {
         dim = FIG_DIMENSIONS
     )
 }
-
-
-# TODO: highlight region of the plot for COAD for the hypermutants.
