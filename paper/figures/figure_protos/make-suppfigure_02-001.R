@@ -7,13 +7,12 @@ VERSION <- 1
 FIG_DIMENSIONS <- get_figure_dimensions(2, "short")
 
 
-
 theme_figS2 <- function() {
     theme_comutation() %+replace%
     theme(
         plot.tag = element_text(size = 7,
                                 face = "bold",
-                                margin = margin(-1, -1, -1, -1, "mm"))
+                                margin = margin(0, 0, 0, 0, "mm"))
     )
 }
 
@@ -47,7 +46,6 @@ panel_A <- read_fig_proto("signature-level-per-sample",
     )
 
 
-
 #### ---- B. Distirubiton of mutational signature levels ---- ####
 
 # The distribution of mutational signature levels in each sample (boxplot).
@@ -63,6 +61,7 @@ panel_B <- read_fig_proto("signature-level-boxplots_with0",
     theme(
         legend.position = "none"
     )
+
 
 #### ---- C. Distirubiton of mutational signatures by allele ---- ####
 
@@ -98,7 +97,9 @@ panel_D <- read_fig_proto("clock-signatures_violin-box",
 
 {
     # COMPLETE FIGURE
-    full_figure <- (panel_A | panel_B) / (panel_C | panel_D)  / guide_area() +
+    full_figure <- (panel_A + panel_B + plot_layout(widths = c(1))) /
+        (panel_C + panel_D + plot_layout(widths = c(7, 3))) /
+        guide_area() +
         plot_layout(heights = c(15, 10, 1), guides = "collect")
 
     save_figure(
