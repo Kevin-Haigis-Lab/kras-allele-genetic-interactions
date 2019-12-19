@@ -2,21 +2,43 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts | KRAS Comutation</title>
-    <link>http://localhost:1313/post/</link>
-      <atom:link href="http://localhost:1313/post/index.xml" rel="self" type="application/rss+xml" />
+    <link>https://project-notebook-comutation.netlify.com/post/</link>
+      <atom:link href="https://project-notebook-comutation.netlify.com/post/index.xml" rel="self" type="application/rss+xml" />
     <description>Posts</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Sat, 14 Dec 2019 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Mon, 16 Dec 2019 00:00:00 +0000</lastBuildDate>
     <image>
-      <url>http://localhost:1313/img/icon-192.png</url>
+      <url>https://project-notebook-comutation.netlify.com/img/icon-192.png</url>
       <title>Posts</title>
-      <link>http://localhost:1313/post/</link>
+      <link>https://project-notebook-comutation.netlify.com/post/</link>
     </image>
     
     <item>
+      <title>2019-12-16</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-12-16/</link>
+      <pubDate>Mon, 16 Dec 2019 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-12-16/</guid>
+      <description>
+
+&lt;h1 id=&#34;plot-of-genes-removed-from-expression-filter&#34;&gt;Plot of genes removed from expression filter&lt;/h1&gt;
+
+&lt;p&gt;I created plots and Supp. Figure 3 to show the mutation frequency of genes removed due to low expression.
+The analysis was done in &amp;ldquo;src/05_10_expression-filter-plots.R&amp;rdquo;.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;![](img/figures/SuppFigure_03-001.svg)&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h1 id=&#34;mutation-burden-plots&#34;&gt;Mutation burden plots&lt;/h1&gt;
+
+&lt;p&gt;I tuned and turned the plots showing mutation burden per sample into a supplemental figure.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;img/figures/SuppFigure_04-001.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>2019-12-14</title>
-      <link>http://localhost:1313/post/2019-12-14/</link>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-12-14/</link>
       <pubDate>Sat, 14 Dec 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/2019-12-14/</guid>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-12-14/</guid>
       <description>
 
 &lt;h2 id=&#34;standardizing-themes&#34;&gt;Standardizing themes&lt;/h2&gt;
@@ -36,9 +58,9 @@ This should be applied to every plot first, then &lt;code&gt;theme()&lt;/code&gt
     
     <item>
       <title>2019-12-12</title>
-      <link>http://localhost:1313/post/2019-12-12/</link>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-12-12/</link>
       <pubDate>Thu, 12 Dec 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/2019-12-12/</guid>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-12-12/</guid>
       <description>
 
 &lt;h2 id=&#34;figure-2-v1-draft&#34;&gt;Figure 2 v1 draft&lt;/h2&gt;
@@ -63,9 +85,9 @@ I will be meeting with KH tomorrow to go over the progress.&lt;/p&gt;
     
     <item>
       <title>2019-12-11</title>
-      <link>http://localhost:1313/post/2019-12-11/</link>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-12-11/</link>
       <pubDate>Wed, 11 Dec 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/2019-12-11/</guid>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-12-11/</guid>
       <description>
 
 &lt;h1 id=&#34;genetic-interaction-graphs&#34;&gt;Genetic interaction graphs&lt;/h1&gt;
@@ -84,9 +106,9 @@ I will be meeting with KH tomorrow to go over the progress.&lt;/p&gt;
     
     <item>
       <title>2019-12-10</title>
-      <link>http://localhost:1313/post/2019-12-10/</link>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-12-10/</link>
       <pubDate>Tue, 10 Dec 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/2019-12-10/</guid>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-12-10/</guid>
       <description>
 
 &lt;h2 id=&#34;figure-2-version-1-continued&#34;&gt;Figure 2 (version 1, continued)&lt;/h2&gt;
@@ -103,9 +125,9 @@ There is an ASCII diagram in `&lt;code&gt;ggmaftools.R&lt;/code&gt; to explain w
     
     <item>
       <title>2019-12-09</title>
-      <link>http://localhost:1313/post/2019-12-09/</link>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-12-09/</link>
       <pubDate>Mon, 09 Dec 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/2019-12-09/</guid>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-12-09/</guid>
       <description>
 
 &lt;h2 id=&#34;remove-cowplot-from-src-50-10-observed-predicted-kras-alleles-r&#34;&gt;Remove &amp;lsquo;cowplot&amp;rsquo; from &amp;ldquo;src/50_10_observed-predicted-kras-alleles.R&amp;rdquo;&lt;/h2&gt;
@@ -128,9 +150,9 @@ There is an ASCII diagram in `&lt;code&gt;ggmaftools.R&lt;/code&gt; to explain w
     
     <item>
       <title>2019-12-08</title>
-      <link>http://localhost:1313/post/2019-12-08/</link>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-12-08/</link>
       <pubDate>Sun, 08 Dec 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/2019-12-08/</guid>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-12-08/</guid>
       <description>
 
 &lt;h2 id=&#34;figure-building-system&#34;&gt;Figure building system&lt;/h2&gt;
@@ -154,9 +176,9 @@ There are specific functions for loading protos and for saving the final figures
     
     <item>
       <title>2019-12-07</title>
-      <link>http://localhost:1313/post/2019-12-07/</link>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-12-07/</link>
       <pubDate>Sat, 07 Dec 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/2019-12-07/</guid>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-12-07/</guid>
       <description>
 
 &lt;h2 id=&#34;comparisons-of-the-probability-of-a-mutational-signature-causing-an-allele&#34;&gt;Comparisons of the probability of a mutational signature causing an allele&lt;/h2&gt;
@@ -179,13 +201,13 @@ The selections and the reason for their selection are as follows:&lt;/p&gt;
 
 &lt;p&gt;I made boxplots of the cumulative levels of the clock signatures (1 and 5) to the rest.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/50_20_mutsignatures-distributions/mutsig-dist_combined.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/50_20_mutsignatures-distributions/mutsig-dist_combined.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/50_20_mutsignatures-distributions/clock-signatures.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/50_20_mutsignatures-distributions/clock-signatures.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;I also made a scatter plot of the clock vs. smoke levels in LUAD.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/50_20_mutsignatures-distributions/clock_vs_smoke.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/50_20_mutsignatures-distributions/clock_vs_smoke.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&#34;allele-frequency-for-all-alleles&#34;&gt;Allele frequency for all alleles&lt;/h2&gt;
 
@@ -193,9 +215,9 @@ The selections and the reason for their selection are as follows:&lt;/p&gt;
 These were grouped in &amp;ldquo;Other&amp;rdquo; in the first plot.
 This will be included as a supplemental.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/90_05_kras-allele-distribution/allele_dist_barplot_stackplot.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/90_05_kras-allele-distribution/allele_dist_barplot_stackplot.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/90_05_kras-allele-distribution/allele_dist_barplot_stackplot_all.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/90_05_kras-allele-distribution/allele_dist_barplot_stackplot_all.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;hr /&gt;
 
@@ -207,9 +229,9 @@ I need to save the graph images to a new directory for this step in the paper (s
     
     <item>
       <title>2019-12-06</title>
-      <link>http://localhost:1313/post/2019-12-06/</link>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-12-06/</link>
       <pubDate>Fri, 06 Dec 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/2019-12-06/</guid>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-12-06/</guid>
       <description>
 
 &lt;h2 id=&#34;re-make-plots-from-new-gsea-run&#34;&gt;Re-make plots from new GSEA run&lt;/h2&gt;
@@ -226,15 +248,15 @@ Therefore, the lack of significant difference from the predicted frequency is li
 
 &lt;h2 id=&#34;plot-the-probability-that-the-mutations-from-a-mutational-signature-created-the-observed-kras-allele&#34;&gt;Plot the probability that the mutations from a mutational signature created the observed &lt;em&gt;KRAS&lt;/em&gt; allele&lt;/h2&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/50_30_mutsignatures_prob-causing-allele/probability-mutsig-caused-allele.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/50_30_mutsignatures_prob-causing-allele/probability-mutsig-caused-allele.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 </description>
     </item>
     
     <item>
       <title>2019-12-05</title>
-      <link>http://localhost:1313/post/2019-12-05/</link>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-12-05/</link>
       <pubDate>Thu, 05 Dec 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/2019-12-05/</guid>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-12-05/</guid>
       <description>
 
 &lt;h2 id=&#34;mutational-signature-distributions&#34;&gt;Mutational signature distributions&lt;/h2&gt;
@@ -244,7 +266,7 @@ The only difference is that I did not designate a specific POLE signature becaus
 
 &lt;p&gt;The final product is below.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/50_20_mutsignatures-distributions/mutsig-dist_combined.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/50_20_mutsignatures-distributions/mutsig-dist_combined.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;To-Do&lt;/strong&gt;: I need to make a plot of the probability of each mutational signature creating each mutation in the samples with the allele.&lt;/p&gt;
 
@@ -258,9 +280,9 @@ There should be fewer genesets without data.&lt;/p&gt;
     
     <item>
       <title>2019-12-04</title>
-      <link>http://localhost:1313/post/2019-12-04/</link>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-12-04/</link>
       <pubDate>Wed, 04 Dec 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/2019-12-04/</guid>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-12-04/</guid>
       <description>
 
 &lt;h2 id=&#34;ranked-plots-for-enriched-gene-sets&#34;&gt;Ranked plots for enriched gene sets&lt;/h2&gt;
@@ -272,7 +294,7 @@ In order to get the data for more of the gene sets, I re-ran the GSEA and instru
 
 &lt;p&gt;I finished up the lollipop plot for the distribution of mutations along KRAS.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/90_05_kras-allele-distribution/lollipop-kras_2.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/90_05_kras-allele-distribution/lollipop-kras_2.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&#34;mutational-signature-distributions&#34;&gt;Mutational signature distributions&lt;/h2&gt;
 
@@ -284,9 +306,9 @@ I prepared the mutational signature calling results from GM in &amp;ldquo;munge/
     
     <item>
       <title>2019-11-22</title>
-      <link>http://localhost:1313/post/2019-11-22/</link>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-11-22/</link>
       <pubDate>Fri, 22 Nov 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/2019-11-22/</guid>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-11-22/</guid>
       <description>
 
 &lt;h2 id=&#34;distribution-of-kras-alleles-including-panel-data&#34;&gt;Distribution of KRAS alleles including panel data&lt;/h2&gt;
@@ -297,9 +319,9 @@ I prepared the mutational signature calling results from GM in &amp;ldquo;munge/
     
     <item>
       <title>2019-11-19</title>
-      <link>http://localhost:1313/post/2019-11-19/</link>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-11-19/</link>
       <pubDate>Tue, 19 Nov 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/2019-11-19/</guid>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-11-19/</guid>
       <description>
 
 &lt;h2 id=&#34;prioritize-comutation-hits-for-kh-cont&#34;&gt;Prioritize comutation hits for KH (cont.)&lt;/h2&gt;
@@ -310,7 +332,7 @@ I prepared the mutational signature calling results from GM in &amp;ldquo;munge/
 The final figure is below.
 There were 42 unique genes in the final figure.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/90_15_kh-resubmission/genetic_interaction_network_COAD_thick_comutation_goi_damaging.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/90_15_kh-resubmission/genetic_interaction_network_COAD_thick_comutation_goi_damaging.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;hr /&gt;
 
@@ -320,7 +342,7 @@ There were 42 unique genes in the final figure.&lt;/p&gt;
 
 &lt;p&gt;I changed the lollipop plot that GM made to a small one that just shows the distribution of mutations across alleles.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/90_05_kras-allele-distribution/lollipop-kras.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/90_05_kras-allele-distribution/lollipop-kras.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;A table for the allele distributions across all cancers is available at &amp;ldquo;tables/90_05_kras-allele-distribution/kras-allele-distribution.tsv&amp;rdquo;.
 A table for the codon distributions across all cancers is available at &amp;ldquo;tables/90_05_kras-allele-distribution/kras-codon-distribution.tsv&amp;rdquo;.
@@ -330,9 +352,9 @@ A table for the codon distribution with all cancers combined is available at &am
     
     <item>
       <title>2019-11-18</title>
-      <link>http://localhost:1313/post/2019-11-18/</link>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-11-18/</link>
       <pubDate>Mon, 18 Nov 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/2019-11-18/</guid>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-11-18/</guid>
       <description>
 
 &lt;h2 id=&#34;api-for-maftools-lollipop-plots&#34;&gt;API for maftools &amp;ldquo;lollipop&amp;rdquo; plots&lt;/h2&gt;
@@ -360,9 +382,9 @@ This was accomplished using ANNOVAR and is implemented in two munge scripts,  &a
     
     <item>
       <title>2019-11-16</title>
-      <link>http://localhost:1313/post/2019-11-16/</link>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-11-16/</link>
       <pubDate>Sat, 16 Nov 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/2019-11-16/</guid>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-11-16/</guid>
       <description>
 
 &lt;h2 id=&#34;bootstrap-ci-for-comutation-tests&#34;&gt;Bootstrap CI for comutation tests&lt;/h2&gt;
@@ -384,7 +406,7 @@ I ran the following small-scale analysis (after copying the real intermediates a
 
 &lt;p&gt;I created a new example DAG with these parameters set.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_20_rc-test-Snakefile/dag.pdf&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_20_rc-test-Snakefile/dag.pdf&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;The work-flow starts by generating the input using &amp;ldquo;src/20_02_prepare-input-tables.R&amp;rdquo;.&lt;/p&gt;
 
@@ -395,9 +417,9 @@ I ran the following small-scale analysis (after copying the real intermediates a
     
     <item>
       <title>2019-11-15</title>
-      <link>http://localhost:1313/post/2019-11-15/</link>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-11-15/</link>
       <pubDate>Fri, 15 Nov 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/2019-11-15/</guid>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-11-15/</guid>
       <description>
 
 &lt;h2 id=&#34;add-bootstrapped-95-ci-to-predicted-kras-allele-frequency&#34;&gt;Add bootstrapped 95% CI to predicted KRAS allele frequency&lt;/h2&gt;
@@ -405,17 +427,17 @@ I ran the following small-scale analysis (after copying the real intermediates a
 &lt;p&gt;I added the bootstrapped 95% CI as error bars to the bar plots and as line ranges to the scatter plots.
 Here are the results for &amp;ldquo;any-hotspot&amp;rdquo; null hypothesis.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/50_10_observed-predicted-kras-alleles/obs_pred_plot_stats_COAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/50_10_observed-predicted-kras-alleles/obs_pred_plot_stats_COAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/50_10_observed-predicted-kras-alleles/obs_pred_plot_stats_LUAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/50_10_observed-predicted-kras-alleles/obs_pred_plot_stats_LUAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/50_10_observed-predicted-kras-alleles/obs_pred_plot_stats_MM.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/50_10_observed-predicted-kras-alleles/obs_pred_plot_stats_MM.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/50_10_observed-predicted-kras-alleles/obs_pred_plot_stats_PAAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/50_10_observed-predicted-kras-alleles/obs_pred_plot_stats_PAAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&#34;preparing-additional-ppi-networks&#34;&gt;Preparing additional PPI networks&lt;/h2&gt;
 
-&lt;p&gt;I added the steps for downloading all of the PPI networks to &lt;a href=&#34;http://localhost:1313/post/2019-11-14/&#34; target=&#34;_blank&#34;&gt;yesterday&amp;rsquo;s notebook&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;I added the steps for downloading all of the PPI networks to &lt;a href=&#34;https://project-notebook-comutation.netlify.com/post/2019-11-14/&#34; target=&#34;_blank&#34;&gt;yesterday&amp;rsquo;s notebook&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;When trying to parse the IntAct data, it was very difficult to see a scalable method.
 I will talk to OP and see what she recommends and how she uses IntAct.&lt;/p&gt;
@@ -494,33 +516,33 @@ The number of data sources that support the presence of an interaction is shown 
 This likely most useful for very busy, &amp;ldquo;hairball&amp;rdquo; subnetworks, such as for LUAD G12C.
 Below is the full subnetwork for LUAD G12C that includes &lt;em&gt;KRAS&lt;/em&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/40_10_overlap-synlet-comutation/overlap_ppi_LUAD_G12C_1.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/40_10_overlap-synlet-comutation/overlap_ppi_LUAD_G12C_1.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;and the following are some of the extracted clusters.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/40_10_overlap-synlet-comutation-clustered/overlap_ppi_LUAD_G12C_2.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/40_10_overlap-synlet-comutation-clustered/overlap_ppi_LUAD_G12C_2.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/40_10_overlap-synlet-comutation-clustered/overlap_ppi_LUAD_G12C_3.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/40_10_overlap-synlet-comutation-clustered/overlap_ppi_LUAD_G12C_3.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/40_10_overlap-synlet-comutation-clustered/overlap_ppi_LUAD_G12C_5.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/40_10_overlap-synlet-comutation-clustered/overlap_ppi_LUAD_G12C_5.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/40_10_overlap-synlet-comutation-clustered/overlap_ppi_LUAD_G12C_6.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/40_10_overlap-synlet-comutation-clustered/overlap_ppi_LUAD_G12C_6.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/40_10_overlap-synlet-comutation-clustered/overlap_ppi_LUAD_G12C_7.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/40_10_overlap-synlet-comutation-clustered/overlap_ppi_LUAD_G12C_7.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/40_10_overlap-synlet-comutation-clustered/overlap_ppi_LUAD_G12C_8.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/40_10_overlap-synlet-comutation-clustered/overlap_ppi_LUAD_G12C_8.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/40_10_overlap-synlet-comutation-clustered/overlap_ppi_LUAD_G12C_9.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/40_10_overlap-synlet-comutation-clustered/overlap_ppi_LUAD_G12C_9.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/40_10_overlap-synlet-comutation-clustered/overlap_ppi_LUAD_G12C_15.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/40_10_overlap-synlet-comutation-clustered/overlap_ppi_LUAD_G12C_15.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 </description>
     </item>
     
     <item>
       <title>2019-11-14</title>
-      <link>http://localhost:1313/post/2019-11-14/</link>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-11-14/</link>
       <pubDate>Thu, 14 Nov 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/2019-11-14/</guid>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-11-14/</guid>
       <description>
 
 &lt;h2 id=&#34;haigis-lab-presentation&#34;&gt;Haigis Lab presentation&lt;/h2&gt;
@@ -571,9 +593,9 @@ I downloaded the &amp;ldquo;Binary&amp;rdquo; and &amp;ldquo;Co-complex&amp;rdqu
     
     <item>
       <title>2019-11-13</title>
-      <link>http://localhost:1313/post/2019-11-13/</link>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-11-13/</link>
       <pubDate>Wed, 13 Nov 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/2019-11-13/</guid>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-11-13/</guid>
       <description>
 
 &lt;h2 id=&#34;preparation-for-lab-meeting-presentation&#34;&gt;Preparation for lab meeting presentation&lt;/h2&gt;
@@ -583,7 +605,7 @@ I downloaded the &amp;ldquo;Binary&amp;rdquo; and &amp;ldquo;Co-complex&amp;rdqu
 &lt;p&gt;The first was a plot of the distribution of &lt;em&gt;KRAS&lt;/em&gt; alleles across the cancers.
 This was done in &amp;ldquo;src/90_05_kras-allele-distribution.R&amp;rdquo;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/grpahs/90_05_kras-allele-distribution/allele_dist_barplot_stackplot.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/grpahs/90_05_kras-allele-distribution/allele_dist_barplot_stackplot.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;The next change was to make the overlap-network plots more &amp;ldquo;presentation-friendly&amp;rdquo; by adjusting the dimensions, color hues, and font size.
 I did not put an image here, because they are likely to be changed for the publication.&lt;/p&gt;
@@ -592,9 +614,9 @@ I did not put an image here, because they are likely to be changed for the publi
     
     <item>
       <title>2019-11-12</title>
-      <link>http://localhost:1313/post/2019-11-12/</link>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-11-12/</link>
       <pubDate>Tue, 12 Nov 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/2019-11-12/</guid>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-11-12/</guid>
       <description>
 
 &lt;h2 id=&#34;fix-observed-vs-predicted-kras-allele-frequency-plots&#34;&gt;Fix observed vs predicted &lt;em&gt;KRAS&lt;/em&gt; allele frequency plots&lt;/h2&gt;
@@ -621,9 +643,9 @@ I fixed yesterday&amp;rsquo;s notebook to reflect these changes.&lt;/p&gt;
     
     <item>
       <title>2019-11-11</title>
-      <link>http://localhost:1313/post/2019-11-11/</link>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-11-11/</link>
       <pubDate>Mon, 11 Nov 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/2019-11-11/</guid>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-11-11/</guid>
       <description>
 
 &lt;h2 id=&#34;refine-rainfall-plots&#34;&gt;Refine rainfall plots&lt;/h2&gt;
@@ -641,7 +663,7 @@ This was purely aesthetic.&lt;/p&gt;
 
 &lt;p&gt;I updated the color scale used for the heatmaps to use the orange and purple for up and down effects, respectively:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/00_miscellaneous/genetic_interaction_pal.svg&#34; width=400 /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/00_miscellaneous/genetic_interaction_pal.svg&#34; width=400 /&gt;&lt;/p&gt;
 
 &lt;p&gt;This was pretty simple to do, and for future reference, here was all I had to do.&lt;/p&gt;
 
@@ -699,42 +721,42 @@ If we were interested in only G12 mutations (the null hypothesis being that all 
 &lt;p&gt;The analysis was conducted in &amp;ldquo;src/50_10_observed-predicted-kras-alleles.R&amp;rdquo;.
 The box plot below shows the distribution of predicted allele frequencies in each cancer.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/50_10_observed-predicted-kras-alleles/predicted_kras_allele_frequency_boxplot.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/50_10_observed-predicted-kras-alleles/predicted_kras_allele_frequency_boxplot.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;The bar plot shows the same data, just taking the average across all samples.
 The error bars indicate the SEM.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/50_10_observed-predicted-kras-alleles/predict_kras_allele_frequency_barplot1.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/50_10_observed-predicted-kras-alleles/predict_kras_allele_frequency_barplot1.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;The following bar plot, again, shows the same results, just stratified by allele across cancers.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/50_10_observed-predicted-kras-alleles/predict_kras_allele_frequency_barplot2.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/50_10_observed-predicted-kras-alleles/predict_kras_allele_frequency_barplot2.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Below are the results for two different null hypothesis: 1) all &lt;em&gt;KRAS&lt;/em&gt; hotspots are equivalent, and 2) all &lt;em&gt;KRAS&lt;/em&gt; G12 alleles are equivalent.&lt;/p&gt;
 
 &lt;h3 id=&#34;coad&#34;&gt;COAD&lt;/h3&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/50_10_observed-predicted-kras-alleles/obs_pred_plot_stats_COAD.svg&#34; width=400 /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/50_10_observed-predicted-kras-alleles/obs_pred_plot_stats_COAD.svg&#34; width=400 /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/50_10_observed-predicted-kras-alleles/obs_pred_plot_g12_stats_COAD.svg&#34; width=400 /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/50_10_observed-predicted-kras-alleles/obs_pred_plot_g12_stats_COAD.svg&#34; width=400 /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;luad&#34;&gt;LUAD&lt;/h3&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/50_10_observed-predicted-kras-alleles/obs_pred_plot_stats_LUAD.svg&#34; width=400 /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/50_10_observed-predicted-kras-alleles/obs_pred_plot_stats_LUAD.svg&#34; width=400 /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/50_10_observed-predicted-kras-alleles/obs_pred_plot_g12_stats_LUAD.svg&#34; width=400 /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/50_10_observed-predicted-kras-alleles/obs_pred_plot_g12_stats_LUAD.svg&#34; width=400 /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;mm&#34;&gt;MM&lt;/h3&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/50_10_observed-predicted-kras-alleles/obs_pred_plot_stats_MM.svg&#34; width=400 /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/50_10_observed-predicted-kras-alleles/obs_pred_plot_stats_MM.svg&#34; width=400 /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/50_10_observed-predicted-kras-alleles/obs_pred_plot_g12_stats_MM.svg&#34; width=400 /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/50_10_observed-predicted-kras-alleles/obs_pred_plot_g12_stats_MM.svg&#34; width=400 /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;paad&#34;&gt;PAAD&lt;/h3&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/50_10_observed-predicted-kras-alleles/obs_pred_plot_stats_PAAD.svg&#34; width=400 /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/50_10_observed-predicted-kras-alleles/obs_pred_plot_stats_PAAD.svg&#34; width=400 /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/50_10_observed-predicted-kras-alleles/obs_pred_plot_g12_stats_PAAD.svg&#34; width=400 /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/50_10_observed-predicted-kras-alleles/obs_pred_plot_g12_stats_PAAD.svg&#34; width=400 /&gt;&lt;/p&gt;
 
 &lt;p&gt;I ran a binomial test to find which observed rates of the alleles matched the predicted.
 The alleles that could be predicted (p &amp;gt; 0.05) trinucleotide context are shown below.&lt;/p&gt;
@@ -910,9 +932,9 @@ The alleles that could be predicted (p &amp;gt; 0.05) trinucleotide context are 
     
     <item>
       <title>2019-11-09</title>
-      <link>http://localhost:1313/post/2019-11-09/</link>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-11-09/</link>
       <pubDate>Sat, 09 Nov 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/2019-11-09/</guid>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-11-09/</guid>
       <description>
 
 &lt;h2 id=&#34;touch-ups-and-preparations-for-figures-quality-images&#34;&gt;Touch-ups and preparations for figures-quality images&lt;/h2&gt;
@@ -923,15 +945,15 @@ The alleles that could be predicted (p &amp;gt; 0.05) trinucleotide context are 
 
 &lt;p&gt;I want a pair of colors for comutation vs. mutual exclusivity and another pair for synthetic lethal up and down.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/00_miscellaneous/genetic_interaction_pal.svg&#34; width=400 /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/00_miscellaneous/genetic_interaction_pal.svg&#34; width=400 /&gt;&lt;/p&gt;
 
 &lt;p&gt;While I was at it, I made my own palette-display function. Below are the rest of the palettes used throughout the paper.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/00_miscellaneous/cancer_palette.svg&#34; width=&#34;100%&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/00_miscellaneous/cancer_palette.svg&#34; width=&#34;100%&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/00_miscellaneous/short_alleles_pal.svg&#34; width=400 /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/00_miscellaneous/short_alleles_pal.svg&#34; width=400 /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/00_miscellaneous/mutation_pal.svg&#34; width=&#34;100%&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/00_miscellaneous/mutation_pal.svg&#34; width=&#34;100%&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;make-more-tightly-packed-high-level-genetic-interaction-networks&#34;&gt;Make more tightly packed high-level genetic interaction networks&lt;/h3&gt;
 
@@ -941,25 +963,25 @@ These replace the &amp;ldquo;thick&amp;rdquo; versions.&lt;/p&gt;
 
 &lt;h4 id=&#34;coad&#34;&gt;COAD&lt;/h4&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_40_highlivel-genetic-interactions/genetic_interaction_network_COAD_thick.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_40_highlivel-genetic-interactions/genetic_interaction_network_COAD_thick.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h4 id=&#34;luad&#34;&gt;LUAD&lt;/h4&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_40_highlivel-genetic-interactions/genetic_interaction_network_LUAD_thick.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_40_highlivel-genetic-interactions/genetic_interaction_network_LUAD_thick.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h4 id=&#34;mm&#34;&gt;MM&lt;/h4&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_40_highlivel-genetic-interactions/genetic_interaction_network_MM_thick.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_40_highlivel-genetic-interactions/genetic_interaction_network_MM_thick.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;paad&#34;&gt;PAAD&lt;/h3&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_40_highlivel-genetic-interactions/genetic_interaction_network_PAAD_thick.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_40_highlivel-genetic-interactions/genetic_interaction_network_PAAD_thick.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;finalize-distribution-of-interactions-plot&#34;&gt;Finalize distribution of interactions plot&lt;/h3&gt;
 
 &lt;p&gt;I just tidied up this plot that was originally just for my own use.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_35_rc-fisher-comparison/rc_mutations_distribition.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_35_rc-fisher-comparison/rc_mutations_distribition.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&#34;to-do-tomorrow&#34;&gt;To-Do tomorrow&lt;/h2&gt;
 
@@ -974,9 +996,9 @@ These replace the &amp;ldquo;thick&amp;rdquo; versions.&lt;/p&gt;
     
     <item>
       <title>2019-11-08</title>
-      <link>http://localhost:1313/post/2019-11-08/</link>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-11-08/</link>
       <pubDate>Fri, 08 Nov 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/2019-11-08/</guid>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-11-08/</guid>
       <description>
 
 &lt;h2 id=&#34;correlating-mutation-frequency-and-number-of-genetic-interactors&#34;&gt;Correlating mutation frequency and number of genetic interactors&lt;/h2&gt;
@@ -984,7 +1006,7 @@ These replace the &amp;ldquo;thick&amp;rdquo; versions.&lt;/p&gt;
 &lt;p&gt;I created a scatter plot of the frequency of the &lt;em&gt;KRAS&lt;/em&gt; allele against the number of genetic interactors (comutation or mutual exclusivity).
 This analysis was added to the end of &amp;ldquo;src/20_40_highlivel-genetic-interactions.R&amp;rdquo;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_40_highlivel-genetic-interactions/corr_allele-freq_num-interactors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_40_highlivel-genetic-interactions/corr_allele-freq_num-interactors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&#34;some-minor-changes&#34;&gt;Some minor changes&lt;/h2&gt;
 
@@ -1002,11 +1024,11 @@ These results will be referenced in the text, included as a supplementary table,
 This analysis was tacked onto the end of &amp;ldquo;src/10_13_linear-modeling-syn-let_fxnal-enrichment.R&amp;rdquo;
 The TSVs of the results are available in &amp;ldquo;tables/10_10_linear-modeling-syn-let&amp;rdquo; and the plots are in &amp;ldquo;graphs/10_13_linear-modeling-syn-let_fxnal-enrichment&amp;rdquo; with the &amp;ldquo;overall.svg&amp;rdquo; suffix.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_13_linear-modeling-syn-let_fxnal-enrichment/functional-enrichment_COAD_overall.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_13_linear-modeling-syn-let_fxnal-enrichment/functional-enrichment_COAD_overall.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_13_linear-modeling-syn-let_fxnal-enrichment/functional-enrichment_LUAD_overall.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_13_linear-modeling-syn-let_fxnal-enrichment/functional-enrichment_LUAD_overall.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_13_linear-modeling-syn-let_fxnal-enrichment/functional-enrichment_PAAD_overall.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_13_linear-modeling-syn-let_fxnal-enrichment/functional-enrichment_PAAD_overall.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;hr /&gt;
 
@@ -1038,39 +1060,39 @@ Perhaps, I can include the box-plots for a few of the genes and manually draw a 
 
 &lt;h3 id=&#34;coad-g12d&#34;&gt;COAD G12D&lt;/h3&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/40_10_overlap-synlet-comutation/overlap_ppi_COAD_G12D_1.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/40_10_overlap-synlet-comutation/overlap_ppi_COAD_G12D_1.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;coad-g13d&#34;&gt;COAD G13D&lt;/h3&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/40_10_overlap-synlet-comutation/overlap_ppi_COAD_G13D_1.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/40_10_overlap-synlet-comutation/overlap_ppi_COAD_G13D_1.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;luad-g12v&#34;&gt;LUAD G12V&lt;/h3&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/40_10_overlap-synlet-comutation/overlap_ppi_LUAD_G12V_1.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/40_10_overlap-synlet-comutation/overlap_ppi_LUAD_G12V_1.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;luad-wt&#34;&gt;LUAD WT&lt;/h3&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/40_10_overlap-synlet-comutation/overlap_ppi_LUAD_WT_1.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/40_10_overlap-synlet-comutation/overlap_ppi_LUAD_WT_1.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;paad-g12d&#34;&gt;PAAD G12D&lt;/h3&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/40_10_overlap-synlet-comutation/overlap_ppi_PAAD_G12D_2.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/40_10_overlap-synlet-comutation/overlap_ppi_PAAD_G12D_2.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;paad-g12r&#34;&gt;PAAD G12R&lt;/h3&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/40_10_overlap-synlet-comutation/overlap_ppi_PAAD_G12R_1.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/40_10_overlap-synlet-comutation/overlap_ppi_PAAD_G12R_1.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;paad-g12v&#34;&gt;PAAD G12V&lt;/h3&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/40_10_overlap-synlet-comutation/overlap_ppi_PAAD_G12V_1.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/40_10_overlap-synlet-comutation/overlap_ppi_PAAD_G12V_1.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 </description>
     </item>
     
     <item>
       <title>2019-11-07</title>
-      <link>http://localhost:1313/post/2019-11-07/</link>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-11-07/</link>
       <pubDate>Thu, 07 Nov 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/2019-11-07/</guid>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-11-07/</guid>
       <description>
 
 &lt;h2 id=&#34;oncoplots&#34;&gt;Oncoplots&lt;/h2&gt;
@@ -1083,40 +1105,40 @@ The goal was to focus attention on interactions with notable genes or especially
 
 &lt;p&gt;A striking plot is of the comutation interactions with A146T in COAD.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_50_rainfall-plots-select/COAD_A146T_comutation_oncostrip_select.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots-select/COAD_A146T_comutation_oncostrip_select.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;The plot for G12D mutually exclusive interactions in COAD was impressive.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_50_rainfall-plots-select/COAD_G12D_exclusivity_oncostrip_select.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots-select/COAD_G12D_exclusivity_oncostrip_select.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;luad&#34;&gt;LUAD&lt;/h3&gt;
 
 &lt;p&gt;The plot for G12D in LUAD, though, shows a definite reduction in the rate of comutation with TP53.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_50_rainfall-plots-select/LUAD_G12D_exclusivity_oncostrip_select.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots-select/LUAD_G12D_exclusivity_oncostrip_select.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;paad&#34;&gt;PAAD&lt;/h3&gt;
 
 &lt;p&gt;Another interesting comutation event is found in PAAD between G12R and &lt;em&gt;RAF1&lt;/em&gt; and &lt;em&gt;IRAK1&lt;/em&gt;.
 While the mutations are rare, in general, there is a definite enrichment for tumors with G12R.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_50_rainfall-plots-select/PAAD_G12R_comutation_oncostrip_select.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots-select/PAAD_G12R_comutation_oncostrip_select.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_50_rainfall-plots-select/PAAD_G12R_exclusivity_oncostrip_select.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots-select/PAAD_G12R_exclusivity_oncostrip_select.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Overall, there were a substantial number of interactions with &lt;em&gt;RYR&lt;/em&gt; genes.
 In PAAD, &lt;em&gt;RYR3&lt;/em&gt; comutates with G12V and &lt;em&gt;RYR1&lt;/em&gt; is mutually exclusive with G12V.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_50_rainfall-plots-select/PAAD_G12V_exclusivitycomutation_oncostrip_select(RYR).svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots-select/PAAD_G12V_exclusivitycomutation_oncostrip_select(RYR).svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Some of the most interesting and striking results were from the PAAD Q61H plots.
 Below are some of the mutually exclusive interactions.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_50_rainfall-plots-select/PAAD_Q61H_exclusivity_oncostrip_select.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots-select/PAAD_Q61H_exclusivity_oncostrip_select.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;The plot below shows the strong comutation interaction with TP53.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_50_rainfall-plots-select/PAAD_Q61H_comutation_oncostrip_select_TP53.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots-select/PAAD_Q61H_comutation_oncostrip_select_TP53.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;I then made oncoplots of the genes in the &lt;em&gt;a priori&lt;/em&gt; gene lists.
 These accompany the genetic subnetworks from the &lt;em&gt;a priori&lt;/em&gt; gene sets.
@@ -1132,37 +1154,37 @@ These plots were made in &amp;ldquo;src/90_03_mutation-burden-distribution.R&amp
 For each plot shown below, the top is of all mutations and bottom is of coding mutations.
 For COAD, the hypermutants have an &amp;ldquo;x&amp;rdquo; shape.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/90_03_mutation-burden-distribution/COAD_all_muts_distribution.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/90_03_mutation-burden-distribution/COAD_all_muts_distribution.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/90_03_mutation-burden-distribution/COAD_coding_muts_distribution.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/90_03_mutation-burden-distribution/COAD_coding_muts_distribution.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/90_03_mutation-burden-distribution/LUAD_all_muts_distribution.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/90_03_mutation-burden-distribution/LUAD_all_muts_distribution.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/90_03_mutation-burden-distribution/LUAD_coding_muts_distribution.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/90_03_mutation-burden-distribution/LUAD_coding_muts_distribution.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/90_03_mutation-burden-distribution/MM_all_muts_distribution.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/90_03_mutation-burden-distribution/MM_all_muts_distribution.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/90_03_mutation-burden-distribution/MM_coding_muts_distribution.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/90_03_mutation-burden-distribution/MM_coding_muts_distribution.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/90_03_mutation-burden-distribution/PAAD_all_muts_distribution.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/90_03_mutation-burden-distribution/PAAD_all_muts_distribution.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/90_03_mutation-burden-distribution/PAAD_coding_muts_distribution.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/90_03_mutation-burden-distribution/PAAD_coding_muts_distribution.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/90_03_mutation-burden-distribution/SKCM_all_muts_distribution.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/90_03_mutation-burden-distribution/SKCM_all_muts_distribution.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/90_03_mutation-burden-distribution/SKCM_coding_muts_distribution.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/90_03_mutation-burden-distribution/SKCM_coding_muts_distribution.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;I also made plots showing the distribution of the types of mutation found in each samples from each data source.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/90_03_mutation-burden-distribution/COAD_mutation_types.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/90_03_mutation-burden-distribution/COAD_mutation_types.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/90_03_mutation-burden-distribution/LUAD_mutation_types.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/90_03_mutation-burden-distribution/LUAD_mutation_types.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/90_03_mutation-burden-distribution/MM_mutation_types.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/90_03_mutation-burden-distribution/MM_mutation_types.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/90_03_mutation-burden-distribution/PAAD_mutation_types.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/90_03_mutation-burden-distribution/PAAD_mutation_types.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/90_03_mutation-burden-distribution/SKCM_mutation_types.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/90_03_mutation-burden-distribution/SKCM_mutation_types.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;(I had to return to the munging of the mutation data from GM to standardize the types of mutation in the &lt;code&gt;mutation_type&lt;/code&gt; column - I created a new column &lt;code&gt;mutation_type_hr&lt;/code&gt; where &amp;ldquo;hr&amp;rdquo; stands for &amp;ldquo;human-readable&amp;rdquo;.)&lt;/p&gt;
 </description>
@@ -1170,9 +1192,9 @@ For COAD, the hypermutants have an &amp;ldquo;x&amp;rdquo; shape.&lt;/p&gt;
     
     <item>
       <title>2019-11-06</title>
-      <link>http://localhost:1313/post/2019-11-06/</link>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-11-06/</link>
       <pubDate>Wed, 06 Nov 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/2019-11-06/</guid>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-11-06/</guid>
       <description>
 
 &lt;h2 id=&#34;fix-gsea&#34;&gt;Fix GSEA&lt;/h2&gt;
@@ -1209,9 +1231,9 @@ ALso, I need to make them for the genetic interaction network of the &lt;em&gt;a
     
     <item>
       <title>2019-11-05</title>
-      <link>http://localhost:1313/post/2019-11-05/</link>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-11-05/</link>
       <pubDate>Tue, 05 Nov 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/2019-11-05/</guid>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-11-05/</guid>
       <description>
 
 &lt;h2 id=&#34;rani-screen-analysis&#34;&gt;RANi-screen Analysis&lt;/h2&gt;
@@ -1303,15 +1325,15 @@ The heatmaps for each cancer are below.&lt;/p&gt;
 
 &lt;h3 id=&#34;coad&#34;&gt;COAD&lt;/h3&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_10_linear-modeling-syn-let_pheatmaps/COAD_RNAi_pheatmap.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_pheatmaps/COAD_RNAi_pheatmap.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;luad&#34;&gt;LUAD&lt;/h3&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_10_linear-modeling-syn-let_pheatmaps/LUAD_RNAi_pheatmap.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_pheatmaps/LUAD_RNAi_pheatmap.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;paad&#34;&gt;PAAD&lt;/h3&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_10_linear-modeling-syn-let_pheatmaps/PAAD_RNAi_pheatmap.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_pheatmaps/PAAD_RNAi_pheatmap.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h3&gt;
 
@@ -1327,9 +1349,9 @@ There is a &lt;code&gt;browser()&lt;/code&gt; call in &amp;ldquo;src/10_37_gsea-
     
     <item>
       <title>2019-11-04</title>
-      <link>http://localhost:1313/post/2019-11-04/</link>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-11-04/</link>
       <pubDate>Mon, 04 Nov 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/2019-11-04/</guid>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-11-04/</guid>
       <description>
 
 &lt;h2 id=&#34;more-attempts-at-modeling-depmap-data&#34;&gt;More attempts at modeling DepMap data&lt;/h2&gt;
@@ -1366,38 +1388,38 @@ Some of the results are shown below.&lt;/p&gt;
 &lt;p&gt;The first plot is a general overview of the enriched pathways.
 Each dot represents a statistically detectable enrichment and the size of the dot correlates with the FDR-adjusted p-value.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_50_single-sample-rank-sum/enriched_gene_sets.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_50_single-sample-rank-sum/enriched_gene_sets.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;The following are waterfall plots that show the scaled average gene-effect score for cell lines of a &lt;em&gt;KRAS&lt;/em&gt; allele for the genes in an enriched gene set.
 The x-axis order is by ranking of the y-axis.&lt;/p&gt;
 
 &lt;h3 id=&#34;coad&#34;&gt;COAD&lt;/h3&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_50_single-sample-rank-sum/waterfall_COAD_G12D_HIPK2.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_50_single-sample-rank-sum/waterfall_COAD_G12D_HIPK2.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_50_single-sample-rank-sum/waterfall_COAD_G12V_CDK14.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_50_single-sample-rank-sum/waterfall_COAD_G12V_CDK14.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_50_single-sample-rank-sum/waterfall_COAD_G12D_ABL2.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_50_single-sample-rank-sum/waterfall_COAD_G12D_ABL2.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_50_single-sample-rank-sum/waterfall_COAD_G12D_PRKCH.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_50_single-sample-rank-sum/waterfall_COAD_G12D_PRKCH.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_50_single-sample-rank-sum/waterfall_COAD_G12D_MAP2K1.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_50_single-sample-rank-sum/waterfall_COAD_G12D_MAP2K1.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;luad&#34;&gt;LUAD&lt;/h3&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_50_single-sample-rank-sum/waterfall_LUAD_G12V_DYRK2.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_50_single-sample-rank-sum/waterfall_LUAD_G12V_DYRK2.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_50_single-sample-rank-sum/waterfall_LUAD_G12C_MAPK7.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_50_single-sample-rank-sum/waterfall_LUAD_G12C_MAPK7.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;paad&#34;&gt;PAAD&lt;/h3&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_50_single-sample-rank-sum/waterfall_PAAD_G12V_PRKCH.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_50_single-sample-rank-sum/waterfall_PAAD_G12V_PRKCH.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_50_single-sample-rank-sum/waterfall_PAAD_G12D_PRKCE.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_50_single-sample-rank-sum/waterfall_PAAD_G12D_PRKCE.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_50_single-sample-rank-sum/waterfall_PAAD_G12R_P53 signaling pathway.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_50_single-sample-rank-sum/waterfall_PAAD_G12R_P53 signaling pathway.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_50_single-sample-rank-sum/waterfall_PAAD_G12R_MAP3K8.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_50_single-sample-rank-sum/waterfall_PAAD_G12R_MAP3K8.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&#34;rani-screen-analysis-to-do&#34;&gt;RANi-screen Analysis (To-Do)&lt;/h2&gt;
 
@@ -1408,9 +1430,9 @@ The x-axis order is by ranking of the y-axis.&lt;/p&gt;
     
     <item>
       <title>2019-11-03</title>
-      <link>http://localhost:1313/post/2019-11-03/</link>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-11-03/</link>
       <pubDate>Sun, 03 Nov 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/2019-11-03/</guid>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-11-03/</guid>
       <description>
 
 &lt;h2 id=&#34;therapeutically-viable-synthetic-lethal-hits&#34;&gt;Therapeutically-viable synthetic lethal hits&lt;/h2&gt;
@@ -1422,49 +1444,49 @@ Below are the results of looking for functional enrichment in the clusters from 
 I used a threshold of FDR-adjusted p-value &amp;lt; 0.20 and at least 3 genes in the group to filter the results.
 There was no enrichment in COAD.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_13_linear-modeling-syn-let_fxnal-enrichment/functional-enrichment_LUAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_13_linear-modeling-syn-let_fxnal-enrichment/functional-enrichment_LUAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_13_linear-modeling-syn-let_fxnal-enrichment/functional-enrichment_PAAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_13_linear-modeling-syn-let_fxnal-enrichment/functional-enrichment_PAAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;coad&#34;&gt;COAD&lt;/h3&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_10_linear-modeling-syn-let_boxplots/COAD-PIP5K1A.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/COAD-PIP5K1A.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_10_linear-modeling-syn-let_boxplots/COAD-CLK3.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/COAD-CLK3.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_10_linear-modeling-syn-let_boxplots/COAD-FDPS.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/COAD-FDPS.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_10_linear-modeling-syn-let_boxplots/COAD-UNK.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/COAD-UNK.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;luad&#34;&gt;LUAD&lt;/h3&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-ARMC6.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-ARMC6.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-BNIP1.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-BNIP1.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-EPN2.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-EPN2.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-FOXJ3.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-FOXJ3.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-MAPK6.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-MAPK6.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-PTBP3.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-PTBP3.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-STAMBP.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-STAMBP.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_10_linear-modeling-syn-let_boxplots/gene-effect-barplot_LUAD_regulation_of_vascular_endothelial_growth_factor_receptor_signaling_pathway_-GO0030947.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/gene-effect-barplot_LUAD_regulation_of_vascular_endothelial_growth_factor_receptor_signaling_pathway_-GO0030947.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_10_linear-modeling-syn-let_boxplots/gene-effect-barplot_LUAD_positive_regulation_of_I-kappaB_kinase-NF-kappaB_signaling_-GO0043123.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/gene-effect-barplot_LUAD_positive_regulation_of_I-kappaB_kinase-NF-kappaB_signaling_-GO0043123.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_10_linear-modeling-syn-let_boxplots/gene-effect-barplot_LUAD_Regulation_of_TP53_Activity_through_Phosphorylation_Homo_sapiens_R-HSA-6804756.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/gene-effect-barplot_LUAD_Regulation_of_TP53_Activity_through_Phosphorylation_Homo_sapiens_R-HSA-6804756.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;paad&#34;&gt;PAAD&lt;/h3&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_10_linear-modeling-syn-let_boxplots/PAAD-JUN.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/PAAD-JUN.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_10_linear-modeling-syn-let_boxplots/gene-effect-barplot_PAAD_ARRB2.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/gene-effect-barplot_PAAD_ARRB2.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_10_linear-modeling-syn-let_boxplots/gene-effect-barplot_PAAD_IKBKG.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/gene-effect-barplot_PAAD_IKBKG.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&#34;essential-or-nonessential-genes&#34;&gt;Essential or Nonessential genes?&lt;/h2&gt;
 
@@ -2058,9 +2080,9 @@ I could not think of anything to do with the information, so I wrote it to file 
     
     <item>
       <title>2019-11-02</title>
-      <link>http://localhost:1313/post/2019-11-02/</link>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-11-02/</link>
       <pubDate>Sat, 02 Nov 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/2019-11-02/</guid>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-11-02/</guid>
       <description>
 
 &lt;h2 id=&#34;fix-modeling-of-the-synthetic-lethality&#34;&gt;Fix modeling of the synthetic lethality&lt;/h2&gt;
@@ -2100,9 +2122,9 @@ I went through the munging scripts and found the few places where this was happe
     
     <item>
       <title>2019-11-01</title>
-      <link>http://localhost:1313/post/2019-11-01/</link>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-11-01/</link>
       <pubDate>Fri, 01 Nov 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/2019-11-01/</guid>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-11-01/</guid>
       <description>
 
 &lt;h2 id=&#34;descriptive-plots-for-cell-lines-used-by-depmap-cont&#34;&gt;Descriptive plots for cell lines used by DepMap (cont.)&lt;/h2&gt;
@@ -2121,11 +2143,11 @@ Perhaps, the &amp;ldquo;stronger&amp;rdquo; alleles will have reduced dependenci
 The left plot shows the distribution of dependencies for the alleles (each gene&amp;rsquo;s score was averaged across the represented cell lines.)
 The right plot shows the quantile values for the gene scores of each allele.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_45_overall-dependencies-by-allele/dependency-overview_COAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_45_overall-dependencies-by-allele/dependency-overview_COAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_45_overall-dependencies-by-allele/dependency-overview_LUAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_45_overall-dependencies-by-allele/dependency-overview_LUAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_45_overall-dependencies-by-allele/dependency-overview_PAAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_45_overall-dependencies-by-allele/dependency-overview_PAAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;(I also tried scaling the gene scores across all cell lines before average within each allele, but found nothing interesting, still.)&lt;/p&gt;
 
@@ -2215,9 +2237,9 @@ I need to figure out some measurement that calculates the predicted frequency of
     
     <item>
       <title>2019-10-31</title>
-      <link>http://localhost:1313/post/2019-10-31/</link>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-10-31/</link>
       <pubDate>Thu, 31 Oct 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/2019-10-31/</guid>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-10-31/</guid>
       <description>
 
 &lt;h2 id=&#34;notes-from-haigis-lab-retreat-2019&#34;&gt;Notes from Haigis Lab Retreat 2019&lt;/h2&gt;
@@ -2247,19 +2269,19 @@ I need to figure out some measurement that calculates the predicted frequency of
 &lt;p&gt;A plot showing the mutations to CGC genes in each cell line was made for each cancer.
 A dot in the tile indicates that it is a known hotspot mutation.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_05_describe-cell-lines/gcg-mutation-tile_COAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_05_describe-cell-lines/gcg-mutation-tile_COAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_05_describe-cell-lines/gcg-mutation-tile_LUAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_05_describe-cell-lines/gcg-mutation-tile_LUAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_05_describe-cell-lines/gcg-mutation-tile_PAAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_05_describe-cell-lines/gcg-mutation-tile_PAAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 </description>
     </item>
     
     <item>
       <title>2019-10-28</title>
-      <link>http://localhost:1313/post/2019-10-28/</link>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-10-28/</link>
       <pubDate>Mon, 28 Oct 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/2019-10-28/</guid>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-10-28/</guid>
       <description>
 
 &lt;h2 id=&#34;comutation-networks&#34;&gt;Comutation networks&lt;/h2&gt;
@@ -2273,57 +2295,57 @@ I also added an annotation bar below to denote the &lt;em&gt;KRAS&lt;/em&gt; all
 
 &lt;p&gt;&lt;strong&gt;A146T comutation&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_50_rainfall-plots/COAD_A146T_comutation_oncostrip_allInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/COAD_A146T_comutation_oncostrip_allInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;G12D Comutation&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_50_rainfall-plots/COAD_G12D_comutation_oncostrip_allInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/COAD_G12D_comutation_oncostrip_allInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;G13D Exclusive&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_50_rainfall-plots/COAD_G13D_exclusivity_oncostrip_allInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/COAD_G13D_exclusivity_oncostrip_allInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;G13D Comutation&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_50_rainfall-plots/COAD_G13D_comutation_oncostrip_allInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/COAD_G13D_comutation_oncostrip_allInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;luad&#34;&gt;LUAD&lt;/h3&gt;
 
 &lt;p&gt;&lt;strong&gt;G12A Comutation&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_50_rainfall-plots/LUAD_G12A_comutation_oncostrip_allInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/LUAD_G12A_comutation_oncostrip_allInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;G12C Exclusive&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_50_rainfall-plots/LUAD_G12C_exclusivity_oncostrip_allInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/LUAD_G12C_exclusivity_oncostrip_allInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;G12V Comutation&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_50_rainfall-plots/LUAD_G12V_comutation_oncostrip_allInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/LUAD_G12V_comutation_oncostrip_allInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;G12V Exclusive&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_50_rainfall-plots/LUAD_G12V_exclusivity_oncostrip_allInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/LUAD_G12V_exclusivity_oncostrip_allInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;mm&#34;&gt;MM&lt;/h3&gt;
 
 &lt;p&gt;&lt;strong&gt;Q61H Comutation&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_50_rainfall-plots/MM_Q61H_comutation_oncostrip_allInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/MM_Q61H_comutation_oncostrip_allInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;Q61H Exclusive&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_50_rainfall-plots/MM_Q61H_exclusivity_oncostrip_allInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/MM_Q61H_exclusivity_oncostrip_allInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;paad&#34;&gt;PAAD&lt;/h3&gt;
 
 &lt;p&gt;&lt;strong&gt;G12V Comutation&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_50_rainfall-plots/PAAD_G12V_comutation_oncostrip_allInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/PAAD_G12V_comutation_oncostrip_allInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;G12R Comutation&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_50_rainfall-plots/PAAD_G12R_comutation_oncostrip_allInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/PAAD_G12R_comutation_oncostrip_allInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;hr /&gt;
 
@@ -2356,19 +2378,19 @@ There is just not enough data to work in that many dimensions.&lt;/p&gt;
 
 &lt;p&gt;There are simply not enough cell lines for this high-dimensional of an analysis.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/30_20_discriminant-analysis-syn-let/COAD_lda.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/30_20_discriminant-analysis-syn-let/COAD_lda.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/30_20_discriminant-analysis-syn-let/LUAD_lda.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/30_20_discriminant-analysis-syn-let/LUAD_lda.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/30_20_discriminant-analysis-syn-let/PAAD_lda.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/30_20_discriminant-analysis-syn-let/PAAD_lda.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 </description>
     </item>
     
     <item>
       <title>2019-10-27</title>
-      <link>http://localhost:1313/post/2019-10-27/</link>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-10-27/</link>
       <pubDate>Sun, 27 Oct 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/2019-10-27/</guid>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-10-27/</guid>
       <description>
 
 &lt;h2 id=&#34;comutation-networks&#34;&gt;Comutation networks&lt;/h2&gt;
@@ -2391,25 +2413,25 @@ They seem to demonstrate the concept very well - there is a clear reduced rate o
 
 &lt;h3 id=&#34;coad&#34;&gt;COAD&lt;/h3&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_50_rainfall-plots/COAD_G12D_exclusivity_oncostrip_notCommonInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/COAD_G12D_exclusivity_oncostrip_notCommonInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_50_rainfall-plots/COAD_G13D_exclusivity_oncostrip_notCommonInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/COAD_G13D_exclusivity_oncostrip_notCommonInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;luad&#34;&gt;LUAD&lt;/h3&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_50_rainfall-plots/LUAD_G12C_exclusivity_oncostrip_notCommonInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/LUAD_G12C_exclusivity_oncostrip_notCommonInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_50_rainfall-plots/LUAD_G12D_exclusivity_oncostrip_notCommonInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/LUAD_G12D_exclusivity_oncostrip_notCommonInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_50_rainfall-plots/LUAD_G12V_exclusivity_oncostrip_notCommonInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/LUAD_G12V_exclusivity_oncostrip_notCommonInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;paad&#34;&gt;PAAD&lt;/h3&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_50_rainfall-plots/PAAD_G12D_exclusivity_oncostrip_notCommonInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/PAAD_G12D_exclusivity_oncostrip_notCommonInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_50_rainfall-plots/PAAD_G12V_exclusivity_oncostrip_notCommonInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/PAAD_G12V_exclusivity_oncostrip_notCommonInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_50_rainfall-plots/PAAD_G12R_exclusivity_oncostrip_notCommonInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_50_rainfall-plots/PAAD_G12R_exclusivity_oncostrip_notCommonInteractors.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;hr /&gt;
 
@@ -2422,9 +2444,9 @@ What genes are the most descriptive of the new axes?&lt;/p&gt;
     
     <item>
       <title>2019-10-26</title>
-      <link>http://localhost:1313/post/2019-10-26/</link>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-10-26/</link>
       <pubDate>Sat, 26 Oct 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/2019-10-26/</guid>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-10-26/</guid>
       <description>
 
 &lt;h2 id=&#34;logistic-regression&#34;&gt;Logistic Regression&lt;/h2&gt;
@@ -2440,17 +2462,17 @@ Since there were only a few, I save the plots for the hits for COAD and PAAD.&lt
 
 &lt;h4 id=&#34;coad&#34;&gt;COAD&lt;/h4&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/30_10_logisitic-regression-syn-let_model2/COAD_G12D_ARID5B_logreg.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/30_10_logisitic-regression-syn-let_model2/COAD_G12D_ARID5B_logreg.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h4 id=&#34;paad&#34;&gt;PAAD&lt;/h4&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/30_10_logisitic-regression-syn-let_model2/PAAD_G12D_NCBP2_logreg.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/30_10_logisitic-regression-syn-let_model2/PAAD_G12D_NCBP2_logreg.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/30_10_logisitic-regression-syn-let_model2/PAAD_G12D_U2AF1_logreg.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/30_10_logisitic-regression-syn-let_model2/PAAD_G12D_U2AF1_logreg.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h4 id=&#34;luad&#34;&gt;LUAD&lt;/h4&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/30_10_logisitic-regression-syn-let_model2/LUAD_top9_logreg.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/30_10_logisitic-regression-syn-let_model2/LUAD_top9_logreg.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;I was planning on doing a LASSO logistic regression, regressing on the alleles with all of the genes at once, but there are not enough samples to split into training and test sets for calculating the $\lambda$ with cross validation.&lt;/p&gt;
 
@@ -2483,16 +2505,16 @@ The minimum p-value I used is the one recommend by the WExT paper:&lt;/p&gt;
 
 &lt;p&gt;The first two below show the distribution of p-values from the RC-test and Fisher&amp;rsquo;s exact test.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_35_rc-fisher-comparison/rc_pval_distribution.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_35_rc-fisher-comparison/rc_pval_distribution.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_35_rc-fisher-comparison/fish_pval_distribution.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_35_rc-fisher-comparison/fish_pval_distribution.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;The next plot shows the distribution of the effect size of the mutually exclusive interactions found with the RC-test.
 The x-axis is the log-transformed p-value and the y-axis is the ratio of the number of mutually exclusive events and the number of samples in the cancer.
 Each dot is a gene found to have a significant mutually exclusive interaction with the allele that its color points to.
 The size and transparency of each dot indicate the mutational frequency of the gene.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_35_rc-fisher-comparison/rc_mutations_distribition.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_35_rc-fisher-comparison/rc_mutations_distribition.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;rainfall-plots-for-top-interactions&#34;&gt;Rainfall plots for top interactions&lt;/h3&gt;
 
@@ -2508,9 +2530,9 @@ I took this as a good stopping point for the day&amp;hellip;&lt;/p&gt;
     
     <item>
       <title>2019-10-25</title>
-      <link>http://localhost:1313/post/2019-10-25/</link>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-10-25/</link>
       <pubDate>Fri, 25 Oct 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/2019-10-25/</guid>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-10-25/</guid>
       <description>
 
 &lt;h2 id=&#34;meeting-with-gm&#34;&gt;Meeting with GM&lt;/h2&gt;
@@ -2601,9 +2623,9 @@ A few options are:&lt;/p&gt;
     
     <item>
       <title>2019-10-24</title>
-      <link>http://localhost:1313/post/2019-10-24/</link>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-10-24/</link>
       <pubDate>Thu, 24 Oct 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/2019-10-24/</guid>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-10-24/</guid>
       <description>
 
 &lt;h2 id=&#34;allele-specific-synthetic-lethality&#34;&gt;Allele-specific synthetic lethality&lt;/h2&gt;
@@ -2660,9 +2682,9 @@ I re-ran 10 and 30 group of scripts (linear modeling and logistic modeling).&lt;
     
     <item>
       <title>2019-10-23</title>
-      <link>http://localhost:1313/post/2019-10-23/</link>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-10-23/</link>
       <pubDate>Wed, 23 Oct 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/2019-10-23/</guid>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-10-23/</guid>
       <description>
 
 &lt;h2 id=&#34;plots-for-specific-types-of-genes-cont&#34;&gt;Plots for specific types of genes (cont.)&lt;/h2&gt;
@@ -2688,15 +2710,15 @@ Below are the new heatmaps (though they will replace the originals in a previous
 
 &lt;h3 id=&#34;coad&#34;&gt;COAD&lt;/h3&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_10_linear-modeling-syn-let_pheatmaps/COAD_CRISPR_pheatmap.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_pheatmaps/COAD_CRISPR_pheatmap.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;luad&#34;&gt;LUAD&lt;/h3&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_10_linear-modeling-syn-let_pheatmaps/LUAD_CRISPR_pheatmap.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_pheatmaps/LUAD_CRISPR_pheatmap.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;paad&#34;&gt;PAAD&lt;/h3&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_10_linear-modeling-syn-let_pheatmaps/PAAD_CRISPR_pheatmap.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_pheatmaps/PAAD_CRISPR_pheatmap.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;The number of hits for COAD and PAAD were significantly reduced to where I could show the gene names.
 LUAD still has many hits.&lt;/p&gt;
@@ -2727,9 +2749,9 @@ They are in &amp;ldquo;graphs/20_40_highlivel-genetic-interactions/&amp;ldquo;.&
     
     <item>
       <title>2019-10-22</title>
-      <link>http://localhost:1313/post/2019-10-22/</link>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-10-22/</link>
       <pubDate>Tue, 22 Oct 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/2019-10-22/</guid>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-10-22/</guid>
       <description>
 
 &lt;h2 id=&#34;preparing-for-cruk-presentation&#34;&gt;Preparing for CRUK presentation&lt;/h2&gt;
@@ -2743,9 +2765,9 @@ I made new versions of the genetic interaction networks with thicker edges to be
     
     <item>
       <title>2019-10-21</title>
-      <link>http://localhost:1313/post/2019-10-21/</link>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-10-21/</link>
       <pubDate>Mon, 21 Oct 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/2019-10-21/</guid>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-10-21/</guid>
       <description>
 
 &lt;h2 id=&#34;plots-for-specific-types-of-genes&#34;&gt;Plots for specific types of genes&lt;/h2&gt;
@@ -2782,9 +2804,9 @@ The gene sets were taken from the MSigDB C2 list.&lt;/p&gt;
     
     <item>
       <title>2019-10-18</title>
-      <link>http://localhost:1313/post/2019-10-18/</link>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-10-18/</link>
       <pubDate>Fri, 18 Oct 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/2019-10-18/</guid>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-10-18/</guid>
       <description>
 
 &lt;h2 id=&#34;analysis-of-gsea-results-cont&#34;&gt;Analysis of GSEA results (cont.)&lt;/h2&gt;
@@ -2796,15 +2818,15 @@ The gene set is displayed if it has a Normalized Enrichment Score (NES) of great
 
 &lt;h3 id=&#34;coad&#34;&gt;COAD&lt;/h3&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_37_gsea-depmap-analysis/gsea-results-COAD-all.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_37_gsea-depmap-analysis/gsea-results-COAD-all.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;luad&#34;&gt;LUAD&lt;/h3&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_37_gsea-depmap-analysis/gsea-results-LUAD-all.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_37_gsea-depmap-analysis/gsea-results-LUAD-all.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;paad&#34;&gt;PAAD&lt;/h3&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_37_gsea-depmap-analysis/gsea-results-PAAD-all.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_37_gsea-depmap-analysis/gsea-results-PAAD-all.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;hr /&gt;
 
@@ -2812,7 +2834,7 @@ The gene set is displayed if it has a Normalized Enrichment Score (NES) of great
 I therefore made a quick bar-plot showing this relationship in &amp;ldquo;src/90_10_NF1-depletion-COAD.R&amp;rdquo;.
 I&amp;rsquo;m not sure how to interpret the results, but will show KH.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/90_10_NF1-depletion-COAD/NFI-depletion-COAD-barplot.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/90_10_NF1-depletion-COAD/NFI-depletion-COAD-barplot.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;hr /&gt;
 
@@ -2825,31 +2847,31 @@ Some are shown below.&lt;/p&gt;
 
 &lt;h3 id=&#34;coad-1&#34;&gt;COAD&lt;/h3&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_15_linear-modeling-syn-let_ppi-subnetworks/COAD_cluster-1_component-1.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_15_linear-modeling-syn-let_ppi-subnetworks/COAD_cluster-1_component-1.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_15_linear-modeling-syn-let_ppi-subnetworks/COAD_cluster-2_component-1.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_15_linear-modeling-syn-let_ppi-subnetworks/COAD_cluster-2_component-1.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;luad-1&#34;&gt;LUAD&lt;/h3&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_15_linear-modeling-syn-let_ppi-subnetworks/LUAD_cluster-1_component-1.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_15_linear-modeling-syn-let_ppi-subnetworks/LUAD_cluster-1_component-1.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_15_linear-modeling-syn-let_ppi-subnetworks/LUAD_cluster-2_component-1.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_15_linear-modeling-syn-let_ppi-subnetworks/LUAD_cluster-2_component-1.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_15_linear-modeling-syn-let_ppi-subnetworks/LUAD_cluster-2_component-2.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_15_linear-modeling-syn-let_ppi-subnetworks/LUAD_cluster-2_component-2.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_15_linear-modeling-syn-let_ppi-subnetworks/LUAD_cluster-3_component-2.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_15_linear-modeling-syn-let_ppi-subnetworks/LUAD_cluster-3_component-2.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_15_linear-modeling-syn-let_ppi-subnetworks/LUAD_cluster-4_component-1.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_15_linear-modeling-syn-let_ppi-subnetworks/LUAD_cluster-4_component-1.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;paad-1&#34;&gt;PAAD&lt;/h3&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_15_linear-modeling-syn-let_ppi-subnetworks/PAAD_cluster-1_component-1.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_15_linear-modeling-syn-let_ppi-subnetworks/PAAD_cluster-1_component-1.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_15_linear-modeling-syn-let_ppi-subnetworks/PAAD_cluster-2_component-1.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_15_linear-modeling-syn-let_ppi-subnetworks/PAAD_cluster-2_component-1.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_15_linear-modeling-syn-let_ppi-subnetworks/PAAD_cluster-3_component-1.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_15_linear-modeling-syn-let_ppi-subnetworks/PAAD_cluster-3_component-1.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_15_linear-modeling-syn-let_ppi-subnetworks/PAAD_cluster-4_component-1.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_15_linear-modeling-syn-let_ppi-subnetworks/PAAD_cluster-4_component-1.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;hr /&gt;
 
@@ -2879,9 +2901,9 @@ Some are shown below.&lt;/p&gt;
     
     <item>
       <title>2019-10-17</title>
-      <link>http://localhost:1313/post/2019-10-17/</link>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-10-17/</link>
       <pubDate>Thu, 17 Oct 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/2019-10-17/</guid>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-10-17/</guid>
       <description>
 
 &lt;h2 id=&#34;analysis-of-gsea-results-cont&#34;&gt;Analysis of GSEA results (cont.)&lt;/h2&gt;
@@ -2920,9 +2942,9 @@ A third table was created after removing some of the more common terms: &amp;ldq
     
     <item>
       <title>2019-10-16</title>
-      <link>http://localhost:1313/post/2019-10-16/</link>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-10-16/</link>
       <pubDate>Wed, 16 Oct 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/2019-10-16/</guid>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-10-16/</guid>
       <description>
 
 &lt;h2 id=&#34;analysis-of-gsea-results&#34;&gt;Analysis of GSEA results&lt;/h2&gt;
@@ -2936,9 +2958,9 @@ I didn&amp;rsquo;t get very far before having to spend the rest of the day on ot
     
     <item>
       <title>2019-10-15</title>
-      <link>http://localhost:1313/post/2019-10-15/</link>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-10-15/</link>
       <pubDate>Tue, 15 Oct 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/2019-10-15/</guid>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-10-15/</guid>
       <description>
 
 &lt;h2 id=&#34;gsea-of-depmap&#34;&gt;GSEA of DepMap&lt;/h2&gt;
@@ -3020,9 +3042,9 @@ It first removes all of the previous results.&lt;/p&gt;
     
     <item>
       <title>2019-10-14</title>
-      <link>http://localhost:1313/post/2019-10-14/</link>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-10-14/</link>
       <pubDate>Mon, 14 Oct 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/2019-10-14/</guid>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-10-14/</guid>
       <description>
 
 &lt;h2 id=&#34;summarizing-current-status-of-comutation-analysis&#34;&gt;Summarizing current status of comutation analysis&lt;/h2&gt;
@@ -3046,15 +3068,15 @@ They are intended to give an over view of the number of genes and also the inten
 
 &lt;h3 id=&#34;coad&#34;&gt;COAD&lt;/h3&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_10_linear-modeling-syn-let_pheatmaps/COAD_CRISPR_pheatmap.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_pheatmaps/COAD_CRISPR_pheatmap.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;luad&#34;&gt;LUAD&lt;/h3&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_10_linear-modeling-syn-let_pheatmaps/LUAD_CRISPR_pheatmap.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_pheatmaps/LUAD_CRISPR_pheatmap.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;paad&#34;&gt;PAAD&lt;/h3&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_10_linear-modeling-syn-let_pheatmaps/PAAD_CRISPR_pheatmap.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_pheatmaps/PAAD_CRISPR_pheatmap.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&#34;to-do-tomorrow&#34;&gt;To-Do Tomorrow&lt;/h2&gt;
 
@@ -3068,9 +3090,9 @@ I need to look back at what these methods do before deciding on which to start w
     
     <item>
       <title>2019-10-12</title>
-      <link>http://localhost:1313/post/2019-10-12/</link>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-10-12/</link>
       <pubDate>Sat, 12 Oct 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/2019-10-12/</guid>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-10-12/</guid>
       <description>
 
 &lt;h2 id=&#34;bug-fix&#34;&gt;Bug fix&lt;/h2&gt;
@@ -3109,55 +3131,55 @@ A few examples are shown below.&lt;/p&gt;
 
 &lt;p&gt;The following plot is of the Kinase Enrichment Analysis (KEA) gene sets in COAD.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_45_fxnal-enrich-genetic-interactions/enrichr_COAD_KEA_2015.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_45_fxnal-enrich-genetic-interactions/enrichr_COAD_KEA_2015.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;The plot below is showing the enriched gene sets made up of the protein-protein interaction networks of transcription factors.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_45_fxnal-enrich-genetic-interactions/enrichr_COAD_Transcription_Factor_PPIs.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_45_fxnal-enrich-genetic-interactions/enrichr_COAD_Transcription_Factor_PPIs.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;luad&#34;&gt;LUAD&lt;/h3&gt;
 
 &lt;p&gt;The following plot shows the pathways (from the PANTHER data base) enriched in the genetic interactions of &lt;em&gt;KRAS&lt;/em&gt; alleles in LUAD.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_45_fxnal-enrich-genetic-interactions/enrichr_LUAD_Panther_2016.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_45_fxnal-enrich-genetic-interactions/enrichr_LUAD_Panther_2016.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;mm&#34;&gt;MM&lt;/h3&gt;
 
 &lt;p&gt;The following plot shows the pathways (from the PANTHER database) enriched in the genetic interactions of &lt;em&gt;KRAS&lt;/em&gt; alleles in MM.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_45_fxnal-enrich-genetic-interactions/enrichr_MM_Panther_2016.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_45_fxnal-enrich-genetic-interactions/enrichr_MM_Panther_2016.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;In addition, the following shows the same, but using the BioCarta database instead.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_45_fxnal-enrich-genetic-interactions/enrichr_PAAD_BioCarta_2016.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_45_fxnal-enrich-genetic-interactions/enrichr_PAAD_BioCarta_2016.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;kea&#34;&gt;KEA&lt;/h3&gt;
 
 &lt;p&gt;The following plot is of the Kinase Enrichment Analysis (KEA) gene sets in PAAD.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_45_fxnal-enrich-genetic-interactions/enrichr_PAAD_KEA_2015.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_45_fxnal-enrich-genetic-interactions/enrichr_PAAD_KEA_2015.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;The following plot shows the pathways (from the PANTHER database) enriched in the genetic interactions of &lt;em&gt;KRAS&lt;/em&gt; alleles in LUAD.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_45_fxnal-enrich-genetic-interactions/enrichr_PAAD_Panther_2016.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_45_fxnal-enrich-genetic-interactions/enrichr_PAAD_Panther_2016.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;In addition, the following shows the same, but using the WikiPathways database instead.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_45_fxnal-enrich-genetic-interactions/enrichr_PAAD_WikiPathways_2019_Human.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_45_fxnal-enrich-genetic-interactions/enrichr_PAAD_WikiPathways_2019_Human.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 </description>
     </item>
     
     <item>
       <title>2019-10-11</title>
-      <link>http://localhost:1313/post/2019-10-11/</link>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-10-11/</link>
       <pubDate>Fri, 11 Oct 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/2019-10-11/</guid>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-10-11/</guid>
       <description>
 
 &lt;h2 id=&#34;analysis-of-hits-from-genetic-interaction-tests-cont&#34;&gt;Analysis of hits from genetic interaction tests (cont.)&lt;/h2&gt;
 
 &lt;p&gt;I began by fixing the UpSet plots such that they now include all sets and intersections.
-(The updated images are shown in &lt;a href=&#34;http://localhost:1313/post/2019-10-10/&#34; target=&#34;_blank&#34;&gt;yesterday&amp;rsquo;s notebook&lt;/a&gt;.)&lt;/p&gt;
+(The updated images are shown in &lt;a href=&#34;https://project-notebook-comutation.netlify.com/post/2019-10-10/&#34; target=&#34;_blank&#34;&gt;yesterday&amp;rsquo;s notebook&lt;/a&gt;.)&lt;/p&gt;
 
 &lt;h2 id=&#34;a-priori-gene-lists&#34;&gt;&lt;em&gt;A priori&lt;/em&gt; gene lists&lt;/h2&gt;
 
@@ -3170,7 +3192,7 @@ Then, the next two logical questions would be:&lt;/p&gt;
 &lt;/ol&gt;
 
 &lt;p&gt;I began this follow up with the first question.
-As noted in &lt;a href=&#34;http://localhost:1313/post/2019-10-10/&#34; target=&#34;_blank&#34;&gt;yesterday&amp;rsquo;s notebook&lt;/a&gt;, I have gathered the following gene lists:&lt;/p&gt;
+As noted in &lt;a href=&#34;https://project-notebook-comutation.netlify.com/post/2019-10-10/&#34; target=&#34;_blank&#34;&gt;yesterday&amp;rsquo;s notebook&lt;/a&gt;, I have gathered the following gene lists:&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;the following KEGG gene sets (from &lt;a href=&#34;http://software.broadinstitute.org/gsea/downloads.jsp&#34; target=&#34;_blank&#34;&gt;MSigDB&lt;/a&gt;) (a full list is available at the end of this notebook):
@@ -3201,39 +3223,39 @@ For some of the LUAD and PAAD, I present separate plots for each source of gene 
 
 &lt;h3 id=&#34;coad&#34;&gt;COAD&lt;/h3&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_43_apriori-lists-genetic-interactions/goi_overlap_genetic_interactions_network_COAD_allLists.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_43_apriori-lists-genetic-interactions/goi_overlap_genetic_interactions_network_COAD_allLists.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;luad&#34;&gt;LUAD&lt;/h3&gt;
 
 &lt;p&gt;&lt;strong&gt;KEGG pathways&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_43_apriori-lists-genetic-interactions/goi_overlap_genetic_interactions_network_LUAD_kegg.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_43_apriori-lists-genetic-interactions/goi_overlap_genetic_interactions_network_LUAD_kegg.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;Physical Interactors&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_43_apriori-lists-genetic-interactions/goi_overlap_genetic_interactions_network_LUAD_BioID.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_43_apriori-lists-genetic-interactions/goi_overlap_genetic_interactions_network_LUAD_BioID.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;CGC Genes&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_43_apriori-lists-genetic-interactions/goi_overlap_genetic_interactions_network_LUAD_cgc.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_43_apriori-lists-genetic-interactions/goi_overlap_genetic_interactions_network_LUAD_cgc.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;mm&#34;&gt;MM&lt;/h3&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_43_apriori-lists-genetic-interactions/goi_overlap_genetic_interactions_network_MM_allLists.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_43_apriori-lists-genetic-interactions/goi_overlap_genetic_interactions_network_MM_allLists.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;paad&#34;&gt;PAAD&lt;/h3&gt;
 
 &lt;p&gt;&lt;strong&gt;KEGG pathways&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_43_apriori-lists-genetic-interactions/goi_overlap_genetic_interactions_network_PAAD_kegg.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_43_apriori-lists-genetic-interactions/goi_overlap_genetic_interactions_network_PAAD_kegg.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;Physical Interactors&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_43_apriori-lists-genetic-interactions/goi_overlap_genetic_interactions_network_PAAD_BioID.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_43_apriori-lists-genetic-interactions/goi_overlap_genetic_interactions_network_PAAD_BioID.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;CGC Genes&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_43_apriori-lists-genetic-interactions/goi_overlap_genetic_interactions_network_PAAD_cgc.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_43_apriori-lists-genetic-interactions/goi_overlap_genetic_interactions_network_PAAD_cgc.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;a-few-comments&#34;&gt;A few comments&lt;/h3&gt;
 
@@ -3289,9 +3311,9 @@ For example, &lt;em&gt;BRAF&lt;/em&gt; is only connected to G13D in the KEGG-spe
     
     <item>
       <title>2019-10-10</title>
-      <link>http://localhost:1313/post/2019-10-10/</link>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-10-10/</link>
       <pubDate>Thu, 10 Oct 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/2019-10-10/</guid>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-10-10/</guid>
       <description>
 
 &lt;h2 id=&#34;comparing-results-from-fisher-s-test-and-rc-test&#34;&gt;Comparing results from Fisher&amp;rsquo;s test and RC-test&lt;/h2&gt;
@@ -3386,41 +3408,41 @@ As Joe stated, the UpSet plot is essentially a higher-dimensional Venn diagram.&
 
 &lt;p&gt;&lt;strong&gt;Comutation&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_40_highlivel-genetic-interactions/COAD_comutation_upset.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_40_highlivel-genetic-interactions/COAD_comutation_upset.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;Mutually Exclusive&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_40_highlivel-genetic-interactions/COAD_exclusivity_upset.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_40_highlivel-genetic-interactions/COAD_exclusivity_upset.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;luad&#34;&gt;LUAD&lt;/h3&gt;
 
 &lt;p&gt;&lt;strong&gt;Comutation&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_40_highlivel-genetic-interactions/LUAD_comutation_upset.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_40_highlivel-genetic-interactions/LUAD_comutation_upset.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;Mutually Exclusive&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_40_highlivel-genetic-interactions/LUAD_exclusivity_upset.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_40_highlivel-genetic-interactions/LUAD_exclusivity_upset.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;mm&#34;&gt;MM&lt;/h3&gt;
 
 &lt;p&gt;&lt;strong&gt;Comutation&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_40_highlivel-genetic-interactions/MM_comutation_upset.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_40_highlivel-genetic-interactions/MM_comutation_upset.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;Mutually Exclusive&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_40_highlivel-genetic-interactions/MM_exclusivity_upset.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_40_highlivel-genetic-interactions/MM_exclusivity_upset.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;paad&#34;&gt;PAAD&lt;/h3&gt;
 
 &lt;p&gt;&lt;strong&gt;Comutation&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_40_highlivel-genetic-interactions/PAAD_comutation_upset.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_40_highlivel-genetic-interactions/PAAD_comutation_upset.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;Mutually Exclusive&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_40_highlivel-genetic-interactions/PAAD_exclusivity_upset.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_40_highlivel-genetic-interactions/PAAD_exclusivity_upset.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;I also re-created the genetic interaction network plots.
 This time, however, I did not include the names all of genes, but instead use the plot to demonstrate higher-level trends.&lt;/p&gt;
@@ -3432,14 +3454,14 @@ This can be seen very clearly between G12D and G12V.&lt;/p&gt;
 
 &lt;p&gt;Interestingly, Q61K and Q61L seem to be quite similar.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_40_highlivel-genetic-interactions/genetic_interaction_network_COAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_40_highlivel-genetic-interactions/genetic_interaction_network_COAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;luad-1&#34;&gt;LUAD&lt;/h3&gt;
 
 &lt;p&gt;There is a lot of overlap of mutually exclusive interactions between G12C and G12V.
 These alleles are both driven by smoke, but I can&amp;rsquo;t think of an explanation why this would drive mutual exclusivity.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_40_highlivel-genetic-interactions/genetic_interaction_network_LUAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_40_highlivel-genetic-interactions/genetic_interaction_network_LUAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;mm-1&#34;&gt;MM&lt;/h3&gt;
 
@@ -3448,7 +3470,7 @@ This may indicate that the allele is not as impactful in MM as it is in COAD, LU
 
 &lt;p&gt;There are a few mutually exclusive partners shared by a few alleles.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_40_highlivel-genetic-interactions/genetic_interaction_network_MM.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_40_highlivel-genetic-interactions/genetic_interaction_network_MM.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;paad-1&#34;&gt;PAAD&lt;/h3&gt;
 
@@ -3457,7 +3479,7 @@ Interestingly (worryingly?) I report here many(!) more comutation interactions t
 Even if I reduce the p-value cutoff to 0.01, I report at least an order of magnitude more interactions that GM.
 I definitely need to get to the bottom of this&amp;hellip;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_40_highlivel-genetic-interactions/genetic_interaction_network_PAAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_40_highlivel-genetic-interactions/genetic_interaction_network_PAAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&#34;final-notes&#34;&gt;Final notes&lt;/h2&gt;
 
@@ -3471,9 +3493,9 @@ I definitely need to get to the bottom of this&amp;hellip;&lt;/p&gt;
     
     <item>
       <title>2019-10-09</title>
-      <link>http://localhost:1313/post/2019-10-09/</link>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-10-09/</link>
       <pubDate>Wed, 09 Oct 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/2019-10-09/</guid>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-10-09/</guid>
       <description>
 
 &lt;h2 id=&#34;finish-preparing-rc-test-results&#34;&gt;Finish preparing RC-test results&lt;/h2&gt;
@@ -3486,21 +3508,21 @@ I definitely need to get to the bottom of this&amp;hellip;&lt;/p&gt;
 
 &lt;p&gt;Below is the number of significant interactions (p-value &amp;lt; 0.05 and at-least 3 events) per cancer found by the RC-test.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_30_rc-test-results-analysis/sig_results_barplot.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_30_rc-test-results-analysis/sig_results_barplot.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;The plot below separates the bars by the type of interaction.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_30_rc-test-results-analysis/sig_results_barplot_septest.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_30_rc-test-results-analysis/sig_results_barplot_septest.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;interaction-networks&#34;&gt;Interaction networks&lt;/h3&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_30_rc-test-results-analysis/COAD_comut-mutex_network.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_30_rc-test-results-analysis/COAD_comut-mutex_network.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_30_rc-test-results-analysis/LUAD_comut-mutex_network.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_30_rc-test-results-analysis/LUAD_comut-mutex_network.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_30_rc-test-results-analysis/PAAD_comut-mutex_network.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_30_rc-test-results-analysis/PAAD_comut-mutex_network.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_30_rc-test-results-analysis/MM_comut-mutex_network.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_30_rc-test-results-analysis/MM_comut-mutex_network.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&#34;munge-fisher-s-test-for-comutation-results&#34;&gt;Munge Fisher&amp;rsquo;s test for comutation results&lt;/h2&gt;
 
@@ -3550,13 +3572,13 @@ It is prepared for further use in &amp;ldquo;munge/35_comutation-results-gm.R&am
 
 &lt;p&gt;The first plot just shows the gross number of genes found to be signficant for each test, split by comutation and mutual exclusivity.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_35_rc-fisher-comparison/rc_fisher_comparison_barplot.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_35_rc-fisher-comparison/rc_fisher_comparison_barplot.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;This plot shows a large discrepancy between the two tests: the RC-test was more sensitive when testing for mutual exclusivity while the opposite was true for the Fisher&amp;rsquo;s exact test.
 On closer inspection, it seemed that the Fisher&amp;rsquo;s test out-performed the RC-test for detecting comutation because we were able to use the panel data.
 The panel data could not be used for the RC-test because the test accounts for the total number of mutations in the sample.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_35_rc-fisher-comparison/rc_fisher_comparison_barplot_samenum.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_35_rc-fisher-comparison/rc_fisher_comparison_barplot_samenum.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;From these results, I propose that we use the Fisher&amp;rsquo;s test for comutation and RC-test for mutual exclusivity.&lt;/strong&gt; This makes sense in so far as the RC-test was originally made for detecting mutual exclusivity and is equivalent (when comparing two genes) to the Fisher&amp;rsquo;s exact test for comutation as it approaches the limit.
 Therefore, it is an approximation where it is not needed because we can just do the Fisher&amp;rsquo;s exact test.&lt;/p&gt;
@@ -3565,9 +3587,9 @@ Therefore, it is an approximation where it is not needed because we can just do 
     
     <item>
       <title>2019-10-08</title>
-      <link>http://localhost:1313/post/2019-10-08/</link>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-10-08/</link>
       <pubDate>Tue, 08 Oct 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/2019-10-08/</guid>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-10-08/</guid>
       <description>
 
 &lt;h2 id=&#34;plan-for-analysis&#34;&gt;Plan for analysis&lt;/h2&gt;
@@ -3628,9 +3650,9 @@ Use the genes with non-trivial parameters in a random forest classifier or niave
     
     <item>
       <title>2019-10-07</title>
-      <link>http://localhost:1313/post/2019-10-07/</link>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-10-07/</link>
       <pubDate>Mon, 07 Oct 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/2019-10-07/</guid>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-10-07/</guid>
       <description>
 
 &lt;h1 id=&#34;rc-co-mutation-test&#34;&gt;RC Co-mutation test&lt;/h1&gt;
@@ -3666,21 +3688,21 @@ The raw files were added to the list of raw data to ignore in &amp;ldquo;config/
 
 &lt;p&gt;Below is the number of significant interactions (p-value &amp;lt; 0.05 and at-least 3 events) per cancer found by the RC-test.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_30_rc-test-results-analysis/sig_results_barplot.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_30_rc-test-results-analysis/sig_results_barplot.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;The plot below separates the bars by the type of interaction.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_30_rc-test-results-analysis/sig_results_barplot_septest.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_30_rc-test-results-analysis/sig_results_barplot_septest.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;interaction-networks&#34;&gt;Interaction networks&lt;/h3&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_30_rc-test-results-analysis/COAD_comut-mutex_network.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_30_rc-test-results-analysis/COAD_comut-mutex_network.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_30_rc-test-results-analysis/LUAD_comut-mutex_network.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_30_rc-test-results-analysis/LUAD_comut-mutex_network.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_30_rc-test-results-analysis/PAAD_comut-mutex_network.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_30_rc-test-results-analysis/PAAD_comut-mutex_network.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/20_30_rc-test-results-analysis/MM_comut-mutex_network.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_30_rc-test-results-analysis/MM_comut-mutex_network.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&#34;moving-the-rc-test-directory-to-this-project&#34;&gt;Moving the RC-test directory to this project&lt;/h2&gt;
 
@@ -3730,9 +3752,9 @@ The files from GM were copied from the old directory to &amp;ldquo;data/cancer-d
     
     <item>
       <title>2019-10-05</title>
-      <link>http://localhost:1313/post/2019-10-05/</link>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-10-05/</link>
       <pubDate>Sat, 05 Oct 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/2019-10-05/</guid>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-10-05/</guid>
       <description>
 
 &lt;h2 id=&#34;modeling-kras-allele-specific-synthetic-lethality-cont&#34;&gt;Modeling KRAS allele-specific synthetic lethality (cont.)&lt;/h2&gt;
@@ -3754,7 +3776,7 @@ Below are some of the more interesting genes to pop out of the analysis.&lt;/p&g
 
 &lt;h3 id=&#34;coad&#34;&gt;COAD&lt;/h3&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_10_linear-modeling-syn-let_boxplots/COAD-ARID5B.svg&#34; width = 400 /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/COAD-ARID5B.svg&#34; width = 400 /&gt;&lt;/p&gt;
 
 &lt;p&gt;From &lt;a href=&#34;https://www.uniprot.org/uniprot/Q14865&#34; target=&#34;_blank&#34;&gt;UniProt ARI5B_HUMAN&lt;/a&gt;:&lt;/p&gt;
 
@@ -3765,9 +3787,9 @@ Required for adipogenesis: regulates triglyceride metabolism in adipocytes by re
 Overexpression leads to induction of smooth muscle marker genes, suggesting that it may also act as a regulator of smooth muscle cell differentiation and proliferation.&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_10_linear-modeling-syn-let_boxplots/COAD-EIF3M.svg&#34; width = 400 /&gt;
-&lt;img src=&#34;http://localhost:1313/img/graphs/10_10_linear-modeling-syn-let_boxplots/COAD-GAS6.svg&#34; width = 400 /&gt;
-&lt;img src=&#34;http://localhost:1313/img/graphs/10_10_linear-modeling-syn-let_boxplots/COAD-SRP9.svg&#34; width = 400 /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/COAD-EIF3M.svg&#34; width = 400 /&gt;
+&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/COAD-GAS6.svg&#34; width = 400 /&gt;
+&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/COAD-SRP9.svg&#34; width = 400 /&gt;&lt;/p&gt;
 
 &lt;p&gt;From &lt;a href=&#34;https://www.uniprot.org/uniprot/P49458&#34; target=&#34;_blank&#34;&gt;UniProt SRP09_HUMAN&lt;/a&gt;:&lt;/p&gt;
 
@@ -3777,22 +3799,22 @@ SRP9 together with SRP14 and the Alu portion of the SRP RNA, constitutes the elo
 The complex of SRP9 and SRP14 is required for SRP RNA binding.&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_10_linear-modeling-syn-let_boxplots/COAD-UNK.svg&#34; width = 400 /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/COAD-UNK.svg&#34; width = 400 /&gt;&lt;/p&gt;
 
 &lt;hr /&gt;
 
 &lt;h3 id=&#34;luad&#34;&gt;LUAD&lt;/h3&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-CCDC107.svg&#34; width = 400 &gt;
-&lt;img src=&#34;http://localhost:1313/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-CCDC113.svg&#34; width = 400 &gt;
-&lt;img src=&#34;http://localhost:1313/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-DHFR.svg&#34; width = 400 &gt;
-&lt;img src=&#34;http://localhost:1313/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-FAAP100.svg&#34; width = 400 &gt;
-&lt;img src=&#34;http://localhost:1313/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-GPN2.svg&#34; width = 400 &gt;
-&lt;img src=&#34;http://localhost:1313/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-HDAC1.svg&#34; width = 400 &gt;
-&lt;img src=&#34;http://localhost:1313/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-HSBP1.svg&#34; width = 400 &gt;
-&lt;img src=&#34;http://localhost:1313/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-MAPK6.svg&#34; width = 400 &gt;
-&lt;img src=&#34;http://localhost:1313/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-SCAF4.svg&#34; width = 400 &gt;
-&lt;img src=&#34;http://localhost:1313/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-STAMBP.svg&#34; width = 400 &gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-CCDC107.svg&#34; width = 400 &gt;
+&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-CCDC113.svg&#34; width = 400 &gt;
+&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-DHFR.svg&#34; width = 400 &gt;
+&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-FAAP100.svg&#34; width = 400 &gt;
+&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-GPN2.svg&#34; width = 400 &gt;
+&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-HDAC1.svg&#34; width = 400 &gt;
+&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-HSBP1.svg&#34; width = 400 &gt;
+&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-MAPK6.svg&#34; width = 400 &gt;
+&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-SCAF4.svg&#34; width = 400 &gt;
+&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-STAMBP.svg&#34; width = 400 &gt;&lt;/p&gt;
 
 &lt;p&gt;From &lt;a href=&#34;https://www.uniprot.org/uniprot/O95630&#34; target=&#34;_blank&#34;&gt;UniProt: STABP_HUMAN&lt;/a&gt;:&lt;/p&gt;
 
@@ -3806,15 +3828,15 @@ Endosomal localization of STAMBP is required for efficient EGFR degradation but 
 Involved in the negative regulation of PI3K-AKT-mTOR and RAS-MAP signaling pathways.&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-TP53.svg&#34; width = 400 &gt;
-&lt;img src=&#34;http://localhost:1313/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-TP53BP1.svg&#34; width = 400 &gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-TP53.svg&#34; width = 400 &gt;
+&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-TP53BP1.svg&#34; width = 400 &gt;&lt;/p&gt;
 
 &lt;hr /&gt;
 
 &lt;h3 id=&#34;paad&#34;&gt;PAAD&lt;/h3&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_10_linear-modeling-syn-let_boxplots/PAAD-CCT8.svg&#34; width = 400 &gt;
-&lt;img src=&#34;http://localhost:1313/img/graphs/10_10_linear-modeling-syn-let_boxplots/PAAD-EGLN2.svg&#34; width = 400 &gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/PAAD-CCT8.svg&#34; width = 400 &gt;
+&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/PAAD-EGLN2.svg&#34; width = 400 &gt;
 From &lt;a href=&#34;https://www.uniprot.org/uniprot/Q96KS0&#34; target=&#34;_blank&#34;&gt;UniProt: EGLN2_HUMAN&lt;/a&gt;:&lt;/p&gt;
 
 &lt;blockquote&gt;
@@ -3830,7 +3852,7 @@ Hydroxylates IKBKB, mediating NF-kappaB activation in hypoxic conditions.
 Target proteins are preferentially recognized via a LXXLAP motif.&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_10_linear-modeling-syn-let_boxplots/PAAD-JUN.svg&#34; width = 400 &gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/PAAD-JUN.svg&#34; width = 400 &gt;&lt;/p&gt;
 
 &lt;p&gt;From &lt;a href=&#34;https://www.uniprot.org/uniprot/P05412&#34; target=&#34;_blank&#34;&gt;UniProt JUN_HUMAN&lt;/a&gt;:&lt;/p&gt;
 
@@ -3849,15 +3871,15 @@ Binds to the USP28 promoter in colorectal cancer (CRC) cells (PubMed:24623306).&
 I need to figure out what is causing this.
 My guess is that they are related genes and the gene names are being truncated by &lt;code&gt;get_hugo_from_depmap_ids()&lt;/code&gt;.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/img/graphs/10_10_linear-modeling-syn-let_boxplots/COAD-KRTAP2.svg&#34; width = 400&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/COAD-KRTAP2.svg&#34; width = 400&gt;&lt;/p&gt;
 </description>
     </item>
     
     <item>
       <title>2019-10-04</title>
-      <link>http://localhost:1313/post/2019-10-04/</link>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-10-04/</link>
       <pubDate>Fri, 04 Oct 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/2019-10-04/</guid>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-10-04/</guid>
       <description>
 
 &lt;p&gt;I have outlined an estimate for a time-line for the rest of the project to the first submission.
@@ -3888,9 +3910,9 @@ The problem was resolved.&lt;/p&gt;
     
     <item>
       <title>2019-10-03</title>
-      <link>http://localhost:1313/post/2019-10-03/</link>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-10-03/</link>
       <pubDate>Thu, 03 Oct 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/2019-10-03/</guid>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-10-03/</guid>
       <description>
 
 &lt;h2 id=&#34;analysis-to-remove-genes-that-can-confidently-be-removed-cont&#34;&gt;Analysis to remove genes that can confidently be removed (cont.)&lt;/h2&gt;
@@ -3927,9 +3949,9 @@ The goal of the DepMap analysis is to find lethals.&lt;/p&gt;
     
     <item>
       <title>2019-10-02</title>
-      <link>http://localhost:1313/post/2019-10-02/</link>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-10-02/</link>
       <pubDate>Wed, 02 Oct 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/2019-10-02/</guid>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-10-02/</guid>
       <description>
 
 &lt;h2 id=&#34;analysis-to-remove-genes-that-can-confidently-be-removed&#34;&gt;Analysis to remove genes that can confidently be removed&lt;/h2&gt;
@@ -3995,9 +4017,9 @@ gene_name_tib
     
     <item>
       <title>2019-09-30</title>
-      <link>http://localhost:1313/post/2019-09-30/</link>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-09-30/</link>
       <pubDate>Mon, 30 Sep 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/2019-09-30/</guid>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-09-30/</guid>
       <description>
 
 &lt;h2 id=&#34;munging-depmap-2019-q3-release-cont&#34;&gt;Munging DepMap 2019 Q3 release (cont.)&lt;/h2&gt;
@@ -4083,9 +4105,9 @@ I need to integrate these data in, too.&lt;/p&gt;
     
     <item>
       <title>2019-09-28</title>
-      <link>http://localhost:1313/post/2019-09-28/</link>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-09-28/</link>
       <pubDate>Sat, 28 Sep 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/2019-09-28/</guid>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-09-28/</guid>
       <description>
 
 &lt;p&gt;I am beginning the migration process from the only comutation directory to this project.&lt;/p&gt;
@@ -4169,9 +4191,9 @@ This included coding mutations and copy number amplifications.&lt;/p&gt;
     
     <item>
       <title>2019-09-24 - New project structure</title>
-      <link>http://localhost:1313/post/new-project-structure/</link>
+      <link>https://project-notebook-comutation.netlify.com/post/new-project-structure/</link>
       <pubDate>Tue, 24 Sep 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/new-project-structure/</guid>
+      <guid>https://project-notebook-comutation.netlify.com/post/new-project-structure/</guid>
       <description>&lt;p&gt;I have used the &lt;a href=&#34;http://projecttemplate.net/index.html&#34; target=&#34;_blank&#34;&gt;&amp;lsquo;ProjectTemplate&amp;rsquo;&lt;/a&gt; R package to build the framework for the analysis. I created a lab notebook in reports using the &lt;a href=&#34;https://bookdown.org/yihui/blogdown/&#34; target=&#34;_blank&#34;&gt;&amp;lsquo;blogdown&amp;rsquo;&lt;/a&gt; package which serves the site to the &amp;lsquo;docs/&amp;rsquo; directory.&lt;/p&gt;
 
 &lt;p&gt;The remote repository is hosted by GitHub at &lt;a href=&#34;https://github.com/jhrcook/comutation&#34; target=&#34;_blank&#34;&gt;jhrcook/comutation&lt;/a&gt; and is private. The lab notebook is hosted by Netlify and is located at &lt;a href=&#34;https://project-notebook-comutation.netlify.com&#34; target=&#34;_blank&#34;&gt;project-notebook-comutation.netlify.com&lt;/a&gt;. It is open to the public, but is not easily found.&lt;/p&gt;
