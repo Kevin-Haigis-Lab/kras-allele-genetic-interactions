@@ -612,16 +612,21 @@ allele_specificgenes_oncoplot <- function(cancer,
     )
 
     if (keep_gg_onco_proto) {
-        save_gg_onco_proto(g, save_name)
+        save_gg_onco_proto(g, save_name, cancer)
     }
 }
 
 
 # Save a ggoncoplot (or any plot really) for use in Figure 2.
-save_gg_onco_proto <- function(gg_obj, save_name) {
+save_gg_onco_proto <- function(gg_obj, save_name, cancer) {
     n <- tools::file_path_sans_ext(save_name)
     cat("saving gg object for:", n, "\n")
-    saveRDS(gg_obj, get_fig_proto_path(n, 2))
+
+    if (cancer == "COAD") {
+        saveRDS(gg_obj, get_fig_proto_path(n, 2))
+    } else if (cancer == "LUAD") {
+        saveRDS(gg_obj, get_fig_proto_path(n, 3))
+    }
     invisible(NULL)
 }
 
@@ -851,7 +856,6 @@ SELECT_DIR <- glue("{GRAPHS_DIR}-select")
 reset_graph_directory(SELECT_DIR)
 
 specific_oncoplot_info_tib %>%
-    filter(keep_gg_onco_proto) %>%
     mutate(
         save_name = paste0(cancer, "_",
                            allele, "_",
@@ -995,7 +999,7 @@ allele_enriched_functions_oncoplot <- function(cancer,
         replace_kras_with_allele = TRUE,
         annotate_kras_allele = TRUE,
         print_missing_genes = TRUE,
-        keep_gg_onco_proto = TRUE,
+        keep_gg_onco_proto = FALSE,
         ...
     )
 }
