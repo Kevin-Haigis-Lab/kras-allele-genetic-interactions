@@ -139,10 +139,13 @@ for (CANCER in sort(unique(genetic_interaction_df$cancer))) {
                            glue("genetic_interaction_network_{CANCER}.svg"))
     ggsave_wrapper(gr_plot, save_path, size = "medium")
 
-    saveRDS(
-        gr_plot,
-        get_fig_proto_path(glue("genetic_interaction_network_{CANCER}"), 2)
-    )
+
+    save_rds_template <- "genetic_interaction_network_{CANCER}"
+    if (CANCER == "COAD") {
+        saveRDS(gr_plot, get_fig_proto_path(glue(save_rds_template), 2))
+    } else if (CANCER == "LUAD") {
+        saveRDS(gr_plot, get_fig_proto_path(glue(save_rds_template), 3))
+    }
 }
 
 
