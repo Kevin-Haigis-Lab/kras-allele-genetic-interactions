@@ -89,6 +89,9 @@ table_path <- function(...) {
 }
 
 
+#' Get file name without extension.
+file_sans_ext <- tools::file_path_sans_ext
+
 
 #### ---- Helpful regular expressions ---- ####
 
