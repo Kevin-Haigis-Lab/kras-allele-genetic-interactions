@@ -105,7 +105,7 @@ remove_oncoplot_legend <- function(pw) {
 # The high-level network plot for the comutation graph for COAD.
 # original script: "src/20_40_highlivel-genetic-interactions.R"
 
-panel_A <- read_fig_proto("genetic_interaction_network_COAD", 2) +
+panel_A <- read_fig_proto("genetic_interaction_network_COAD", FIGNUM) +
     theme_graph_fig2() %+replace%
     theme(
         legend.spacing.x = unit(1, "mm")
@@ -119,7 +119,10 @@ panel_A <- read_fig_proto("genetic_interaction_network_COAD", 2) +
 # The subset from the high-level network for genes known to be related to KRAS.
 # original script: "src/20_43_apriori-lists-genetic-interactions.R"
 
-panel_B <- read_fig_proto("goi_overlap_genetic_interactions_network_COAD_allLists", 2) *
+panel_B <- read_fig_proto(
+        "goi_overlap_genetic_interactions_network_COAD_allLists",
+        FIGNUM
+    ) *
     theme_graph_fig2() +
     theme(
         legend.position = "bottom"
@@ -127,12 +130,12 @@ panel_B <- read_fig_proto("goi_overlap_genetic_interactions_network_COAD_allList
     labs(tag = "b")
 
 
-#### ---- C. Lollipop ---- ####
+#### ---- C. Dot-plot of functional enrichment  ---- ####
 
 # Panel C.
-# A lollipop plot.
-# original script: "src/20_43_apriori-lists-genetic-interactions.R"
-panel_C <- read_fig_proto("enrichr_COAD", 2) +
+# A dot plot of the results of functional enrichment in COAD comutation network.
+# original script: "src/20_45_fxnal-enrich-genetic-interactions.R"
+panel_C <- read_fig_proto("enrichr_COAD", FIGNUM) +
     scale_size_continuous(
         range = c(0, 3),
         guide = guide_legend(
