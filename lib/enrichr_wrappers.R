@@ -80,3 +80,28 @@ uninteresting_enrichr_regex <- c(
 ) %>%
     paste0(collapse = "|") %>%
     regex(ignore_case = TRUE, dotall = TRUE)
+
+
+#' Standardize terms from Enrichr.
+standardize_enricher_terms <- function(terms) {
+    str_remove_all(terms, "_Homo.sapiens+.*$") %>%
+        str_remove_all("_96h.*$") %>%
+        str_remove_all("[:space:]WP.*$") %>%
+        str_remove_all("[:space:]\\(GO.*$") %>%
+        str_replace_all("_", " ")
+}
+
+#' Modify the `term` based on the data source `ds`.
+mod_term_for_datasource <- function(term, ds) {
+    templates <- list(
+        Transcription_Factor_PPIs = "PPI of {term} (TF)",
+        KEA_2015 = "Targets of {term} (kinase)",
+        PPI_Hub_Proteins = "PPI of {term} (hub)"
+    )
+
+    if (!ds %in% names(templates)) {
+        return(term)
+    } else {
+        return(glue(templates[[ds]]))
+    }
+}
