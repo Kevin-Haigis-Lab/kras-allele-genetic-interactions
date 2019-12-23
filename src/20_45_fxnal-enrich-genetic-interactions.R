@@ -104,6 +104,14 @@ dotplot_top_functions <- function(cancer,
         mod_data$term <- factor(mod_data$term, levels = unique(term_levels))
     }
 
+    # if (any(is.na(mod_data$allele))) {
+    #     browser()
+    # }
+
+    # data %>%
+    #     filter(is.na(allele)) %>%
+    #     glimpse()
+
     p <- mod_data %>%
         ggplot(
             aes(x = allele, y = term)
@@ -146,7 +154,13 @@ dotplot_top_functions <- function(cancer,
 
 dotplot_selected_functions <- function(cancer, data) {
     p <- dotplot_top_functions(cancer, "SELECT", data)
-    saveRDS(p, get_fig_proto_path(glue("enrichr_{cancer}"), 2))
+
+    save_name <- glue("enrichr_{cancer}")
+    if (cancer == "COAD") {
+        saveRDS(p, get_fig_proto_path(save_name, 2))
+    } else if (cancer == "LUAD") {
+        saveRDS(p, get_fig_proto_path(save_name, 3))
+    }
 }
 
 selected_enrichments <- tibble::tribble(
@@ -162,7 +176,20 @@ selected_enrichments <- tibble::tribble(
     "COAD", "KEGG_2019_Human", "Cellular senescence",
     "COAD", "KEGG_2019_Human", "Apoptosis",
     "COAD", "KEGG_2019_Human", "PI3K-Akt signaling pathway",
-    "COAD", "KEGG_2019_Human", "Wnt signaling pathway"
+    "COAD", "KEGG_2019_Human", "Wnt signaling pathway",
+    "LUAD", "WikiPathways_2019_Human", "Focal Adhesion",
+    "LUAD", "Panther_2016", "Wnt signaling pathway",
+    "LUAD", "GO_Biological_Process_2018", "positive regulation of MAPK cascade",
+    "LUAD", "Transcription_Factor_PPIs", "MYC",
+    "LUAD", "WikiPathways_2019_Human", "RAC1/PAK1/p38/MMP2 Pathway",
+    "LUAD", "WikiPathways_2019_Human", "Pathways Regulating Hippo Signaling",
+    "LUAD", "PPI_Hub_Proteins", "PRKACA",
+    "LUAD", "PPI_Hub_Proteins", "PRKCA",
+    "LUAD", "PPI_Hub_Proteins", "CTNNB1",
+    "LUAD", "KEGG_2019_Human", "PI3K-Akt signaling pathway",
+    "LUAD", "KEGG_2019_Human", "Apelin signaling pathway",
+    "LUAD", "BioCarta_2016", "Chromatin Remodeling by hSWI/SNF ATP-dependent Complexes",
+
 )
 
 
