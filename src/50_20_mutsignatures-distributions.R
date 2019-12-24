@@ -383,7 +383,7 @@ distribution_plots <- mutational_signatures_df %>%
         signature = factor(signature, levels = names(mutsig_pal)),
         description = factor(description, levels = names(mutsig_descrpt_pal)),
         ras_allele = str_remove_all(ras_allele, "KRAS_"),
-        ras_allele = factor(ras_allele, levels = names(short_allele_pal))
+        ras_allele = factor_alleles(ras_allele)
     ) %>%
     group_by(cancer) %>%
     filter(ras_allele %in% alleles_to_plot(cancer = unique(cancer))) %>%
@@ -559,7 +559,7 @@ clock_vs_smoke_plot <- mutsig_noartifact_df %>%
         allele = ifelse(
             allele %in% names(short_allele_pal), allele, "Other"
         ),
-        allele = factor(allele, levels = names(short_allele_pal)),
+        allele = factor_alleles(allele),
         alpha = ifelse(allele == "G12C", 0.8, 0.6),
         size = ifelse(allele == "G12C", 1.1, 0.7)
     ) %>%

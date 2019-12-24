@@ -68,7 +68,7 @@ plot_probability_of_causation <- function(cancer, data,
     # Plot.
     p <- plot_data %>%
         mutate(
-            kras_allele = factor(kras_allele, names(short_allele_pal)),
+            kras_allele = factor_alleles(kras_allele),
             description = factor(description, levels = names(mutsig_descrpt_pal))
         ) %>%
         ggplot(aes(x = kras_allele, y = prob_sum)) +
@@ -140,8 +140,7 @@ plot_signature_probability <- function(cancer, signature, min_allele_num = 15) {
 
     p <- plot_data %>%
         mutate(
-            kras_allele = factor(kras_allele,
-                                levels = rev(names(short_allele_pal)))
+            kras_allele = factor_alleles(kras_allele, reverse = TRUE)
         ) %>%
         ggplot(aes(x = kras_allele, y = causation_prob)) +
         ggbeeswarm::geom_quasirandom(

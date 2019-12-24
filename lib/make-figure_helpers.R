@@ -203,7 +203,7 @@ read_fig_proto <- function(name, figure_num, version = "latest", supp = FALSE) {
 #' Information is returned as a labeled list.
 get_figure_info_from_name <- function(make_file_name) {
     info <- list()
-    fn <- basename(tools::file_path_sans_ext(make_file_name))
+    fn <- basename(file_sans_ext(make_file_name))
     info$title <- ifelse(str_detect(fn, "supp"), "Supp. Figure", "Figure")
     info$number <- as.numeric(str_extract(fn, "(?<=figure_)[:digit:]+(?=-)"))
     info$version <- as.numeric(str_extract(fn, "(?<=\\-)[:digit:]+$"))

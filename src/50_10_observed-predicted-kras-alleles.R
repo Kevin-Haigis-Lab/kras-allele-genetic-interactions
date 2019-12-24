@@ -184,8 +184,7 @@ ProjectTemplate::cache("kras_allele_freq_bootstrap_ci",
 # Box plot for distribution of liklihood for each allele in each sample.
 predicted_kras_allele_frequency_boxplot <- kras_hotspot_probability %>%
     filter(!is.na(kras_allele_prob)) %>%
-    mutate(kras_allele = factor(kras_allele,
-                                levels = names(short_allele_pal))) %>%
+    mutate(kras_allele = factor_alleles(kras_allele) %>%
     ggplot(aes(
         x = kras_allele, y = kras_allele_prob,
         color = kras_allele, fill = kras_allele
@@ -247,7 +246,7 @@ barplot_df <- kras_hotspot_probability %>%
 
 predict_kras_allele_frequency_barplot1 <- barplot_df %>%
     mutate(
-        kras_allele = factor(kras_allele, levels = names(short_allele_pal))
+        kras_allele = factor_alleles(kras_allele)
     ) %>%
     ggplot(aes(
         x = kras_allele, y = avg_kras_allele_prob,
@@ -284,7 +283,7 @@ ggsave_wrapper(
 
 predict_kras_allele_frequency_weighted_barplot1 <- barplot_df %>%
     mutate(
-        kras_allele = factor(kras_allele, levels = names(short_allele_pal))
+        kras_allele = factor_alleles(kras_allele)
     ) %>%
     ggplot(aes(
         x = kras_allele, y = avg_kras_allele_prob_weighted,

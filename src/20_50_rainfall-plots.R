@@ -420,7 +420,7 @@ allele_specificgenes_oncoplot <- function(cancer,
 
 # Save a ggoncoplot (or any plot really) for use in Figure 2.
 save_gg_onco_proto <- function(gg_obj, save_name, cancer) {
-    n <- tools::file_path_sans_ext(save_name)
+    n <- file_sans_ext(save_name)
     cat("saving gg object for:", n, "\n")
 
     if (cancer == "COAD") {

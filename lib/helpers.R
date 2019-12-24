@@ -93,6 +93,7 @@ table_path <- function(...) {
 file_sans_ext <- tools::file_path_sans_ext
 
 
+
 #### ---- Helpful regular expressions ---- ####
 
 # helpful data for identifying KRAS mutations
@@ -189,7 +190,9 @@ mutation_pal <- list(
     "#a8eae9", "#d8841e", "#e51c02", "#d4b9f7", "#d87b34", "#e575df",
     "#ef64a7"
 )
-names(mutation_pal) <- unique(unname(unlist(mapping_mutation_types_to_human_readable)))
+names(mutation_pal) <- unique(unname(unlist(
+    mapping_mutation_types_to_human_readable
+)))
 
 ggsave_wrapper(
     show_palette(mutation_pal, "square", label_size = 4, font_family = "Arial"),
@@ -221,6 +224,14 @@ allele_palette <- c(
 allele_palette <- c(allele_palette, "WT" = "grey50")
 short_allele_pal <- allele_palette
 names(short_allele_pal) <- str_remove_all(names(short_allele_pal), "KRAS ")
+
+#' Make KRAS alleles in factors using the order of `short_allele_pal`.
+factor_alleles <- function(alleles, reverse = FALSE) {
+    lvls <- names(short_allele_pal)
+    if (reverse) { lvls <- rev(lvls) }
+    factor(alleles, levels = lvls)
+}
+
 
 ggsave_wrapper(
     show_palette(short_allele_pal, "square", font_family = "Arial"),

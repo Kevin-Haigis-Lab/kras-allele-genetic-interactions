@@ -6,7 +6,7 @@ reset_graph_directory(GRAPHS_DIR)
 # A simple wrapper to save figure protos from this script.
 save_fig_proto_wrapper <- function(p, n) {
     proto_name <- basename(n)
-    proto_name <- tools::file_path_sans_ext(proto_name)
+    proto_name <- file_sans_ext(proto_name)
     saveRDS(
         p,
         get_fig_proto_path(proto_name, 4, supp = TRUE)

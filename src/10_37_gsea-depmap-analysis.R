@@ -302,7 +302,7 @@ get_geneset_enrichment_results <- function(cancer, allele, name) {
     fpath <- list.files(dir, full.names = TRUE)
     idx <- basename(fpath) == paste0(name, ".xls")
     if (sum(idx)== 0) {
-        all_file_names <- tools::file_path_sans_ext(basename(fpath))
+        all_file_names <- file_sans_ext(basename(fpath))
         idx <- purrr::map_lgl(all_file_names, ~ str_detect(.x, name))
     }
     fpath <- fpath[idx]
