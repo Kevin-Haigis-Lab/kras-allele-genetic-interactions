@@ -198,6 +198,82 @@ read_fig_proto <- function(name, figure_num, version = "latest", supp = FALSE) {
 }
 
 
+#### ---- Start a new figure ---- ####
+
+
+TEMPLATE_PATH <- file.path(FIGURE_PROTOS_DIR, "_make-figure-template.R")
+
+glue_figure_template <- function(figure_num, version, supp) {
+    # Make `figure name` and `theme_suffix`
+    if (supp) {
+        figure_name <- glue("Supplemental Figure {figure_num}")
+        theme_suffix <- glue("S{figure_num}")
+    } else {
+        figure_name <- glue("Figure {figure_num}")
+        theme_suffix <- as.character(figure_num)
+    }
+    version <- as.character(version)
+    supp_chr <- ifelse(supp, "TRUE", "FALSE")
+    figure_num <- as.character(figure_num)
+
+    template <- readLines(TEMPLATE_PATH)
+    for (i in seq(1, length(template))) {
+
+        cond1 <- str_length(template[[i]]) == 0
+        cond2 <- !str_detect(template[[i]], "__")
+        if (cond1 | cond2) next
+
+        template[[i]] <- template[[i]] %>%
+            str_replace("__FIGURE_NAME__", figure_name) %>%
+            str_replace("__FIGURE_NUM__", figure_num) %>%
+            str_replace("__SUPP__", supp_chr) %>%
+            str_replace("__VERSION__", as.character(version)) %>%
+            str_replace("__THEME_SUFFIX__", theme_suffix)
+    }
+    return(template)
+}
+
+
+initialize_figure <- function(figure_num,
+                              version = "next",
+                              supp = FALSE) {
+
+    # Get version number
+    if (version == "next") {
+        version <- suppressWarnings(get_latest_version_of_figure(figure_num,
+                                                                 supp))
+        version <- version + 1
+        if (is.infinite(version)) version <- 1
+    }
+    
+    # Get the correct strings for figure number and version.
+    base_n <- str_pad(as.character(figure_num), 2, pad = "0")
+    sub_n <- str_pad(as.character(version), 3, pad = "0")
+
+    # Get path name depending on if it is supplementary or not.
+    if (supp) {
+        file_name <- glue("make-suppfigure_{base_n}-{sub_n}.R")
+    } else {
+        file_name <- glue("make-figure_{base_n}-{sub_n}.R")
+    }
+    path <- file.path(FIGURE_PROTOS_DIR, file_name)
+
+    # Stop if the file already exists.
+    # Do not overwrite already existing files.
+    if (file.exists(path)) {
+        stop(glue("File already exists for Fig. {figure_num}, v. {sub_n}"))
+    }
+
+    # Make directory for the protos for the figure.
+    fig_dir <- str_remove(path, "make-")
+    fig_dir <- str_remove(fig_dir, "\\.R$")
+    if (!dir.exists(fig_dir)) dir.create(fig_dir)
+
+    # Insert the correct information into the template.
+    template <- glue_figure_template(figure_num, version, supp)
+    writeLines(template, path)
+}
+
 
 #### ---- Build all figures ---- ####
 
