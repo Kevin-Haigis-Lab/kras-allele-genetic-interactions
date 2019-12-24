@@ -118,19 +118,33 @@ make_network_plot <- function(gr) {
 }
 
 
-for (CANCER in sort(unique(genetic_interaction_df$cancer))) {
-    set.seed(0)
-    gr_plot <- genetic_interaction_gr %E>%
-        filter(cancer == !!CANCER)  %>%
+get_plotting_graph <- function(gr, cancer) {
+    mod_gr <- gr %E>%
+        filter(cancer == !!cancer)  %>%
         mutate(
             genetic_interaction = switch_comut_terms(genetic_interaction)
         ) %N>%
-        filter(centrality_degree(mode = "all") > 0) %>%
+        filter(centrality_degree(mode = "all") > 0)
+    return(mod_gr)
+}
+
+
+prep_highlevel_unlabeled <- function(gr) {
+    mod_gr <- gr %N>%
         mutate(node_label = ifelse(is_kras, name, NA),
                node_label = str_remove_all(node_label, "KRAS_"),
                node_color = node_label,
                node_size = 1,
-               label_size = 2) %>%
+               label_size = 2)
+    return(mod_gr)
+}
+
+
+# Make high-level network with only the KRAS alleles labeled.
+for (CANCER in sort(unique(genetic_interaction_df$cancer))) {
+    set.seed(0)
+    gr_plot <- get_plotting_graph(genetic_interaction_gr, CANCER) %>%
+        prep_highlevel_unlabeled() %>%
         make_network_plot() +
         labs(
             edge_color = "interaction"
@@ -139,15 +153,48 @@ for (CANCER in sort(unique(genetic_interaction_df$cancer))) {
                            glue("genetic_interaction_network_{CANCER}.svg"))
     ggsave_wrapper(gr_plot, save_path, size = "medium")
 
-
-    save_rds_template <- "genetic_interaction_network_{CANCER}"
+    rds_template <- "genetic_interaction_network_{CANCER}"
     if (CANCER == "COAD") {
-        saveRDS(gr_plot, get_fig_proto_path(glue(save_rds_template), 2))
+        saveRDS(gr_plot, get_fig_proto_path(glue(rds_template), 2))
     } else if (CANCER == "LUAD") {
-        saveRDS(gr_plot, get_fig_proto_path(glue(save_rds_template), 3))
+        saveRDS(gr_plot, get_fig_proto_path(glue(rds_template), 3))
     }
 }
 
+
+# Prepare the node characteristics for the labeled plots.
+prep_highlevel_labeled <- function(gr) {
+    mod_gr <- gr %N>%
+        mutate(node_label = str_replace_all(name, "KRAS_", "KRAS "),
+               node_color = str_remove_all(name, "KRAS_"),
+               node_color = ifelse(is_kras, node_color, NA),
+               node_size = 1,
+               label_size = ifelse(is_kras, 2, 1.2))
+    return(mod_gr)
+}
+
+# Make high-level network with all genes labeled.
+for (CANCER in sort(unique(genetic_interaction_df$cancer))) {
+    set.seed(0)
+    gr_plot <- get_plotting_graph(genetic_interaction_gr, CANCER) %>%
+        prep_highlevel_labeled() %>%
+        make_network_plot() +
+        labs(
+            edge_color = "interaction"
+        )
+
+    cancer_fignum <- list(
+        "COAD" = 5,
+        "LUAD" = 6,
+        "MM" = 7,
+        "PAAD" = 8
+    )
+    rds_template <- "genetic_interaction_network_labeled_{CANCER}"
+    save_path <- get_fig_proto_path(glue(rds_template),
+                                    cancer_fignum[[CANCER]],
+                                    supp = TRUE)
+    saveRDS(gr_plot, save_path)
+}
 
 
 #### ---- Correlate number of interactors KRAS allele frequency ---- ####
