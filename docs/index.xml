@@ -106,6 +106,32 @@
     </item>
     
     <item>
+      <title>2019-12-23</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-12-23/</link>
+      <pubDate>Mon, 23 Dec 2019 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-12-23/</guid>
+      <description>
+
+&lt;h2 id=&#34;abstraction-of-enrichr-results&#34;&gt;Abstraction of EnrichR results&lt;/h2&gt;
+
+&lt;h3 id=&#34;prepare-data-base-gene-sets&#34;&gt;Prepare data base gene sets&lt;/h3&gt;
+
+&lt;p&gt;I needed the full gene sets used by Enrichr.
+They were downloaded manually from the Enrichr &lt;a href=&#34;https://amp.pharm.mssm.edu/Enrichr/#stats&#34; target=&#34;_blank&#34;&gt;&amp;ldquo;Libraries&amp;rdquo;&lt;/a&gt; tab to &amp;ldquo;data/enrichr-gene-sets/&amp;rdquo;.
+They are prepared into a tidy data frame in &amp;ldquo;munge/60_enrichr-gene-sets.R&amp;rdquo;.&lt;/p&gt;
+
+&lt;h3 id=&#34;bar-plots-of-comutation-of-enriched-functional-groups&#34;&gt;Bar-plots of comutation of enriched functional groups&lt;/h3&gt;
+
+&lt;p&gt;I created bar-plots to show the frequency of comutation of the genes in the enriched functions.
+For each enriched function, I found the rate of comutation of the underlying genes in the &lt;em&gt;KRAS&lt;/em&gt; allele and the rest of the samples.
+Further, I separated the genes that have increased from those with reduced comutation.
+Below is an example of one such bar-plot for LUAD G12C with the gene sets from KEGG.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;img/graphs/20_46_enriched-functions_bar-plots/comut-barplot_LUAD_G12C_KEGG_2019_Human.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>2019-12-16</title>
       <link>https://project-notebook-comutation.netlify.com/post/2019-12-16/</link>
       <pubDate>Mon, 16 Dec 2019 00:00:00 +0000</pubDate>
