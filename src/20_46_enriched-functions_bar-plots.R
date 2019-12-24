@@ -123,6 +123,7 @@ enrichr_comut_freq_tib$mut_freq <- pmap_dbl(enrichr_comut_freq_tib,
                                             calc_mut_freq)
 
 
+# Order the terms be the difference in mutational frequency.
 order_terms <- function(df) {
     term_order <- df %>%
         mutate(
@@ -138,6 +139,7 @@ order_terms <- function(df) {
 }
 
 
+# Bar plot of the enriched functions.
 enriched_fxns_comutation_barplot <- function(data) {
     p <- data %>%
         mutate(
@@ -181,20 +183,26 @@ enriched_fxns_comutation_barplot <- function(data) {
 }
 
 
+# Save the plots to `GRAPHS_DIR`.
 save_to_graphs_dir <- function(cancer,
                                allele = "AllAlleles",
                                datasource = "AllSources",
                                comut_plot,
                                data,
                                ...,
+                               save_for_fig = NA,
+                               supp = FALSE,
                                size = "large") {
-    ggsave_wrapper(
-        comut_plot,
-        plot_path(GRAPHS_DIR,
-                  glue("comut-barplot_{cancer}_{allele}_{datasource}.svg")),
-        size
-    )
+    save_name <- glue("comut-barplot_{cancer}_{allele}_{datasource}.svg")
+    ggsave_wrapper(comut_plot, plot_path(GRAPHS_DIR, save_name), size)
+
+    # Save the ggplot object for figure `save_for_fig`.
+    if (!is.na(save_for_fig)) {
+        saveRDS(comut_plot,
+                get_fig_proto_path(save_name, save_for_fig, supp = supp))
+    }
 }
+
 
 enrichr_comut_freq_tib %>%
     mutate(
@@ -232,4 +240,5 @@ enrichr_comut_freq_tib %>%
         comut_plot = purrr::map(data, enriched_fxns_comutation_barplot),
         comut_plot = purrr::map(comut_plot, additional_adjustments)
     ) %>%
+    mutate(save_for_fig = ifelse(cancer == "LUAD", 3, NA)) %>%
     pwalk(save_to_graphs_dir, size = "medium")
