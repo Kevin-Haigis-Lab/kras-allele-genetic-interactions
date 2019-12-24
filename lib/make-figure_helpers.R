@@ -86,6 +86,8 @@ get_fig_proto_path <- function(name,
                                figure_num,
                                version = "latest",
                                supp = FALSE) {
+    name <- basename(name)
+    name <- file_sans_ext(name)
 
     base_n <- str_pad(as.character(figure_num), 2, pad = "0")
     if (version == "latest") {
