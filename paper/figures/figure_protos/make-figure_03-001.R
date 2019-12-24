@@ -40,8 +40,6 @@ theme_graph_fig3 <- function() {
 
 
 #### ---- A. High-level comutation network for LUAD ---- ####
-
-# Panel A.
 # The high-level network plot for the comutation graph for LUAD.
 # original script: "src/20_40_highlivel-genetic-interactions.R"
 
@@ -54,10 +52,9 @@ panel_A <- read_fig_proto("genetic_interaction_network_LUAD", FIGNUM) +
 
 
 #### ---- B. Dot-plot of functional enrichment ---- ####
-
-# Panel B.
 # A dot plot of the results of functional enrichment in LUAD comutation network.
 # original script: "src/20_45_fxnal-enrich-genetic-interactions.R"
+
 panel_B <- read_fig_proto("enrichr_LUAD", FIGNUM) +
     scale_size_continuous(
         range = c(0, 3),
@@ -79,7 +76,7 @@ panel_B <- read_fig_proto("enrichr_LUAD", FIGNUM) +
             label.position = "top"
         )
     ) +
-    theme_fig2() +
+    theme_fig3() +
     theme(
         plot.title = element_blank(),
         axis.title = element_blank(),
@@ -90,7 +87,39 @@ panel_B <- read_fig_proto("enrichr_LUAD", FIGNUM) +
         legend.margin = margin(-1, 0, -1, 0, "mm"),
         legend.box.background = element_rect(fill = NA, color = NA)
     ) +
-    labs(tag = "c")
+    labs(tag = "b")
+
+
+#### ---- C. Dot-plot of functional enrichment ---- ####
+# A bar plot of the frequency of comutation for the enriched functions
+# shown in panel B.
+# original script: "src/20_46_enriched-functions_bar-plots.R"
+
+panel_C <- read_fig_proto("comut-barplot_LUAD_AllAlleles_AllSources", FIGNUM) +
+    scale_fill_manual(
+            values = comut_updown_pal,
+            guide = guide_legend(
+                title.position = "top"
+            )
+        ) +
+        scale_alpha_manual(
+            values = c("other" = 0.4, "allele" = 0.95),
+            guide = guide_legend(
+                title.position = "top"
+            )
+    ) +
+    theme_fig3() %+replace%
+    theme(
+        legend.spacing.x = unit(1, "mm"),
+        legend.position = "bottom",
+        axis.title.y = element_blank(),
+        legend.key.size = unit(2, "mm")
+    ) +
+    labs(
+        tag = "c",
+        y = expression("" %<-% "reduced | increased" %->% "")
+    )
+
 
 
 #### ---- Figure assembly ---- ####
@@ -100,9 +129,9 @@ panel_B <- read_fig_proto("enrichr_LUAD", FIGNUM) +
 
     # COMPLETE FIGURE
     full_figure <- (
-        panel_A /
-        ((plot_spacer() + panel_B) + plot_layout(widths = c(1, 1e6))) /
-        (plot_spacer() + plot_spacer() + plot_layout(widths = c(1, 1e6)))
+        wrap_elements(full = panel_A) /
+        wrap_elements(full = panel_B) /
+        wrap_elements(full = panel_C)
     ) +
         plot_layout(heights = c(1, 1, 1))
 

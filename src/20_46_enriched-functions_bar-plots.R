@@ -223,7 +223,9 @@ source(file.path("src", "20_44_select-enriched-functions.R"))
 
 additional_adjustments <- function(p) {
     p <- p +
-        facet_wrap(~allele, scales = "free_y", ncol = 1)
+        facet_grid(allele ~ .,
+                   scales = "free_y",
+                   space='free_y')
     return(p)
 }
 
