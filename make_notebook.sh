@@ -22,7 +22,7 @@ done
 ## Copy the full figures to "reports/content/home/gallery/gallery/"
 GALLERY_DIR="reports/content/home/gallery/gallery"
 for f in $( find $FIGURE_DIR -d 1 -name "*Figure*svg" ); do
-	cp $f GALLERY_DIR
+	cp $f $GALLERY_DIR
 done
 
 
