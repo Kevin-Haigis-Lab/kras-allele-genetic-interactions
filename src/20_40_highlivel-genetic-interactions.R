@@ -65,9 +65,9 @@ ProjectTemplate::cache("genetic_interaction_gr",
 goi_genes <- unique(genes_of_interest_df$hugo_symbol)
 
 # Plots the genetic interaction networks.
-make_network_plot <- function(gr) {
+make_network_plot <- function(gr, layout = "nicely") {
     p <- gr %>%
-        ggraph(layout = "nicely") +
+        ggraph(layout = layout) +
         geom_edge_link(
             aes(color = genetic_interaction),
             width = 0.3
@@ -169,9 +169,18 @@ prep_highlevel_labeled <- function(gr) {
                node_color = str_remove_all(name, "KRAS_"),
                node_color = ifelse(is_kras, node_color, NA),
                node_size = 1,
-               label_size = ifelse(is_kras, 2, 1.2))
+               label_size = ifelse(is_kras, 2, 1))
     return(mod_gr)
 }
+
+
+# Supplemental figure numbers for each cancer.
+cancer_fignum <- list(
+    "COAD" = 5,
+    "LUAD" = 6,
+    "MM" = 9,
+    "PAAD" = 10
+)
 
 # Make high-level network with all genes labeled.
 for (CANCER in sort(unique(genetic_interaction_df$cancer))) {
@@ -183,18 +192,73 @@ for (CANCER in sort(unique(genetic_interaction_df$cancer))) {
             edge_color = "interaction"
         )
 
-    cancer_fignum <- list(
-        "COAD" = 5,
-        "LUAD" = 6,
-        "MM" = 7,
-        "PAAD" = 8
-    )
     rds_template <- "genetic_interaction_network_labeled_{CANCER}"
     save_path <- get_fig_proto_path(glue(rds_template),
                                     cancer_fignum[[CANCER]],
                                     supp = TRUE)
     saveRDS(gr_plot, save_path)
 }
+
+
+
+# Specifically for LUAD (3 separate supplementals):
+#   6. increased comutation only.
+#   7. reduced comutation for G12C-only interactions
+#   8. all reduced comutation except for G12C-only interactions.
+
+# Supplemental 6: increased comutation for LUAD
+gr_plot <- get_plotting_graph(genetic_interaction_gr, "LUAD") %E>%
+    filter(genetic_interaction == "increased") %N>%
+    filter(centrality_degree(mode = "all") > 0) %>%
+    prep_highlevel_labeled() %>%
+    make_network_plot(layout = "stress") +
+    labs(
+        edge_color = "interaction"
+    )
+save_path <- get_fig_proto_path(
+    "genetic_interaction_increased_network_labeled_LUAD", 6, supp = TRUE
+)
+saveRDS(gr_plot, save_path)
+
+
+# Supplemental 7: reduced comutation for G12C-only interactions
+g12c_luad_gr <- get_plotting_graph(genetic_interaction_gr, "LUAD") %E>%
+    filter(genetic_interaction == "reduced") %N>%
+    filter(centrality_degree(mode = "all") == 1 | is_kras) %E>%
+    filter(.N()$name[from] == "KRAS_G12C") %N>%
+    filter(centrality_degree(mode = "all") > 0)
+gr_plot <- g12c_luad_gr %>%
+    prep_highlevel_labeled() %>%
+    make_network_plot(layout = "nicely") +
+    labs(
+        edge_color = "interaction"
+    )
+save_path <- get_fig_proto_path(
+    "genetic_interaction_reduced_G12Conly_network_labeled_LUAD", 7, supp = TRUE
+)
+saveRDS(gr_plot, save_path)
+
+
+# Supplemental 8: reduced comutation for all but G12C-only interactions
+g12c_only_genes <- as_tibble(g12c_luad_gr, activate="nodes") %>%
+    filter(!is_kras) %>%
+    u_pull(name)
+gr_plot <- get_plotting_graph(genetic_interaction_gr, "LUAD") %E>%
+    filter(genetic_interaction == "reduced") %N>%
+    filter(!name %in% !!g12c_only_genes) %>%
+    filter(centrality_degree(mode = "all") > 0) %>%
+    prep_highlevel_labeled() %>%
+    make_network_plot(layout = "nicely") +
+    labs(
+        edge_color = "interaction"
+    )
+save_path <- get_fig_proto_path(
+    "genetic_interaction_reduced_notG12Conly_network_labeled_LUAD",
+    8, supp = TRUE
+)
+saveRDS(gr_plot, save_path)
+
+
 
 
 #### ---- Correlate number of interactors KRAS allele frequency ---- ####
