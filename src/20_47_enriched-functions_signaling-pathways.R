@@ -83,7 +83,7 @@ extract_graph_for_plotting <- function(geneset_tib,
                                        neighbors,
                                        full_gs = NULL) {
     gr <- string_gr %N>%
-        filter(name %in% !!neighbors) %>%
+        filter(name %in% !!neighbors | name %in% !!geneset_tib$name) %>%
         left_join(geneset_tib, by = "name") %>%
         mutate(
             interaction = case_when(
@@ -106,6 +106,7 @@ extract_graph_for_plotting <- function(geneset_tib,
         )
     return(gr)
 }
+extract_graph_for_plotting <- memoise::memoise(extract_graph_for_plotting)
 
 
 # Plot the graph of the extracted gene set and neighbors.
@@ -137,16 +138,66 @@ plot_extracted_graph_of_geneset <- function(gr) {
 }
 
 
+# Get all pairs of the nodes in `gs`.
+get_all_node_pairs <- function(gs) {
+    combn(gs, 2) %>%
+        t() %>%
+        as.data.frame(strings_as_factors = FALSE) %>%
+        as_tibble() %>%
+        set_colnames(c("from", "to"))
+}
+
+
+# Returns a boolean as to whether a path exists between `from` and `to`.
+# `from` and `to` must be node indices.
+path_does_exist <- function(gr, from, to) {
+    !any(is.infinite(igraph::distances(gr, from, to)))
+}
+
+
+# Get the nodes along the shortest path(s) between `from` and `to`.
+# Path the `from` and `to` as node names.
+get_nodes_in_shortest_path <- function(from, to, gr) {
+    from_idx <- get_node_index(gr, name == from)
+    to_idx <- get_node_index(gr, name == to)
+
+    # Skip if there are no shortest paths.
+    if (!path_does_exist(gr, from_idx, to_idx)) return(c(from, to))
+    gr %>%
+        convert(to_shortest_path,
+                from = from_idx, to = to_idx,
+                mode = "all") %N>%
+        as_tibble() %>%
+        pull(name)
+}
+
+
+# Shrink the graph to only include the nodes that lie on the geodesic path
+# of the main nodes.
+minimize_graph_to_shortest_paths <- function(gr, main_nodes) {
+    node_pairs <- get_all_node_pairs(main_nodes)
+    genes_on_paths <- pmap(node_pairs, get_nodes_in_shortest_path, gr = gr) %>%
+        unlist() %>%
+        unique()
+    mod_gr <- gr %N>%
+        filter(name %in% genes_on_paths)
+    return(mod_gr)
+}
+
+
+# All node names in STRING.
+STRING_NODE_NAMES <- as_tibble(string_gr, active = 'nodes')$name
+
 # Plot the graph of the neighborhood of the genes driving a gene set's
 # enrichment. The main genes are colored by the interaction direction, and the
 # edges' transparency is scaled by a combination of their centrality and if
 # they are connected to one of the main genes.
 plot_labeled_neighborhood <- function(cancer, allele,
                                       datasource, geneset,
-                                      max_nodes = Inf,
-                                      max_neighbors = 100,
+                                      max_neighbors = Inf,
                                       min_interesting_genes = 0,
                                       uninteresting_genes = NULL,
+                                      max_nodes = 100,
                                       ...) {
     set.seed(0)  # For reproducibility
 
@@ -154,7 +205,8 @@ plot_labeled_neighborhood <- function(cancer, allele,
     enriched_geneset_tib <- tibble(
             name = get_overlap_genes(cancer, allele, geneset)
         ) %>%
-        mutate(interaction = get_interaciton_types(name, cancer, allele))
+        mutate(interaction = get_interaciton_types(name, cancer, allele)) %>%
+        filter(name %in% !!STRING_NODE_NAMES)
 
     n_interesting_genes <- sum(!enriched_geneset_tib$name %in% uninteresting_genes)
     if (n_interesting_genes < min_interesting_genes) {
@@ -165,8 +217,7 @@ plot_labeled_neighborhood <- function(cancer, allele,
     all_geneset <- geneset_genes(datasource, geneset)
 
     # Neighbors of the genes.
-    neighbors <- get_neighbors(enriched_geneset_tib$name)
-
+    neighbors <- get_neighbors(enriched_geneset_tib$name, 2)
     if (length(neighbors) > max_neighbors) {
         neighbors <- get_neighbors(enriched_geneset_tib$name, 3)
     }
@@ -175,6 +226,11 @@ plot_labeled_neighborhood <- function(cancer, allele,
     gr <- extract_graph_for_plotting(enriched_geneset_tib,
                                      neighbors,
                                      all_geneset)
+
+    if (igraph::vcount(gr) > max_nodes) {
+        gr <- minimize_graph_to_shortest_paths(gr, enriched_geneset_tib$name)
+    }
+
 
     if (igraph::vcount(gr) > max_nodes) {
         gr <- gr %N>%
@@ -189,7 +245,7 @@ plot_labeled_neighborhood <- function(cancer, allele,
 
 # Clean the "glued" names for becoming a file name.
 sanitize_save_names <- function(x) {
-    str_replace_all(x, "/", "-") %>%
+    str_replace_all(x, "\\/", "-") %>%
         str_remove_all("\\.")
 }
 
@@ -198,12 +254,17 @@ sanitize_save_names <- function(x) {
 save_neighborhood_plot <- function(gr_plot,
                                    cancer,
                                    allele,
+                                   datasource,
                                    geneset,
                                    glue_template,
                                    ...) {
     if (is.null(gr_plot)) return(NULL)
+
+    datasource <- str_replace_all(datasource, "_", "-")
+    geneset <- str_replace_all(geneset, ' ', '-')
     save_name <- glue(glue_template)
-    sanitize_save_names(save_name)
+    save_name <- sanitize_save_names(save_name)
+    save_name <- paste0(save_name, ".svg")
     ggsave_wrapper(gr_plot, plot_path(GRAPHS_DIR, save_name), "large")
 }
 
@@ -212,12 +273,16 @@ save_neighborhood_plot <- function(gr_plot,
 save_neighborhood_proto <- function(gr_plot,
                                    cancer,
                                    allele,
+                                   datasource,
                                    geneset,
                                    fig_num,
                                    supp,
                                    glue_template,
                                    ...) {
     if (is.null(gr_plot)) return(NULL)
+
+    datasource <- str_replace_all(datasource, "_", "-")
+    geneset <- str_replace_all(geneset, ' ', '-')
     save_name <- glue(glue_template)
     save_name <- sanitize_save_names(save_name)
     saveRDS(gr_plot, get_fig_proto_path(save_name, fig_num, supp = supp))
@@ -227,29 +292,24 @@ save_neighborhood_proto <- function(gr_plot,
 
 #### ---- Extract gene sets and their neighborhood from the STRING PPIN ---- ####
 
+NOT_NOVEL_GENES <- c("BRAF", "TP53", "APC", "NRAS", "PIK3CA", "CTNNB1", "EGFR")
+
 genesets_to_plot <- enrichr_tib %>%
     select(-gene_list) %>%
     unnest(cols = enrichr_res) %>%
     mutate(n_overlap = get_enrichr_overlap_int(overlap),
-           n_novels = count_novel_genes(genes),
            term = standardize_enricher_terms(term)) %>%
     filter(adjusted_p_value < 0.05 & n_overlap >= 3) %>%
     select(cancer, allele, datasource, term) %>%
     unique() %>%
-    dplyr::rename(geneset = term)  %>%
-    filter(cancer == "COAD" &
-           allele == "G12D") %>%
-    slice(1:10)
+    dplyr::rename(geneset = term) %>%
+    filter(cancer == "LUAD")
 
 genesets_to_plot$gr_plot <- pmap(genesets_to_plot, plot_labeled_neighborhood,
-                                 min_interesting_genes = 2,
+                                 min_interesting_genes = 3,
                                  uninteresting_genes = NOT_NOVEL_GENES)
 
-# TODO: I am currently trying to narrow down the subnetworks to something I
-# can actually interpret.
-# Just re-run the script and assess current status of the output.
-
-save_tmplt <- "{cancer}_{allele}_{str_replace_all(geneset, ' ', '-')}.svg"
+save_tmplt <- "{cancer}_{allele}_{datasource}_{geneset}"
 pwalk(genesets_to_plot, save_neighborhood_plot, glue_template = save_tmplt)
 
 
