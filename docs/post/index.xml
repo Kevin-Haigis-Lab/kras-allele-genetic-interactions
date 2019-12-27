@@ -5,12 +5,27 @@
     <link>https://project-notebook-comutation.netlify.com/post/</link>
       <atom:link href="https://project-notebook-comutation.netlify.com/post/index.xml" rel="self" type="application/rss+xml" />
     <description>Posts</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Mon, 23 Dec 2019 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Thu, 26 Dec 2019 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://project-notebook-comutation.netlify.com/img/icon-192.png</url>
       <title>Posts</title>
       <link>https://project-notebook-comutation.netlify.com/post/</link>
     </image>
+    
+    <item>
+      <title>2019-12-26</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-12-26/</link>
+      <pubDate>Thu, 26 Dec 2019 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-12-26/</guid>
+      <description>
+
+&lt;h2 id=&#34;plot-ppi-of-enriched-subnetworks&#34;&gt;Plot PPI of enriched subnetworks&lt;/h2&gt;
+
+&lt;p&gt;While writing, I thought it could be interesting to include a PPI of the genes underlying the enriched subnetworks.
+I created the script &amp;ldquo;src/20_47_enriched-functions_signaling-pathways.R&amp;rdquo; to do this.
+I have it working and am currently trying to get it to plot just enough nodes to be informative, but not overwhelming.&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>2019-12-23</title>

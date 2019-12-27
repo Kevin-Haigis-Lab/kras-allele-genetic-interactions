@@ -106,6 +106,21 @@
     </item>
     
     <item>
+      <title>2019-12-26</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2019-12-26/</link>
+      <pubDate>Thu, 26 Dec 2019 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2019-12-26/</guid>
+      <description>
+
+&lt;h2 id=&#34;plot-ppi-of-enriched-subnetworks&#34;&gt;Plot PPI of enriched subnetworks&lt;/h2&gt;
+
+&lt;p&gt;While writing, I thought it could be interesting to include a PPI of the genes underlying the enriched subnetworks.
+I created the script &amp;ldquo;src/20_47_enriched-functions_signaling-pathways.R&amp;rdquo; to do this.
+I have it working and am currently trying to get it to plot just enough nodes to be informative, but not overwhelming.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>2019-12-23</title>
       <link>https://project-notebook-comutation.netlify.com/post/2019-12-23/</link>
       <pubDate>Mon, 23 Dec 2019 00:00:00 +0000</pubDate>
