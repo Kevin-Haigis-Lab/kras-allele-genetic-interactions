@@ -79,11 +79,10 @@ geneset_genes <- memoise::memoise(geneset_genes)
 
 
 # Extract the subnetwork from STRING and add attributes for plotting.
-extract_graph_for_plotting <- function(geneset_tib,
-                                       neighbors,
-                                       full_gs = NULL) {
-    gr <- string_gr %N>%
-        filter(name %in% !!neighbors | name %in% !!geneset_tib$name) %>%
+prep_graph_for_plotting <- function(gr,
+                                    geneset_tib,
+                                    full_gs = NULL) {
+    mod_gr <- gr %>%
         left_join(geneset_tib, by = "name") %>%
         mutate(
             interaction = case_when(
@@ -104,9 +103,9 @@ extract_graph_for_plotting <- function(geneset_tib,
             edge_alpha = (edge_is_link2 * 2) + edge_centrality,
             edge_alpha = scales::rescale(edge_alpha, to = c(0.1, 0.7))
         )
-    return(gr)
+    return(mod_gr)
 }
-extract_graph_for_plotting <- memoise::memoise(extract_graph_for_plotting)
+prep_graph_for_plotting <- memoise::memoise(prep_graph_for_plotting)
 
 
 # Plot the graph of the extracted gene set and neighbors.
@@ -163,12 +162,9 @@ get_nodes_in_shortest_path <- function(from, to, gr) {
 
     # Skip if there are no shortest paths.
     if (!path_does_exist(gr, from_idx, to_idx)) return(c(from, to))
-    gr %>%
-        convert(to_shortest_path,
-                from = from_idx, to = to_idx,
-                mode = "all") %N>%
-        as_tibble() %>%
-        pull(name)
+
+    # Get names of the nodes on the shortest path.
+    names(unlist(igraph::shortest_paths(gr, from, to, mode = "all")$vpath))
 }
 
 
@@ -183,10 +179,22 @@ minimize_graph_to_shortest_paths <- function(gr, main_nodes) {
         filter(name %in% genes_on_paths)
     return(mod_gr)
 }
+minimize_graph_to_shortest_paths <- memoise::memoise(minimize_graph_to_shortest_paths)
+
+
+assign_centraility_rank <- function(gr, priority_nodes = NULL) {
+    mod_gr <- gr %N>%
+        mutate(
+            node_ctrlty = centrality_pagerank(directed = FALSE),
+            node_ctrlty = ifelse(name %in% !!priority_nodes, Inf, node_ctrlty),
+            node_ctrlty = rank(node_ctrlty, ties.method = "random")
+        )
+    return(mod_gr)
+}
 
 
 # All node names in STRING.
-STRING_NODE_NAMES <- as_tibble(string_gr, active = 'nodes')$name
+STRING_NODE_NAMES <- igraph::V(string_gr)$name
 
 # Plot the graph of the neighborhood of the genes driving a gene set's
 # enrichment. The main genes are colored by the interaction direction, and the
@@ -194,7 +202,6 @@ STRING_NODE_NAMES <- as_tibble(string_gr, active = 'nodes')$name
 # they are connected to one of the main genes.
 plot_labeled_neighborhood <- function(cancer, allele,
                                       datasource, geneset,
-                                      max_neighbors = Inf,
                                       min_interesting_genes = 0,
                                       uninteresting_genes = NULL,
                                       max_nodes = 100,
@@ -215,27 +222,37 @@ plot_labeled_neighborhood <- function(cancer, allele,
 
     # All genes in gene set.
     all_geneset <- geneset_genes(datasource, geneset)
-
     # Neighbors of the genes.
-    neighbors <- get_neighbors(enriched_geneset_tib$name, 2)
-    if (length(neighbors) > max_neighbors) {
-        neighbors <- get_neighbors(enriched_geneset_tib$name, 3)
+    # neighbors <- get_neighbors(enriched_geneset_tib$name, 2)
+
+    gr <- minimize_graph_to_shortest_paths(
+        string_gr, enriched_geneset_tib$name
+    ) %>%
+        get_giant_component() %>%
+        assign_centraility_rank(priority_nodes = enriched_geneset_tib$name)
+
+    max_ctrlty <- max(igraph::V(gr)$node_ctrlty)
+    while(igraph::vcount(gr) > max_nodes) {
+
+        # Remove the least central node.
+        mod_gr <- gr %N>% filter(node_ctrlty != min(node_ctrlty))
+
+        # If this splits the graph, fix and set centrality of removed node to
+        # the maximum value.
+        if (igraph::count_components(mod_gr) > 1) {
+            gr <- gr %N>% mutate(node_ctrlty = ifelse(
+                    node_ctrlty == min(node_ctrlty), !!max_ctrlty, node_ctrlty
+                ))
+        } else {
+            gr <- mod_gr
+        }
+
+        # Break if all node centralities are the maximum value.
+        if (all(igraph::V(gr)$node_ctrlty == max_ctrlty)) break
     }
 
-    # Get the graph with all neighbors of the enriched genes and all edges.
-    gr <- extract_graph_for_plotting(enriched_geneset_tib,
-                                     neighbors,
-                                     all_geneset)
-
-    if (igraph::vcount(gr) > max_nodes) {
-        gr <- minimize_graph_to_shortest_paths(gr, enriched_geneset_tib$name)
-    }
-
-
-    if (igraph::vcount(gr) > max_nodes) {
-        gr <- gr %N>%
-            filter(name %in% c(enriched_geneset_tib$name, all_geneset))
-    }
+    gr <- prep_graph_for_plotting(gr, enriched_geneset_tib,
+                                  full_gs = all_geneset)
 
     # Plot the graph.
     gr_plot <- plot_extracted_graph_of_geneset(gr)
@@ -246,6 +263,7 @@ plot_labeled_neighborhood <- function(cancer, allele,
 # Clean the "glued" names for becoming a file name.
 sanitize_save_names <- function(x) {
     str_replace_all(x, "\\/", "-") %>%
+        str_replace_all(" ", "-") %>%
         str_remove_all("\\.")
 }
 
@@ -261,7 +279,6 @@ save_neighborhood_plot <- function(gr_plot,
     if (is.null(gr_plot)) return(NULL)
 
     datasource <- str_replace_all(datasource, "_", "-")
-    geneset <- str_replace_all(geneset, ' ', '-')
     save_name <- glue(glue_template)
     save_name <- sanitize_save_names(save_name)
     save_name <- paste0(save_name, ".svg")
@@ -282,7 +299,6 @@ save_neighborhood_proto <- function(gr_plot,
     if (is.null(gr_plot)) return(NULL)
 
     datasource <- str_replace_all(datasource, "_", "-")
-    geneset <- str_replace_all(geneset, ' ', '-')
     save_name <- glue(glue_template)
     save_name <- sanitize_save_names(save_name)
     saveRDS(gr_plot, get_fig_proto_path(save_name, fig_num, supp = supp))
@@ -306,6 +322,7 @@ genesets_to_plot <- enrichr_tib %>%
     filter(cancer == "LUAD")
 
 genesets_to_plot$gr_plot <- pmap(genesets_to_plot, plot_labeled_neighborhood,
+                                 max_nodes = 50,
                                  min_interesting_genes = 3,
                                  uninteresting_genes = NOT_NOVEL_GENES)
 
