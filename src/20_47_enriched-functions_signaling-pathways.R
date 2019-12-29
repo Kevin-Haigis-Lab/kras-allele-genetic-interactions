@@ -108,8 +108,12 @@ prep_graph_for_plotting <- function(gr,
 prep_graph_for_plotting <- memoise::memoise(prep_graph_for_plotting)
 
 
-# Plot the graph of the extracted gene set and neighbors.
+# The main genes are colored by the interaction direction, and the
+# edges' transparency is scaled by a combination of their centrality and if
+# they are connected to one of the main genes.
 plot_extracted_graph_of_geneset <- function(gr) {
+    if (is.null(gr)) return(NULL)
+
     p <- ggraph(gr, layout = "stress") +
         geom_edge_link(
             aes(alpha = edge_alpha),
@@ -182,6 +186,8 @@ minimize_graph_to_shortest_paths <- function(gr, main_nodes) {
 minimize_graph_to_shortest_paths <- memoise::memoise(minimize_graph_to_shortest_paths)
 
 
+# Rank the nodes by their centrality.
+# Make any nodes in `priority_nodes` infinite.
 assign_centraility_rank <- function(gr, priority_nodes = NULL) {
     mod_gr <- gr %N>%
         mutate(
@@ -196,11 +202,9 @@ assign_centraility_rank <- function(gr, priority_nodes = NULL) {
 # All node names in STRING.
 STRING_NODE_NAMES <- igraph::V(string_gr)$name
 
-# Plot the graph of the neighborhood of the genes driving a gene set's
-# enrichment. The main genes are colored by the interaction direction, and the
-# edges' transparency is scaled by a combination of their centrality and if
-# they are connected to one of the main genes.
-plot_labeled_neighborhood <- function(cancer, allele,
+# Extract the graph of the neighborhood of the genes driving a gene set's
+# enrichment.
+extract_local_neighborhood <- function(cancer, allele,
                                       datasource, geneset,
                                       min_interesting_genes = 0,
                                       uninteresting_genes = NULL,
@@ -232,7 +236,7 @@ plot_labeled_neighborhood <- function(cancer, allele,
         assign_centraility_rank(priority_nodes = enriched_geneset_tib$name)
 
     max_ctrlty <- max(igraph::V(gr)$node_ctrlty)
-    while(igraph::vcount(gr) > max_nodes) {
+    while (igraph::vcount(gr) > max_nodes) {
 
         # Remove the least central node.
         mod_gr <- gr %N>% filter(node_ctrlty != min(node_ctrlty))
@@ -254,9 +258,7 @@ plot_labeled_neighborhood <- function(cancer, allele,
     gr <- prep_graph_for_plotting(gr, enriched_geneset_tib,
                                   full_gs = all_geneset)
 
-    # Plot the graph.
-    gr_plot <- plot_extracted_graph_of_geneset(gr)
-    return(gr_plot)
+    return(gr)
 }
 
 
@@ -308,8 +310,7 @@ save_neighborhood_proto <- function(gr_plot,
 
 #### ---- Extract gene sets and their neighborhood from the STRING PPIN ---- ####
 
-NOT_NOVEL_GENES <- c("BRAF", "TP53", "APC", "NRAS", "PIK3CA", "CTNNB1", "EGFR")
-
+# A tibble of the gene sets to plot.
 genesets_to_plot <- enrichr_tib %>%
     select(-gene_list) %>%
     unnest(cols = enrichr_res) %>%
@@ -318,17 +319,56 @@ genesets_to_plot <- enrichr_tib %>%
     filter(adjusted_p_value < 0.05 & n_overlap >= 3) %>%
     select(cancer, allele, datasource, term) %>%
     unique() %>%
-    dplyr::rename(geneset = term) %>%
-    filter(cancer == "LUAD")
+    dplyr::rename(geneset = term)
 
-genesets_to_plot$gr_plot <- pmap(genesets_to_plot, plot_labeled_neighborhood,
-                                 max_nodes = 50,
-                                 min_interesting_genes = 3,
-                                 uninteresting_genes = NOT_NOVEL_GENES)
+ProjectTemplate::cache("graphs_to_plot", depends = "enrichr_tib",
+{
+    NOT_NOVEL_GENES <- c("BRAF", "TP53", "APC", "NRAS", "PIK3CA",
+                         "CTNNB1", "EGFR")
+    graphs_to_plot <- pmap(genesets_to_plot,
+                           extract_local_neighborhood,
+                           max_nodes = 50,
+                           min_interesting_genes = 3,
+                           uninteresting_genes = NOT_NOVEL_GENES)
+})
+
+genesets_to_plot$gr <- graphs_to_plot
+genesets_to_plot$gr_plot <- purrr::map(genesets_to_plot$gr,
+                                       plot_extracted_graph_of_geneset)
 
 save_tmplt <- "{cancer}_{allele}_{datasource}_{geneset}"
-pwalk(genesets_to_plot, save_neighborhood_plot, glue_template = save_tmplt)
+genesets_to_plot %>%
+    filter(!is.null(gr_plot)) %>%
+    pwalk(save_neighborhood_plot, glue_template = save_tmplt)
 
 
-# TODO: Select specific examples for saving as protos for figures.
-# pwalk(genesets_to_plot, save_neighborhood_proto, glue_template = save_tmplt)
+#### ---- Select specific examples for saving as protos for figures. ---- ####
+
+protos_save_tib <- tibble::tribble(
+    ~cancer, ~allele, ~datasource, ~geneset, ~fig_num, ~supp,
+    "LUAD", "G12C", "Transcription_Factor_PPIs", "MYC", 11, TRUE,
+    "LUAD", "G12D", "KEGG_2019_Human", "Focal adhesion", 11, TRUE
+)
+
+
+# Make any adjustments to the graph specifically for the plots used
+# for figures.
+adjust_gr_for_figure_proto <- function(gr) {
+    mod_gr <- gr %N>%
+        mutate(
+            node_size = node_size / 2,
+            label_size = label_size / 2
+        )
+    return(mod_gr)
+}
+
+genesets_to_plot %>%
+    filter(!is.null(gr_plot)) %>%
+    right_join(protos_save_tib,
+               by = c("cancer", "allele", "datasource", "geneset")) %>%
+    mutate(
+        gr = purrr::map(gr, adjust_gr_for_figure_proto),
+        gr_plot = purrr::map(gr, plot_extracted_graph_of_geneset)
+    ) %>%
+    pwalk(save_neighborhood_proto, glue_template = save_tmplt)
+
