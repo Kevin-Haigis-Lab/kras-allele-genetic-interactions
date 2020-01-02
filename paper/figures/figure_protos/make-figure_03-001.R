@@ -10,7 +10,7 @@ library(ggraph)
 
 #### ---- Figure theme ---- ####
 
-#' General theme for Figure 2.
+#' General theme for Figure 3.
 theme_fig3 <- function() {
     theme_comutation() %+replace%
     theme(
