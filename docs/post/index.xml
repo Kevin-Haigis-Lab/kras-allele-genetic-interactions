@@ -5,12 +5,41 @@
     <link>https://project-notebook-comutation.netlify.com/post/</link>
       <atom:link href="https://project-notebook-comutation.netlify.com/post/index.xml" rel="self" type="application/rss+xml" />
     <description>Posts</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Thu, 26 Dec 2019 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Thu, 02 Jan 2020 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://project-notebook-comutation.netlify.com/img/icon-192.png</url>
       <title>Posts</title>
       <link>https://project-notebook-comutation.netlify.com/post/</link>
     </image>
+    
+    <item>
+      <title>2020-01-02</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2020-01-02/</link>
+      <pubDate>Thu, 02 Jan 2020 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2020-01-02/</guid>
+      <description>
+
+&lt;h2 id=&#34;analysis-of-comutation-of-known-oncogenes-in-mm&#34;&gt;Analysis of comutation of known oncogenes in MM&lt;/h2&gt;
+
+&lt;p&gt;The &lt;em&gt;KRAS&lt;/em&gt; allele-specific comutation network was sparse and highly-disconnected.
+Thus, I decided to look specifically at known oncogenes and tumor suppressors (TS) in the cancer.&lt;/p&gt;
+
+&lt;p&gt;The known oncogenes were, excluding &lt;em&gt;KRAS&lt;/em&gt;, &lt;em&gt;NRAS&lt;/em&gt;, &lt;em&gt;TP53&lt;/em&gt;, &lt;em&gt;DIS3&lt;/em&gt;, &lt;em&gt;FAM46C&lt;/em&gt; &lt;em&gt;BRAF&lt;/em&gt;, &lt;em&gt;TRAF3&lt;/em&gt;, &lt;em&gt;PRDM1&lt;/em&gt;, &lt;em&gt;CYLD&lt;/em&gt;, &lt;em&gt;RB1&lt;/em&gt;, &lt;em&gt;ACTG1&lt;/em&gt;, &lt;em&gt;ATR&lt;/em&gt;, &lt;em&gt;NBEA&lt;/em&gt;, and &lt;em&gt;SOX21&lt;/em&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;comutation-heatmap&#34;&gt;Comutation heatmap&lt;/h3&gt;
+
+&lt;p&gt;I created a heatmap of the comutation frequency for the known oncogenes in MM.
+Only alleles with more than 5 tumor samples were included.
+The marginal values are shown: allele frequency across the top and mutation frequency of the genes along the side.
+The heatmap is colored by the frequency of comutation.
+The labels are the percent values with &amp;ldquo;-&amp;rdquo; indicating 0 %.
+The bold values (4) are statistically significant genetic interactions; all were reduced comutation.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;img/graphs/60_10_MM-specific-oncogenes/margin_barplots_heatmap_patchwork.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;This plot was added to the Supplemental Figure of MM comutation alongside the labeled network.&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>2019-12-26</title>
