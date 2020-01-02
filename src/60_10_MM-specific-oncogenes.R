@@ -81,7 +81,8 @@ mm_comut_heatmap <- mm_comut_df %>%
     geom_text(
         aes(label = label,
             fontface = label_face),
-        family = "Arial"
+        family = "Arial",
+        size = 2
     ) +
     scale_fill_gradient2(
         low = "dodgerblue",
@@ -103,7 +104,7 @@ mm_comut_heatmap <- mm_comut_df %>%
 ggsave_wrapper(
     mm_comut_heatmap,
     plot_path(GRAPHS_DIR, "mm_comut_heatmap.svg"),
-    "medium"
+    "small"
 )
 
 
@@ -121,10 +122,11 @@ allele_freq_barplot <- cancer_allele_count_df %>%
     scale_x_discrete(expand = c(0, 0)) +
     theme_bw(base_family = "Arial", base_size = 7) +
     theme(
-        axis.title = element_blank(),
+        axis.title.x = element_blank(),
         axis.text.x = element_blank(),
         axis.ticks = element_blank()
-    )
+    ) +
+    labs(y = "num. tumor\nsamples")
 
 gene_freq_barplot <- mm_mut_df %>%
     group_by(hugo_symbol) %>%
@@ -141,19 +143,20 @@ gene_freq_barplot <- mm_mut_df %>%
     scale_x_discrete(expand = c(0, 0)) +
     theme_bw(base_family = "Arial", base_size = 7) +
     theme(
-        axis.title = element_blank(),
+        axis.title.y = element_blank(),
         axis.text.y = element_blank(),
         axis.ticks = element_blank(),
-        axis.text.x = element_text(angle = 270, vjust = 1)
-    )
+        axis.text.x = element_text(angle = 270, hjust = 0)
+    ) +
+    labs(y = "num. mutant\nsamples")
 
 patch <-
-    (allele_freq_barplot + plot_spacer() + plot_layout(widths = c(10, 1))) /
-    (mm_comut_heatmap + gene_freq_barplot + plot_layout(widths = c(10, 1))) +
-    plot_layout(heights = c(1, 10))
+    (allele_freq_barplot + plot_spacer() + plot_layout(widths = c(10, 2))) /
+    (mm_comut_heatmap + gene_freq_barplot + plot_layout(widths = c(10, 2))) +
+    plot_layout(heights = c(2, 10))
 ggsave_wrapper(patch,
                plot_path(GRAPHS_DIR, "margin_barplots_heatmap_patchwork.svg"),
-               "medium")
+               "small")
 
 
 # Save the ggprotos to Supp. Figure 9.
