@@ -41,15 +41,41 @@ theme_graph_figS9 <- function() {
 panel_A <- read_fig_proto("genetic_interaction_network_labeled_MM",
                           FIGNUM,
                           supp = SUPPLEMENTAL) +
+    scale_edge_color_manual(
+        values = comut_updown_pal,
+        guide = guide_legend(
+            title = "comutation",
+            title.position = "top",
+            keywidth = unit(2, "mm"),
+            keyheight = unit(1, "mm"),
+            nrow = 1,
+            label.position = "top",
+            order = 1,
+            direction = "horizontal"
+        )
+    ) +
+    scale_color_manual(
+        values = short_allele_pal,
+        na.value = NA,
+        guide = guide_legend(
+            title = NULL,
+            keywidth = unit(2, "mm"),
+            keyheight = unit(3, "mm"),
+            nrow = 2,
+            order = 2
+        )
+    ) +
     theme_graph_figS9() +
     theme(
-        legend.position = "right"
+        legend.position = c(0, 0.1),
+        legend.direction = "horizontal",
+        legend.justification = "left"
     ) +
     labs(tag = "a")
 
 
 
-#### ---- A. Labeled MM comutation graph ---- ####
+#### ---- B. Labeled MM comutation graph ---- ####
 # The comutation graph for MM with every node labeled.
 # original script: "src/20_40_highlivel-genetic-interactions.R"
 
@@ -64,7 +90,8 @@ panel_B_2 <- read_fig_proto("allele_freq_barplot", FIGNUM, supp = SUPPLEMENTAL) 
     theme(
         axis.title.x = element_blank(),
         axis.text.x = element_blank()
-    )
+    ) +
+    labs(tag = "b")
 panel_B_3 <- read_fig_proto("gene_freq_barplot", FIGNUM, supp = SUPPLEMENTAL) +
     theme_figS9() +
     theme(
@@ -75,8 +102,7 @@ panel_B_3 <- read_fig_proto("gene_freq_barplot", FIGNUM, supp = SUPPLEMENTAL) +
 panel_B <-
     (panel_B_2 + plot_spacer() + plot_layout(widths = c(10, 2))) /
     (panel_B_1 + panel_B_3 + plot_layout(widths = c(10, 2))) +
-    plot_layout(heights = c(2, 10)) +
-    labs(tag = "b")
+    plot_layout(heights = c(2, 10))
 
 #### ---- Figure assembly ---- ####
 
@@ -84,8 +110,7 @@ panel_B <-
     set.seed(0)
 
     # COMPLETE FIGURE
-    full_figure <- wrap_elements(full = panel_A) /
-        wrap_elements(full = panel_B) +
+    full_figure <- panel_A / (panel_B) +
         plot_layout(heights = c(2, 3))
 
     save_figure(
