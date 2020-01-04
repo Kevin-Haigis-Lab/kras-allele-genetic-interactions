@@ -74,7 +74,6 @@ panel_A <- read_fig_proto("genetic_interaction_network_labeled_MM",
     labs(tag = "a")
 
 
-
 #### ---- B. Labeled MM comutation graph ---- ####
 # The comutation graph for MM with every node labeled.
 # original script: "src/20_40_highlivel-genetic-interactions.R"
