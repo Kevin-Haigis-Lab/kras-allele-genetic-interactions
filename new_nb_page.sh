@@ -23,7 +23,6 @@ image:
   preview_only: no
 projects: []
 ---
-
 "
 
 echo "$templateFile" > $newFileName
