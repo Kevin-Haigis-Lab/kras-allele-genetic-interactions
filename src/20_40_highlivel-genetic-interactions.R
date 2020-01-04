@@ -163,13 +163,13 @@ for (CANCER in sort(unique(genetic_interaction_df$cancer))) {
 
 
 # Prepare the node characteristics for the labeled plots.
-prep_highlevel_labeled <- function(gr) {
+prep_highlevel_labeled <- function(gr, other_label_size = 1) {
     mod_gr <- gr %N>%
         mutate(node_label = str_replace_all(name, "KRAS_", "KRAS "),
                node_color = str_remove_all(name, "KRAS_"),
                node_color = ifelse(is_kras, node_color, NA),
                node_size = 1,
-               label_size = ifelse(is_kras, 2, 1))
+               label_size = ifelse(is_kras, 2, !!other_label_size))
     return(mod_gr)
 }
 
@@ -184,9 +184,18 @@ cancer_fignum <- list(
 
 # Make high-level network with all genes labeled.
 for (CANCER in sort(unique(genetic_interaction_df$cancer))) {
+
+    # Label size of the other (not KRAS) genes.
+    label_sizes <- list(
+        "COAD" = 1,
+        "LUAD" = 1,
+        "MM" = 1.5,
+        "PAAD" = 1
+    )
+
     set.seed(0)
     gr_plot <- get_plotting_graph(genetic_interaction_gr, CANCER) %>%
-        prep_highlevel_labeled() %>%
+        prep_highlevel_labeled(other_label_size = label_sizes[[CANCER]]) %>%
         make_network_plot() +
         labs(
             edge_color = "interaction"
