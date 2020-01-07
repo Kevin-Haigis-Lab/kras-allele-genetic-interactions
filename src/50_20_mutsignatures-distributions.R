@@ -369,12 +369,7 @@ saveRDS(
 
 #### ---- Mutational signatures per KRAS allele ---- ####
 
-# Make a barplot of the mutational signature distribution per allele.
-barplot_by_allele <- function(cancer, data, ...) {
-    p <- data %>%
 
-    return(p)
-}
 
 # Combine the plots into a grid using 'patchwork'.
 distribution_plots <- mutational_signatures_df %>%
@@ -587,3 +582,8 @@ ggsave_wrapper(
     plot_path(GRAPHS_DIR, "clock_vs_smoke.svg"),
     "small"
 )
+
+
+#### ---- Tabkes of signature levels ---- ####
+
+
