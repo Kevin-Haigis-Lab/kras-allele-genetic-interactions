@@ -1,7 +1,10 @@
 # A few plots describing the results of removing unexpressed genes.
 
 GRAPHS_DIR <- "05_10_expression-filter-plots"
+TABLES_DIR <- "05_10_expression-filter-plots"
 reset_graph_directory(GRAPHS_DIR)
+reset_table_directory(TABLES_DIR)
+
 
 unexprsd_genes_tib <- tibble::enframe(confidently_unexpressed_genes) %>%
     unnest(value) %>%
@@ -65,3 +68,46 @@ saveRDS(
     mut_freq_hist,
     get_fig_proto_path("mutation-frequency-hist", 3, supp = TRUE)
 )
+
+
+#### ---- Data to TSV ---- ####
+
+# All data to a single TSV for each source.
+write_tsv(
+    gtex_summary_expr,
+    table_path(TABLES_DIR, "GTEx_summary.tsv")
+)
+
+write_tsv(
+    hpa_expr,
+    table_path(TABLES_DIR, "HPA_summary.tsv")
+)
+
+write_tsv(
+    normal_tissue_expr,
+    table_path(TABLES_DIR, "GTEx-and-HPA_summary.tsv")
+)
+
+write_tsv(
+    cancer_rna_tib,
+    table_path(TABLES_DIR, "cancer-RNA_summary.tsv")
+)
+
+# Summary of number of samples for GTEx and cancer samples.
+# HPA only provides summary values per tissue.
+gtex_summary_expr %>%
+    group_by(tissue) %>%
+    summarise(num_samples = max(GTEx_num_samples)) %>%
+    filter(tissue != "skin") %>%
+    ungroup() %>%
+    arrange(tissue) %>%
+    knitr::kable()
+
+cancer_rna_tib %>%
+    mutate(cancer = str_to_upper(cancer)) %>%
+    group_by(cancer) %>%
+    summarise(num_samples = max(num_samples)) %>%
+    filter(cancer != "SKCM") %>%
+    ungroup() %>%
+    arrange(cancer) %>%
+    knitr::kable()
