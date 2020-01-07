@@ -14,15 +14,6 @@ save_fig_proto_wrapper <- function(p, n) {
 }
 
 
-# Rename some specific data sets.
-rename_datasets <- function(ds) {
-    str_remove_all(ds, "coadread_|coad_|luad_|mm_|paad_") %>%
-        str_remove_all("pan_can_atlas") %>%
-        str_replace("__", "_")
-}
-rename_datasets <- memoise::memoise(rename_datasets)
-
-
 #### ---- Find hypermutant cut-off for COAD ---- ####
 
 upper_hypermut_bound <- cancer_coding_muts_df %>%

@@ -310,3 +310,15 @@ make_citations_bib <- function(dest = CITATIONS_FILE) {
     )
 }
 make_citations_bib()
+
+
+
+#### ---- Common renaming functions ---- ####
+
+# Rename some specific data sets.
+rename_datasets <- function(ds) {
+    str_remove_all(ds, "coadread_|coad_|luad_|mm_|paad_") %>%
+        str_remove_all("pan_can_atlas") %>%
+        str_replace("__", "_")
+}
+rename_datasets <- memoise::memoise(rename_datasets)
