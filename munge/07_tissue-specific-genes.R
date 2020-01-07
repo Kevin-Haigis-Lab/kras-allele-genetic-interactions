@@ -216,7 +216,9 @@ get_tissue_genes <- function(cancer_name, tissue_name, min_expr = 1) {
 }
 
 # return the genes expressed BELOW the `max_expr` level
-get_tissue_genes_with_max_expr <- function(cancer_name, tissue_name, max_expr = 1) {
+get_tissue_genes_with_max_expr <- function(cancer_name,
+                                           tissue_name,
+                                           max_expr = 1) {
     tiss <- normal_tissue_expr %>%
         filter(tissue %in% !!tissue_name) %>%
         filter(HPA_expr < !!max_expr | GTEx_expr < !!max_expr) %>%
@@ -234,10 +236,20 @@ get_tissue_genes_with_max_expr <- function(cancer_name, tissue_name, max_expr = 
 
 cache("confidently_unexpressed_genes", {
     confidently_unexpressed_genes <- list(
-        coad = get_tissue_genes_with_max_expr("coad", c("rectum", "colon"), max_expr = 1),
-        luad = get_tissue_genes_with_max_expr("luad", "lung", max_expr = 1),
-        paad = get_tissue_genes_with_max_expr("paad", "pancreas", max_expr = 1),
-        skcm = get_tissue_genes_with_max_expr("skcm", "skin", max_expr = 1),
-        mm = get_tissue_genes_with_max_expr("mm", c("blood", "bone marrow"), max_expr = 1)
+        coad = get_tissue_genes_with_max_expr("coad",
+                                              c("rectum", "colon"),
+                                              max_expr = 1),
+        luad = get_tissue_genes_with_max_expr("luad",
+                                              "lung",
+                                              max_expr = 1),
+        paad = get_tissue_genes_with_max_expr("paad",
+                                              "pancreas",
+                                              max_expr = 1),
+        skcm = get_tissue_genes_with_max_expr("skcm",
+                                              "skin",
+                                              max_expr = 1),
+        mm = get_tissue_genes_with_max_expr("mm",
+                                            c("blood", "bone marrow"),
+                                            max_expr = 1)
     )
 })
