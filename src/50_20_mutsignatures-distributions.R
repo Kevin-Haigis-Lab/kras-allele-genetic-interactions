@@ -1,7 +1,9 @@
 # Plot the distribution of mutational signatures by allele.
 
 GRAPHS_DIR <- "50_20_mutsignatures-distributions"
+TABLES_DIR <- "50_20_mutsignatures-distributions"
 reset_graph_directory(GRAPHS_DIR)
+reset_table_directory(TABLES_DIR)
 
 alleles_frequency_per_cancer_df <- mutational_signatures_df %>%
     filter(!is_hypermutant) %>%
@@ -369,8 +371,6 @@ saveRDS(
 
 #### ---- Mutational signatures per KRAS allele ---- ####
 
-
-
 # Combine the plots into a grid using 'patchwork'.
 distribution_plots <- mutational_signatures_df %>%
     filter(description != "artifact" & !is_hypermutant) %>%
@@ -586,4 +586,56 @@ ggsave_wrapper(
 
 #### ---- Tabkes of signature levels ---- ####
 
+# Table of all mutational signatures for each sample.
+mutational_signatures_df %>%
+    mutate(allele = str_remove_all(ras_allele, "KRAS_")) %>%
+    select(tumor_sample_barcode, signature, contribution, dataset, target,
+           cancer, allele, is_hypermutant) %>%
+    pivot_wider(names_from = signature,
+                names_prefix = "sig_",
+                values_from = contribution) %>%
+    write_tsv(table_path(TABLES_DIR, "mutation-signature-contribution_all.tsv"))
 
+
+# Table of all mutational signatures for each sample without "Artifact" sig.
+mutsig_noartifact_df %>%
+    mutate(allele = str_remove_all(ras_allele, "KRAS_")) %>%
+    select(tumor_sample_barcode, signature, contribution, dataset, target,
+           cancer, allele, is_hypermutant) %>%
+    pivot_wider(names_from = signature,
+                names_prefix = "sig_",
+                values_from = contribution) %>%
+    write_tsv(table_path(TABLES_DIR, "mutation-signature-contribution_no-artifact.tsv"))
+
+
+
+# Smoking vs. clock cumulative levels in each sample
+clock_vs_smoke_df <- mutsig_noartifact_df %>%
+    filter(cancer == "LUAD" & signature %in% c(clock_sigs, "4")) %>%
+    mutate(allele = str_remove(ras_allele, "KRAS_")) %>%
+    select(tumor_sample_barcode, allele, signature, contribution) %>%
+    pivot_wider(names_from = signature,
+                names_prefix = "sig_",
+                values_from = contribution) %>%
+    mutate(smoke = sig_4,
+           clock = sig_1 + sig_5)
+
+# Table of levels for each sample.
+clock_vs_smoke_df %>%
+    arrange(allele, -smoke, clock) %>%
+    write_tsv(table_path(TABLES_DIR, "smoke-vs-clock_LUAD_all.tsv"))
+
+
+# Summarized values for each KRAS allele.
+clock_vs_smoke_df %>%
+    group_by(allele) %>%
+    summarise(
+        num_cancer_samples = n_distinct(tumor_sample_barcode),
+        avg_smoke = mean(smoke),
+        avg_clock = mean(clock),
+        sd_smoke = sd(smoke),
+        sd_clock = sd(clock)
+    ) %>%
+    ungroup() %>%
+    arrange(-num_cancer_samples) %>%
+    write_tsv(table_path(TABLES_DIR, "smoke-vs-clock_LUAD_summary.tsv"))
