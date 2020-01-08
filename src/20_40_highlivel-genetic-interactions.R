@@ -46,8 +46,6 @@ if (caps$X11) {
 
 #### ---- Make high-level network images ---- ####
 
-library(ggraph)
-
 ProjectTemplate::cache("genetic_interaction_gr",
                        depends = "genetic_interaction_df",
 {
@@ -158,6 +156,9 @@ for (CANCER in sort(unique(genetic_interaction_df$cancer))) {
         saveRDS(gr_plot, get_fig_proto_path(glue(rds_template), 2))
     } else if (CANCER == "LUAD") {
         saveRDS(gr_plot, get_fig_proto_path(glue(rds_template), 3))
+    } else if (CANCER  == "PAAD") {
+        saveRDS(gr_plot, get_fig_proto_path(glue(rds_template),
+                                            12, supp = TRUE))
     }
 }
 
