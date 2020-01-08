@@ -80,14 +80,6 @@ dotplot_top_functions <- function(cancer,
         mod_data$term <- factor(mod_data$term, levels = unique(term_levels))
     }
 
-    # if (any(is.na(mod_data$allele))) {
-    #     browser()
-    # }
-
-    # data %>%
-    #     filter(is.na(allele)) %>%
-    #     glimpse()
-
     p <- mod_data %>%
         ggplot(
             aes(x = allele, y = term)
