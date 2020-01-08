@@ -4,8 +4,6 @@ FIGNUM <- 2
 VERSION <- 1
 FIG_DIMENSIONS <- get_figure_dimensions(2, "short")
 
-library(ggraph)
-
 
 #### ---- Figure theme ---- ####
 
