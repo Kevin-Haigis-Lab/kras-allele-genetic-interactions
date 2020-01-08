@@ -4,8 +4,6 @@
 GRAPHS_DIR <- "20_43_apriori-lists-genetic-interactions"
 reset_graph_directory(GRAPHS_DIR)
 
-library(ggraph)
-
 
 #### ---- Manual inspection of hits ---- ####
 
@@ -38,7 +36,8 @@ ProjectTemplate::cache("wide_genetic_interaction_df",
 
 # Queryable list of which plots to save to protos for Figure 2.
 imgs_to_save_for_figure <- list(
-    "COAD" = c("_allLists")
+    COAD = list(suffix = "_allLists", num = 2, supp = FALSE),
+    PAAD = list(suffix = "_allLists", num = 12, supp = TRUE)
 )
 
 
@@ -94,9 +93,11 @@ plot_genetic_interaction_graph <- function(gr_to_plot, CANCER, SUFFIX = "") {
     )
     ggsave_wrapper(gr_plot, save_path, "wide")
 
-    if (SUFFIX %in% imgs_to_save_for_figure[[CANCER]]) {
+    fig_info <- imgs_to_save_for_figure[[CANCER]]
+    if (!is.null(fig_info) & SUFFIX %in% fig_info$suffix) {
         base_n <- file_sans_ext(basename(save_path))
-        saveRDS(gr_plot, get_fig_proto_path(base_n, 2))
+        saveRDS(gr_plot,
+                get_fig_proto_path(base_n, fig_info$num, supp = fig_info$supp))
     }
 
 }
