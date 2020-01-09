@@ -125,8 +125,7 @@ source(file.path("src", "20_44_select-enriched-functions.R"))
 
 dotplot_selected_functions <- function(cancer, data) {
     p <- dotplot_top_functions(cancer, "SELECT", data)
-
-    save_name <- glue("enrichr_{cancer}")
+    save_name <- as.character(glue("enrichr_{cancer}"))
     if (cancer == "COAD") {
         saveRDS(p, get_fig_proto_path(save_name, 2))
     } else if (cancer == "LUAD") {
