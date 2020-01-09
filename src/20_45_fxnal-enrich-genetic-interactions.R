@@ -130,6 +130,8 @@ dotplot_selected_functions <- function(cancer, data) {
         saveRDS(p, get_fig_proto_path(save_name, 2))
     } else if (cancer == "LUAD") {
         saveRDS(p, get_fig_proto_path(save_name, 3))
+    } else if (cancer == "PAAD") {
+        saveRDS(p, get_fig_proto_path(save_name, 12, supp = TRUE))
     }
 }
 
