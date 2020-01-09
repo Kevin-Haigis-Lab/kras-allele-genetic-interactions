@@ -69,7 +69,7 @@ panel_A <- read_fig_proto("genetic_interaction_network_PAAD",
     theme_graph_figS12() +
     theme(
         legend.spacing.x = unit(1, "mm"),
-        legend.position = c(0.1, 0.05)
+        legend.position = c(0.15, 0.05)
     ) +
     labs(tag = "a")
 

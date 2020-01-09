@@ -5,12 +5,125 @@
     <link>https://project-notebook-comutation.netlify.com/post/</link>
       <atom:link href="https://project-notebook-comutation.netlify.com/post/index.xml" rel="self" type="application/rss+xml" />
     <description>Posts</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Fri, 03 Jan 2020 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Wed, 08 Jan 2020 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://project-notebook-comutation.netlify.com/img/icon-192.png</url>
       <title>Posts</title>
       <link>https://project-notebook-comutation.netlify.com/post/</link>
     </image>
+    
+    <item>
+      <title>2020-01-08</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2020-01-08/</link>
+      <pubDate>Wed, 08 Jan 2020 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2020-01-08/</guid>
+      <description>
+
+&lt;h2 id=&#34;paad-comutation-figure&#34;&gt;PAAD comutation figure&lt;/h2&gt;
+
+&lt;p&gt;I began the creation of the main comutation figure for PAAD.&lt;/p&gt;
+
+&lt;p&gt;One panel has bar plots of the log(OR) for the comutation of &lt;em&gt;KRAS&lt;/em&gt; alleles and a specific gene.
+These were made for genes that have different comutation interactions with multiple alleles.
+The script for making these plots for each cancer and saving &lt;code&gt;ggplot&lt;/code&gt; objects for the figures is &amp;ldquo;src/20_41_disagreeing-interactions_logOR-barplot.R&amp;rdquo;.
+Below are bar plots for each gene that had these &amp;ldquo;conflicting&amp;rdquo; interactions in PAAD, though only &lt;em&gt;TP53&lt;/em&gt;, &lt;em&gt;RNF43&lt;/em&gt;, &lt;em&gt;MAP2K4&lt;/em&gt;, and &lt;em&gt;RBM10&lt;/em&gt; are used for the figure.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;img/graphs/20_41_disagreeing-interactions_logOR-barplot/logOR-barplot_PAAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>2020-01-07</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2020-01-07/</link>
+      <pubDate>Tue, 07 Jan 2020 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2020-01-07/</guid>
+      <description>
+
+&lt;h2 id=&#34;mutational-signature-tables&#34;&gt;Mutational signature tables&lt;/h2&gt;
+
+&lt;p&gt;I made some table of the mutational signature data; all files were saved to &amp;ldquo;tables/50_20_mutsignatures-distributions/&amp;rdquo;:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&amp;ldquo;mutation-signature-contribution_all.tsv&amp;rdquo;: All of the contribution values for all mutational signatures detected for all samples.&lt;/li&gt;
+&lt;li&gt;&amp;ldquo;mutation-signature-contribution_no-artifact.tsv&amp;rdquo;: All of the contribution values for all mutational signatures detected for all samples except for &amp;ldquo;Artifact.&amp;rdquo;&lt;/li&gt;
+&lt;li&gt;&amp;ldquo;smoke-vs-clock_LUAD_all.tsv&amp;rdquo;: The contribution values for clock and smoke signatures in all LUAD samples.&lt;/li&gt;
+&lt;li&gt;&amp;ldquo;smoke-vs-clock_LUAD_summary.tsv&amp;rdquo;: A summary for each &lt;em&gt;KRAS&lt;/em&gt; allele of the contribution values for clock and smoke signatures in all LUAD samples.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;gtex-hpa-and-cancer-rna-expression-tables&#34;&gt;GTEX, HPA, and cancer RNA expression tables&lt;/h2&gt;
+
+&lt;p&gt;I wrote the data from GTEx, HPA, and cancer RNA expression to separate tables in &amp;ldquo;tables/05_10_expression-filter_plots/&amp;ldquo;.&lt;/p&gt;
+
+&lt;p&gt;I also included code that prints out the number of samples included in the GTEx and cancer RNA data.
+The results are copied below.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;GTEx&lt;/strong&gt;&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th align=&#34;left&#34;&gt;tissue&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;num_samples&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;blood&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;537&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;colon&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;507&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;lung&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;427&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;pancreas&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;248&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;&lt;strong&gt;Cancer RNA&lt;/strong&gt;&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th align=&#34;left&#34;&gt;cancer&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;num_samples&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;COAD&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;438&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;LUAD&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;510&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;MM&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;881&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;PAAD&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;177&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+</description>
+    </item>
     
     <item>
       <title>2020-01-03</title>
