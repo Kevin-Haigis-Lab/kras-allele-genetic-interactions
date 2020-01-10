@@ -11,7 +11,6 @@ FIG_DIMENSIONS <- get_figure_dimensions(2, "tall")
 theme_figS12 <- function() {
     theme_comutation() %+replace%
     theme(
-        legend.title = element_blank(),
         plot.tag = element_text(size = 7,
                                 face = "bold",
                                 margin = margin(-1, -1, -1, -1, "mm"))
@@ -69,7 +68,10 @@ panel_A <- read_fig_proto("genetic_interaction_network_PAAD",
     theme_graph_figS12() +
     theme(
         legend.spacing.x = unit(1, "mm"),
-        legend.position = c(0.15, 0.05)
+        legend.position = "bottom", # c(0.15, 0.05)
+        legend.box = "horizontal",
+        legend.margin = margin(-6, 0, 0, 0, "mm"),
+        plot.margin = margin(-50, 0, 0, 0, "mm")
     ) +
     labs(tag = "a")
 
@@ -84,6 +86,9 @@ panel_B <- read_fig_proto(
         FIGNUM, supp = SUPPLEMENTAL
     ) +
     theme_graph_figS12() +
+    theme(
+        legend.margin = margin(-10, 0, 0, 0, "mm")
+    ) +
     labs(tag = "b")
 
 
@@ -108,6 +113,71 @@ panel_C <- read_fig_proto(
 
 
 
+#### ---- D. Dot-plot of enriched functions ---- ####
+# A dot-plot of some selected enriched functions from the comutation network.
+# original script: "src/20_41_disagreeing-interactions_logOR-barplot.R"
+
+panel_D <- read_fig_proto("enrichr_PAAD.rds", FIGNUM, supp = SUPPLEMENTAL) +
+    scale_size_continuous(
+        range = c(0, 6),
+        guide = guide_legend(title = "num. of genes",
+                             title.position = "top",
+                             title.hjust = 0.5,
+                             label.position = "top",
+                             nrow = 1,
+                             keywidth = unit(2, "mm"),
+                             keyheight = unit(2, "mm"),
+                             order = 10)
+    ) +
+    scale_alpha_continuous(
+        range = c(0.1, 1),
+        guide = guide_legend(title = "-log( adj. p-val.)",
+                             title.position = "top",
+                             title.hjust = 0.5,
+                             label.position = "top",
+                             nrow = 1,
+                             keywidth = unit(2, "mm"),
+                             keyheight = unit(2, "mm"),
+                             order = 20)
+    ) +
+    theme_figS12() +
+    theme(
+        legend.margin = margin(-6, 0, 0, 0, "mm"),
+        legend.position = "bottom",
+        axis.title = element_blank(),
+        plot.title = element_blank(),
+        legend.box = "horizontal"
+    ) +
+    labs(tag = "d")
+
+
+
+#### ---- G. Distribution of comutation events ---- ####
+# A dot-plot of some selected enriched functions from the comutation network.
+# original script: "src/20_41_disagreeing-interactions_logOR-barplot.R"
+
+panel_G <- read_fig_proto("comparison-heatmap_PAAD-1.rds",
+                          FIGNUM, supp = SUPPLEMENTAL) *
+    theme_figS12()
+
+panel_G[[1]] <- panel_G[[1]] +
+    theme(
+        axis.title = element_blank(),
+        axis.text.x = element_blank(),
+        legend.position = "none",
+        panel.grid.major = element_blank()
+    ) +
+    labs(tag = "g")
+
+panel_G[[2]] <- panel_G[[2]] +
+    theme(
+        axis.title.x = element_blank(),
+        axis.text.x = element_text(angle = 45, hjust = 1, size = 6),
+        legend.key.size = unit(2, "mm"),
+        legend.title = element_blank()
+    )
+
+
 #### ---- Figure assembly ---- ####
 
 {
@@ -115,8 +185,17 @@ panel_C <- read_fig_proto(
 
     # COMPLETE FIGURE
     full_figure <-
-        (panel_A + panel_B + panel_C + plot_layout(widths = c(5, 5, 1))) /
-        patchwork::plot_spacer() +
+        wrap_elements(
+            full = (
+                panel_A + panel_B + panel_C + plot_layout(widths = c(5, 5, 1))
+            )
+        ) /
+        wrap_elements(
+            full = (
+                panel_D + (plot_spacer() / panel_G) +
+                plot_layout(widths = c(1, 2))
+            )
+        ) +
         plot_layout()
 
     save_figure(
