@@ -60,10 +60,12 @@ get_comutation_results <- function(cancers = NULL,
 make_binary_geneset_heatmap <- function(df) {
     p <- df %>%
         mutate(a = TRUE) %>%
+        tidyr::complete(nesting(datasource, term), hugo_symbol,
+                        fill = list(a = FALSE)) %>%
         mutate(term = factor(term, levels = sort(unique(term)))) %>%
         ggplot(aes(x = hugo_symbol, y = term)) +
-        geom_tile(aes(fill = a), color = "grey50") +
-        scale_fill_manual(values = c("black"), na.value = "white") +
+        geom_tile(aes(fill = a), color = "grey25") +
+        scale_fill_manual(values = c("white", "black")) +
         scale_x_discrete(expand = c(0, 0)) +
         scale_y_discrete(expand = c(0, 0)) +
         theme_bw(base_size = 7, base_family = "Arial") +
@@ -117,7 +119,8 @@ make_comutation_heatmap <- function(df,
                 high = comut_updown_pal["increased"],
                 low = comut_updown_pal["reduced"],
                 mid = "white"
-            )
+            ) +
+            scale_y_discrete(expand = c(0, 0))
     } else if (which_metric == "comut_freq") {
         mod_df <- df %>%
             mutate(comut_freq = n11 / (n11 + n01)) %>%
@@ -128,14 +131,14 @@ make_comutation_heatmap <- function(df,
         p <- mod_df %>%
             ggplot(aes(x = hugo_symbol, y = comut_freq)) +
             geom_col(aes(fill = allele), position = "fill") +
-            scale_fill_manual(values = short_allele_pal)
+            scale_fill_manual(values = short_allele_pal) +
+            scale_y_continuous(expand = c(0, 0), breaks = seq(0, 1.0, 0.25))
     } else {
         stop(glue("Do not recognize the metric '{which_metric}'"))
     }
 
     p <- p +
         scale_x_discrete(expand = c(0, 0)) +
-        scale_y_discrete(expand = c(0, 0)) +
         theme_bw(base_size = 7, base_family = "Arial") +
         theme(
             axis.title.x = element_blank(),
@@ -146,7 +149,7 @@ make_comutation_heatmap <- function(df,
         ) +
         labs(
             fill = "log10(OR)",
-            y = "distributionof \ncomutation events"
+            y = "distribution of\ncomutation events"
         )
     return(p)
 }

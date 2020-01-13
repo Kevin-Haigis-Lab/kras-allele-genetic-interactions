@@ -157,15 +157,15 @@ panel_D <- read_fig_proto("enrichr_PAAD.rds", FIGNUM, supp = SUPPLEMENTAL) +
 # original script: "src/20_41_disagreeing-interactions_logOR-barplot.R"
 
 panel_G <- read_fig_proto("comparison-heatmap_PAAD-1.rds",
-                          FIGNUM, supp = SUPPLEMENTAL) *
+                          FIGNUM, supp = SUPPLEMENTAL) &
     theme_figS12()
 
 panel_G[[1]] <- panel_G[[1]] +
     theme(
         axis.title = element_blank(),
         axis.text.x = element_blank(),
-        legend.position = "none",
-        panel.grid.major = element_blank()
+        axis.text.y = element_text(size = 6, hjust = 1.0),
+        legend.position = "none"
     ) +
     labs(tag = "g")
 
@@ -173,8 +173,10 @@ panel_G[[2]] <- panel_G[[2]] +
     theme(
         axis.title.x = element_blank(),
         axis.text.x = element_text(angle = 45, hjust = 1, size = 6),
+        axis.text.y = element_text(size = 5),
         legend.key.size = unit(2, "mm"),
-        legend.title = element_blank()
+        legend.title = element_blank(),
+        axis.ticks.y = element_line(size = 0.1)
     )
 
 
