@@ -68,12 +68,14 @@ panel_A <- read_fig_proto("genetic_interaction_network_PAAD",
     theme_graph_figS12() +
     theme(
         legend.spacing.x = unit(1, "mm"),
-        legend.position = "bottom", # c(0.15, 0.05)
+        legend.position = "bottom",
         legend.box = "horizontal",
-        legend.margin = margin(-6, 0, 0, 0, "mm"),
-        plot.margin = margin(-50, 0, 0, 0, "mm")
-    ) +
-    labs(tag = "a")
+        legend.margin = margin(-6, 0, 0, 0, "mm")
+    )
+
+panel_A <- wrap_elements(full = panel_A) +
+    labs(tag = "a") +
+    theme_figS12()
 
 
 #### ---- B. Labeled comutation network of genes in a priori lists ---- ####
@@ -87,9 +89,14 @@ panel_B <- read_fig_proto(
     ) +
     theme_graph_figS12() +
     theme(
-        legend.margin = margin(-10, 0, 0, 0, "mm")
-    ) +
-    labs(tag = "b")
+        legend.position = "bottom",
+        legend.margin = margin(-2, 0, 2, 0, "mm")
+    )
+
+panel_B <- wrap_elements(full = panel_B) +
+    labs(tag = "b") +
+    theme_figS12()
+
 
 
 #### ---- C. Bar plots of log(OR) of select genes ---- ####
@@ -151,6 +158,42 @@ panel_D <- read_fig_proto("enrichr_PAAD.rds", FIGNUM, supp = SUPPLEMENTAL) +
     labs(tag = "d")
 
 
+#### ---- E. Network of calcium signaling ---- ####
+# A network plot of the calcium signaling pathway enriched in the G12V
+# comutation network.
+# original script: "src/20_47_enriched-functions_signaling-pathways.R"
+
+panel_E <- read_fig_proto(
+        "PAAD_G12V_GO-Biological-Process-2018_calcium-ion-transport.rds",
+        FIGNUM, supp = SUPPLEMENTAL
+    ) +
+    scale_color_manual(
+        values = c(comut_updown_pal,
+                   "none" = "grey70",
+                   "in_geneset" = "grey40"),
+        guide = guide_legend(
+            name = "comutation",
+            title.position = "top",
+            title.hjust = 0.0,
+            label.position = "right",
+            label.hjust = 0.0,
+            nrow = 1,
+            keywidth = unit(1, "mm"),
+            keyheight = unit(1, "mm")
+        )
+    ) +
+    theme_graph_figS12() %+replace%
+    theme(
+        legend.spacing = unit(0, "mm"),
+        legend.position = "bottom",
+        legend.margin = margin(-2, 0, 2, 0, "mm"),
+        legend.text = element_text(size = 5, hjust = 0)
+    )
+
+panel_E <- wrap_elements(full = panel_E) +
+    labs(tag = "e") +
+    theme_figS12()
+
 
 #### ---- G. Distribution of comutation events ---- ####
 # A dot-plot of some selected enriched functions from the comutation network.
@@ -187,14 +230,16 @@ panel_G[[2]] <- panel_G[[2]] +
 
     # COMPLETE FIGURE
     full_figure <-
-        wrap_elements(
+        (
             full = (
                 panel_A + panel_B + panel_C + plot_layout(widths = c(5, 5, 1))
             )
         ) /
-        wrap_elements(
+        (
             full = (
-                panel_D + (plot_spacer() / panel_G) +
+                panel_D + (
+                    (panel_E + plot_spacer()) / panel_G
+                ) +
                 plot_layout(widths = c(1, 2))
             )
         ) +
