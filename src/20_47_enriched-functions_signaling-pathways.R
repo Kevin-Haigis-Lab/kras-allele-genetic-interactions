@@ -347,7 +347,8 @@ genesets_to_plot %>%
 protos_save_tib <- tibble::tribble(
     ~cancer, ~allele, ~datasource, ~geneset, ~fig_num, ~supp,
     "LUAD", "G12C", "Transcription_Factor_PPIs", "MYC", 11, TRUE,
-    "LUAD", "G12D", "KEGG_2019_Human", "Focal adhesion", 11, TRUE
+    "LUAD", "G12D", "KEGG_2019_Human", "Focal adhesion", 11, TRUE,
+    "PAAD", "G12V", "GO_Biological_Process_2018", "calcium ion transport", 12, TRUE
 )
 
 
