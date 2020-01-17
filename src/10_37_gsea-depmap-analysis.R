@@ -40,25 +40,27 @@ get_gsea_reports <- function(dirs) {
 }
 
 
-gsea_df <- file.path("data", "gsea", "output") %>%
-    list.dirs(recursive = FALSE) %>%
-    tibble(dir = .) %>%
-    mutate(
-        dir_base = basename(dir),
-        cancer = str_extract(dir_base, "^[:alpha:]+(?=_)"),
-        allele = str_extract(dir_base, "(?<=_)[:alnum:]+(?=\\.G)"),
-        timestamp = str_extract(dir_base, "(?<=Gsea\\.)[:digit:]+$"),
-        timestamp = lubridate::as_datetime(as.numeric(timestamp) / 1000),
-        data = get_gsea_reports(dir)
-    ) %>%
-    unnest(data) %>%
-    mutate(
-        gene_set_family = str_split_fixed(name, "_", 2)[, 1],
-        gene_set = str_split_fixed(name, "_", 2)[, 2]
-    ) %>%
-    filter(!(cancer == "LUAD" & allele == "G13D"))
-
-cache("gsea_df")
+ProjectTemplate::cache("gsea_df",
+{
+    gsea_df <- file.path("data", "gsea", "output") %>%
+        list.dirs(recursive = FALSE) %>%
+        tibble(dir = .) %>%
+        mutate(
+            dir_base = basename(dir),
+            cancer = str_extract(dir_base, "^[:alpha:]+(?=_)"),
+            allele = str_extract(dir_base, "(?<=_)[:alnum:]+(?=\\.G)"),
+            timestamp = str_extract(dir_base, "(?<=Gsea\\.)[:digit:]+$"),
+            timestamp = lubridate::as_datetime(as.numeric(timestamp) / 1000),
+            data = get_gsea_reports(dir)
+        ) %>%
+        unnest(data) %>%
+        mutate(
+            gene_set_family = str_split_fixed(name, "_", 2)[, 1],
+            gene_set = str_split_fixed(name, "_", 2)[, 2]
+        ) %>%
+        filter(!(cancer == "LUAD" & allele == "G13D"))
+    return(gsea_df)
+})
 
 
 # Pull a waterfall plot ("enplot"?) from the GSEA results for a the specified
@@ -230,6 +232,11 @@ filter_gsea_for_select_results <- function(cancer, df, key) {
         select(-.gene_set)
 }
 
+# Information for where to save the ggplot proto object for a Figure.
+ggproto_save_info <- list(
+    COAD = list(fig_num = 4, supp = FALSE)
+)
+
 
 select_gsea_plot <- function(cancer, data, ...) {
     mod_data <- standard_gsea_results_filter(data)
@@ -241,12 +248,21 @@ select_gsea_plot <- function(cancer, data, ...) {
                            glue("gsea-results-{cancer}-select.svg"))
     ggsave_wrapper(p, save_path, "wide")
 
-     purrr::pwalk(mod_data, pull_gsea_enplot, cancer = cancer)
+    purrr::pwalk(mod_data, pull_gsea_enplot, cancer = cancer)
+
+    if (cancer %in% names(ggproto_save_info)) {
+        save_info <- ggproto_save_info[[cancer]]
+        saveRDS(p,
+                get_fig_proto_path(basename(save_path),
+                                   figure_num = save_info$fig_num,
+                                   supp = save_info$supp))
+    }
 }
 
+gs_sources_to_use <- c("HALLMARK", "KEGG", "REACTOME", "BIOCARTA", "PID")
 
 gsea_df %>%
-    filter(gene_set_family %in% c("HALLMARK", "KEGG", "REACTOME", "BIOCARTA", "PID")) %>%
+    filter(gene_set_family %in% !!gs_sources_to_use) %>%
     group_by(cancer) %>%
     nest() %>%
     mutate(data = purrr::map2(cancer, data,
@@ -354,6 +370,26 @@ get_color_values_to_highlight_allele <- function(data, allele) {
         mutate(color_val = ifelse(allele == !!allele, "black", NA))
 }
 
+
+
+
+save_to_proto <- function(cancer, allele, geneset, gg_obj, save_name) {
+    if (cancer %in% names(ggproto_save_info)) {
+        save_info <- ggproto_save_info[[cancer]]
+    } else {
+        return(NULL)
+    }
+    cond <- str_detect(standardize_names(geneset),
+                       select_gsea_results[[cancer]])
+    if (any(cond)) {
+        print(geneset)
+        saveRDS(gg_obj,
+                get_fig_proto_path(basename(save_name),
+                                   save_info$fig_num,
+                                   supp = save_info$supp))
+    }
+}
+
 plot_ranked_data <- function(df, cancer, allele, geneset) {
     plot_title <- str_replace_all(geneset, "_", " ") %>%
         str_to_sentence() %>%
@@ -381,11 +417,11 @@ plot_ranked_data <- function(df, cancer, allele, geneset) {
         labs(
             title = glue("{cancer} - {allele}\n{plot_title}")
         )
-    ggsave_wrapper(
-        p,
-        plot_path(GRAPHS_DIR, glue("rankplot_{cancer}_{allele}_{geneset}.svg")),
-        width = 5, height = 3
-    )
+    save_name <- plot_path(GRAPHS_DIR,
+                           glue("rankplot_{cancer}_{allele}_{geneset}.svg"))
+    ggsave_wrapper(p, save_name, width = 5, height = 3)
+    save_to_proto(cancer, allele, geneset, p, save_name)
+
     return(df)
 }
 
