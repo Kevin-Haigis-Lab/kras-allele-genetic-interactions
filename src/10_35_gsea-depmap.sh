@@ -46,7 +46,7 @@ java -cp $GSEA_PATH \
 	-rpt_label $RESULTS_NAME \
 	-create_svgs true \
 	-make_sets true \
-	-plot_top_x 20 \
+	-plot_top_x 100 \
 	-rnd_seed timestamp \
 	-set_max 500 \
 	-set_min 15 \
@@ -54,6 +54,5 @@ java -cp $GSEA_PATH \
 	-out $OUT_DIR \
 	-gui false \
 	-plot_top_x 50
-
 
 exit
