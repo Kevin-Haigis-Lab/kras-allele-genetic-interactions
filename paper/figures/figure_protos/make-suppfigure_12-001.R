@@ -185,7 +185,7 @@ panel_E <- read_fig_proto(
     theme_graph_figS12() %+replace%
     theme(
         legend.spacing = unit(0, "mm"),
-        legend.position = "bottom",
+        legend.position = c(0.87, 0.01),
         legend.margin = margin(-2, 0, 2, 0, "mm"),
         legend.text = element_text(size = 5, hjust = 0)
     )
@@ -195,24 +195,24 @@ panel_E <- wrap_elements(full = panel_E) +
     theme_figS12()
 
 
-#### ---- G. Distribution of comutation events ---- ####
+#### ---- F. Distribution of comutation events ---- ####
 # A dot-plot of some selected enriched functions from the comutation network.
 # original script: "src/20_41_disagreeing-interactions_logOR-barplot.R"
 
-panel_G <- read_fig_proto("comparison-heatmap_PAAD-1.rds",
+panel_F <- read_fig_proto("comparison-heatmap_PAAD-1.rds",
                           FIGNUM, supp = SUPPLEMENTAL) &
     theme_figS12()
 
-panel_G[[1]] <- panel_G[[1]] +
+panel_F[[1]] <- panel_F[[1]] +
     theme(
         axis.title = element_blank(),
         axis.text.x = element_blank(),
         axis.text.y = element_text(size = 6, hjust = 1.0),
         legend.position = "none"
     ) +
-    labs(tag = "g")
+    labs(tag = "f")
 
-panel_G[[2]] <- panel_G[[2]] +
+panel_F[[2]] <- panel_F[[2]] +
     theme(
         axis.title.x = element_blank(),
         axis.text.x = element_text(angle = 45, hjust = 1, size = 6),
@@ -226,19 +226,19 @@ panel_G[[2]] <- panel_G[[2]] +
 #### ---- Figure assembly ---- ####
 
 {
-    set.seed(0)
+    set.seed(1)
 
     # COMPLETE FIGURE
     full_figure <-
-        (
+        wrap_elements(
             full = (
                 panel_A + panel_B + panel_C + plot_layout(widths = c(5, 5, 1))
             )
         ) /
-        (
+        wrap_elements(
             full = (
                 panel_D + (
-                    (panel_E + plot_spacer()) / panel_G
+                    (panel_E) / panel_F
                 ) +
                 plot_layout(widths = c(1, 2))
             )
