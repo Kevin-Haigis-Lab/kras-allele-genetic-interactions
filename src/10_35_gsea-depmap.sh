@@ -3,7 +3,7 @@
 #SBATCH -p short
 #SBATCH --mem 6G
 #SBATCH -c 2
-#SBATCH -t 0-2:00
+#SBATCH -t 0-4:30
 #SBATCH --mail-type NONE
 #SBATCH -o logs/gsea-slurm/gsea_%A_%a.log
 #SBATCH -e logs/gsea-slurm/gsea_%A_%a.log
