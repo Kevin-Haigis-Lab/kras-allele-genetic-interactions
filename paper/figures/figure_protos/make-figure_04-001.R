@@ -9,13 +9,13 @@ FIG_DIMENSIONS <- get_figure_dimensions(2, "tall")
 FIG_DIMENSIONS$height <- FIG_DIMENSIONS$height / 2
 
 
-theme_fig4 <- function() {
+theme_fig4 <- function(tag_margin = margin(0, 0, 0, 0, "mm")) {
     theme_comutation() %+replace%
     theme(
         legend.title = element_blank(),
         plot.tag = element_text(size = 7,
                                 face = "bold",
-                                margin = margin(0, 0, 0, 0, "mm"))
+                                margin = tag_margin)
     )
 }
 
@@ -48,7 +48,7 @@ panel_A <- read_fig_proto("gsea-results-COAD-select.rds", FIGNUM) +
             order = 2
         )
     ) +
-    theme_fig4() +
+    theme_fig4(tag_margin = margin(-5, 0, 0, 0, "mm")) +
     theme(
         axis.title = element_blank(),
         plot.title = element_blank(),
@@ -72,11 +72,11 @@ panel_B <- read_fig_proto(
     theme_fig4() +
     theme(
         axis.title.y = element_blank(),
-        plot.title = element_blank(),
         legend.position = "none",
         panel.grid = element_blank()
     ) +
-    labs(tag = "b",
+    labs(
+         title = "Respiratory electron transport",
          x = x_label)
 
 
@@ -96,8 +96,7 @@ panel_C <- read_fig_proto(
         legend.direction = "horizontal",
         panel.grid = element_blank()
     ) +
-    labs(tag = "c",
-         x = x_label)
+    labs(x = x_label)
 
 
 #### ---- D. Heatmap of linear model ---- ####
@@ -117,23 +116,37 @@ pre_panel_D_main$layout
 # pre_panel_D_main$layout$b[[10]] <- 2.5
 # pre_panel_D_main$heights[4] <- pre_panel_D$heights[1]
 
-panel_D <- wrap_elements(full = pre_panel_D_main) *
-    theme_fig4() +
+panel_D <- wrap_elements(plot = pre_panel_D_main) *
+    theme_fig4(tag_margin = margin(-5, -8, 0, 6, "mm")) +
+    theme(
+        plot.margin = margin(-10, -11, -13, -7, "mm")
+    ) +
     labs(tag = "d")
+
+
+panel_D_legend1_label <- grid::textGrob(
+    "scaled dep. score",
+    rot = 90,
+    gp = grid::gpar(fontsize = 5,
+                    fontfamily = "Arial",
+                    fontface = "bold"))
+panel_D_legend1_label <- wrap_elements(panel = panel_D_legend1_label)
 
 panel_D_legend1 <- pre_panel_D %>%
     gtable::gtable_filter("legend") %>%
     gtable::gtable_filter("annotation", invert = TRUE)
 # panel_D_legend1$layout$clip <- "on"
-panel_D_legend1 <- wrap_elements(full = panel_D_legend1) +
-    labs(y = "test")
+panel_D_legend1 <- wrap_elements(full = panel_D_legend1)
 
 panel_D_legend2 <- pre_panel_D %>%
     gtable::gtable_filter("annotation_legend")
 panel_D_legend2$layout$clip <- "on"
 panel_D_legend2 <- wrap_elements(full = panel_D_legend2)
 
-panel_D_legend <-  panel_D_legend1 + plot_spacer() + panel_D_legend2
+panel_D_legend <- panel_D_legend1_label | panel_D_legend1 |
+    plot_spacer() |
+    panel_D_legend2 &
+    theme_fig4()
 
 
 #### ---- Figure assembly ---- ####
@@ -142,22 +155,26 @@ panel_D_legend <-  panel_D_legend1 + plot_spacer() + panel_D_legend2
     set.seed(0)
 
     panels_BC <- panel_B / panel_C / guide_area() +
-    plot_layout(heights = c(50, 50, 1), guides = "collect")
+        plot_layout(heights = c(50, 50, 1), guides = "collect")
+    panels_BC <- wrap_elements(full = panels_BC) +
+        labs(tag = "b") +
+        theme_fig4()
 
     # COMPLETE FIGURE
     full_figure <- (
         (
-            panel_A / wrap_elements(full = panels_BC) +
+            panel_A / panels_BC +
             plot_layout(heights = c(2, 3))
         ) |
         (
             panel_D
         ) |
         (
-            panel_D_legend / plot_spacer() + plot_layout(heights = c(1, 4))
+            wrap_elements(full = panel_D_legend) / plot_spacer() +
+                plot_layout(heights = c(2, 5))
         )
     ) +
-        plot_layout(widths = c(3, 7, 1))
+        plot_layout(widths = c(3, 7, 2.1))
 
     save_figure(
         full_figure,
