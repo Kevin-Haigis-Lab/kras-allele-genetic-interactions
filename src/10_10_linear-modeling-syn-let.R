@@ -124,9 +124,31 @@ model1_tib <- model_data %>%
 info(logger, "Caching results of model 1.")
 cache("model1_tib")
 
+
+#### ---- Box-plots ---- ####
+
+# directory for save box-plots
+GRAPHS_DIR <- plot_path("10_10_linear-modeling-syn-let_boxplots")
+reset_graph_directory(GRAPHS_DIR)
+
+ggproto_save_info <- list(
+    COAD = list(fig_num = 4, supp = FALSE)
+)
+
+save_proto <- function(gg_obj, save_path, cancer) {
+    if (cancer %in% names(ggproto_save_info)) {
+        save_info <- ggproto_save_info[[cancer]]
+        saveRDS(gg_obj,
+                get_fig_proto_path(basename(save_path),
+                                   figure_num = save_info$fig_num,
+                                   supp = save_info$supp))
+    }
+}
+
 # plot the results of the first analysis
 plot_pairwise_test_results <- function(hugo_symbol, cancer, data,
-                                       allele_aov, allele_pairwise, ...) {
+                                       allele_aov, allele_pairwise,
+                                       save_proto = FALSE, ...) {
     if (all(is.na(allele_aov)) | all(is.na(allele_pairwise))) { return() }
 
     if (tidy(allele_aov)$p.value[[1]] >= 0.01) { return() }
@@ -173,23 +195,27 @@ plot_pairwise_test_results <- function(hugo_symbol, cancer, data,
             y = "depletion effect"
         )
 
-    plot_fname <- file.path(plot_save_dir, glue("{cancer}-{hugo_symbol}.svg"))
+    plot_fname <- file.path(GRAPHS_DIR, glue("{cancer}-{hugo_symbol}.svg"))
     ggsave_wrapper(p, plot_fname, size = "small")
+
+    if (save_proto) {
+        save_proto(p, plot_fname, cancer)
+    }
 }
 
 
-# directory for save images
-plot_save_dir <- plot_path("10_10_linear-modeling-syn-let_boxplots")
-if (!dir.exists(plot_save_dir)) {
-    info(logger, glue("Making directory for saving boxplots: {plot_save_dir}"))
-    dir.create(plot_save_dir)
-} else {
-    all_files <- list.files(plot_save_dir, pattern = "svg", full.names = TRUE)
-    aaa <- file.remove(all_files)
-}
+select_gene_boxplots <- tibble::tribble(
+    ~ cancer, ~ hugo_symbol,
+      "COAD",        "IDH1",
+      "COAD",       "KNTC1",
+      "COAD",     "PIP5K1A",
+      "COAD",       "WDR26",
+)
 
 model1_tib %>%
-    pwalk(plot_pairwise_test_results)
+    pwalk(plot_pairwise_test_results) %>%
+    right_join(select_gene_boxplots, by = c("cancer", "hugo_symbol")) %>%
+    pwalk(plot_pairwise_test_results, save_proto = TRUE)
 
 
 
@@ -399,7 +425,6 @@ depmap_gene_clusters <- model1_tib %>%
     ungroup()
 
 cache("depmap_gene_clusters", depends = "model1_tib")
-
 
 
 
