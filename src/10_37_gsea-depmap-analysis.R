@@ -10,7 +10,8 @@ reset_graph_directory(GRAPHS_DIR)
 standard_gsea_results_filter <- function(df) {
     df %>%
         filter(abs(nes) >= 1.2 & fdr_q_val < 0.2) %>%
-        filter(!str_detect(gene_set, uninteresting_terms_regex))
+        filter(!str_detect(gene_set, uninteresting_terms_regex)) %>%
+        mutate(fdr_q_val = purrr::map_dbl(fdr_q_val, ~ max(1/10000, .x)))
 }
 
 # Read in a GSEA report file.
@@ -115,11 +116,13 @@ uninteresting_terms_regex <- c(
     regex(ignore_case = TRUE)
 
 
+standardize_names <- function(x) {
+    str_to_sentence(x) %>%
+        str_replace_all("_", " ")
+}
+
 gsea_plot <- function(tib, title_suffix = "") {
     p <- tib %>%
-        mutate(gene_set = str_replace_us(gene_set),
-               gene_set = str_to_sentence(gene_set),
-               gene_set = str_wrap(gene_set, width = 30)) %>%
         ggplot() +
         geom_point(
             aes(
@@ -152,7 +155,14 @@ plot_gsea_results <- function(cancer, data) {
 
     if (nrow(mod_data) == 0) { return() }
 
-    p <- gsea_plot(mod_data, title_suffix = cancer)
+    mod_data <- mod_data %>%
+        mutate(
+            gene_set = standardize_names(gene_set),
+            gene_set = str_wrap(gene_set, width = 30)
+        )
+
+    p <- mod_data %>%
+        gsea_plot(title_suffix = cancer)
     save_path <- plot_path("10_37_gsea-depmap-analysis",
                            glue("gsea-results-{cancer}-all.svg"))
     ggsave_wrapper(p, save_path, "large")
@@ -181,56 +191,43 @@ gsea_df %>%
 
 #### ---- Plot select GSEA results ---- ####
 
+select_gsea_results <- tibble::tribble(
+    ~ cancer, ~gene_set_family, ~gene_set, ~gene_set_pretty,
+    "COAD", "REACTOME", "Tp53 regulates metabolic genes", "TP53 regulates metabolic genes",
+    "COAD", "REACTOME", "Respiratory electron transport", "Respiratory electron transport",
+    "COAD", "REACTOME", "Regulation of pyruvate dehydrogenase pdh complex", "Regulation of pyruvate dehydrogenase complex",
+    "COAD", "REACTOME", "Regulation of expression of slits and robos", "Regulation of expression of SLITS and ROBOS",
+    "COAD", "REACTOME", "Nonsense mediated decay nmd", "Nonsense Mediated Decay",
+    "COAD", "REACTOME", "Complement cascade", "Complement cascade",
+    "COAD", "REACTOME", "Complex i biogenesis", "Complex I biogenesis",
+    "COAD", "HALLMARK", "Oxidative phosphorylation", "Oxidative phosphorylation",
+    "COAD", "BIOCARTA", "Gpcr pathway", "GPCR pathway",
 
-select_gsea_results <- list(
-    COAD = c(
-        "vegfr2 mediated cell proliferation",
-        "tp53 regulates metabolic genes",
-        "srp dependent cotranslational protein targeting to membrane",
-        "respiratory electron transport",
-        "regulation of expression of slits and robos",
-        "complement cascade",
-        "oxidative phosphorylation",
-        "gpcr pathway",
-        "nonsense mediated decay nmd",
-        "complex i biogenesis"
-    ),
-    LUAD = c(
-        "srp dependent cotranslational protein targeting to membrane",
-        "nkt pathway",
-        "fanconi anemia pathway",
-        "eukaryotic translation initiation",
-        "hdr through homologous recombination hrr",
-        "beta alanine metabolism",
-        "bard1 pathway",
-        "nonsense mediated decay nmd",
-        "steroid hormone biosynthesis"
-    ),
-    PAAD = c(
-        "toll pathway",
-        "tp53 regulates metabolic genes",
-        "regulation of cholesterol biosynthesis by srebp srebf",
-        "tgfb pathway",
-        "nfkb pathway",
-        "jnk c jun kinases phosphorylation and activation mediated by activated human tak1",
-        "hedgehog signaling",
-        "g2 m dna damage checkpoint",
-        "fak pathway"
-    )
+    "LUAD", "REACTOME", "Srp dependent cotranslational protein targeting to membrane", "SRP-dependent cotranslational protein targeting to membrane",
+    "LUAD", "REACTOME", "Hdr through homologous recombination hrr", "HDR through homologous recombination",
+    "LUAD", "REACTOME", "Fanconi anemia pathway", "Fanconi anemia pathway",
+    "LUAD", "REACTOME", "Eukaryotic translation initiation", "Eukaryotic translation initiation",
+    "LUAD", "BIOCARTA", "Erk pathway", "ERK pathway",
+    "LUAD", "BIOCARTA", "Nkt pathway", "NKT pathway",
+    "LUAD", "PID", "Fanconi pathway", "Fanconi pathway",
+    "LUAD", "PID", "Bard1 pathway", "BARD1 pathway",
+    "LUAD", "KEGG", "Beta alanine metabolism", "β-alanine metabolism",
+
+    "PAAD", "REACTOME", "nk c jun kinases phosphorylation and activation mediated by activated human tak1", "JNK phosphorylation and activation mediated by activated human TAK1",
+    "PAAD", "REACTOME", "G alpha 12 13 signalling events", "G alpha (12/13) signalling events",
+    "PAAD", "REACTOME", "G2 m dna damage checkpoint", "G2/M DNA damage checkpoint",
+    "PAAD", "REACTOME", "Mitochondrial translation", "Mitochondrial translation",
+    "PAAD", "BIOCARTA", "Nfkb pathway", "NFκB pathway",
 )
 
 
-standardize_names <- function(x) {
-    str_to_lower(x) %>%
-        str_replace_all("_", " ")
-}
-
 filter_gsea_for_select_results <- function(cancer, df, key) {
-    gene_sets_to_keep <- standardize_names(unlist(key[[cancer]]))
+    key <- key %>%
+        filter(cancer == !!cancer)
     df %>%
-        mutate(.gene_set = standardize_names(gene_set)) %>%
-        filter(.gene_set %in% !!gene_sets_to_keep) %>%
-        select(-.gene_set)
+        mutate(gene_set = standardize_names(gene_set)) %>%
+        inner_join(key, by = c("gene_set_family", "gene_set")) %>%
+        mutate(gene_set = gene_set_pretty)
 }
 
 # Information for where to save the ggplot proto object for a Figure.
@@ -238,18 +235,40 @@ ggproto_save_info <- list(
     COAD = list(fig_num = 4, supp = FALSE)
 )
 
+# MEMO sort of gene sets based on FDR and x-axis order.
+get_geneset_order <- function(gene_set, x_order, y_metric) {
+    geneset_order <- bind_cols(gene_set = gene_set,
+                               x_order = x_order,
+                               y_metric = y_metric) %>%
+        mutate(score = x_order**2 * y_metric) %>%
+        group_by(gene_set) %>%
+        summarize(score = sum(score)) %>%
+        ungroup() %>%
+        arrange(-score) %>%
+        pull(gene_set)
+    return(factor(gene_set, levels = geneset_order))
+}
 
+# Make dot-plots of selected gene sets.
 select_gsea_plot <- function(cancer, data, ...) {
     mod_data <- standard_gsea_results_filter(data)
 
     if (nrow(mod_data) == 0) { return() }
+    mod_data <- mod_data %>%
+        mutate(
+            allele = factor_alleles(allele),
+            gene_set = str_wrap(gene_set, width = 30),
+            gene_set = get_geneset_order(gene_set,
+                                         as.numeric(allele),
+                                         -log10(fdr_q_val))
+        )
 
     p <- gsea_plot(mod_data, title_suffix = cancer)
     save_path <- plot_path("10_37_gsea-depmap-analysis",
                            glue("gsea-results-{cancer}-select.svg"))
     ggsave_wrapper(p, save_path, "wide")
 
-    purrr::pwalk(mod_data, pull_gsea_enplot, cancer = cancer)
+    purrr::pwalk(mod_data, pull_gsea_enplot)
 
     if (cancer %in% names(ggproto_save_info)) {
         save_info <- ggproto_save_info[[cancer]]
@@ -260,10 +279,7 @@ select_gsea_plot <- function(cancer, data, ...) {
     }
 }
 
-gs_sources_to_use <- c("HALLMARK", "KEGG", "REACTOME", "BIOCARTA", "PID")
-
 gsea_df %>%
-    filter(gene_set_family %in% !!gs_sources_to_use) %>%
     group_by(cancer) %>%
     nest() %>%
     mutate(data = purrr::map2(cancer, data,
@@ -318,7 +334,7 @@ get_geneset_enrichment_results <- function(cancer, allele, name) {
 
     fpath <- list.files(dir, full.names = TRUE)
     idx <- basename(fpath) == paste0(name, ".xls")
-    if (sum(idx)== 0) {
+    if (sum(idx) == 0) {
         all_file_names <- file_sans_ext(basename(fpath))
         idx <- purrr::map_lgl(all_file_names, ~ str_detect(.x, name))
     }
@@ -380,8 +396,13 @@ save_to_proto <- function(cancer, allele, geneset, gg_obj, save_name) {
     } else {
         return(NULL)
     }
-    cond <- str_detect(standardize_names(geneset),
-                       select_gsea_results[[cancer]])
+
+    selected_genesets <- select_gsea_results %>%
+        filter(cancer == !!cancer) %>%
+        pull(gene_set) %>%
+        standardize_names()
+
+    cond <- str_detect(standardize_names(geneset), selected_genesets)
     if (any(cond)) {
         saveRDS(gg_obj,
                 get_fig_proto_path(basename(save_name),
@@ -436,7 +457,6 @@ plot_enrichment_heatmap <- function(cancer, name, allele, n_genes = 10, ...) {
             pull(probe) %>%
             rev()
     }
-
     model_data %>%
         filter(cancer == !!cancer & hugo_symbol %in% !!genes_to_plot) %>%
         mutate(hugo_symbol = factor(hugo_symbol, levels = genes_to_plot)) %>%
