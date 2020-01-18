@@ -249,6 +249,23 @@ merge_wt <- function(df, data) {
     return(new_df)
 }
 
+fig_save_info <- list(
+    COAD = list(fig_num = 4, supp = FALSE)
+)
+
+save_proto <- function(cancer, ph, save_path) {
+    if (cancer %in% names(fig_save_info)) {
+        save_info <- fig_save_info[[cancer]]
+    } else {
+        return(NULL)
+    }
+
+    saveRDS(ph, get_fig_proto_path(basename(save_path),
+                                   save_info$fig_num,
+                                   supp = save_info$supp)
+    )
+}
+
 
 plot_cancer_heatmaps <- function(cancer, data, screen,
                                  merge_luad = TRUE,
@@ -302,9 +319,13 @@ plot_cancer_heatmaps <- function(cancer, data, screen,
         annotation_colors = anno_pal,
         cutree_rows = cancer_pheatmap_manager[[cancer]]$row_cuts,
         cutree_cols = cancer_pheatmap_manager[[cancer]]$col_cuts,
-        treeheight_col = 20,
+        treeheight_row = 8,
+        treeheight_col = 8,
+        fontsize = 5,
         show_rownames = (cancer != "LUAD"),
-        silent = TRUE
+        silent = TRUE,
+        border_color = NA,
+        fontfamily = "Arial"
     )
 
     save_path <- plot_path(
@@ -312,6 +333,7 @@ plot_cancer_heatmaps <- function(cancer, data, screen,
         glue("{cancer}_{screen}_{row_dist_method}_{row_hclust_method}_pheatmap.svg")
     )
     save_pheatmap_svg(ph, save_path, width = 7, height = 9)
+    save_proto(cancer, ph, save_path)
 }
 
 
@@ -359,7 +381,9 @@ colnames(methods_tib) <- c("row_dist_method", "row_hclust_method")
 # make a heatmap for the genes in each cancer
 depmap_gene_clusters <- model1_tib %>%
     filter(rna_pvalue > 0.01) %>%
-    mutate(aov_p_val = purrr::map_dbl(allele_aov, ~ tidy(.x)$p.value[[1]])) %>%
+    mutate(
+        aov_p_val = purrr::map_dbl(allele_aov, ~tidy(.x)$p.value[[1]])
+    ) %>%
     filter(aov_p_val < 0.01) %>%
     select(hugo_symbol, cancer, data) %>%
     unnest(data) %>%
@@ -375,6 +399,8 @@ depmap_gene_clusters <- model1_tib %>%
     ungroup()
 
 cache("depmap_gene_clusters", depends = "model1_tib")
+
+
 
 
 
