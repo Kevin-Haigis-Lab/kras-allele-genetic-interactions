@@ -119,7 +119,7 @@ gsea_plot <- function(tib, title_suffix = "") {
     p <- tib %>%
         mutate(gene_set = str_replace_us(gene_set),
                gene_set = str_to_sentence(gene_set),
-               gene_set = str_wrap(gene_set, width = 50)) %>%
+               gene_set = str_wrap(gene_set, width = 30)) %>%
         ggplot() +
         geom_point(
             aes(
@@ -192,7 +192,8 @@ select_gsea_results <- list(
         "complement cascade",
         "oxidative phosphorylation",
         "gpcr pathway",
-        "nonsense mediated decay nmd"
+        "nonsense mediated decay nmd",
+        "complex i biogenesis"
     ),
     LUAD = c(
         "srp dependent cotranslational protein targeting to membrane",
@@ -382,7 +383,6 @@ save_to_proto <- function(cancer, allele, geneset, gg_obj, save_name) {
     cond <- str_detect(standardize_names(geneset),
                        select_gsea_results[[cancer]])
     if (any(cond)) {
-        print(geneset)
         saveRDS(gg_obj,
                 get_fig_proto_path(basename(save_name),
                                    save_info$fig_num,
@@ -399,9 +399,9 @@ plot_ranked_data <- function(df, cancer, allele, geneset) {
         get_alpha_values_by_distance() %>%
         get_color_values_to_highlight_allele(allele = allele) %>%
         ggplot(aes(x = effect_rank, y = hugo_symbol)) +
-        geom_tile(aes(fill = allele, alpha = alpha_val, color = color_val), size = 0.5) +
+        geom_tile(aes(fill = allele, alpha = alpha_val), size = 0.5) +
         scale_fill_manual(values = short_allele_pal) +
-        scale_color_identity(na.value = NA) +
+        # scale_color_identity(na.value = NA) +
         scale_alpha_identity() +
         scale_x_discrete(expand = c(0, 0)) +
         scale_y_discrete(expand = c(0, 0)) +
