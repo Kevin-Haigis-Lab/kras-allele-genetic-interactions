@@ -5,12 +5,37 @@
     <link>https://project-notebook-comutation.netlify.com/post/</link>
       <atom:link href="https://project-notebook-comutation.netlify.com/post/index.xml" rel="self" type="application/rss+xml" />
     <description>Posts</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Wed, 08 Jan 2020 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Fri, 17 Jan 2020 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://project-notebook-comutation.netlify.com/img/icon-192.png</url>
       <title>Posts</title>
       <link>https://project-notebook-comutation.netlify.com/post/</link>
     </image>
+    
+    <item>
+      <title>2020-01-17</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2020-01-17/</link>
+      <pubDate>Fri, 17 Jan 2020 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2020-01-17/</guid>
+      <description>
+
+&lt;h2 id=&#34;fig-4-synthetic-lethal-coad&#34;&gt;Fig 4. Synthetic lethal COAD&lt;/h2&gt;
+
+&lt;p&gt;I began work on the synthetic lethal figure for COAD.
+I may be able to stick all three on one figure, though, in the future.&lt;/p&gt;
+
+&lt;h3 id=&#34;adding-pheatmap-object&#34;&gt;Adding &lt;code&gt;pheatmap&lt;/code&gt; object&lt;/h3&gt;
+
+&lt;p&gt;Including a &lt;code&gt;pheatmap&lt;/code&gt; object in a patchwork is tricky.
+I split up the legends from the rest of the plot and stuck them on their own so I have more control over their placement.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;To-Do:&lt;/strong&gt; I need to add a title to the main color bar saying &amp;ldquo;scaled dep. score&amp;rdquo;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;To-Do:&lt;/strong&gt; Re-analyze the GSEA results.
+I re-ran the tool having it output for of the &amp;ldquo;enplots&amp;rdquo; and associated data so that I could plot it.
+Once I have re-analyzed it, there should be more available to show as the ranked-heatmaps.&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>2020-01-08</title>
