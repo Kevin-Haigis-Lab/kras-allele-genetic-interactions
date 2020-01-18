@@ -64,8 +64,11 @@ ProjectTemplate::cache("gsea_df",
 })
 
 
-# Pull a waterfall plot ("enplot"?) from the GSEA results for a the specified
+# Pull an enrichment plot ("enplot") from the GSEA results for a the specified
 #   cancer, allele, and name (gene-set).
+ENPLOT_GRAPHS_DIR <- "10_37_gsea-depmap-output"
+reset_graph_directory(ENPLOT_GRAPHS_DIR)
+
 pull_gsea_enplot <- function(cancer, allele, gene_set, gene_set_family,
                              force_overwrite = FALSE,
                              ...) {
@@ -85,7 +88,7 @@ pull_gsea_enplot <- function(cancer, allele, gene_set, gene_set_family,
 
     svg_file <- svg_files[str_detect(basename(svg_files), gene_set_regex)]
 
-    target_dir <- file.path("graphs", "10_37_gsea-depmap-output", cancer_allele)
+    target_dir <- plot_path(ENPLOT_GRAPHS_DIR, cancer_allele)
     if (!dir.exists(target_dir)) {
         dir.create(target_dir)
     }
@@ -354,7 +357,15 @@ get_geneset_enrichment_results <- function(cancer, allele, name) {
         return(NULL)
     }
 
-    return(read_gsea_geneset_xls(fpath))
+    gsea_tib <- read_gsea_geneset_xls(fpath)
+
+    # Reverse the ordering of the data frame if the first entry is not in the
+    # core enrichment because that means the gene set was *negatively* enriched.
+    if (!gsea_tib$core_enrichment[[1]]) {
+        gsea_tib %<>% arrange(-rank_in_gene_list)
+    }
+
+    return(gsea_tib)
 }
 
 rank_depmap_data <- function(data) {
