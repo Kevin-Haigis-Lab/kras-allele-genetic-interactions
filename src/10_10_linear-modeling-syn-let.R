@@ -179,7 +179,8 @@ plot_pairwise_test_results <- function(hugo_symbol, cancer, data,
             x = "allele",
             y = "gene_effect",
             color = "allele",
-            add = "jitter"
+            add = "jitter",
+            size = ifelse(save_proto, 0.01, 1)
         ) +
         stat_pvalue_manual(stat_tib, label = "p.adj", family = "Arial") +
         scale_color_manual(values = short_allele_pal) +
@@ -189,11 +190,15 @@ plot_pairwise_test_results <- function(hugo_symbol, cancer, data,
             axis.title.x = element_blank(),
             legend.position = "none"
         ) +
-        labs(
-            title = glue("{hugo_symbol} in {cancer}"),
-            caption = "*bars indicate FDR-adjusted p-values < 0.05",
-            y = "depletion effect"
-        )
+        labs(y = "depletion effect")
+
+    if (!save_proto) {
+        p <- p +
+            labs(
+                title = glue("{hugo_symbol} in {cancer}"),
+                caption = "*bars indicate FDR-adjusted p-values < 0.05"
+            )
+    }
 
     plot_fname <- file.path(GRAPHS_DIR, glue("{cancer}-{hugo_symbol}.svg"))
     ggsave_wrapper(p, plot_fname, size = "small")
@@ -213,7 +218,7 @@ select_gene_boxplots <- tibble::tribble(
 )
 
 model1_tib %>%
-    pwalk(plot_pairwise_test_results) %>%
+    # pwalk(plot_pairwise_test_results) %>%
     right_join(select_gene_boxplots, by = c("cancer", "hugo_symbol")) %>%
     pwalk(plot_pairwise_test_results, save_proto = TRUE)
 
