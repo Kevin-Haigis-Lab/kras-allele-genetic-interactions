@@ -41,27 +41,25 @@ get_gsea_reports <- function(dirs) {
 }
 
 
-ProjectTemplate::cache("gsea_df",
-{
-    gsea_df <- file.path("data", "gsea", "output") %>%
-        list.dirs(recursive = FALSE) %>%
-        tibble(dir = .) %>%
-        mutate(
-            dir_base = basename(dir),
-            cancer = str_extract(dir_base, "^[:alpha:]+(?=_)"),
-            allele = str_extract(dir_base, "(?<=_)[:alnum:]+(?=\\.G)"),
-            timestamp = str_extract(dir_base, "(?<=Gsea\\.)[:digit:]+$"),
-            timestamp = lubridate::as_datetime(as.numeric(timestamp) / 1000),
-            data = get_gsea_reports(dir)
-        ) %>%
-        unnest(data) %>%
-        mutate(
-            gene_set_family = str_split_fixed(name, "_", 2)[, 1],
-            gene_set = str_split_fixed(name, "_", 2)[, 2]
-        ) %>%
-        filter(!(cancer == "LUAD" & allele == "G13D"))
-    return(gsea_df)
-})
+gsea_df <- file.path("data", "gsea", "output") %>%
+    list.dirs(recursive = FALSE) %>%
+    tibble(dir = .) %>%
+    mutate(
+        dir_base = basename(dir),
+        cancer = str_extract(dir_base, "^[:alpha:]+(?=_)"),
+        allele = str_extract(dir_base, "(?<=_)[:alnum:]+(?=\\.G)"),
+        timestamp = str_extract(dir_base, "(?<=Gsea\\.)[:digit:]+$"),
+        timestamp = lubridate::as_datetime(as.numeric(timestamp) / 1000),
+        data = get_gsea_reports(dir)
+    ) %>%
+    unnest(data) %>%
+    mutate(
+        gene_set_family = str_split_fixed(name, "_", 2)[, 1],
+        gene_set = str_split_fixed(name, "_", 2)[, 2]
+    ) %>%
+    filter(!(cancer == "LUAD" & allele == "G13D"))
+
+ProjectTemplate::cache("gsea_df")
 
 
 # Pull an enrichment plot ("enplot") from the GSEA results for a the specified
@@ -220,7 +218,12 @@ select_gsea_results <- tibble::tribble(
     "PAAD", "REACTOME", "G alpha 12 13 signalling events", "G alpha (12/13) signalling events",
     "PAAD", "REACTOME", "G2 m dna damage checkpoint", "G2/M DNA damage checkpoint",
     "PAAD", "REACTOME", "Mitochondrial translation", "Mitochondrial translation",
+    "PAAD", "REACTOME", "Regulation of cholesterol biosynthesis by srebp srebf", "Regulation of cholesterol biosynthesis by SREBP and SREBF",
+    "PAAD", "REACTOME", "Tp53 regulates metabolic genes", "TP53 regulates metabolic genes",
+    "PAAD", "PID", "Fak pathway", "FAK pathway",
+    "PAAD", "BIOCARTA", "Toll pathway", "Toll pathway",
     "PAAD", "BIOCARTA", "Nfkb pathway", "NFκB pathway",
+    "PAAD", "HALLMARK", "Hedgehog signaling", "Hedgehog signaling",
 )
 
 
