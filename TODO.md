@@ -26,7 +26,6 @@
 - Lollipop plots for specific genes across multiple alleles
     + My API is in place and I just need to feed it genes to run.
     + I need to switch it over to using `cancer_full_coding_muts_df`.
-- Make my own "lollipop" plot for KRAS mutation frequency
 
 
 - Rethink Figure  1
@@ -38,6 +37,10 @@
     + do any of them *become* lethal in an allele?
 - Expected vs. observed frequency -> save to color-scaled table
 
+
+## Supplemental figures
+
+- For every plot of select gene set enrichments, there should be an accompanying plot and table of *all* enriched gene sets.
 
 
 ## Questions
