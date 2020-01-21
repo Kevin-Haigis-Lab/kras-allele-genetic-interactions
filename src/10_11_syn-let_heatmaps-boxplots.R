@@ -26,7 +26,7 @@ save_proto <- function(gg_obj, save_path, cancer) {
 # plot the results of the first analysis
 plot_pairwise_test_results <- function(hugo_symbol, cancer, data,
                                        allele_aov, allele_pairwise,
-                                       save_proto = FALSE, ...) {
+                                       ...) {
     if (all(is.na(allele_aov)) | all(is.na(allele_pairwise))) { return() }
 
     if (tidy(allele_aov)$p.value[[1]] >= 0.01) { return() }
@@ -70,20 +70,8 @@ plot_pairwise_test_results <- function(hugo_symbol, cancer, data,
         ) +
         labs(y = "depletion effect")
 
-    if (!save_proto) {
-        p <- p +
-            labs(
-                title = glue("{hugo_symbol} in {cancer}"),
-                caption = "*bars indicate FDR-adjusted p-values < 0.05"
-            )
-    }
-
     plot_fname <- plot_path(GRAPHS_DIR_BOXES, glue("{cancer}-{hugo_symbol}.svg"))
     ggsave_wrapper(p, plot_fname, size = "small")
-
-    if (save_proto) {
-        save_proto(p, plot_fname, cancer)
-    }
 }
 
 
@@ -120,8 +108,9 @@ plot_pairwise_test_results2 <- function(hugo_symbol, cancer, data,
         ) +
         labs(y = "depletion effect")
 
+    plot_fname <- plot_path(GRAPHS_DIR_BOXES,
+                            glue("{cancer}-{hugo_symbol}.svg"))
     if (replace_svg) {
-        plot_fname <- file.path(GRAPHS_DIR_BOXES, glue("{cancer}-{hugo_symbol}.svg"))
         ggsave_wrapper(p, plot_fname, size = "small")
     }
 
@@ -149,7 +138,7 @@ model1_tib %>%
 #### ---- Heatmaps ---- ####
 
 # directory for save box-plots
-GRAPHS_DIR_HEAT <- plot_path("10_11_linear-modeling-syn-let_pheatmaps")
+GRAPHS_DIR_HEAT <- "10_11_linear-modeling-syn-let_pheatmaps"
 reset_graph_directory(GRAPHS_DIR_HEAT)
 
 cancer_pheatmap_manager <- list(
@@ -210,7 +199,27 @@ fig_save_info <- list(
     COAD = list(fig_num = 4, supp = FALSE)
 )
 
-save_proto <- function(cancer, ph, save_path) {
+
+make_annotation_tile <- function(v, grp) {
+    df <- tibble::enframe(v)
+    if (grp == "heat") {
+        df %<>% mutate(name = as.numeric(name))
+    } else {
+        df %<>%
+            mutate(name = factor(name, levels = rev(sort(unique(name)))))
+    }
+
+    p <- df %>%
+        ggplot(aes(x = "", y = name)) +
+        geom_tile(aes(fill = value), color = NA) +
+        scale_fill_identity() +
+        labs(y = grp)
+    return(p)
+}
+
+
+save_proto <- function(cancer, ph, save_path,
+                       anno_pal = NULL, heat_pal = NULL) {
     if (cancer %in% names(fig_save_info)) {
         save_info <- fig_save_info[[cancer]]
     } else {
@@ -219,8 +228,65 @@ save_proto <- function(cancer, ph, save_path) {
 
     saveRDS(ph, get_fig_proto_path(basename(save_path),
                                    save_info$fig_num,
-                                   supp = save_info$supp)
+                                   supp = save_info$supp))
+
+    anno_save_path <- function(pal_name) {
+        paste0(file_sans_ext(basename(save_path)), "_", pal_name, ".svg")
+    }
+
+    if (!is.null(anno_pal)) {
+        g_allele <- make_annotation_tile(anno_pal$allele, "allele")
+        p <- anno_save_path("allelepal")
+        saveRDS(g_allele,
+                get_fig_proto_path(p, save_info$fig_num, supp = save_info$supp))
+        g_cls <- make_annotation_tile(anno_pal$cluster, "cluster")
+        p <- anno_save_path("clusterpal")
+        saveRDS(g_cls,
+                get_fig_proto_path(p, save_info$fig_num, supp = save_info$supp))
+    }
+
+    if (!is.null(heat_pal)) {
+        g_heat <- make_annotation_tile(heat_pal, "heat")
+        p <- anno_save_path("heatpal")
+        saveRDS(g_heat,
+                get_fig_proto_path(p, save_info$fig_num, supp = save_info$supp))
+    }
+}
+
+
+cluster_number_map <- list(
+    COAD = tibble::tribble(
+        ~default_cluster, ~cluster,
+        1, 2,
+        2, 5,
+        3, 1,
+        4, 4,
+        5, 3,
+    ),
+    LUAD = tibble::tribble(
+        ~default_cluster, ~cluster,
+        1, 5,
+        2, 6,
+        3, 3,
+        4, 1,
+        5, 4,
+        6, 2,
+    ),
+    PAAD = tibble::tribble(
+        ~default_cluster, ~cluster,
+        1, 5,
+        2, 6,
+        3, 3,
+        4, 1,
+        5, 4,
+        6, 2,
     )
+)
+
+cluster_color_pal <- function(n_vals) {
+    cols <- viridis::viridis_pal()(n_vals)
+    names(cols) <- seq(1, n_vals)
+    return(cols)
 }
 
 
@@ -230,6 +296,7 @@ plot_cancer_heatmaps <- function(cancer, data, screen,
                                  col_dist_method = "euclidean",
                                  row_hclust_method = "complete",
                                  col_hclust_method = "complete") {
+    set.seed(0)
 
     mod_data <- prep_pheatmap_df(data, "normalize")
 
@@ -251,8 +318,10 @@ plot_cancer_heatmaps <- function(cancer, data, screen,
             row_hclust,
             k = cancer_pheatmap_manager[[cancer]]$row_cuts
         ) %>%
-        enframe(value = "cluster") %>%
-        mutate(cluster = factor(cluster)) %>%
+        enframe(value = "default_cluster") %>%
+        left_join(cluster_number_map[[cancer]], by = "default_cluster") %>%
+        mutate(cluster = factor(cluster, levels = sort(unique(cluster)))) %>%
+        select(-default_cluster) %>%
         column_to_rownames("name")
 
     if (cancer == "LUAD") {
@@ -261,7 +330,10 @@ plot_cancer_heatmaps <- function(cancer, data, screen,
         col_anno <- rbind(col_anno, wt_anno_df)
     }
 
-    anno_pal <- list(allele = short_allele_pal[as.character(unique(col_anno$allele))])
+    anno_pal <- list(
+        allele = short_allele_pal[as.character(sort(unique(col_anno$allele)))],
+        cluster = cluster_color_pal(max(as.numeric(row_anno$cluster)))
+    )
 
     pal <- c(synthetic_lethal_pal["down"], "grey95", synthetic_lethal_pal["up"])
     pal <- colorRampPalette(pal)(7)
@@ -289,8 +361,12 @@ plot_cancer_heatmaps <- function(cancer, data, screen,
         GRAPHS_DIR_HEAT,
         glue("{cancer}_{screen}_{row_dist_method}_{row_hclust_method}_pheatmap.svg")
     )
-    save_pheatmap_svg(ph, save_path, width = 7, height = 9)
-    save_proto(cancer, ph, save_path)
+    save_pheatmap_svg(ph, save_path, width = 4, height = 5)
+
+    names(pal) <- seq(min(mod_data), max(mod_data), length.out = length(pal))
+    save_proto(cancer, ph, save_path,
+               anno_pal = anno_pal, heat_pal = pal)
+    # stop("JHC - PURPOSEFUL STOP")
 }
 
 
@@ -336,7 +412,7 @@ colnames(methods_tib) <- c("row_dist_method", "row_hclust_method")
 
 
 # make a heatmap for the genes in each cancer
-depmap_gene_clusters <- model1_tib %>%
+temp_df <- depmap_gene_clusters <- model1_tib %>%
     filter(rna_pvalue > 0.01) %>%
     mutate(
         aov_p_val = purrr::map_dbl(allele_aov, ~tidy(.x)$p.value[[1]])
@@ -345,7 +421,9 @@ depmap_gene_clusters <- model1_tib %>%
     select(hugo_symbol, cancer, data) %>%
     unnest(data) %>%
     group_by(cancer) %>%
-    nest() %T>%
+    nest() 
+
+temp_df %>% filter(cancer == "COAD") %T>%
     purrr::pwalk(plot_cancer_heatmaps_multiple_methods,
              screen = "CRISPR", methods_df = methods_tib) %>%
     mutate(cluster_tib = purrr::map2(cancer, data, cluster_genes,

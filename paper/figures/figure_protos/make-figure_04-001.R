@@ -96,7 +96,7 @@ panel_B2 <- read_fig_proto(
          x = x_label)
 
 
-#### ---- c. Heatmap of linear model ---- ####
+#### ---- C. Heatmap of linear model ---- ####
 # Clustered (pretty) heatmap of genes found to be differentially synthetic
 # lethal.
 # original script: "src/10_10_linear-modeling-syn-let.R"
@@ -118,29 +118,79 @@ panel_C <- wrap_elements(plot = pre_panel_C_main) *
     labs(tag = "c")
 
 
-panel_C_legend1_label <- grid::textGrob(
-    "scaled dep. score",
-    rot = 90,
-    gp = grid::gpar(fontsize = 5,
-                    fontfamily = "Arial",
-                    fontface = "bold"))
-panel_C_legend1_label <- wrap_elements(panel = panel_C_legend1_label)
+prep_pheatmap_legend <- function(name) {
+    read_fig_proto(name, FIGNUM) +
+        scale_x_discrete(expand = c(0, 0)) +
+        scale_y_discrete(expand = c(0, 0)) +
+        theme_fig4() +
+        theme(
+            plot.title = element_text(size = 5, family = "Arial"),
+            axis.title = element_blank(),
+            axis.text.x = element_blank(),
+            axis.text.y = element_text(size = 5, family = "Arial")
+        )
+}
 
-panel_C_legend1 <- pre_panel_C %>%
-    gtable::gtable_filter("legend") %>%
-    gtable::gtable_filter("annotation", invert = TRUE)
-# panel_C_legend1$layout$clip <- "on"
-panel_C_legend1 <- wrap_elements(full = panel_C_legend1)
+prep_pheatmap_colorbar <- function(name) {
+    read_fig_proto(name, FIGNUM) +
+        scale_x_discrete(expand = c(0, 0)) +
+        scale_y_continuous(expand = c(0, 0)) +
+        theme_fig4() +
+            theme(
+                plot.title = element_text(size = 5, family = "Arial"),
+                axis.title = element_blank(),
+                axis.text.x = element_blank(),
+                axis.text.y = element_text(size = 5, family = "Arial")
+            )
+}
 
-panel_C_legend2 <- pre_panel_C %>%
-    gtable::gtable_filter("annotation_legend")
-panel_C_legend2$layout$clip <- "on"
-panel_C_legend2 <- wrap_elements(full = panel_C_legend2)
+panel_C_legend1 <- prep_pheatmap_colorbar(
+        "COAD_CRISPR_manhattan_ward.D2_pheatmap_heatpal.rds"
+    ) +
+    labs(title = "scaled\ndep. score")
 
-panel_C_legend <- panel_C_legend1_label | panel_C_legend1 |
-    plot_spacer() |
-    panel_C_legend2 &
-    theme_fig4()
+panel_C_legend2 <- prep_pheatmap_legend(
+        "COAD_CRISPR_manhattan_ward.D2_pheatmap_allelepal.rds"
+    ) +
+    labs(title = "allele")
+
+panel_C_legend3 <- prep_pheatmap_legend(
+        "COAD_CRISPR_manhattan_ward.D2_pheatmap_clusterpal.rds"
+    ) +
+    labs(title = "cluster")
+
+panel_C_legend <- panel_C_legend1 | panel_C_legend2 | panel_C_legend3
+
+# panel_C_legend1_label <- grid::textGrob(
+#     "scaled dep. score",
+#     rot = 90,
+#     gp = grid::gpar(fontsize = 5,
+#                     fontfamily = "Arial",
+#                     fontface = "bold"))
+# panel_C_legend1_label <- wrap_elements(panel = panel_C_legend1_label)
+
+# # Heatmap colorbar
+# panel_C_legend1 <- pre_panel_C %>%
+#     gtable::gtable_filter("legend") %>%
+#     gtable::gtable_filter("annotation", invert = TRUE)
+# panel_C_legend1 <- wrap_elements(plot = panel_C_legend1) +
+#     theme_fig4() %+replace%
+#     theme(plot.margin = margin(-10, -10, -10, 0, "mm"),
+#           panel.spacing = unit(0, 'mm'))
+
+# # Heatmap row/column annotations
+# panel_C_legend2 <- pre_panel_C %>%
+#     gtable::gtable_filter("annotation_legend")
+# panel_C_legend2$layout$clip <- "off"
+# panel_C_legend2 <- wrap_elements(plot = panel_C_legend2) +
+#     theme_fig4() %+replace%
+#     theme(plot.margin = margin(-10, -5, -20, -5, "mm"),
+#           panel.spacing = unit(0, 'mm'))
+
+# panel_C_legend <- panel_C_legend1_label | panel_C_legend1 |
+#     plot_spacer() |
+#     panel_C_legend2 &
+#     theme_fig4()
 
 
 #### ---- E. Heatmap of linear model ---- ####
@@ -192,7 +242,7 @@ panel_D[[1]] <- panel_D[[1]] + labs(tag = "d")
         ) |
         (
             wrap_elements(full = panel_C_legend) / panel_D +
-                plot_layout(heights = c(2, 5))
+                plot_layout(heights = c(1, 5))
         )
     ) +
         plot_layout(widths = c(3, 7, 2.1))
@@ -204,8 +254,3 @@ panel_D[[1]] <- panel_D[[1]] + labs(tag = "d")
         dim = FIG_DIMENSIONS
     )
 }
-
-
-# TODO:
-# I am re-running the GSEA of the DepMap data.
-# Once it is done, I need to rerun "src/10_37_..."
