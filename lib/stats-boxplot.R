@@ -1,6 +1,35 @@
-# A ggplot box-plot with comparison bars.
 
-stats_boxplot <- function(df, stats_df,
+# A ggplot box-plot with comparison bars.
+#
+# Create a box-plot with statistical comparison bars placed at the optimal
+# location on the plot. They will not overlap with the data or each other. The
+# function returns a 'ggplot2' box-plot without any custom components. The
+# box-plot is made with `geom_boxplot(aes(x = x, y = y))` and the bars and
+# labels are `annotate("text", ...)` objects.
+#
+# df: A data frame with the columns `x`, `y` to be plotted using
+#   `geom_boxplot()`.
+# stats_df: A data frame with the results of a statistical analysis between the
+#   groups on the x-axis. It must have the column names `x1`, `x2`, and `label`
+#   where the `label` is the result of the comparison of `x1` and `x2`. A bar
+#   is drawn for each row of the data frame, so only include the comparisons
+#   that should be on the final plot. If left `NULL`, one will be made using
+#   the function `make_stats_dataframe()` using `auto_filter = TRUE`,
+#   `method = "t.test"`, and `p.adjust.method = "BH"`.
+# box_color, box_fill: passed to `color` and `fill` for `geom_boxplot(aes())`
+#   and `geom_jitter(aes())`. If the values are not `NULL`,
+#   `scale_color/fill_identity()` is applied.
+# point_alpha, point_shape, point_size, jitter_width, jitter_height: passed to
+#  `alpha`, `shape`, `size`, `width`, and `height` for `geom_jitter()`.
+# up_spacing, dn_spacing: The spacing above and below each bar. The units are
+#   the same as the y-axis. Tweak these to provide enough space between the
+#   bars for the labels.
+# bar_color, bar_alpha, bar_size: The `color`, `alpha`, and `size` for
+#   `geom_segment`.
+# label_color, label_alpha, label_size, fontface, family: The `color`, `alpha`,
+#   `size`, `fontface`, and `family` passed to `annotate("text")` for the
+#   labels.
+stats_boxplot <- function(df, stats_df = NULL,
                           box_color = NULL, box_fill = NULL,
                           box_alpha = 0.6, point_alpha = 0.9,
                           point_shape = NULL, point_size = NULL,
@@ -13,7 +42,14 @@ stats_boxplot <- function(df, stats_df,
                           family = "Arial"
                       ) {
     check_data(df)
-    check_stats(stats_df)
+
+    if (!is.null(stats_df)) {
+        check_stats(stats_df)
+    } else {
+        stats_df <- make_stats_dataframe(df, auto_filter = TRUE,
+                                         method = "t.test",
+                                         p.adjust.method = "BH")
+    }
 
     bp <- ggplot(df, aes(x = x, y = y)) +
         geom_boxplot(
@@ -45,44 +81,65 @@ stats_boxplot <- function(df, stats_df,
 }
 
 
-################################################################################
-GRAPHS_DIR <- "TEST_STATS_BOXPLOT"
-reset_graph_directory(GRAPHS_DIR)
+# Make a data frame that complies with the `stats_df` for `stats_boxplot()`.
+#
+# It must comply to the standards of that argument: have an `x` and `y` col.
+# The `...` are passed to `ggpubr::compare_means()`.
+#
+# df: The data frame to be plotted. It must comply to the same standards as
+#    described in `stats_boxplot()`.
+# auto_filter: Should the results of the statistical analysis be filtered by
+#   `label != "ns"`?
+# ...: Passed to `ggpubr::compare_means()`.
+make_stats_dataframe <- function(df, auto_filter = FALSE, ...) {
+    check_data(df)
 
-for (i in seq(1, 30)) {
+    stats_df <- compare_means(y ~ x, data = df, ...) %>%
+        dplyr::rename(x1 = group1, x2 = group2, label = p.signif)
 
-    set.seed(i)
+    if (auto_filter) {
+        stats_df %<>% filter(label != "ns")
+    }
 
-    test_df <- tibble(
-        x = rep(LETTERS[1:5], 6),
-        y = rnorm(length(x)),
-        box_color = x
-    )
-
-    test_stats_df <- combn(unique(test_df$x), 2) %>%
-        t() %>%
-        as_tibble() %>%
-        dplyr::rename(x1 = V1, x2 = V2) %>%
-        mutate(label = "**") %>%
-        sample_frac(sample(seq(0.1, 1.0, 0.1), 1))
-
-    ggsave_wrapper(
-        stats_boxplot(test_df, test_stats_df),
-        plot_path(GRAPHS_DIR, glue("test_box_{i}.jpeg")),
-        "small"
-    )
+    return(stats_df)
 }
 
+
+################################################################################
+# GRAPHS_DIR <- "TEST_STATS_BOXPLOT"
+# reset_graph_directory(GRAPHS_DIR)
+
+# for (i in seq(1, 5)) {
+
+#     set.seed(i)
+#     n_test_samples <- 10
+#     n_test_groups <- 5
+#     test_df <- tibble(
+#         x = unlist(purrr::map(1:n_test_groups,
+#                               ~rep(LETTERS[.x], n_test_samples))),
+#         y = unlist(purrr::map(runif(n_test_groups, 0, 5),
+#                               ~rnorm(n_test_samples, mean = .x))),
+#         box_color = x
+#     )
+
+
+
+#     ggsave_wrapper(
+#         stats_boxplot(test_df, up_spacing = 0.3),
+#         plot_path(GRAPHS_DIR, glue("test_box_{i}.svg")),
+#         "small"
+#     )
+# }
 ################################################################################
 
 
-
-
+# Check that the data frame `df` has the necessary columns.
 check_data <- function(df) {
     assertr::verify(df, has_all_names("x", "y"))
 }
 
 
+# Check that the statistics data frame has the necessary columns.
 check_stats <- function(df) {
     assertr::verify(df, has_all_names("x1", "x2", "label"))
 }
@@ -108,19 +165,26 @@ update_bar <- function(bar) {
 }
 
 
-is_between <- function(x, left, right) {
-    f <- function(i) {
+# Is `x` between `left` and `right? Set inclusive to use greater/less than *or
+# equal to*. `x` can be a vector, but `left` and `right` must be atomic values.
+is_between <- function(x, left, right, inclusive = FALSE) {
+    between_non_inclusive <- function(i) {
         return(left < i & i < right)
     }
-    purrr::map_lgl(x, f)
+
+    if (inclusive) {
+        return(dplyr::between(i, left, right))
+    } else {
+        return(purrr::map_lgl(x, f))
+    }
 }
 
 
 # Do two bar objects overlap?
 bars_overlap <- function(b1, b2) {
     # Check x-values first.
-    x_cond1 <- between(b1$x1, b2$x1, b2$x2)
-    x_cond2 <- between(b1$x2, b2$x1, b2$x2)
+    x_cond1 <- is_between(b1$x1, b2$x1, b2$x2, inclusive = TRUE)
+    x_cond2 <- is_between(b1$x2, b2$x1, b2$x2, inclusive = TRUE)
     if (!x_cond1 & !x_cond2) return(FALSE)
 
     # Check y-values if x-values overlap
@@ -139,6 +203,9 @@ move_b1_above_b2 <- function(b1, b2, buffer = 1e-4) {
 }
 
 
+# Add the statistical comparison bars in `stats_df$bar` to the 'ggplot2'
+# box-plot `bp`.
+# See `stats_boxplot()` for information on the arguments.
 add_stats_comparisons <- function(bp, df, stats_df,
                                   up_spacing = 0.1, dn_spacing = up_spacing,
                                   bar_color = "black", bar_alpha = 1.0,
@@ -174,17 +241,24 @@ add_stats_comparisons <- function(bp, df, stats_df,
 }
 
 
-reassign_x <- function(x, all_xs) {
+# Assign `x` to a numeric value in the context of `all_xs`. If `x` is a factor,
+# then the level is returned. Else, `x` are turned into a factor with
+# levels determined by `sort(unique(x_vals))` and the level of `x` is returned.
+# The `...` is passed to `sort()`.
+reassign_x <- function(x, all_xs, ...) {
     if (is.factor(x)) {
         return(as.numeric(x))
     }
     if (!is.factor(x)) {
-        fx <- factor(x, levels = sort(unique(unlist(all_xs))))
+        fx <- factor(x, levels = sort(unique(unlist(all_xs)), ...))
         return(as.numeric(fx))
     }
 }
 
 
+# A bar object is added to a plot. The bar should be in row `row` of data frame
+# `stats_df`. The arguments `color`, `alpha`, and `size` are passed to
+# `ggplot2::geom_segment()`.
 add_bar_to_plot <- function(p, stats_df, row,
                             color = "black", alpha = 1.0, size = 0.7) {
     from <- stats_df$x1_num[[row]]
@@ -198,6 +272,9 @@ add_bar_to_plot <- function(p, stats_df, row,
 }
 
 
+# Statistical significance labels are added to the plot. The bar should be in
+# row `row` of data frame `stats_df`. The arguments `color`, `alpha`, `size`,
+# `fontface`, and `family` are passed to `ggplot2::annotate("text")`.
 add_labels_to_plot <- function(p, stats_df, row,
                                color = "black", alpha = 1.0, size = 8,
                                fontface = "plain", family = "Arial") {
@@ -217,6 +294,16 @@ add_labels_to_plot <- function(p, stats_df, row,
 }
 
 
+# Find the optimal location for the bars such that they do not overlap with
+# data nor each other. The spacing can be adjusted so that the labels do not
+# overlap. The algorithm is as follows:
+#  1. Place the first bar as low as it can go without overlapping any data.
+#  2. Place the next bar as low as it can go without overlapping any data.
+#  3. Check if the new bar overlaps any previously placed bars.
+#  4. If it does, move it to have its lower bound just above the upper bound
+#     of the lowest bar it overlaps with.
+#  5. Repeat steps 3 and 4 until the new bar does not overlap with any others.
+#  6. Repeat steps 2-5 until all bars have been placed.
 get_bars <- function(df, stats_df, up_spacing, dn_spacing) {
     for (i in seq(1, nrow(stats_df))) {
         y_min <- lowest_y(stats_df$x1_num[[i]], stats_df$x2_num[[i]], df)
@@ -233,6 +320,7 @@ get_bars <- function(df, stats_df, up_spacing, dn_spacing) {
 }
 
 
+# Find the lowest y-value for a bar.
 lowest_y <- function(x1, x2, df) {
     min_vals <- df %>%
         filter(between(x_num, x1, x2)) %>%
@@ -242,12 +330,15 @@ lowest_y <- function(x1, x2, df) {
 }
 
 
+# Find the lowest bar in a list of bars.
 find_lowest_bar <- function(bars) {
     ys <- purrr::map_dbl(bars, ~.x$y)
     return(bars[[which.min(ys)]])
 }
 
 
+# Find the optimial location for a bar `b` amongst a list of bars `current_bs`.
+# See `get_bars()` for the complete algorithm used.
 find_optimal_bar_position <- function(b, current_bs) {
     current_bs <- current_bs[!is.na(current_bs)]
 
