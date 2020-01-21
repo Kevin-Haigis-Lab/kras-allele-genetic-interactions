@@ -17,8 +17,10 @@
 #   the function `make_stats_dataframe()` using `auto_filter = TRUE`,
 #   `method = "t.test"`, and `p.adjust.method = "BH"`.
 # box_color, box_fill: passed to `color` and `fill` for `geom_boxplot(aes())`
-#   and `geom_jitter(aes())`. If the values are not `NULL`,
-#   `scale_color/fill_identity()` is applied.
+#   and `geom_jitter(aes())`. If the properties are to be paired to a column
+#   of the data frame, pass them unquoted (like a normal call to 'ggplot' for
+#   setting an aesthetic). If a specific color/fill is to be used, pass it as a
+#   string (e.g. "green") and apply `scale_color/fill_identity()`.
 # point_alpha, point_shape, point_size, jitter_width, jitter_height: passed to
 #  `alpha`, `shape`, `size`, `width`, and `height` for `geom_jitter()`.
 # up_spacing, dn_spacing: The spacing above and below each bar. The units are
@@ -32,7 +34,7 @@
 stats_boxplot <- function(df, stats_df = NULL,
                           box_color = NULL, box_fill = NULL,
                           box_alpha = 0.6, point_alpha = 0.9,
-                          point_shape = NULL, point_size = NULL,
+                          point_shape = NULL, point_size = 1,
                           jitter_width = NULL, jitter_height = NULL,
                           up_spacing = 0.1, dn_spacing = up_spacing,
                           bar_color = "black", bar_alpha = 1.0,
@@ -53,22 +55,16 @@ stats_boxplot <- function(df, stats_df = NULL,
 
     bp <- ggplot(df, aes(x = x, y = y)) +
         geom_boxplot(
-            aes(color = box_color, fill = box_fill),
+            aes(color = !!rlang::enquo(box_color),
+                fill = !!rlang::enquo(box_fill)),
             alpha = box_alpha, outlier.shape = NA
         ) +
         geom_jitter(
-            aes(color = box_color, fill = box_fill),
-            alpha = point_alpha
+            aes(color = !!rlang::enquo(box_color),
+                fill = !!rlang::enquo(box_fill)),
+            alpha = point_alpha, size = point_size,
+            width = jitter_width, height = jitter_height
         )
-
-
-    if (!is.null(box_color)) {
-        bp <- bp + scale_color_identity()
-    }
-
-    if (!is.null(box_fill)) {
-        bp <- bp + scale_fill_identity()
-    }
 
     bp <- add_stats_comparisons(bp, df, stats_df,
                                 up_spacing = 0.1, dn_spacing = up_spacing,
@@ -172,10 +168,14 @@ is_between <- function(x, left, right, inclusive = FALSE) {
         return(left < i & i < right)
     }
 
+    between_inclusive <- function(i) {
+        return(left <= i & i <= right)
+    }
+
     if (inclusive) {
-        return(dplyr::between(i, left, right))
+        return(purrr::map_lgl(x, between_inclusive))
     } else {
-        return(purrr::map_lgl(x, f))
+        return(purrr::map_lgl(x, between_non_inclusive))
     }
 }
 
@@ -232,7 +232,6 @@ add_stats_comparisons <- function(bp, df, stats_df,
                                  family = family)
     }
 
-
     max_y_val <- max(purrr::map_dbl(stats_df$bar, ~ unlist(.x)["y_up"]))
     bp <- bp +
         scale_y_continuous(limits = c(NA, max_y_val))
@@ -247,11 +246,12 @@ add_stats_comparisons <- function(bp, df, stats_df,
 # The `...` is passed to `sort()`.
 reassign_x <- function(x, all_xs, ...) {
     if (is.factor(x)) {
-        return(as.numeric(x))
+        x <- forcats::fct_drop(x)
+        return(as.integer(x))
     }
     if (!is.factor(x)) {
         fx <- factor(x, levels = sort(unique(unlist(all_xs)), ...))
-        return(as.numeric(fx))
+        return(as.integer(fx))
     }
 }
 
@@ -322,8 +322,11 @@ get_bars <- function(df, stats_df, up_spacing, dn_spacing) {
 
 # Find the lowest y-value for a bar.
 lowest_y <- function(x1, x2, df) {
+    xmin <- min(c(x1, x2))
+    xmax <- max(c(x1, x2))
+
     min_vals <- df %>%
-        filter(between(x_num, x1, x2)) %>%
+        filter(is_between(x_num, !!xmin, !!xmax, inclusive = TRUE)) %>%
         pull(y) %>%
         max()
     return(min_vals[[1]])
