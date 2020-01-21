@@ -145,6 +145,7 @@ save_proto <- function(gg_obj, save_path, cancer) {
     }
 }
 
+
 # plot the results of the first analysis
 plot_pairwise_test_results <- function(hugo_symbol, cancer, data,
                                        allele_aov, allele_pairwise,
@@ -209,6 +210,50 @@ plot_pairwise_test_results <- function(hugo_symbol, cancer, data,
 }
 
 
+# Plot the results of the first analysis.
+# This version of the function uses my own box-plot creation function
+#   located in "lib/stats-boxplot.R".
+plot_pairwise_test_results2 <- function(hugo_symbol, cancer, data,
+                                        allele_aov, allele_pairwise,
+                                        save_proto = FALSE, replace_svg = FALSE,
+                                        ...) {
+    if (all(is.na(allele_aov)) | all(is.na(allele_pairwise))) { return() }
+
+    if (tidy(allele_aov)$p.value[[1]] >= 0.01) { return() }
+
+    data <- unique(data) %>%
+        mutate(x = fct_drop(factor_alleles(allele)),
+               y = gene_effect)
+
+
+    stat_tib <- make_stats_dataframe(data, auto_filter = TRUE,
+                                     method = "t.test", p.adjust.method = "BH")
+
+    if (nrow(stat_tib) < 1) { return() }
+    p <- stats_boxplot(data, stat_tib, box_color = allele,
+                       up_spacing = 0.06,
+                       point_size = 0.1, label_size = 3, bar_size = 0.4) +
+        scale_color_manual(values = short_allele_pal) +
+        theme_bw(base_size = 7, base_family = "Arial") +
+        theme(
+            text = element_text(family = "arial"),
+            plot.title = element_text(hjust = 0.5),
+            axis.title.x = element_blank(),
+            legend.position = "none"
+        ) +
+        labs(y = "depletion effect")
+
+    if (replace_svg) {
+        plot_fname <- file.path(GRAPHS_DIR, glue("{cancer}-{hugo_symbol}.svg"))
+        ggsave_wrapper(p, plot_fname, size = "small")
+    }
+
+    if (save_proto) {
+        save_proto(p, plot_fname, cancer)
+    }
+}
+
+# Select genes for figures.
 select_gene_boxplots <- tibble::tribble(
     ~ cancer, ~ hugo_symbol,
       "COAD",        "IDH1",
@@ -220,7 +265,7 @@ select_gene_boxplots <- tibble::tribble(
 model1_tib %>%
     # pwalk(plot_pairwise_test_results) %>%
     right_join(select_gene_boxplots, by = c("cancer", "hugo_symbol")) %>%
-    pwalk(plot_pairwise_test_results, save_proto = TRUE)
+    pwalk(plot_pairwise_test_results2, save_proto = TRUE)
 
 
 
