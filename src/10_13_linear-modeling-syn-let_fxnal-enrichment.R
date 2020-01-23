@@ -1,4 +1,10 @@
 
+GRAPHS_DIR <- "10_13_linear-modeling-syn-let_fxnal-enrichment"
+reset_graph_directory(GRAPHS_DIR)
+
+TABLES_DIR <- "10_13_linear-modeling-syn-let"
+reset_table_directory(TABLES_DIR)
+
 #### ---- Functional annotation of heatmap gene (row) clusters ---- ####
 
 cluster_terms <- depmap_gene_clusters %>%
@@ -18,11 +24,7 @@ cache("cluster_terms", depends = "model1_tib")
 
 # Write the enrichment results to file.
 cluster_terms %>%
-    write_tsv(
-        file.path("tables",
-                  "10_10_linear-modeling-syn-let",
-                  "gene-clusters-fxnal-enrichment.tsv"
-    ))
+    write_tsv(table_path(TABLES_DIR, "gene-clusters-fxnal-enrichment.tsv"))
 
 cluster_terms %>%
     group_by(cancer, term) %>%
@@ -33,9 +35,7 @@ cluster_terms %>%
     ungroup() %>%
     arrange(cancer, gene_cls, datasource, term, adjusted_p_value, desc(n_genes)) %>%
     write_tsv(
-        file.path("tables",
-                  "10_10_linear-modeling-syn-let",
-                  "gene-clusters-fxnal-enrichment_top10.tsv"
+        table_path(TABLES_DIR, "gene-clusters-fxnal-enrichment_top10.tsv"
     ))
 
 
@@ -55,9 +55,7 @@ cluster_terms %>%
     ungroup() %>%
     arrange(cancer, gene_cls, datasource, term, adjusted_p_value, desc(n_genes)) %>%
     write_tsv(
-        file.path("tables",
-                  "10_10_linear-modeling-syn-let",
-                  "gene-clusters-fxnal-enrichment_uncommon.tsv"
+        table_path(TABLES_DIR, "gene-clusters-fxnal-enrichment_uncommon.tsv"
     ))
 
 
@@ -106,7 +104,7 @@ gene_cluster_functional_enrichment_barplot <- function(cancer,
         arrange(adjusted_p_value, n_genes) %>%
         slice(seq(1, top_n_fxn))
     p <- functional_enrichment_barplot(cancer, mod_data)
-    save_name <- plot_path("10_13_linear-modeling-syn-let_fxnal-enrichment",
+    save_name <- plot_path(GRAPHS_DIR,
                            glue("functional-enrichment_{cancer}.svg"))
     if (cancer == "LUAD") {
         ggsave_wrapper(p, save_name, "wide")
@@ -161,10 +159,8 @@ enriched_group_effect_barplot <- function(cancer, term, gene_cls,
         str_replace_all("/", "-") %>%
         str_replace_all("\\(", "-") %>%
         str_remove_all("\\)|:")
-    save_name <- plot_path(
-        "10_13_linear-modeling-syn-let_fxnal-enrichment",
-        glue("gene-effect-barplot_{cancer}_{save_term}.svg")
-    )
+    save_name <- plot_path(GRAPHS_DIR,
+                           glue("gene-effect-barplot_{cancer}_{save_term}.svg"))
     ggsave_wrapper(p, save_name, "wide")
 }
 
@@ -189,11 +185,7 @@ cluster_terms_cancer <- depmap_gene_clusters %>%
     mutate(datasource_hr = unlist(mapping_datasource_names[datasource]))
 
 cluster_terms_cancer %>%
-    write_tsv(
-        file.path("tables",
-                  "10_10_linear-modeling-syn-let",
-                  "cancer-fxnal-enrichment.tsv"
-    ))
+    write_tsv(table_path(TABLES_DIR, "cancer-fxnal-enrichment.tsv"))
 
 cluster_terms_cancer %>%
     group_by(cancer, term) %>%
@@ -202,11 +194,7 @@ cluster_terms_cancer %>%
     slice(1:10) %>%
     ungroup() %>%
     arrange(cancer, datasource, term, adjusted_p_value, desc(n_genes)) %>%
-    write_tsv(
-        file.path("tables",
-                  "10_10_linear-modeling-syn-let",
-                  "cancer-fxnal-enrichment_top10.tsv"
-    ))
+    write_tsv(table_path(TABLES_DIR, "cancer-fxnal-enrichment_top10.tsv"))
 
 cluster_terms_cancer %>%
     filter(!str_detect(term, common_term_regex)) %>%
@@ -215,11 +203,7 @@ cluster_terms_cancer %>%
     slice(1:10) %>%
     ungroup() %>%
     arrange(cancer, datasource, term, adjusted_p_value, desc(n_genes)) %>%
-    write_tsv(
-        file.path("tables",
-                  "10_10_linear-modeling-syn-let",
-                  "cancer-fxnal-enrichment_uncommon.tsv"
-    ))
+    write_tsv(table_path(TABLES_DIR, "cancer-fxnal-enrichment_uncommon.tsv"))
 
 
 # Make the side-ways bar-plot for the enriched functions of a cancer
@@ -238,7 +222,7 @@ cancer_functional_enrichment_barplot <- function(cancer, data, ...) {
         cancer, mod_data,
         genes_names_size = ifelse(cancer == "LUAD", 1.5, 3)
     )
-    save_name <- plot_path("10_13_linear-modeling-syn-let_fxnal-enrichment",
+    save_name <- plot_path(GRAPHS_DIR,
                            glue("functional-enrichment_{cancer}_overall.svg"))
     if (cancer == "LUAD") {
         ggsave_wrapper(p, save_name, "large")
