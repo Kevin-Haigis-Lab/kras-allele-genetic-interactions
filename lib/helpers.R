@@ -93,6 +93,12 @@ table_path <- function(...) {
 file_sans_ext <- tools::file_path_sans_ext
 
 
+#' Softmax: the input vector is normalized such that the output sums to 1.
+softmax <- function(x, na_rm = TRUE) {
+    x_sum <- sum(x, na.rm = na_rm)
+    return(x / x_sum)
+}
+
 
 #### ---- Helpful regular expressions ---- ####
 
