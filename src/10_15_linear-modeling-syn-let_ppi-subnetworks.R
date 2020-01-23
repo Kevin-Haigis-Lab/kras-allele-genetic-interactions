@@ -1,6 +1,7 @@
 # Large weakly connected subnetworks from the clusters of the genes.
 
-library(ggraph)
+GRAPHS_DIR <- "10_15_linear-modeling-syn-let_ppi-subnetworks"
+reset_graph_directory(GRAPHS_DIR)
 
 set.seed(0)
 
@@ -20,21 +21,25 @@ ggraph_of_component <- function(gr, idx, cancer = "", cluster_num = "", ...) {
         ) +
         labs(title = p_title)
 
-    save_path <- plot_path("10_15_linear-modeling-syn-let_ppi-subnetworks",
-                           glue("{cancer}_cluster-{cluster_num}_component-{idx}.svg"))
+    save_path <- plot_path(
+        GRAPHS_DIR,
+        glue("{cancer}_cluster-{cluster_num}_component-{idx}.svg")
+    )
     ggsave_wrapper(p, save_path, "medium")
 }
 ggraph_of_component <- memoise::memoise(ggraph_of_component)
 
-weakly_connected_components <- function(cancer, gene_cls, hugo_symbols, min_comp_size = 3) {
+weakly_connected_components <- function(cancer, gene_cls, hugo_symbols,
+                                        min_comp_size = 3) {
     hugo_symbols <- unlist(hugo_symbols)
-    string_gr %E>%
-        filter(combined_score > 900) %N>%
+    string_gr %N>%
         filter(name %in% !!hugo_symbols) %N>%
         filter(centrality_degree(mode = "all") > 0) %>%
         filter_component_size(min_size = min_comp_size) %>%
         to_components(type = "weak") %>%
-        purrr::iwalk(ggraph_of_component, cancer = cancer, cluster_num = gene_cls)
+        purrr::iwalk(ggraph_of_component,
+                     cancer = cancer,
+                     cluster_num = gene_cls)
 }
 
 
