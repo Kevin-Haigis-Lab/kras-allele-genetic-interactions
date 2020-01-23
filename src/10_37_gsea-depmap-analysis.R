@@ -371,6 +371,7 @@ get_geneset_enrichment_results <- function(cancer, allele, name) {
     return(gsea_tib)
 }
 
+
 rank_depmap_data <- function(data) {
     data %>%
         group_by(hugo_symbol) %>%
@@ -389,6 +390,7 @@ get_alpha_values_by_distance <- function(data) {
         ungroup()
 }
 
+
 get_alpha_values_to_highlight_allele <- function(data, allele) {
     data %>%
         mutate(
@@ -396,12 +398,11 @@ get_alpha_values_to_highlight_allele <- function(data, allele) {
         )
 }
 
+
 get_color_values_to_highlight_allele <- function(data, allele) {
     data %>%
         mutate(color_val = ifelse(allele == !!allele, "black", NA))
 }
-
-
 
 
 save_to_proto <- function(cancer, allele, geneset, gg_obj, save_name) {
@@ -414,9 +415,11 @@ save_to_proto <- function(cancer, allele, geneset, gg_obj, save_name) {
     selected_genesets <- select_gsea_results %>%
         filter(cancer == !!cancer) %>%
         pull(gene_set) %>%
-        standardize_names()
+        standardize_names() %>%
+        str_to_lower()
 
-    cond <- str_detect(standardize_names(geneset), selected_genesets)
+    cond <- str_detect(str_to_lower(standardize_names(geneset)),
+                       selected_genesets)
     if (any(cond)) {
         saveRDS(gg_obj,
                 get_fig_proto_path(basename(save_name),
@@ -425,7 +428,9 @@ save_to_proto <- function(cancer, allele, geneset, gg_obj, save_name) {
     }
 }
 
-plot_ranked_data <- function(df, cancer, allele, geneset) {
+
+plot_ranked_data <- function(df, cancer, allele, geneset,
+                             use_alpha_grad = FALSE) {
     plot_title <- str_replace_all(geneset, "_", " ") %>%
         str_to_sentence() %>%
         str_wrap(50)
@@ -433,8 +438,16 @@ plot_ranked_data <- function(df, cancer, allele, geneset) {
     p <- df %>%
         get_alpha_values_by_distance() %>%
         get_color_values_to_highlight_allele(allele = allele) %>%
-        ggplot(aes(x = effect_rank, y = hugo_symbol)) +
-        geom_tile(aes(fill = allele, alpha = alpha_val), size = 0.5) +
+        ggplot(aes(x = effect_rank, y = hugo_symbol))
+
+    if (use_alpha_grad) {
+        p <- p +
+            geom_tile(aes(fill = allele, alpha = alpha_val), size = 0.5)
+    } else {
+        p <- p +
+            geom_tile(aes(fill = allele), size = 0.5)
+    }
+        p <- p +
         scale_fill_manual(values = short_allele_pal) +
         # scale_color_identity(na.value = NA) +
         scale_alpha_identity() +
@@ -460,6 +473,7 @@ plot_ranked_data <- function(df, cancer, allele, geneset) {
     return(df)
 }
 
+
 plot_enrichment_heatmap <- function(cancer, name, allele, n_genes = 10, ...) {
     genes_to_plot <- get_geneset_enrichment_results(cancer, allele, name)
     if (is.null(genes_to_plot)) {
@@ -477,6 +491,7 @@ plot_enrichment_heatmap <- function(cancer, name, allele, n_genes = 10, ...) {
         rank_depmap_data() %>%
         plot_ranked_data(cancer = cancer, allele = allele, geneset = name)
 }
+
 
 gsea_df %>%
     standard_gsea_results_filter() %>%
