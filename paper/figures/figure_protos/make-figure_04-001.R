@@ -31,7 +31,7 @@ panel_A <- read_fig_proto("gsea-results-COAD-select.rds", FIGNUM) +
             title = "NES",
             title.position = "left",
             label.position = "right",
-            barheight = unit(20, "mm"),
+            barheight = unit(15, "mm"),
             barwidth = unit(2, "mm"),
             order = 1
         )
@@ -47,12 +47,12 @@ panel_A <- read_fig_proto("gsea-results-COAD-select.rds", FIGNUM) +
             order = 2
         )
     ) +
-    theme_fig4(tag_margin = margin(-5, 0, 0, 0, "mm")) +
+    theme_fig4(tag_margin = margin(0, 0, 0, 0, "mm")) +
     theme(
         axis.title = element_blank(),
         plot.title = element_blank(),
         legend.position = "right",
-        legend.title = element_text(angle = 90),
+        legend.title = element_text(angle = 90, vjust = 0.5, hjust = 0.5),
         legend.spacing = unit(0, "mm")
     ) +
     labs(tag = "a")
@@ -76,8 +76,10 @@ panel_B1 <- read_fig_proto(
         legend.position = "none",
         panel.grid = element_blank()
     ) +
-    labs(title = "Respiratory electron transport",
-         x = x_label)
+    labs(
+        title = "Respiratory electron transport",
+        x = x_label
+    )
 
 panel_B2 <- read_fig_proto(
         "rankplot_COAD_G13D_REACTOME_COMPLEMENT_CASCADE.rds",
@@ -85,15 +87,17 @@ panel_B2 <- read_fig_proto(
     ) +
     theme_fig4() +
     theme(
-        plot.title = element_text(size = 7, family = "Arial"),
+        plot.title = element_text(size = 6, family = "Arial"),
         axis.title.y = element_blank(),
         legend.key.size = unit(2, "mm"),
         legend.title = element_blank(),
         legend.direction = "horizontal",
         panel.grid = element_blank()
     ) +
-    labs(title = "Complement cascade",
-         x = x_label)
+    labs(
+        title = "Complement cascade",
+        x = x_label
+    )
 
 
 #### ---- C. Heatmap of linear model ---- ####
@@ -111,7 +115,7 @@ pre_panel_C_main <- gtable::gtable_filter(pre_panel_C,
                                           invert = TRUE)
 
 panel_C <- wrap_elements(plot = pre_panel_C_main) *
-    theme_fig4(tag_margin = margin(-5, -8, 0, 6, "mm")) +
+    theme_fig4(tag_margin = margin(0, -8, 0, 6, "mm")) +
     theme(
         plot.margin = margin(-10, -11, -13, -7, "mm")
     ) +
@@ -161,37 +165,6 @@ panel_C_legend3 <- prep_pheatmap_legend(
 
 panel_C_legend <- panel_C_legend1 | panel_C_legend2 | panel_C_legend3
 
-# panel_C_legend1_label <- grid::textGrob(
-#     "scaled dep. score",
-#     rot = 90,
-#     gp = grid::gpar(fontsize = 5,
-#                     fontfamily = "Arial",
-#                     fontface = "bold"))
-# panel_C_legend1_label <- wrap_elements(panel = panel_C_legend1_label)
-
-# # Heatmap colorbar
-# panel_C_legend1 <- pre_panel_C %>%
-#     gtable::gtable_filter("legend") %>%
-#     gtable::gtable_filter("annotation", invert = TRUE)
-# panel_C_legend1 <- wrap_elements(plot = panel_C_legend1) +
-#     theme_fig4() %+replace%
-#     theme(plot.margin = margin(-10, -10, -10, 0, "mm"),
-#           panel.spacing = unit(0, 'mm'))
-
-# # Heatmap row/column annotations
-# panel_C_legend2 <- pre_panel_C %>%
-#     gtable::gtable_filter("annotation_legend")
-# panel_C_legend2$layout$clip <- "off"
-# panel_C_legend2 <- wrap_elements(plot = panel_C_legend2) +
-#     theme_fig4() %+replace%
-#     theme(plot.margin = margin(-10, -5, -20, -5, "mm"),
-#           panel.spacing = unit(0, 'mm'))
-
-# panel_C_legend <- panel_C_legend1_label | panel_C_legend1 |
-#     plot_spacer() |
-#     panel_C_legend2 &
-#     theme_fig4()
-
 
 #### ---- E. Heatmap of linear model ---- ####
 # Clustered (pretty) heatmap of genes found to be differentially synthetic
@@ -199,8 +172,8 @@ panel_C_legend <- panel_C_legend1 | panel_C_legend2 | panel_C_legend3
 # original script: "src/10_10_linear-modeling-syn-let.R"
 
 panel_D_files <- c(
-    "COAD-IDH1.rds",
     "COAD-KNTC1.rds",
+    "COAD-IDH1.rds",
     "COAD-PIP5K1A.rds",
     "COAD-WDR26.rds"
 )
@@ -208,12 +181,26 @@ panel_D_files <- c(
 panel_D_plots <- as.list(rep(NA, length(panel_D_files)))
 names(panel_D_plots) <- panel_D_files
 for (f in panel_D_files) {
+
+    if (f != "COAD-WDR26.rds") {
+        x_axis_text <- element_blank()
+    } else {
+        x_axis_text <- NULL
+    }
+
     panel_D_plots[[f]] <- read_fig_proto(f, FIGNUM) +
-        theme_fig4() +
+        theme_fig4(tag_margin = margin(0, 0, 0, -2, "mm")) %+replace%
         theme(
+            plot.title = element_text(size = 6, face = "bold"),
             axis.title.x = element_blank(),
-            legend.position = "none"
+            axis.text.x = x_axis_text,
+            legend.position = "none",
+            plot.margin = margin(0, 0, 0, 0, "mm")
+        ) +
+        labs(
+            title = str_remove(file_sans_ext(f), "COAD-")
         )
+
 }
 
 panel_D <- wrap_plots(panel_D_plots, ncol = 1)
@@ -231,18 +218,21 @@ panel_D[[1]] <- panel_D[[1]] + labs(tag = "d")
         labs(tag = "b") +
         theme_fig4()
 
+    column_3 <- (
+        panel_D /
+        wrap_elements(full = panel_C_legend)
+    )
+
     # COMPLETE FIGURE
     full_figure <- (
         (
-            panel_A / panel_B +
-            plot_layout(heights = c(2, 3))
+            panel_A / panel_B + plot_layout(heights = c(2, 3))
         ) |
         (
             panel_C
         ) |
         (
-            wrap_elements(full = panel_C_legend) / panel_D +
-                plot_layout(heights = c(1, 5))
+            column_3
         )
     ) +
         plot_layout(widths = c(3, 7, 2.1))
