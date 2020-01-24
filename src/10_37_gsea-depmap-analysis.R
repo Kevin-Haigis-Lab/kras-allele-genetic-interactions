@@ -164,8 +164,7 @@ plot_gsea_results <- function(cancer, data) {
 
     p <- mod_data %>%
         gsea_plot(title_suffix = cancer)
-    save_path <- plot_path("10_37_gsea-depmap-analysis",
-                           glue("gsea-results-{cancer}-all.svg"))
+    save_path <- plot_path(GRAPHS_DIR, glue("gsea-results-{cancer}-all.svg"))
     ggsave_wrapper(p, save_path, "large")
 
     for (fam in unique(data$gene_set_family)) {
@@ -176,7 +175,7 @@ plot_gsea_results <- function(cancer, data) {
         if (nrow(tt) == 0) { next }
 
         p <- gsea_plot(tt, title_suffix = suffix)
-        save_path <- plot_path("10_37_gsea-depmap-analysis",
+        save_path <- plot_path(GRAPHS_DIR,
                                glue("gsea-results-{cancer}-{fam}.svg"))
         ggsave_wrapper(p, save_path, "large")
     }
@@ -270,7 +269,7 @@ select_gsea_plot <- function(cancer, data, ...) {
         )
 
     p <- gsea_plot(mod_data, title_suffix = cancer)
-    save_path <- plot_path("10_37_gsea-depmap-analysis",
+    save_path <- plot_path(GRAPHS_DIR,
                            glue("gsea-results-{cancer}-select.svg"))
     ggsave_wrapper(p, save_path, "wide")
 
@@ -360,15 +359,15 @@ get_geneset_enrichment_results <- function(cancer, allele, name) {
         return(NULL)
     }
 
-    gsea_tib <- read_gsea_geneset_xls(fpath)
+    gsea_xls_data <- read_gsea_geneset_xls(fpath)
 
     # Reverse the ordering of the data frame if the first entry is not in the
     # core enrichment because that means the gene set was *negatively* enriched.
-    if (!gsea_tib$core_enrichment[[1]]) {
-        gsea_tib %<>% arrange(-rank_in_gene_list)
+    if (!gsea_xls_data$core_enrichment[[1]]) {
+        gsea_xls_data %<>% arrange(-rank_in_gene_list)
     }
 
-    return(gsea_tib)
+    return(gsea_xls_data)
 }
 
 
@@ -393,9 +392,7 @@ get_alpha_values_by_distance <- function(data) {
 
 get_alpha_values_to_highlight_allele <- function(data, allele) {
     data %>%
-        mutate(
-            alpha_val = ifelse(allele == !!allele, 1.0, 0.7)
-        )
+        mutate(alpha_val = ifelse(allele == !!allele, 1.0, 0.7))
 }
 
 
@@ -449,7 +446,6 @@ plot_ranked_data <- function(df, cancer, allele, geneset,
     }
         p <- p +
         scale_fill_manual(values = short_allele_pal) +
-        # scale_color_identity(na.value = NA) +
         scale_alpha_identity() +
         scale_x_discrete(expand = c(0, 0)) +
         scale_y_discrete(expand = c(0, 0)) +
@@ -465,6 +461,7 @@ plot_ranked_data <- function(df, cancer, allele, geneset,
         labs(
             title = glue("{cancer} - {allele}\n{plot_title}")
         )
+
     save_name <- plot_path(GRAPHS_DIR,
                            glue("rankplot_{cancer}_{allele}_{geneset}.svg"))
     ggsave_wrapper(p, save_name, width = 5, height = 3)
@@ -474,17 +471,23 @@ plot_ranked_data <- function(df, cancer, allele, geneset,
 }
 
 
-plot_enrichment_heatmap <- function(cancer, name, allele, n_genes = 10, ...) {
-    genes_to_plot <- get_geneset_enrichment_results(cancer, allele, name)
-    if (is.null(genes_to_plot)) {
-        return(NULL)
-    } else {
-        genes_to_plot %<>%
+get_genes_to_plot <- function(gsea_xls_data, cancer, n_genes) {
+    gtp <- gsea_xls_data %>%
             filter(!(probe %in% genes_to_not_plot(!!cancer))) %>%
             slice(seq(1, n_genes)) %>%
             pull(probe) %>%
             rev()
+}
+
+
+plot_enrichment_heatmap <- function(cancer, name, allele, n_genes = 10, ...) {
+    genes_to_plot <- get_geneset_enrichment_results(cancer, allele, name)
+
+    if (is.null(genes_to_plot)) {
+        return(NULL)
     }
+
+    genes_to_plot <- get_genes_to_plot(genes_to_plot)
     model_data %>%
         filter(cancer == !!cancer & hugo_symbol %in% !!genes_to_plot) %>%
         mutate(hugo_symbol = factor(hugo_symbol, levels = genes_to_plot)) %>%
@@ -493,6 +496,78 @@ plot_enrichment_heatmap <- function(cancer, name, allele, n_genes = 10, ...) {
 }
 
 
+calculate_enrichment_average <- function(df) {
+    n_rows <- n_distinct(df$hugo_symbol)
+    df %>%
+        group_by(allele) %>%
+        mutate(num_celllines = n_distinct(dep_map_id)) %>%
+        ungroup() %>%
+        group_by(effect_rank, allele) %>%
+        mutate(
+            fraction_rows = n_distinct(hugo_symbol) / !!n_rows / num_celllines
+        ) %>%
+        group_by(effect_rank) %>%
+        mutate(
+            fraction_rows = scales::rescale(fraction_rows, to = c(0.1, 0.8))
+        ) %>%
+        ungroup()
+}
+
+
+plot_ranked_bar <- function(df, cancer, allele, geneset) {
+    plot_title <- str_replace_all(geneset, "_", " ") %>%
+        str_to_sentence() %>%
+        str_wrap(50)
+
+    p <- df %>%
+        ggplot(aes(x = effect_rank, y = allele)) +
+        geom_tile(aes(fill = allele, alpha = fraction_rows), size = 0.5) +
+        scale_fill_manual(values = short_allele_pal) +
+        scale_alpha_identity() +
+        scale_x_discrete(expand = c(0, 0)) +
+        scale_y_discrete(expand = c(0, 0)) +
+        theme_bw(base_size = 12, base_family = "Arial") +
+        theme(
+            axis.title = element_blank(),
+            legend.title = element_blank(),
+            legend.position = "bottom",
+            panel.grid = element_blank(),
+            plot.title = element_text(hjust = 0.5, size = 10),
+            legend.key.size = unit(2, "mm")
+        ) +
+        labs(
+            title = glue("{cancer} - {allele}\n{plot_title}")
+        )
+
+    save_name <- plot_path(GRAPHS_DIR,
+                           glue("rankbar_{cancer}_{allele}_{geneset}.svg"))
+    ggsave_wrapper(p, save_name, width = 5, height = 3)
+    save_to_proto(cancer, allele, geneset, p, save_name)
+
+    return(df)
+}
+
+
+plot_enrichment_bar <- function(cancer, name, allele, n_genes = 10, ...) {
+    genes_to_plot <- get_geneset_enrichment_results(cancer, allele, name)
+
+    if (is.null(genes_to_plot)) {
+        return(NULL)
+    }
+
+    genes_to_plot <- get_genes_to_plot(genes_to_plot, cancer, n_genes)
+
+    df <- model_data %>%
+        filter(cancer == !!cancer & hugo_symbol %in% !!genes_to_plot) %>%
+        mutate(hugo_symbol = factor(hugo_symbol, levels = genes_to_plot)) %>%
+        rank_depmap_data() %>%
+        calculate_enrichment_average() %>%
+        mutate(allele = fct_rev(allele)) %>%
+        plot_ranked_bar(cancer = cancer, allele = allele, geneset = name)
+}
+
+
 gsea_df %>%
     standard_gsea_results_filter() %>%
-    pwalk(plot_enrichment_heatmap)
+    # pwalk(plot_enrichment_heatmap) %T>%
+    pwalk(plot_enrichment_bar)
