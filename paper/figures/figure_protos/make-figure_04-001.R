@@ -43,7 +43,7 @@ panel_A <- read_fig_proto("gsea-results-COAD-select.rds", FIGNUM) +
             title.position = "left",
             label.position = "right",
             label.hjust = 0,
-            keywidth = unit(1, "mm"),
+            keywidth = unit(0, "mm"),
             order = 2
         )
     ) +
@@ -52,36 +52,66 @@ panel_A <- read_fig_proto("gsea-results-COAD-select.rds", FIGNUM) +
         axis.title = element_blank(),
         plot.title = element_blank(),
         legend.position = "right",
+        plot.margin = margin(-2, 0, 0, 0, "mm"),
         legend.title = element_text(angle = 90, vjust = 0.5, hjust = 0.5),
         legend.spacing = unit(0, "mm")
     ) +
     labs(tag = "a")
 
 
-#### ---- B. Ranked heatmaps of GSEA ---- ####
+#### ---- B, C. Ranked heatmaps of GSEA ---- ####
 # Two heatmaps showing the ranks of genes in the enriched genesets.
 # original script: "src/10_37_gsea-depmap-analysis.R"
 
+
+theme_fig4_densityplots <- function() {
+    theme_classic_comutation() %+replace%
+    theme(
+        plot.tag = element_text(size = 7,
+                                face = "bold",
+                                margin = margin(0, -2, -1, -3, "mm")),
+        plot.title = element_text(size = 6, family = "Arial"),
+        plot.margin = margin(0, 0, -1.5, 0, "mm"),
+        axis.title = element_blank(),
+        axis.text.x = element_blank(),
+        axis.text.y = element_blank(),
+        axis.line = element_blank(),
+        legend.position = "none"
+    )
+}
+
 x_label <- expression("" %<-% "greater dep. - ranked gene effect - less dep." %->% "")
 
-panel_B1 <- read_fig_proto(
+panel_B_density <- read_fig_proto(
+        "rankline_COAD_G12V_REACTOME_RESPIRATORY_ELECTRON_TRANSPORT.rds",
+        FIGNUM
+    ) +
+    theme_fig4_densityplots() +
+    labs(
+        y = "density",
+        tag = "b",
+        title = "Respiratory electron transport"
+    )
+
+panel_B <- read_fig_proto(
         "rankplot_COAD_G12V_REACTOME_RESPIRATORY_ELECTRON_TRANSPORT.rds",
         FIGNUM
     ) +
     theme_fig4() +
     theme(
-        plot.title = element_text(size = 6, family = "Arial"),
+        plot.title = element_blank(),
         axis.title.y = element_blank(),
-        legend.title = element_blank(),
         legend.position = "none",
-        panel.grid = element_blank()
+        panel.grid = element_blank(),
+        axis.text.x = element_blank(),
+        plot.background = element_rect(fill = NA, color = NA)
     ) +
     labs(
-        title = "Respiratory electron transport",
         x = x_label
     )
 
-panel_B2 <- read_fig_proto(
+
+panel_C <- read_fig_proto(
         "rankplot_COAD_G13D_REACTOME_COMPLEMENT_CASCADE.rds",
         FIGNUM
     ) +
@@ -93,33 +123,62 @@ panel_B2 <- read_fig_proto(
         legend.title = element_blank(),
         legend.direction = "horizontal",
         panel.grid = element_blank()
+    )
+
+panel_BC_legend <- wrap_elements(plot = cowplot::get_legend(panel_C)) +
+    theme_fig4() +
+    theme(
+        plot.margin = margin(0, 0, 0, 0, "mm")
+    )
+
+panel_C_density <- read_fig_proto(
+        "rankline_COAD_G13D_REACTOME_COMPLEMENT_CASCADE.rds",
+        FIGNUM
+    ) +
+    theme_fig4_densityplots() +
+    labs(
+        y = "density",
+        title = "Complement cascade",
+        tag = "c"
+    )
+
+panel_C <- panel_C +
+    theme_fig4() +
+    theme(
+        plot.title = element_blank(),
+        axis.title = element_blank(),
+        legend.position = "none",
+        panel.grid = element_blank(),
+        axis.text.x = element_blank(),
+        plot.background = element_rect(fill = NA, color = NA)
     ) +
     labs(
-        title = "Complement cascade",
         x = x_label
     )
 
 
-#### ---- C. Heatmap of linear model ---- ####
+
+
+#### ---- D. Heatmap of linear model ---- ####
 # Clustered (pretty) heatmap of genes found to be differentially synthetic
 # lethal.
 # original script: "src/10_10_linear-modeling-syn-let.R"
 
-pre_panel_C <- read_fig_proto(
+pre_panel_D <- read_fig_proto(
         "COAD_CRISPR_manhattan_ward.D2_pheatmap.rds",
         FIGNUM
     )[[4]]
 
-pre_panel_C_main <- gtable::gtable_filter(pre_panel_C,
+pre_panel_D_main <- gtable::gtable_filter(pre_panel_D,
                                           "legend",
                                           invert = TRUE)
 
-panel_C <- wrap_elements(plot = pre_panel_C_main) *
+panel_D <- wrap_elements(plot = pre_panel_D_main) *
     theme_fig4(tag_margin = margin(0, -8, 0, 6, "mm")) +
     theme(
         plot.margin = margin(-10, -11, -13, -7, "mm")
     ) +
-    labs(tag = "c")
+    labs(tag = "d")
 
 
 prep_pheatmap_legend <- function(name) {
@@ -148,22 +207,22 @@ prep_pheatmap_colorbar <- function(name) {
             )
 }
 
-panel_C_legend1 <- prep_pheatmap_colorbar(
+panel_D_legend1 <- prep_pheatmap_colorbar(
         "COAD_CRISPR_manhattan_ward.D2_pheatmap_heatpal.rds"
     ) +
     labs(title = "scaled\ndep. score")
 
-panel_C_legend2 <- prep_pheatmap_legend(
+panel_D_legend2 <- prep_pheatmap_legend(
         "COAD_CRISPR_manhattan_ward.D2_pheatmap_allelepal.rds"
     ) +
     labs(title = "allele")
 
-panel_C_legend3 <- prep_pheatmap_legend(
+panel_D_legend3 <- prep_pheatmap_legend(
         "COAD_CRISPR_manhattan_ward.D2_pheatmap_clusterpal.rds"
     ) +
     labs(title = "cluster")
 
-panel_C_legend <- panel_C_legend1 | panel_C_legend2 | panel_C_legend3
+panel_D_legend <- panel_D_legend1 | panel_D_legend2 | panel_D_legend3
 
 
 #### ---- E. Heatmap of linear model ---- ####
@@ -171,16 +230,16 @@ panel_C_legend <- panel_C_legend1 | panel_C_legend2 | panel_C_legend3
 # lethal.
 # original script: "src/10_10_linear-modeling-syn-let.R"
 
-panel_D_files <- c(
+panel_E_files <- c(
     "COAD-KNTC1.rds",
     "COAD-IDH1.rds",
     "COAD-PIP5K1A.rds",
     "COAD-WDR26.rds"
 )
 
-panel_D_plots <- as.list(rep(NA, length(panel_D_files)))
-names(panel_D_plots) <- panel_D_files
-for (f in panel_D_files) {
+panel_E_plots <- as.list(rep(NA, length(panel_E_files)))
+names(panel_E_plots) <- panel_E_files
+for (f in panel_E_files) {
 
     if (f != "COAD-WDR26.rds") {
         x_axis_text <- element_blank()
@@ -188,7 +247,7 @@ for (f in panel_D_files) {
         x_axis_text <- NULL
     }
 
-    panel_D_plots[[f]] <- read_fig_proto(f, FIGNUM) +
+    panel_E_plots[[f]] <- read_fig_proto(f, FIGNUM) +
         theme_fig4(tag_margin = margin(0, 0, 0, -2, "mm")) %+replace%
         theme(
             plot.title = element_text(size = 6, face = "bold"),
@@ -203,8 +262,8 @@ for (f in panel_D_files) {
 
 }
 
-panel_D <- wrap_plots(panel_D_plots, ncol = 1)
-panel_D[[1]] <- panel_D[[1]] + labs(tag = "d")
+panel_E <- wrap_plots(panel_E_plots, ncol = 1)
+panel_E[[1]] <- panel_E[[1]] + labs(tag = "e")
 
 
 #### ---- Figure assembly ---- ####
@@ -212,24 +271,28 @@ panel_D[[1]] <- panel_D[[1]] + labs(tag = "d")
 {
     set.seed(0)
 
-    panel_B <- panel_B1 / panel_B2 / guide_area() +
-        plot_layout(heights = c(50, 50, 1), guides = "collect")
-    panel_B <- wrap_elements(full = panel_B) +
-        labs(tag = "b") +
-        theme_fig4()
+    # panel_B <- panel_B / panel_C / guide_area() +
+    #     plot_layout(heights = c(50, 20, 50, 20, 1), guides = "collect")
+    # panel_B <- wrap_elements(full = panel_B) +
+    #     labs(tag = "b") +
+    #     theme_fig4()
+
+    panel_BC <- (panel_B_density / panel_B / panel_C_density / panel_C) +
+        plot_layout(heights = c(2, 5, 2, 5))
 
     column_3 <- (
-        panel_D /
-        wrap_elements(full = panel_C_legend)
+        panel_E /
+        wrap_elements(full = panel_D_legend)
     )
 
     # COMPLETE FIGURE
     full_figure <- (
         (
-            panel_A / panel_B + plot_layout(heights = c(2, 3))
+            panel_A / wrap_elements(full = panel_BC) / panel_BC_legend +
+                plot_layout(heights = c(400, 600, 1))
         ) |
         (
-            panel_C
+            panel_D
         ) |
         (
             column_3
