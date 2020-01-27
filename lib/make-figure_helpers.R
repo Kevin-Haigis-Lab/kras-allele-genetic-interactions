@@ -73,6 +73,18 @@ theme_classic_comutation <- function() {
     )
 }
 
+theme_graph_comutation <- function() {
+    theme_graph(base_size = 6, base_family = "Arial") %+replace%
+    theme(
+        plot.title = element_blank(),
+        plot.margin = margin(0, 0, 0, 0),
+        plot.tag = element_text(size = 7,
+                                face = "bold",
+                                margin = margin(-2, -2, -2, -2, "mm"))
+    )
+}
+
+
 
 #### ---- Saving and retrieving figure protos ---- ####
 
