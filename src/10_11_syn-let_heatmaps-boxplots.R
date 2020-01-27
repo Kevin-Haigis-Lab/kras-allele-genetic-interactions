@@ -9,8 +9,7 @@ GRAPHS_DIR_BOXES <- "10_11_linear-modeling-syn-let_boxplots"
 reset_graph_directory(GRAPHS_DIR_BOXES)
 
 ggproto_save_info <- list(
-    COAD = list(fig_num = 4, supp = FALSE),
-    LUAD = list(fig_num = 4, supp = FALSE)
+    COAD = list(fig_num = 4, supp = FALSE)
 )
 
 save_boxplot_proto <- function(gg_obj, save_path, cancer) {
