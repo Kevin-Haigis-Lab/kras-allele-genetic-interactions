@@ -195,12 +195,13 @@ merge_wt <- function(df, data) {
         unique()
     wt_df <- apply(df[, wt_samples], 1, mean, na.rm = TRUE)
     new_df <- df[, !colnames(df) %in% wt_samples]
-    new_df$WT <- wt_df
+    new_df["WT (avg.)"] <- wt_df
     return(new_df)
 }
 
 fig_save_info <- list(
-    COAD = list(fig_num = 4, supp = FALSE)
+    COAD = list(fig_num = 4, supp = FALSE),
+    LUAD = list(fig_num = 4, supp = FALSE)
 )
 
 # Custom annotation legends using `ggplot2::geom_tile()`.
@@ -223,7 +224,7 @@ make_annotation_tile <- function(v, grp) {
 
 # Save a proto for a figure.
 save_pheatmap_proto <- function(cancer, ph, save_path,
-                       anno_pal = NULL, heat_pal = NULL) {
+                                anno_pal = NULL, heat_pal = NULL) {
     if (cancer %in% names(fig_save_info)) {
         save_info <- fig_save_info[[cancer]]
     } else {
@@ -308,6 +309,20 @@ cluster_color_pal <- function(n_vals) {
 }
 
 
+apriori_genes <- unique(unlist(c(
+    kegg_geneset_df$hugo_symbol,
+    cosmic_cgc_df$hugo_symbol,
+    kras_interactors_bioid_df$hugo_symbol
+)))
+
+
+
+# Custom row names of only a priori genesets.
+labels_for_apriori_genes <- function(df) {
+    ifelse(rownames(df) %in% apriori_genes, rownames(df), "")
+}
+
+
 # Plot pretty heatmaps for a cancer.
 plot_cancer_heatmaps <- function(cancer, data, screen,
                                  merge_luad = TRUE,
@@ -358,6 +373,12 @@ plot_cancer_heatmaps <- function(cancer, data, screen,
     pal <- c(synthetic_lethal_pal["down"], "grey95", synthetic_lethal_pal["up"])
     pal <- colorRampPalette(pal)(7)
 
+    if (cancer == "LUAD") {
+        labels_row <- labels_for_apriori_genes(mod_data)
+    } else {
+        labels_row <- NULL
+    }
+
     ph <- pheatmap::pheatmap(
         mod_data,
         color = pal,
@@ -371,7 +392,7 @@ plot_cancer_heatmaps <- function(cancer, data, screen,
         treeheight_row = 8,
         treeheight_col = 8,
         fontsize = 5,
-        show_rownames = (cancer != "LUAD"),
+        labels_row = labels_row,
         silent = TRUE,
         border_color = NA,
         fontfamily = "Arial"
