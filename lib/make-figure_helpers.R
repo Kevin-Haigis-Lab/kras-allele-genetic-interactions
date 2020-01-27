@@ -58,6 +58,22 @@ theme_comutation <- function() {
 }
 
 
+theme_classic_comutation <- function() {
+    theme_classic(base_size = 6, base_family = "Arial") %+replace%
+    theme(
+        plot.title = element_text(size = 7, hjust = 0.5),
+        axis.title = element_text(size = 6),
+        axis.text.y = element_text(size = 5, hjust = 1),
+        axis.text.x = element_text(size = 5, vjust = 1),
+        axis.ticks = element_blank(),
+        plot.tag = element_text(size = 7,
+                                face = "bold",
+                                margin = margin(-2, -2, -2, -2, "mm")),
+        strip.background = element_blank()
+    )
+}
+
+
 #### ---- Saving and retrieving figure protos ---- ####
 
 # The root directory for the protos.
@@ -245,7 +261,7 @@ initialize_figure <- function(figure_num,
         version <- version + 1
         if (is.infinite(version)) version <- 1
     }
-    
+
     # Get the correct strings for figure number and version.
     base_n <- str_pad(as.character(figure_num), 2, pad = "0")
     sub_n <- str_pad(as.character(version), 3, pad = "0")
