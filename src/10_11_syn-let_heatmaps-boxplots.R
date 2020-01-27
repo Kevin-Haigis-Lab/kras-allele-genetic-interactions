@@ -203,13 +203,20 @@ fig_save_info <- list(
     LUAD = list(fig_num = 4, supp = FALSE)
 )
 
+
+replace_WT_in_luad <- function(df) {
+    df %>% mutate(name = ifelse(name == "WT (avg.)", "WT", name))
+}
+
 # Custom annotation legends using `ggplot2::geom_tile()`.
 make_annotation_tile <- function(v, grp) {
-    df <- tibble::enframe(v)
+    df <- tibble::enframe(v) %>% filter(!is.na(name))
+
     if (grp == "heat") {
         df %<>% mutate(name = as.numeric(name))
     } else {
         df %<>%
+            replace_WT_in_luad() %>%
             mutate(name = factor(name, levels = rev(sort(unique(name)))))
     }
 
@@ -220,6 +227,7 @@ make_annotation_tile <- function(v, grp) {
         labs(y = grp)
     return(p)
 }
+
 
 # Save a proto for a figure.
 save_pheatmap_proto <- function(cancer, ph, save_path,
@@ -359,8 +367,8 @@ plot_cancer_heatmaps <- function(cancer, data, screen,
         column_to_rownames("name")
 
     if (cancer == "LUAD") {
-        wt_anno_df <- data.frame(allele = "WT")
-        rownames(wt_anno_df) <- "WT"
+        wt_anno_df <- data.frame(allele = "WT (avg.)")
+        rownames(wt_anno_df) <- "WT (avg.)"
         col_anno <- rbind(col_anno, wt_anno_df)
     }
 
@@ -368,6 +376,11 @@ plot_cancer_heatmaps <- function(cancer, data, screen,
         allele = short_allele_pal[as.character(sort(unique(col_anno$allele)))],
         cluster = cluster_color_pal(max(as.numeric(row_anno$cluster)))
     )
+
+    if (cancer == "LUAD") {
+        idx <- names(anno_pal$allele) == "WT"
+        names(anno_pal$allele)[idx] <- "WT (avg.)"
+    }
 
     pal <- c(synthetic_lethal_pal["down"], "grey95", synthetic_lethal_pal["up"])
     pal <- colorRampPalette(pal)(7)
