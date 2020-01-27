@@ -237,7 +237,8 @@ filter_gsea_for_select_results <- function(cancer, df, key) {
 
 # Information for where to save the ggplot proto object for a Figure.
 ggproto_save_info <- list(
-    COAD = list(fig_num = 4, supp = FALSE)
+    COAD = list(fig_num = 4, supp = FALSE),
+    LUAD = list(fig_num = 4, supp = FALSE)
 )
 
 # MEMO sort of gene sets based on FDR and x-axis order.
@@ -487,7 +488,7 @@ plot_enrichment_heatmap <- function(cancer, name, allele, n_genes = 10, ...) {
         return(NULL)
     }
 
-    genes_to_plot <- get_genes_to_plot(genes_to_plot)
+    genes_to_plot <- get_genes_to_plot(genes_to_plot, cancer, n_genes)
     model_data %>%
         filter(cancer == !!cancer & hugo_symbol %in% !!genes_to_plot) %>%
         mutate(hugo_symbol = factor(hugo_symbol, levels = genes_to_plot)) %>%
@@ -561,7 +562,7 @@ plot_ranked_density <- function(df, cancer, allele, geneset, n_ranks) {
     p <- df %>%
         ggplot(aes(x = effect_rank)) +
         geom_density(aes(color = allele, fill = allele),
-                     size = 0.7, alpha = 0.2) +
+                     size = 0.5, alpha = 0.2) +
         scale_color_manual(values = short_allele_pal) +
         scale_fill_manual(values = short_allele_pal) +
         scale_x_continuous(
@@ -630,9 +631,8 @@ plot_enrichment_density <- function(cancer, name, allele, n_genes = 10, ...) {
                             n_ranks = n_distinct(dat$dep_map_id))
 }
 
-
 gsea_df %>%
     standard_gsea_results_filter() %T>%
-    # pwalk(plot_enrichment_heatmap) %T>%
-    # pwalk(plot_enrichment_bar) %T>%
+    pwalk(plot_enrichment_heatmap) %T>%
+    pwalk(plot_enrichment_bar) %T>%
     pwalk(plot_enrichment_density)
