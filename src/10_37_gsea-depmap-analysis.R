@@ -496,7 +496,8 @@ plot_enrichment_heatmap <- function(cancer, name, allele, n_genes = 10, ...) {
 }
 
 
-calculate_enrichment_average <- function(df) {
+# Calculate a measure of enrichment for each allele at each rank.
+calculate_enrichment_average <- function(df, rescale = TRUE) {
     n_rows <- n_distinct(df$hugo_symbol)
     df %>%
         group_by(allele) %>%
@@ -508,7 +509,10 @@ calculate_enrichment_average <- function(df) {
         ) %>%
         group_by(effect_rank) %>%
         mutate(
-            fraction_rows = scales::rescale(fraction_rows, to = c(0.1, 0.8))
+            fraction_rows = ifelse(
+                !!rescale,
+                scales::rescale(fraction_rows, to = c(0.1, 0.8)),
+                fraction_rows)
         ) %>%
         ungroup()
 }
@@ -548,6 +552,45 @@ plot_ranked_bar <- function(df, cancer, allele, geneset) {
 }
 
 
+plot_ranked_density <- function(df, cancer, allele, geneset, n_ranks) {
+
+    plot_title <- str_replace_all(geneset, "_", " ") %>%
+        str_to_sentence() %>%
+        str_wrap(50)
+
+    p <- df %>%
+        ggplot(aes(x = effect_rank)) +
+        geom_density(aes(color = allele, fill = allele),
+                     size = 0.7, alpha = 0.2) +
+        scale_color_manual(values = short_allele_pal) +
+        scale_fill_manual(values = short_allele_pal) +
+        scale_x_continuous(
+            limits = c(0, n_ranks),
+            expand = c(0, 0)
+        ) +
+        scale_y_continuous(expand = expand_scale(mult = c(0, 0.02))) +
+        theme_bw(base_size = 12, base_family = "Arial") +
+        theme(
+            axis.title = element_blank(),
+            legend.title = element_blank(),
+            legend.position = "bottom",
+            plot.title = element_text(hjust = 0.5, size = 10),
+            legend.key.size = unit(2, "mm")
+        ) +
+        labs(
+            title = glue("{cancer} - {allele}\n{plot_title}")
+        )
+
+    save_name <- plot_path(GRAPHS_DIR,
+                           glue("rankline_{cancer}_{allele}_{geneset}.svg"))
+    ggsave_wrapper(p, save_name, width = 5, height = 3)
+    save_to_proto(cancer, allele, geneset, p, save_name)
+
+    return(df)
+}
+
+
+
 plot_enrichment_bar <- function(cancer, name, allele, n_genes = 10, ...) {
     genes_to_plot <- get_geneset_enrichment_results(cancer, allele, name)
 
@@ -557,17 +600,39 @@ plot_enrichment_bar <- function(cancer, name, allele, n_genes = 10, ...) {
 
     genes_to_plot <- get_genes_to_plot(genes_to_plot, cancer, n_genes)
 
-    df <- model_data %>%
+    model_data %>%
         filter(cancer == !!cancer & hugo_symbol %in% !!genes_to_plot) %>%
         mutate(hugo_symbol = factor(hugo_symbol, levels = genes_to_plot)) %>%
         rank_depmap_data() %>%
-        calculate_enrichment_average() %>%
-        mutate(allele = fct_rev(allele)) %>%
+        calculate_enrichment_average(rescale = TRUE) %>%
+        mutate(allele = fct_rev(allele)) %T>%
         plot_ranked_bar(cancer = cancer, allele = allele, geneset = name)
+
+    return(NULL)
+}
+
+
+plot_enrichment_density <- function(cancer, name, allele, n_genes = 10, ...) {
+    genes_to_plot <- get_geneset_enrichment_results(cancer, allele, name)
+
+    if (is.null(genes_to_plot)) {
+        return(NULL)
+    }
+
+    genes_to_plot <- get_genes_to_plot(genes_to_plot, cancer, n_genes)
+
+    dat <- model_data %>%
+        filter(cancer == !!cancer & hugo_symbol %in% !!genes_to_plot) %>%
+        mutate(hugo_symbol = factor(hugo_symbol, levels = genes_to_plot))
+    dat %>%
+        rank_depmap_data() %>%
+        plot_ranked_density(cancer = cancer, allele = allele, geneset = name,
+                            n_ranks = n_distinct(dat$dep_map_id))
 }
 
 
 gsea_df %>%
-    standard_gsea_results_filter() %>%
+    standard_gsea_results_filter() %T>%
     # pwalk(plot_enrichment_heatmap) %T>%
-    pwalk(plot_enrichment_bar)
+    # pwalk(plot_enrichment_bar) %T>%
+    pwalk(plot_enrichment_density)
