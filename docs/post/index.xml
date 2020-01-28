@@ -5,12 +5,35 @@
     <link>https://project-notebook-comutation.netlify.com/post/</link>
       <atom:link href="https://project-notebook-comutation.netlify.com/post/index.xml" rel="self" type="application/rss+xml" />
     <description>Posts</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Fri, 17 Jan 2020 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Mon, 27 Jan 2020 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://project-notebook-comutation.netlify.com/img/icon-192.png</url>
       <title>Posts</title>
       <link>https://project-notebook-comutation.netlify.com/post/</link>
     </image>
+    
+    <item>
+      <title>2020-01-27</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2020-01-27/</link>
+      <pubDate>Mon, 27 Jan 2020 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2020-01-27/</guid>
+      <description>
+
+&lt;h2 id=&#34;luad-added-to-figure-4&#34;&gt;LUAD added to Figure 4&lt;/h2&gt;
+
+&lt;p&gt;I added the DepMap analysis of LUAD to Figure 4 below the results for COAD.&lt;/p&gt;
+
+&lt;h3 id=&#34;no-gsea-dot-plot&#34;&gt;No GSEA dot-plot&lt;/h3&gt;
+
+&lt;p&gt;I did not include the dot-plot for GSEA because there weren&amp;rsquo;t very many interesting results.
+Therefore, I only showed two gene sets for the ERK and BARD1 pathways.&lt;/p&gt;
+
+&lt;h3 id=&#34;enrichment-density-plots&#34;&gt;Enrichment density plots&lt;/h3&gt;
+
+&lt;p&gt;I replaced the enrichment bars below the gene set heatmaps with density plots above the heatmaps.
+I think these make the enrichment trend more obvious and are relatively intuitive to understand.&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>2020-01-17</title>
