@@ -9,7 +9,8 @@ GRAPHS_DIR_BOXES <- "10_11_linear-modeling-syn-let_boxplots"
 reset_graph_directory(GRAPHS_DIR_BOXES)
 
 ggproto_save_info <- list(
-    COAD = list(fig_num = 4, supp = FALSE)
+    COAD = list(fig_num = 4, supp = FALSE),
+    PAAD = list(fig_num = 13, supp = TRUE)
 )
 
 save_boxplot_proto <- function(gg_obj, save_path, cancer) {
@@ -26,7 +27,7 @@ save_boxplot_proto <- function(gg_obj, save_path, cancer) {
 # plot the results of the first analysis
 plot_pairwise_test_results <- function(hugo_symbol, cancer, data,
                                        allele_aov, allele_pairwise,
-                                       ...) {urc
+                                       ...) {
     if (all(is.na(allele_aov)) | all(is.na(allele_pairwise))) { return() }
 
     if (tidy(allele_aov)$p.value[[1]] >= 0.01) { return() }
@@ -129,6 +130,11 @@ select_gene_boxplots <- tibble::tribble(
       "COAD",       "KNTC1",
       "COAD",     "PIP5K1A",
       "COAD",       "WDR26",
+      "PAAD",         "JUN",
+      "PAAD",      "CEP350",
+      "PAAD",       "EGLN2",
+      "PAAD",        "NUMB",
+      "PAAD",        "TMED2",
 )
 
 model1_tib %>%
@@ -200,7 +206,8 @@ merge_wt <- function(df, data) {
 
 fig_save_info <- list(
     COAD = list(fig_num = 4, supp = FALSE),
-    LUAD = list(fig_num = 4, supp = FALSE)
+    LUAD = list(fig_num = 4, supp = FALSE),
+    PAAD = list(fig_num = 13, supp = TRUE)
 )
 
 

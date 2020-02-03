@@ -213,12 +213,13 @@ select_gsea_results <- tibble::tribble(
     "LUAD", "PID", "Bard1 pathway", "BARD1 pathway",
     "LUAD", "KEGG", "Beta alanine metabolism", "β-alanine metabolism",
 
-    "PAAD", "REACTOME", "nk c jun kinases phosphorylation and activation mediated by activated human tak1", "JNK phosphorylation and activation mediated by activated human TAK1",
+    "PAAD", "REACTOME", "Jnk c jun kinases phosphorylation and activation mediated by activated human tak1", "JNK phosphorylation and activation by activated TAK1",
     "PAAD", "REACTOME", "G alpha 12 13 signalling events", "G alpha (12/13) signalling events",
     "PAAD", "REACTOME", "G2 m dna damage checkpoint", "G2/M DNA damage checkpoint",
     "PAAD", "REACTOME", "Mitochondrial translation", "Mitochondrial translation",
     "PAAD", "REACTOME", "Regulation of cholesterol biosynthesis by srebp srebf", "Regulation of cholesterol biosynthesis by SREBP and SREBF",
     "PAAD", "REACTOME", "Tp53 regulates metabolic genes", "TP53 regulates metabolic genes",
+    "PAAD", "REACTOME", "Copii mediated vesicle transport", "COPII-mediated vesicle transport",
     "PAAD", "PID", "Fak pathway", "FAK pathway",
     "PAAD", "BIOCARTA", "Toll pathway", "Toll pathway",
     "PAAD", "BIOCARTA", "Nfkb pathway", "NFκB pathway",
@@ -238,7 +239,8 @@ filter_gsea_for_select_results <- function(cancer, df, key) {
 # Information for where to save the ggplot proto object for a Figure.
 ggproto_save_info <- list(
     COAD = list(fig_num = 4, supp = FALSE),
-    LUAD = list(fig_num = 4, supp = FALSE)
+    LUAD = list(fig_num = 4, supp = FALSE),
+    PAAD = list(fig_num = 13, supp = TRUE)
 )
 
 # MEMO sort of gene sets based on FDR and x-axis order.
