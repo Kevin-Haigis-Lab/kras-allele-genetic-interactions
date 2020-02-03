@@ -133,8 +133,8 @@ gsea_plot <- function(tib, title_suffix = "") {
                 size = -log10(fdr_q_val)
             )
         ) +
-        scale_color_gradient2(low = synthetic_lethal_pal["down"],
-                              high = synthetic_lethal_pal["up"]) +
+        scale_color_gradient2(low = synthetic_lethal_pal["up"],
+                              high = synthetic_lethal_pal["down"]) +
         theme_bw() +
         theme(
             text = element_text("arial"),
