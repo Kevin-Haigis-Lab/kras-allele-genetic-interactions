@@ -70,6 +70,7 @@ order_by_mean_diffs <- function(genes, test_res) {
 }
 
 
+# Box-plots of `test_allele` vs. the rest.
 boxplot_allele_vs_other <- function(df, test_allele) {
     set.seed(0)
 
@@ -120,7 +121,7 @@ boxplot_synlet_results <- function(pval_col, ttest_res_col, test_allele, save_na
         boxplot_allele_vs_other(test_allele = test_allele) %>%
         ggsave_wrapper(
             plot_path(GRAPHS_DIR, save_name),
-            "large"
+            width = 12, height = 12
         )
 
 }
@@ -317,7 +318,8 @@ synlet_results_filtered %>%
         values_from = gene_effect
     ) %>%
     xlsx::write.xlsx(
-        file = SPREADSHEET, sheetName = "data - DepMapID"
+        file = SPREADSHEET, sheetName = "data - DepMapID",
+        append = TRUE,
     )
 
 synlet_results_filtered %>%
@@ -330,7 +332,8 @@ synlet_results_filtered %>%
         values_from = gene_effect
     ) %>%
     xlsx::write.xlsx(
-        file = SPREADSHEET, sheetName = "data - allele"
+        file = SPREADSHEET, sheetName = "data - allele",
+        append = TRUE,
     )
 
 cell_line_names_map <- cell_lines %>%
@@ -338,7 +341,8 @@ cell_line_names_map <- cell_lines %>%
     unique() %>%
     dplyr::rename(ccle_name = stripped_cell_line_name) %T>%
     xlsx::write.xlsx(
-        file = SPREADSHEET, sheetName = "cell line names"
+        file = SPREADSHEET, sheetName = "cell line names",
+        append = TRUE,
     )
 
 synlet_results_filtered %>%
@@ -354,6 +358,8 @@ synlet_results_filtered %>%
         values_from = gene_effect
     ) %>%
     xlsx::write.xlsx(
-        file = SPREADSHEET, sheetName = "data - DepMapID"
+        file = SPREADSHEET, sheetName = "data - cell line names",
+        append = TRUE,
     )
-
+# TODO: sett append = TRUE to all but first.
+# TODO: rename the last sheet.
