@@ -34,7 +34,9 @@ get_gsea_reports <- function(dirs) {
                 gsea_group = str_split_fixed(basename(file_path), "_", 5)[, 4],
                 data = map(file_path, ~ read_gsea_report_xls(.x))
             ) %>%
-            unnest(data)
+            unnest(data) %>%
+            mutate(nes = -nes,
+                   es = -es)
         return(report_df)
     }
     purrr::map(dirs, get_gsea_report)
@@ -57,7 +59,11 @@ gsea_df <- file.path("data", "gsea", "output") %>%
         gene_set_family = str_split_fixed(name, "_", 2)[, 1],
         gene_set = str_split_fixed(name, "_", 2)[, 2]
     ) %>%
-    filter(!(cancer == "LUAD" & allele == "G13D"))
+    filter(!(cancer == "LUAD" & allele == "G13D")) %>%
+    mutate(
+        nes = ifelse(cancer == "PAAD" & allele == "G12V", -nes, nes),
+        es = ifelse(cancer == "PAAD" & allele == "G12V", -es, es)
+    )
 
 ProjectTemplate::cache("gsea_df")
 
@@ -133,8 +139,8 @@ gsea_plot <- function(tib, title_suffix = "") {
                 size = -log10(fdr_q_val)
             )
         ) +
-        scale_color_gradient2(low = synthetic_lethal_pal["up"],
-                              high = synthetic_lethal_pal["down"]) +
+        scale_color_gradient2(low = synthetic_lethal_pal["down"],
+                              high = synthetic_lethal_pal["up"]) +
         theme_bw() +
         theme(
             text = element_text("arial"),
@@ -328,6 +334,7 @@ read_gsea_geneset_xls <- function(xls_path) {
 }
 read_gsea_geneset_xls <- memoise::memoise(read_gsea_geneset_xls)
 
+
 # Get the enrichment results for the gene set `name` in `cancer` and `allele`.
 get_geneset_enrichment_results <- function(cancer, allele, name) {
     dir <- list.dirs(file.path("data", "gsea", "output"), recursive = FALSE)
@@ -337,7 +344,7 @@ get_geneset_enrichment_results <- function(cancer, allele, name) {
         cat("Below are the directories:\n")
         print(dir)
         cat(glue("cancer: {cancer}, allele: {allele}"), "\n")
-        stop("There is ambiguity about which dir to use.")
+        stop("There is ambiguity about which directory to use.")
     }
 
     fpath <- list.files(dir, full.names = TRUE)
@@ -591,7 +598,6 @@ plot_ranked_density <- function(df, cancer, allele, geneset, n_ranks) {
 
     return(df)
 }
-
 
 
 plot_enrichment_bar <- function(cancer, name, allele, n_genes = 10, ...) {
