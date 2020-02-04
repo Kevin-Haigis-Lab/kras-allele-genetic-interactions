@@ -301,4 +301,3 @@ table(sig18_highs$cancer, sig18_highs$ras_allele)
 cancer_full_muts_df %>%
     filter(tumor_sample_barcode %in% sig18_highs$tumor_sample_barcode) %>%
     filter(hugo_symbol == "MUTYH")
-
