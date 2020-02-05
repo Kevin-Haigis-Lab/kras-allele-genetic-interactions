@@ -172,9 +172,9 @@ pre_panel_D_main <- gtable::gtable_filter(pre_panel_D,
                                           invert = TRUE)
 
 panel_D <- wrap_elements(plot = pre_panel_D_main) *
-    theme_fig4(tag_margin = margin(0, -8, 0, 6, "mm")) +
+    theme_fig4(tag_margin = margin(0, -8, 0, 6, "mm")) %+replace%
     theme(
-        plot.margin = margin(-10, -11, -13, -7, "mm")
+        plot.margin = margin(-10, -9, -13, -7, "mm")
     ) +
     labs(tag = "d")
 
@@ -356,9 +356,9 @@ pre_panel_H_main <- gtable::gtable_filter(pre_panel_H,
                                           invert = TRUE)
 
 panel_H <- wrap_elements(plot = pre_panel_H_main) *
-    theme_fig4(tag_margin = margin(0, -8, 0, 6, "mm")) +
+    theme_fig4(tag_margin = margin(0, -7, 0, 3, "mm")) +
     theme(
-        plot.margin = margin(-10, -12, -13, -7, "mm")
+        plot.margin = margin(-10, -9, -13, -2, "mm")
     ) +
     labs(tag = "h")
 
