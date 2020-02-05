@@ -135,25 +135,15 @@ select_gene_boxplots <- tibble::tribble(
       "PAAD",      "CEP350",
       "PAAD",       "EGLN2",
       "PAAD",        "NUMB",
-      "PAAD",        "TMED2"
+      "PAAD",        "TMED2",
+      "PAAD",        "MAPK8",
 )
 
 model1_tib %>%
-    pwalk(plot_pairwise_test_results) %>%
+    # pwalk(plot_pairwise_test_results) %>%
     right_join(select_gene_boxplots, by = c("cancer", "hugo_symbol")) %>%
     pwalk(plot_pairwise_test_results2, save_proto = TRUE)
 
-
-## Specifically make plot for MAPK8 in PAAD.
-model_data %>%
-    filter(cancer == "PAAD" & hugo_symbol == "MAPK8") %>%
-    group_by(hugo_symbol, cancer) %>%
-    nest() %>%
-    mutate(allele_aov = TRUE, allele_pairwise = TRUE) %>%
-    pmap(plot_pairwise_test_results2,
-         filter_aov = FALSE, filter_stats = FALSE,
-         save_proto = TRUE, replace_svg = TRUE,)
-#####
 
 
 #### ---- Heatmaps ---- ####
@@ -165,7 +155,7 @@ reset_graph_directory(GRAPHS_DIR_HEAT)
 cancer_pheatmap_manager <- list(
     COAD = list(
         col_cuts = 4,
-        row_cuts = 5
+        row_cuts = 6
     ),
     LUAD = list(
         col_cuts = 2,
@@ -290,24 +280,25 @@ cluster_number_map <- list(
         ~default_cluster, ~cluster,
         1, 2,
         2, 5,
-        3, 1,
-        4, 4,
-        5, 3,
+        3, 3,
+        4, 6,
+        5, 4,
+        6, 1
     ),
     LUAD = tibble::tribble(
         ~default_cluster, ~cluster,
-        1, 1,
-        2, 4,
-        3, 3,
-        4, 2,
+        1, 2,
+        2, 3,
+        3, 4,
+        4, 1,
     ),
     PAAD = tibble::tribble(
         ~default_cluster, ~cluster,
         1, 6,
-        2, 2,
-        3, 4,
-        4, 1,
-        5, 5,
+        2, 4,
+        3, 1,
+        4, 5,
+        5, 2,
         6, 3,
     )
 )
@@ -358,7 +349,6 @@ plot_cancer_heatmaps <- function(cancer, data, screen,
                                  col_hclust_method = "complete",
                                  save_proto = TRUE) {
     set.seed(0)
-
     mod_data <- prep_pheatmap_df(data, "normalize")
 
     if (cancer == "LUAD" & merge_luad) {
@@ -422,7 +412,7 @@ plot_cancer_heatmaps <- function(cancer, data, screen,
         cutree_cols = cancer_pheatmap_manager[[cancer]]$col_cuts,
         treeheight_row = 8,
         treeheight_col = 8,
-        fontsize = 5,
+        fontsize = 3,
         labels_row = labels_row,
         silent = TRUE,
         border_color = NA,
@@ -433,7 +423,7 @@ plot_cancer_heatmaps <- function(cancer, data, screen,
         GRAPHS_DIR_HEAT,
         glue("{cancer}_{screen}_{row_dist_method}_{row_hclust_method}_pheatmap.svg")
     )
-    save_pheatmap_svg(ph, save_path, width = 4, height = 5)
+    save_pheatmap_svg(ph, save_path, width = 4, height = 6)
 
     names(pal) <- seq(min(mod_data, na.rm = TRUE),
                       max(mod_data, na.rm = TRUE),
@@ -478,8 +468,7 @@ plot_cancer_heatmaps_multiple_methods <- function(cancer, data, screen,
 
 # Combinations of `dist()` and `hclust()` methods.
 dist_methods <- c("euclidean", "manhattan")
-hclust_methods <- c("ward.D", "ward.D2", "single", "complete",
-                    "average", "mcquitty", "median", "centroid")
+hclust_methods <- c("ward.D2", "single", "complete", "average")
 methods_tib <- expand.grid(dist_methods, hclust_methods,
                            stringsAsFactors = FALSE) %>%
     as_tibble()
