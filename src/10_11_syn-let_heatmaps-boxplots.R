@@ -140,7 +140,7 @@ select_gene_boxplots <- tibble::tribble(
 )
 
 model1_tib %>%
-    # pwalk(plot_pairwise_test_results) %>%
+    pwalk(plot_pairwise_test_results) %>%
     right_join(select_gene_boxplots, by = c("cancer", "hugo_symbol")) %>%
     pwalk(plot_pairwise_test_results2, save_proto = TRUE)
 
