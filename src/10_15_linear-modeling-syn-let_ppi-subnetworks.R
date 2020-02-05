@@ -39,7 +39,7 @@ ggraph_of_component <- function(gr, idx, cancer = "", cluster_num = "", ...) {
                        color = "grey25", alpha = 0.5) +
         geom_node_point(aes(size = node_size), color = "grey20") +
         geom_node_text(aes(label = name),
-                       family = "Arial", size = 2, repel = TRUE) +
+                       family = "Arial", size = 1.4, repel = TRUE) +
         scale_size_identity() +
         scale_edge_width_identity() +
         theme_graph() +
