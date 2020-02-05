@@ -443,7 +443,7 @@ panel_I <- wrap_elements(plot = panel_I) +
     luad_figure <- (
         (
             (panel_FG / panel_FG_legend / panel_I) +
-            plot_layout(heights = c(200, 500, 200, 500, 1, 700))
+            plot_layout(heights = c(200, 500, 200, 500, 1, 800))
         ) |
         (
             panel_H
