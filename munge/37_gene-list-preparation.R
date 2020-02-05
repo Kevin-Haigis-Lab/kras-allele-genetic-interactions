@@ -171,6 +171,20 @@ ProjectTemplate::cache("tf2dna_tfs",
 
 
 
+ProjectTemplate::cache("encode_tf_bindingsites",
+{
+    encode_tf_bindingsites_dir <- file.path(
+        "data", "gene-lists", "encode_transcription_factor_targets.gmt"
+    )
+    encode_tf_bindingsites <- readgmt::read_gmt(encode_tf_bindingsites_dir,
+                                                tidy = TRUE)
+    log_rows(logger, encode_tf_bindingsites, "encode_tf_bindingsites")
+    info(logger, "Caching data frame of ENCODE TF binding sites.")
+    return(encode_tf_bindingsites)
+})
+
+
+
 ProjectTemplate::cache("msigdb_c2_df",
 {
     c2_all_path <- file.path("data", "gsea", "genesets", "c2.all.v7.0.symbols.gmt")
