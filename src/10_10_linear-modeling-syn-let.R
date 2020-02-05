@@ -110,7 +110,6 @@ model1_tib <- model_data %>%
     filter(!cancer %in% c("MM", "SKCM")) %>%
     filter(!(cancer == "LUAD" & allele == "G13D")) %>%
     group_by(cancer, hugo_symbol) %>%
-    filter(sum(gene_effect < cutoff_between_non_essential) >= 2) %>%
     nest() %>%
     mutate(data = purrr::map2(data, hugo_symbol, lm1_prepare_data)) %>%
     ungroup() %>%

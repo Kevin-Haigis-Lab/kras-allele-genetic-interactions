@@ -510,6 +510,13 @@ depmap_gene_clusters <- model1_tib %>%
 cache("depmap_gene_clusters", depends = "model1_tib")
 
 
+# Print out the number of genes per cancer.
+depmap_gene_clusters %>%
+    group_by(cancer) %>%
+    summarise(num_genes = n_distinct(hugo_symbol)) %>%
+    ungroup()
+
+
 # RNAi heatmaps
 rnai_model1_tib %>%
     filter(rna_pvalue > 0.01) %>%
