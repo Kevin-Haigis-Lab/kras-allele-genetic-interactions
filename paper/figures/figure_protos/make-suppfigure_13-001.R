@@ -86,7 +86,7 @@ theme_figS13_densityplots <- function(tag_margin_l = -3) {
 x_label <- expression("" %<-% "greater dep. - ranked gene effect - less dep." %->% "")
 
 
-panel_B <- panel_B_density <- read_fig_proto(
+panel_B_density <- read_fig_proto(
         "rankline_PAAD_G12D_REACTOME_G_ALPHA_12_13_SIGNALLING_EVENTS.rds",
         FIGNUM, supp = SUPPLEMENTAL
     ) +
