@@ -81,13 +81,14 @@ plot_pairwise_test_results <- function(hugo_symbol, cancer, data,
 # This version of the function uses my own box-plot creation function
 #   located in "lib/stats-boxplot.R".
 plot_pairwise_test_results2 <- function(hugo_symbol, cancer, data,
+                                        filter_aov = TRUE, filter_stats = TRUE,
                                         allele_aov, allele_pairwise,
                                         save_proto = FALSE,
                                         replace_svg = FALSE,
                                         ...) {
     if (all(is.na(allele_aov)) | all(is.na(allele_pairwise))) return()
 
-    if (tidy(allele_aov)$p.value[[1]] >= 0.01) return()
+    if (filter_aov && tidy(allele_aov)$p.value[[1]] >= 0.01) return()
 
     data <- unique(data) %>%
         mutate(x = fct_drop(factor_alleles(allele)),
@@ -97,7 +98,7 @@ plot_pairwise_test_results2 <- function(hugo_symbol, cancer, data,
     stat_tib <- make_stats_dataframe(data, auto_filter = TRUE,
                                      method = "t.test", p.adjust.method = "BH")
 
-    if (nrow(stat_tib) < 1) return()
+    if (filter_stats && nrow(stat_tib) < 1) return()
 
     p <- stats_boxplot(data, stat_tib, box_color = allele,
                        up_spacing = 0.06,
@@ -134,7 +135,7 @@ select_gene_boxplots <- tibble::tribble(
       "PAAD",      "CEP350",
       "PAAD",       "EGLN2",
       "PAAD",        "NUMB",
-      "PAAD",        "TMED2",
+      "PAAD",        "TMED2"
 )
 
 model1_tib %>%
@@ -142,6 +143,17 @@ model1_tib %>%
     right_join(select_gene_boxplots, by = c("cancer", "hugo_symbol")) %>%
     pwalk(plot_pairwise_test_results2, save_proto = TRUE)
 
+
+## Specifically make plot for MAPK8 in PAAD.
+model_data %>%
+    filter(cancer == "PAAD" & hugo_symbol == "MAPK8") %>%
+    group_by(hugo_symbol, cancer) %>%
+    nest() %>%
+    mutate(allele_aov = TRUE, allele_pairwise = TRUE) %>%
+    pmap(plot_pairwise_test_results2,
+         filter_aov = FALSE, filter_stats = FALSE,
+         save_proto = TRUE, replace_svg = TRUE,)
+#####
 
 
 #### ---- Heatmaps ---- ####
