@@ -94,7 +94,7 @@ panel_B <- panel_B_density <- read_fig_proto(
     labs(
         y = "density",
         tag = "b",
-        title = "G2/M DNA damage checkpoint"
+        title = "G alpha (12/13) signalling events"
     )
 
 panel_B <- read_fig_proto(
@@ -130,7 +130,7 @@ panel_C <- panel_C_density <- read_fig_proto(
     labs(
         y = "density",
         tag = "c",
-        title = "Hedgehog signaling"
+        title = "G2/M DNA damage checkpoint"
     )
 
 panel_C <- read_fig_proto(

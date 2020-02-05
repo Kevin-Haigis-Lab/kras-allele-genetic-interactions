@@ -6,7 +6,6 @@ VERSION <- 1
 
 #> SET THE FIGURE DIMENSIONS
 FIG_DIMENSIONS <- get_figure_dimensions(2, "tall")
-# FIG_DIMENSIONS$height <- FIG_DIMENSIONS$height / 2
 
 
 theme_fig4 <- function(tag_margin = margin(0, 0, 0, 0, "mm")) {
@@ -62,7 +61,6 @@ panel_A <- read_fig_proto("gsea-results-COAD-select.rds", FIGNUM) +
 #### ---- B, C. Ranked heatmaps of GSEA ---- ####
 # Two heatmaps showing the ranks of genes in the enriched genesets.
 # original script: "src/10_37_gsea-depmap-analysis.R"
-
 
 theme_fig4_densityplots <- function(tag_margin_l = -3) {
     theme_classic_comutation() %+replace%
