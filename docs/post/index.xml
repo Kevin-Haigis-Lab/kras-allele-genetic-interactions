@@ -5,12 +5,167 @@
     <link>https://project-notebook-comutation.netlify.com/post/</link>
       <atom:link href="https://project-notebook-comutation.netlify.com/post/index.xml" rel="self" type="application/rss+xml" />
     <description>Posts</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Mon, 27 Jan 2020 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Wed, 05 Feb 2020 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://project-notebook-comutation.netlify.com/img/icon-192.png</url>
       <title>Posts</title>
       <link>https://project-notebook-comutation.netlify.com/post/</link>
     </image>
+    
+    <item>
+      <title>2020-02-05</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2020-02-05/</link>
+      <pubDate>Wed, 05 Feb 2020 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2020-02-05/</guid>
+      <description>
+
+&lt;h2 id=&#34;genetic-dependency-of-paad-cell-lines-on-jun-and-cdkn2a-b-cont&#34;&gt;Genetic dependency of PAAD cell lines on &lt;em&gt;JUN&lt;/em&gt; and &lt;em&gt;CDKN2A/B&lt;/em&gt; (cont.)&lt;/h2&gt;
+
+&lt;p&gt;Since it doesn&amp;rsquo;t seem like the entire JNK signaling pathway is unilaterally less essential in G12V cell lines, I decided to look downstream of &lt;em&gt;JUN&lt;/em&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;transcription-factor-binding-gene-set&#34;&gt;Transcription factor binding gene set&lt;/h3&gt;
+
+&lt;p&gt;I downloaded the transcription factor gene set from the ENCODE project.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;wget https://amp.pharm.mssm.edu/static/hdfs/harmonizome/data/encodetfppi/gene_set_library_crisp.gmt.gz
+gunzip gene_set_library_crisp.gmt.gz
+ mv gene_set_library_crisp.gmt encode_transcription_factor_targets.gmt
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;It was then prepared for use in &amp;ldquo;munge/37_gene-list-preparation.R&amp;rdquo;.&lt;/p&gt;
+
+&lt;h3 id=&#34;analysis&#34;&gt;Analysis&lt;/h3&gt;
+
+&lt;p&gt;There were a few genes that cJUN regulates that showed differential genetic dependency in PAAD.
+The box-plots of these genes are shown below.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;img/graphs/90_25_paad_depmap_jun-cdkn2a-G12V/jun_bs_dep_boxplots.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Therefore, I looked for enrichment of cJUN-regulated genes in this set of genes, but no such enrichment was present.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;img/graphs/90_25_paad_depmap_jun-cdkn2a-G12V/tf_stats_volcano.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Even those above the red dashed-line (representing p-value = 0.05) were not significant once the p-values were adjusted for MHT.&lt;/p&gt;
+
+&lt;h3 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h3&gt;
+
+&lt;p&gt;I included Supp. Fig. 14 based on this analysis, and I don&amp;rsquo;t believe there is too much more to look into.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;removed-a-filter-in-depmap-analysis&#34;&gt;Removed a filter in DepMap analysis&lt;/h2&gt;
+
+&lt;p&gt;I removed a filter from the DepMap analysis that was intended to focus the analysis on viable synthetic lethal targets.
+The analysis, however, has morphed into just looking for differences.
+Thus, the filter is no longer warranted or relevant and was removed.&lt;/p&gt;
+
+&lt;p&gt;All analyses downstream of the linear modeling of KRAS alleles for the DepMap data was re-run.&lt;/p&gt;
+
+&lt;hr /&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>2020-02-04</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2020-02-04/</link>
+      <pubDate>Tue, 04 Feb 2020 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2020-02-04/</guid>
+      <description>
+
+&lt;h2 id=&#34;strange-mistake-with-gsea-of-depmap-for-paad-cell-lines&#34;&gt;Strange mistake with GSEA of DepMap for PAAD cell lines&lt;/h2&gt;
+
+&lt;p&gt;For some reason, the G12V vs. Other labeling is backwards for the results of GSEA of the PAAD cell lines.
+I really don&amp;rsquo;t know what caused this, though am highly confident of this by looking at the raw data of the enriched gene sets.
+Also, looking at the heatmaps of some enriched gene sets, it shws the G12V cell lines labeled as Other.&lt;/p&gt;
+
+&lt;p&gt;I fixed this by just multiplying the ES and NES scores for this condition by -1.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;closeness-of-comutation-networks&#34;&gt;Closeness of comutation networks&lt;/h2&gt;
+
+&lt;p&gt;From a talk I went to, I wanted to try measuring the closeness of the genes in the &lt;em&gt;KRAS&lt;/em&gt; allele comiutation networks.
+It would be interesting if the genes within a comutation network were more close to each other than those outside of the comutation network.&lt;/p&gt;
+
+&lt;p&gt;I ran a pilot analysis with COAD and found nothing interesting.
+The bar-plot below shows the distribution of shortest distance between genes in the comutation network of the two &lt;em&gt;KRAS&lt;/em&gt; alleles along the x-axis and y-facet.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;img/graphs/90_15_comutation-network_withingroup-ppi-closeness/closeness_violins_COAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The heatmap below shows the mean shortest distance values for genes in the comutation networks of the indicated alleles.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;img/graphs/90_15_comutation-network_withingroup-ppi-closeness/closeness_heatmap_COAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h3&gt;
+
+&lt;p&gt;There isn&amp;rsquo;t much to see because the STRING PPI is so well connected.&lt;/p&gt;
+
+&lt;h3 id=&#34;follow-up-analyses&#34;&gt;Follow-up analyses&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Try using the HINT PPI instead of the STRING PPI.&lt;/li&gt;
+&lt;li&gt;Use different metric of &amp;ldquo;closeness&amp;rdquo;: similarity, mean distance, flow, number of shortest-paths, hit-rate (likelihood of hitting node on a random walk).&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;genetic-dependency-of-paad-cell-lines-on-jun-and-cdkn2a-b&#34;&gt;Genetic dependency of PAAD cell lines on &lt;em&gt;JUN&lt;/em&gt; and &lt;em&gt;CDKN2A/B&lt;/em&gt;&lt;/h2&gt;
+
+&lt;p&gt;&lt;em&gt;JUN&lt;/em&gt; is a transcription factor that regulates expression of &lt;em&gt;CDKN2A&lt;/em&gt; and &lt;em&gt;CDKN2B&lt;/em&gt; (&lt;em&gt;CDKN2A/B&lt;/em&gt;) in &lt;em&gt;KRAS&lt;/em&gt;-driven CRC (&lt;a href=&#34;https://pubmed.ncbi.nlm.nih.gov/24623306-a-kras-directed-transcriptional-silencing-pathway-that-mediates-the-cpg-island-methylator-phenotype/?from_single_result=A+KRAS-directed+transcriptional+silencing+pathway+that+mediates+the+CpG+island+methylator+phenotype.&#34; target=&#34;_blank&#34;&gt;Serra &lt;em&gt;et al.&lt;/em&gt;, 2014&lt;/a&gt;)
+It regulates the levels of the nuclear deubiquitinase USP28, which deubiquitinates (stabilizes) the TF ZNF304 which transcribes the genes at the tumor suppressor genes &lt;em&gt;CDKN2A/B&lt;/em&gt;.
+Therefore, hyperactive &lt;em&gt;KRAS&lt;/em&gt; increases cJUN activity, which increases the levels of USP28, which increases the stability of ZNF304.
+ZNF304 binds to the promoters of &lt;em&gt;CDKN2A/B&lt;/em&gt;, recruiting a corepressor complex, stifling the expression of these 3 tumor suppressor genes.&lt;/p&gt;
+
+&lt;p&gt;Further, research showed that the MAPK pathway connects KRAS to JUN via MAP2K4, MAP2K7 (which together make JNK), and MAPK8 (JNK1).
+Also, another tumor suppressor gene, MEN1 or Menin, &amp;ldquo;uncouples&amp;rdquo; the MAPK pathway from the transcriptions factors Elk1 (&lt;em&gt;ELK1&lt;/em&gt;), Jun-D (&lt;em&gt;JUND&lt;/em&gt;), and cJun (&lt;em&gt;JUN&lt;/em&gt;) (&lt;a href=&#34;https://pubmed.ncbi.nlm.nih.gov/12226747-menin-uncouples-elk-1-jund-and-c-jun-phosphorylation-from-map-kinase-activation/&#34; target=&#34;_blank&#34;&gt;Gallo &lt;em&gt;et al.&lt;/em&gt;, 2002&lt;/a&gt;).&lt;/p&gt;
+
+&lt;p&gt;Here are some interesting plots of various features.
+I&amp;rsquo;m not sure I want to probe further, expect maybe with MAPK8 (JNK1), which activates, via phosphorylation, JUN, ATF2, and JDP2.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;img/graphs/90_25_paad_depmap_jun-cdkn2a-G12V/geneeffect_rnaexpr_scatter.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;img/graphs/90_25_paad_depmap_jun-cdkn2a-G12V/geneeffect_boxplots.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>2020-02-03</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2020-02-03/</link>
+      <pubDate>Mon, 03 Feb 2020 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2020-02-03/</guid>
+      <description>
+
+&lt;h2 id=&#34;mutyh-defects-in-patients-with-high-sig-18&#34;&gt;MUTYH-defects in patients with high Sig. 18&lt;/h2&gt;
+
+&lt;p&gt;During my presentation for the Friday Park Lab meeting on Feb. 2, 2020, Jake Lee and Hu Jin mentioned that Signature 18 may just be from reactive oxygen species in patients with no detectable MUTYH-defect.
+Therefore, I specifically inspected this gene in patients with high Signature 18 in COAD and PAAD.&lt;/p&gt;
+
+&lt;p&gt;The analysis was done in &amp;ldquo;./src/60_20_mutyh-signature18-associations.R&amp;rdquo;.&lt;/p&gt;
+
+&lt;p&gt;Plotting the density curves of levels of signature 18 showed two very distinct groups: those with 0 and those above 0.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;img/graphs/60_20_mutyh-signature18-associations/sig18_density_plot.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The waterfall plot shows the distinction even more strikingly.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;img/graphs/60_20_mutyh-signature18-associations/sig18_waterfall_plot.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;If I try to look for clusters in the samples with level above 0, there are no obvious places to cut.
+I used a density-based method that identifies local minima in a density plot.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;img/graphs/60_20_mutyh-signature18-associations/classified_sig18_density_plot.svg&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;img/graphs/60_20_mutyh-signature18-associations/model_density_plots.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Therefore, I decided to just use any sample with a signature 18 level above 0.
+There were 418 COAD and 137 PAAD samples.
+21 of the COAD samples had a &lt;em&gt;KRAS&lt;/em&gt; G12C mutation, and 4 of the PAAD samples had a &lt;em&gt;KRAS&lt;/em&gt; G12C mutation.&lt;/p&gt;
+
+&lt;p&gt;Of these samples, only 4 had coding mutations in MUTYH.
+Thus, without germline data, I cannot tell if these samples had MUTYH-defects.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Conclusion: I should rephrase the wording of the paper to reflect that Sig. 18 may be from MUTYH-defects or ROS.&lt;/strong&gt;&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>2020-01-27</title>
