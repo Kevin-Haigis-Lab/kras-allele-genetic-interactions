@@ -88,7 +88,7 @@ panel_A <- read_fig_proto(
 
 panel_B <- read_fig_proto("PAAD-MAPK8.rds",
                           PAAD_MAIN_FIGNUM, supp = SUPPLEMENTAL) +
-    theme_figS14(tag_margin = margin(0, 0, 0, 0, "mm")) %+replace%
+    theme_figS14(tag_margin = margin(0, 2, 0, -2, "mm")) %+replace%
     theme(
         plot.title = element_text(size = 6, face = "bold"),
         axis.title.x = element_blank(),
@@ -108,7 +108,7 @@ panel_B <- read_fig_proto("PAAD-MAPK8.rds",
 
 panel_C <- read_fig_proto("JUN_MAPK8_scatter.rds",
                           FIGNUM, supp = SUPPLEMENTAL) +
-    theme_figS14(tag_margin = margin(0, 0, 0, 0, "mm")) %+replace%
+    theme_figS14(tag_margin = margin(0, 2, 0, -2, "mm")) %+replace%
     theme(
         plot.title = element_blank(),
         legend.position = "none",
