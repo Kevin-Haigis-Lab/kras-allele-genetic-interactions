@@ -294,3 +294,34 @@ ggsave_wrapper(
     plot_path(GRAPHS_DIR, "tf_stats_volcano.svg"),
     "medium"
 )
+
+
+#### ---- JUN vs MAPK8 gene effect ---- ####
+
+# Save scatter plot for Fig.
+fignum <- 14
+supp <- TRUE
+
+# JUN vs. MAPK8 gene effect
+JUN_MAPK8_scatter <- junpw_depmap %>%
+    filter(hugo_symbol %in% c("JUN", "MAPK8")) %>%
+    select(dep_map_id, allele, hugo_symbol, gene_effect, rna_expression) %>%
+    pivot_wider(c(dep_map_id, allele),
+                names_from = hugo_symbol,
+                values_from = c(rna_expression, gene_effect)) %>%
+    ggplot(aes(x = gene_effect_JUN, gene_effect_MAPK8)) +
+    geom_point(aes(color = allele)) +
+    scale_color_manual(values = short_allele_pal) +
+    scale_shape_manual(values = c(17, 16)) +
+    scale_size_manual(values = c(1, 2, 3)) +
+    theme_bw(base_size = 7, base_family = "Arial") +
+    theme(strip.background = element_blank())
+ggsave_wrapper(
+    JUN_MAPK8_scatter,
+    plot_path(GRAPHS_DIR, "JUN_MAPK8_scatter.svg"),
+    "small"
+)
+saveRDS(
+    JUN_MAPK8_scatter,
+    get_fig_proto_path("JUN_MAPK8_scatter", fignum, supp = supp)
+)
