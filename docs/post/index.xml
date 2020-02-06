@@ -5,12 +5,52 @@
     <link>https://project-notebook-comutation.netlify.com/post/</link>
       <atom:link href="https://project-notebook-comutation.netlify.com/post/index.xml" rel="self" type="application/rss+xml" />
     <description>Posts</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Wed, 05 Feb 2020 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Thu, 06 Feb 2020 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://project-notebook-comutation.netlify.com/img/icon-192.png</url>
       <title>Posts</title>
       <link>https://project-notebook-comutation.netlify.com/post/</link>
     </image>
+    
+    <item>
+      <title>2020-02-06</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2020-02-06/</link>
+      <pubDate>Thu, 06 Feb 2020 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2020-02-06/</guid>
+      <description>
+
+&lt;h2 id=&#34;integration-of-comutation-and-genetic-dependency-analyses&#34;&gt;Integration of comutation and genetic dependency analyses&lt;/h2&gt;
+
+&lt;p&gt;To finish up the paper, I want to integrate the comutation and dependency analyses from earlier in the paper.&lt;/p&gt;
+
+&lt;h3 id=&#34;combined-hint-and-string-ppin&#34;&gt;Combined HINT and STRING PPIN&lt;/h3&gt;
+
+&lt;p&gt;I used a combined PPI from STRING, HINT, and BioPlex2.
+IT was created in &amp;ldquo;./munge/40_ppi-network-preparation.R&amp;rdquo;.&lt;/p&gt;
+
+&lt;p&gt;I created some descriptive plots to provide a better understanding of the graph.&lt;/p&gt;
+
+&lt;p&gt;I plotted a graph showing many summary statistics of the components of the combined graph.
+The overwhelming conclusion is that we can just use the main giant component.
+Most of the other components range from sizes 1 to 10, so relatively insignificant.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;img/graphs/40_05_describe-combined-ppi/components_order_size.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Unsurprisingly, The degree distribution of the giant components is roughly log-normal.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;img/graphs/40_05_describe-combined-ppi/degree_distribution.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;overlap-of-comutation-and-genetic-dependency-analysis&#34;&gt;Overlap of comutation and genetic dependency analysis&lt;/h2&gt;
+
+&lt;p&gt;I worked through &amp;ldquo;src/40_10_overlap-synlet-comutation.R&amp;rdquo; and updated it for the new nomenclature used in the paper.&lt;/p&gt;
+
+&lt;p&gt;I also added another section that just gets all overlaps from the two analyses.
+There are only overlaps in LUAD G12C - no other alleles have genes found in both analyses.&lt;/p&gt;
+
+&lt;p&gt;For the paper, I will likely identify these genes and make some plot about them.
+I can then isolate one of the PPIN clusters, do some summary analysis on it, reference some papers implicating it in cancer, etc., and finish the paper.&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>2020-02-05</title>
