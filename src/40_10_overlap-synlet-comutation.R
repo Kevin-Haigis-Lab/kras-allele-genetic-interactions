@@ -49,7 +49,7 @@ depmap_gene_clusters_pairwise_df <- model1_tib %>%
 
 
 # Get the synthetic lethal data for a cancer and allele.
-get_synthetic_lethal_data <- function(cancer, allele, adj_p_value = 0.10) {
+get_synthetic_lethal_data <- function(cancer, allele, adj_p_value = 0.05) {
     depmap_gene_clusters_pairwise_df %>%
         filter(cancer == !!cancer) %>%
         filter(adj_p_value < !!adj_p_value) %>%
@@ -65,11 +65,56 @@ get_genetic_interaction_data <- function(cancer, allele) {
         select(hugo_symbol, p_val, genetic_interaction) %>%
         mutate(genetic_interaction = ifelse(
             genetic_interaction == "exclusivity",
-            "reduced\ncomutation", "increased\ncomutation"
+            "reduced\ncomut.", "increased\ncomut."
         ))
 }
 
 
+# Get a single data frame with all of the dependency and comutation
+# data for a cancer and allele.
+get_overlapped_df <- function(cancer, allele) {
+    dependency_df <- get_synthetic_lethal_data(cancer, allele) %>%
+        mutate(
+            allele = !!allele,
+            other_allele = ifelse(group1 == !!allele, group2, group1),
+            comparison = paste(allele, "-", other_allele),
+            allele_diff = ifelse(
+                group1 == !!allele,
+                g1_avg - g1_other_avg,
+                g2_avg - g2_other_avg
+            )
+        ) %>%
+        group_by(hugo_symbol) %>%
+        slice(1) %>%
+        ungroup()
+    genetic_df <- get_genetic_interaction_data(cancer, allele)
+
+    df <- full_join(dependency_df, genetic_df, by = "hugo_symbol") %>%
+        mutate(interaction_source = case_when(
+            is.na(gene_cls) ~ "comutation",
+            is.na(genetic_interaction) ~ "dependency",
+            TRUE ~ "both"
+        ))
+    return(df)
+}
+
+
+# Get a PPI annotated with comutation and genetic dependency data.
+get_overlapped_gr <- function(cancer, allele, min_comp_size, ignore_genes) {
+    merged_df <- get_overlapped_df(cancer, allele)
+    gr <- simple_combined_ppi_gr %N>%
+        filter(!(name %in% !!ignore_genes)) %>%
+        filter(name %in% c(merged_df$hugo_symbol, "KRAS")) %>%
+        jhcutils::filter_component_size(min_size = min_comp_size)
+
+    return(list(graph = gr, data = merged_df))
+}
+
+
+
+#### ---- Plotting ---- ####
+
+# Dictionary of node shapes to use by genetic interaction.
 network_node_shapes <- list(
     "comutation" = 15,
     "dependency" = 17,
@@ -77,10 +122,10 @@ network_node_shapes <- list(
     "other" = 19
 )
 
-
+# Dictionary of node colors based on direction of genetic interaction.
 network_node_colors <- list(
-    "increased\ncomutation" = comut_mutex_pal[["comutation"]],
-    "reduced\ncomutation" = comut_mutex_pal[["exclusivity"]],
+    "increased\ncomut." = comut_mutex_pal[["comutation"]],
+    "reduced\ncomut." = comut_mutex_pal[["exclusivity"]],
     "reduced dep." = synthetic_lethal_pal[["up"]],
     "increased dep." = synthetic_lethal_pal[["down"]],
     "both" = "#ED6165",
@@ -94,6 +139,9 @@ network_node_colors["increased dep."] <- lighten(
     factor = 1.4
 )
 
+
+# The simple graph of the combined graph.
+# The graph is the combination of STRING, HINT, and BioPlex2.
 simple_combined_ppi_gr <- convert(combined_ppi_gr, to_simple) %E>%
     mutate(num_source = purrr::map_dbl(.orig_data,
                                        ~ n_distinct(.x$source))) %>%
@@ -115,7 +163,7 @@ plot_fancy_overlap_ppin <- function(gr, cancer, allele) {
                                  label.position = "top",
                                  order = 3)) +
         scale_edge_color_continuous(
-            low = "grey80", high = "grey50",
+            low = "gray80", high = "gray50",
             guide = FALSE) +
         geom_node_point(
             aes(shape = interaction_source,
@@ -145,47 +193,6 @@ plot_fancy_overlap_ppin <- function(gr, cancer, allele) {
             color = "details of interaction"
         )
     return(p)
-}
-
-
-# Get a single data frame with all of the dependency and comutation
-# data for a cancer and allele.
-get_overlapped_df <- function(cancer, allele) {
-    dependency_df <- get_synthetic_lethal_data(cancer, allele) %>%
-        mutate(
-            allele = !!allele,
-            other_allele = ifelse(group1 == !!allele, group2, group1),
-            comparison = paste(allele, "-", other_allele),
-            allele_diff = ifelse(
-                group1 == !!allele,
-                g1_avg - g1_other_avg,
-                g2_avg - g2_other_avg
-            )
-        ) %>%
-        group_by(hugo_symbol) %>%
-        filter(n() == which.max(abs(allele_diff))) %>%
-        ungroup()
-    genetic_df <- get_genetic_interaction_data(cancer, allele)
-
-    df <- full_join(dependency_df, genetic_df, by = "hugo_symbol") %>%
-        mutate(interaction_source = case_when(
-            is.na(gene_cls) ~ "comutation",
-            is.na(genetic_interaction) ~ "dependency",
-            TRUE ~ "both"
-        ))
-    return(df)
-}
-
-
-# Get a PPI annotated with comutation and genetic dependency data.
-get_overlapped_gr <- function(cancer, allele, min_comp_size, ignore_genes) {
-    merged_df <- get_overlapped_df(cancer, allele)
-    gr <- simple_combined_ppi_gr %N>%
-        filter(!(name %in% !!ignore_genes)) %>%
-        filter(name %in% c(merged_df$hugo_symbol, "KRAS")) %>%
-        jhcutils::filter_component_size(min_size = min_comp_size)
-
-    return(list(graph = gr, data = merged_df))
 }
 
 
@@ -301,7 +308,7 @@ depmap_gene_clusters_pairwise_df %>%
     summarise(allele = list(unique(c(unlist(group1), unlist(group2))))) %>%
     ungroup() %>%
     unnest(allele) %>%
-    # pwalk(fancy_overlap_ppin, ignore_genes = genes_to_ignore) %>%
+    pwalk(fancy_overlap_ppin, ignore_genes = genes_to_ignore) %>%
     pwalk(clustered_fancy_overlap_ppin, ignore_genes = genes_to_ignore)
 
 
@@ -327,4 +334,105 @@ depmap_gene_clusters_pairwise_df %>%
     ungroup() %>%
     unnest(allele) %>%
     pmap(get_shared_comutation_dependency) %>%
-    bind_rows()
+    bind_rows() %>%
+    mutate(genetic_interaction = str_replace(genetic_interaction,
+                                             "\\ncomutation", " comut.")) %>%
+    select(cancer, allele, hugo_symbol,
+           comparison, adj_p_value,
+           genetic_interaction, p_val)
+
+
+#### ---- Comparing of COAD allele overlap networks ---- ####
+
+
+
+
+annotate_merged_graph <- function(gr, df) {
+    for (i in 1:nrow(df)) {
+        allele_i <- df$allele[[i]]
+        nodes <- igraph::V(df$ppi[[i]])$name
+        gr <- gr %N>%
+            mutate(allele = case_when(
+                name %in% !!nodes & allele == "" ~ !!allele_i,
+                name %in% !!nodes ~ paste(allele, !!allele_i, sep = ", "),
+                TRUE ~ allele
+            ))
+    }
+    return(gr)
+}
+
+
+make_gray_pal <- function(max_ct, start = 0.8, end = 0.5) {
+    pal <- grDevices::gray.colors(max_ct - 1, start = start, end = end)
+    names(pal) <- paste(seq(2, max_ct), "alleles", sep = " ")
+    return(pal)
+}
+
+
+factor_multiple_node_colors <- function(nc) {
+    alleles <- unique(nc[!str_detect(nc, "allele")])
+    grays <- unique(nc[str_detect(nc, "allele")])
+    levels <- c(sort(alleles), sort(grays))
+    return(factor(nc, levels = levels))
+}
+
+
+get_allele_count_label <- function(allele) {
+    paste(str_count(allele, ",") + 1, "alleles", sep = " ")
+}
+
+
+plot_overlap_comparison_graph <- function(gr, special_labels = NULL) {
+    max_ct <- max(str_count(igraph::V(gr)$allele, ",")) + 1
+    pal <- c(short_allele_pal,
+             make_gray_pal(max_ct),
+             "special" = "indianred1")
+    p <- gr %N>%
+        mutate(
+            node_color = case_when(
+                name %in% !!special_labels ~ "special",
+                str_detect(allele, ",") ~ get_allele_count_label(allele),
+                TRUE ~ allele
+            ),
+            node_color = factor_multiple_node_colors(node_color)
+        ) %>%
+        ggraph(layout = "kk") +
+        geom_edge_link(width = 0.3, color = "gray30", alpha = 0.4) +
+        geom_node_point(aes(color = node_color), size = 3) +
+        geom_node_text(aes(label = name), size = 2, family = "Arial", repel = TRUE) +
+        scale_color_manual(values = pal) +
+        theme_graph()
+    return(p)
+}
+
+
+make_overlap_comparison_graph <- function(df) {
+    merged_gr <- recursive_graph_join(df$ppi) %>%
+        convert(to_simple, .clean = TRUE) %>%
+        convert(to_undirected, .clean = TRUE) %N>%
+        select(name) %E>%
+        select(from, to) %N>%
+        mutate(allele = "") %>%
+        annotate_merged_graph(df)
+    return(merged_gr)
+}
+
+
+special_nodes <- c("KRAS", "BRAF", "NRAS", "PIK3CA", "APC", "TP53")
+
+coad_overlap_comparison_plot <- tibble(cancer = c("COAD", "COAD", "COAD"),
+       allele = c("G12D", "G12V", "G13D")) %>%
+    mutate(
+        ppi = purrr::map2(cancer, allele,
+                          get_overlapped_gr,
+                          min_comp_size = 4, ignore_genes = genes_to_ignore),
+        data = purrr::map(ppi, ~ .x$data),
+        ppi = purrr::map(ppi, ~.x$graph)
+    ) %>%
+    make_overlap_comparison_graph() %>%
+    plot_overlap_comparison_graph(special_labels = special_nodes)
+ggsave_wrapper(
+    coad_overlap_comparison_plot,
+    plot_path(GRAPHS_DIR, "coad_overlap_comparison_plot.svg"),
+    "large"
+)
