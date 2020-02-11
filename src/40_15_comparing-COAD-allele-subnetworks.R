@@ -1,5 +1,12 @@
 # Compare the subnetworks from COAD alleles.
 
+GRAPHS_DIR <- "40_15_comparing-COAD-allele-subnetworks"
+reset_graph_directory(GRAPHS_DIR)
+
+make_depmap_gene_clusters_pairwise_df()
+prepare_simple_combined_ppi_gr()
+
+
 #### ---- Comparing of COAD allele overlap networks ---- ####
 
 annotate_merged_graph <- function(gr, df) {
