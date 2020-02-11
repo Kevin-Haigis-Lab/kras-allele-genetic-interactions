@@ -59,13 +59,27 @@ plot_overlap_comparison_graph <- function(gr, special_labels = NULL) {
             node_color = factor_multiple_node_colors(node_color)
         ) %>%
         ggraph(layout = "kk") +
-        geom_edge_link(width = 0.3, color = "gray30", alpha = 0.4) +
-        geom_node_point(aes(color = node_color), size = 3) +
-        geom_node_text(aes(label = name), size = 2, family = "Arial", repel = TRUE) +
+        geom_edge_link(
+            width = 0.3, color = "gray30", alpha = 0.4
+        ) +
+        geom_node_point(
+            aes(color = node_color),
+            size = 3
+        ) +
+        geom_node_text(
+            aes(label = name),
+            size = 2, family = "Arial", repel = TRUE
+        ) +
         scale_color_manual(values = pal) +
         theme_graph()
     return(p)
 }
+
+print_node_names <- function(gr) {
+    cat(igraph::V(gr)$name, sep = "\n")
+    return(gr)
+}
+
 
 
 make_overlap_comparison_graph <- function(df) {
@@ -81,6 +95,7 @@ make_overlap_comparison_graph <- function(df) {
 
 
 special_nodes <- c("KRAS", "BRAF", "NRAS", "PIK3CA", "APC", "TP53")
+genes_to_ignore <- c("TTN")
 
 coad_overlap_comparison_plot <- tibble(cancer = c("COAD", "COAD", "COAD"),
        allele = c("G12D", "G12V", "G13D")) %>%
@@ -92,9 +107,17 @@ coad_overlap_comparison_plot <- tibble(cancer = c("COAD", "COAD", "COAD"),
         ppi = purrr::map(ppi, ~.x$graph)
     ) %>%
     make_overlap_comparison_graph() %>%
+    print_node_names() %>%
     plot_overlap_comparison_graph(special_labels = special_nodes)
+
+
 ggsave_wrapper(
     coad_overlap_comparison_plot,
     plot_path(GRAPHS_DIR, "coad_overlap_comparison_plot.svg"),
     "large"
+)
+
+saveRDS(
+    coad_overlap_comparison_plot,
+    get_fig_proto_path("coad_overlap_comparison_plot.rds", 5)
 )
