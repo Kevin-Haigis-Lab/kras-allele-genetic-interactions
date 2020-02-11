@@ -23,7 +23,6 @@ theme_fig__THEME_SUFFIX__ <- function() {
 # A BRIEF DESCRIPTION OF THE PANEL.
 # original script: "src/##_##_ORIGINAL-SCRIPT.R"
 
-
 panel_A <- #> BEGIN PANEL A HERE
 
 
