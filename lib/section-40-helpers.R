@@ -2,6 +2,7 @@
 # of the comutation and genetic dependency results.
 
 
+#### ---- Codify the clusters from synthetic lethal analysis ---- ####
 
 # Get the average `gene_effect` for an allele.
 # The function for calculate the average is in the argument `f`.
@@ -36,9 +37,13 @@ extract_pw <- function(pw, df) {
 
 # A tibble of the pairwise comparisons between all alleles for the genes in
 #   the `depmap_gene_clusters`.
-ProjectTemplate::cache("depmap_gene_clusters_pairwise_df",
-                       depends = c("model1_tib", "depmap_gene_clusters"),
-{
+make_depmap_gene_clusters_pairwise_df <- function() {
+    if (exists("depmap_gene_clusters_pairwise_df")) {
+        cat("(`depmap_gene_clusters_pairwise_df` already exists)\n")
+        return()
+    }
+    cat("Creating `depmap_gene_clusters_pairwise_df`.\n")
+
     depmap_gene_clusters_pairwise_df <- model1_tib %>%
         inner_join(depmap_gene_clusters, by = c("cancer", "hugo_symbol")) %>%
         mutate(
@@ -47,8 +52,37 @@ ProjectTemplate::cache("depmap_gene_clusters_pairwise_df",
         select(cancer, hugo_symbol, gene_cls, allele_pairwise) %>%
         unnest(allele_pairwise) %>%
         dplyr::rename(adj_p_value = p_value)
-    return(depmap_gene_clusters_pairwise_df)
-})
+
+    assign("depmap_gene_clusters_pairwise_df",
+           depmap_gene_clusters_pairwise_df,
+           envir = .GlobalEnv)
+    ProjectTemplate::cache("depmap_gene_clusters_pairwise_df",
+                           depends = c("model1_tib", "depmap_gene_clusters"))
+    invisible()
+}
+
+
+prepare_simple_combined_ppi_gr <- function() {
+    if (exists("simple_combined_ppi_gr")) {
+        cat("(`simple_combined_ppi_gr` already exists)\n")
+        return()
+    }
+
+    cat("Creating `simple_combined_ppi_gr`.\n")
+    simple_combined_ppi_gr <- convert(combined_ppi_gr, to_simple) %E>%
+        mutate(num_source = purrr::map_dbl(.orig_data,
+                                           ~ n_distinct(.x$source))) %>%
+        select(-.tidygraph_edge_index, -.orig_data) %N>%
+        select(-.tidygraph_node_index)
+        return(simple_combined_ppi_gr)
+
+    assign("simple_combined_ppi_gr", 
+           simple_combined_ppi_gr,
+           envir = .GlobalEnv)
+    ProjectTemplate::cache("simple_combined_ppi_gr",
+                           depends = c("combined_ppi_gr"))
+    invisible()
+}
 
 
 
