@@ -140,24 +140,33 @@ comut_dep_connectivity_bars <- comut_dep_connectivity %>%
     unnest(connection_data) %>%
     filter(is.finite(connectivity)) %>%
     bind_rows(null_tib) %>%
+    group_by(cancer, allele) %>%
+    mutate(total_paths = n()) %>%
+    group_by(cancer, allele, connectivity) %>%
+    summarise(frac = n() / unique(total_paths) * 100) %>%
+    ungroup() %>%
     mutate(allele = factor(allele,
                            levels = c(names(short_allele_pal), "null dist.")),
            connectivity = as.character(connectivity)) %>%
-    ggplot(aes(x = allele)) +
-    facet_wrap(cancer ~ ., scales = "free", nrow = 1) +
-    geom_bar(
+    ggplot(aes(x = allele, y = frac)) +
+    facet_wrap(cancer ~ ., scales = "free_x", nrow = 1) +
+    geom_col(
         aes(fill = connectivity),
         position = "fill", alpha = 1.0, color = "black",
         width = 1.0
     ) +
     scale_fill_viridis_d(option = "magma", begin = 0.2, end = 1) +
-    scale_y_discrete(expand = expand_scale(mult = c(0, 0))) +
     scale_x_discrete(expand = expand_scale(mult = c(0, 0))) +
+    scale_y_continuous(expand = expand_scale(mult = c(0, 0))) +
     theme_bw(base_size = 7, base_family = "Arial") +
     theme(
         axis.title.x = element_blank(),
         axis.ticks.x = element_blank(),
         strip.background = element_blank()
+    ) +
+    labs(
+        y = "geodesic distance",
+        fill = "steps"
     )
 
 ggsave_wrapper(
