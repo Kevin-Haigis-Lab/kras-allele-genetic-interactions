@@ -354,6 +354,7 @@ format_var_names <- function(x) {
     y <- str_remove_all(y, " mutation")
     y <- str_replace(y, "in frame", "in-frame")
     y <- str_replace(y, "ins", "ins.")
+    y <- str_replace(y, "deletion", "del")
     y <- str_replace(y, "del", "del.")
     return(y)
 }
