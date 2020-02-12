@@ -113,7 +113,8 @@ tibble::tribble(
 tibble::tribble(
     ~cancer, ~kras_allele1, ~kras_allele2, ~gene,
     "COAD", "G12D", "G13D", "TP53",
-    "COAD", "G12D", "G12V", "APC"
+    "COAD", "G12D", "G12V", "APC",
+    "LUAD", "G12C", "G12V", "STK11"
 ) %>%
     mutate(kras_allele1 = paste0("KRAS_", kras_allele1),
            kras_allele2 = paste0("KRAS_", kras_allele2)) %>%
