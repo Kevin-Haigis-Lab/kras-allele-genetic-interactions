@@ -149,7 +149,7 @@ comut_dep_connectivity_bars <- comut_dep_connectivity %>%
                            levels = c(names(short_allele_pal), "null dist.")),
            connectivity = as.character(connectivity)) %>%
     ggplot(aes(x = allele, y = frac)) +
-    facet_wrap(cancer ~ ., scales = "free_x", nrow = 1) +
+    facet_wrap(cancer ~ ., scales = "free_x", ncol = 1) +
     geom_col(
         aes(fill = connectivity),
         position = "fill", alpha = 1.0, color = "black",
@@ -172,7 +172,7 @@ comut_dep_connectivity_bars <- comut_dep_connectivity %>%
 ggsave_wrapper(
     comut_dep_connectivity_bars,
     plot_path(GRAPHS_DIR, "comut_dep_connectivity_bars.svg"),
-    "wide"
+    "tall"
 )
 
 saveRDS(
