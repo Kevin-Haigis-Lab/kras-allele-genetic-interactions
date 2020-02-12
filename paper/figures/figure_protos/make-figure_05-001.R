@@ -107,12 +107,29 @@ panel_A <- wrap_elements(plot = panel_A) +
     theme_fig5()
 
 
-#### ---- B. Connectivity of hits ---- ####
+#### ---- B. Lollipop of STK11 for G12C vs rest ---- ####
 # A table of the genes found to comutate and show differential dependency
 # with an allele.
 # original script: "src/40_20_comut-dependency-genes-ppi-connectivity.R"
 
-panel_B <- read_fig_proto("comut_dep_connectivity_bars.rds", FIGNUM) +
+panel_B <- read_fig_proto("stk11_lollipop_patch", FIGNUM)
+panel_B[[1]] <- panel_B[[1]] + labs(tag = "b")
+panel_B <- panel_B &
+    theme(
+        legend.title = element_blank(),
+        legend.key.size = unit(2, "mm"),
+        legend.position = "bottom"
+    )
+
+
+
+
+#### ---- C. Connectivity of hits ---- ####
+# A table of the genes found to comutate and show differential dependency
+# with an allele.
+# original script: "src/40_20_comut-dependency-genes-ppi-connectivity.R"
+
+panel_C <- read_fig_proto("comut_dep_connectivity_bars.rds", FIGNUM) +
     theme_fig5() +
     theme(
         legend.title = element_text(size = 5, hjust = 0),
@@ -120,31 +137,25 @@ panel_B <- read_fig_proto("comut_dep_connectivity_bars.rds", FIGNUM) +
         axis.title.x = element_blank()
     ) +
     labs(
-        tag = "b"
-    )
-
-
-#### ---- C. Comparing PPI subnets in COAD ---- ####
-# A subnetwork of the PPIN for COAD showing the comut. and dep. results for
-# all alleles.
-# original script: "src/40_15_comparing-COAD-allele-subnetworks.R"
-
-panel_C <- read_fig_proto("coad_overlap_comparison_plot.rds", FIGNUM) +
-    theme_graph_fig5() +
-    theme(
-        legend.position = c(0.02, 0.83)
-    ) +
-    labs(
-        color = "allele",
         tag = "c"
     )
 
 
-#### ---- D. ... ---- ####
-# ...
+#### ---- D. Comparing PPI subnets in COAD ---- ####
+# A subnetwork of the PPIN for COAD showing the comut. and dep. results for
+# all alleles.
 # original script: "src/40_15_comparing-COAD-allele-subnetworks.R"
 
-panel_C <- plot_spacer()
+panel_D <- read_fig_proto("coad_overlap_comparison_plot.rds", FIGNUM) +
+    theme_graph_fig5() +
+    theme(
+        legend.position = c(0.8, 0.92),
+        legend.title = element_blank()
+    ) +
+    labs(
+        color = "allele",
+        tag = "d"
+    )
 
 
 
@@ -155,9 +166,9 @@ panel_C <- plot_spacer()
     # COMPLETE FIGURE
     full_figure <- (
             ((panel_A | panel_B) + plot_layout(widths = c(2, 3))) /
-            ((panel_C | plot_spacer()) + plot_layout(widths = c(5, 1)))
+            ((panel_C | panel_D) + plot_layout(widths = c(1, 3)))
         ) +
-        plot_layout(heights = c(1, 5))
+        plot_layout(heights = c(1, 3))
 
     save_figure(
         full_figure,

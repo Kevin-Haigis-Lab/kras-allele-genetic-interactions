@@ -68,7 +68,7 @@ ggsave_wrapper(
 
 stk11_pal <- c(
     "N-term" = "goldenrod1",
-    "NLS" = "darkred",
+    "NLS" = "mediumorchid1",
     "Kinase" = "darkturquoise",
     "C-term" = "darksalmon"
 )
@@ -86,11 +86,11 @@ stk11_labels <- tibble(
 
 stk11_scheme_plot <- stk11_scheme %>%
     ggplot(aes(x = x, y = 0)) +
-    geom_line(aes(color = domain), size = 6) +
+    geom_line(aes(color = domain), size = 4) +
     geom_text(
         data = stk11_labels,
         aes(x = x, y = 0, label = domain),
-        size = 2.5, family = "Arial", fontface = "bold"
+        size = 2, family = "Arial", fontface = "bold"
     ) +
     scale_x_continuous(expand = expand_scale(mult = c(0.01, 0.01))) +
     scale_color_manual(values = stk11_pal, guide = FALSE) +
@@ -134,7 +134,7 @@ stk11_g12c_lollipop <- stk11_mutations %>%
     ) +
     labs(
         fill = "mutation type",
-        y = "num. mutations in G12C samples"
+        y = "num. mut.\nin G12C samples"
     )
 ggsave_wrapper(
     stk11_g12c_lollipop,
@@ -167,8 +167,8 @@ stk11_rest_lollipop <- stk11_mutations %>%
     ) +
     labs(
         fill = "mutation type",
-        y = "num. mutations in other samples",
-        x = "amino acid position"
+        y = "num. mut.\nin other samples",
+        x = "amino acid position on STK11"
     )
 ggsave_wrapper(
     stk11_rest_lollipop,
@@ -178,7 +178,10 @@ ggsave_wrapper(
 
 
 stk11_lollipop_patch <- (stk11_g12c_lollipop / stk11_scheme_plot / stk11_rest_lollipop) +
-    plot_layout(heights = c(3, 1, 3), guides = "collect")
+    plot_layout(heights = c(2, 1, 2), guides = "collect") &
+    theme(
+        legend.position = "bottom"
+    )
 ggsave_wrapper(
     stk11_lollipop_patch,
     plot_path(GRAPHS_DIR, "stk11_lollipop_patch.svg"),

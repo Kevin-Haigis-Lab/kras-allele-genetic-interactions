@@ -121,7 +121,14 @@ plot_overlap_comparison_graph2 <- function(gr, special_labels = NULL) {
             aes(label = name),
             size = 2, family = "Arial", repel = TRUE
         ) +
-        scale_color_manual(values = pal) +
+        scale_color_manual(
+            values = pal,
+            guide = guide_legend(
+                ncol = 2,
+                title.hjust = 0.5,
+                label.hjust = 0
+            )
+        ) +
         scale_edge_color_manual(
             values = pal,
             na.value = "grey70",
