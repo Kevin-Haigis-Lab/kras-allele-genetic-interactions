@@ -128,7 +128,7 @@ tibble::tribble(
     "COAD", "G12C", "RAPGEF2",
     "COAD", "G12V", "SMAD4",
     "LUAD", "G13C", "NF1",
-    "LUAD", ""
+    "LUAD", "G12C", "STK11"
 ) %>%
     mutate(kras_allele = paste0("KRAS_", kras_allele)) %>%
     pwalk(lollipop2_cancer_allele)
