@@ -33,5 +33,5 @@ comut_dep_overlap_tbl <- depmap_gene_clusters_pairwise_df %>%
 
 saveRDS(
     comut_dep_overlap_tbl,
-    get_fig_proto_path("comut_dep_overlap_tbl", 5)
+    get_fig_proto_path("comut_dep_overlap_tbl.rds", 5)
 )
