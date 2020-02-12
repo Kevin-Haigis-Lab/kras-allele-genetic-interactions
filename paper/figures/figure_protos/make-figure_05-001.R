@@ -17,6 +17,15 @@ theme_fig5 <- function(tag_margin = margin(1, 1, 1, 1, "mm")) {
     )
 }
 
+theme_minimal_fig5 <- function(tag_margin = margin(1, 1, 1, 1, "mm")) {
+    theme_minimal_comutation() %+replace%
+    theme(
+        plot.tag = element_text(size = 7,
+                                face = "bold",
+                                margin = tag_margin)
+    )
+}
+
 
 #' Special theme for graphs from 'ggraph'.
 theme_graph_fig5 <- function() {
@@ -76,7 +85,7 @@ ttheme_panel_A <- gridExtra::ttheme_default(
             fontfamily = "Arial"
         ),
         bg_params = list(fill = "white"),
-        padding = unit(c(1, 2), "mm")
+        padding = unit(c(1, 3), "mm")
     )
 )
 
@@ -113,15 +122,40 @@ panel_A <- wrap_elements(plot = panel_A) +
 # original script: "src/40_20_comut-dependency-genes-ppi-connectivity.R"
 
 panel_B <- read_fig_proto("stk11_lollipop_patch", FIGNUM)
-panel_B[[1]] <- panel_B[[1]] + labs(tag = "b")
-panel_B <- panel_B &
+panel_B[[1]] <- panel_B[[1]] +
+    theme_fig5() +
     theme(
+        axis.title.x = element_blank(),
+        axis.text.x = element_blank(),
+        plot.margin = margin(0, 0, -2, 0, "mm"),
+        axis.ticks = element_blank(),
+        panel.border = element_blank(),
+        legend.title = element_blank(),
+        legend.key.size = unit(2, "mm"),
+        legend.position = "bottom"
+    ) +
+    labs(tag = "b")
+panel_B[[2]] <- panel_B[[2]] +
+    theme_minimal_fig5() +
+    theme(
+        legend.title = element_blank(),
+        legend.key.size = unit(2, "mm"),
+        legend.position = "bottom",
+        axis.title = element_blank(),
+        panel.grid = element_blank(),
+        axis.text = element_blank(),
+        plot.margin = margin(-2, 0, -2, 0, "mm")
+    )
+panel_B[[3]] <- panel_B[[3]] +
+    theme_fig5() +
+    theme(
+        plot.margin = margin(-2, 0, 0, 0, "mm"),
+        axis.ticks = element_blank(),
+        panel.border = element_blank(),
         legend.title = element_blank(),
         legend.key.size = unit(2, "mm"),
         legend.position = "bottom"
     )
-
-
 
 
 #### ---- C. Connectivity of hits ---- ####
