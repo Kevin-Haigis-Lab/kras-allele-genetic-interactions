@@ -1,6 +1,6 @@
 # Investigating the relationship between JUN and KRAS G12V in PAAD.
 
-GRAPHS_DIR <- "90_25_paad_depmap_jun-cdkn2a-G12V"
+GRAPHS_DIR <- "10_55_paad_depmap_jun-cdkn2a-G12V"
 reset_graph_directory(GRAPHS_DIR)
 
 jun_pw <- c("KRAS", "TAB1", "MAP2K4", "MAP2K7", "MAPK8", "MAPK9", "MAPK10",
