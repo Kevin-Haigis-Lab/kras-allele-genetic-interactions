@@ -5,6 +5,8 @@ GRAPHS_DIR <- "20_70_luad-g12c-stk11"
 reset_graph_directory(GRAPHS_DIR)
 
 
+#### ---- EDA ---- ####
+
 cancer_coding_av_muts_df %>%
     filter(cancer == "LUAD" & ras_allele == "KRAS_G12C") %>%
     filter(hugo_symbol == "STK11") %>%
@@ -26,20 +28,66 @@ model1_tib %>%
     filter(dep_map_id == "ACH-000698")
 
 
+#### ---- Prepare STK11 mutation data ---- ####
+
+parse_sift <- function(x) {
+    case_when(
+        str_detect(x, "D") ~ TRUE,
+        TRUE ~ FALSE
+    )
+}
+
+parse_polyphen <- function(x) {
+    case_when(
+        str_detect(x, "D") ~ TRUE,
+        str_detect(x, "P") ~ TRUE,
+        TRUE ~ FALSE
+    )
+}
+
+parse_fathmm <- function(x) {
+    case_when(
+        str_detect(x, "D") ~ TRUE,
+        TRUE ~ FALSE
+    )
+}
+
+parse_clinsig <- function(x) {
+    case_when(
+        str_detect(x, "Path") ~ TRUE,
+        TRUE ~ FALSE
+    )
+}
+
 
 stk11_mutations <- cancer_coding_av_muts_df %>%
-    filter(cancer == "LUAD" & hugo_symbol == "STK11") %>%
-    mutate(group = ifelse(ras_allele == "KRAS_G12C", "G12C", "rest")) %>%
+    filter(cancer == "LUAD") %>%
+    mutate(group = ifelse(ras_allele == "KRAS_G12C", "G12C", "rest"),
+           num_luad_samples = n_distinct(tumor_sample_barcode)) %>%
+    filter(hugo_symbol == "STK11") %>%
+    mutate(num_stk11_samples = n_distinct(tumor_sample_barcode)) %>%
     group_by(group) %>%
     mutate(
-        num_samples = n_distinct(tumor_sample_barcode),
-        num_stk11_mutations = n()
+        group_num_stk11_samples = n_distinct(tumor_sample_barcode),
+        group_num_stk11_mutations = n()
     ) %>%
-    group_by(group, amino_position, mutation_type,
-             num_samples, num_stk11_mutations) %>%
+    group_by(group, num_luad_samples, num_stk11_samples,
+             amino_position, mutation_type,
+             group_num_stk11_samples, group_num_stk11_mutations) %>%
     summarise(
+        group_position_type_num_stk11_samples = n_distinct(tumor_sample_barcode),
         num_mutation_type = n(),
-        percent_of_mutations = num_mutation_type / unique(num_stk11_mutations)
+        percent_of_mutations = num_mutation_type / unique(group_num_stk11_mutations),
+        sifts = paste(unique(sift_pred), collapse = ", "),
+        polyphens = paste(unique(polyphen2_hdiv_pred), collapse = ", "),
+        fathmms = paste(unique(fathmm_pred), collapse = ", "),
+        clinsigs = paste(unique(clinsig), collapse = ", ")
+    ) %>%
+    mutate(
+        sifts = parse_sift(sifts),
+        polyphens = parse_polyphen(polyphens),
+        fathmms = parse_fathmm(fathmms),
+        clinsigs = parse_clinsig(clinsigs)
     ) %>%
     ungroup()
 
@@ -47,13 +95,36 @@ stk11_mutations %<>%
     mutate(mutation_type = ifelse(mutation_type == "frameshift_deletion",
                                   "frame_shift_del", mutation_type))
 
+stk11_mutations_dmg <- stk11_mutations %>%
+    group_by(group, amino_position) %>%
+    summarise(
+        num_mutations = sum(num_mutation_type),
+        damaging = any(sifts, polyphens, fathmms, clinsigs)
+    ) %>%
+    ungroup() %>%
+    filter(damaging) %>%
+    mutate(
+        amino_position = as.numeric(amino_position),
+        num_mutations = ifelse(group == "G12C",
+                               num_mutations,
+                               -num_mutations)
+    )
+
+
 stk11_lollipop <- stk11_mutations %>%
     mutate(
         amino_position = as.numeric(amino_position),
-        percent_of_mutations = ifelse(group == "G12C", percent_of_mutations, -percent_of_mutations)
+        num_mutation_type = ifelse(group == "G12C",
+                                   num_mutation_type,
+                                   -num_mutation_type)
     ) %>%
-    ggplot(aes(x = amino_position, y = percent_of_mutations)) +
+    ggplot(aes(x = amino_position, y = num_mutation_type)) +
     geom_col(aes(fill = mutation_type), position = "stack") +
+    geom_point(
+        data = stk11_mutations_dmg,
+        aes(x = amino_position, y = num_mutations),
+        color = "tomato", size = 1
+    ) +
     theme_bw(base_size = 7, base_family = "Arial")
 ggsave_wrapper(
     stk11_lollipop,
@@ -63,8 +134,50 @@ ggsave_wrapper(
 
 
 
+#### ---- Statistics ---- ####
+
+
+amino_position_enrichment_test <- function(df) {
+    df[is.na(df)] <- 0
+    x <- c(df$group_position_type_num_stk11_samples_G12C,
+           df$group_position_type_num_stk11_samples_rest)
+    return(tidy(binom.test(x = x, p = 0.5))$p.value)
+}
+
+# Is there enrichment for mutation at any location in the G12C group?
+stk11_mutations %>%
+    filter(!is.na(amino_position)) %>%
+    pivot_wider(
+        id_cols = c(num_luad_samples, num_stk11_samples, amino_position),
+        names_from = group,
+        values_from = c(group_num_stk11_samples, group_position_type_num_stk11_samples),
+        values_fn = list(
+            "group_num_stk11_samples" = unique,
+            "group_position_type_num_stk11_samples" = sum
+        )
+    ) %>%
+    group_by(amino_position) %>%
+    nest() %>%
+    ungroup() %>%
+    mutate(p_val = map_dbl(data, amino_position_enrichment_test)) %>%
+    filter(p_val < 0.10)
+
 
 #### ---- STK11 Lollipop ---- ####
+
+add_damage_pts <- function(p, group,
+                           color = "firebrick", size = 0.6, alpha = 1.0) {
+    dmg_df <- stk11_mutations_dmg %>%
+        filter(group == !!group) %>%
+        filter(!is.na(amino_position))
+    p <- p + geom_point(
+        data = dmg_df,
+        aes(x = amino_position, y = num_mutations),
+        color = color, size = size, alpha = alpha
+    )
+    return(p)
+}
+
 
 stk11_pal <- c(
     "N-term" = "goldenrod1",
@@ -111,6 +224,8 @@ ggsave_wrapper(
 )
 
 
+stk11_breaks <- c(1, seq(25, 401, 25), 433)
+
 stk11_g12c_lollipop <- stk11_mutations %>%
     filter(group == "G12C") %>%
     mutate(amino_position = as.numeric(amino_position),
@@ -120,10 +235,11 @@ stk11_g12c_lollipop <- stk11_mutations %>%
     geom_hline(yintercept = 0, size = 0.8, color = "black") +
     scale_fill_manual(values = mod_variant_pal) +
     scale_x_continuous(
+        limits = c(min(stk11_breaks), max(stk11_breaks)),
         expand = expand_scale(mult = c(0.01, 0.01)),
-        breaks = seq(25, 433, 25)
+        breaks = stk11_breaks
     ) +
-    scale_y_continuous(expand = expand_scale(mult = c(0, 0.02))) +
+    scale_y_continuous(expand = expand_scale(add = c(0, 0.15))) +
     theme_bw(base_size = 7, base_family = "Arial") +
     theme(
         axis.title.x = element_blank(),
@@ -136,6 +252,7 @@ stk11_g12c_lollipop <- stk11_mutations %>%
         fill = "mutation type",
         y = "num. mut.\nin G12C samples"
     )
+stk11_g12c_lollipop <- add_damage_pts(stk11_g12c_lollipop, "G12C")
 ggsave_wrapper(
     stk11_g12c_lollipop,
     plot_path(GRAPHS_DIR, "stk11_g12c_lollipop.svg"),
@@ -152,11 +269,12 @@ stk11_rest_lollipop <- stk11_mutations %>%
     geom_hline(yintercept = 0, size = 0.8, color = "black") +
     scale_fill_manual(values = mod_variant_pal) +
     scale_x_continuous(
+        limits = c(min(stk11_breaks), max(stk11_breaks)),
         expand = expand_scale(mult = c(0.01, 0.01)),
-        breaks = seq(25, 433, 25)
+        breaks = stk11_breaks
     ) +
     scale_y_continuous(
-        expand = expand_scale(mult = c(0.02, 0)),
+        expand = expand_scale(add = c(0.15, 0)),
         labels = abs
     ) +
     theme_bw(base_size = 7, base_family = "Arial") +
@@ -170,6 +288,7 @@ stk11_rest_lollipop <- stk11_mutations %>%
         y = "num. mut.\nin other samples",
         x = "amino acid position on STK11"
     )
+stk11_rest_lollipop <- add_damage_pts(stk11_rest_lollipop, "rest")
 ggsave_wrapper(
     stk11_rest_lollipop,
     plot_path(GRAPHS_DIR, "stk11_rest_lollipop.svg"),
