@@ -26,6 +26,16 @@ datasource_summary_df <- cancer_full_muts_df %>%
     arrange(cancer, -num_cancer_samples) %T>%
     write_tsv(table_path(TABLES_DIR, "datasource-summaries.tsv"))
 
+# Print out number of samples for exome/genome and panel.
+datasource_summary_df %>%
+    filter(target %in% c("exome", "genome")) %>%
+    group_by(cancer) %>%
+    summarise(total_samples = sum(num_cancer_samples))
+datasource_summary_df %>%
+    filter(!target %in% c("exome", "genome")) %>%
+    group_by(cancer) %>%
+    summarise(total_samples = sum(num_cancer_samples))
+
 
 # Data frame with summary of panel data sources.
 paneldata_summary_df <- cancer_full_muts_df %>%
