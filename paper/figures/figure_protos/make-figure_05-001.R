@@ -50,7 +50,6 @@ theme_graph_fig5 <- function() {
 # with an allele.
 # original script: "src/40_12_overlap-synlet-comutation-hits.R"
 
-
 panel_A <- read_fig_proto("comut_dep_overlap_tbl.rds", FIGNUM) %>%
     mutate(
         genetic_interaction = str_remove(genetic_interaction, "\\ncomut\\."),
@@ -183,7 +182,7 @@ panel_C <- read_fig_proto("comut_dep_connectivity_bars.rds", FIGNUM) +
 panel_D <- read_fig_proto("coad_overlap_comparison_plot.rds", FIGNUM) +
     theme_graph_fig5() +
     theme(
-        legend.position = c(0.8, 0.92),
+        legend.position = c(0.8, 0.95),
         legend.title = element_blank()
     ) +
     labs(
