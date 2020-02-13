@@ -144,9 +144,16 @@ print_node_names <- function(gr) {
 }
 
 
+extract_common_graph_from_ppi <- function(grs) {
+    nodes <- unlist(purrr::map(grs, ~ igraph::V(.x)$name))
+    gr <- simple_combined_ppi_gr %N>%
+        filter(name %in% !!nodes)
+    return(gr)
+}
+
 
 make_overlap_comparison_graph <- function(df) {
-    merged_gr <- recursive_graph_join(df$ppi) %>%
+    merged_gr <- extract_common_graph_from_ppi(df$ppi) %>%
         convert(to_simple, .clean = TRUE) %>%
         convert(to_undirected, .clean = TRUE) %N>%
         select(name) %E>%
