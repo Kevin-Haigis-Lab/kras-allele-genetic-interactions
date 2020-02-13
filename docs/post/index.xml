@@ -5,12 +5,39 @@
     <link>https://project-notebook-comutation.netlify.com/post/</link>
       <atom:link href="https://project-notebook-comutation.netlify.com/post/index.xml" rel="self" type="application/rss+xml" />
     <description>Posts</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Mon, 10 Feb 2020 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Thu, 13 Feb 2020 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://project-notebook-comutation.netlify.com/img/icon-192.png</url>
       <title>Posts</title>
       <link>https://project-notebook-comutation.netlify.com/post/</link>
     </image>
+    
+    <item>
+      <title>2020-02-13</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2020-02-13/</link>
+      <pubDate>Thu, 13 Feb 2020 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2020-02-13/</guid>
+      <description>
+
+&lt;h2 id=&#34;stk11-lollipop-plot&#34;&gt;&lt;em&gt;STK11&lt;/em&gt; lollipop plot&lt;/h2&gt;
+
+&lt;p&gt;Yesterday, I created a lollipop plot of the mutations on &lt;em&gt;STK11&lt;/em&gt;, separated by G12C and the rest of the samples.
+Today, I tested for an enrichment of mutations at each location, but found nothing.
+It is likely due to a lack of power at any individual amino acid position.
+I did, however, add annotations for if the mutation is predicted to be damaging using SIFT, POLYPHEN, FATHMM, and known clinical significance.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;img/graphs/20_70_luad-g12c-stk11/stk11_lollipop_patch.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Since there is nothing obviously different between the two groups, I will write something to the effect:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;There is no apparent or statistically detectable difference in the types nor locations of mutations between G12C-mutant samples and the rest of the LUAD tumor samples.
+Thus, it is unlikely that the genetic associations found here were driven by latent mutational processes, but instead they were determined by the selective advantage that concomitant &lt;em&gt;KRAS&lt;/em&gt; G12C and &lt;em&gt;STK11&lt;/em&gt; mutations have in a tumor.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;hr /&gt;
+</description>
+    </item>
     
     <item>
       <title>2020-02-10</title>

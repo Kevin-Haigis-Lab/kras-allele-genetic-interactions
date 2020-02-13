@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 288.00 288.00'>
+<defs>
+  <style type='text/css'><![CDATA[
+    line, polyline, polygon, path, rect, circle {
+      fill: none;
+      stroke: #000000;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-miterlimit: 10.00;
+    }
+  ]]></style>
+</defs>
+<rect width='100%' height='100%' style='stroke: none; fill: #FFFFFF;'/>
+<defs>
+  <clipPath id='cpMS43NHwyODguMDB8Mjg4LjAwfDAuMDA='>
+    <rect x='1.74' y='0.00' width='286.26' height='288.00' />
+  </clipPath>
+</defs>
+<polyline points='204.64,143.13 285.19,143.13 ' style='stroke-width: 8.54; stroke: #E9967A; stroke-linecap: butt;' clip-path='url(#cpMS43NHwyODguMDB8Mjg4LjAwfDAuMDA=)' />
+<polyline points='35.73,143.13 204.64,143.13 ' style='stroke-width: 8.54; stroke: #00CED1; stroke-linecap: butt;' clip-path='url(#cpMS43NHwyODguMDB8Mjg4LjAwfDAuMDA=)' />
+<polyline points='4.55,143.13 28.59,143.13 31.83,143.13 35.73,143.13 ' style='stroke-width: 8.54; stroke: #FFC125; stroke-linecap: butt;' clip-path='url(#cpMS43NHwyODguMDB8Mjg4LjAwfDAuMDA=)' />
+<polyline points='28.59,143.13 31.83,143.13 ' style='stroke-width: 8.54; stroke: #E066FF; stroke-linecap: butt;' clip-path='url(#cpMS43NHwyODguMDB8Mjg4LjAwfDAuMDA=)' />
+<g clip-path='url(#cpMS43NHwyODguMDB8Mjg4LjAwfDAuMDA=)'><text x='10.65' y='145.20' style='font-size: 5.69px; font-weight: bold; font-family: Arial;' textLength='18.33px' lengthAdjust='spacingAndGlyphs'>N-term</text></g>
+<g clip-path='url(#cpMS43NHwyODguMDB8Mjg4LjAwfDAuMDA=)'><text x='110.86' y='145.20' style='font-size: 5.69px; font-weight: bold; font-family: Arial;' textLength='18.65px' lengthAdjust='spacingAndGlyphs'>Kinase</text></g>
+<g clip-path='url(#cpMS43NHwyODguMDB8Mjg4LjAwfDAuMDA=)'><text x='236.08' y='145.20' style='font-size: 5.69px; font-weight: bold; font-family: Arial;' textLength='18.33px' lengthAdjust='spacingAndGlyphs'>C-term</text></g>
+<defs>
+  <clipPath id='cpMC4wMHwyODguMDB8Mjg4LjAwfDAuMDA='>
+    <rect x='0.00' y='0.00' width='288.00' height='288.00' />
+  </clipPath>
+</defs>
+</svg>
