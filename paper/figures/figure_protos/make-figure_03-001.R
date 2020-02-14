@@ -87,7 +87,11 @@ panel_B <- read_fig_proto("enrichr_LUAD", FIGNUM) +
         legend.margin = margin(-1, 0, -1, 0, "mm"),
         legend.box.background = element_rect(fill = NA, color = NA)
     ) +
-    labs(tag = "b")
+    labs(
+        tag = "b",
+        size = expression(-italic("log")[10] ( "adj. p-value" )),
+        alpha = "num. of genes"
+    )
 
 
 #### ---- C. Dot-plot of functional enrichment ---- ####
@@ -97,16 +101,16 @@ panel_B <- read_fig_proto("enrichr_LUAD", FIGNUM) +
 
 panel_C <- read_fig_proto("comut-barplot_LUAD_AllAlleles_AllSources", FIGNUM) +
     scale_fill_manual(
-            values = comut_updown_pal,
-            guide = guide_legend(
-                title.position = "top"
-            )
-        ) +
-        scale_alpha_manual(
-            values = c("other" = 0.4, "allele" = 0.95),
-            guide = guide_legend(
-                title.position = "top"
-            )
+        values = comut_updown_pal,
+        guide = guide_legend(
+            title.position = "top"
+        )
+    ) +
+    scale_alpha_manual(
+        values = c("other" = 0.4, "allele" = 0.95),
+        guide = guide_legend(
+            title.position = "top"
+        )
     ) +
     theme_fig3() %+replace%
     theme(
@@ -141,5 +145,3 @@ panel_C <- read_fig_proto("comut-barplot_LUAD_AllAlleles_AllSources", FIGNUM) +
         dim = FIG_DIMENSIONS
     )
 }
-
-
