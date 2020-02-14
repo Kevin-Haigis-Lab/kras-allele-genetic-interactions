@@ -36,7 +36,11 @@ theme_graph_fig2 <- function() {
 
 
 #' Adjust the oncoplots.
-adjust_oncoplot_theme <- function(pw) {
+adjust_oncoplot_theme <- function(
+        pw,
+        right_bar_limits = NULL,
+        right_bar_breaks = integer_breaks(rm_vals = c(0))
+    ) {
     # Top bar plot
     pw[[1]] <- pw[[1]] +
         theme(
@@ -57,9 +61,13 @@ adjust_oncoplot_theme <- function(pw) {
             axis.text.y = element_text(size = 6, hjust = 1)
         )
 
-
     # Right bar plot
     pw[[3]] <- pw[[3]] +
+        scale_y_continuous(
+            expand = expand_scale(mult = c(0, 0.08)),
+            limits = right_bar_limits,
+            breaks = right_bar_breaks
+        ) +
         theme(
             axis.text.x = element_text(size = 5, vjust = 1)
         )
@@ -174,8 +182,15 @@ panel_C <- read_fig_proto("enrichr_COAD", FIGNUM) +
 # original script: "src/20_50_rainfall-plots.R"
 
 panel_D <- read_fig_proto("COAD_G12D_comutation_oncostrip_select", FIGNUM)
-panel_D <- adjust_oncoplot_theme(panel_D)
+panel_D <- adjust_oncoplot_theme(panel_D, c(0, 450), c(50, 200, 400))
 panel_D[[1]] <- panel_D[[1]] + labs(tag = "d")
+
+# panel_D[[3]] <- panel_D[[3]] +
+#     scale_y_continuous(
+#             expand = expand_scale(mult = c(0, 0.02)),
+#             limits = c(0, max(total_variants_per_gene$total) * 1.2),
+#             breaks = integer_breaks(rm_vals = c(0))
+#         )
 
 panel_D_leg_1 <- ggpubr::as_ggplot(cowplot::get_legend(panel_D[[2]]))
 panel_D_leg_2 <- ggpubr::as_ggplot(cowplot::get_legend(panel_D[[4]]))
@@ -191,12 +206,9 @@ panel_D <- remove_oncoplot_legend(panel_D)
 # original script: "src/20_50_rainfall-plots.R"
 
 panel_E <- read_fig_proto("COAD_G12D_exclusivity_oncostrip_select", FIGNUM)
-panel_E <- adjust_oncoplot_theme(panel_E)
+panel_E <- adjust_oncoplot_theme(panel_E, c(0, 450), c(50, 200, 400))
 panel_E[[1]] <- panel_E[[1]] + labs(tag = "e")
 panel_E <- remove_oncoplot_legend(panel_E)
-
-
-
 
 
 #### ---- F. Oncoplot ---- ####
@@ -206,7 +218,7 @@ panel_E <- remove_oncoplot_legend(panel_E)
 # original script: "src/20_50_rainfall-plots.R"
 
 panel_F <- read_fig_proto("COAD_G12V_comutation_oncostrip_select", FIGNUM)
-panel_F <- adjust_oncoplot_theme(panel_F)
+panel_F <- adjust_oncoplot_theme(panel_F, c(0, 1150), c(100, 500, 1000))
 panel_F[[1]] <- panel_F[[1]] + labs(tag = "f")
 panel_F <- remove_oncoplot_legend(panel_F)
 
@@ -218,11 +230,9 @@ panel_F <- remove_oncoplot_legend(panel_F)
 # original script: "src/20_50_rainfall-plots.R"
 
 panel_G <- read_fig_proto("COAD_G12V_exclusivity_oncostrip_select", FIGNUM)
-panel_G <- adjust_oncoplot_theme(panel_G)
+panel_G <- adjust_oncoplot_theme(panel_G, c(0, 1150), c(100, 500, 1000))
 panel_G[[1]] <- panel_G[[1]] + labs(tag = "g")
 panel_G <- remove_oncoplot_legend(panel_G)
-
-
 
 
 #### ---- Figure assembly ---- ####
