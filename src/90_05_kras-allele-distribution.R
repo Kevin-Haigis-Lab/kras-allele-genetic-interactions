@@ -317,7 +317,7 @@ kras_lollipop_plot <- cancer_full_coding_muts_maf %>%
     ) +
     coord_trans(y = my_trans_log10) +
     labs(
-        x = "KRAS amino acid sequence",
+        x = "KRas amino acid sequence",
         y = "log10( count )"
     )
 
