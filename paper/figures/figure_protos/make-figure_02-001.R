@@ -132,7 +132,10 @@ panel_B <- read_fig_proto(
     theme(
         legend.position = "bottom"
     ) +
-    labs(tag = "b")
+    labs(
+        tag = "b",
+        edge_width = expression(-italic("log") ( "p-value" ))
+    )
 
 
 #### ---- C. Dot-plot of functional enrichment  ---- ####
@@ -172,7 +175,11 @@ panel_C <- read_fig_proto("enrichr_COAD", FIGNUM) +
         legend.margin = margin(-1, 0, -1, 0, "mm"),
         legend.box.background = element_rect(fill = NA, color = NA)
     ) +
-    labs(tag = "c")
+    labs(
+        tag = "c",
+        size = expression(-italic("log")[10] ( "adj. p-value" )),
+        alpha = "num. of genes"
+    )
 
 
 #### ---- D. Oncoplot ---- ####
@@ -230,7 +237,7 @@ panel_F <- remove_oncoplot_legend(panel_F)
 # original script: "src/20_50_rainfall-plots.R"
 
 panel_G <- read_fig_proto("COAD_G12V_exclusivity_oncostrip_select", FIGNUM)
-panel_G <- adjust_oncoplot_theme(panel_G, c(0, 1150), c(100, 500, 1000))
+panel_G <- adjust_oncoplot_theme(panel_G, c(0, 450), c(50, 200, 400))
 panel_G[[1]] <- panel_G[[1]] + labs(tag = "g")
 panel_G <- remove_oncoplot_legend(panel_G)
 
