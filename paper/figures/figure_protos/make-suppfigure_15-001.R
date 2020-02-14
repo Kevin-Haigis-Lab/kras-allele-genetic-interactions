@@ -15,7 +15,6 @@ FIG_DIMENSIONS <- list(width = 110, height = 100)
 theme_figS15 <- function() {
     theme_comutation() %+replace%
     theme(
-        legend.title = element_blank(),
         plot.tag = element_text(size = 7,
                                 face = "bold",
                                 margin = margin(-1, -1, -1, -1, "mm"))

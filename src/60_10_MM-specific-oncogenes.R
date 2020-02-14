@@ -99,7 +99,7 @@ mm_comut_heatmap <- mm_comut_df %>%
         legend.position = "bottom"
     ) +
     labs(
-        fill = "comut. frequency"
+        fill = "comutation frequency"
     )
 ggsave_wrapper(
     mm_comut_heatmap,
@@ -116,7 +116,7 @@ allele_freq_barplot <- cancer_allele_count_df %>%
     scale_fill_viridis_c(guide = FALSE) +
     coord_trans(y = my_trans_log10) +
     scale_y_continuous(
-        breaks = c(10, 50, 200, 500),
+        breaks = c(5, 10, 50, 200, 500),
         expand = expand_scale(mult = c(0, 0.05))
     ) +
     scale_x_discrete(expand = c(0, 0)) +

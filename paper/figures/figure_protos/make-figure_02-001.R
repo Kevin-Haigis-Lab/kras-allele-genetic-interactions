@@ -150,7 +150,7 @@ panel_C <- read_fig_proto("enrichr_COAD", FIGNUM) +
             title.position = "left",
             title.hjust = 0.5,
             order = 10,
-            label.vjust = -9,
+            label.vjust = -11,
             label.position = "top"
         )
     ) +
@@ -158,9 +158,9 @@ panel_C <- read_fig_proto("enrichr_COAD", FIGNUM) +
         range = c(0, 1),
         guide = guide_legend(
             title.position = "left",
-            title.hjust = 0.5,
+            title.hjust = 0,
             order = 20,
-            label.vjust = -9,
+            label.vjust = -11,
             label.position = "top"
         )
     ) +
@@ -172,7 +172,7 @@ panel_C <- read_fig_proto("enrichr_COAD", FIGNUM) +
         legend.box = "vertical",
         legend.spacing.x = unit(0, "mm"),
         legend.spacing.y = unit(0, "mm"),
-        legend.margin = margin(-1, 0, -1, 0, "mm"),
+        legend.margin = margin(-1, 1, -1, -2, "mm"),
         legend.box.background = element_rect(fill = NA, color = NA)
     ) +
     labs(

@@ -30,7 +30,7 @@ panel_A <- read_fig_proto("signature-level-per-sample",
             nrow = 1,
             label.position = "top",
             label.hjust = 0.5,
-            label.vjust = -10
+            label.vjust = -11
         )
     ) +
     labs(

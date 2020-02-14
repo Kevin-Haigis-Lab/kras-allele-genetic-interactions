@@ -29,9 +29,6 @@ lower_hypermut_bound <- cancer_coding_muts_df %>%
     summarise(min_hypermut_muts = max(n))
 
 
-coad_hypermutant_boundary <- mean(lower_hypermut_bound, upper_hypermut_bound)
-
-
 
 #### ---- Mut. burden distribution ---- ####
 # Plots showing the distribution of the mutations per sample.
@@ -68,7 +65,7 @@ plot_distribution_of_mutation_count <- function(cancer,
         labs(
             title = glue("Distribution of mutations in {cancer} samples"),
             x = "tumor samples",
-            y = "log10( num. mutations )"
+            y = expression(italic(log)[10] ("num. mutations"))
         )
 
     if (hypermutant_rug) {

@@ -109,7 +109,11 @@ make_allele_stackedplot <- function(cancer, data, ...) {
             values = short_allele_pal,
             guide = FALSE) +
         scale_x_discrete(expand = c(0, 0)) +
-        scale_y_continuous(expand = c(0, 0)) +
+        scale_y_continuous(
+            expand = c(0, 0),
+            limits = c(0, 1),
+            breaks = seq(0, 1.0, 0.25)
+        ) +
         theme_bw(base_size = 8, base_family = "Arial") +
         theme(
             plot.title = element_text(hjust = 0.5),
@@ -232,22 +236,24 @@ saveRDS(
 
 codons_to_label <- c(12, 13, 61, 146)
 
-# 'maftools' lollipop plot.
-kras_maf <- cancer_full_coding_muts_maf %>%
-    filter(hugo_symbol == "KRAS") %>%
-    maftools::read.maf(verbose = FALSE)
+# 'maftools' lollipop plot. (only if X11 is available)
+caps <- as.list(capabilities())
+if (caps$X11) {
+    kras_maf <- cancer_full_coding_muts_maf %>%
+        filter(hugo_symbol == "KRAS") %>%
+        maftools::read.maf(verbose = FALSE)
 
-svg(plot_path(GRAPHS_DIR, "lollipop-kras.svg"), width = 6, height = 4)
-maftools::lollipopPlot(kras_maf,
-                       "KRAS",
-                       AACol = "amino_position",
-                       labelPos = codons_to_label,
-                       titleSize = c(0.1, 0.1),
-                       pointSize = 1.2,
-                       axisTextSize = c(0.75, 0.75),
-                       showDomainLabel = FALSE)
-dev.off()
-
+    svg(plot_path(GRAPHS_DIR, "lollipop-kras.svg"), width = 6, height = 4)
+    maftools::lollipopPlot(kras_maf,
+                           "KRAS",
+                           AACol = "amino_position",
+                           labelPos = codons_to_label,
+                           titleSize = c(0.1, 0.1),
+                           pointSize = 1.2,
+                           axisTextSize = c(0.75, 0.75),
+                           showDomainLabel = FALSE)
+    dev.off()
+}
 
 
 # My lollipop plot.

@@ -1,4 +1,3 @@
-
 # Supplemental Figure 4. Distribution of mutation burden per sample and types
 # of mutations.
 

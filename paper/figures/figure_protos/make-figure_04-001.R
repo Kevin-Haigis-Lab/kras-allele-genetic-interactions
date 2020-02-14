@@ -38,7 +38,7 @@ panel_A <- read_fig_proto("gsea-results-COAD-select.rds", FIGNUM) +
     scale_size_continuous(
         range = c(0.5, 3),
         guide = guide_legend(
-            title = expression(paste(italic("log")[10], "(adj. p-val.)")),
+            title = expression(paste(italic("log")[10], "(adj. p-value)")),
             title.position = "left",
             label.position = "right",
             label.hjust = 0,

@@ -3,7 +3,7 @@
 
 FIGNUM <- 1
 VERSION <- 1
-FIGFILENAME <- glue("figure_{FIGNUM}_{VERSION}.svg")
+
 FIG_DIMENSIONS <- get_figure_dimensions(2, "short")
 
 FIG_DIMENSIONS$height <- 100  # specific change for this figure
@@ -38,7 +38,7 @@ panel_A <- read_fig_proto("allele_dist_barplot_stackplot_all",
 
 for (i in 1:4) {
     panel_A[[i]][[2]] <- panel_A[[i]][[2]] *
-        theme_fig1() %+replace%
+        theme_figS1() %+replace%
         theme(
             axis.title = element_blank(),
             axis.text.x = element_blank()

@@ -21,7 +21,7 @@ b <- coef(fit)["(Intercept)"]
 R2 <- glance(fit)$r.squared
 
 txt_eq <- c(
-    paste0("y ==", round(m, 3), "*x+", round(b, 3)),
+    paste0("italic(y) ==", round(m, 3), "*italic(x)", round(b, 3)),
     paste0("p-value ==", round(p_val, 2)),
     paste0("italic(R)^2 ==", round(R2, 2))
 )
@@ -47,9 +47,9 @@ p <- dat %>%
     ) +
     labs(
         x = expression(
-            paste("RNA expression (", italic(log), "(TPM))", sep = "")
+            paste("RNA expression (", italic(log), " TPM)", sep = "")
         ),
-        y = "dependency",
+        y = "dependency score",
         title = GENE,
         size = "copy number",
         color = "KRAS allele"

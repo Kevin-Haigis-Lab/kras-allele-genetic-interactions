@@ -127,19 +127,19 @@ panel_C <- read_fig_proto(
 panel_D <- read_fig_proto("enrichr_PAAD.rds", FIGNUM, supp = SUPPLEMENTAL) +
     scale_size_continuous(
         range = c(0, 6),
-        guide = guide_legend(title = "num. of genes",
-                             title.position = "top",
+        guide = guide_legend(title.position = "top",
                              title.hjust = 0.5,
+                             title.vjust = 0.0,
                              label.position = "top",
+                             label.vjust = -13,
                              nrow = 1,
-                             keywidth = unit(2, "mm"),
-                             keyheight = unit(2, "mm"),
+                             keywidth = unit(1.5, "mm"),
+                             keyheight = unit(0, "mm"),
                              order = 10)
     ) +
     scale_alpha_continuous(
         range = c(0.1, 1),
-        guide = guide_legend(title = "-log( adj. p-val.)",
-                             title.position = "top",
+        guide = guide_legend(title.position = "top",
                              title.hjust = 0.5,
                              label.position = "top",
                              nrow = 1,
@@ -149,13 +149,17 @@ panel_D <- read_fig_proto("enrichr_PAAD.rds", FIGNUM, supp = SUPPLEMENTAL) +
     ) +
     theme_figS12() +
     theme(
-        legend.margin = margin(-6, 0, 0, 0, "mm"),
+        legend.margin = margin(-6, 0, -3, 0, "mm"),
         legend.position = "bottom",
         axis.title = element_blank(),
         plot.title = element_blank(),
         legend.box = "horizontal"
     ) +
-    labs(tag = "d")
+    labs(
+        tag = "d",
+        size = expression(-italic("log")[10] ( "adj. p-value" )),
+        alpha = "num. of genes"
+    )
 
 
 #### ---- E. Network of calcium signaling ---- ####

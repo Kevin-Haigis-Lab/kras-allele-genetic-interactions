@@ -34,6 +34,7 @@ theme_graph_figS9 <- function() {
     )
 }
 
+
 #### ---- A. Labeled MM comutation graph ---- ####
 # The comutation graph for MM with every node labeled.
 # original script: "src/20_40_highlivel-genetic-interactions.R"
@@ -76,7 +77,7 @@ panel_A <- read_fig_proto("genetic_interaction_network_labeled_MM",
 
 #### ---- B. Labeled MM comutation graph ---- ####
 # The comutation graph for MM with every node labeled.
-# original script: "src/20_40_highlivel-genetic-interactions.R"
+# original script: "src/60_10_MM-specific-oncogenes.R"
 
 panel_B_1 <- read_fig_proto("mm_comut_heatmap", FIGNUM, supp = SUPPLEMENTAL) +
     theme_figS9() +

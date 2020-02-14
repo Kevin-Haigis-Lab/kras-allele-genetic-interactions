@@ -29,7 +29,10 @@ theme_figS3 <- function() {
 
 panel_A <- read_fig_proto("mutation-frequency-hist",
                           FIGNUM, supp = SUPPLEMENTAL) +
-    theme_figS3()
+    theme_figS3() +
+    labs(
+        y = "number of genes"
+    )
 
 
 
