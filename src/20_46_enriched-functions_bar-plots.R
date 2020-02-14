@@ -168,6 +168,9 @@ enriched_fxns_comutation_barplot <- function(data) {
         scale_alpha_manual(
             values = c("other" = 0.4, "allele" = 0.95)
         ) +
+        scale_y_continuous(
+            label = abs
+        ) +
         theme_bw(base_size = 7, base_family = "Arial") +
         theme(
             axis.title.y = element_blank(),
@@ -193,7 +196,9 @@ save_to_graphs_dir <- function(cancer,
                                save_for_fig = NA,
                                supp = FALSE,
                                size = "large") {
-    save_name <- glue("comut-barplot_{cancer}_{allele}_{datasource}.svg")
+    save_name <- as.character(
+        glue("comut-barplot_{cancer}_{allele}_{datasource}.svg")
+    )
     ggsave_wrapper(comut_plot, plot_path(GRAPHS_DIR, save_name), size)
 
     # Save the ggplot object for figure `save_for_fig`.
@@ -225,7 +230,7 @@ additional_adjustments <- function(p) {
     p <- p +
         facet_grid(allele ~ .,
                    scales = "free_y",
-                   space='free_y')
+                   space = "free_y")
     return(p)
 }
 
