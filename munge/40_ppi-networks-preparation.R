@@ -66,13 +66,6 @@ ProjectTemplate::cache("bioplex_gr",
 
 
 
-# ProjectTemplate::cache("intact_gr",
-# {
-
-# })
-
-
-
 ProjectTemplate::cache("hint_gr",
 {
     info(logger, "Beginning preparation of the HINT PPI network.")
