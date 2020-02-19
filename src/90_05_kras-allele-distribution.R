@@ -563,5 +563,6 @@ alleles_df %>%
         avg_codon_freq = softmax(avg_codon_freq),
         adj_codon_freq = softmax(adj_codon_freq)
     ) %>%
-    arrange(-adj_codon_freq) %>%
-    write_tsv(table_path(GRAPHS_DIR, "fraction-kras-percodon-adjusted.tsv"))
+    arrange(-adj_codon_freq) %T>%
+    write_tsv(table_path(GRAPHS_DIR, "fraction-kras-percodon-adjusted.tsv")) %>%
+    knitr::kable()
