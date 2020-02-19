@@ -83,7 +83,7 @@ SUPP_DATA_FILE <- file.path(SUPP_DATA_DIR, "Supplemental-Data.xlsx")
 
 # Compile all of the separate sheets into a single Excel spreadsheet.
 compile_supp_data <- function(verbose = TRUE) {
-    all_sheet_paths <- get_all_sheet_paths()
+    all_sheet_paths <- list_all_sheet_paths()
 
     if (verbose) cat("Clearing old spreadsheet (if necessary).\n")
     clear_final_data_file()
@@ -109,7 +109,7 @@ compile_supp_data <- function(verbose = TRUE) {
 
 
 # Return all sheet paths.
-get_all_sheet_paths <- function() {
+list_all_sheet_paths <- function() {
     list.files(SUPP_DATA_SHEETS_DIR, pattern = "txt$", full.names = TRUE)
 }
 
