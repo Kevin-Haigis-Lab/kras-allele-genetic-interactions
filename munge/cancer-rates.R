@@ -107,3 +107,23 @@ ProjectTemplate::cache("acs_incidence_df", {
 
     return(acs_incidence_df)
 })
+
+ProjectTemplate::cache("cancer_incidence_df",
+{
+    cancer_incidence_df <- bind_rows(
+        {
+            acs_incidence_df %>%
+                select(cancer, incidence) %>%
+                filter(!is.na(cancer)) %>%
+                add_column(source = "ACS")
+        },
+        {
+            seer_cancer_incidence_df %>%
+                dplyr::rename(incidence = incidence_2012_2016) %>%
+                select(cancer, incidence) %>%
+                filter(!is.na(cancer)) %>%
+                add_column(source = "SEER")
+        }
+    )
+    return(cancer_incidence_df)
+})
