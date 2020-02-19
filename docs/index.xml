@@ -106,6 +106,109 @@
     </item>
     
     <item>
+      <title>2020-02-19</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2020-02-19/</link>
+      <pubDate>Wed, 19 Feb 2020 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2020-02-19/</guid>
+      <description>
+
+&lt;h2 id=&#34;calculate-the-frequency-of-the-codons-accounting-for-the-prevalence-of-the-cancers&#34;&gt;Calculate the frequency of the codons accounting for the prevalence of the cancers&lt;/h2&gt;
+
+&lt;p&gt;In the paper I state the fraction of mutations at each codon, but I do not account for the different number of samples from each cancer.
+After KH pointed this out, I also thought it would be a more useful metric if it were to account for the prevalence of the cancers.&lt;/p&gt;
+
+&lt;h3 id=&#34;sources&#34;&gt;Sources&lt;/h3&gt;
+
+&lt;p&gt;I collected cancer prevalence data from the following sources.
+The data is downloaded in &amp;ldquo;./data/cancer-rates/&amp;rdquo;.&lt;/p&gt;
+
+&lt;p&gt;I downloaded incidence data from 2012-2016 from SEER: &lt;a href=&#34;https://seer.cancer.gov/csr/1975_2016/browse_csr.php?sectionSEL=1&amp;amp;pageSEL=sect_01_table.04&#34; target=&#34;_blank&#34;&gt;SEER Cancer Statistics Review 1975-2016&lt;/a&gt;.
+The data is in &amp;ldquo;table1-4_incidence-death-survival-rates-all-races.csv&amp;rdquo; and prepared into the data frame &lt;code&gt;seer_cancer_incidence_df&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;From The American Cancer Society, &amp;ldquo;In general, about 13% of all lung cancers are SCLC, and 84% are NSCLC&amp;rdquo; (&lt;a href=&#34;https://www.cancer.org/cancer/lung-cancer/about/key-statistics.html&#34; target=&#34;_blank&#34;&gt;&amp;ldquo;Key Statistics for Lung Cancer&amp;rdquo;, &lt;em&gt;ACS&lt;/em&gt;&lt;/a&gt;).
+I added this value as a global constant in &amp;ldquo;./lib/cancer-specific_helpers.R&amp;rdquo; call &lt;code&gt;FRACTION_OF_LUNG_THAT_ARE_LUAD&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;I downloaded their estimated 2020 incidence data from &lt;a href=&#34;https://cancerstatisticscenter.cancer.org/?_ga=2.9802422.205493334.1582111737-1270919539.1456557450#!/&#34; target=&#34;_blank&#34;&gt;Cancer Statistics Center&lt;/a&gt;.
+This is saved as &amp;ldquo;acs_NewCaseEstimates.xlsx&amp;rdquo;.
+I downloaded their 2012-2019 incidence rates (which they get from the North American Association of Central Cancer Registries (NAACCR)) to &amp;ldquo;acs_IncRate.xlsx&amp;rdquo;.&lt;/p&gt;
+
+&lt;h3 id=&#34;calculation&#34;&gt;Calculation&lt;/h3&gt;
+
+&lt;p&gt;I calculated the fraction of &lt;em&gt;KRAS&lt;/em&gt; mutations at each codon adjusting for the incidence of the cancer.&lt;/p&gt;
+
+&lt;p&gt;I used the ACS numbers becasue I think their sampling procedure was more diverse than that used by SEER.
+There were substantial differences in incidence between the two sources for all cancer and lung cancer.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;img/graphs/90_05_kras-allele-distribution/cancer_incidence_stacked_plot.svg&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;img/graphs/90_05_kras-allele-distribution/cancer_incidence_plot.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;I also adjusted the lung cancer figure to only account for the NSCLC (LUAD).&lt;/p&gt;
+
+&lt;p&gt;The &amp;ldquo;avg_codon_freq&amp;rdquo; is the average frequency of mutations at each codon in each cancer.
+The &amp;ldquo;adj_codon_frequency&amp;rdquo; is the frequency of mutation at each codon weighted by the incidence of the cancer.&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th align=&#34;left&#34;&gt;codon&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;avg_codon_freq&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;adj_codon_freq&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;12&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.7220490&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.7887384&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;13&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.0976307&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.1052006&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;61&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.1483235&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.0752111&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;146&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.0319968&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.0308499&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&#34;survival-analysis&#34;&gt;Survival analysis&lt;/h2&gt;
+
+&lt;p&gt;KH was interested in looking at the survival curves for comutation genes as a part of his &amp;ldquo;alternative hypothesis.&amp;rdquo;&lt;/p&gt;
+
+&lt;h3 id=&#34;data&#34;&gt;Data&lt;/h3&gt;
+
+&lt;p&gt;As far as I could see, the only data sets with survival data over time were the TCGA data.
+They all had overall survival (OS), progression free survival (PFS), and disease free (DF).
+All of the data shown on GDC for COAD, LUAD, and PAAD are in cBioPortal, so I obtained the data from there.
+I downloaded clinical data on MM from MMRF&amp;rsquo;s Research Gateway.&lt;/p&gt;
+
+&lt;p&gt;The data was prepared in &amp;ldquo;./munge/70_survival-data.R&amp;rdquo;.&lt;/p&gt;
+
+&lt;h3 id=&#34;tutorials&#34;&gt;Tutorials&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://rviews.rstudio.com/2017/09/25/survival-analysis-with-r/&#34; target=&#34;_blank&#34;&gt;&amp;ldquo;Survival Analysis with R&amp;rdquo;&lt;/a&gt; by R Views&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.emilyzabor.com/tutorials/survival_analysis_in_r_tutorial.html&#34; target=&#34;_blank&#34;&gt;&amp;ldquo;Survival Analysis in R&amp;rdquo;&lt;/a&gt; by Emily C. Zabor (MSK)&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.sthda.com/english/wiki/survival-analysis-basics&#34; target=&#34;_blank&#34;&gt;&amp;ldquo;Survival Analysis Basics&amp;rdquo;&lt;/a&gt; by STHDA&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.datacamp.com/community/tutorials/survival-analysis-R&#34; target=&#34;_blank&#34;&gt;&amp;ldquo;Survival Analysis in R For Beginners&amp;rdquo;&lt;/a&gt; by DataCamp&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://cran.r-project.org/web/packages/survival/vignettes/survival.pdf&#34; target=&#34;_blank&#34;&gt;&amp;lsquo;survival&amp;rsquo; R package vignette&lt;/a&gt; by Terry Therneau&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
       <title>2020-02-13</title>
       <link>https://project-notebook-comutation.netlify.com/post/2020-02-13/</link>
       <pubDate>Thu, 13 Feb 2020 00:00:00 +0000</pubDate>
