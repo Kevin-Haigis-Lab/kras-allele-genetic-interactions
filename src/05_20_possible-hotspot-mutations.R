@@ -1,12 +1,11 @@
 # The possible amino acids from SBS at the hotspots on KRAS.
 
-GRAPHS_DIR <- "05_20_possible-hotspot-mutations"
-reset_graph_directory(GRAPHS_DIR)
-reset_table_directory(GRAPHS_DIR)
+TABLES_DIR <- "05_20_possible-hotspot-mutations"
+reset_table_directory(TABLES_DIR)
 
 save_aa_table <- function(tbl, pos) {
     name <- glue("possible_amino_acids_codon{pos}.tsv")
-    write_tsv(tbl, table_path(GRAPHS_DIR, name))
+    write_tsv(tbl, table_path(TABLES_DIR, name))
 }
 
 
