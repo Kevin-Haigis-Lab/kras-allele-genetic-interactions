@@ -432,3 +432,136 @@ alleles_df %>%
     mutate(cancer = "ALL") %>%
     calc_frequency_of_codons_by_cancer() %>%
     write_tsv(table_path(GRAPHS_DIR, "kras-codon-distribution-all-noWT.tsv"))
+
+
+
+#### ---- Accounting for cancer prevelance ---- ####
+
+incidence_source_pal <- c(
+    "ACS" = "#B60A2D",
+    "SEER" = "#0A57A6"
+)
+
+cancer_incidence_plot <- cancer_incidence_df %>%
+    filter(cancer != "SKCM") %>%
+    ggplot(aes(x = cancer, y = incidence)) +
+    geom_col(aes(fill = source), position = "dodge") +
+    scale_fill_manual(values = incidence_source_pal) +
+    scale_y_continuous(expand = expand_scale(mult = c(0, 0.02))) +
+    theme_bw(base_size = 7, base_family = "Arial") +
+    theme(
+        plot.title = element_blank(),
+        axis.title.x = element_blank(),
+        axis.ticks = element_blank(),
+        legend.position = c(0.8, 0.8),
+        legend.background = element_rect(fill = "white", color = "grey50")
+    ) +
+    labs(
+        y = "average yearly incidence (2012-2016)"
+    )
+ggsave_wrapper(
+    cancer_incidence_plot,
+    plot_path(GRAPHS_DIR, "cancer_incidence_plot.svg"),
+    "small"
+)
+
+
+cancer_incidence_stacked_plot <- cancer_incidence_df %>%
+    filter(cancer != "SKCM") %>%
+    filter(cancer != "all") %>%
+    ggplot(aes(x = source, y = incidence)) +
+    geom_col(aes(fill = cancer), position = "stack") +
+    scale_fill_manual(values = cancer_palette) +
+    scale_y_continuous(expand = expand_scale(mult = c(0, 0.02))) +
+    theme_bw(base_size = 7, base_family = "Arial") +
+    theme(
+        plot.title = element_blank(),
+        axis.title.x = element_blank(),
+        axis.ticks = element_blank(),
+        legend.position = "right",
+    ) +
+    labs(
+        y = "average yearly incidence (2012-2016)"
+    )
+ggsave_wrapper(
+    cancer_incidence_stacked_plot,
+    plot_path(GRAPHS_DIR, "cancer_incidence_stacked_plot.svg"),
+    "small"
+)
+
+
+cancer_incidence_diff_plot <- cancer_incidence_df %>%
+    filter(cancer != "SKCM") %>%
+    pivot_wider(
+        id_cols = cancer, names_from = source, values_from = incidence
+    ) %>%
+    mutate(
+        source_diff = ACS - SEER,
+        fill_val = ifelse(source_diff < 0, -1, 1) * log10(abs(source_diff))
+    ) %>%
+    ggplot(aes(x = cancer, y = source_diff)) +
+    geom_col(aes(fill = fill_val)) +
+    scale_fill_gradient2(
+        low = "dodgerblue", mid = "grey95", high = "tomato",
+        na.value = "white"
+    ) +
+    scale_y_continuous(
+        expand = expand_scale(mult = c(0.02, 0.02))
+    ) +
+    theme_bw(base_size = 7, base_family = "Arial") +
+    theme(
+        plot.title = element_blank(),
+        axis.title.x = element_blank(),
+        axis.ticks = element_blank(),
+        legend.position = "none"
+    ) +
+    labs(
+        y = "difference in incidence, ACS - SEER"
+    )
+ggsave_wrapper(
+    cancer_incidence_diff_plot,
+    plot_path(GRAPHS_DIR, "cancer_incidence_diff_plot.svg"),
+    "small"
+)
+
+
+# The incidence weights for each cancer.
+incidence_data <- acs_incidence_df %>%
+    filter(!is.na(cancer) & !(cancer %in% c("SKCM", "all"))) %>%
+    select(cancer, incidence) %>%
+    mutate(
+        incidence = ifelse(
+            cancer == "LUAD",
+            incidence * !!FRACTION_OF_LUNG_THAT_ARE_LUAD,
+            incidence
+        ),
+        incidence_frac_of_cancers = incidence / sum(incidence)
+    )
+
+# Fraction of KRAS mutations at the hotspot codons.
+# `avg_codon_freq` is the average of the frequencies across the 4 cancers
+# `adj_codon_freq` is the average, weighted by prevalence of the cancer
+alleles_df %>%
+    filter(kras_allele != "WT") %>%
+    calc_frequency_of_codons_by_cancer() %>%
+    left_join(incidence_data, by = "cancer") %>%
+    select(cancer, codon, codon_frequency,
+           incidence, incidence_frac_of_cancers) %>%
+    mutate(
+        cancer_codon_freq = codon_frequency * incidence_frac_of_cancers,
+        cancer_codon_freq = softmax(cancer_codon_freq)
+    ) %>%
+    select(cancer, codon, codon_frequency, cancer_codon_freq) %>%
+    group_by(codon) %>%
+    summarise(
+        avg_codon_freq = sum(codon_frequency),
+        adj_codon_freq = sum(cancer_codon_freq)
+    ) %>%
+    ungroup() %>%
+    filter(codon != "117") %>%
+    mutate(
+        avg_codon_freq = softmax(avg_codon_freq),
+        adj_codon_freq = softmax(adj_codon_freq)
+    ) %>%
+    arrange(-adj_codon_freq) %>%
+    write_tsv(table_path(GRAPHS_DIR, "fraction-kras-percodon-adjusted.tsv"))
