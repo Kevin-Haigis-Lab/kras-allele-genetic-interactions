@@ -17,6 +17,7 @@ cancer_oncogenes <- list(
     )
 )
 
+FRACTION_OF_LUNG_THAT_ARE_LUAD <- 0.84
 
 
 # Regular expressions to filter `cosmic_cgc_df$tumour_types_somatic`.
