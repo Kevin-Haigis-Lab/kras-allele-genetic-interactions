@@ -22,8 +22,10 @@ mm_mut_df <- cancer_coding_muts_df %>%
     mutate(allele = str_remove_all(ras_allele, "KRAS_"))
 
 # Number of samples per KRAS allele.
-cancer_allele_count_df <- mm_mut_df %>%
-    mutate(num_tumor_samples = n_distinct(tumor_sample_barcode)) %>%
+cancer_allele_count_df <- cancer_coding_muts_df %>%
+    filter(cancer == "MM") %>%
+    mutate(allele = str_remove_all(ras_allele, "KRAS_"),
+           num_tumor_samples = n_distinct(tumor_sample_barcode)) %>%
     group_by(allele, num_tumor_samples) %>%
     summarise(num_allele_samples = n_distinct(tumor_sample_barcode)) %>%
     ungroup() %>%
@@ -52,7 +54,7 @@ mm_comut_df %<>%
 
 #### ---- Heatmap of comutation frequency ---- ####
 
-MIN_NUM_ALLELE_SAMPLES <- 5
+MIN_NUM_ALLELE_SAMPLES <- 10
 
 mut_freq_order <- mm_mut_df %>%
     group_by(hugo_symbol) %>%
@@ -88,7 +90,7 @@ mm_comut_heatmap <- mm_comut_df %>%
         low = "dodgerblue",
         high = "tomato",
         mid = "grey90",
-        midpoint = 0.2
+        midpoint = 0.10
     ) +
     scale_x_discrete(expand = c(0, 0)) +
     scale_y_discrete(expand = c(0, 0)) +
@@ -104,7 +106,7 @@ mm_comut_heatmap <- mm_comut_df %>%
 ggsave_wrapper(
     mm_comut_heatmap,
     plot_path(GRAPHS_DIR, "mm_comut_heatmap.svg"),
-    "small"
+    "medium"
 )
 
 
@@ -156,7 +158,7 @@ patch <-
     plot_layout(heights = c(2, 10))
 ggsave_wrapper(patch,
                plot_path(GRAPHS_DIR, "margin_barplots_heatmap_patchwork.svg"),
-               "small")
+               "medium")
 
 
 # Save the ggprotos to Supp. Figure 9.
