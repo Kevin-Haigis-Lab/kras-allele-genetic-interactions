@@ -17,8 +17,20 @@ synlet_data <- model1_tib %>%
     select(hugo_symbol, data)
 
 
-#### ---- Statistical testing ---- ####
+gene_is_synlet_possible <- function(df) {
+    sum(df$gene_effect < df$cutoff_between_non_essential) >= 2
+}
 
+genes_with_synthetic_level_possiblities <- synlet_data %>%
+    mutate(syn_let = map_lgl(data, gene_is_synlet_possible)) %>%
+    filter(syn_let) %>%
+    u_pull(hugo_symbol)
+
+synlet_data %<>%
+    filter(hugo_symbol %in% genes_with_synthetic_level_possiblities)
+
+
+#### ---- Statistical testing ---- ####
 
 
 # Test one allele vs. all others.
@@ -39,7 +51,6 @@ get_mean_diff <- function(ttest_res) {
     vals <- unname(ttest_res$estimate)
     vals[2] - vals[1]
 }
-
 
 
 synlet_results <- synlet_data %>%
@@ -221,7 +232,12 @@ clustered_heatmap <- function(df, pval_cut = 0.01, save_name,
         color = hm_pal,
         silent = TRUE
     )
-    save_pheatmap_svg(phmat, plot_path(GRAPHS_DIR, save_name),
+
+    svg_save_name <- paste0(file_sans_ext(save_name), ".svg")
+    pdf_save_name <- paste0(file_sans_ext(save_name), ".pdf")
+    save_pheatmap_svg(phmat, plot_path(GRAPHS_DIR, svg_save_name),
+                      width = width, height = height)
+    save_pheatmap_pdf(phmat, plot_path(GRAPHS_DIR, pdf_save_name),
                       width = width, height = height)
 }
 
@@ -237,7 +253,7 @@ clustered_heatmap <- function(df, pval_cut = 0.01, save_name,
                g13d_vs_rest_pval, g12v_vs_rest_pval) %>%
         unnest(data) %>%
         clustered_heatmap(
-            save_name = "all-results_heatmap.svg",
+            save_name = "all-results_heatmap",
             width = 8, height = 15, fontsize_row = 3,
             cutree_rows = 6, cutree_cols = 4
         )
@@ -249,7 +265,7 @@ clustered_heatmap <- function(df, pval_cut = 0.01, save_name,
                kras_vs_wt_pval, g12d_vs_rest_pval,
                g13d_vs_rest_pval, g12v_vs_rest_pval) %>%
         unnest(data) %>%
-        clustered_heatmap(save_name = "mut-results_heatmap.svg",
+        clustered_heatmap(save_name = "mut-results_heatmap",
             width = 6, height = 8, fontsize_row = 7,
             cutree_rows = 2, cutree_cols = 2
         )
@@ -262,7 +278,7 @@ clustered_heatmap <- function(df, pval_cut = 0.01, save_name,
                g13d_vs_rest_pval, g12v_vs_rest_pval) %>%
         unnest(data) %>%
         clustered_heatmap(
-            save_name = "g12d-results_heatmap.svg",
+            save_name = "g12d-results_heatmap",
             width = 5, height = 10, fontsize_row = 5,
             cutree_rows = 2, cutree_cols = 2
         )
@@ -275,7 +291,7 @@ clustered_heatmap <- function(df, pval_cut = 0.01, save_name,
                g13d_vs_rest_pval, g12v_vs_rest_pval) %>%
         unnest(data) %>%
         clustered_heatmap(
-            save_name = "g13d-results_heatmap.svg",
+            save_name = "g13d-results_heatmap",
             width = 5, height = 9,
             cutree_rows = 2, cutree_cols = 2
         )
@@ -288,7 +304,7 @@ clustered_heatmap <- function(df, pval_cut = 0.01, save_name,
                g13d_vs_rest_pval, g12v_vs_rest_pval) %>%
         unnest(data) %>%
         clustered_heatmap(
-            save_name = "g12v-results_heatmap.svg",
+            save_name = "g12v-results_heatmap",
             width = 5, height = 9, fontsize_row = 5,
             cutree_rows = 2, cutree_cols = 2
         )
@@ -361,5 +377,3 @@ synlet_results_filtered %>%
         file = SPREADSHEET, sheetName = "data - cell line names",
         append = TRUE,
     )
-# TODO: sett append = TRUE to all but first.
-# TODO: rename the last sheet.
