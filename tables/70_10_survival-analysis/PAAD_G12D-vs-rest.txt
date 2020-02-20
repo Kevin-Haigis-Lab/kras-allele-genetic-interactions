@@ -1,0 +1,21 @@
+PAAD - G12D vs. the rest 
+                     records n.max n.start events   *rmean *se(rmean)   median
+kras_allele_grp=G12D      49    49      49     35 20.63526   3.312567 15.12312
+kras_allele_grp=rest     126   126     126     60 37.63516   3.307819 21.89565
+                      0.95LCL  0.95UCL
+kras_allele_grp=G12D 10.12592 22.48742
+kras_allele_grp=rest 19.66006 49.38028
+================================================================================ 
+
+PAAD - G12D vs. the rest 
+Call:
+survdiff(formula = Surv(time = time, event = status) ~ kras_allele_grp, 
+    data = data)
+
+                       N Observed Expected (O-E)^2/E (O-E)^2/V
+kras_allele_grp=G12D  49       35     21.2      8.93      11.6
+kras_allele_grp=rest 126       60     73.8      2.57      11.6
+
+ Chisq= 11.6  on 1 degrees of freedom, p= 6e-04 
+================================================================================ 
+

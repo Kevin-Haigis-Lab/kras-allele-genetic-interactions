@@ -1,0 +1,13 @@
+All cancers survival model 
+            records n.max n.start events    *rmean *se(rmean)     median
+cancer=COAD     523   523     523    110 108.91160  7.6018439   81.36897
+cancer=LUAD     499   499     499    179  80.02112  5.9782435   49.28165
+cancer=MM       931   931     931    203 188.36816  0.8155808 2207.00000
+cancer=PAAD     175   175     175     95  48.53352  9.7580848   20.35046
+               0.95LCL  0.95UCL
+cancer=COAD   61.84042       NA
+cancer=LUAD   41.68721 58.45415
+cancer=MM   2207.00000       NA
+cancer=PAAD   17.78611 24.06549
+================================================================================ 
+

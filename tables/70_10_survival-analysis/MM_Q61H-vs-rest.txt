@@ -1,0 +1,21 @@
+MM - Q61H vs. the rest 
+                     records n.max n.start events   *rmean *se(rmean) median
+kras_allele_grp=Q61H      66    66      66     11 1734.513   99.29368     NA
+kras_allele_grp=rest     865   865     865    192 1647.122   27.68290   2207
+                     0.95LCL 0.95UCL
+kras_allele_grp=Q61H    1554      NA
+kras_allele_grp=rest    2207      NA
+================================================================================ 
+
+MM - Q61H vs. the rest 
+Call:
+survdiff(formula = Surv(time = time, event = status) ~ kras_allele_grp, 
+    data = data)
+
+                       N Observed Expected (O-E)^2/E (O-E)^2/V
+kras_allele_grp=Q61H  66       11     14.1    0.7001     0.754
+kras_allele_grp=rest 865      192    188.9    0.0524     0.754
+
+ Chisq= 0.8  on 1 degrees of freedom, p= 0.4 
+================================================================================ 
+

@@ -1,0 +1,84 @@
+COAD KRAS WT vs. mutant 
+           records n.max n.start events   *rmean *se(rmean)   median  0.95LCL
+kras_mut=0     314   314     314     65 77.64355   6.386082 65.85133 51.48437
+kras_mut=1     209   209     209     45 96.53820   6.558893       NA 92.74419
+           0.95UCL
+kras_mut=0      NA
+kras_mut=1      NA
+================================================================================ 
+
+COAD KRAS WT vs. mutant 
+Call:
+survdiff(formula = Surv(time = time, event = status) ~ kras_mut, 
+    data = data)
+
+             N Observed Expected (O-E)^2/E (O-E)^2/V
+kras_mut=0 314       65     62.7    0.0816     0.192
+kras_mut=1 209       45     47.3    0.1083     0.192
+
+ Chisq= 0.2  on 1 degrees of freedom, p= 0.7 
+================================================================================ 
+
+LUAD KRAS WT vs. mutant 
+           records n.max n.start events   *rmean *se(rmean)   median  0.95LCL
+kras_mut=0     350   350     350    125 88.76728   8.834614 49.05152 41.58859
+kras_mut=1     149   149     149     54 96.20132  14.567569 54.34461 39.35299
+            0.95UCL
+kras_mut=0 58.84867
+kras_mut=1       NA
+================================================================================ 
+
+LUAD KRAS WT vs. mutant 
+Call:
+survdiff(formula = Surv(time = time, event = status) ~ kras_mut, 
+    data = data)
+
+             N Observed Expected (O-E)^2/E (O-E)^2/V
+kras_mut=0 350      125    131.2     0.297      1.12
+kras_mut=1 149       54     47.8     0.815      1.12
+
+ Chisq= 1.1  on 1 degrees of freedom, p= 0.3 
+================================================================================ 
+
+PAAD KRAS WT vs. mutant 
+           records n.max n.start events   *rmean *se(rmean)   median  0.95LCL
+kras_mut=0      59    59      59     22 48.22947   5.129203 43.79130 21.43538
+kras_mut=1     116   116     116     73 24.74330   2.594596 17.49022 15.45189
+            0.95UCL
+kras_mut=0       NA
+kras_mut=1 21.89565
+================================================================================ 
+
+PAAD KRAS WT vs. mutant 
+Call:
+survdiff(formula = Surv(time = time, event = status) ~ kras_mut, 
+    data = data)
+
+             N Observed Expected (O-E)^2/E (O-E)^2/V
+kras_mut=0  59       22     39.9      8.04      14.2
+kras_mut=1 116       73     55.1      5.82      14.2
+
+ Chisq= 14.2  on 1 degrees of freedom, p= 2e-04 
+================================================================================ 
+
+MM KRAS WT vs. mutant 
+           records n.max n.start events  *rmean *se(rmean) median 0.95LCL
+kras_mut=0     717   717     717    144 1764.14   33.12791   2207      NA
+kras_mut=1     214   214     214     59 1636.33   67.63748   1777    1666
+           0.95UCL
+kras_mut=0      NA
+kras_mut=1      NA
+================================================================================ 
+
+MM KRAS WT vs. mutant 
+Call:
+survdiff(formula = Surv(time = time, event = status) ~ kras_mut, 
+    data = data)
+
+             N Observed Expected (O-E)^2/E (O-E)^2/V
+kras_mut=0 717      144    155.6     0.863      3.72
+kras_mut=1 214       59     47.4     2.832      3.72
+
+ Chisq= 3.7  on 1 degrees of freedom, p= 0.05 
+================================================================================ 
+
