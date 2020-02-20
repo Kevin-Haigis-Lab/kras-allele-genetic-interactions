@@ -100,6 +100,13 @@ softmax <- function(x, na_rm = TRUE) {
 }
 
 
+#' A 'stringr'-like function that makes a string of a repeated phrase.
+str_rep <- function(x, ...) {
+    paste0(rep(x, ...), collapse = "")
+}
+
+
+
 #### ---- Helpful regular expressions ---- ####
 
 # helpful data for identifying KRAS mutations
