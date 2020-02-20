@@ -222,7 +222,7 @@ Today, I tested for an enrichment of mutations at each location, but found nothi
 It is likely due to a lack of power at any individual amino acid position.
 I did, however, add annotations for if the mutation is predicted to be damaging using SIFT, POLYPHEN, FATHMM, and known clinical significance.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;img/graphs/20_70_luad-g12c-stk11/stk11_lollipop_patch.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_70_luad-g12c-stk11/stk11_lollipop_patch.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Since there is nothing obviously different between the two groups, I will write something to the effect:&lt;/p&gt;
 
@@ -247,7 +247,7 @@ Thus, it is unlikely that the genetic associations found here were driven by lat
 &lt;p&gt;For COAD, all of the extracted subnetworks from the integration of the comutation and dependency results were overlapping.
 Therefore, I think I can finish the paper by looking at the overlap and distinctions from these subnetworks.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;img/graphs/40_10_overlap-synlet-comutation/coad_overlap_comparison_plot.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/40_10_overlap-synlet-comutation/coad_overlap_comparison_plot.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 </description>
     </item>
     
@@ -273,11 +273,11 @@ IT was created in &amp;ldquo;./munge/40_ppi-network-preparation.R&amp;rdquo;.&lt
 The overwhelming conclusion is that we can just use the main giant component.
 Most of the other components range from sizes 1 to 10, so relatively insignificant.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;img/graphs/40_05_describe-combined-ppi/components_order_size.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/40_05_describe-combined-ppi/components_order_size.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Unsurprisingly, The degree distribution of the giant components is roughly log-normal.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;img/graphs/40_05_describe-combined-ppi/degree_distribution.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/40_05_describe-combined-ppi/degree_distribution.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&#34;overlap-of-comutation-and-genetic-dependency-analysis&#34;&gt;Overlap of comutation and genetic dependency analysis&lt;/h2&gt;
 
@@ -318,11 +318,11 @@ gunzip gene_set_library_crisp.gmt.gz
 &lt;p&gt;There were a few genes that cJUN regulates that showed differential genetic dependency in PAAD.
 The box-plots of these genes are shown below.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;img/graphs/90_25_paad_depmap_jun-cdkn2a-G12V/jun_bs_dep_boxplots.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/90_25_paad_depmap_jun-cdkn2a-G12V/jun_bs_dep_boxplots.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Therefore, I looked for enrichment of cJUN-regulated genes in this set of genes, but no such enrichment was present.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;img/graphs/90_25_paad_depmap_jun-cdkn2a-G12V/tf_stats_volcano.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/90_25_paad_depmap_jun-cdkn2a-G12V/tf_stats_volcano.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Even those above the red dashed-line (representing p-value = 0.05) were not significant once the p-values were adjusted for MHT.&lt;/p&gt;
 
@@ -369,11 +369,11 @@ It would be interesting if the genes within a comutation network were more close
 &lt;p&gt;I ran a pilot analysis with COAD and found nothing interesting.
 The bar-plot below shows the distribution of shortest distance between genes in the comutation network of the two &lt;em&gt;KRAS&lt;/em&gt; alleles along the x-axis and y-facet.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;img/graphs/90_15_comutation-network_withingroup-ppi-closeness/closeness_violins_COAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/90_15_comutation-network_withingroup-ppi-closeness/closeness_violins_COAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;The heatmap below shows the mean shortest distance values for genes in the comutation networks of the indicated alleles.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;img/graphs/90_15_comutation-network_withingroup-ppi-closeness/closeness_heatmap_COAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/90_15_comutation-network_withingroup-ppi-closeness/closeness_heatmap_COAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h3&gt;
 
@@ -401,9 +401,9 @@ Also, another tumor suppressor gene, MEN1 or Menin, &amp;ldquo;uncouples&amp;rdq
 &lt;p&gt;Here are some interesting plots of various features.
 I&amp;rsquo;m not sure I want to probe further, expect maybe with MAPK8 (JNK1), which activates, via phosphorylation, JUN, ATF2, and JDP2.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;img/graphs/90_25_paad_depmap_jun-cdkn2a-G12V/geneeffect_rnaexpr_scatter.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/90_25_paad_depmap_jun-cdkn2a-G12V/geneeffect_rnaexpr_scatter.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;img/graphs/90_25_paad_depmap_jun-cdkn2a-G12V/geneeffect_boxplots.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/90_25_paad_depmap_jun-cdkn2a-G12V/geneeffect_boxplots.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 </description>
     </item>
     
@@ -423,17 +423,17 @@ Therefore, I specifically inspected this gene in patients with high Signature 18
 
 &lt;p&gt;Plotting the density curves of levels of signature 18 showed two very distinct groups: those with 0 and those above 0.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;img/graphs/60_20_mutyh-signature18-associations/sig18_density_plot.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/60_20_mutyh-signature18-associations/sig18_density_plot.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;The waterfall plot shows the distinction even more strikingly.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;img/graphs/60_20_mutyh-signature18-associations/sig18_waterfall_plot.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/60_20_mutyh-signature18-associations/sig18_waterfall_plot.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;If I try to look for clusters in the samples with level above 0, there are no obvious places to cut.
 I used a density-based method that identifies local minima in a density plot.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;img/graphs/60_20_mutyh-signature18-associations/classified_sig18_density_plot.svg&#34; alt=&#34;&#34; /&gt;
-&lt;img src=&#34;img/graphs/60_20_mutyh-signature18-associations/model_density_plots.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/60_20_mutyh-signature18-associations/classified_sig18_density_plot.svg&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/60_20_mutyh-signature18-associations/model_density_plots.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Therefore, I decided to just use any sample with a signature 18 level above 0.
 There were 418 COAD and 137 PAAD samples.
@@ -510,7 +510,7 @@ These were made for genes that have different comutation interactions with multi
 The script for making these plots for each cancer and saving &lt;code&gt;ggplot&lt;/code&gt; objects for the figures is &amp;ldquo;src/20_41_disagreeing-interactions_logOR-barplot.R&amp;rdquo;.
 Below are bar plots for each gene that had these &amp;ldquo;conflicting&amp;rdquo; interactions in PAAD, though only &lt;em&gt;TP53&lt;/em&gt;, &lt;em&gt;RNF43&lt;/em&gt;, &lt;em&gt;MAP2K4&lt;/em&gt;, and &lt;em&gt;RBM10&lt;/em&gt; are used for the figure.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;img/graphs/20_41_disagreeing-interactions_logOR-barplot/logOR-barplot_PAAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_41_disagreeing-interactions_logOR-barplot/logOR-barplot_PAAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 </description>
     </item>
     
@@ -641,7 +641,7 @@ The heatmap is colored by the frequency of comutation.
 The labels are the percent values with &amp;ldquo;-&amp;rdquo; indicating 0 %.
 The bold values (4) are statistically significant genetic interactions; all were reduced comutation.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;img/graphs/60_10_MM-specific-oncogenes/margin_barplots_heatmap_patchwork.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/60_10_MM-specific-oncogenes/margin_barplots_heatmap_patchwork.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;This plot was added to the Supplemental Figure of MM comutation alongside the labeled network.&lt;/p&gt;
 </description>
@@ -684,7 +684,7 @@ For each enriched function, I found the rate of comutation of the underlying gen
 Further, I separated the genes that have increased from those with reduced comutation.
 Below is an example of one such bar-plot for LUAD G12C with the gene sets from KEGG.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;img/graphs/20_46_enriched-functions_bar-plots/comut-barplot_LUAD_G12C_KEGG_2019_Human.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/20_46_enriched-functions_bar-plots/comut-barplot_LUAD_G12C_KEGG_2019_Human.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 </description>
     </item>
     
@@ -700,13 +700,13 @@ Below is an example of one such bar-plot for LUAD G12C with the gene sets from K
 &lt;p&gt;I created plots and Supp. Figure 3 to show the mutation frequency of genes removed due to low expression.
 The analysis was done in &amp;ldquo;src/05_10_expression-filter-plots.R&amp;rdquo;.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;![](img/figures/SuppFigure_03-001.svg)&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;![](/img/figures/SuppFigure_03-001.svg)&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h1 id=&#34;mutation-burden-plots&#34;&gt;Mutation burden plots&lt;/h1&gt;
 
 &lt;p&gt;I tuned and turned the plots showing mutation burden per sample into a supplemental figure.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;img/figures/SuppFigure_04-001.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/figures/SuppFigure_04-001.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 </description>
     </item>
     
@@ -814,13 +814,13 @@ There is an ASCII diagram in `&lt;code&gt;ggmaftools.R&lt;/code&gt; to explain w
 
 &lt;p&gt;I complete the first draft of Figure 1.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;img/figures/Figure_01-001.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/figures/Figure_01-001.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&#34;figure-2&#34;&gt;Figure 2&lt;/h2&gt;
 
 &lt;p&gt;I began laying Figure 2.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;img/figures/Figure_02-001.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/figures/Figure_02-001.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 </description>
     </item>
     
