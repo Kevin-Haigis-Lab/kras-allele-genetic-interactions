@@ -27,6 +27,15 @@ tumor_sample_data <- cancer_full_muts_df %>%
     select(cancer, tumor_sample_barcode, kras_mut, kras_allele)
 
 
+# Parse the tumor stage to a numeric.
+parse_tumor_stage <- function(x) {
+    case_when(str_detect(x, "X") ~ NA_character_,
+              x == "TIS" ~ "0",
+              TRUE ~ str_remove_all(x, "[:alpha:]")) %>%
+        as.numeric()
+}
+
+
 # TCGA survival data with KRAS annotation.
 tcga_survival_data_anno <- inner_join(
     tcga_survival_data,
@@ -36,7 +45,10 @@ tcga_survival_data_anno <- inner_join(
     filter(!is.na(os_months) & !is.na(os_status)) %>%
     mutate(
         time = os_months,
-        status = as.numeric(os_status == "DECEASED")
+        status = as.numeric(os_status == "DECEASED"),
+        sex = ifelse(sex == "Male", "M", "F"),
+        path_t_stage = parse_tumor_stage(path_t_stage),
+        path_m_stage = parse_tumor_stage(path_m_stage)
     )
 
 
@@ -47,7 +59,8 @@ mmrf_survival_data_anno <- inner_join(
     tumor_sample_data,
     by = c("cancer" = "cancer", "public_id" = "tumor_sample_barcode")
 ) %>%
-    select(cancer, public_id, kras_mut, kras_allele,
+    select(cancer, public_id, age, sex,
+           kras_mut, kras_allele, iss_disease_stage,
            date_of_death, time_to_os, censor_flag_overall_survival,
            overall_survival_censored_date, time_to_os_event_censored) %>%
     mutate(
@@ -65,6 +78,10 @@ cancer_survival_df <- bind_rows(
     {
         tcga_survival_data_anno %>%
             dplyr::rename(tumor_sample_barcode = patient_id) %>%
+            mutate(
+                path_t_stage = parse_tumor_stage(path_t_stage),
+                path_m_stage = parse_tumor_stage(path_m_stage)
+            ) %>%
             select(cancer, tumor_sample_barcode,
                    age, sex, weight, ethnicity,
                    path_t_stage, path_m_stage,
@@ -73,8 +90,11 @@ cancer_survival_df <- bind_rows(
     },
     {
         mmrf_survival_data_anno %>%
-            dplyr::rename(tumor_sample_barcode = public_id) %>%
+            dplyr::rename(tumor_sample_barcode = public_id,
+                          path_t_stage = iss_disease_stage) %>%
             select(cancer, tumor_sample_barcode,
+                   age, sex,
+                   path_t_stage,
                    kras_mut, kras_allele,
                    time, status)
     }
@@ -460,3 +480,21 @@ cancer_survival_df %>%
     pwalk(kras_alleles_survival_analysis) %T>%
     pwalk(kras_allele_vs_rest_survival_analysis) %T>%
     pwalk(kras_allele_vs_each_allele_survival_analysis)
+
+
+
+#### ---- Tumor stage ---- ####
+
+
+readxl::read_excel(
+    file.path(
+        "data/cbioportal/mm_mmrf/CoMMpass_IA14_FlatFile_Dictionaries",
+        "MMRF_CoMMpass_IA14_PER_PATIENT.xlsx"
+    )
+) %>%
+    slice(39)
+    print(n = Inf)
+
+
+mmrf_patient_data %$%
+    table(mm_status_derived)

@@ -75,6 +75,14 @@ mmrf_survival_columns <- list(
     "mmstatus" = "MM status (derived)"
 )
 
+
+mmrf_perpatient_columns <- list(
+    "PUBLIC_ID" = "Public ID",
+    "D_PT_gender" = "Gender",
+    "D_PT_age" = "Age",
+    "D_PT_iss" = "ISS Disease Stage"
+)
+
 # Read in and prepare the MMRF clinical data.
 get_mmrf_clinical <- function(mmrf_dir, skip_rows = 0, cancer = "MM") {
     cancer <- str_to_upper(cancer)
@@ -91,8 +99,28 @@ get_mmrf_clinical <- function(mmrf_dir, skip_rows = 0, cancer = "MM") {
         janitor::clean_names()
 }
 
+
+get_mmrf_patient <- function(mmrf_dir, skip_rows = 0, cancer = "MM") {
+    cancer <- str_to_upper(cancer)
+    path <- file.path(DATA_DIR, mmrf_dir,
+                      "CoMMpass_IA14_FlatFiles",
+                      "MMRF_CoMMpass_IA14_PER_PATIENT.csv")
+    df <- read_csv(path, skip = skip_rows) %>%
+        mutate(cancer = !!cancer) %>%
+        select(cancer, !!!names(mmrf_perpatient_columns)) %>%
+        unique()
+    colnames(df) <- c("cancer", unname(mmrf_perpatient_columns))
+    df %>%
+        janitor::clean_names() %>%
+        mutate(sex = ifelse(gender == 1, "M", "F")) %>%
+        select(-gender)
+}
+
+
 ProjectTemplate::cache("mmrf_survival_data", {
-    mmrf_survival_data <- get_mmrf_clinical("mm_mmrf")
+    mmrf_survival_data <- get_mmrf_clinical("mm_mmrf") %>%
+        left_join(get_mmrf_patient("mm_mmrf"),
+                  by = c("cancer", "public_id"))
     return(mmrf_survival_data)
 })
 
