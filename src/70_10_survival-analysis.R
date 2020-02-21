@@ -231,57 +231,8 @@ cancer_survival_df %T>%
     all_cancer_survival_model() %>%
     group_by(cancer) %>%
     nest() %>%
+    arrange(cancer) %>%
     pwalk(cancer_survival_model)
-
-
-#### ---- KRAS survival curves ---- ####
-
-# Survival curve for a cancer's data separated by KRAS mutated or WT.
-kras_mutated_survival_analysis <- function(cancer, data) {
-    fit <- survfit(Surv(time = time, event = status) ~ kras_mut,
-                   data = data)
-    fit_diff <- survdiff(Surv(time = time, event = status) ~ kras_mut,
-                         data = data)
-
-    title <- glue("{cancer} KRAS WT vs. mutant")
-    fname <- "wt-vs-mutant.txt"
-    write_survfit_summary(fit, title, fname)
-    write_survdiff_summary(fit_diff, title, fname)
-
-    p <- ggsurvplot(
-        fit = fit,
-        data = data,
-        pval = TRUE,
-        conf.int = TRUE,
-        linetype = "strata",
-        risk.table = TRUE,
-        risk.table.col = "strata",
-        surv.median.line = "hv",
-        fontsize = 3,
-        font.family = "arial",
-        palette = c("grey50", "black")
-    ) +
-        ggtitle(cancer)
-    p <- style_ggsurvminer_plot(p)
-    surv_plot <- patch_ggsurvplot(p)
-    ggsave_wrapper(
-        surv_plot,
-        plot_path(GRAPHS_DIR, glue("kras-mutated-survival-curve_{cancer}.svg")),
-        "wide"
-    )
-
-    return(tibble(
-        cancer = cancer,
-        data = list(data),
-        kras_mut_model = list(fit)
-    ))
-}
-
-
-cancer_survival_df %>%
-    group_by(cancer) %>%
-    nest() %>%
-    pmap_df(kras_mutated_survival_analysis)
 
 
 
@@ -377,6 +328,27 @@ allele_group_survival_analysis <- function(cancer,
         surv_plot,
         plot_path(GRAPHS_DIR, glue(plot_name_template)),
         plot_file_size
+    )
+}
+
+
+# Survival analysis of KRAS mutant vs WT.
+kras_mutated_survival_analysis <- function(cancer, data) {
+    data <- data %>%
+        mutate(kras_allele_grp = ifelse(kras_mut == 0, "WT", "mut"))
+
+    pal <- alter_pal_for_ggsurvplot(c(WT = "grey50", mut = "black"),
+                                    "kras_allele_grp")
+
+    allele_group_survival_analysis(
+        cancer = cancer,
+        data = data,
+        do_survdiff = TRUE,
+        do_coxph = TRUE,
+        model_output_file_template = "wt-vs-mutant.txt",
+        model_output_title_template = glue("{cancer} KRAS WT vs. mutant"),
+        plot_name_template = glue("kras-mutated-survival-curve_{cancer}.svg"),
+        curve_palette = pal
     )
 }
 
@@ -482,7 +454,9 @@ kras_allele_vs_each_allele_survival_analysis <- function(cancer, data,
 
 cancer_survival_df %>%
     group_by(cancer) %>%
-    nest() %T>%
+    nest() %>%
+    arrange(cancer) %T>%
+    pwalk(kras_mutated_survival_analysis) %T>%
     pwalk(kras_alleles_survival_analysis) %T>%
     pwalk(kras_allele_vs_rest_survival_analysis) %T>%
     pwalk(kras_allele_vs_each_allele_survival_analysis)
