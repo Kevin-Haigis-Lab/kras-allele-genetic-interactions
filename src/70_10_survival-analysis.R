@@ -106,13 +106,9 @@ patch_ggsurvplot <- function(ggsurv_obj, layout_heights = c(3, 1)) {
 }
 
 
-# Known y-axis label patterns to remove.
-KNOWN_Y_LABEL <- "cancer=|kras_allele_grp=|kras_allele="
-
 # Style the survival curve and the table from `ggsurvplot()`.
 style_ggsurvminer_plot <- function(ggsurv_obj,
-                                   table_y = "number at risk",
-                                   remove_from_table_ylabels = KNOWN_Y_LABEL) {
+                                   table_y = "number at risk") {
     x_expand <- c(0.02, 0.01)
     ggsurv_obj$plot <- ggsurv_obj$plot +
         scale_x_continuous(expand = expand_scale(mult = x_expand)) +
@@ -125,9 +121,6 @@ style_ggsurvminer_plot <- function(ggsurv_obj,
         )
     ggsurv_obj$table <- ggsurv_obj$table +
         scale_x_continuous(expand = expand_scale(mult = x_expand)) +
-        # scale_y_discrete(
-        #     labels = function(x) { str_remove(x, remove_from_table_ylabels) }
-        # ) +
         theme_classic(base_size = 7, base_family = "arial") +
         theme(
             legend.position = "none",
@@ -245,8 +238,10 @@ cancer_survival_df %T>%
 
 # Survival curve for a cancer's data separated by KRAS mutated or WT.
 kras_mutated_survival_analysis <- function(cancer, data) {
-    fit <- survfit(Surv(time = time, event = status) ~ kras_mut, data = data)
-    fit_diff <- survdiff(Surv(time = time, event = status) ~ kras_mut, data = data)
+    fit <- survfit(Surv(time = time, event = status) ~ kras_mut,
+                   data = data)
+    fit_diff <- survdiff(Surv(time = time, event = status) ~ kras_mut,
+                         data = data)
 
     title <- glue("{cancer} KRAS WT vs. mutant")
     fname <- "wt-vs-mutant.txt"
@@ -419,14 +414,19 @@ kras_allele_vs_rest_survival_analysis <- function(cancer, data,
         mod_data <- data %>%
             mutate(kras_allele_grp = ifelse(kras_allele_grp == allele,
                                             allele, "rest"))
+
+        filename <- glue("{cancer}_{allele}-vs-rest.txt")
+        title <- glue("{cancer} - {allele} vs. the rest")
+        plot_title <- glue("allele-vs-rest_{cancer}_{allele}.svg")
+
         allele_group_survival_analysis(
             cancer = cancer,
             data = mod_data,
             do_survdiff = TRUE,
             do_coxph = FALSE,
-            model_output_file_template = glue("{cancer}_{allele}-vs-rest.txt"),
-            model_output_title_template = glue("{cancer} - {allele} vs. the rest"),
-            plot_name_template = glue("allele-vs-rest_{cancer}_{allele}.svg"),
+            model_output_file_template = filename,
+            model_output_title_template = title,
+            plot_name_template = plot_title,
             curve_palette = pal
         )
     }
@@ -459,16 +459,30 @@ kras_allele_vs_each_allele_survival_analysis <- function(cancer, data,
         mod_data <- data %>%
             filter(kras_allele_grp %in% c(allele_1, allele_2))
 
+        filename <- glue("{cancer}_{allele_1}-vs-{allele_2}.txt")
+        title <- glue("{cancer} - {allele_1} vs. {allele_2}")
+        plot_title <- glue(
+            "allele-vs-allele_{cancer}_{allele_1}-vs-{allele_2}.svg"
+        )
+
         allele_group_survival_analysis(
             cancer = cancer,
             data = mod_data,
             do_survdiff = TRUE,
             do_coxph = FALSE,
             p_val_sig = p_val_sig,
-            model_output_file_template = glue("{cancer}_{allele_1}-vs-{allele_2}.txt"),
-            model_output_title_template = glue("{cancer} - {allele_1} vs. {allele_2}"),
-            plot_name_template = glue("allele-vs-allele_{cancer}_{allele_1}-vs-{allele_2}.svg"),
+            model_output_file_template = filename,
+            model_output_title_template = title,
+            plot_name_template = plot_title,
             curve_palette = pal
         )
     }
 }
+
+
+cancer_survival_df %>%
+    group_by(cancer) %>%
+    nest() %T>%
+    pwalk(kras_alleles_survival_analysis) %T>%
+    pwalk(kras_allele_vs_rest_survival_analysis) %T>%
+    pwalk(kras_allele_vs_each_allele_survival_analysis)
