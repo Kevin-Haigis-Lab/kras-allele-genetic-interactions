@@ -1,0 +1,21 @@
+MM - Q61H vs. G12R 
+                     records n.max n.start events   *rmean *se(rmean) median
+kras_allele_grp=G12R      12    12      12      4 1280.819   165.9721   1353
+kras_allele_grp=Q61H      66    66      66     11 1465.015    65.2392     NA
+                     0.95LCL 0.95UCL
+kras_allele_grp=G12R    1023      NA
+kras_allele_grp=Q61H    1554      NA
+================================================================================ 
+
+MM - Q61H vs. G12R 
+Call:
+survdiff(formula = Surv(time = time, event = status) ~ kras_allele_grp, 
+    data = data)
+
+                      N Observed Expected (O-E)^2/E (O-E)^2/V
+kras_allele_grp=G12R 12        4     2.18     1.508      1.77
+kras_allele_grp=Q61H 66       11    12.82     0.257      1.77
+
+ Chisq= 1.8  on 1 degrees of freedom, p= 0.2 
+================================================================================ 
+

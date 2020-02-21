@@ -125,64 +125,6 @@ Score (logrank) test = 5.02  on 5 df,   p=0.4
 
 ================================================================================ 
 
-PAAD KRAS alleles 
-                      records n.max n.start events   *rmean *se(rmean)   median
-kras_allele_grp=G12D       49    49      49     35 20.63526   3.312567 15.12312
-kras_allele_grp=G12R       25    25      25     12 31.47582   6.377268 20.84361
-kras_allele_grp=G12V       33    33      33     19 30.83105   4.857892 21.89565
-kras_allele_grp=Other       9     9       9      7 12.06092   2.189356 15.35326
-kras_allele_grp=WT         59    59      59     22 41.67462   3.942102 43.79130
-                        0.95LCL  0.95UCL
-kras_allele_grp=G12D  10.125916 22.48742
-kras_allele_grp=G12R  15.550515       NA
-kras_allele_grp=G12V  15.813525       NA
-kras_allele_grp=Other  4.043791       NA
-kras_allele_grp=WT    21.435382       NA
-================================================================================ 
-
-PAAD KRAS alleles 
-Call:
-survdiff(formula = Surv(time = time, event = status) ~ kras_allele_grp, 
-    data = data)
-
-                       N Observed Expected (O-E)^2/E (O-E)^2/V
-kras_allele_grp=G12D  49       35    21.23  8.928800  1.16e+01
-kras_allele_grp=G12R  25       12    12.44  0.015791  1.84e-02
-kras_allele_grp=G12V  33       19    19.10  0.000484  6.07e-04
-kras_allele_grp=Other  9        7     2.32  9.435210  9.79e+00
-kras_allele_grp=WT    59       22    39.91  8.036192  1.42e+01
-
- Chisq= 27.1  on 4 degrees of freedom, p= 2e-05 
-================================================================================ 
-
-PAAD KRAS alleles 
-Call:
-coxph(formula = Surv(time = time, event = status) ~ kras_allele_grp, 
-    data = data)
-
-  n= 175, number of events= 95 
-
-                        coef exp(coef) se(coef)      z Pr(>|z|)    
-kras_allele_grpG12R  -0.5352    0.5855   0.3354 -1.596   0.1106    
-kras_allele_grpG12V  -0.5302    0.5885   0.2872 -1.846   0.0649 .  
-kras_allele_grpOther  0.6458    1.9075   0.4188  1.542   0.1230    
-kras_allele_grpWT    -1.1312    0.3227   0.2757 -4.103 4.08e-05 ***
----
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
-
-                     exp(coef) exp(-coef) lower .95 upper .95
-kras_allele_grpG12R     0.5855     1.7079    0.3034    1.1300
-kras_allele_grpG12V     0.5885     1.6993    0.3352    1.0333
-kras_allele_grpOther    1.9075     0.5242    0.8395    4.3344
-kras_allele_grpWT       0.3227     3.0993    0.1880    0.5539
-
-Concordance= 0.636  (se = 0.029 )
-Likelihood ratio test= 23.98  on 4 df,   p=8e-05
-Wald test            = 24.35  on 4 df,   p=7e-05
-Score (logrank) test = 27.15  on 4 df,   p=2e-05
-
-================================================================================ 
-
 MM KRAS alleles 
                       records n.max n.start events   *rmean *se(rmean) median
 kras_allele_grp=G12A       11    11      11      6 1051.818  223.96608    934
@@ -253,6 +195,64 @@ Concordance= 0.538  (se = 0.017 )
 Likelihood ratio test= 12.18  on 7 df,   p=0.09
 Wald test            = 14.9  on 7 df,   p=0.04
 Score (logrank) test = 15.95  on 7 df,   p=0.03
+
+================================================================================ 
+
+PAAD KRAS alleles 
+                      records n.max n.start events   *rmean *se(rmean)   median
+kras_allele_grp=G12D       49    49      49     35 20.63526   3.312567 15.12312
+kras_allele_grp=G12R       25    25      25     12 31.47582   6.377268 20.84361
+kras_allele_grp=G12V       33    33      33     19 30.83105   4.857892 21.89565
+kras_allele_grp=Other       9     9       9      7 12.06092   2.189356 15.35326
+kras_allele_grp=WT         59    59      59     22 41.67462   3.942102 43.79130
+                        0.95LCL  0.95UCL
+kras_allele_grp=G12D  10.125916 22.48742
+kras_allele_grp=G12R  15.550515       NA
+kras_allele_grp=G12V  15.813525       NA
+kras_allele_grp=Other  4.043791       NA
+kras_allele_grp=WT    21.435382       NA
+================================================================================ 
+
+PAAD KRAS alleles 
+Call:
+survdiff(formula = Surv(time = time, event = status) ~ kras_allele_grp, 
+    data = data)
+
+                       N Observed Expected (O-E)^2/E (O-E)^2/V
+kras_allele_grp=G12D  49       35    21.23  8.928800  1.16e+01
+kras_allele_grp=G12R  25       12    12.44  0.015791  1.84e-02
+kras_allele_grp=G12V  33       19    19.10  0.000484  6.07e-04
+kras_allele_grp=Other  9        7     2.32  9.435210  9.79e+00
+kras_allele_grp=WT    59       22    39.91  8.036192  1.42e+01
+
+ Chisq= 27.1  on 4 degrees of freedom, p= 2e-05 
+================================================================================ 
+
+PAAD KRAS alleles 
+Call:
+coxph(formula = Surv(time = time, event = status) ~ kras_allele_grp, 
+    data = data)
+
+  n= 175, number of events= 95 
+
+                        coef exp(coef) se(coef)      z Pr(>|z|)    
+kras_allele_grpG12R  -0.5352    0.5855   0.3354 -1.596   0.1106    
+kras_allele_grpG12V  -0.5302    0.5885   0.2872 -1.846   0.0649 .  
+kras_allele_grpOther  0.6458    1.9075   0.4188  1.542   0.1230    
+kras_allele_grpWT    -1.1312    0.3227   0.2757 -4.103 4.08e-05 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+                     exp(coef) exp(-coef) lower .95 upper .95
+kras_allele_grpG12R     0.5855     1.7079    0.3034    1.1300
+kras_allele_grpG12V     0.5885     1.6993    0.3352    1.0333
+kras_allele_grpOther    1.9075     0.5242    0.8395    4.3344
+kras_allele_grpWT       0.3227     3.0993    0.1880    0.5539
+
+Concordance= 0.636  (se = 0.029 )
+Likelihood ratio test= 23.98  on 4 df,   p=8e-05
+Wald test            = 24.35  on 4 df,   p=7e-05
+Score (logrank) test = 27.15  on 4 df,   p=2e-05
 
 ================================================================================ 
 

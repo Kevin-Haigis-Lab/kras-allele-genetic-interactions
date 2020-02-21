@@ -1,0 +1,21 @@
+COAD - G12D vs. G12C 
+                     records n.max n.start events    *rmean *se(rmean)   median
+kras_allele_grp=G12C      14    14      14      6  67.80076   15.80841 61.84042
+kras_allele_grp=G12D      57    57      57     10 111.84814    7.93718       NA
+                     0.95LCL 0.95UCL
+kras_allele_grp=G12C 49.9063      NA
+kras_allele_grp=G12D      NA      NA
+================================================================================ 
+
+COAD - G12D vs. G12C 
+Call:
+survdiff(formula = Surv(time = time, event = status) ~ kras_allele_grp, 
+    data = data)
+
+                      N Observed Expected (O-E)^2/E (O-E)^2/V
+kras_allele_grp=G12C 14        6     3.72     1.403      1.85
+kras_allele_grp=G12D 57       10    12.28     0.424      1.85
+
+ Chisq= 1.9  on 1 degrees of freedom, p= 0.2 
+================================================================================ 
+

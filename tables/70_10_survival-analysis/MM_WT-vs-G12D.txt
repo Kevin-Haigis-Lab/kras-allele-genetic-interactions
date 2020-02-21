@@ -1,0 +1,21 @@
+MM - WT vs. G12D 
+                     records n.max n.start events   *rmean *se(rmean) median
+kras_allele_grp=G12D      29    29      29      7 1644.139   116.1759     NA
+kras_allele_grp=WT       717   717     717    144 1631.185    27.3761   2207
+                     0.95LCL 0.95UCL
+kras_allele_grp=G12D    1282      NA
+kras_allele_grp=WT        NA      NA
+================================================================================ 
+
+MM - WT vs. G12D 
+Call:
+survdiff(formula = Surv(time = time, event = status) ~ kras_allele_grp, 
+    data = data)
+
+                       N Observed Expected (O-E)^2/E (O-E)^2/V
+kras_allele_grp=G12D  29        7     6.46   0.04554    0.0476
+kras_allele_grp=WT   717      144   144.54   0.00203    0.0476
+
+ Chisq= 0  on 1 degrees of freedom, p= 0.8 
+================================================================================ 
+

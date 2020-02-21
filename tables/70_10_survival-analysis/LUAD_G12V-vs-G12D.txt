@@ -1,0 +1,21 @@
+LUAD - G12V vs. G12D 
+                     records n.max n.start events   *rmean *se(rmean)   median
+kras_allele_grp=G12D      17    17      17      7 72.95574   21.39421 49.34740
+kras_allele_grp=G12V      35    35      35     13 74.29162   14.71402 86.03741
+                      0.95LCL 0.95UCL
+kras_allele_grp=G12D 22.91482      NA
+kras_allele_grp=G12V 24.22987      NA
+================================================================================ 
+
+LUAD - G12V vs. G12D 
+Call:
+survdiff(formula = Surv(time = time, event = status) ~ kras_allele_grp, 
+    data = data)
+
+                      N Observed Expected (O-E)^2/E (O-E)^2/V
+kras_allele_grp=G12D 17        7     5.67     0.313     0.461
+kras_allele_grp=G12V 35       13    14.33     0.124     0.461
+
+ Chisq= 0.5  on 1 degrees of freedom, p= 0.5 
+================================================================================ 
+

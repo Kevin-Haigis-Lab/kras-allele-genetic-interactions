@@ -1,0 +1,21 @@
+LUAD - WT vs. G12V 
+                     records n.max n.start events   *rmean *se(rmean)   median
+kras_allele_grp=G12V      35    35      35     13 94.75083  25.251664 86.03741
+kras_allele_grp=WT       350   350     350    125 88.76728   8.834614 49.05152
+                      0.95LCL  0.95UCL
+kras_allele_grp=G12V 24.22987       NA
+kras_allele_grp=WT   41.58859 58.84867
+================================================================================ 
+
+LUAD - WT vs. G12V 
+Call:
+survdiff(formula = Surv(time = time, event = status) ~ kras_allele_grp, 
+    data = data)
+
+                       N Observed Expected (O-E)^2/E (O-E)^2/V
+kras_allele_grp=G12V  35       13     12.1   0.06406    0.0708
+kras_allele_grp=WT   350      125    125.9   0.00617    0.0708
+
+ Chisq= 0.1  on 1 degrees of freedom, p= 0.8 
+================================================================================ 
+

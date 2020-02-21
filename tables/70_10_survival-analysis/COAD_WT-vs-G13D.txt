@@ -1,0 +1,21 @@
+COAD - WT vs. G13D 
+                     records n.max n.start events   *rmean *se(rmean)   median
+kras_allele_grp=G13D      36    36      36     10 92.33756  12.098514       NA
+kras_allele_grp=WT       314   314     314     65 76.35915   6.108899 65.85133
+                      0.95LCL 0.95UCL
+kras_allele_grp=G13D 24.42713      NA
+kras_allele_grp=WT   51.48437      NA
+================================================================================ 
+
+COAD - WT vs. G13D 
+Call:
+survdiff(formula = Surv(time = time, event = status) ~ kras_allele_grp, 
+    data = data)
+
+                       N Observed Expected (O-E)^2/E (O-E)^2/V
+kras_allele_grp=G13D  36       10     7.63    0.7386     0.825
+kras_allele_grp=WT   314       65    67.37    0.0836     0.825
+
+ Chisq= 0.8  on 1 degrees of freedom, p= 0.4 
+================================================================================ 
+

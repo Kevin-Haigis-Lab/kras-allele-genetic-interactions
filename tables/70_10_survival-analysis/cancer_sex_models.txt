@@ -1,0 +1,111 @@
+COAD survival model by sex 
+      records n.max n.start events   *rmean *se(rmean)   median  0.95LCL
+sex=F     253   253     253     53 91.45185   6.214695       NA 65.85133
+sex=M     270   270     270     57 79.14645   7.070368 62.79383 56.25144
+      0.95UCL
+sex=F      NA
+sex=M      NA
+================================================================================ 
+
+COAD survival model by sex 
+Call:
+coxph(formula = Surv(time = time, event = status) ~ sex, data = data)
+
+  n= 523, number of events= 110 
+
+        coef exp(coef) se(coef)     z Pr(>|z|)
+sexM 0.00987   1.00992  0.19161 0.052    0.959
+
+     exp(coef) exp(-coef) lower .95 upper .95
+sexM      1.01     0.9902    0.6937      1.47
+
+Concordance= 0.486  (se = 0.027 )
+Likelihood ratio test= 0  on 1 df,   p=1
+Wald test            = 0  on 1 df,   p=1
+Score (logrank) test = 0  on 1 df,   p=1
+
+================================================================================ 
+
+LUAD survival model by sex 
+      records n.max n.start events   *rmean *se(rmean)   median  0.95LCL
+sex=F     265   265     265     93 86.70569   10.93359 49.05152 40.40504
+sex=M     234   234     234     86 92.34642   10.77578 50.23507 39.94477
+       0.95UCL
+sex=F 59.11168
+sex=M 86.13604
+================================================================================ 
+
+LUAD survival model by sex 
+Call:
+coxph(formula = Surv(time = time, event = status) ~ sex, data = data)
+
+  n= 499, number of events= 179 
+
+        coef exp(coef) se(coef)     z Pr(>|z|)
+sexM 0.05299   1.05442  0.15002 0.353    0.724
+
+     exp(coef) exp(-coef) lower .95 upper .95
+sexM     1.054     0.9484    0.7858     1.415
+
+Concordance= 0.528  (se = 0.021 )
+Likelihood ratio test= 0.12  on 1 df,   p=0.7
+Wald test            = 0.12  on 1 df,   p=0.7
+Score (logrank) test = 0.12  on 1 df,   p=0.7
+
+================================================================================ 
+
+MM survival model by sex 
+      records n.max n.start events   *rmean *se(rmean) median 0.95LCL 0.95UCL
+sex=F     365   365     365     58 1897.499   46.52206     NA      NA      NA
+sex=M     566   566     566    145 1644.117   40.24051   2207    1944      NA
+================================================================================ 
+
+MM survival model by sex 
+Call:
+coxph(formula = Surv(time = time, event = status) ~ sex, data = data)
+
+  n= 931, number of events= 203 
+
+       coef exp(coef) se(coef)     z Pr(>|z|)    
+sexM 0.5214    1.6844   0.1556 3.352 0.000803 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+     exp(coef) exp(-coef) lower .95 upper .95
+sexM     1.684     0.5937     1.242     2.285
+
+Concordance= 0.555  (se = 0.017 )
+Likelihood ratio test= 12  on 1 df,   p=5e-04
+Wald test            = 11.23  on 1 df,   p=8e-04
+Score (logrank) test = 11.49  on 1 df,   p=7e-04
+
+================================================================================ 
+
+PAAD survival model by sex 
+      records n.max n.start events   *rmean *se(rmean)   median  0.95LCL
+sex=F      79    79      79     46 30.54473   3.785501 19.49568 15.97791
+sex=M      96    96      96     49 35.89941   4.047293 21.43538 19.46280
+       0.95UCL
+sex=F 24.26275
+sex=M 37.15028
+================================================================================ 
+
+PAAD survival model by sex 
+Call:
+coxph(formula = Surv(time = time, event = status) ~ sex, data = data)
+
+  n= 175, number of events= 95 
+
+        coef exp(coef) se(coef)      z Pr(>|z|)
+sexM -0.1515    0.8594   0.2059 -0.736    0.462
+
+     exp(coef) exp(-coef) lower .95 upper .95
+sexM    0.8594      1.164    0.5741     1.287
+
+Concordance= 0.503  (se = 0.028 )
+Likelihood ratio test= 0.54  on 1 df,   p=0.5
+Wald test            = 0.54  on 1 df,   p=0.5
+Score (logrank) test = 0.54  on 1 df,   p=0.5
+
+================================================================================ 
+

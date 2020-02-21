@@ -126,20 +126,25 @@ patch_ggsurvplot <- function(ggsurv_obj, layout_heights = c(3, 1)) {
 }
 
 
-# Style the survival curve and the table from `ggsurvplot()`.
-style_ggsurvminer_plot <- function(ggsurv_obj,
-                                   table_y = "number at risk") {
-    x_expand <- c(0.02, 0.01)
-    ggsurv_obj$plot <- ggsurv_obj$plot +
+# Style the survival curve from `ggsurvplot()` or ``ggadjustedcurves()`,
+style_ggsurvminer_surv_curve <- function(p, x_expand = c(0.02, 0.01)) {
+    p_new <- p +
         scale_x_continuous(expand = expand_scale(mult = x_expand)) +
         scale_y_continuous(expand = expand_scale(mult = c(0, 0.01))) +
         theme_classic(base_size = 7, base_family = "arial") +
         theme(
             plot.title = element_text(hjust = 0.5),
             axis.ticks = element_blank(),
-            axis.title.x = element_blank()
+            axis.title.x = element_blank(),
+            strip.background = element_blank()
         )
-    ggsurv_obj$table <- ggsurv_obj$table +
+    return(p_new)
+}
+
+
+# Style the table from `ggsurvplot()`.
+style_ggsurvminer_table <- function(p, table_y, x_expand = c(0.02, 0.01)) {
+    p_new <- p +
         scale_x_continuous(expand = expand_scale(mult = x_expand)) +
         theme_classic(base_size = 7, base_family = "arial") +
         theme(
@@ -148,6 +153,16 @@ style_ggsurvminer_plot <- function(ggsurv_obj,
             axis.ticks = element_blank()
         ) +
         labs(y = table_y)
+    return(p_new)
+}
+
+
+# Style the survival curve and the table from `ggsurvplot()`.
+style_ggsurvminer_plot <- function(ggsurv_obj,
+                                   table_y = "number at risk") {
+    x_expand <- c(0.02, 0.01)
+    ggsurv_obj$plot <- style_ggsurvminer_surv_curve(ggsurv_obj$plot, x_expand)
+    ggsurv_obj$table <- style_ggsurvminer_table(ggsurv_obj$table, x_expand)
     return(ggsurv_obj)
 }
 
@@ -247,12 +262,63 @@ cancer_survival_model <- function(cancer, data) {
 }
 
 
+# Separate sexes in each cancer.
+cancer_sex_survival_model <- function(cancer, data, formula) {
+    data %<>% filter(!is.na(sex))
+
+    fit <- survfit(Surv(time = time, event = status) ~ sex, data = data)
+    coxph_fit <- coxph(Surv(time = time, event = status) ~ sex, data = data)
+
+    title <- glue("{cancer} survival model by sex")
+    fname <- "cancer_sex_models.txt"
+    write_survfit_summary(fit, title, fname)
+    write_coxph_summary(coxph_fit, title, fname)
+
+    pal <- c("tomato", "dodgerblue")
+
+    p <- ggsurvplot(
+        fit = fit,
+        data = data,
+        conf.int = TRUE,
+        risk.table = TRUE,
+        risk.table.col = "sex",
+        surv.median.line = "hv",
+        fontsize = 3,
+        font.family = "arial",
+        palette = pal
+    ) +
+        ggtitle(cancer)
+    p <- style_ggsurvminer_plot(p)
+    surv_plot <- patch_ggsurvplot(p)
+    ggsave_wrapper(
+        surv_plot,
+        plot_path(GRAPHS_DIR, glue("cancer-sex-survival-curve_{cancer}.svg")),
+        "wide"
+    )
+
+    p <- ggadjustedcurves(
+        fit = coxph_fit,
+        variable = "sex",
+        data = as.data.frame(data),
+        palette = pal
+    ) +
+        ggtitle(glue("{cancer} (adjusted curve)"))
+    p <- style_ggsurvminer_surv_curve(p, x_expand = c(0, 0.02))
+    ggsave_wrapper(
+        p,
+        plot_path(GRAPHS_DIR, glue("cancer-sex-survival-curve_{cancer}_adj.svg")),
+        "wide"
+    )
+}
+
+
 cancer_survival_df %T>%
     all_cancer_survival_model() %>%
     group_by(cancer) %>%
     nest() %>%
-    arrange(cancer) %>%
-    pwalk(cancer_survival_model)
+    arrange(cancer) %T>%
+    pwalk(cancer_survival_model) %T>%
+    pwalk(cancer_sex_survival_model)
 
 
 
@@ -373,6 +439,44 @@ kras_mutated_survival_analysis <- function(cancer, data) {
 }
 
 
+# KRAS mutated and sex as covariates in the survival analysis.
+cancer_sex_krasmut_survival_model <- function(cancer, data, formula) {
+    data %<>% filter(!is.na(sex))
+
+    fit <- survfit(Surv(time = time, event = status) ~ sex + kras_mut,
+                   data = data)
+    coxph_fit <- coxph(Surv(time = time, event = status) ~ sex + kras_mut,
+                       data = data)
+
+    title <- glue("{cancer} survival model by sex & KRAS mut")
+    fname <- "cancer_sex_krasmut_models.txt"
+    write_survfit_summary(fit, title, fname)
+    write_coxph_summary(coxph_fit, title, fname)
+
+    pal <- c("palevioletred1", "tomato", "lightskyblue", "dodgerblue")
+
+    p <- ggsurvplot(
+        fit = fit,
+        data = data,
+        conf.int = TRUE,
+        risk.table = TRUE,
+        risk.table.col = "sex",
+        surv.median.line = "hv",
+        fontsize = 3,
+        font.family = "arial",
+        palette = pal
+    ) +
+        ggtitle(cancer)
+    p <- style_ggsurvminer_plot(p)
+    surv_plot <- patch_ggsurvplot(p)
+    ggsave_wrapper(
+        surv_plot,
+        plot_path(GRAPHS_DIR, glue("cancer-sex-krasmut-survival-curve_{cancer}.svg")),
+        "wide"
+    )
+}
+
+
 # Survival curve for a cancer's data separated by KRAS alleles.
 kras_alleles_survival_analysis <- function(cancer, data, other_min = 10) {
 
@@ -392,6 +496,7 @@ kras_alleles_survival_analysis <- function(cancer, data, other_min = 10) {
 }
 
 
+# KRAS allele vs. rest of the samples.
 kras_allele_vs_rest_survival_analysis <- function(cancer, data,
                                                   other_min = 10) {
     data <- group_kras_alleles(data, other_min)
@@ -425,6 +530,7 @@ kras_allele_vs_rest_survival_analysis <- function(cancer, data,
 }
 
 
+# All combinations of `x` in sets of `m`.
 allele_combination_tibble <- function(x, m = 2) {
     combn(x, m, stringsAsFactors = FALSE) %>%
         t() %>%
@@ -434,6 +540,7 @@ allele_combination_tibble <- function(x, m = 2) {
 }
 
 
+# Every combinations of KRAS allele vs KRAS allele.
 kras_allele_vs_each_allele_survival_analysis <- function(cancer, data,
                                                          other_min = 10,
                                                          p_val_sig = 0.1) {
@@ -477,6 +584,7 @@ cancer_survival_df %>%
     nest() %>%
     arrange(cancer) %T>%
     pwalk(kras_mutated_survival_analysis) %T>%
+    pwalk(cancer_sex_krasmut_survival_model) %T>%
     pwalk(kras_alleles_survival_analysis) %T>%
     pwalk(kras_allele_vs_rest_survival_analysis) %T>%
     pwalk(kras_allele_vs_each_allele_survival_analysis)
@@ -485,16 +593,134 @@ cancer_survival_df %>%
 
 #### ---- Tumor stage ---- ####
 
+# TODO: account for stage of the tumor.
 
-readxl::read_excel(
-    file.path(
-        "data/cbioportal/mm_mmrf/CoMMpass_IA14_FlatFile_Dictionaries",
-        "MMRF_CoMMpass_IA14_PER_PATIENT.xlsx"
+ggsurvplot_wrapper <- function(fit, data, save_name_template,
+                               tbl_col = NULL, facet_formula = NULL,
+                               pal = NULL, plt_title = NULL,
+                               save_size = "wide") {
+    p <- ggsurvplot(
+        fit = fit,
+        data = data,
+        conf.int = TRUE,
+        risk.table = TRUE,
+        risk.table.col = tbl_col,
+        surv.median.line = "hv",
+        fontsize = 3,
+        font.family = "arial",
+        palette = pal
+    ) +
+        ggtitle(plt_title)
+    p <- style_ggsurvminer_plot(p)
+
+    if (!is.null(facet_formula)) {
+        p$plot <- p$plot + facet_grid(facet_formula)
+    }
+
+    surv_plot <- patch_ggsurvplot(p)
+    ggsave_wrapper(
+        surv_plot,
+        plot_path(GRAPHS_DIR, glue(save_name_template)),
+        save_size
     )
-) %>%
-    slice(39)
-    print(n = Inf)
+}
 
 
-mmrf_patient_data %$%
-    table(mm_status_derived)
+tumorstage_sa <- function(cancer, data) {
+    # Fit survival curve and Cox PH
+    fit <- survfit(Surv(time = time, event = status) ~ path_t_stage,
+                   data = data)
+    fit_coxph <- coxph(Surv(time = time, event = status) ~ path_t_stage,
+                       data = data)
+
+    # Write survival curve and Cox PH
+    title <- glue("{cancer} survival model by tumor stage")
+    fname <- "tumorstage_models.txt"
+    write_survfit_summary(fit, title, fname)
+    write_coxph_summary(fit_coxph, title, fname)
+
+    # Plot survival curve
+    pal <- viridis::viridis_pal()(n_distinct(data$path_t_stage))
+    ggsurvplot_wrapper(fit,
+                       data,
+                       glue("tumorstage_survival_{cancer}.svg"),
+                       tbl_col = "path_t_stage",
+                       pal = pal,
+                       plt_title = cancer)
+}
+
+
+tumorstage_sex_sa <- function(cancer, data) {
+    # Fit survival curve and Cox PH
+    fit <- survfit(Surv(time = time, event = status) ~ path_t_stage + sex,
+                   data = data)
+    fit_coxph <- coxph(Surv(time = time, event = status) ~ path_t_stage + sex,
+                       data = data)
+
+    # Write survival curve and Cox PH
+    title <- glue("{cancer} survival model by tumor stage & sex")
+    fname <- "tumorstage-sex_models.txt"
+    write_survfit_summary(fit, title, fname)
+    write_coxph_summary(fit_coxph, title, fname)
+
+    # Plot survival curve
+    pal <- NULL
+    save_name <- glue("tumorstage-sex_survival_{cancer}.svg")
+    ggsurvplot_wrapper(fit,
+                       data,
+                       save_name,
+                       tbl_col = "sex",
+                       facet_formula = path_t_stage ~ .,
+                       pal = pal,
+                       plt_title = cancer,
+                       save_size = "large")
+}
+
+
+tumorstage_krasmut_sa <- function(cancer, data) {
+    # Fit survival curve and Cox PH
+    fit <- survfit(
+        Surv(time = time, event = status) ~ path_t_stage + kras_mut,
+        data = data
+    )
+    fit_coxph <- coxph(
+        Surv(time = time, event = status) ~ path_t_stage + kras_mut,
+        data = data
+    )
+
+    # Write survival curve and Cox PH
+    title <- glue("{cancer} survival model by tumor stage & KRAS mutation")
+    fname <- "cancer_tumorstage-krasmut_models.txt"
+    write_survfit_summary(fit, title, fname)
+    write_coxph_summary(fit_coxph, title, fname)
+
+    # Plot survival curve
+    pal <- NULL
+    save_name <- glue("tumorstage-krasmut_survival_{cancer}.svg")
+    ggsurvplot_wrapper(fit,
+                       data,
+                       save_name,
+                       tbl_col = "kras_mut",
+                       facet_formula = path_t_stage ~ .,
+                       pal = pal,
+                       plt_title = cancer,
+                       save_size = "large")
+}
+
+
+tumorstage_sex_krasmut_sa <- function(cancer, data) {
+
+}
+
+
+
+
+
+cancer_survival_df %>%
+    filter(!is.na(path_t_stage) & path_t_stage > 0) %>%
+    mutate(path_t_stage = factor(path_t_stage)) %>%
+    group_by(cancer) %>%
+    nest() %>%
+    arrange(cancer) %T>%
+    pwalk(tumorstage_sa) %T>%
+    pwalk(tumorstage_sex_sa)

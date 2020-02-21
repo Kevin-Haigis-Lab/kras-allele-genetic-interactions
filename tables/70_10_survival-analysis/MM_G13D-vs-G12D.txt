@@ -1,0 +1,21 @@
+MM - G13D vs. G12D 
+                     records n.max n.start events   *rmean *se(rmean) median
+kras_allele_grp=G12D      29    29      29      7 1570.495   105.2256     NA
+kras_allele_grp=G13D      26    26      26     10 1293.859   153.7247   1753
+                     0.95LCL 0.95UCL
+kras_allele_grp=G12D    1282      NA
+kras_allele_grp=G13D     629      NA
+================================================================================ 
+
+MM - G13D vs. G12D 
+Call:
+survdiff(formula = Surv(time = time, event = status) ~ kras_allele_grp, 
+    data = data)
+
+                      N Observed Expected (O-E)^2/E (O-E)^2/V
+kras_allele_grp=G12D 29        7     9.68     0.740      1.77
+kras_allele_grp=G13D 26       10     7.32     0.978      1.77
+
+ Chisq= 1.8  on 1 degrees of freedom, p= 0.2 
+================================================================================ 
+

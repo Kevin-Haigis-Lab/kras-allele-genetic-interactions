@@ -1,0 +1,21 @@
+COAD - G13D vs. A146T 
+                      records n.max n.start events   *rmean *se(rmean) median
+kras_allele_grp=A146T      16    16      16      2 87.78150  13.947139     NA
+kras_allele_grp=G13D       36    36      36     10 74.24676   9.227349     NA
+                       0.95LCL 0.95UCL
+kras_allele_grp=A146T 45.40224      NA
+kras_allele_grp=G13D  24.42713      NA
+================================================================================ 
+
+COAD - G13D vs. A146T 
+Call:
+survdiff(formula = Surv(time = time, event = status) ~ kras_allele_grp, 
+    data = data)
+
+                       N Observed Expected (O-E)^2/E (O-E)^2/V
+kras_allele_grp=A146T 16        2     4.42     1.329      2.13
+kras_allele_grp=G13D  36       10     7.58     0.776      2.13
+
+ Chisq= 2.1  on 1 degrees of freedom, p= 0.1 
+================================================================================ 
+
