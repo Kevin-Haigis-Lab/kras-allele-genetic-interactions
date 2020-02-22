@@ -167,6 +167,7 @@ style_ggsurvminer_plot <- function(ggsurv_obj,
 }
 
 
+# Write a model's summary to file.
 write_summary <- function(fit_summary, fpath) {
     sink(fpath, append = TRUE)
     print(fit_summary)
@@ -174,6 +175,7 @@ write_summary <- function(fit_summary, fpath) {
 }
 
 
+# Write summary for a `survfit` model.
 write_survfit_summary <- function(fit, title, fname, clear_file = FALSE) {
     fpath <- table_path(GRAPHS_DIR, fname)
 
@@ -185,6 +187,7 @@ write_survfit_summary <- function(fit, title, fname, clear_file = FALSE) {
 }
 
 
+# Write summary for a `survdiff` model.
 write_survdiff_summary <- function(fit, title, fname, clear_file = FALSE) {
     fpath <- table_path(GRAPHS_DIR, fname)
 
@@ -196,6 +199,7 @@ write_survdiff_summary <- function(fit, title, fname, clear_file = FALSE) {
 }
 
 
+# Write summary for a `coxph` model.
 write_coxph_summary <- function(fit, title, fname, clear_file = FALSE) {
     fpath <- table_path(GRAPHS_DIR, fname)
 
@@ -209,11 +213,11 @@ write_coxph_summary <- function(fit, title, fname, clear_file = FALSE) {
 
 #### ---- Overall survival curves ---- ####
 
-# A model of all cancers compared to each other.
-all_cancer_survival_model <- function(data) {
-    fit <- survfit(Surv(time = time, event = status) ~ cancer, data = data)
-    write_survfit_summary(fit, "All cancers survival model",
-                          "all_cancer_model.txt", clear_file = TRUE)
+
+# A wrapper for `ggsurvplot()` for this section of the analysis.
+ggsurv_wrapper_overallsa <- function(fit, data, plt_sname,
+                                     tbl_col = "strata",
+                                     pal = NULL) {
     p <- ggsurvplot(
         fit = fit,
         data = data,
@@ -223,42 +227,40 @@ all_cancer_survival_model <- function(data) {
         surv.median.line = "hv",
         fontsize = 3,
         font.family = "arial",
-        palette = unname(cancer_palette)
+        palette = pal
     )
     p <- style_ggsurvminer_plot(p)
     surv_plot <- patch_ggsurvplot(p)
     ggsave_wrapper(
         surv_plot,
-        plot_path(GRAPHS_DIR, glue("cancer-survival-curve_ALL.svg")),
+        plot_path(GRAPHS_DIR, glue(plt_sname)),
         "wide"
     )
+}
+
+
+# A model of all cancers compared to each other.
+all_cancer_survival_model <- function(data) {
+    fit <- survfit(Surv(time = time, event = status) ~ cancer, data = data)
+
+    write_survfit_summary(fit, "All cancers survival model",
+                          "all_cancer_model.txt", clear_file = TRUE)
+
+    ggsurv_wrapper_overallsa(fit, data,
+                             "allcancers_survival.svg",
+                             pal = unname(cancer_palette))
 }
 
 
 # Survival curve for a cancer.
 cancer_survival_model <- function(cancer, data) {
     fit <- survfit(Surv(time = time, event = status) ~ 1, data = data)
+
     write_survfit_summary(fit, glue("{cancer} survival model"),
                           "cancer_models.txt")
-    p <- ggsurvplot(
-        fit = fit,
-        data = data,
-        conf.int = TRUE,
-        risk.table = TRUE,
-        risk.table.col = "strata",
-        surv.median.line = "hv",
-        fontsize = 3,
-        font.family = "arial",
-        palette = cancer_palette[[cancer]]
-    ) +
-        ggtitle(cancer)
-    p <- style_ggsurvminer_plot(p)
-    surv_plot <- patch_ggsurvplot(p)
-    ggsave_wrapper(
-        surv_plot,
-        plot_path(GRAPHS_DIR, glue("cancer-survival-curve_{cancer}.svg")),
-        "wide"
-    )
+
+    ggsurv_wrapper_overallsa(fit, data, glue("survival_{cancer}.svg"),
+                             pal = cancer_palette[[cancer]])
 }
 
 
@@ -276,24 +278,11 @@ cancer_sex_survival_model <- function(cancer, data, formula) {
 
     pal <- c("tomato", "dodgerblue")
 
-    p <- ggsurvplot(
-        fit = fit,
-        data = data,
-        conf.int = TRUE,
-        risk.table = TRUE,
-        risk.table.col = "sex",
-        surv.median.line = "hv",
-        fontsize = 3,
-        font.family = "arial",
-        palette = pal
-    ) +
-        ggtitle(cancer)
-    p <- style_ggsurvminer_plot(p)
-    surv_plot <- patch_ggsurvplot(p)
-    ggsave_wrapper(
-        surv_plot,
-        plot_path(GRAPHS_DIR, glue("cancer-sex-survival-curve_{cancer}.svg")),
-        "wide"
+    ggsurv_wrapper_overallsa(
+        fit, data,
+        plt_sname = glue("sex_survival_{cancer}.svg"),
+        tbl_col = "sex",
+        pal = pal
     )
 
     p <- ggadjustedcurves(
@@ -306,7 +295,7 @@ cancer_sex_survival_model <- function(cancer, data, formula) {
     p <- style_ggsurvminer_surv_curve(p, x_expand = c(0, 0.02))
     ggsave_wrapper(
         p,
-        plot_path(GRAPHS_DIR, glue("cancer-sex-survival-curve_{cancer}_adj.svg")),
+        plot_path(GRAPHS_DIR, glue("sex-adjusted_survival_{cancer}.svg")),
         "wide"
     )
 }
@@ -348,7 +337,7 @@ group_kras_alleles <- function(df, other_min) {
 }
 
 
-# Wrapper around standard survival curve analysis workflow.
+# Wrapper around standard survial curve analysis workflow.
 allele_group_survival_analysis <- function(cancer,
                                            data,
                                            do_survdiff = TRUE,
@@ -593,7 +582,6 @@ cancer_survival_df %>%
 
 #### ---- Tumor stage ---- ####
 
-# TODO: account for stage of the tumor.
 
 ggsurvplot_wrapper <- function(fit, data, save_name_template,
                                tbl_col = NULL, facet_formula = NULL,
