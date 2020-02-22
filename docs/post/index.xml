@@ -5,12 +5,53 @@
     <link>https://project-notebook-comutation.netlify.com/post/</link>
       <atom:link href="https://project-notebook-comutation.netlify.com/post/index.xml" rel="self" type="application/rss+xml" />
     <description>Posts</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Thu, 20 Feb 2020 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Fri, 21 Feb 2020 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://project-notebook-comutation.netlify.com/img/icon-192.png</url>
       <title>Posts</title>
       <link>https://project-notebook-comutation.netlify.com/post/</link>
     </image>
+    
+    <item>
+      <title>2020-02-21</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2020-02-21/</link>
+      <pubDate>Fri, 21 Feb 2020 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2020-02-21/</guid>
+      <description>
+
+&lt;h2 id=&#34;survival-analysis-cont&#34;&gt;Survival analysis (cont.)&lt;/h2&gt;
+
+&lt;p&gt;I continued with the survival analysis from the past few days.&lt;/p&gt;
+
+&lt;p&gt;I wanted to assess the effect of the following covariates on the survival curves:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;patient&amp;rsquo;s age&lt;/li&gt;
+&lt;li&gt;patient&amp;rsquo;s sex&lt;/li&gt;
+&lt;li&gt;tumor stage&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;For MM, I needed to return to the munge script and extract that information.&lt;/p&gt;
+
+&lt;h3 id=&#34;sex-covariate&#34;&gt;Sex covariate&lt;/h3&gt;
+
+&lt;p&gt;MM was the only tumor where sex of the patient was a significant covariate&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/70_10_survival-analysis/cancer-sex-survival-curve_COAD.svg&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/70_10_survival-analysis/cancer-sex-survival-curve_LUAD.svg&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/70_10_survival-analysis/cancer-sex-survival-curve_MM.svg&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/70_10_survival-analysis/cancer-sex-survival-curve_PAAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;tumor-stage-covariate&#34;&gt;Tumor stage covariate&lt;/h3&gt;
+
+&lt;p&gt;Tumor stage behaves exactly as expected.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/70_10_survival-analysis/tumorstage_survival_COAD.svg&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/70_10_survival-analysis/tumorstage_survival_LUAD.svg&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/70_10_survival-analysis/tumorstage_survival_MM.svg&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/70_10_survival-analysis/tumorstage_survival_PAAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>2020-02-20</title>
