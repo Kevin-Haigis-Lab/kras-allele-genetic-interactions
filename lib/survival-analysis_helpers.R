@@ -7,6 +7,18 @@ survdiff_pval <- function(fit) {
 }
 
 
+# Get p-value from the Log rank test resulting from using `coxph()`.
+coxph_logtest_pval <- function(fit) {
+    summary(fit)$logtest[["pvalue"]]
+}
+
+
+# Get p-value from the Wald test resulting from using `coxph()`.
+coxph_logtest_pval <- function(fit) {
+    summary(fit)$waldtest[["pvalue"]]
+}
+
+
 # Alter a palette's names with the covariate and "=" sign.
 alter_pal_for_ggsurvplot <- function(pal, covariate_name) {
     names(pal) <- paste(covariate_name, names(pal), sep = "=")
