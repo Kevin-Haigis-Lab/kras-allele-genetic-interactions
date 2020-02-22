@@ -420,9 +420,9 @@ kras_mutated_survival_analysis <- function(cancer, data) {
         data = data,
         do_survdiff = TRUE,
         do_coxph = TRUE,
-        model_output_file_template = "wt-vs-mutant.txt",
+        model_output_file_template = "wt-vs-krasmut.txt",
         model_output_title_template = glue("{cancer} KRAS WT vs. mutant"),
-        plot_name_template = glue("kras-mutated-survival-curve_{cancer}.svg"),
+        plot_name_template = glue("krasmut_survival_{cancer}.svg"),
         curve_palette = pal
     )
 }
@@ -438,7 +438,7 @@ cancer_sex_krasmut_survival_model <- function(cancer, data, formula) {
                        data = data)
 
     title <- glue("{cancer} survival model by sex & KRAS mut")
-    fname <- "cancer_sex_krasmut_models.txt"
+    fname <- "sex-krasmut_models.txt"
     write_survfit_summary(fit, title, fname)
     write_coxph_summary(coxph_fit, title, fname)
 
@@ -460,7 +460,7 @@ cancer_sex_krasmut_survival_model <- function(cancer, data, formula) {
     surv_plot <- patch_ggsurvplot(p)
     ggsave_wrapper(
         surv_plot,
-        plot_path(GRAPHS_DIR, glue("cancer-sex-krasmut-survival-curve_{cancer}.svg")),
+        plot_path(GRAPHS_DIR, glue("sex-krasmut_survival_{cancer}.svg")),
         "wide"
     )
 }
@@ -478,7 +478,7 @@ kras_alleles_survival_analysis <- function(cancer, data, other_min = 10) {
         do_coxph = TRUE,
         model_output_file_template = "kras-alleles.txt",
         model_output_title_template = glue("{cancer} KRAS alleles"),
-        plot_name_template = glue("kras-allele-survival-curve_{cancer}.svg"),
+        plot_name_template = glue("krasallele_survival_{cancer}.svg"),
         curve_palette = alter_pal_for_ggsurvplot(short_allele_pal,
                                                  "kras_allele_grp")
     )
@@ -503,7 +503,7 @@ kras_allele_vs_rest_survival_analysis <- function(cancer, data,
 
         filename <- glue("{cancer}_{allele}-vs-rest.txt")
         title <- glue("{cancer} - {allele} vs. the rest")
-        plot_title <- glue("allele-vs-rest_{cancer}_{allele}.svg")
+        plot_sname <- glue("allele-vs-rest_{cancer}_{allele}.svg")
 
         allele_group_survival_analysis(
             cancer = cancer,
@@ -512,7 +512,7 @@ kras_allele_vs_rest_survival_analysis <- function(cancer, data,
             do_coxph = FALSE,
             model_output_file_template = filename,
             model_output_title_template = title,
-            plot_name_template = plot_title,
+            plot_name_template = plot_sname,
             curve_palette = pal
         )
     }
@@ -547,10 +547,10 @@ kras_allele_vs_each_allele_survival_analysis <- function(cancer, data,
         mod_data <- data %>%
             filter(kras_allele_grp %in% c(allele_1, allele_2))
 
-        filename <- glue("{cancer}_{allele_1}-vs-{allele_2}.txt")
+        filename <- glue("{cancer}_allele-vs-allele.txt")
         title <- glue("{cancer} - {allele_1} vs. {allele_2}")
         plot_title <- glue(
-            "allele-vs-allele_{cancer}_{allele_1}-vs-{allele_2}.svg"
+            "{allele_1}-vs-{allele_2}_{cancer}.svg"
         )
 
         allele_group_survival_analysis(
@@ -583,6 +583,7 @@ cancer_survival_df %>%
 #### ---- Tumor stage ---- ####
 
 
+# A wrapper around `ggsurvplot()`.
 ggsurvplot_wrapper <- function(fit, data, save_name_template,
                                tbl_col = NULL, facet_formula = NULL,
                                pal = NULL, plt_title = NULL,
@@ -614,6 +615,7 @@ ggsurvplot_wrapper <- function(fit, data, save_name_template,
 }
 
 
+# Survival analysis with tumor stage as covariate.
 tumorstage_sa <- function(cancer, data) {
     # Fit survival curve and Cox PH
     fit <- survfit(Surv(time = time, event = status) ~ path_t_stage,
@@ -638,6 +640,7 @@ tumorstage_sa <- function(cancer, data) {
 }
 
 
+# Survival analysis with tumor stage and sex as covariates.
 tumorstage_sex_sa <- function(cancer, data) {
     # Fit survival curve and Cox PH
     fit <- survfit(Surv(time = time, event = status) ~ path_t_stage + sex,
@@ -665,20 +668,21 @@ tumorstage_sex_sa <- function(cancer, data) {
 }
 
 
+# Survival analysis with tumor stage and KRAS mutated as covariates.
 tumorstage_krasmut_sa <- function(cancer, data) {
     # Fit survival curve and Cox PH
     fit <- survfit(
-        Surv(time = time, event = status) ~ path_t_stage + kras_mut,
+        Surv(time = time, event = status) ~ kras_mut + path_t_stage,
         data = data
     )
     fit_coxph <- coxph(
-        Surv(time = time, event = status) ~ path_t_stage + kras_mut,
+        Surv(time = time, event = status) ~ kras_mut + path_t_stage,
         data = data
     )
 
     # Write survival curve and Cox PH
     title <- glue("{cancer} survival model by tumor stage & KRAS mutation")
-    fname <- "cancer_tumorstage-krasmut_models.txt"
+    fname <- "tumorstage-krasmut_models.txt"
     write_survfit_summary(fit, title, fname)
     write_coxph_summary(fit_coxph, title, fname)
 
@@ -696,12 +700,17 @@ tumorstage_krasmut_sa <- function(cancer, data) {
 }
 
 
-tumorstage_sex_krasmut_sa <- function(cancer, data) {
+# Survival analysis of samples of a tumor stage with KRAS mutated as covariates.
+krasmut_pertumorstage_sa <- function(cancer, path_t_stage, data) {
+    # fit <- survfit(Surv(time = time, event = status) ~ kras_mut,
+    #                data = data)
+    fit_diff <- survdiff(Surv(time = time, event = status) ~ kras_mut,
+                        data = data)
 
+    fname <- glue("krasmut_pertstage_{cancer}.txt")
+    title <- glue("{cancer} - Stage T{path_t_stage} - KRAS mutant vs. WT")
+    write_survdiff_summary(fit_diff, title = title, fname = fname)
 }
-
-
-
 
 
 cancer_survival_df %>%
@@ -711,4 +720,11 @@ cancer_survival_df %>%
     nest() %>%
     arrange(cancer) %T>%
     pwalk(tumorstage_sa) %T>%
-    pwalk(tumorstage_sex_sa)
+    pwalk(tumorstage_sex_sa) %T>%
+    pwalk(tumorstage_krasmut_sa) %>%
+    unnest(data) %>%
+    group_by(cancer, path_t_stage) %>%
+    nest()  %>%
+    arrange(cancer, path_t_stage) %T>%
+    pwalk(krasmut_pertumorstage_sa)
+
