@@ -1,0 +1,101 @@
+MM - KRAS G13D - comutation with CDKN1B 
+                                   records n.max n.start events   *rmean
+krasallele=FALSE, comutation=FALSE     894   894     894    189 1600.814
+krasallele=FALSE, comutation=TRUE       10    10      10      3 1526.667
+krasallele=TRUE, comutation=FALSE       24    24      24     10 1300.275
+                                   *se(rmean) median 0.95LCL 0.95UCL
+krasallele=FALSE, comutation=FALSE   24.33842   2207    2207      NA
+krasallele=FALSE, comutation=TRUE   220.25227     NA     914      NA
+krasallele=TRUE, comutation=FALSE   165.01520   1753     629      NA
+================================================================================ 
+
+ 
+Call:
+coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+    comutation, data = surv_data)
+
+  n= 928, number of events= 202 
+
+                 coef exp(coef) se(coef)     z Pr(>|z|)  
+krasalleleTRUE 0.7280    2.0710   0.3250 2.240   0.0251 *
+comutationTRUE 0.2927    1.3400   0.5820 0.503   0.6151  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+               exp(coef) exp(-coef) lower .95 upper .95
+krasalleleTRUE     2.071     0.4829    1.0953     3.916
+comutationTRUE     1.340     0.7463    0.4282     4.193
+
+Concordance= 0.514  (se = 0.009 )
+Likelihood ratio test= 4.27  on 2 df,   p=0.1
+Wald test            = 5.21  on 2 df,   p=0.07
+Score (logrank) test = 5.44  on 2 df,   p=0.07
+
+================================================================================ 
+
+MM - KRAS G13D - comutation with PREX2 
+                                   records n.max n.start events   *rmean
+krasallele=FALSE, comutation=FALSE     894   894     894    190 1614.580
+krasallele=FALSE, comutation=TRUE       10    10      10      2 1635.900
+krasallele=TRUE, comutation=FALSE       24    24      24      8 1439.342
+                                   *se(rmean) median 0.95LCL 0.95UCL
+krasallele=FALSE, comutation=FALSE   24.86895   2207    2207      NA
+krasallele=FALSE, comutation=TRUE   236.06476     NA      NA      NA
+krasallele=TRUE, comutation=FALSE   159.87283   1777     957      NA
+================================================================================ 
+
+ 
+Call:
+coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+    comutation, data = surv_data)
+
+  n= 928, number of events= 200 
+
+                   coef exp(coef) se(coef)      z Pr(>|z|)
+krasalleleTRUE  0.49805   1.64551  0.36138  1.378    0.168
+comutationTRUE -0.03455   0.96604  0.71106 -0.049    0.961
+
+               exp(coef) exp(-coef) lower .95 upper .95
+krasalleleTRUE     1.646     0.6077    0.8104     3.341
+comutationTRUE     0.966     1.0352    0.2397     3.893
+
+Concordance= 0.504  (se = 0.008 )
+Likelihood ratio test= 1.64  on 2 df,   p=0.4
+Wald test            = 1.91  on 2 df,   p=0.4
+Score (logrank) test = 1.95  on 2 df,   p=0.4
+
+================================================================================ 
+
+MM - KRAS G13D - comutation with ROBO3 
+                                   records n.max n.start events   *rmean
+krasallele=FALSE, comutation=FALSE     894   894     894    191 1597.311
+krasallele=FALSE, comutation=TRUE       10    10      10      1 1778.889
+krasallele=TRUE, comutation=FALSE       23    23      23      8 1390.900
+                                   *se(rmean) median 0.95LCL 0.95UCL
+krasallele=FALSE, comutation=FALSE   24.38519   2207    2207      NA
+krasallele=FALSE, comutation=TRUE   194.32342     NA      NA      NA
+krasallele=TRUE, comutation=FALSE   170.87165   1777    1753      NA
+================================================================================ 
+
+ 
+Call:
+coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+    comutation, data = surv_data)
+
+  n= 927, number of events= 200 
+
+                  coef exp(coef) se(coef)      z Pr(>|z|)
+krasalleleTRUE  0.5489    1.7313   0.3615  1.518    0.129
+comutationTRUE -0.8250    0.4382   1.0028 -0.823    0.411
+
+               exp(coef) exp(-coef) lower .95 upper .95
+krasalleleTRUE    1.7313     0.5776    0.8525     3.516
+comutationTRUE    0.4382     2.2818    0.0614     3.128
+
+Concordance= 0.51  (se = 0.008 )
+Likelihood ratio test= 2.91  on 2 df,   p=0.2
+Wald test            = 3.02  on 2 df,   p=0.2
+Score (logrank) test = 3.13  on 2 df,   p=0.2
+
+================================================================================ 
+
