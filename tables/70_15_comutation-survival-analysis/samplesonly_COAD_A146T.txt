@@ -1,0 +1,21 @@
+COAD - KRAS A146T - comutation with KIAA2022 
+                 records n.max n.start events   *rmean *se(rmean)   median
+comutation=FALSE      10    10      10      1 56.81856   8.072553 45.40224
+comutation=TRUE        6     6       6      1 56.76431  10.259580       NA
+                  0.95LCL 0.95UCL
+comutation=FALSE 45.40224      NA
+comutation=TRUE        NA      NA
+================================================================================ 
+
+ 
+Call:
+survdiff(formula = Surv(time = time, event = status) ~ comutation, 
+    data = surv_data)
+
+                  N Observed Expected (O-E)^2/E (O-E)^2/V
+comutation=FALSE 10        1    1.167    0.0238    0.0588
+comutation=TRUE   6        1    0.833    0.0333    0.0588
+
+ Chisq= 0.1  on 1 degrees of freedom, p= 0.8 
+================================================================================ 
+

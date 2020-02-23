@@ -1,0 +1,33 @@
+MM - KRAS G12D - comutation with NRAS 
+                                   records n.max n.start events   *rmean
+krasallele=FALSE, comutation=FALSE     157   157     157     43 1420.792
+krasallele=FALSE, comutation=TRUE       28    28      28      9 1379.358
+krasallele=TRUE, comutation=FALSE       28    28      28      6 1575.375
+                                   *se(rmean) median 0.95LCL 0.95UCL
+krasallele=FALSE, comutation=FALSE   53.03578   1753    1620      NA
+krasallele=FALSE, comutation=TRUE   127.08104   1777    1023      NA
+krasallele=TRUE, comutation=FALSE    93.51237     NA      NA      NA
+================================================================================ 
+
+ 
+Call:
+coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+    comutation, data = surv_data)
+
+  n= 213, number of events= 58 
+
+                  coef exp(coef) se(coef)      z Pr(>|z|)
+krasalleleTRUE -0.3793    0.6843   0.4362 -0.870    0.385
+comutationTRUE  0.1715    1.1870   0.3671  0.467    0.640
+
+               exp(coef) exp(-coef) lower .95 upper .95
+krasalleleTRUE    0.6843     1.4613    0.2911     1.609
+comutationTRUE    1.1870     0.8424    0.5781     2.438
+
+Concordance= 0.538  (se = 0.03 )
+Likelihood ratio test= 1.2  on 2 df,   p=0.5
+Wald test            = 1.12  on 2 df,   p=0.6
+Score (logrank) test = 1.13  on 2 df,   p=0.6
+
+================================================================================ 
+

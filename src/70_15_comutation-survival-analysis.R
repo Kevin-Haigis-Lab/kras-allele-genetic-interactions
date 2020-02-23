@@ -1,9 +1,12 @@
 # Survival analysis including genes found to comutate with KRAS alleles.
 
+library(survminer)
+library(survival)
+
+
 GRAPHS_DIR <- "70_15_comutation-survival-analysis"
 reset_graph_directory(GRAPHS_DIR)
 reset_table_directory(GRAPHS_DIR)
-
 
 
 # Add a column with just the KRAS allele.
@@ -144,7 +147,6 @@ krasallele_comutation_sa <- function(cancer,
     mut_data <- get_mutation_data(cancer, hugo_symbol)
     comut_samples <- mut_data$tumor_sample_barcode
     cancer_samples <- get_cancer_sample_barcodes(cancer)
-    # allele_samples <- get_kras_allele_samples_barcodes(cancer, allele)
     surv_data <- get_survival_data(cancer, cancer_samples)
 
     surv_data %<>% mutate(
@@ -152,7 +154,7 @@ krasallele_comutation_sa <- function(cancer,
         krasallele = kras_allele == !!allele
     )
 
-    # Remove groups with fewer than `min_samples_per_group`
+    # Remove groups with fewer than `min_samples_per_group`.
     surv_data %<>%
         group_by(comutation, krasallele) %>%
         filter(n_distinct(tumor_sample_barcode) >= !!min_samples_per_group) %>%
@@ -214,20 +216,174 @@ krasallele_comutation_sa <- function(cancer,
 }
 
 
-# Model survival analysis on the KRAS allele and comutation of another gene.
-# krasallele_comutation_sa <- function(cancer,
-#                                      allele,
-#                                      hugo_symbol,
-#                                      genetic_interaction,
-#                                      min_samples_per_group = 5,
-#                                      p_val = 0.05) {
+# Model survival analysis on the KRAS allele and comutation of another gene
+# only using samples with a KRAS mutation.
+krasmutsamples_krasallele_comutation_sa <- function(cancer,
+                                                    allele,
+                                                    hugo_symbol,
+                                                    genetic_interaction,
+                                                    min_samples_per_group = 5,
+                                                    p_val = 0.05) {
+    mut_data <- get_mutation_data(cancer, hugo_symbol)
+    comut_samples <- mut_data$tumor_sample_barcode
+    surv_data <- get_survival_data(cancer, get_cancer_sample_barcodes(cancer))
 
-# }
+    surv_data %<>%
+        filter(kras_allele != "WT") %>%
+        mutate(
+            comutation = tumor_sample_barcode %in% comut_samples,
+            krasallele = kras_allele == !!allele
+        )
+
+    # Remove groups with fewer than `min_samples_per_group`.
+    surv_data %<>%
+        group_by(comutation, krasallele) %>%
+        filter(n_distinct(tumor_sample_barcode) >= !!min_samples_per_group) %>%
+        ungroup()
+
+    # If there is no data, return early.
+    if (nrow(surv_data) == 0) return()
+
+    # If fewer than 3 groups, return early
+    n_groups <- surv_data %>%
+        group_by(comutation, krasallele) %>%
+        count() %>%
+        nrow()
+    if (n_groups < 3) return()
+
+    fit <- survfit(
+        Surv(time = time, event = status) ~ krasallele + comutation,
+        data = surv_data
+    )
+
+    fit_coxph <- coxph(
+        Surv(time = time, event = status) ~ krasallele + comutation,
+        data = surv_data
+    )
+
+    title <- glue("{cancer} - KRAS {allele} - comutation with {hugo_symbol}")
+    fname <- glue("krasmutsamples_{cancer}_{allele}.txt")
+    write_survfit_summary(fit, title = title, fname = fname)
+    write_coxph_summary(fit_coxph, title = "", fname = fname)
+
+    # Return early if p-value of `coxph` is above cut-off
+    if (coxph_logtest_pval(fit_coxph) >= p_val) return()
+
+    plt_title <- glue(
+        "{cancer} - KRAS {allele} (KRAS muts. only)
+        comutation with {hugo_symbol} ({genetic_interaction})"
+    )
+
+    # Weird way of making a palette with the correct colors
+    pal <- tibble::tribble(
+        ~ comutation, ~krasallele, ~color,
+        FALSE, FALSE, "grey50",
+        FALSE, TRUE, "grey25",
+        TRUE, FALSE, "plum2",
+        TRUE, TRUE, "mediumpurple2"
+    ) %>%
+        inner_join(surv_data, by = c("comutation", "krasallele")) %>%
+        select(comutation, krasallele, color) %>%
+        unique() %>%
+        pull(color)
+
+    ggsurvplot_wrapper(
+        fit, surv_data,
+        glue("krasmutsamples_{cancer}-{allele}-{hugo_symbol}.svg"),
+        pal = pal,
+        plt_title = plt_title,
+        conf_int = FALSE
+    )
+}
+
+
+# Model survival analysis on the KRAS allele and comutation of another gene
+# only using samples with the KRAS allele or WT KRAS.
+alleleorwt_krasallele_comutation_sa <- function(cancer,
+                                                    allele,
+                                                    hugo_symbol,
+                                                    genetic_interaction,
+                                                    min_samples_per_group = 5,
+                                                    p_val = 0.05) {
+    mut_data <- get_mutation_data(cancer, hugo_symbol)
+    comut_samples <- mut_data$tumor_sample_barcode
+    surv_data <- get_survival_data(cancer, get_cancer_sample_barcodes(cancer))
+
+    surv_data %<>%
+        filter(kras_allele %in% c("WT", !!allele)) %>%
+        mutate(
+            comutation = tumor_sample_barcode %in% comut_samples,
+            krasallele = kras_allele == !!allele
+        )
+
+    # Remove groups with fewer than `min_samples_per_group`.
+    surv_data %<>%
+        group_by(comutation, krasallele) %>%
+        filter(n_distinct(tumor_sample_barcode) >= !!min_samples_per_group) %>%
+        ungroup()
+
+    # If there is no data, return early.
+    if (nrow(surv_data) == 0) return()
+
+    # If fewer than 3 groups, return early
+    n_groups <- surv_data %>%
+        group_by(comutation, krasallele) %>%
+        count() %>%
+        nrow()
+    if (n_groups < 3) return()
+
+    fit <- survfit(
+        Surv(time = time, event = status) ~ krasallele + comutation,
+        data = surv_data
+    )
+
+    fit_coxph <- coxph(
+        Surv(time = time, event = status) ~ krasallele + comutation,
+        data = surv_data
+    )
+
+    title <- glue("{cancer} - KRAS {allele} - comutation with {hugo_symbol}")
+    fname <- glue("alleleorwt_{cancer}_{allele}.txt")
+    write_survfit_summary(fit, title = title, fname = fname)
+    write_coxph_summary(fit_coxph, title = "", fname = fname)
+
+    # Return early if p-value of `coxph` is above cut-off
+    if (coxph_logtest_pval(fit_coxph) >= p_val) return()
+
+    plt_title <- glue(
+        "{cancer} - KRAS {allele} (KRAS allele or KRAS WT only)
+        comutation with {hugo_symbol} ({genetic_interaction})"
+    )
+
+    # Weird way of making a palette with the correct colors
+    pal <- tibble::tribble(
+        ~ comutation, ~krasallele, ~color,
+        FALSE, FALSE, "grey50",
+        FALSE, TRUE, "grey25",
+        TRUE, FALSE, "plum2",
+        TRUE, TRUE, "mediumpurple2"
+    ) %>%
+        inner_join(surv_data, by = c("comutation", "krasallele")) %>%
+        select(comutation, krasallele, color) %>%
+        unique() %>%
+        pull(color)
+
+    ggsurvplot_wrapper(
+        fit, surv_data,
+        glue("alleleorwt_{cancer}-{allele}-{hugo_symbol}.svg"),
+        pal = pal,
+        plt_title = plt_title,
+        conf_int = FALSE
+    )
+}
+
 
 
 genetic_interaction_df %>%
     select(cancer, allele, hugo_symbol, genetic_interaction) %>%
     unique() %>%
     arrange(cancer, allele, hugo_symbol) %T>%
-    # pwalk(alleleonly_samples_comutation_sa) %T>%
-    pwalk(krasallele_comutation_sa)
+    pwalk(alleleonly_samples_comutation_sa) %T>%
+    pwalk(krasallele_comutation_sa) %T>%
+    pwalk(krasmutsamples_krasallele_comutation_sa) %T>%
+    pwalk(alleleorwt_krasallele_comutation_sa)

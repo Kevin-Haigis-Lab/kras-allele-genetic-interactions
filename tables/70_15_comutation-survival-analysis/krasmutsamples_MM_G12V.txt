@@ -1,0 +1,33 @@
+MM - KRAS G12V - comutation with PIK3C2G 
+                                   records n.max n.start events   *rmean
+krasallele=FALSE, comutation=FALSE     192   192     192     53 1495.625
+krasallele=FALSE, comutation=TRUE        5     5       5      1 1659.000
+krasallele=TRUE, comutation=FALSE       14    14      14      5 1474.045
+                                   *se(rmean) median 0.95LCL 0.95UCL
+krasallele=FALSE, comutation=FALSE   54.52528   1777    1666      NA
+krasallele=FALSE, comutation=TRUE   293.37212     NA      NA      NA
+krasallele=TRUE, comutation=FALSE   178.70863   1620    1147      NA
+================================================================================ 
+
+ 
+Call:
+coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+    comutation, data = surv_data)
+
+  n= 211, number of events= 59 
+
+                   coef exp(coef) se(coef)      z Pr(>|z|)
+krasalleleTRUE  0.09595   1.10070  0.46855  0.205    0.838
+comutationTRUE -0.28190   0.75435  1.01255 -0.278    0.781
+
+               exp(coef) exp(-coef) lower .95 upper .95
+krasalleleTRUE    1.1007     0.9085    0.4394     2.757
+comutationTRUE    0.7544     1.3256    0.1037     5.489
+
+Concordance= 0.5  (se = 0.02 )
+Likelihood ratio test= 0.13  on 2 df,   p=0.9
+Wald test            = 0.12  on 2 df,   p=0.9
+Score (logrank) test = 0.13  on 2 df,   p=0.9
+
+================================================================================ 
+

@@ -1,0 +1,105 @@
+PAAD - KRAS G12D - comutation with FAT3 
+                 records n.max n.start events   *rmean *se(rmean)   median
+comutation=FALSE      44    44      44     30 18.52491   2.386956 15.05737
+comutation=TRUE        5     5       5      5 16.30667   1.179084 16.79982
+                   0.95LCL  0.95UCL
+comutation=FALSE  8.777986 24.36138
+comutation=TRUE  15.123122       NA
+================================================================================ 
+
+ 
+Call:
+survdiff(formula = Surv(time = time, event = status) ~ comutation, 
+    data = surv_data)
+
+                  N Observed Expected (O-E)^2/E (O-E)^2/V
+comutation=FALSE 44       30    31.11    0.0393     0.368
+comutation=TRUE   5        5     3.89    0.3139     0.368
+
+ Chisq= 0.4  on 1 degrees of freedom, p= 0.5 
+================================================================================ 
+
+PAAD - KRAS G12D - comutation with RYR1 
+                 records n.max n.start events   *rmean *se(rmean)    median
+comutation=FALSE      44    44      44     31 18.99613   2.634211 16.799816
+comutation=TRUE        5     5       5      4 17.78939   8.832471  8.777986
+                   0.95LCL  0.95UCL
+comutation=FALSE 10.125916 22.71756
+comutation=TRUE   3.123253       NA
+================================================================================ 
+
+ 
+Call:
+survdiff(formula = Surv(time = time, event = status) ~ comutation, 
+    data = surv_data)
+
+                  N Observed Expected (O-E)^2/E (O-E)^2/V
+comutation=FALSE 44       31     31.4   0.00499    0.0501
+comutation=TRUE   5        4      3.6   0.04348    0.0501
+
+ Chisq= 0.1  on 1 degrees of freedom, p= 0.8 
+================================================================================ 
+
+PAAD - KRAS G12D - comutation with SMAD4 
+                 records n.max n.start events   *rmean *se(rmean)   median
+comutation=FALSE      37    37      37     26 20.10835   3.310302 12.95328
+comutation=TRUE       12    12      12      9 18.94533   3.612914 17.49022
+                  0.95LCL  0.95UCL
+comutation=FALSE 8.777986 24.36138
+comutation=TRUE  9.830029       NA
+================================================================================ 
+
+ 
+Call:
+survdiff(formula = Surv(time = time, event = status) ~ comutation, 
+    data = surv_data)
+
+                  N Observed Expected (O-E)^2/E (O-E)^2/V
+comutation=FALSE 37       26    26.16   0.00102   0.00416
+comutation=TRUE  12        9     8.84   0.00303   0.00416
+
+ Chisq= 0  on 1 degrees of freedom, p= 0.9 
+================================================================================ 
+
+PAAD - KRAS G12D - comutation with TP53 
+                 records n.max n.start events   *rmean *se(rmean)   median
+comutation=FALSE      10    10      10      6 23.67508   6.655995 17.44090
+comutation=TRUE       39    39      39     29 18.14090   2.738670 15.12312
+                   0.95LCL  0.95UCL
+comutation=FALSE  8.219088       NA
+comutation=TRUE  10.125916 22.71756
+================================================================================ 
+
+ 
+Call:
+survdiff(formula = Surv(time = time, event = status) ~ comutation, 
+    data = surv_data)
+
+                  N Observed Expected (O-E)^2/E (O-E)^2/V
+comutation=FALSE 10        6     7.27    0.2211     0.284
+comutation=TRUE  39       29    27.73    0.0579     0.284
+
+ Chisq= 0.3  on 1 degrees of freedom, p= 0.6 
+================================================================================ 
+
+PAAD - KRAS G12D - comutation with TTN 
+                 records n.max n.start events   *rmean *se(rmean)   median
+comutation=FALSE      38    38      38     28 17.31555   2.816219 11.99987
+comutation=TRUE       11    11      11      7 26.33265   4.763806 22.71756
+                  0.95LCL  0.95UCL
+comutation=FALSE  7.66019 22.48742
+comutation=TRUE  17.78611       NA
+================================================================================ 
+
+ 
+Call:
+survdiff(formula = Surv(time = time, event = status) ~ comutation, 
+    data = surv_data)
+
+                  N Observed Expected (O-E)^2/E (O-E)^2/V
+comutation=FALSE 38       28     23.6     0.811      2.71
+comutation=TRUE  11        7     11.4     1.684      2.71
+
+ Chisq= 2.7  on 1 degrees of freedom, p= 0.1 
+================================================================================ 
+
