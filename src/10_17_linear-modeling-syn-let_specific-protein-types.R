@@ -2,6 +2,8 @@
 # Plots of genes from specific types of genes/proteins.
 # groups: transcription factors, Hubs of PPIN, cell-cycle regulators, kinases
 
+GRAPHS_DIR <- "10_17_linear-modeling-syn-let_specific-protein-types"
+reset_graph_directory(GRAPHS_DIR)
 
 #### ---- Compile gene sets ---- ####
 
@@ -96,7 +98,7 @@ gene_types_plot <- function(cancer, gene_cls, hugo_symbols) {
                     title = glue("{gene_type} in {cancer} cluster {gene_cls}")
                 )
             save_path <- plot_path(
-                "10_17_linear-modeling-syn-let_specific-protein-types",
+                GRAPHS_DIR,
                 glue("{cancer}_{gene_type}_cluster{gene_cls}.svg")
             )
             ggsave_wrapper(p, save_path, width = 8, height = 3)
@@ -124,9 +126,8 @@ essential_genes <- essentiality_tib %>%
     filter(n() == 1) %>%
     ungroup()
 
-tbl_save_path <- file.path(
-    "tables",
-    "10_17_linear-modeling-syn-let_specific-protein-types",
+tbl_save_path <- table_path(
+    GRAPHS_DIR,
     "essential-genes-with-allele-specific-dep.tsv"
 )
 inner_join(depmap_gene_clusters, essential_genes, by = "hugo_symbol") %>%
