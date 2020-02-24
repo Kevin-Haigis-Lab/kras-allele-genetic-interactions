@@ -8,10 +8,12 @@
 GRAPHS_DIR_BOXES <- "10_11_linear-modeling-syn-let_boxplots"
 reset_graph_directory(GRAPHS_DIR_BOXES)
 
+
 ggproto_save_info <- list(
     COAD = list(fig_num = 4, supp = FALSE),
     PAAD = list(fig_num = 13, supp = TRUE)
 )
+
 
 save_boxplot_proto <- function(gg_obj, save_path, cancer) {
     if (cancer %in% names(ggproto_save_info)) {
@@ -274,6 +276,7 @@ save_pheatmap_proto <- function(cancer, ph, save_path,
     }
 }
 
+
 # Mappings from default cluster assignments to order shown in pheatmap.
 cluster_number_map <- list(
     COAD = tibble::tribble(
@@ -287,10 +290,10 @@ cluster_number_map <- list(
     ),
     LUAD = tibble::tribble(
         ~default_cluster, ~cluster,
-        1, 2,
-        2, 3,
-        3, 4,
-        4, 1,
+        1, 4,
+        2, 2,
+        3, 1,
+        4, 3,
     ),
     PAAD = tibble::tribble(
         ~default_cluster, ~cluster,

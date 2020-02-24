@@ -41,7 +41,8 @@ genesets <- list(
 multigene_boxplot <- function(data) {
     g <- data %>%
         group_by(hugo_symbol) %>%
-        mutate(gene_effect_norm = scales::rescale(gene_effect, to = c(-1, 1))) %>%
+        mutate(gene_effect_norm = scales::rescale(gene_effect, 
+                                                  to = c(-1, 1))) %>%
         ungroup() %>%
         ggplot(aes(x = hugo_symbol, y = gene_effect_norm)) +
         geom_boxplot(
@@ -120,7 +121,8 @@ depmap_gene_clusters %>%
 # allele listed as nonessential or essential by DepMap?
 
 essential_genes <- essentiality_tib %>%
-    mutate(label = ifelse(label != "nonessential", "essential", "nonessential")) %>%
+    mutate(label = ifelse(label != "nonessential",
+                          "essential", "nonessential")) %>%
     unique() %>%
     group_by(hugo_symbol) %>%
     filter(n() == 1) %>%
