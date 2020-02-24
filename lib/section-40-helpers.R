@@ -74,9 +74,8 @@ prepare_simple_combined_ppi_gr <- function() {
                                            ~ n_distinct(.x$source))) %>%
         select(-.tidygraph_edge_index, -.orig_data) %N>%
         select(-.tidygraph_node_index)
-        return(simple_combined_ppi_gr)
 
-    assign("simple_combined_ppi_gr", 
+    assign("simple_combined_ppi_gr",
            simple_combined_ppi_gr,
            envir = .GlobalEnv)
     ProjectTemplate::cache("simple_combined_ppi_gr",
