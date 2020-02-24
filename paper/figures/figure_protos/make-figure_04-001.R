@@ -395,7 +395,7 @@ panel_H_legend <- wrap_elements(plot = panel_H_legend) +
 # A large PPI composed of genes in cluster 4 of the heatmap (panel h).
 # original script: "src/10_15_linear-modeling-syn-let_ppi-subnetworks.R"
 
-panel_I <- read_fig_proto("LUAD_cluster-4_component-1",
+panel_I <- read_fig_proto("LUAD_cluster-1_component-1",
                           FIGNUM, supp = SUPPLEMENTAL) +
     theme_graph_comutation()
 
