@@ -125,7 +125,7 @@ panel_A <- gtable::gtable_add_grob(
 panel_A <- wrap_elements(plot = panel_A) +
     labs(tag = "a") +
     theme_fig5()
-
+panel_A <- plot_spacer()
 
 #### ---- B. Lollipop of STK11 for G12C vs rest ---- ####
 # A table of the genes found to comutate and show differential dependency
@@ -167,6 +167,8 @@ panel_B[[3]] <- panel_B[[3]] +
         legend.key.size = unit(2, "mm"),
         legend.position = "bottom"
     )
+
+panel_B <- plot_spacer()
 
 
 #### ---- C. Connectivity of hits ---- ####

@@ -11,6 +11,7 @@ reset_graph_directory(GRAPHS_DIR_BOXES)
 
 ggproto_save_info <- list(
     COAD = list(fig_num = 4, supp = FALSE),
+    LUAD = list(fig_num = 5, supp = FALSE),
     PAAD = list(fig_num = 13, supp = TRUE)
 )
 
@@ -139,6 +140,9 @@ select_gene_boxplots <- tibble::tribble(
       "PAAD",        "NUMB",
       "PAAD",        "TMED2",
       "PAAD",        "MAPK8",
+      "LUAD",        "ABCC9",
+      "LUAD",        "CPSF1",
+      "LUAD",        "WDFY3",
 )
 
 model1_tib %>%

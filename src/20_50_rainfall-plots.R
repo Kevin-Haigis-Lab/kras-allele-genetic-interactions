@@ -427,6 +427,7 @@ save_gg_onco_proto <- function(gg_obj, save_name, cancer) {
         saveRDS(gg_obj, get_fig_proto_path(n, 2))
     } else if (cancer == "LUAD") {
         saveRDS(gg_obj, get_fig_proto_path(n, 3))
+        saveRDS(gg_obj, get_fig_proto_path(n, 5))
     }
     invisible(NULL)
 }
@@ -635,6 +636,30 @@ specific_oncoplot_info_tib <- bind_rows(
         name_suffix = "_oncogenes",
         genes = c("TP53", "SMAD4", "ARID1A")
     ),
+    tibble(
+        cancer = "LUAD",
+        allele = "G12C",
+        interaction_type = "exclusivity",
+        name_suffix = "_FIG5_ABCC9",
+        genes = c("ABCC9"),
+        keep_gg_onco_proto = TRUE
+    ),
+    tibble(
+        cancer = "LUAD",
+        allele = "G12C",
+        interaction_type = "exclusivity",
+        name_suffix = "_FIG5_CPSF1",
+        genes = c("CPSF1"),
+        keep_gg_onco_proto = TRUE
+    ),
+    tibble(
+        cancer = "LUAD",
+        allele = "G12C",
+        interaction_type = "exclusivity",
+        name_suffix = "_FIG5_WDFY3",
+        genes = c("WDFY3"),
+        keep_gg_onco_proto = TRUE
+    )
     # tibble(
     #     cancer = "",
     #     allele = "",
