@@ -58,7 +58,7 @@ parse_kegg_edges <- function(kegg_edges) {
 }
 
 
-# Parse the KGML downloaded from KEGG Pathways.
+# Parse the KGML downloaded from KEGG Pathways into a tidygraph.
 parse_kegg_kgml <- function(path) {
     kgr <- KEGGgraph::parseKGML(path)
     nodes <- parse_kegg_nodes(KEGGgraph::nodes(kgr))
@@ -80,10 +80,12 @@ annotate_kegg_edges <- function(gr) {
 }
 
 
-# test_fpath <- file.path(
-#     "data", "kegg-pathways", "hsa04010_MAPK-signaling-pathway.xml"
-# )
-
-# parse_kegg_kgml(test_fpath) %N>%
-#     mutate(name = ifelse(is.na(hugo_name), display_name, hugo_name)) %>%
-#     annotate_kegg_edges()
+# An opinionated way to process and output a KEGG pathway.
+parse_and_annotate_kegg_kgml <- function(path) {
+    gr <- parse_kegg_kgml(path) %N>%
+        mutate(name = ifelse(is.na(hugo_name), display_name, hugo_name)) %>%
+        filter(!str_detect(name, "TITLE") & node_type != "compound") %>%
+        annotate_kegg_edges() %>%
+        filter(interaction_subtype_name != "compound")
+    return(gr)
+}
