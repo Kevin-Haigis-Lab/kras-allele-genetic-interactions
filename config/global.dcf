@@ -8,7 +8,7 @@ munging: FALSE
 logging: TRUE
 logging_level: INFO
 load_libraries: TRUE
-libraries: stats, glue, assertr, testthat, tidygraph, jhcutils, magrittr, ggpubr, ggraph, patchwork, broom, tidyverse
+libraries: stats,  org.Hs.eg.db, glue, assertr, testthat, tidygraph, jhcutils, magrittr, ggpubr, ggraph, patchwork, broom, tidyverse
 as_factors: FALSE
 tables_type: tibble
 attach_internal_libraries: FALSE
