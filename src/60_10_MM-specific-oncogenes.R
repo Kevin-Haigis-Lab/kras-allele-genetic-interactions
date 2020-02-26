@@ -116,10 +116,10 @@ allele_freq_barplot <- cancer_allele_count_df %>%
     ggplot(aes(x = allele, y = num_allele_samples)) +
     geom_col(aes(fill = log10(num_allele_samples))) +
     scale_fill_viridis_c(guide = FALSE) +
-    coord_trans(y = my_trans_log10) +
     scale_y_continuous(
         breaks = c(5, 10, 50, 200, 500),
-        expand = expand_scale(mult = c(0, 0.05))
+        expand = expand_scale(mult = c(0, 0.05)),
+        trans = my_trans_log10
     ) +
     scale_x_discrete(expand = c(0, 0)) +
     theme_bw(base_family = "Arial", base_size = 7) +
@@ -166,6 +166,12 @@ save_mm_supp_figure <- function(gg_obj, name) {
     saveRDS(gg_obj,
             get_fig_proto_path(name, 9, supp = TRUE))
 }
-save_mm_supp_figure(mm_comut_heatmap, "mm_comut_heatmap")
-save_mm_supp_figure(allele_freq_barplot, "allele_freq_barplot")
-save_mm_supp_figure(gene_freq_barplot, "gene_freq_barplot")
+# Save the ggprotos to Figure 3.
+save_mm_figure <- function(gg_obj, name) {
+    saveRDS(gg_obj,
+            get_fig_proto_path(name, 3, supp = FALSE))
+}
+
+save_mm_figure(mm_comut_heatmap, "mm_comut_heatmap")
+save_mm_figure(allele_freq_barplot, "allele_freq_barplot")
+save_mm_figure(gene_freq_barplot, "gene_freq_barplot")

@@ -147,11 +147,71 @@ panel_D <- wrap_plots(survival_curves, ncol = 2)
 
 
 panel_D_legend <- read_fig_proto("custom_survival_curve_legend", FIGNUM) +
-    scale_x_continuous(limits = c(0.5, 4.5)) +
+    scale_x_continuous(limits = c(0.7, 4.3)) +
     theme_void() +
     theme(
         legend.position = "none"
     )
+
+
+#### ---- E. Labeled MM comutation graph ---- ####
+# The comutation graph for MM with every node labeled.
+# original script: "src/60_10_MM-specific-oncogenes.R"
+
+panel_E_1 <- read_fig_proto("mm_comut_heatmap", FIGNUM) +
+    scale_fill_gradient2(
+        low = "dodgerblue",
+        high = "tomato",
+        mid = "grey90",
+        midpoint = 0.10,
+        guide = guide_colorbar(
+            barheight = unit(2, "mm")
+        )
+    ) +
+    theme_fig3() +
+    theme(
+        legend.position = "bottom",
+        axis.title = element_blank(),
+        plot.margin = margin(0, 0, 0, 0, "mm")
+    )
+panel_E_2 <- read_fig_proto("allele_freq_barplot", FIGNUM) +
+    scale_y_continuous(
+        breaks = c(10, 50, 200, 700),
+        expand = expand_scale(mult = c(0, 0.05)),
+        trans = "log10"
+    ) +
+    theme_fig3() +
+    theme(
+        axis.title.x = element_blank(),
+        axis.title.y = element_text(size = 5),
+        axis.text.x = element_blank(),
+        plot.margin = margin(0, 0, -0.5, 0, "mm")
+    ) +
+    labs(tag = "e")
+panel_E_3 <- read_fig_proto("gene_freq_barplot", FIGNUM) +
+    scale_y_continuous(
+        breaks = c(50, 100, 200),
+        expand = expand_scale(mult = c(0, 0.05)),
+    ) +
+    theme_fig3() +
+    theme(
+        axis.title.y = element_blank(),
+        axis.text.y = element_blank(),
+        axis.title.x = element_text(size = 5),
+        plot.margin = margin(0, 0, 0, -0.5, "mm")
+    )
+
+panel_E_design <- "
+    11111#
+    222223
+    222223
+    222223
+    222223
+    222223
+"
+
+panel_E <- panel_E_2 + panel_E_1 + panel_E_3 +
+    plot_layout(design = panel_E_design)
 
 
 #### ---- Figure assembly ---- ####
@@ -167,12 +227,15 @@ panel_D_legend <- read_fig_proto("custom_survival_curve_legend", FIGNUM) +
     ) +
         plot_layout(heights = c(1, 1, 1))
 
+    fig_col1 <- plot_spacer()
+
     fig_col2 <- (
-        panel_D / panel_D_legend /
-        plot_spacer() /
+        wrap_elements(full = panel_D / panel_D_legend +
+                      plot_layout(heights = c(10, 1))) /
+        wrap_elements(full = panel_E) /
         plot_spacer()
     ) +
-        plot_layout(heights = c(20, 1, 20, 30))
+        plot_layout(heights = c(2, 2, 3))
 
     full_figure <- (fig_col1 | fig_col2) + plot_layout(widths = c(1, 1))
 
