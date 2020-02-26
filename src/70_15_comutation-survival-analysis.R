@@ -365,7 +365,6 @@ alleleorwt_krasallele_comutation_sa <- function(cancer,
 }
 
 
-
 genetic_interaction_df %>%
     select(cancer, allele, hugo_symbol, genetic_interaction) %>%
     unique() %>%
