@@ -37,7 +37,7 @@ ProjectTemplate::cache("wide_genetic_interaction_df",
 # Queryable list of which plots to save to protos for Figure 2.
 imgs_to_save_for_figure <- list(
     COAD = list(suffix = "_allLists", num = 2, supp = FALSE),
-    PAAD = list(suffix = "_allLists", num = 12, supp = TRUE)
+    PAAD = list(suffix = "_allLists", num = 3, supp = FALSE)
 )
 
 

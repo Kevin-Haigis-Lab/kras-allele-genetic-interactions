@@ -52,7 +52,7 @@ make_logOR_barplots <- function(cancer, data, ...) {
 save_logOR_barplots <- function(cancer, data, bar_plot, ...) {
     ggsave_wrapper(
         bar_plot,
-        plot_path(GRAPHS_DIR, glue("logOR-barplot_{cancer}.svg")),
+        plot_path(GRAPHS_DIR, as.character(glue("logOR-barplot_{cancer}.svg"))),
         "medium"
     )
 }
@@ -93,8 +93,8 @@ specific_interactions <- c(
     new("SpecificInteraction",
         cancer = "PAAD",
         genes = c("TP53", "RNF43", "MAP2K4", "RBM10"),
-        fig_num = 12,
-        supp = TRUE
+        fig_num = 3,
+        supp = FALSE
     )
 )
 
@@ -104,7 +104,7 @@ save_logOR_ggproto <- function(bar_plot, si_obj, ...) {
     saveRDS(
         bar_plot,
         get_fig_proto_path(
-            glue("log-odds-ratio_barplot_{si_obj@cancer}"),
+            as.character(glue("log-odds-ratio_barplot_{si_obj@cancer}")),
             figure_num = si_obj@fig_num,
             supp = si_obj@supp
         )
