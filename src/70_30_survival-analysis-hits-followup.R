@@ -23,7 +23,9 @@ sahits_sample_df <- cancer_coding_muts_df %>%
 
 
 
+#### ---- Plots ---- ####
 
+# Get a string with oncogenes mutated in the samples `tsb`.
 get_other_oncogene_mutations <- function(tsb, cancer) {
     oncogenes <-  c(cancer_oncogenes[[cancer]], "KRAS")
     cancer_coding_muts_df %>%
@@ -38,6 +40,7 @@ get_other_oncogene_mutations <- function(tsb, cancer) {
 get_other_oncogene_mutations <- memoise::memoise(get_other_oncogene_mutations)
 
 
+# Get the order of the other oncogene labels.
 get_oncogene_label_order <- function(lbls) {
     lbls <- unique(lbls)
     lbls <- lbls[lbls != ""]

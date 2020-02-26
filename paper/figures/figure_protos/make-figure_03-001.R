@@ -3,7 +3,7 @@
 FIGNUM <- 3
 VERSION <- 1
 FIGFILENAME <- glue("figure_{FIGNUM}_{VERSION}.svg")
-FIG_DIMENSIONS <- get_figure_dimensions(1, "tall")
+FIG_DIMENSIONS <- get_figure_dimensions(2, "tall")
 
 library(ggraph)
 
@@ -125,6 +125,29 @@ panel_C <- read_fig_proto("comut-barplot_LUAD_AllAlleles_AllSources", FIGNUM) +
     )
 
 
+#### ---- D. Survival curves of comutated genes ---- ####
+# Survival curves of genes comutating with G12C.
+# original script: "src/70_15_comutation-survival-analysis.R"
+
+proto_paths <- c("survival_alleleorwt_CHRNB4-G12C-LUAD.rds",
+                 "survival_alleleorwt_VN1R2-G12C-LUAD.rds",
+                 "survival_alleleorwt_ZNF445-G12C-LUAD.rds",
+                 "survival_alleleorwt_ZNF804A-G12C-LUAD.rds")
+
+survival_curves <- purrr::map(
+    proto_paths,
+    function(x) {
+        read_fig_proto(x, FIGNUM) +
+        theme_fig3() +
+        theme(
+            legend.position = "none"
+        ) +
+        labs(x = "days")
+    })
+survival_curves[[1]] <- survival_curves[[1]] + labs(tag = "d")
+panel_D <- wrap_plots(survival_curves, ncol = 2)
+
+
 
 #### ---- Figure assembly ---- ####
 
@@ -132,12 +155,21 @@ panel_C <- read_fig_proto("comut-barplot_LUAD_AllAlleles_AllSources", FIGNUM) +
     set.seed(0)  # Because the graph-plotting algorithm is stochastic.
 
     # COMPLETE FIGURE
-    full_figure <- (
+    fig_col1 <- (
         wrap_elements(full = panel_A) /
         wrap_elements(full = panel_B) /
         wrap_elements(full = panel_C)
     ) +
         plot_layout(heights = c(1, 1, 1))
+
+    fig_col2 <- (
+        panel_D /
+        plot_spacer() /
+        plot_spacer()
+    ) +
+        plot_layout(heights = c(2, 2, 3))
+
+    full_figure <- (fig_col1 | fig_col2) + plot_layout(widths = c(1, 1))
 
     save_figure(
         full_figure,

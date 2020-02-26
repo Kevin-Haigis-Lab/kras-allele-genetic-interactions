@@ -294,6 +294,47 @@ krasmutsamples_krasallele_comutation_sa <- function(cancer,
 }
 
 
+# Save the ggsurvival curve for figures.
+ggsurv_figure_wrapper <- function(fit, surv_data, cancer, allele, hugo_symbol,
+                                  comp_type) {
+
+    check_tib <- survival_analysis_hits %>%
+        filter(cancer == !!cancer &
+               interaction_allele == !!allele &
+               hugo_symbol == !!hugo_symbol)
+    if (nrow(check_tib) == 0) return()
+
+    fig_info <- list(
+        LUAD = c(fignum = 3, supp = FALSE)
+    )
+
+    p <- ggsurvplot(
+        fit = fit,
+        data = surv_data,
+        pval = FALSE,
+        conf.int = FALSE,
+        risk.table = FALSE,
+        surv.median.line = "none",
+        fontsize = 2,
+        font.family = "arial",
+        censor.size = 2,
+        size = 0.5,
+        palette = comutation_krasallele_pal(surv_data)
+    ) +
+        ggtitle(hugo_symbol)
+    surv_plot <- style_ggsurvminer_surv_curve(p$plot,
+                                              x_expand = c(0.01, 0),
+                                              y_expand = c(0, 0.01))
+    fname <- as.character(glue(
+        "survival_{comp_type}_{hugo_symbol}-{allele}-{cancer}.rds"
+    ))
+    saveRDS(surv_plot,
+            get_fig_proto_path(fname,
+                               fig_info[[cancer]]["fignum"],
+                               supp = fig_info[[cancer]]["supp"]))
+}
+
+
 # Model survival analysis on the KRAS allele and comutation of another gene
 # only using samples with the KRAS allele or WT KRAS.
 alleleorwt_krasallele_comutation_sa <- function(cancer,
@@ -362,14 +403,30 @@ alleleorwt_krasallele_comutation_sa <- function(cancer,
         plt_title = plt_title,
         conf_int = FALSE
     )
+
+    ggsurv_figure_wrapper(fit, surv_data, cancer, allele, hugo_symbol,
+                          comp_type = "alleleorwt")
 }
+
+
+
+filter_survival_analysis_hits <- function(df, skip = FALSE) {
+    if (skip) return(df)
+
+    survival_analysis_hits %>%
+        dplyr::rename(allele = interaction_allele) %>%
+        select(cancer, allele, hugo_symbol) %>%
+        inner_join(df, by = c("cancer", "allele", "hugo_symbol"))
+}
+
 
 
 genetic_interaction_df %>%
     select(cancer, allele, hugo_symbol, genetic_interaction) %>%
     unique() %>%
+    filter_survival_analysis_hits(skip = FALSE) %>%
     arrange(cancer, allele, hugo_symbol) %T>%
-    pwalk(alleleonly_samples_comutation_sa) %T>%
-    pwalk(krasallele_comutation_sa) %T>%
-    pwalk(krasmutsamples_krasallele_comutation_sa) %T>%
+    # pwalk(alleleonly_samples_comutation_sa) %T>%
+    # pwalk(krasallele_comutation_sa) %T>%
+    # pwalk(krasmutsamples_krasallele_comutation_sa) %T>%
     pwalk(alleleorwt_krasallele_comutation_sa)
