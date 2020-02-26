@@ -138,6 +138,7 @@ survival_curves <- purrr::map(
         read_fig_proto(x, FIGNUM) +
         theme_fig3() +
         theme(
+            axis.text = element_text(family = "arial", size = 5),
             legend.position = "none"
         ) +
         labs(x = "days")
@@ -170,7 +171,7 @@ panel_E_1 <- read_fig_proto("mm_comut_heatmap", FIGNUM) +
     ) +
     theme_fig3() +
     theme(
-        legend.position = "bottom",
+        legend.position = "none",
         axis.title = element_blank(),
         plot.margin = margin(0, 0, 0, 0, "mm")
     )
@@ -214,6 +215,92 @@ panel_E <- panel_E_2 + panel_E_1 + panel_E_3 +
     plot_layout(design = panel_E_design)
 
 
+################################################################################
+
+#### ---- F. High-level comutation network ---- ####
+# A The high-level overview of the comutation network for the *KRAS* alleles
+# in PAAD.
+# original script: "src/20_40_highlivel-genetic-interactions.R"
+
+panel_F <- read_fig_proto("genetic_interaction_network_PAAD", FIGNUM) +
+    scale_edge_color_manual(
+        values = comut_updown_pal,
+        guide = guide_legend(
+            title = "comutation",
+            title.position = "top",
+            keywidth = unit(2, "mm"),
+            keyheight = unit(1, "mm"),
+            nrow = 1,
+            label.position = "top",
+            order = 1
+        )
+    ) +
+    scale_color_manual(
+        values = short_allele_pal,
+        na.value = NA,
+        guide = guide_legend(
+            title = NULL,
+            keywidth = unit(2, "mm"),
+            keyheight = unit(3, "mm"),
+            nrow = 3,
+            order = 2
+        )
+    ) +
+    theme_graph_fig3() +
+    theme(
+        legend.spacing.x = unit(1, "mm"),
+        legend.position = "bottom",
+        legend.box = "horizontal",
+        legend.margin = margin(-6, 0, 0, 0, "mm")
+    )
+
+panel_F <- wrap_elements(full = panel_F) +
+    labs(tag = "f") +
+    theme_fig3()
+
+
+#### ---- G. Labeled comutation network of genes in a priori lists ---- ####
+# A The labeled comutation network for the *KRAS* alleles only including genes
+# in a priori selected gene sets.
+# original script: "src/20_43_apriori-lists-genetic-interactions.R"
+
+panel_G <- read_fig_proto(
+        "goi_overlap_genetic_interactions_network_PAAD_allLists", FIGNUM
+    ) +
+    theme_graph_fig3() +
+    theme(
+        legend.position = "bottom",
+        legend.margin = margin(-2, 0, 2, 0, "mm")
+    )
+
+panel_G <- wrap_elements(full = panel_G) +
+    labs(tag = "g") +
+    theme_fig3()
+
+
+
+#### ---- H. Bar plots of log(OR) of select genes ---- ####
+# Some genes have two different comutation interactions with multiple KRAS
+# alleles. These are bar plots of the log(OR) of a selection of those genes.
+# original script: "src/20_41_disagreeing-interactions_logOR-barplot.R"
+
+panel_H <- read_fig_proto(
+        "log-odds-ratio_barplot_PAAD.rds", FIGNUM
+    ) +
+    facet_wrap(~ hugo_symbol, scales = "free", ncol = 1) +
+    theme_fig3() +
+    theme(
+        legend.position = "none",
+        axis.title.x = element_blank(),
+        axis.text.x = element_text(angle = 60, hjust = 1),
+        strip.text = element_text(face = "bold")
+    ) +
+    labs(tag = "h")
+
+################################################################################
+
+
+
 #### ---- Figure assembly ---- ####
 
 {
@@ -227,13 +314,13 @@ panel_E <- panel_E_2 + panel_E_1 + panel_E_3 +
     ) +
         plot_layout(heights = c(1, 1, 1))
 
-    fig_col1 <- plot_spacer()
+    # fig_col1 <- plot_spacer()
 
     fig_col2 <- (
-        wrap_elements(full = panel_D / panel_D_legend +
+        wrap_elements(full = (panel_D) / panel_D_legend +
                       plot_layout(heights = c(10, 1))) /
         wrap_elements(full = panel_E) /
-        plot_spacer()
+        panel_G
     ) +
         plot_layout(heights = c(2, 2, 3))
 
