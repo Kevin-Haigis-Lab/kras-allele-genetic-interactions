@@ -136,6 +136,21 @@ alleleonly_samples_comutation_sa <- function(cancer,
 }
 
 
+comutation_krasallele_pal <- function(survdat) {
+    tibble::tribble(
+        ~ comutation, ~krasallele, ~color,
+        FALSE, FALSE, "grey50",
+        FALSE, TRUE, "grey25",
+        TRUE, FALSE, "plum2",
+        TRUE, TRUE, "mediumpurple2"
+    ) %>%
+        inner_join(survdat, by = c("comutation", "krasallele")) %>%
+        select(comutation, krasallele, color) %>%
+        unique() %>%
+        pull(color)
+}
+
+
 # Model survival analysis on the KRAS allele and comutation of another gene
 # only in samples with a mutant KRAS.
 krasallele_comutation_sa <- function(cancer,
@@ -194,17 +209,7 @@ krasallele_comutation_sa <- function(cancer,
     )
 
     # Weird way of making a palette with the correct colors
-    pal <- tibble::tribble(
-        ~ comutation, ~krasallele, ~color,
-        FALSE, FALSE, "grey50",
-        FALSE, TRUE, "grey25",
-        TRUE, FALSE, "plum2",
-        TRUE, TRUE, "mediumpurple2"
-    ) %>%
-        inner_join(surv_data, by = c("comutation", "krasallele")) %>%
-        select(comutation, krasallele, color) %>%
-        unique() %>%
-        pull(color)
+    pal <- comutation_krasallele_pal(surv_data)
 
     ggsurvplot_wrapper(
         fit, surv_data,
@@ -275,17 +280,7 @@ krasmutsamples_krasallele_comutation_sa <- function(cancer,
     )
 
     # Weird way of making a palette with the correct colors
-    pal <- tibble::tribble(
-        ~ comutation, ~krasallele, ~color,
-        FALSE, FALSE, "grey50",
-        FALSE, TRUE, "grey25",
-        TRUE, FALSE, "plum2",
-        TRUE, TRUE, "mediumpurple2"
-    ) %>%
-        inner_join(surv_data, by = c("comutation", "krasallele")) %>%
-        select(comutation, krasallele, color) %>%
-        unique() %>%
-        pull(color)
+    pal <- comutation_krasallele_pal(surv_data)
 
     ggsurvplot_wrapper(
         fit, surv_data,
@@ -356,17 +351,7 @@ alleleorwt_krasallele_comutation_sa <- function(cancer,
     )
 
     # Weird way of making a palette with the correct colors
-    pal <- tibble::tribble(
-        ~ comutation, ~krasallele, ~color,
-        FALSE, FALSE, "grey50",
-        FALSE, TRUE, "grey25",
-        TRUE, FALSE, "plum2",
-        TRUE, TRUE, "mediumpurple2"
-    ) %>%
-        inner_join(surv_data, by = c("comutation", "krasallele")) %>%
-        select(comutation, krasallele, color) %>%
-        unique() %>%
-        pull(color)
+    pal <- comutation_krasallele_pal(surv_data)
 
     ggsurvplot_wrapper(
         fit, surv_data,
