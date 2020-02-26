@@ -147,18 +147,22 @@ for (CANCER in sort(unique(genetic_interaction_df$cancer))) {
         labs(
             edge_color = "interaction"
         )
-    save_path <- plot_path(GRAPHS_DIR,
-                           glue("genetic_interaction_network_{CANCER}.svg"))
+    save_path <- plot_path(
+        GRAPHS_DIR,
+        as.character(glue("genetic_interaction_network_{CANCER}.svg"))
+    )
     ggsave_wrapper(gr_plot, save_path, size = "medium")
 
     rds_template <- "genetic_interaction_network_{CANCER}"
     if (CANCER == "COAD") {
-        saveRDS(gr_plot, get_fig_proto_path(glue(rds_template), 2))
+        saveRDS(gr_plot, get_fig_proto_path(as.character(glue(rds_template)),
+                                            2))
     } else if (CANCER == "LUAD") {
-        saveRDS(gr_plot, get_fig_proto_path(glue(rds_template), 3))
+        saveRDS(gr_plot, get_fig_proto_path(as.character(glue(rds_template)),
+                                            3))
     } else if (CANCER  == "PAAD") {
-        saveRDS(gr_plot, get_fig_proto_path(glue(rds_template),
-                                            12, supp = TRUE))
+        saveRDS(gr_plot, get_fig_proto_path(as.character(glue(rds_template)),
+                                            3, supp = FALSE))
     }
 }
 
