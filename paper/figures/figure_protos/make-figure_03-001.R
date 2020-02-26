@@ -5,8 +5,6 @@ VERSION <- 1
 FIGFILENAME <- glue("figure_{FIGNUM}_{VERSION}.svg")
 FIG_DIMENSIONS <- get_figure_dimensions(2, "tall")
 
-library(ggraph)
-
 
 #### ---- Figure theme ---- ####
 
@@ -148,6 +146,13 @@ survival_curves[[1]] <- survival_curves[[1]] + labs(tag = "d")
 panel_D <- wrap_plots(survival_curves, ncol = 2)
 
 
+panel_D_legend <- read_fig_proto("custom_survival_curve_legend", FIGNUM) +
+    scale_x_continuous(limits = c(0.5, 4.5)) +
+    theme_void() +
+    theme(
+        legend.position = "none"
+    )
+
 
 #### ---- Figure assembly ---- ####
 
@@ -163,11 +168,11 @@ panel_D <- wrap_plots(survival_curves, ncol = 2)
         plot_layout(heights = c(1, 1, 1))
 
     fig_col2 <- (
-        panel_D /
+        panel_D / panel_D_legend /
         plot_spacer() /
         plot_spacer()
     ) +
-        plot_layout(heights = c(2, 2, 3))
+        plot_layout(heights = c(20, 1, 20, 30))
 
     full_figure <- (fig_col1 | fig_col2) + plot_layout(widths = c(1, 1))
 

@@ -324,7 +324,7 @@ ggsurv_figure_wrapper <- function(fit, surv_data, cancer, allele, hugo_symbol,
         ggtitle(hugo_symbol)
     surv_plot <- style_ggsurvminer_surv_curve(p$plot,
                                               x_expand = c(0.01, 0),
-                                              y_expand = c(0, 0.01))
+                                              y_expand = c(0, 0.02))
     fname <- as.character(glue(
         "survival_{comp_type}_{hugo_symbol}-{allele}-{cancer}.rds"
     ))
@@ -430,3 +430,27 @@ genetic_interaction_df %>%
     # pwalk(krasallele_comutation_sa) %T>%
     # pwalk(krasmutsamples_krasallele_comutation_sa) %T>%
     pwalk(alleleorwt_krasallele_comutation_sa)
+
+
+
+
+
+
+#### ---- Custom legend for survival curve palette ---- ####
+
+custom_survival_legend <- tibble::tribble(
+                           ~ label, ~x, ~y,         ~color,
+         "***KRAS* WT & gene WT**",  1,  1,       "grey50",
+       "***KRAS* WT & gene mut.**",  2,  1,        "plum2",
+       "***KRAS* G12C & gene WT**",  3,  1,       "grey25",
+     "***KRAS* G12C & gene mut.**",  4,  1, "mediumpurple2"
+) %>%
+    ggplot(aes(label = label, x = x, y = y, color = color)) +
+    geom_richtext(family = "arial", size = 1.5, fill = NA, label.color = NA) +
+    scale_color_identity() +
+    theme_void() +
+    theme(legend.position = "none")
+saveRDS(
+    custom_survival_legend,
+    get_fig_proto_path("custom_survival_curve_legend", 3)
+)
