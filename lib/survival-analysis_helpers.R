@@ -37,10 +37,12 @@ patch_ggsurvplot <- function(ggsurv_obj, layout_heights = c(3, 1)) {
 
 
 # Style the survival curve from `ggsurvplot()` or ``ggadjustedcurves()`,
-style_ggsurvminer_surv_curve <- function(p, x_expand = c(0.02, 0.01)) {
+style_ggsurvminer_surv_curve <- function(p,
+                                         x_expand = c(0.02, 0.01),
+                                         y_expand = c(0, 0.01)) {
     p_new <- p +
         scale_x_continuous(expand = expand_scale(mult = x_expand)) +
-        scale_y_continuous(expand = expand_scale(mult = c(0, 0.01))) +
+        scale_y_continuous(expand = expand_scale(mult = y_expand)) +
         theme_classic(base_size = 7, base_family = "arial") +
         theme(
             plot.title = element_text(hjust = 0.5),
