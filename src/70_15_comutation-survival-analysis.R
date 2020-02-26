@@ -136,13 +136,15 @@ alleleonly_samples_comutation_sa <- function(cancer,
 }
 
 
+# Get the correct palette depending on which groups are included in the
+# survival data.
 comutation_krasallele_pal <- function(survdat) {
     tibble::tribble(
-        ~ comutation, ~krasallele, ~color,
-        FALSE, FALSE, "grey50",
-        FALSE, TRUE, "grey25",
-        TRUE, FALSE, "plum2",
-        TRUE, TRUE, "mediumpurple2"
+        ~ comutation, ~krasallele,         ~color,
+               FALSE,       FALSE,       "grey50",
+                TRUE,       FALSE,        "plum2",
+               FALSE,        TRUE,       "grey25",
+                TRUE,        TRUE, "mediumpurple2"
     ) %>%
         inner_join(survdat, by = c("comutation", "krasallele")) %>%
         select(comutation, krasallele, color) %>%
