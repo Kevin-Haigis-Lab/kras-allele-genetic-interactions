@@ -18,7 +18,6 @@ theme_figS2 <- function() {
 
 
 #### ---- A. Distirubiton of mutational signatures in each sample ---- ####
-
 # The distribution of mutational signature levels in each sample (barplot).
 # original script: "src/50_20_mutsignatures-distributions.R"
 
@@ -47,7 +46,6 @@ panel_A <- read_fig_proto("signature-level-per-sample",
 
 
 #### ---- B. Distirubiton of mutational signature levels ---- ####
-
 # The distribution of mutational signature levels in each sample (boxplot).
 # original script: "src/50_20_mutsignatures-distributions.R"
 
@@ -64,7 +62,6 @@ panel_B <- read_fig_proto("signature-level-boxplots_with0",
 
 
 #### ---- C. Distirubiton of mutational signatures by allele ---- ####
-
 # The distribution of mutational signature levels in samples with each allele.
 # original script: "src/50_20_mutsignatures-distributions.R"
 
@@ -79,7 +76,6 @@ panel_C <- read_fig_proto("mutational-signatures-distribution-by-allele",
 
 
 #### ---- D. Levels of clock vs. non-clock mutational signatures ---- ####
-
 # The levels of clock and non-clock mutational signatures per cancer.
 # original script: "src/50_20_mutsignatures-distributions.R"
 
