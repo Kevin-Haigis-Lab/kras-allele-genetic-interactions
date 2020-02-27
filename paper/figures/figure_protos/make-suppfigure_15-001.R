@@ -22,9 +22,9 @@ theme_figS15 <- function() {
 }
 
 
-#### ---- A. TITLE ---- ####
-# A BRIEF DESCRIPTION OF THE PANEL.
-# original script: "src/##_##_ORIGINAL-SCRIPT.R"
+#### ---- A. WDR26 dependency by mRNA expression ---- ####
+# A scatter plot of WDR26 dependency by mRNA expression in COAD
+# original script: "src/10_57_coad_depmap_wdr26.R"
 
 panel_A <- read_fig_proto("coad_depmap_wdr26-rna-v-dep.svg",
                           FIGNUM, supp = SUPPLEMENTAL) +
