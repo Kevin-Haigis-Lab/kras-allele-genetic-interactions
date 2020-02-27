@@ -92,7 +92,7 @@ adjust_oncoplot_theme <- function(
 }
 
 
-#' Send the legend position for the oncoplots to "none".
+#' Set the legend position for the oncoplots to "none".
 remove_oncoplot_legend <- function(pw) {
     # Only panels 2 and 4 have legends.
     for (i in c(2, 4)) {
@@ -105,8 +105,6 @@ remove_oncoplot_legend <- function(pw) {
 
 
 #### ---- A. High-level comutation network for COAD ---- ####
-
-# Panel A.
 # The high-level network plot for the comutation graph for COAD.
 # original script: "src/20_40_highlivel-genetic-interactions.R"
 
@@ -119,8 +117,6 @@ panel_A <- read_fig_proto("genetic_interaction_network_COAD", FIGNUM) +
 
 
 #### ---- B. A priori genes of interest comutation network for COAD ---- ####
-
-# Panel B.
 # The subset from the high-level network for genes known to be related to KRAS.
 # original script: "src/20_43_apriori-lists-genetic-interactions.R"
 
@@ -139,8 +135,6 @@ panel_B <- read_fig_proto(
 
 
 #### ---- C. Dot-plot of functional enrichment  ---- ####
-
-# Panel C.
 # A dot plot of the results of functional enrichment in COAD comutation network.
 # original script: "src/20_45_fxnal-enrich-genetic-interactions.R"
 panel_C <- read_fig_proto("enrichr_COAD", FIGNUM) +
@@ -183,8 +177,6 @@ panel_C <- read_fig_proto("enrichr_COAD", FIGNUM) +
 
 
 #### ---- D. Oncoplot ---- ####
-
-# Panel D.
 # A rainfall plot of select increased comutation interactions with G12D in COAD.
 # original script: "src/20_50_rainfall-plots.R"
 
@@ -207,8 +199,6 @@ panel_D <- remove_oncoplot_legend(panel_D)
 
 
 #### ---- E. Oncoplot ---- ####
-
-# Panel E.
 # A rainfall plot of select reduced comutation interactions with G12D in COAD.
 # original script: "src/20_50_rainfall-plots.R"
 
@@ -219,8 +209,6 @@ panel_E <- remove_oncoplot_legend(panel_E)
 
 
 #### ---- F. Oncoplot ---- ####
-
-# Panel F.
 # A rainfall plot of select increased comutation interactions with G12D in COAD.
 # original script: "src/20_50_rainfall-plots.R"
 
@@ -231,8 +219,6 @@ panel_F <- remove_oncoplot_legend(panel_F)
 
 
 #### ---- G. Oncoplot ---- ####
-
-# Panel E.
 # A rainfall plot of select reduced comutation interactions with G12D in COAD.
 # original script: "src/20_50_rainfall-plots.R"
 
