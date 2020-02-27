@@ -157,6 +157,20 @@ panel_D <- read_fig_proto("comut-barplot_LUAD_AllAlleles_AllSources", FIGNUM) +
     )
 
 
+#### ---- A LINE ---- ####
+
+SEPARATING_LINE <- tibble(x = c(1, 2), y = c(1, 1)) %>%
+    ggplot(aes(x = x, y = y)) +
+    geom_path(color = "grey70", size = 0.3, lineend = "round") +
+    scale_x_continuous(limits = c(1, 2)) +
+    theme_void() +
+    theme(
+        plot.margin = margin(0, 0, 0, 0, "mm")
+    )
+
+
+
+
 #### ---- E. High-level comutation network for MM (labeled) ---- ####
 # The labeled, high-level network plot for the comutation graph for MM
 # original script: "src/20_40_highlivel-genetic-interactions.R"
@@ -253,8 +267,8 @@ panel_F <- panel_F_2 + panel_F_1 + panel_F_3 +
         ) +
             plot_layout(widths = c(1, 1))
 
-    full_figure <- (top_panels / bottom_panels) +
-        plot_layout(heights = c(2, 1))
+    full_figure <- (top_panels / SEPARATING_LINE / bottom_panels) +
+        plot_layout(heights = c(20, 1, 10))
 
     save_figure(
         full_figure,
