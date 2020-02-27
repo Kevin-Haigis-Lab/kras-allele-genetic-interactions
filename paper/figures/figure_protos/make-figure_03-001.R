@@ -9,12 +9,12 @@ FIG_DIMENSIONS <- get_figure_dimensions(2, "tall")
 #### ---- Figure theme ---- ####
 
 #' General theme for Figure 3.
-theme_fig3 <- function() {
+theme_fig3 <- function(tag_margin = margin(0, 0, 0, 0, "mm")) {
     theme_comutation() %+replace%
     theme(
         plot.tag = element_text(size = 7,
                                 face = "bold",
-                                margin = margin(0, 0, 0, 0, "mm"))
+                                margin = tag_margin)
     )
 }
 
@@ -42,9 +42,11 @@ theme_graph_fig3 <- function() {
 # original script: "src/20_40_highlivel-genetic-interactions.R"
 
 panel_A <- read_fig_proto("genetic_interaction_network_LUAD", FIGNUM) +
+    scale_color_manual(values = short_allele_pal, guide = FALSE) +
     theme_graph_fig3() %+replace%
     theme(
-        legend.spacing.x = unit(1, "mm")
+        legend.spacing.x = unit(1, "mm"),
+        legend.position = c(0.15, 0.9)
     ) +
     labs(tag = "a")
 
@@ -63,7 +65,7 @@ survival_curves <- purrr::map(
     proto_paths,
     function(x) {
         read_fig_proto(x, FIGNUM) +
-        theme_fig3() +
+        theme_fig3(margin(-2, 0, 0, -3.9, "mm")) +
         theme(
             axis.text = element_text(family = "arial", size = 5),
             legend.position = "none"
@@ -72,7 +74,6 @@ survival_curves <- purrr::map(
     })
 survival_curves[[1]] <- survival_curves[[1]] + labs(tag = "b")
 panel_B <- wrap_plots(survival_curves, ncol = 2)
-
 
 panel_B_legend <- read_fig_proto("custom_survival_curve_legend", FIGNUM) +
     scale_x_continuous(limits = c(0.7, 4.3)) +
@@ -107,7 +108,7 @@ panel_C <- read_fig_proto("enrichr_LUAD", FIGNUM) +
             label.position = "top"
         )
     ) +
-    theme_fig3() +
+    theme_fig3(margin(-1, 0, 0, 0, "mm")) +
     theme(
         plot.title = element_blank(),
         axis.title = element_blank(),
@@ -156,12 +157,26 @@ panel_D <- read_fig_proto("comut-barplot_LUAD_AllAlleles_AllSources", FIGNUM) +
     )
 
 
+#### ---- E. High-level comutation network for MM (labeled) ---- ####
+# The labeled, high-level network plot for the comutation graph for MM
+# original script: "src/20_40_highlivel-genetic-interactions.R"
 
-#### ---- E. Labeled MM comutation graph ---- ####
+panel_E <- read_fig_proto("genetic_interaction_network_labeled_MM",
+                          9, supp = TRUE) +
+    scale_color_manual(values = short_allele_pal, guide = FALSE) +
+    theme_graph_fig3() %+replace%
+    theme(
+        legend.spacing.x = unit(1, "mm"),
+        legend.position = c(0.1, 0.1)
+    ) +
+    labs(tag = "e")
+
+
+#### ---- F. Labeled MM comutation graph ---- ####
 # The comutation graph for MM with every node labeled.
 # original script: "src/60_10_MM-specific-oncogenes.R"
 
-panel_E_1 <- read_fig_proto("mm_comut_heatmap", FIGNUM) +
+panel_F_1 <- read_fig_proto("mm_comut_heatmap", FIGNUM) +
     scale_fill_gradient2(
         low = "dodgerblue",
         high = "tomato",
@@ -177,23 +192,23 @@ panel_E_1 <- read_fig_proto("mm_comut_heatmap", FIGNUM) +
         axis.title = element_blank(),
         plot.margin = margin(0, 0, 0, 0, "mm")
     )
-panel_E_2 <- read_fig_proto("allele_freq_barplot", FIGNUM) +
+panel_F_2 <- read_fig_proto("allele_freq_barplot", FIGNUM) +
     scale_y_continuous(
         breaks = c(10, 50, 200, 700),
         expand = expand_scale(mult = c(0, 0.05)),
         trans = "log10"
     ) +
-    theme_fig3() +
+    theme_fig3(margin(-1.9, 0, 0, 0, "mm")) +
     theme(
         axis.title.x = element_blank(),
         axis.title.y = element_text(size = 5),
         axis.text.x = element_blank(),
         plot.margin = margin(0, 0, -0.5, 0, "mm")
     ) +
-    labs(tag = "e")
-panel_E_3 <- read_fig_proto("gene_freq_barplot", FIGNUM) +
+    labs(tag = "f")
+panel_F_3 <- read_fig_proto("gene_freq_barplot", FIGNUM) +
     scale_y_continuous(
-        breaks = c(50, 100, 200),
+        breaks = c(25, 100, 200),
         expand = expand_scale(mult = c(0, 0.05)),
     ) +
     theme_fig3() +
@@ -204,7 +219,7 @@ panel_E_3 <- read_fig_proto("gene_freq_barplot", FIGNUM) +
         plot.margin = margin(0, 0, 0, -0.5, "mm")
     )
 
-panel_E_design <- "
+panel_F_design <- "
     11111#
     222223
     222223
@@ -213,8 +228,8 @@ panel_E_design <- "
     222223
 "
 
-panel_E <- panel_E_2 + panel_E_1 + panel_E_3 +
-    plot_layout(design = panel_E_design)
+panel_F <- panel_F_2 + panel_F_1 + panel_F_3 +
+    plot_layout(design = panel_F_design)
 
 
 
@@ -223,20 +238,22 @@ panel_E <- panel_E_2 + panel_E_1 + panel_E_3 +
 {
     set.seed(0)  # Because the graph-plotting algorithm is stochastic.
 
-    panel_B <- wrap_elements(
+    panel_B_full <- wrap_elements(
         full = (panel_B) / panel_B_legend + plot_layout(heights = c(10, 1))
     )
 
     # COMPLETE FIGURE
     top_panels <- (
-        (wrap_elements(full = panel_A) / panel_B) |
+        (wrap_elements(full = panel_A) / panel_B_full) |
         (wrap_elements(full = panel_C) / wrap_elements(full = panel_D))
     )
 
-    bottom_panels <- (plot_spacer() | wrap_elements(full = panel_E)) +
-        plot_layout(widths = c(1, 1))
+    bottom_panels <- (
+            wrap_elements(full = panel_E) | wrap_elements(full = panel_F)
+        ) +
+            plot_layout(widths = c(1, 1))
 
-    full_figure <- (top_panels | bottom_panels) +
+    full_figure <- (top_panels / bottom_panels) +
         plot_layout(heights = c(2, 1))
 
     save_figure(
