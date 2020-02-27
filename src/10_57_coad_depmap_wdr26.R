@@ -47,7 +47,7 @@ p <- dat %>%
     ) +
     labs(
         x = expression(
-            paste("RNA expression (", italic(log), " TPM)", sep = "")
+            paste("mRNA expression (", italic(log), " TPM)", sep = "")
         ),
         y = "dependency score",
         title = GENE,
