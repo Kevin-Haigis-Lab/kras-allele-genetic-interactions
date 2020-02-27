@@ -14,8 +14,10 @@ allele_gene_interaction_upsetr <- function(cancer, genetic_interaction, data) {
         group_by(allele) %>%
         summarise(genes = list(hugo_symbol)) %>%
         deframe()
-    save_path <- plot_path(GRAPHS_DIR,
-                           glue("{cancer}_{genetic_interaction}_upset.svg"))
+    save_path <- plot_path(
+        GRAPHS_DIR,
+        as.character(glue("{cancer}_{genetic_interaction}_upset.svg"))
+    )
 
     sizes <- c(8, 6)
     nsets <- n_distinct(names(gl))
@@ -207,7 +209,7 @@ for (CANCER in sort(unique(genetic_interaction_df$cancer))) {
         )
 
     rds_template <- "genetic_interaction_network_labeled_{CANCER}"
-    save_path <- get_fig_proto_path(glue(rds_template),
+    save_path <- get_fig_proto_path(as.character(glue(rds_template)),
                                     cancer_fignum[[CANCER]],
                                     supp = TRUE)
     saveRDS(gr_plot, save_path)
