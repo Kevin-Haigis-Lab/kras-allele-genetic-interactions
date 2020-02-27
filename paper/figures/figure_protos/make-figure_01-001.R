@@ -24,17 +24,16 @@ theme_fig1 <- function() {
 # The distribution of mutations along the KRAS amino acid sequence.
 # original script: "src/90_05_kras-allele-distribution.R"
 
-panel_A <- read_fig_proto("lollipop-kras_2", FIGNUM) &
-    theme_fig1() %+replace%
+panel_A <- read_fig_proto("lollipop-kras_2", FIGNUM) +
+    theme_fig1() +
     theme(
         legend.position = c(0.85, 0.85),
         legend.spacing.x = unit(1, "mm"),
         legend.background = element_rect(fill = scales::alpha("white", 0.4),
                                          color = NA),
         legend.margin = margin(1, 1, 1, 1, "mm")
-    )
-
-panel_A <- panel_A + labs(tag = "a")
+    ) +
+    labs(tag = "a")
 
 
 #### ---- B. KRAS allele frequency ---- ####
@@ -43,10 +42,8 @@ panel_A <- panel_A + labs(tag = "a")
 # Barplots of the KRAS allele frequency across the cancers.
 # original script: "src/90_05_kras-allele-distribution.R"
 
-panel_B <- wrap_plots(
-        read_fig_proto("allele_dist_barplot_stackplot", FIGNUM),
-        ncol = 2
-    ) &
+panel_B <- wrap_plots(read_fig_proto("allele_dist_barplot_stackplot", FIGNUM),
+                      ncol = 2) &
     theme_fig1() %+replace%
     theme(
         axis.title = element_blank(),
@@ -63,6 +60,8 @@ for (i in 1:4) {
 }
 
 panel_B[[1]][[1]] <- panel_B[[1]][[1]] + labs(tag = "b")
+
+panel_B <- wrap_elements(full = panel_B)
 
 
 #### ---- C. Mutational signatures probability of causing KRAS allele ---- ####
@@ -143,7 +142,7 @@ panel_F[[1]] <- panel_F[[1]] + labs(tag = "f")
 
 {
     # ROW 1
-    row_1 <- panel_A + panel_B + plot_layout(ncol = 2, widths = c(1, 2, 2))
+    row_1 <- (panel_A | panel_B) + plot_layout(widths = c(1, 4))
 
     # ROW 2
     row_2 <- (panel_C - panel_D) + plot_layout(widths = c(2, 1.2))
