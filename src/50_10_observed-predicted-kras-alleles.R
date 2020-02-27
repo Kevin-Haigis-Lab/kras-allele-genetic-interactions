@@ -181,10 +181,10 @@ ProjectTemplate::cache("kras_allele_freq_bootstrap_ci",
 
 #### ---- Plotting ---- ####
 
-# Box plot for distribution of liklihood for each allele in each sample.
+# Box plot for distribution of likelihood for each allele in each sample.
 predicted_kras_allele_frequency_boxplot <- kras_hotspot_probability %>%
     filter(!is.na(kras_allele_prob)) %>%
-    mutate(kras_allele = factor_alleles(kras_allele) %>%
+    mutate(kras_allele = factor_alleles(kras_allele)) %>%
     ggplot(aes(
         x = kras_allele, y = kras_allele_prob,
         color = kras_allele, fill = kras_allele
