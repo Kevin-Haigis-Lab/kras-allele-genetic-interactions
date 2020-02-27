@@ -106,6 +106,34 @@
     </item>
     
     <item>
+      <title>2020-02-26</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2020-02-26/</link>
+      <pubDate>Wed, 26 Feb 2020 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2020-02-26/</guid>
+      <description>
+
+&lt;h2 id=&#34;follow-up-on-survival-analysis-hits&#34;&gt;Follow up on survival analysis hits&lt;/h2&gt;
+
+&lt;p&gt;The samples comutated for KRAS G12C and other survival analysis hits do not seem to have more mutations than the other samples the genes are mutated in.
+&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/70_30_survival-analysis-hits-followup/tmb-comut-samples_G12C_LUAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;I also plotted the number of samples with mutations in other known oncogenes in LUAD.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/70_30_survival-analysis-hits-followup/other-oncogene-muts_ZNF804A_G12C_LUAD.svg&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/70_30_survival-analysis-hits-followup/other-oncogene-muts_ARID1A_G12C_LUAD.svg&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/70_30_survival-analysis-hits-followup/other-oncogene-muts_CHRNB4_G12C_LUAD.svg&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/70_30_survival-analysis-hits-followup/other-oncogene-muts_VN1R2_G12C_LUAD.svg&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/70_30_survival-analysis-hits-followup/other-oncogene-muts_ZNF445_G12C_LUAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;reorganizing-figures&#34;&gt;Reorganizing figures&lt;/h2&gt;
+
+&lt;p&gt;I have notes in my paper notebook that need to be refined.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>2020-02-25</title>
       <link>https://project-notebook-comutation.netlify.com/post/2020-02-25/</link>
       <pubDate>Tue, 25 Feb 2020 00:00:00 +0000</pubDate>
