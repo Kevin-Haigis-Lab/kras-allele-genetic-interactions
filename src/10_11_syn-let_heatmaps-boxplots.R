@@ -503,7 +503,7 @@ depmap_gene_clusters <- model1_tib %>%
     ungroup() %>%
     update_clusters()
 
-cache("depmap_gene_clusters", depends = "model1_tib")
+ProjectTemplate::cache("depmap_gene_clusters", depends = "model1_tib")
 
 
 # Print out the number of genes per cancer.
