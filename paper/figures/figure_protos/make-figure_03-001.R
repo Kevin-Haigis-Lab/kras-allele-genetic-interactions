@@ -49,11 +49,44 @@ panel_A <- read_fig_proto("genetic_interaction_network_LUAD", FIGNUM) +
     labs(tag = "a")
 
 
-#### ---- B. Dot-plot of functional enrichment ---- ####
+
+#### ---- B. Survival curves of comutated genes ---- ####
+# Survival curves of genes comutating with G12C.
+# original script: "src/70_15_comutation-survival-analysis.R"
+
+proto_paths <- c("survival_alleleorwt_CHRNB4-G12C-LUAD.rds",
+                 "survival_alleleorwt_VN1R2-G12C-LUAD.rds",
+                 "survival_alleleorwt_ZNF445-G12C-LUAD.rds",
+                 "survival_alleleorwt_ZNF804A-G12C-LUAD.rds")
+
+survival_curves <- purrr::map(
+    proto_paths,
+    function(x) {
+        read_fig_proto(x, FIGNUM) +
+        theme_fig3() +
+        theme(
+            axis.text = element_text(family = "arial", size = 5),
+            legend.position = "none"
+        ) +
+        labs(x = "days")
+    })
+survival_curves[[1]] <- survival_curves[[1]] + labs(tag = "b")
+panel_B <- wrap_plots(survival_curves, ncol = 2)
+
+
+panel_B_legend <- read_fig_proto("custom_survival_curve_legend", FIGNUM) +
+    scale_x_continuous(limits = c(0.7, 4.3)) +
+    theme_void() +
+    theme(
+        legend.position = "none"
+    )
+
+
+#### ---- C. Dot-plot of functional enrichment ---- ####
 # A dot plot of the results of functional enrichment in LUAD comutation network.
 # original script: "src/20_45_fxnal-enrich-genetic-interactions.R"
 
-panel_B <- read_fig_proto("enrichr_LUAD", FIGNUM) +
+panel_C <- read_fig_proto("enrichr_LUAD", FIGNUM) +
     scale_size_continuous(
         range = c(0, 3),
         guide = guide_legend(
@@ -86,18 +119,18 @@ panel_B <- read_fig_proto("enrichr_LUAD", FIGNUM) +
         legend.box.background = element_rect(fill = NA, color = NA)
     ) +
     labs(
-        tag = "b",
+        tag = "c",
         size = expression(-italic("log")[10] ( "adj. p-value" )),
         alpha = "num. of genes"
     )
 
 
-#### ---- C. Dot-plot of functional enrichment ---- ####
+#### ---- D. Bar-plot of functional enrichment ---- ####
 # A bar plot of the frequency of comutation for the enriched functions
 # shown in panel B.
 # original script: "src/20_46_enriched-functions_bar-plots.R"
 
-panel_C <- read_fig_proto("comut-barplot_LUAD_AllAlleles_AllSources", FIGNUM) +
+panel_D <- read_fig_proto("comut-barplot_LUAD_AllAlleles_AllSources", FIGNUM) +
     scale_fill_manual(
         values = comut_updown_pal,
         guide = guide_legend(
@@ -118,41 +151,10 @@ panel_C <- read_fig_proto("comut-barplot_LUAD_AllAlleles_AllSources", FIGNUM) +
         legend.key.size = unit(2, "mm")
     ) +
     labs(
-        tag = "c",
+        tag = "d",
         y = expression("" %<-% "reduced | increased" %->% "")
     )
 
-
-#### ---- D. Survival curves of comutated genes ---- ####
-# Survival curves of genes comutating with G12C.
-# original script: "src/70_15_comutation-survival-analysis.R"
-
-proto_paths <- c("survival_alleleorwt_CHRNB4-G12C-LUAD.rds",
-                 "survival_alleleorwt_VN1R2-G12C-LUAD.rds",
-                 "survival_alleleorwt_ZNF445-G12C-LUAD.rds",
-                 "survival_alleleorwt_ZNF804A-G12C-LUAD.rds")
-
-survival_curves <- purrr::map(
-    proto_paths,
-    function(x) {
-        read_fig_proto(x, FIGNUM) +
-        theme_fig3() +
-        theme(
-            axis.text = element_text(family = "arial", size = 5),
-            legend.position = "none"
-        ) +
-        labs(x = "days")
-    })
-survival_curves[[1]] <- survival_curves[[1]] + labs(tag = "d")
-panel_D <- wrap_plots(survival_curves, ncol = 2)
-
-
-panel_D_legend <- read_fig_proto("custom_survival_curve_legend", FIGNUM) +
-    scale_x_continuous(limits = c(0.7, 4.3)) +
-    theme_void() +
-    theme(
-        legend.position = "none"
-    )
 
 
 #### ---- E. Labeled MM comutation graph ---- ####
@@ -215,116 +217,27 @@ panel_E <- panel_E_2 + panel_E_1 + panel_E_3 +
     plot_layout(design = panel_E_design)
 
 
-################################################################################
-
-#### ---- F. High-level comutation network ---- ####
-# A The high-level overview of the comutation network for the *KRAS* alleles
-# in PAAD.
-# original script: "src/20_40_highlivel-genetic-interactions.R"
-
-panel_F <- read_fig_proto("genetic_interaction_network_PAAD", FIGNUM) +
-    scale_edge_color_manual(
-        values = comut_updown_pal,
-        guide = guide_legend(
-            title = "comutation",
-            title.position = "top",
-            keywidth = unit(2, "mm"),
-            keyheight = unit(1, "mm"),
-            nrow = 1,
-            label.position = "top",
-            order = 1
-        )
-    ) +
-    scale_color_manual(
-        values = short_allele_pal,
-        na.value = NA,
-        guide = guide_legend(
-            title = NULL,
-            keywidth = unit(2, "mm"),
-            keyheight = unit(3, "mm"),
-            nrow = 3,
-            order = 2
-        )
-    ) +
-    theme_graph_fig3() +
-    theme(
-        legend.spacing.x = unit(1, "mm"),
-        legend.position = "bottom",
-        legend.box = "horizontal",
-        legend.margin = margin(-6, 0, 0, 0, "mm")
-    )
-
-panel_F <- wrap_elements(full = panel_F) +
-    labs(tag = "f") +
-    theme_fig3()
-
-
-#### ---- G. Labeled comutation network of genes in a priori lists ---- ####
-# A The labeled comutation network for the *KRAS* alleles only including genes
-# in a priori selected gene sets.
-# original script: "src/20_43_apriori-lists-genetic-interactions.R"
-
-panel_G <- read_fig_proto(
-        "goi_overlap_genetic_interactions_network_PAAD_allLists", FIGNUM
-    ) +
-    theme_graph_fig3() +
-    theme(
-        legend.position = "bottom",
-        legend.margin = margin(-2, 0, 2, 0, "mm")
-    )
-
-panel_G <- wrap_elements(full = panel_G) +
-    labs(tag = "g") +
-    theme_fig3()
-
-
-
-#### ---- H. Bar plots of log(OR) of select genes ---- ####
-# Some genes have two different comutation interactions with multiple KRAS
-# alleles. These are bar plots of the log(OR) of a selection of those genes.
-# original script: "src/20_41_disagreeing-interactions_logOR-barplot.R"
-
-panel_H <- read_fig_proto(
-        "log-odds-ratio_barplot_PAAD.rds", FIGNUM
-    ) +
-    facet_wrap(~ hugo_symbol, scales = "free", ncol = 1) +
-    theme_fig3() +
-    theme(
-        legend.position = "none",
-        axis.title.x = element_blank(),
-        axis.text.x = element_text(angle = 60, hjust = 1),
-        strip.text = element_text(face = "bold")
-    ) +
-    labs(tag = "h")
-
-################################################################################
-
-
 
 #### ---- Figure assembly ---- ####
 
 {
     set.seed(0)  # Because the graph-plotting algorithm is stochastic.
 
+    panel_B <- wrap_elements(
+        full = (panel_B) / panel_B_legend + plot_layout(heights = c(10, 1))
+    )
+
     # COMPLETE FIGURE
-    fig_col1 <- (
-        wrap_elements(full = panel_A) /
-        wrap_elements(full = panel_B) /
-        wrap_elements(full = panel_C)
-    ) +
-        plot_layout(heights = c(1, 1, 1))
+    top_panels <- (
+        (wrap_elements(full = panel_A) / panel_B) |
+        (wrap_elements(full = panel_C) / wrap_elements(full = panel_D))
+    )
 
-    # fig_col1 <- plot_spacer()
+    bottom_panels <- (plot_spacer() | wrap_elements(full = panel_E)) +
+        plot_layout(widths = c(1, 1))
 
-    fig_col2 <- (
-        wrap_elements(full = (panel_D) / panel_D_legend +
-                      plot_layout(heights = c(10, 1))) /
-        wrap_elements(full = panel_E) /
-        panel_G
-    ) +
-        plot_layout(heights = c(2, 2, 3))
-
-    full_figure <- (fig_col1 | fig_col2) + plot_layout(widths = c(1, 1))
+    full_figure <- (top_panels | bottom_panels) +
+        plot_layout(heights = c(2, 1))
 
     save_figure(
         full_figure,
