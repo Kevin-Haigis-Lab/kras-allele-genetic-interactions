@@ -130,7 +130,7 @@ panel_A <- plot_spacer()
 #### ---- B. Lollipop of STK11 for G12C vs rest ---- ####
 # A table of the genes found to comutate and show differential dependency
 # with an allele.
-# original script: "src/40_20_comut-dependency-genes-ppi-connectivity.R"
+# original script: "src/20_70_luad-g12c-stk11.R"
 
 panel_B <- read_fig_proto("stk11_lollipop_patch", FIGNUM)
 panel_B[[1]] <- panel_B[[1]] +
@@ -172,8 +172,7 @@ panel_B <- plot_spacer()
 
 
 #### ---- C. Connectivity of hits ---- ####
-# A table of the genes found to comutate and show differential dependency
-# with an allele.
+# Bar plots of the overall connectivity of hits on the PPI.
 # original script: "src/40_20_comut-dependency-genes-ppi-connectivity.R"
 
 panel_C <- read_fig_proto("comut_dep_connectivity_bars.rds", FIGNUM) +
