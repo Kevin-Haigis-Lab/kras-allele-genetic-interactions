@@ -63,7 +63,9 @@ plot_distribution_of_mutation_count <- function(cancer,
             axis.ticks.x = element_blank()
         ) +
         labs(
-            title = glue("Distribution of mutations in {cancer} samples"),
+            title = as.character(
+                glue("Distribution of mutations in {cancer} samples")
+            ),
             x = "tumor samples",
             y = expression(italic(log)[10] ("num. mutations"))
         )

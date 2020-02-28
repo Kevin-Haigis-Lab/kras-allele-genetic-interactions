@@ -24,7 +24,7 @@ names(cancer_panel_letters) <- c("COAD", "LUAD", "MM", "PAAD")
 
 # Get the separate pieces for a cancer for the panels in this figure.
 get_panel_pieces <- function(cancer) {
-    a <- read_fig_proto(glue("{cancer}_coding_muts_distribution"),
+    a <- read_fig_proto(as.character(glue("{cancer}_coding_muts_distribution")),
                        figure_num = FIGNUM,
                        supp = SUPPLEMENTAL) +
         theme_figS4() +
@@ -37,7 +37,7 @@ get_panel_pieces <- function(cancer) {
         labs(
             tag = cancer_panel_letters[cancer]
         )
-    b <- read_fig_proto(glue("{cancer}_mutation_types"),
+    b <- read_fig_proto(as.character(glue("{cancer}_mutation_types")),
                        figure_num = FIGNUM,
                        supp = SUPPLEMENTAL) +
         theme_figS4() +
