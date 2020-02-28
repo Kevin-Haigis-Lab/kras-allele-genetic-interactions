@@ -106,6 +106,12 @@ str_rep <- function(x, ...) {
 }
 
 
+# A 'stringr'-like function for round a value and retaining trailing zeros.
+str_round <- function(x, digits = 0, zeros = digits) {
+    sprintf(glue("%.{zeros}f"), round(x, digits = digits))
+}
+
+
 
 #### ---- Helpful regular expressions ---- ####
 
