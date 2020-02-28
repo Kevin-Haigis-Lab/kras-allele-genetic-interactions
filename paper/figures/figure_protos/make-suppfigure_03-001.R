@@ -35,7 +35,6 @@ panel_A <- read_fig_proto("mutation-frequency-hist",
     )
 
 
-
 #### ---- Figure assembly ---- ####
 
 {
