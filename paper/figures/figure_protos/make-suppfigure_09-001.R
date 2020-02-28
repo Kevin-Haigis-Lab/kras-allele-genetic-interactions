@@ -104,6 +104,7 @@ panel_B <-
     (panel_B_1 + panel_B_3 + plot_layout(widths = c(10, 2))) +
     plot_layout(heights = c(2, 10))
 
+
 #### ---- Figure assembly ---- ####
 
 {

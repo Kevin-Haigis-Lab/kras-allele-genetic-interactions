@@ -175,3 +175,7 @@ save_mm_figure <- function(gg_obj, name) {
 save_mm_figure(mm_comut_heatmap, "mm_comut_heatmap")
 save_mm_figure(allele_freq_barplot, "allele_freq_barplot")
 save_mm_figure(gene_freq_barplot, "gene_freq_barplot")
+
+save_mm_supp_figure(mm_comut_heatmap, "mm_comut_heatmap")
+save_mm_supp_figure(allele_freq_barplot, "allele_freq_barplot")
+save_mm_supp_figure(gene_freq_barplot, "gene_freq_barplot")
