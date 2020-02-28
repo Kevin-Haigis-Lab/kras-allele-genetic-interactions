@@ -246,11 +246,20 @@ panel_F_2 <- read_fig_proto("allele_freq_barplot", FIGNUM) +
     theme_fig3(margin(-1.9, 0, 0, 0, "mm")) +
     theme(
         axis.title.x = element_blank(),
-        axis.title.y = element_text(size = 5),
+        axis.title.y = element_textbox_simple(
+            size = 5,
+            hjust = 0.5,
+            vjust = 0,
+            padding = margin(0, 0, 0, 0),
+            margin = margin(0, 0, -10, 0),
+            halign = 0.5,
+            orientation = "left-rotated",
+        ),
         axis.text.x = element_blank(),
         plot.margin = margin(0, 0, -0.5, 0, "mm")
     ) +
-    labs(tag = "f")
+    labs(tag = "f",
+         y = "num. tumor<br>samples<br>(*log*<sub>10</sub>)")
 panel_F_3 <- read_fig_proto("gene_freq_barplot", FIGNUM) +
     scale_y_continuous(
         breaks = c(25, 100, 200),
