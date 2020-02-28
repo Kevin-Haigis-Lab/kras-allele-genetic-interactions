@@ -16,5 +16,3 @@ CHECK1 <- survival_analysis_hits %>%
 if (nrow(CHECK1) > 0) {
     stop("Incorrect labels for comutation interaction.")
 }
-
-

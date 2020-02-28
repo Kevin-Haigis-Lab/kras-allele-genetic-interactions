@@ -61,17 +61,50 @@ proto_paths <- c("survival_alleleorwt_CHRNB4-G12C-LUAD.rds",
                  "survival_alleleorwt_ZNF445-G12C-LUAD.rds",
                  "survival_alleleorwt_ZNF804A-G12C-LUAD.rds")
 
-survival_curves <- purrr::map(
-    proto_paths,
-    function(x) {
-        read_fig_proto(x, FIGNUM) +
+
+parse_survival_info <- function(cancer, allele, gene) {
+    survival_analysis_hits %>%
+        filter(cancer == !!cancer &
+               interaction_allele == !!allele &
+               hugo_symbol == !!gene) %>%
+        mutate(
+            lbl = paste0("likelihood ratio: ",
+                         str_round(likelihood_ratio_test_pval, 3),
+                        "<br>*KRAS* G12C: ",
+                        str_round(allele_pval, 3),
+                        "<br>*", hugo_symbol, "*: ",
+                        str_round(comutation_pval, 3))
+        ) %>%
+        mutate(x = 240, y = 0.95)
+}
+
+
+prepare_survival_curve <- function(path) {
+    info <- basename(path) %>%
+        file_sans_ext() %>%
+        str_remove("survival_alleleorwt_") %>%
+        str_split_fixed("-", 3)
+
+    info <- parse_survival_info(info[, 3], info[, 2], info[, 1])
+
+    read_fig_proto(path, FIGNUM) +
+        geom_richtext(
+            aes(x = x, y = y, label = lbl),
+            data = info, hjust = 1, vjust = 1.0,
+            size = 1.8, family = "arial",
+            fill = NA, label.color = NA, # remove background and outline
+            label.padding = unit(rep(0, 4), "pt") # remove padding
+        ) +
         theme_fig3(margin(-2, 0, 0, -3.9, "mm")) +
         theme(
             axis.text = element_text(family = "arial", size = 5),
             legend.position = "none"
         ) +
         labs(x = "days")
-    })
+}
+
+
+survival_curves <- purrr::map(proto_paths, prepare_survival_curve)
 survival_curves[[1]] <- survival_curves[[1]] + labs(tag = "b")
 panel_B <- wrap_plots(survival_curves, ncol = 2)
 
@@ -167,8 +200,6 @@ SEPARATING_LINE <- tibble(x = c(1, 2), y = c(1, 1)) %>%
     theme(
         plot.margin = margin(0, 0, 0, 0, "mm")
     )
-
-
 
 
 #### ---- E. High-level comutation network for MM (labeled) ---- ####
