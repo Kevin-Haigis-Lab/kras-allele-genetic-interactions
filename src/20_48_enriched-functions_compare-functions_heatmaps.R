@@ -134,7 +134,7 @@ make_comutation_heatmap <- function(df,
             scale_fill_manual(values = short_allele_pal) +
             scale_y_continuous(expand = c(0, 0), breaks = seq(0, 1.0, 0.25))
     } else {
-        stop(glue("Do not recognize the metric '{which_metric}'"))
+        stop(as.character(glue("Do not recognize the metric '{which_metric}'")))
     }
 
     p <- p +
@@ -190,7 +190,7 @@ save_fig_info <- tibble::tribble(
 # Add the information to `save_fig_info` to save for a figure.
 save_comparison_heatmaps <- function(grp, data, hm, ...) {
     cancer <- unique(data$cancer)
-    save_name <- glue("comparison-heatmap_{cancer}-{grp}.svg")
+    save_name <- as.character(glue("comparison-heatmap_{cancer}-{grp}.svg"))
     ggsave_wrapper(
         hm,
         plot_path(GRAPHS_DIR, save_name),

@@ -201,7 +201,7 @@ panel_E <- wrap_elements(full = panel_E) +
 
 #### ---- F. Distribution of comutation events ---- ####
 # A dot-plot of some selected enriched functions from the comutation network.
-# original script: "src/20_41_disagreeing-interactions_logOR-barplot.R"
+# original script: "src/20_48_enriched-functions_compare-functions_heatmaps.R"
 
 panel_F <- read_fig_proto("comparison-heatmap_PAAD-1.rds",
                           FIGNUM, supp = SUPPLEMENTAL) &
