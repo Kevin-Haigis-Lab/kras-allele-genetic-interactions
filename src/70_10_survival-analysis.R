@@ -108,6 +108,23 @@ ProjectTemplate::cache(
 )
 
 
+# Save ggproto objects for use in figures.
+save_ggproto_for_figures <- function(p, cancer, sname) {
+    save_info <- list(
+        LUAD = c(fignum = 16, supp = TRUE)
+    )
+
+    if (!cancer %in% names(save_info)) return()
+
+    saveRDS(
+        p,
+        get_fig_proto_path(sname,
+                           save_info[[cancer]][["fignum"]],
+                           supp = save_info[[cancer]][["supp"]])
+    )
+}
+
+
 #### ---- Overall survival curves ---- ####
 
 # A wrapper for `ggsurvplot()` for this section of the analysis.
@@ -243,7 +260,8 @@ allele_group_survival_analysis <- function(cancer,
                                            model_output_title_template = NULL,
                                            plot_name_template = NULL,
                                            curve_palette = NULL,
-                                           plot_file_size = "wide") {
+                                           plot_file_size = "wide",
+                                           save_proto = FALSE) {
     title <- glue(model_output_title_template)
     fname <- glue(model_output_file_template)
 
@@ -300,6 +318,27 @@ allele_group_survival_analysis <- function(cancer,
         plot_path(GRAPHS_DIR, glue(plot_name_template)),
         plot_file_size
     )
+
+    if (save_proto) {
+        fig_p <- ggsurvplot(
+            fit = fit,
+            data = data,
+            pval = FALSE,
+            conf.int = FALSE,
+            risk.table = TRUE,
+            risk.table.col = "strata",
+            surv.median.line = "none",
+            fontsize = 2,
+            censor.size = 2,
+            size = 0.5,
+            font.family = "arial",
+            palette = curve_palette
+        ) +
+            ggtitle(cancer)
+        save_ggproto_for_figures(
+            fig_p, cancer,
+            as.character(glue(plot_name_template)))
+    }
 }
 
 
@@ -319,7 +358,8 @@ kras_mutated_survival_analysis <- function(cancer, data) {
         model_output_file_template = "wt-vs-krasmut.txt",
         model_output_title_template = glue("{cancer} KRAS WT vs. mutant"),
         plot_name_template = glue("krasmut_survival_{cancer}.svg"),
-        curve_palette = pal
+        curve_palette = pal,
+        save_proto = TRUE
     )
 }
 
@@ -376,7 +416,8 @@ kras_alleles_survival_analysis <- function(cancer, data, other_min = 10) {
         model_output_title_template = glue("{cancer} KRAS alleles"),
         plot_name_template = glue("krasallele_survival_{cancer}.svg"),
         curve_palette = alter_pal_for_ggsurvplot(short_allele_pal,
-                                                 "kras_allele_grp")
+                                                 "kras_allele_grp"),
+        save_proto = TRUE
     )
 }
 
@@ -458,7 +499,8 @@ kras_allele_vs_each_allele_survival_analysis <- function(cancer, data,
             model_output_file_template = filename,
             model_output_title_template = title,
             plot_name_template = plot_title,
-            curve_palette = pal
+            curve_palette = pal,
+            save_proto = TRUE
         )
     }
 }
