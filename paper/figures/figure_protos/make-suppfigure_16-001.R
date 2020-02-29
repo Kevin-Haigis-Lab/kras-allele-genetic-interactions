@@ -44,7 +44,8 @@ figS16_patch_ggsurvplot <- function(ggsurv_obj, layout_heights = c(9, 3, 1)) {
 
 # Prepare the survplot survival curve and table.
 figS16_modify_survplot_components <- function(p, leg_regex, pal,
-                                              legend_nrow = 1) {
+                                              legend_nrow = 1,
+                                              tag = NULL) {
     p$plot <- p$plot +
         scale_color_manual(
             labels = function(x) str_remove(x, leg_regex),
@@ -61,7 +62,10 @@ figS16_modify_survplot_components <- function(p, leg_regex, pal,
             axis.title.x = element_blank(),
             plot.title = element_blank()
         ) +
-        labs(y = "survival probability")
+        labs(
+            y = "survival probability",
+            tag = tag
+        )
 
     p$table <- p$table +
         scale_color_manual(
@@ -76,6 +80,7 @@ figS16_modify_survplot_components <- function(p, leg_regex, pal,
         theme(
             legend.position = "none",
             axis.title.y = element_blank(),
+            axis.line.y = element_blank(),
             plot.title = element_blank()
         ) +
         labs(x = "time (days)")
@@ -83,9 +88,9 @@ figS16_modify_survplot_components <- function(p, leg_regex, pal,
 }
 
 
-figS16_prepare_survplot <- function(p, leg_regex, pal, legend_nrow = 1) {
+figS16_prepare_survplot <- function(p, leg_regex, pal, legend_nrow = 1, tag = NULL) {
     p <- style_ggsurvminer_plot(p)
-    p <- figS16_modify_survplot_components(p, leg_regex, pal, legend_nrow)
+    p <- figS16_modify_survplot_components(p, leg_regex, pal, legend_nrow, tag = tag)
     p <- figS16_patch_ggsurvplot(p)
 }
 
@@ -102,7 +107,7 @@ names(panel_A_pal) <- paste0(panel_A_leg_regex, names(panel_A_pal))
 
 panel_A <- read_fig_proto("krasmut_survival_LUAD.rds",
                           FIGNUM, supp = SUPPLEMENTAL)
-panel_A <- figS16_prepare_survplot(panel_A, panel_A_leg_regex, panel_A_pal)
+panel_A <- figS16_prepare_survplot(panel_A, panel_A_leg_regex, panel_A_pal, tag = "a")
 
 
 #### ---- B. LUAD: KRAS allele survival curve and table ---- ####
@@ -115,7 +120,7 @@ names(panel_B_pal) <- paste0(panel_B_leg_regex, names(panel_B_pal))
 
 panel_B <- read_fig_proto("krasallele_survival_LUAD.rds",
                           FIGNUM, supp = SUPPLEMENTAL)
-panel_B <- figS16_prepare_survplot(panel_B, panel_B_leg_regex, panel_B_pal)
+panel_B <- figS16_prepare_survplot(panel_B, panel_B_leg_regex, panel_B_pal, tag = "b")
 
 
 #### ---- A. LUAD: KRAS WT vs G12C survival curve and table ---- ####
@@ -127,7 +132,7 @@ panel_C_pal <- short_allele_pal[c("WT", "G12C")]
 names(panel_C_pal) <- paste0(panel_C_leg_regex, names(panel_C_pal))
 panel_C <- read_fig_proto("G12C-vs-WT_LUAD.rds",
                           FIGNUM, supp = SUPPLEMENTAL)
-panel_C <- figS16_prepare_survplot(panel_C, panel_C_leg_regex, panel_C_pal)
+panel_C <- figS16_prepare_survplot(panel_C, panel_C_leg_regex, panel_C_pal, tag = "c")
 
 
 
