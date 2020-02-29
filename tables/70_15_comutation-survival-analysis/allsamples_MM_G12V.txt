@@ -29,6 +29,9 @@ Likelihood ratio test= 0.1  on 2 df,   p=1
 Wald test            = 0.1  on 2 df,   p=0.9
 Score (logrank) test = 0.1  on 2 df,   p=0.9
 
+
+Likelihood ratio test p-value: 0.9519042 
+Wald test p-value: 0.9494384 
 ================================================================================ 
 
 MM - KRAS G12V - comutation with HIST1H2BK 
@@ -62,6 +65,9 @@ Likelihood ratio test= 0.77  on 2 df,   p=0.7
 Wald test            = 0.7  on 2 df,   p=0.7
 Score (logrank) test = 0.72  on 2 df,   p=0.7
 
+
+Likelihood ratio test p-value: 0.6793431 
+Wald test p-value: 0.7032172 
 ================================================================================ 
 
 MM - KRAS G12V - comutation with PIK3C2G 
@@ -95,6 +101,9 @@ Likelihood ratio test= 0.56  on 2 df,   p=0.8
 Wald test            = 0.63  on 2 df,   p=0.7
 Score (logrank) test = 0.64  on 2 df,   p=0.7
 
+
+Likelihood ratio test p-value: 0.7541514 
+Wald test p-value: 0.7302999 
 ================================================================================ 
 
 MM - KRAS G12V - comutation with SPATA31D1 
@@ -128,5 +137,8 @@ Likelihood ratio test= 0.82  on 2 df,   p=0.7
 Wald test            = 0.93  on 2 df,   p=0.6
 Score (logrank) test = 0.95  on 2 df,   p=0.6
 
+
+Likelihood ratio test p-value: 0.6638373 
+Wald test p-value: 0.6271256 
 ================================================================================ 
 

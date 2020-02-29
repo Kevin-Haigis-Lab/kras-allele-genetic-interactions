@@ -24,6 +24,9 @@ Likelihood ratio test= 0  on 1 df,   p=1
 Wald test            = 0  on 1 df,   p=1
 Score (logrank) test = 0  on 1 df,   p=1
 
+
+Likelihood ratio test p-value: 0.958915 
+Wald test p-value: 0.9589174 
 ================================================================================ 
 
 LUAD survival model by sex 
@@ -52,6 +55,9 @@ Likelihood ratio test= 0.12  on 1 df,   p=0.7
 Wald test            = 0.12  on 1 df,   p=0.7
 Score (logrank) test = 0.12  on 1 df,   p=0.7
 
+
+Likelihood ratio test p-value: 0.724016 
+Wald test p-value: 0.7239081 
 ================================================================================ 
 
 MM survival model by sex 
@@ -79,6 +85,9 @@ Likelihood ratio test= 12  on 1 df,   p=5e-04
 Wald test            = 11.23  on 1 df,   p=8e-04
 Score (logrank) test = 11.49  on 1 df,   p=7e-04
 
+
+Likelihood ratio test p-value: 0.0005329974 
+Wald test p-value: 0.0008027346 
 ================================================================================ 
 
 PAAD survival model by sex 
@@ -107,5 +116,8 @@ Likelihood ratio test= 0.54  on 1 df,   p=0.5
 Wald test            = 0.54  on 1 df,   p=0.5
 Score (logrank) test = 0.54  on 1 df,   p=0.5
 
+
+Likelihood ratio test p-value: 0.4623213 
+Wald test p-value: 0.461757 
 ================================================================================ 
 

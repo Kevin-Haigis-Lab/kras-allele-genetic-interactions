@@ -31,6 +31,9 @@ Likelihood ratio test= 3.97  on 2 df,   p=0.1
 Wald test            = 4.24  on 2 df,   p=0.1
 Score (logrank) test = 4.47  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1371482 
+Wald test p-value: 0.1197657 
 ================================================================================ 
 
 PAAD - KRAS G12R - comutation with TTN 
@@ -64,5 +67,8 @@ Likelihood ratio test= 1.57  on 2 df,   p=0.5
 Wald test            = 1.62  on 2 df,   p=0.4
 Score (logrank) test = 1.65  on 2 df,   p=0.4
 
+
+Likelihood ratio test p-value: 0.4565042 
+Wald test p-value: 0.4444059 
 ================================================================================ 
 

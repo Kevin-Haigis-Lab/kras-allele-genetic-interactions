@@ -45,6 +45,9 @@ Likelihood ratio test= 29.12  on 4 df,   p=7e-06
 Wald test            = 31.69  on 4 df,   p=2e-06
 Score (logrank) test = 36.86  on 4 df,   p=2e-07
 
+
+Likelihood ratio test p-value: 7.402439e-06 
+Wald test p-value: 2.216387e-06 
 ================================================================================ 
 
 LUAD survival model by tumor stage & KRAS mutation 
@@ -94,6 +97,9 @@ Likelihood ratio test= 20.42  on 4 df,   p=4e-04
 Wald test            = 22.98  on 4 df,   p=1e-04
 Score (logrank) test = 24.44  on 4 df,   p=7e-05
 
+
+Likelihood ratio test p-value: 0.0004122225 
+Wald test p-value: 0.0001280389 
 ================================================================================ 
 
 MM survival model by tumor stage & KRAS mutation 
@@ -139,6 +145,9 @@ Likelihood ratio test= 80.43  on 3 df,   p=<2e-16
 Wald test            = 70.43  on 3 df,   p=3e-15
 Score (logrank) test = 82.58  on 3 df,   p=<2e-16
 
+
+Likelihood ratio test p-value: 2.476554e-17 
+Wald test p-value: 3.454893e-15 
 ================================================================================ 
 
 PAAD survival model by tumor stage & KRAS mutation 
@@ -188,5 +197,8 @@ Likelihood ratio test= 16.85  on 4 df,   p=0.002
 Wald test            = 14.4  on 4 df,   p=0.006
 Score (logrank) test = 15.28  on 4 df,   p=0.004
 
+
+Likelihood ratio test p-value: 0.002070376 
+Wald test p-value: 0.006124215 
 ================================================================================ 
 

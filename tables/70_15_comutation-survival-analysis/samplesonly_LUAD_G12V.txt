@@ -17,6 +17,8 @@ comutation=FALSE 28       11    10.78   0.00454    0.0277
 comutation=TRUE   7        2     2.22   0.02201    0.0277
 
  Chisq= 0  on 1 degrees of freedom, p= 0.9 
+
+p-value: 0.8678138 
 ================================================================================ 
 
 LUAD - KRAS G12V - comutation with ADAMTS2 
@@ -38,6 +40,8 @@ comutation=FALSE 29       12    11.03    0.0845     0.587
 comutation=TRUE   6        1     1.97    0.4744     0.587
 
  Chisq= 0.6  on 1 degrees of freedom, p= 0.4 
+
+p-value: 0.4434379 
 ================================================================================ 
 
 LUAD - KRAS G12V - comutation with ARHGEF6 
@@ -59,6 +63,8 @@ comutation=FALSE 30        9    10.37     0.181      0.97
 comutation=TRUE   5        4     2.63     0.713      0.97
 
  Chisq= 1  on 1 degrees of freedom, p= 0.3 
+
+p-value: 0.3247343 
 ================================================================================ 
 
 LUAD - KRAS G12V - comutation with ATM 
@@ -80,6 +86,8 @@ comutation=FALSE 27       11    10.11    0.0788     0.379
 comutation=TRUE   8        2     2.89    0.2753     0.379
 
  Chisq= 0.4  on 1 degrees of freedom, p= 0.5 
+
+p-value: 0.5381936 
 ================================================================================ 
 
 LUAD - KRAS G12V - comutation with ATP10B 
@@ -101,6 +109,8 @@ comutation=FALSE 29        9    11.44      0.52      4.55
 comutation=TRUE   6        4     1.56      3.81      4.55
 
  Chisq= 4.5  on 1 degrees of freedom, p= 0.03 
+
+p-value: 0.03300075 
 ================================================================================ 
 
 LUAD - KRAS G12V - comutation with CDH20 
@@ -122,6 +132,8 @@ comutation=FALSE 30       11    11.69    0.0404     0.416
 comutation=TRUE   5        2     1.31    0.3599     0.416
 
  Chisq= 0.4  on 1 degrees of freedom, p= 0.5 
+
+p-value: 0.5191585 
 ================================================================================ 
 
 LUAD - KRAS G12V - comutation with COL11A1 
@@ -143,6 +155,8 @@ comutation=FALSE 30       10    11.25     0.139      1.06
 comutation=TRUE   5        3     1.75     0.898      1.06
 
  Chisq= 1.1  on 1 degrees of freedom, p= 0.3 
+
+p-value: 0.3025387 
 ================================================================================ 
 
 LUAD - KRAS G12V - comutation with FLG 
@@ -164,6 +178,8 @@ comutation=FALSE 27       12     8.55      1.39      4.32
 comutation=TRUE   8        1     4.45      2.67      4.32
 
  Chisq= 4.3  on 1 degrees of freedom, p= 0.04 
+
+p-value: 0.03764122 
 ================================================================================ 
 
 LUAD - KRAS G12V - comutation with KEAP1 
@@ -185,6 +201,8 @@ comutation=FALSE 29        9     9.97    0.0945     0.476
 comutation=TRUE   6        4     3.03    0.3109     0.476
 
  Chisq= 0.5  on 1 degrees of freedom, p= 0.5 
+
+p-value: 0.4904667 
 ================================================================================ 
 
 LUAD - KRAS G12V - comutation with MXRA5 
@@ -206,6 +224,8 @@ comutation=FALSE 30       12    11.66   0.00986    0.0993
 comutation=TRUE   5        1     1.34   0.08583    0.0993
 
  Chisq= 0.1  on 1 degrees of freedom, p= 0.8 
+
+p-value: 0.7527179 
 ================================================================================ 
 
 LUAD - KRAS G12V - comutation with NRK 
@@ -227,6 +247,8 @@ comutation=FALSE 30       12     11.9  0.000863    0.0105
 comutation=TRUE   5        1      1.1  0.009325    0.0105
 
  Chisq= 0  on 1 degrees of freedom, p= 0.9 
+
+p-value: 0.9182718 
 ================================================================================ 
 
 LUAD - KRAS G12V - comutation with OR4N4 
@@ -248,6 +270,8 @@ comutation=FALSE 30       12    12.01  8.43e-06  0.000115
 comutation=TRUE   5        1     0.99  1.02e-04  0.000115
 
  Chisq= 0  on 1 degrees of freedom, p= 1 
+
+p-value: 0.9914526 
 ================================================================================ 
 
 LUAD - KRAS G12V - comutation with OTOF 
@@ -269,6 +293,8 @@ comutation=FALSE 26       12     9.53     0.638      2.41
 comutation=TRUE   9        1     3.47     1.754      2.41
 
  Chisq= 2.4  on 1 degrees of freedom, p= 0.1 
+
+p-value: 0.1206191 
 ================================================================================ 
 
 LUAD - KRAS G12V - comutation with PCDHGB3 
@@ -290,6 +316,8 @@ comutation=FALSE 30       12    10.38     0.253      1.28
 comutation=TRUE   5        1     2.62     1.003      1.28
 
  Chisq= 1.3  on 1 degrees of freedom, p= 0.3 
+
+p-value: 0.2573251 
 ================================================================================ 
 
 LUAD - KRAS G12V - comutation with SETBP1 
@@ -311,6 +339,8 @@ comutation=FALSE 28       11    11.26   0.00609     0.048
 comutation=TRUE   7        2     1.74   0.03947     0.048
 
  Chisq= 0  on 1 degrees of freedom, p= 0.8 
+
+p-value: 0.8266393 
 ================================================================================ 
 
 LUAD - KRAS G12V - comutation with SLC9A4 
@@ -332,6 +362,8 @@ comutation=FALSE 29        9    10.82     0.307      1.89
 comutation=TRUE   6        4     2.18     1.530      1.89
 
  Chisq= 1.9  on 1 degrees of freedom, p= 0.2 
+
+p-value: 0.1691882 
 ================================================================================ 
 
 LUAD - KRAS G12V - comutation with SLITRK3 
@@ -353,6 +385,8 @@ comutation=FALSE 29       10    10.73    0.0492     0.288
 comutation=TRUE   6        3     2.27    0.2320     0.288
 
  Chisq= 0.3  on 1 degrees of freedom, p= 0.6 
+
+p-value: 0.5913409 
 ================================================================================ 
 
 LUAD - KRAS G12V - comutation with TP53 
@@ -374,6 +408,8 @@ comutation=FALSE 21        7     7.61    0.0489     0.119
 comutation=TRUE  14        6     5.39    0.0690     0.119
 
  Chisq= 0.1  on 1 degrees of freedom, p= 0.7 
+
+p-value: 0.7298939 
 ================================================================================ 
 
 LUAD - KRAS G12V - comutation with TTN 
@@ -395,6 +431,8 @@ comutation=FALSE 22        9        8     0.126     0.333
 comutation=TRUE  13        4        5     0.201     0.333
 
  Chisq= 0.3  on 1 degrees of freedom, p= 0.6 
+
+p-value: 0.5640592 
 ================================================================================ 
 
 LUAD - KRAS G12V - comutation with ZFHX4 
@@ -416,6 +454,8 @@ comutation=FALSE 18        7     5.81     0.243     0.457
 comutation=TRUE  17        6     7.19     0.197     0.457
 
  Chisq= 0.5  on 1 degrees of freedom, p= 0.5 
+
+p-value: 0.4989166 
 ================================================================================ 
 
 LUAD - KRAS G12V - comutation with ZNF711 
@@ -437,5 +477,7 @@ comutation=FALSE 30       11    10.19    0.0643     0.318
 comutation=TRUE   5        2     2.81    0.2334     0.318
 
  Chisq= 0.3  on 1 degrees of freedom, p= 0.6 
+
+p-value: 0.5727034 
 ================================================================================ 
 

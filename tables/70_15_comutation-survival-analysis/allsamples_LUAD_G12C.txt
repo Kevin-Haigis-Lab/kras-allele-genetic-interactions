@@ -31,6 +31,9 @@ Likelihood ratio test= 2.81  on 2 df,   p=0.2
 Wald test            = 3.09  on 2 df,   p=0.2
 Score (logrank) test = 3.13  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.2448153 
+Wald test p-value: 0.2133645 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with ABCA13 
@@ -68,6 +71,9 @@ Likelihood ratio test= 3.32  on 2 df,   p=0.2
 Wald test            = 3.68  on 2 df,   p=0.2
 Score (logrank) test = 3.73  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.1901936 
+Wald test p-value: 0.159122 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with ABCA7 
@@ -103,6 +109,9 @@ Likelihood ratio test= 3.55  on 2 df,   p=0.2
 Wald test            = 3.96  on 2 df,   p=0.1
 Score (logrank) test = 4.03  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.16916 
+Wald test p-value: 0.1379298 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with ABCB5 
@@ -140,6 +149,9 @@ Likelihood ratio test= 3.66  on 2 df,   p=0.2
 Wald test            = 4.02  on 2 df,   p=0.1
 Score (logrank) test = 4.07  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1600327 
+Wald test p-value: 0.1341452 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with ABCC12 
@@ -175,6 +187,9 @@ Likelihood ratio test= 4.91  on 2 df,   p=0.09
 Wald test            = 5.44  on 2 df,   p=0.07
 Score (logrank) test = 5.54  on 2 df,   p=0.06
 
+
+Likelihood ratio test p-value: 0.08566754 
+Wald test p-value: 0.06590293 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with ABCC9 
@@ -210,6 +225,9 @@ Likelihood ratio test= 3.87  on 2 df,   p=0.1
 Wald test            = 4.16  on 2 df,   p=0.1
 Score (logrank) test = 4.23  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.144241 
+Wald test p-value: 0.1248546 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with ABCG4 
@@ -245,6 +263,9 @@ Likelihood ratio test= 3.5  on 2 df,   p=0.2
 Wald test            = 3.84  on 2 df,   p=0.1
 Score (logrank) test = 3.9  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.173467 
+Wald test p-value: 0.1465648 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with ABLIM3 
@@ -280,6 +301,9 @@ Likelihood ratio test= 4.39  on 2 df,   p=0.1
 Wald test            = 4.81  on 2 df,   p=0.09
 Score (logrank) test = 4.88  on 2 df,   p=0.09
 
+
+Likelihood ratio test p-value: 0.1115129 
+Wald test p-value: 0.09045748 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with ACAN 
@@ -317,6 +341,9 @@ Likelihood ratio test= 4.89  on 2 df,   p=0.09
 Wald test            = 5.36  on 2 df,   p=0.07
 Score (logrank) test = 5.43  on 2 df,   p=0.07
 
+
+Likelihood ratio test p-value: 0.08676133 
+Wald test p-value: 0.06858906 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with ACSM2A 
@@ -352,6 +379,9 @@ Likelihood ratio test= 2.76  on 2 df,   p=0.3
 Wald test            = 3.03  on 2 df,   p=0.2
 Score (logrank) test = 3.07  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.2520697 
+Wald test p-value: 0.2198356 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with ACSM5 
@@ -387,6 +417,9 @@ Likelihood ratio test= 4.67  on 2 df,   p=0.1
 Wald test            = 5.04  on 2 df,   p=0.08
 Score (logrank) test = 5.14  on 2 df,   p=0.08
 
+
+Likelihood ratio test p-value: 0.09665497 
+Wald test p-value: 0.08026662 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with ADAMTS15 
@@ -422,6 +455,9 @@ Likelihood ratio test= 7.21  on 2 df,   p=0.03
 Wald test            = 6.06  on 2 df,   p=0.05
 Score (logrank) test = 6.49  on 2 df,   p=0.04
 
+
+Likelihood ratio test p-value: 0.02723217 
+Wald test p-value: 0.0482907 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with ADAMTS16 
@@ -457,6 +493,9 @@ Likelihood ratio test= 2.92  on 2 df,   p=0.2
 Wald test            = 3.22  on 2 df,   p=0.2
 Score (logrank) test = 3.27  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.232205 
+Wald test p-value: 0.1995947 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with ADCYAP1R1 
@@ -492,6 +531,9 @@ Likelihood ratio test= 4.32  on 2 df,   p=0.1
 Wald test            = 4.48  on 2 df,   p=0.1
 Score (logrank) test = 4.57  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1153007 
+Wald test p-value: 0.1064257 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with AHCTF1 
@@ -527,6 +569,9 @@ Likelihood ratio test= 3.79  on 2 df,   p=0.2
 Wald test            = 4.18  on 2 df,   p=0.1
 Score (logrank) test = 4.24  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1503584 
+Wald test p-value: 0.123837 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with AHNAK2 
@@ -564,6 +609,9 @@ Likelihood ratio test= 8  on 2 df,   p=0.02
 Wald test            = 7.86  on 2 df,   p=0.02
 Score (logrank) test = 7.99  on 2 df,   p=0.02
 
+
+Likelihood ratio test p-value: 0.01829763 
+Wald test p-value: 0.01965199 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with AKAP1 
@@ -601,6 +649,9 @@ Likelihood ratio test= 3.32  on 2 df,   p=0.2
 Wald test            = 3.68  on 2 df,   p=0.2
 Score (logrank) test = 3.73  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.1899695 
+Wald test p-value: 0.1589085 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with AKAP6 
@@ -636,6 +687,9 @@ Likelihood ratio test= 6.19  on 2 df,   p=0.05
 Wald test            = 6.25  on 2 df,   p=0.04
 Score (logrank) test = 6.4  on 2 df,   p=0.04
 
+
+Likelihood ratio test p-value: 0.04526237 
+Wald test p-value: 0.04386669 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with AKAP9 
@@ -671,6 +725,9 @@ Likelihood ratio test= 3.39  on 2 df,   p=0.2
 Wald test            = 3.75  on 2 df,   p=0.2
 Score (logrank) test = 3.81  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1835912 
+Wald test p-value: 0.1530455 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with ALG13 
@@ -708,6 +765,9 @@ Likelihood ratio test= 3.43  on 2 df,   p=0.2
 Wald test            = 3.8  on 2 df,   p=0.1
 Score (logrank) test = 3.86  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1800801 
+Wald test p-value: 0.1494586 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with ALPK2 
@@ -741,6 +801,9 @@ Likelihood ratio test= 2.39  on 2 df,   p=0.3
 Wald test            = 2.55  on 2 df,   p=0.3
 Score (logrank) test = 2.58  on 2 df,   p=0.3
 
+
+Likelihood ratio test p-value: 0.3028568 
+Wald test p-value: 0.2789454 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with AMY2B 
@@ -776,6 +839,9 @@ Likelihood ratio test= 3.32  on 2 df,   p=0.2
 Wald test            = 3.68  on 2 df,   p=0.2
 Score (logrank) test = 3.73  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.1901697 
+Wald test p-value: 0.1591049 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with ANKRD30A 
@@ -811,6 +877,9 @@ Likelihood ratio test= 5.57  on 2 df,   p=0.06
 Wald test            = 6.02  on 2 df,   p=0.05
 Score (logrank) test = 6.11  on 2 df,   p=0.05
 
+
+Likelihood ratio test p-value: 0.06175028 
+Wald test p-value: 0.04938655 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with AR 
@@ -846,6 +915,9 @@ Likelihood ratio test= 3.34  on 2 df,   p=0.2
 Wald test            = 3.69  on 2 df,   p=0.2
 Score (logrank) test = 3.75  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.1886482 
+Wald test p-value: 0.1579337 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with ARHGAP21 
@@ -881,6 +953,9 @@ Likelihood ratio test= 5.29  on 2 df,   p=0.07
 Wald test            = 5.71  on 2 df,   p=0.06
 Score (logrank) test = 5.84  on 2 df,   p=0.05
 
+
+Likelihood ratio test p-value: 0.07107752 
+Wald test p-value: 0.05756519 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with ARHGAP31 
@@ -916,6 +991,9 @@ Likelihood ratio test= 4.14  on 2 df,   p=0.1
 Wald test            = 4.61  on 2 df,   p=0.1
 Score (logrank) test = 4.7  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1262689 
+Wald test p-value: 0.09971446 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with ARHGAP32 
@@ -949,6 +1027,9 @@ Likelihood ratio test= 2.44  on 2 df,   p=0.3
 Wald test            = 2.67  on 2 df,   p=0.3
 Score (logrank) test = 2.7  on 2 df,   p=0.3
 
+
+Likelihood ratio test p-value: 0.2956169 
+Wald test p-value: 0.2636388 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with ARID1A 
@@ -986,6 +1067,9 @@ Likelihood ratio test= 5.12  on 2 df,   p=0.08
 Wald test            = 5.65  on 2 df,   p=0.06
 Score (logrank) test = 5.73  on 2 df,   p=0.06
 
+
+Likelihood ratio test p-value: 0.07719967 
+Wald test p-value: 0.05943421 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with ARID1B 
@@ -1021,6 +1105,9 @@ Likelihood ratio test= 3.52  on 2 df,   p=0.2
 Wald test            = 3.86  on 2 df,   p=0.1
 Score (logrank) test = 3.92  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.171736 
+Wald test p-value: 0.1451961 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with ARPP21 
@@ -1056,6 +1143,9 @@ Likelihood ratio test= 4.29  on 2 df,   p=0.1
 Wald test            = 4.78  on 2 df,   p=0.09
 Score (logrank) test = 4.87  on 2 df,   p=0.09
 
+
+Likelihood ratio test p-value: 0.1170491 
+Wald test p-value: 0.09158422 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with ASCC3 
@@ -1091,6 +1181,9 @@ Likelihood ratio test= 11.95  on 2 df,   p=0.003
 Wald test            = 8.11  on 2 df,   p=0.02
 Score (logrank) test = 9.46  on 2 df,   p=0.009
 
+
+Likelihood ratio test p-value: 0.002539001 
+Wald test p-value: 0.01731068 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with ASTN1 
@@ -1128,6 +1221,9 @@ Likelihood ratio test= 3.66  on 2 df,   p=0.2
 Wald test            = 3.99  on 2 df,   p=0.1
 Score (logrank) test = 4.05  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1606725 
+Wald test p-value: 0.1357675 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with ASTN2 
@@ -1163,6 +1259,9 @@ Likelihood ratio test= 5.65  on 2 df,   p=0.06
 Wald test            = 6.41  on 2 df,   p=0.04
 Score (logrank) test = 6.57  on 2 df,   p=0.04
 
+
+Likelihood ratio test p-value: 0.0591756 
+Wald test p-value: 0.04065127 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with ASXL1 
@@ -1198,6 +1297,9 @@ Likelihood ratio test= 3.37  on 2 df,   p=0.2
 Wald test            = 3.72  on 2 df,   p=0.2
 Score (logrank) test = 3.78  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.1858315 
+Wald test p-value: 0.1555505 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with ATM 
@@ -1235,6 +1337,9 @@ Likelihood ratio test= 3.4  on 2 df,   p=0.2
 Wald test            = 3.75  on 2 df,   p=0.2
 Score (logrank) test = 3.81  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1830369 
+Wald test p-value: 0.1529757 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with ATRNL1 
@@ -1270,6 +1375,9 @@ Likelihood ratio test= 5.81  on 2 df,   p=0.05
 Wald test            = 5.95  on 2 df,   p=0.05
 Score (logrank) test = 6.08  on 2 df,   p=0.05
 
+
+Likelihood ratio test p-value: 0.05480061 
+Wald test p-value: 0.05099481 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with ATRX 
@@ -1305,6 +1413,9 @@ Likelihood ratio test= 4.34  on 2 df,   p=0.1
 Wald test            = 4.83  on 2 df,   p=0.09
 Score (logrank) test = 4.92  on 2 df,   p=0.09
 
+
+Likelihood ratio test p-value: 0.1139947 
+Wald test p-value: 0.08927451 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with B4GALNT4 
@@ -1340,6 +1451,9 @@ Likelihood ratio test= 3.65  on 2 df,   p=0.2
 Wald test            = 4.01  on 2 df,   p=0.1
 Score (logrank) test = 4.07  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1613291 
+Wald test p-value: 0.1344735 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with BAI3 
@@ -1375,6 +1489,9 @@ Likelihood ratio test= 3.15  on 2 df,   p=0.2
 Wald test            = 3.37  on 2 df,   p=0.2
 Score (logrank) test = 3.41  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.2068891 
+Wald test p-value: 0.1851172 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with BAIAP3 
@@ -1410,6 +1527,9 @@ Likelihood ratio test= 5.16  on 2 df,   p=0.08
 Wald test            = 5.03  on 2 df,   p=0.08
 Score (logrank) test = 5.18  on 2 df,   p=0.07
 
+
+Likelihood ratio test p-value: 0.075729 
+Wald test p-value: 0.08075924 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with BCORL1 
@@ -1447,6 +1567,9 @@ Likelihood ratio test= 3.88  on 2 df,   p=0.1
 Wald test            = 4.27  on 2 df,   p=0.1
 Score (logrank) test = 4.33  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1436438 
+Wald test p-value: 0.1182559 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with BDP1 
@@ -1480,6 +1603,9 @@ Likelihood ratio test= 4.66  on 2 df,   p=0.1
 Wald test            = 4.32  on 2 df,   p=0.1
 Score (logrank) test = 4.43  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.09729295 
+Wald test p-value: 0.1154517 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with BIRC6 
@@ -1515,6 +1641,9 @@ Likelihood ratio test= 8.18  on 2 df,   p=0.02
 Wald test            = 8.97  on 2 df,   p=0.01
 Score (logrank) test = 9.17  on 2 df,   p=0.01
 
+
+Likelihood ratio test p-value: 0.01670128 
+Wald test p-value: 0.01128559 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with BLK 
@@ -1550,6 +1679,9 @@ Likelihood ratio test= 3.4  on 2 df,   p=0.2
 Wald test            = 3.75  on 2 df,   p=0.2
 Score (logrank) test = 3.81  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1823678 
+Wald test p-value: 0.1531337 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with BMP2K 
@@ -1585,6 +1717,9 @@ Likelihood ratio test= 4.91  on 2 df,   p=0.09
 Wald test            = 4.87  on 2 df,   p=0.09
 Score (logrank) test = 5  on 2 df,   p=0.08
 
+
+Likelihood ratio test p-value: 0.08578673 
+Wald test p-value: 0.08755998 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with BRAF 
@@ -1620,6 +1755,9 @@ Likelihood ratio test= 4.38  on 2 df,   p=0.1
 Wald test            = 4.92  on 2 df,   p=0.09
 Score (logrank) test = 5.02  on 2 df,   p=0.08
 
+
+Likelihood ratio test p-value: 0.1121794 
+Wald test p-value: 0.08532857 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with BRINP2 
@@ -1653,6 +1791,9 @@ Likelihood ratio test= 3.65  on 2 df,   p=0.2
 Wald test            = 3.98  on 2 df,   p=0.1
 Score (logrank) test = 4.04  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1609785 
+Wald test p-value: 0.1364171 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with BRWD3 
@@ -1688,6 +1829,9 @@ Likelihood ratio test= 4.68  on 2 df,   p=0.1
 Wald test            = 5.3  on 2 df,   p=0.07
 Score (logrank) test = 5.42  on 2 df,   p=0.07
 
+
+Likelihood ratio test p-value: 0.09642795 
+Wald test p-value: 0.07069414 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with C1orf173 
@@ -1725,6 +1869,9 @@ Likelihood ratio test= 3.84  on 2 df,   p=0.1
 Wald test            = 4.19  on 2 df,   p=0.1
 Score (logrank) test = 4.24  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1465062 
+Wald test p-value: 0.1231906 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with C20orf26 
@@ -1760,6 +1907,9 @@ Likelihood ratio test= 3.34  on 2 df,   p=0.2
 Wald test            = 3.69  on 2 df,   p=0.2
 Score (logrank) test = 3.75  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.1884281 
+Wald test p-value: 0.1577546 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with C6 
@@ -1795,6 +1945,9 @@ Likelihood ratio test= 3.8  on 2 df,   p=0.1
 Wald test            = 4.19  on 2 df,   p=0.1
 Score (logrank) test = 4.26  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1498603 
+Wald test p-value: 0.1227749 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with CACNA1H 
@@ -1830,6 +1983,9 @@ Likelihood ratio test= 4.17  on 2 df,   p=0.1
 Wald test            = 4.64  on 2 df,   p=0.1
 Score (logrank) test = 4.72  on 2 df,   p=0.09
 
+
+Likelihood ratio test p-value: 0.1245221 
+Wald test p-value: 0.09839657 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with CACNA1S 
@@ -1865,6 +2021,9 @@ Likelihood ratio test= 3.7  on 2 df,   p=0.2
 Wald test            = 4.06  on 2 df,   p=0.1
 Score (logrank) test = 4.12  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1569244 
+Wald test p-value: 0.131065 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with CACNA2D1 
@@ -1902,6 +2061,9 @@ Likelihood ratio test= 4.98  on 2 df,   p=0.08
 Wald test            = 5.11  on 2 df,   p=0.08
 Score (logrank) test = 5.19  on 2 df,   p=0.07
 
+
+Likelihood ratio test p-value: 0.08308696 
+Wald test p-value: 0.07771403 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with CACNA2D4 
@@ -1937,6 +2099,9 @@ Likelihood ratio test= 4.02  on 2 df,   p=0.1
 Wald test            = 4.39  on 2 df,   p=0.1
 Score (logrank) test = 4.46  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1339924 
+Wald test p-value: 0.1111746 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with CALCR 
@@ -1974,6 +2139,9 @@ Likelihood ratio test= 3.35  on 2 df,   p=0.2
 Wald test            = 3.71  on 2 df,   p=0.2
 Score (logrank) test = 3.76  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.1873199 
+Wald test p-value: 0.1565481 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with CAMTA1 
@@ -2009,6 +2177,9 @@ Likelihood ratio test= 3.35  on 2 df,   p=0.2
 Wald test            = 3.72  on 2 df,   p=0.2
 Score (logrank) test = 3.77  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.1870495 
+Wald test p-value: 0.156051 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with CD163 
@@ -2044,6 +2215,9 @@ Likelihood ratio test= 5.06  on 2 df,   p=0.08
 Wald test            = 5.57  on 2 df,   p=0.06
 Score (logrank) test = 5.68  on 2 df,   p=0.06
 
+
+Likelihood ratio test p-value: 0.07964209 
+Wald test p-value: 0.06185343 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with CD163L1 
@@ -2081,6 +2255,9 @@ Likelihood ratio test= 3.68  on 2 df,   p=0.2
 Wald test            = 4.08  on 2 df,   p=0.1
 Score (logrank) test = 4.13  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1585131 
+Wald test p-value: 0.1302611 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with CDH10 
@@ -2118,6 +2295,9 @@ Likelihood ratio test= 5.17  on 2 df,   p=0.08
 Wald test            = 5.4  on 2 df,   p=0.07
 Score (logrank) test = 5.47  on 2 df,   p=0.06
 
+
+Likelihood ratio test p-value: 0.07535968 
+Wald test p-value: 0.06720237 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with CDH2 
@@ -2151,6 +2331,9 @@ Likelihood ratio test= 4.8  on 2 df,   p=0.09
 Wald test            = 4.7  on 2 df,   p=0.1
 Score (logrank) test = 4.8  on 2 df,   p=0.09
 
+
+Likelihood ratio test p-value: 0.09078715 
+Wald test p-value: 0.09544005 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with CELSR2 
@@ -2186,6 +2369,9 @@ Likelihood ratio test= 4.24  on 2 df,   p=0.1
 Wald test            = 4.67  on 2 df,   p=0.1
 Score (logrank) test = 4.74  on 2 df,   p=0.09
 
+
+Likelihood ratio test p-value: 0.120157 
+Wald test p-value: 0.09699453 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with CENPE 
@@ -2221,6 +2407,9 @@ Likelihood ratio test= 2.92  on 2 df,   p=0.2
 Wald test            = 3.19  on 2 df,   p=0.2
 Score (logrank) test = 3.23  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.2326887 
+Wald test p-value: 0.2027397 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with CHD5 
@@ -2256,6 +2445,9 @@ Likelihood ratio test= 3.85  on 2 df,   p=0.1
 Wald test            = 4.22  on 2 df,   p=0.1
 Score (logrank) test = 4.28  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1458785 
+Wald test p-value: 0.1213658 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with CHD9 
@@ -2291,6 +2483,9 @@ Likelihood ratio test= 3.15  on 2 df,   p=0.2
 Wald test            = 3.44  on 2 df,   p=0.2
 Score (logrank) test = 3.49  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.2068918 
+Wald test p-value: 0.178658 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with CHRNA4 
@@ -2326,6 +2521,9 @@ Likelihood ratio test= 4.38  on 2 df,   p=0.1
 Wald test            = 4.54  on 2 df,   p=0.1
 Score (logrank) test = 4.63  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.111881 
+Wald test p-value: 0.1032456 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with CHRNB4 
@@ -2363,6 +2561,9 @@ Likelihood ratio test= 3.68  on 2 df,   p=0.2
 Wald test            = 4.09  on 2 df,   p=0.1
 Score (logrank) test = 4.15  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1590809 
+Wald test p-value: 0.1292006 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with CLCN1 
@@ -2398,6 +2599,9 @@ Likelihood ratio test= 4.72  on 2 df,   p=0.09
 Wald test            = 5.21  on 2 df,   p=0.07
 Score (logrank) test = 5.31  on 2 df,   p=0.07
 
+
+Likelihood ratio test p-value: 0.09440845 
+Wald test p-value: 0.07375851 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with CMTR2 
@@ -2431,6 +2635,9 @@ Likelihood ratio test= 4.49  on 2 df,   p=0.1
 Wald test            = 4.4  on 2 df,   p=0.1
 Score (logrank) test = 4.49  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1060582 
+Wald test p-value: 0.1107333 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with CNOT1 
@@ -2466,6 +2673,9 @@ Likelihood ratio test= 3.49  on 2 df,   p=0.2
 Wald test            = 3.83  on 2 df,   p=0.1
 Score (logrank) test = 3.88  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1747172 
+Wald test p-value: 0.1474962 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with CNTN1 
@@ -2501,6 +2711,9 @@ Likelihood ratio test= 4.06  on 2 df,   p=0.1
 Wald test            = 4.52  on 2 df,   p=0.1
 Score (logrank) test = 4.61  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1315918 
+Wald test p-value: 0.1041102 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with CNTN3 
@@ -2534,6 +2747,9 @@ Likelihood ratio test= 2.74  on 2 df,   p=0.3
 Wald test            = 2.93  on 2 df,   p=0.2
 Score (logrank) test = 2.96  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.2543548 
+Wald test p-value: 0.2311626 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with CNTN5 
@@ -2571,6 +2787,9 @@ Likelihood ratio test= 3.32  on 2 df,   p=0.2
 Wald test            = 3.68  on 2 df,   p=0.2
 Score (logrank) test = 3.73  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.1901993 
+Wald test p-value: 0.1591253 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with COBL 
@@ -2606,6 +2825,9 @@ Likelihood ratio test= 3.67  on 2 df,   p=0.2
 Wald test            = 4.05  on 2 df,   p=0.1
 Score (logrank) test = 4.11  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1599338 
+Wald test p-value: 0.1318987 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with COL11A1 
@@ -2643,6 +2865,9 @@ Likelihood ratio test= 3.96  on 2 df,   p=0.1
 Wald test            = 4.32  on 2 df,   p=0.1
 Score (logrank) test = 4.38  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1383975 
+Wald test p-value: 0.1153708 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with COL14A1 
@@ -2676,6 +2901,9 @@ Likelihood ratio test= 2.88  on 2 df,   p=0.2
 Wald test            = 3.02  on 2 df,   p=0.2
 Score (logrank) test = 3.06  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.2374911 
+Wald test p-value: 0.2207698 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with COL24A1 
@@ -2711,6 +2939,9 @@ Likelihood ratio test= 3.31  on 2 df,   p=0.2
 Wald test            = 3.66  on 2 df,   p=0.2
 Score (logrank) test = 3.71  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.1908815 
+Wald test p-value: 0.1607244 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with COL28A1 
@@ -2746,6 +2977,9 @@ Likelihood ratio test= 3.87  on 2 df,   p=0.1
 Wald test            = 4.25  on 2 df,   p=0.1
 Score (logrank) test = 4.31  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1442541 
+Wald test p-value: 0.1197275 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with COL3A1 
@@ -2781,6 +3015,9 @@ Likelihood ratio test= 4.54  on 2 df,   p=0.1
 Wald test            = 4.76  on 2 df,   p=0.09
 Score (logrank) test = 4.84  on 2 df,   p=0.09
 
+
+Likelihood ratio test p-value: 0.1030957 
+Wald test p-value: 0.09249653 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with COL5A2 
@@ -2816,6 +3053,9 @@ Likelihood ratio test= 6.4  on 2 df,   p=0.04
 Wald test            = 7.11  on 2 df,   p=0.03
 Score (logrank) test = 7.28  on 2 df,   p=0.03
 
+
+Likelihood ratio test p-value: 0.04074949 
+Wald test p-value: 0.02858065 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with COL6A6 
@@ -2851,6 +3091,9 @@ Likelihood ratio test= 3.11  on 2 df,   p=0.2
 Wald test            = 3.35  on 2 df,   p=0.2
 Score (logrank) test = 3.38  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.2110042 
+Wald test p-value: 0.1875695 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with CPA4 
@@ -2888,6 +3131,9 @@ Likelihood ratio test= 3.54  on 2 df,   p=0.2
 Wald test            = 3.93  on 2 df,   p=0.1
 Score (logrank) test = 3.98  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1706254 
+Wald test p-value: 0.1404287 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with CPSF1 
@@ -2923,6 +3169,9 @@ Likelihood ratio test= 3.56  on 2 df,   p=0.2
 Wald test            = 3.88  on 2 df,   p=0.1
 Score (logrank) test = 3.94  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1689999 
+Wald test p-value: 0.1435674 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with CSMD2 
@@ -2958,6 +3207,9 @@ Likelihood ratio test= 4.94  on 2 df,   p=0.08
 Wald test            = 5.13  on 2 df,   p=0.08
 Score (logrank) test = 5.22  on 2 df,   p=0.07
 
+
+Likelihood ratio test p-value: 0.08469587 
+Wald test p-value: 0.07688305 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with CSMD3 
@@ -2995,6 +3247,9 @@ Likelihood ratio test= 3.34  on 2 df,   p=0.2
 Wald test            = 3.7  on 2 df,   p=0.2
 Score (logrank) test = 3.75  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.1880674 
+Wald test p-value: 0.1573382 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with CSPP1 
@@ -3030,6 +3285,9 @@ Likelihood ratio test= 3.39  on 2 df,   p=0.2
 Wald test            = 3.74  on 2 df,   p=0.2
 Score (logrank) test = 3.8  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1836662 
+Wald test p-value: 0.154135 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with CT47B1 
@@ -3065,6 +3323,9 @@ Likelihood ratio test= 4.52  on 2 df,   p=0.1
 Wald test            = 4.63  on 2 df,   p=0.1
 Score (logrank) test = 4.72  on 2 df,   p=0.09
 
+
+Likelihood ratio test p-value: 0.1043862 
+Wald test p-value: 0.0989957 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with CTCFL 
@@ -3100,6 +3361,9 @@ Likelihood ratio test= 3.81  on 2 df,   p=0.1
 Wald test            = 4.1  on 2 df,   p=0.1
 Score (logrank) test = 4.16  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1486757 
+Wald test p-value: 0.1287106 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with CTNNB1 
@@ -3135,6 +3399,9 @@ Likelihood ratio test= 3.83  on 2 df,   p=0.1
 Wald test            = 4.11  on 2 df,   p=0.1
 Score (logrank) test = 4.17  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.147525 
+Wald test p-value: 0.1282164 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with DCC 
@@ -3170,6 +3437,9 @@ Likelihood ratio test= 4.36  on 2 df,   p=0.1
 Wald test            = 4.79  on 2 df,   p=0.09
 Score (logrank) test = 4.88  on 2 df,   p=0.09
 
+
+Likelihood ratio test p-value: 0.112793 
+Wald test p-value: 0.09102683 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with DDX60 
@@ -3205,6 +3475,9 @@ Likelihood ratio test= 3.36  on 2 df,   p=0.2
 Wald test            = 3.72  on 2 df,   p=0.2
 Score (logrank) test = 3.77  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.1863585 
+Wald test p-value: 0.1560139 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with DDX60L 
@@ -3240,6 +3513,9 @@ Likelihood ratio test= 5.08  on 2 df,   p=0.08
 Wald test            = 5.61  on 2 df,   p=0.06
 Score (logrank) test = 5.7  on 2 df,   p=0.06
 
+
+Likelihood ratio test p-value: 0.07885862 
+Wald test p-value: 0.06063294 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with DGKG 
@@ -3275,6 +3551,9 @@ Likelihood ratio test= 7.52  on 2 df,   p=0.02
 Wald test            = 8.76  on 2 df,   p=0.01
 Score (logrank) test = 9.11  on 2 df,   p=0.01
 
+
+Likelihood ratio test p-value: 0.02328458 
+Wald test p-value: 0.01251849 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with DGKI 
@@ -3310,6 +3589,9 @@ Likelihood ratio test= 4.67  on 2 df,   p=0.1
 Wald test            = 4.79  on 2 df,   p=0.09
 Score (logrank) test = 4.88  on 2 df,   p=0.09
 
+
+Likelihood ratio test p-value: 0.09665337 
+Wald test p-value: 0.09110841 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with DMD 
@@ -3347,6 +3629,9 @@ Likelihood ratio test= 6.26  on 2 df,   p=0.04
 Wald test            = 6.36  on 2 df,   p=0.04
 Score (logrank) test = 6.44  on 2 df,   p=0.04
 
+
+Likelihood ratio test p-value: 0.04380044 
+Wald test p-value: 0.04161078 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with DNAH3 
@@ -3382,6 +3667,9 @@ Likelihood ratio test= 5.39  on 2 df,   p=0.07
 Wald test            = 5.85  on 2 df,   p=0.05
 Score (logrank) test = 5.94  on 2 df,   p=0.05
 
+
+Likelihood ratio test p-value: 0.06762313 
+Wald test p-value: 0.05376906 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with DNAH5 
@@ -3419,6 +3707,9 @@ Likelihood ratio test= 7.16  on 2 df,   p=0.03
 Wald test            = 7.08  on 2 df,   p=0.03
 Score (logrank) test = 7.19  on 2 df,   p=0.03
 
+
+Likelihood ratio test p-value: 0.02789081 
+Wald test p-value: 0.02906551 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with DNAH7 
@@ -3456,6 +3747,9 @@ Likelihood ratio test= 3.51  on 2 df,   p=0.2
 Wald test            = 3.86  on 2 df,   p=0.1
 Score (logrank) test = 3.91  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1733016 
+Wald test p-value: 0.1454342 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with DNAH9 
@@ -3493,6 +3787,9 @@ Likelihood ratio test= 3.34  on 2 df,   p=0.2
 Wald test            = 3.69  on 2 df,   p=0.2
 Score (logrank) test = 3.75  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.1885807 
+Wald test p-value: 0.1578207 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with DRP2 
@@ -3528,6 +3825,9 @@ Likelihood ratio test= 4.28  on 2 df,   p=0.1
 Wald test            = 4.9  on 2 df,   p=0.09
 Score (logrank) test = 5  on 2 df,   p=0.08
 
+
+Likelihood ratio test p-value: 0.1178123 
+Wald test p-value: 0.0862892 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with DUSP27 
@@ -3563,6 +3863,9 @@ Likelihood ratio test= 6.51  on 2 df,   p=0.04
 Wald test            = 7.23  on 2 df,   p=0.03
 Score (logrank) test = 7.39  on 2 df,   p=0.02
 
+
+Likelihood ratio test p-value: 0.03856892 
+Wald test p-value: 0.02694648 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with DYNC2H1 
@@ -3598,6 +3901,9 @@ Likelihood ratio test= 3.56  on 2 df,   p=0.2
 Wald test            = 3.94  on 2 df,   p=0.1
 Score (logrank) test = 4  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1685651 
+Wald test p-value: 0.1392185 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with DYNC2LI1 
@@ -3633,6 +3939,9 @@ Likelihood ratio test= 10.79  on 2 df,   p=0.005
 Wald test            = 13.99  on 2 df,   p=9e-04
 Score (logrank) test = 15.66  on 2 df,   p=4e-04
 
+
+Likelihood ratio test p-value: 0.004539859 
+Wald test p-value: 0.0009163327 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with EDNRB 
@@ -3668,6 +3977,9 @@ Likelihood ratio test= 4.76  on 2 df,   p=0.09
 Wald test            = 5.27  on 2 df,   p=0.07
 Score (logrank) test = 5.37  on 2 df,   p=0.07
 
+
+Likelihood ratio test p-value: 0.09275749 
+Wald test p-value: 0.071635 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with EGFLAM 
@@ -3703,6 +4015,9 @@ Likelihood ratio test= 7.97  on 2 df,   p=0.02
 Wald test            = 6.95  on 2 df,   p=0.03
 Score (logrank) test = 7.31  on 2 df,   p=0.03
 
+
+Likelihood ratio test p-value: 0.01859923 
+Wald test p-value: 0.03089537 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with EGFR 
@@ -3738,6 +4053,9 @@ Likelihood ratio test= 6.46  on 2 df,   p=0.04
 Wald test            = 6.92  on 2 df,   p=0.03
 Score (logrank) test = 7.03  on 2 df,   p=0.03
 
+
+Likelihood ratio test p-value: 0.03964305 
+Wald test p-value: 0.0314745 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with EPHA2 
@@ -3773,6 +4091,9 @@ Likelihood ratio test= 3.68  on 2 df,   p=0.2
 Wald test            = 4.04  on 2 df,   p=0.1
 Score (logrank) test = 4.1  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1591708 
+Wald test p-value: 0.1323266 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with EPHA5 
@@ -3810,6 +4131,9 @@ Likelihood ratio test= 5.07  on 2 df,   p=0.08
 Wald test            = 5.27  on 2 df,   p=0.07
 Score (logrank) test = 5.34  on 2 df,   p=0.07
 
+
+Likelihood ratio test p-value: 0.07926836 
+Wald test p-value: 0.07183943 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with EPHA6 
@@ -3847,6 +4171,9 @@ Likelihood ratio test= 5.41  on 2 df,   p=0.07
 Wald test            = 5.66  on 2 df,   p=0.06
 Score (logrank) test = 5.7  on 2 df,   p=0.06
 
+
+Likelihood ratio test p-value: 0.06692178 
+Wald test p-value: 0.05912852 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with EPHA8 
@@ -3882,6 +4209,9 @@ Likelihood ratio test= 2.74  on 2 df,   p=0.3
 Wald test            = 3.01  on 2 df,   p=0.2
 Score (logrank) test = 3.05  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.2537665 
+Wald test p-value: 0.2219866 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with EPHB6 
@@ -3919,6 +4249,9 @@ Likelihood ratio test= 3.41  on 2 df,   p=0.2
 Wald test            = 3.77  on 2 df,   p=0.2
 Score (logrank) test = 3.82  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1816878 
+Wald test p-value: 0.1521731 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with EXO1 
@@ -3954,6 +4287,9 @@ Likelihood ratio test= 3.95  on 2 df,   p=0.1
 Wald test            = 4.33  on 2 df,   p=0.1
 Score (logrank) test = 4.4  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1386709 
+Wald test p-value: 0.1146269 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with EXPH5 
@@ -3989,6 +4325,9 @@ Likelihood ratio test= 3.61  on 2 df,   p=0.2
 Wald test            = 4.02  on 2 df,   p=0.1
 Score (logrank) test = 4.09  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1641466 
+Wald test p-value: 0.1339342 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with F5 
@@ -4022,6 +4361,9 @@ Likelihood ratio test= 2.27  on 2 df,   p=0.3
 Wald test            = 2.48  on 2 df,   p=0.3
 Score (logrank) test = 2.51  on 2 df,   p=0.3
 
+
+Likelihood ratio test p-value: 0.3218047 
+Wald test p-value: 0.2894856 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with FANCM 
@@ -4057,6 +4399,9 @@ Likelihood ratio test= 4.52  on 2 df,   p=0.1
 Wald test            = 4.96  on 2 df,   p=0.08
 Score (logrank) test = 5.04  on 2 df,   p=0.08
 
+
+Likelihood ratio test p-value: 0.104189 
+Wald test p-value: 0.08359548 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with FER1L6 
@@ -4090,6 +4435,9 @@ Likelihood ratio test= 2.58  on 2 df,   p=0.3
 Wald test            = 2.81  on 2 df,   p=0.2
 Score (logrank) test = 2.84  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.2754972 
+Wald test p-value: 0.245525 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with FLG 
@@ -4127,6 +4475,9 @@ Likelihood ratio test= 8.7  on 2 df,   p=0.01
 Wald test            = 8.71  on 2 df,   p=0.01
 Score (logrank) test = 8.82  on 2 df,   p=0.01
 
+
+Likelihood ratio test p-value: 0.0129025 
+Wald test p-value: 0.01281561 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with FLNA 
@@ -4162,6 +4513,9 @@ Likelihood ratio test= 3.3  on 2 df,   p=0.2
 Wald test            = 3.58  on 2 df,   p=0.2
 Score (logrank) test = 3.63  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.1921179 
+Wald test p-value: 0.1668428 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with FLT1 
@@ -4199,6 +4553,9 @@ Likelihood ratio test= 4.54  on 2 df,   p=0.1
 Wald test            = 4.73  on 2 df,   p=0.09
 Score (logrank) test = 4.8  on 2 df,   p=0.09
 
+
+Likelihood ratio test p-value: 0.1035182 
+Wald test p-value: 0.09413062 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with FN1 
@@ -4234,6 +4591,9 @@ Likelihood ratio test= 4.25  on 2 df,   p=0.1
 Wald test            = 4.45  on 2 df,   p=0.1
 Score (logrank) test = 4.53  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1195705 
+Wald test p-value: 0.1081417 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with FOLH1 
@@ -4269,6 +4629,9 @@ Likelihood ratio test= 3.39  on 2 df,   p=0.2
 Wald test            = 3.74  on 2 df,   p=0.2
 Score (logrank) test = 3.8  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1838183 
+Wald test p-value: 0.1539619 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with FRAS1 
@@ -4304,6 +4667,9 @@ Likelihood ratio test= 3.32  on 2 df,   p=0.2
 Wald test            = 3.68  on 2 df,   p=0.2
 Score (logrank) test = 3.73  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.1904653 
+Wald test p-value: 0.1589208 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with FRMPD4 
@@ -4339,6 +4705,9 @@ Likelihood ratio test= 4.08  on 2 df,   p=0.1
 Wald test            = 4.57  on 2 df,   p=0.1
 Score (logrank) test = 4.65  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1300482 
+Wald test p-value: 0.1017651 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with FRY 
@@ -4374,6 +4743,9 @@ Likelihood ratio test= 3.18  on 2 df,   p=0.2
 Wald test            = 3.47  on 2 df,   p=0.2
 Score (logrank) test = 3.52  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.20403 
+Wald test p-value: 0.1762359 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with FSCB 
@@ -4409,6 +4781,9 @@ Likelihood ratio test= 7.59  on 2 df,   p=0.02
 Wald test            = 6.77  on 2 df,   p=0.03
 Score (logrank) test = 7.03  on 2 df,   p=0.03
 
+
+Likelihood ratio test p-value: 0.0224457 
+Wald test p-value: 0.03383682 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with GABRA6 
@@ -4446,6 +4821,9 @@ Likelihood ratio test= 3.45  on 2 df,   p=0.2
 Wald test            = 3.82  on 2 df,   p=0.1
 Score (logrank) test = 3.87  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1780412 
+Wald test p-value: 0.1484426 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with GABRG1 
@@ -4481,6 +4859,9 @@ Likelihood ratio test= 4.78  on 2 df,   p=0.09
 Wald test            = 5.37  on 2 df,   p=0.07
 Score (logrank) test = 5.48  on 2 df,   p=0.06
 
+
+Likelihood ratio test p-value: 0.09177288 
+Wald test p-value: 0.06836603 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with GABRQ 
@@ -4516,6 +4897,9 @@ Likelihood ratio test= 3.34  on 2 df,   p=0.2
 Wald test            = 3.69  on 2 df,   p=0.2
 Score (logrank) test = 3.75  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.1886234 
+Wald test p-value: 0.1578639 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with GCC2 
@@ -4551,6 +4935,9 @@ Likelihood ratio test= 3.9  on 2 df,   p=0.1
 Wald test            = 4.28  on 2 df,   p=0.1
 Score (logrank) test = 4.35  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1419859 
+Wald test p-value: 0.1174482 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with GIMAP7 
@@ -4586,6 +4973,9 @@ Likelihood ratio test= 7.16  on 2 df,   p=0.03
 Wald test            = 4.36  on 2 df,   p=0.1
 Score (logrank) test = 6.11  on 2 df,   p=0.05
 
+
+Likelihood ratio test p-value: 0.02788628 
+Wald test p-value: 0.1130714 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with GLRA2 
@@ -4623,6 +5013,9 @@ Likelihood ratio test= 3.57  on 2 df,   p=0.2
 Wald test            = 3.92  on 2 df,   p=0.1
 Score (logrank) test = 3.98  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1673987 
+Wald test p-value: 0.1407883 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with GPR128 
@@ -4658,6 +5051,9 @@ Likelihood ratio test= 3.42  on 2 df,   p=0.2
 Wald test            = 3.77  on 2 df,   p=0.2
 Score (logrank) test = 3.82  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1806583 
+Wald test p-value: 0.151925 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with GPR141 
@@ -4693,6 +5089,9 @@ Likelihood ratio test= 6.21  on 2 df,   p=0.04
 Wald test            = 5.77  on 2 df,   p=0.06
 Score (logrank) test = 5.99  on 2 df,   p=0.05
 
+
+Likelihood ratio test p-value: 0.04489008 
+Wald test p-value: 0.05580773 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with GTF3C1 
@@ -4726,6 +5125,9 @@ Likelihood ratio test= 2.09  on 2 df,   p=0.4
 Wald test            = 2.27  on 2 df,   p=0.3
 Score (logrank) test = 2.29  on 2 df,   p=0.3
 
+
+Likelihood ratio test p-value: 0.352389 
+Wald test p-value: 0.3216963 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with GUCY1A3 
@@ -4761,6 +5163,9 @@ Likelihood ratio test= 5.61  on 2 df,   p=0.06
 Wald test            = 6.26  on 2 df,   p=0.04
 Score (logrank) test = 6.4  on 2 df,   p=0.04
 
+
+Likelihood ratio test p-value: 0.06057293 
+Wald test p-value: 0.04370416 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with HAPLN1 
@@ -4796,6 +5201,9 @@ Likelihood ratio test= 3.73  on 2 df,   p=0.2
 Wald test            = 4.1  on 2 df,   p=0.1
 Score (logrank) test = 4.16  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1547955 
+Wald test p-value: 0.1289982 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with HCFC1 
@@ -4831,6 +5239,9 @@ Likelihood ratio test= 3.36  on 2 df,   p=0.2
 Wald test            = 3.72  on 2 df,   p=0.2
 Score (logrank) test = 3.77  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.18597 
+Wald test p-value: 0.1558709 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with HCN4 
@@ -4866,6 +5277,9 @@ Likelihood ratio test= 6.43  on 2 df,   p=0.04
 Wald test            = 7.35  on 2 df,   p=0.03
 Score (logrank) test = 7.57  on 2 df,   p=0.02
 
+
+Likelihood ratio test p-value: 0.04009376 
+Wald test p-value: 0.02535414 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with HDX 
@@ -4901,6 +5315,9 @@ Likelihood ratio test= 4.38  on 2 df,   p=0.1
 Wald test            = 4.8  on 2 df,   p=0.09
 Score (logrank) test = 4.88  on 2 df,   p=0.09
 
+
+Likelihood ratio test p-value: 0.1116701 
+Wald test p-value: 0.09054612 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with HEPH 
@@ -4936,6 +5353,9 @@ Likelihood ratio test= 4.75  on 2 df,   p=0.09
 Wald test            = 5.14  on 2 df,   p=0.08
 Score (logrank) test = 5.21  on 2 df,   p=0.07
 
+
+Likelihood ratio test p-value: 0.09300813 
+Wald test p-value: 0.07656623 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with HERC4 
@@ -4971,6 +5391,9 @@ Likelihood ratio test= 3.37  on 2 df,   p=0.2
 Wald test            = 3.72  on 2 df,   p=0.2
 Score (logrank) test = 3.78  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.1857235 
+Wald test p-value: 0.1554972 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with HGF 
@@ -5006,6 +5429,9 @@ Likelihood ratio test= 4.78  on 2 df,   p=0.09
 Wald test            = 5.03  on 2 df,   p=0.08
 Score (logrank) test = 5.12  on 2 df,   p=0.08
 
+
+Likelihood ratio test p-value: 0.09145931 
+Wald test p-value: 0.08101761 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with HHIPL2 
@@ -5041,6 +5467,9 @@ Likelihood ratio test= 4.71  on 2 df,   p=0.1
 Wald test            = 5.19  on 2 df,   p=0.07
 Score (logrank) test = 5.28  on 2 df,   p=0.07
 
+
+Likelihood ratio test p-value: 0.09505387 
+Wald test p-value: 0.07475946 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with HIP1 
@@ -5076,6 +5505,9 @@ Likelihood ratio test= 4.34  on 2 df,   p=0.1
 Wald test            = 4.78  on 2 df,   p=0.09
 Score (logrank) test = 4.85  on 2 df,   p=0.09
 
+
+Likelihood ratio test p-value: 0.1139102 
+Wald test p-value: 0.09180329 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with HIVEP3 
@@ -5109,6 +5541,9 @@ Likelihood ratio test= 2.25  on 2 df,   p=0.3
 Wald test            = 2.45  on 2 df,   p=0.3
 Score (logrank) test = 2.47  on 2 df,   p=0.3
 
+
+Likelihood ratio test p-value: 0.3245795 
+Wald test p-value: 0.294205 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with HOXA1 
@@ -5144,6 +5579,9 @@ Likelihood ratio test= 4.57  on 2 df,   p=0.1
 Wald test            = 4.66  on 2 df,   p=0.1
 Score (logrank) test = 4.76  on 2 df,   p=0.09
 
+
+Likelihood ratio test p-value: 0.1018641 
+Wald test p-value: 0.09729377 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with HRNR 
@@ -5181,6 +5619,9 @@ Likelihood ratio test= 5.74  on 2 df,   p=0.06
 Wald test            = 6.24  on 2 df,   p=0.04
 Score (logrank) test = 6.32  on 2 df,   p=0.04
 
+
+Likelihood ratio test p-value: 0.05678328 
+Wald test p-value: 0.04424577 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with IGKV1-16 
@@ -5218,6 +5659,9 @@ Likelihood ratio test= 3.49  on 2 df,   p=0.2
 Wald test            = 3.88  on 2 df,   p=0.1
 Score (logrank) test = 3.93  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1745896 
+Wald test p-value: 0.1439977 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with IGSF1 
@@ -5255,6 +5699,9 @@ Likelihood ratio test= 3.57  on 2 df,   p=0.2
 Wald test            = 3.94  on 2 df,   p=0.1
 Score (logrank) test = 3.99  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1680238 
+Wald test p-value: 0.1394864 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with IGSF10 
@@ -5288,6 +5735,9 @@ Likelihood ratio test= 1.92  on 2 df,   p=0.4
 Wald test            = 2.09  on 2 df,   p=0.4
 Score (logrank) test = 2.11  on 2 df,   p=0.3
 
+
+Likelihood ratio test p-value: 0.382322 
+Wald test p-value: 0.3512269 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with IL18RAP 
@@ -5323,6 +5773,9 @@ Likelihood ratio test= 5.43  on 2 df,   p=0.07
 Wald test            = 6.01  on 2 df,   p=0.05
 Score (logrank) test = 6.12  on 2 df,   p=0.05
 
+
+Likelihood ratio test p-value: 0.06626612 
+Wald test p-value: 0.04959729 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with ILDR2 
@@ -5358,6 +5811,9 @@ Likelihood ratio test= 6.75  on 2 df,   p=0.03
 Wald test            = 5.83  on 2 df,   p=0.05
 Score (logrank) test = 6.19  on 2 df,   p=0.05
 
+
+Likelihood ratio test p-value: 0.03421715 
+Wald test p-value: 0.05431853 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with INSRR 
@@ -5391,6 +5847,9 @@ Likelihood ratio test= 2.54  on 2 df,   p=0.3
 Wald test            = 2.68  on 2 df,   p=0.3
 Score (logrank) test = 2.7  on 2 df,   p=0.3
 
+
+Likelihood ratio test p-value: 0.2814981 
+Wald test p-value: 0.2622675 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with IRGC 
@@ -5426,6 +5885,9 @@ Likelihood ratio test= 4.02  on 2 df,   p=0.1
 Wald test            = 4.26  on 2 df,   p=0.1
 Score (logrank) test = 4.33  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1337265 
+Wald test p-value: 0.119008 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with IRX4 
@@ -5461,6 +5923,9 @@ Likelihood ratio test= 5.43  on 2 df,   p=0.07
 Wald test            = 4.93  on 2 df,   p=0.08
 Score (logrank) test = 5.21  on 2 df,   p=0.07
 
+
+Likelihood ratio test p-value: 0.06622496 
+Wald test p-value: 0.08490336 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with ITGA4 
@@ -5496,6 +5961,9 @@ Likelihood ratio test= 3.98  on 2 df,   p=0.1
 Wald test            = 4.37  on 2 df,   p=0.1
 Score (logrank) test = 4.44  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1368761 
+Wald test p-value: 0.1124591 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with ITIH5 
@@ -5531,6 +5999,9 @@ Likelihood ratio test= 4.14  on 2 df,   p=0.1
 Wald test            = 4.5  on 2 df,   p=0.1
 Score (logrank) test = 4.58  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1260821 
+Wald test p-value: 0.1052656 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with JAG2 
@@ -5566,6 +6037,9 @@ Likelihood ratio test= 4.68  on 2 df,   p=0.1
 Wald test            = 5.25  on 2 df,   p=0.07
 Score (logrank) test = 5.36  on 2 df,   p=0.07
 
+
+Likelihood ratio test p-value: 0.09636143 
+Wald test p-value: 0.0723743 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with JMJD1C 
@@ -5601,6 +6075,9 @@ Likelihood ratio test= 3.32  on 2 df,   p=0.2
 Wald test            = 3.68  on 2 df,   p=0.2
 Score (logrank) test = 3.73  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.1900753 
+Wald test p-value: 0.1590293 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with KCNA6 
@@ -5636,6 +6113,9 @@ Likelihood ratio test= 4.67  on 2 df,   p=0.1
 Wald test            = 5.2  on 2 df,   p=0.07
 Score (logrank) test = 5.3  on 2 df,   p=0.07
 
+
+Likelihood ratio test p-value: 0.09670499 
+Wald test p-value: 0.07423492 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with KCNH7 
@@ -5671,6 +6151,9 @@ Likelihood ratio test= 2.9  on 2 df,   p=0.2
 Wald test            = 3.14  on 2 df,   p=0.2
 Score (logrank) test = 3.17  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.2343385 
+Wald test p-value: 0.2085367 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with KCNH8 
@@ -5706,6 +6189,9 @@ Likelihood ratio test= 3.25  on 2 df,   p=0.2
 Wald test            = 3.61  on 2 df,   p=0.2
 Score (logrank) test = 3.66  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.1965741 
+Wald test p-value: 0.1645573 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with KCNN2 
@@ -5741,6 +6227,9 @@ Likelihood ratio test= 4.14  on 2 df,   p=0.1
 Wald test            = 4.57  on 2 df,   p=0.1
 Score (logrank) test = 4.64  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1262274 
+Wald test p-value: 0.1019797 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with KEAP1 
@@ -5778,6 +6267,9 @@ Likelihood ratio test= 3.72  on 2 df,   p=0.2
 Wald test            = 4.08  on 2 df,   p=0.1
 Score (logrank) test = 4.14  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1553706 
+Wald test p-value: 0.1298394 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with KHDRBS2 
@@ -5813,6 +6305,9 @@ Likelihood ratio test= 4.84  on 2 df,   p=0.09
 Wald test            = 4.82  on 2 df,   p=0.09
 Score (logrank) test = 4.94  on 2 df,   p=0.08
 
+
+Likelihood ratio test p-value: 0.08909689 
+Wald test p-value: 0.08971966 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with KIAA1109 
@@ -5850,6 +6345,9 @@ Likelihood ratio test= 3.58  on 2 df,   p=0.2
 Wald test            = 3.93  on 2 df,   p=0.1
 Score (logrank) test = 3.98  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1666823 
+Wald test p-value: 0.1403498 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with KIAA1211 
@@ -5887,6 +6385,9 @@ Likelihood ratio test= 3.49  on 2 df,   p=0.2
 Wald test            = 3.84  on 2 df,   p=0.1
 Score (logrank) test = 3.89  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1742147 
+Wald test p-value: 0.146747 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with KIF19 
@@ -5922,6 +6423,9 @@ Likelihood ratio test= 2.66  on 2 df,   p=0.3
 Wald test            = 2.92  on 2 df,   p=0.2
 Score (logrank) test = 2.95  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.2647595 
+Wald test p-value: 0.2325131 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with KIF26B 
@@ -5957,6 +6461,9 @@ Likelihood ratio test= 3.91  on 2 df,   p=0.1
 Wald test            = 4.18  on 2 df,   p=0.1
 Score (logrank) test = 4.25  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1412528 
+Wald test p-value: 0.1238054 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with KRT6B 
@@ -5992,6 +6499,9 @@ Likelihood ratio test= 5.03  on 2 df,   p=0.08
 Wald test            = 5.02  on 2 df,   p=0.08
 Score (logrank) test = 5.14  on 2 df,   p=0.08
 
+
+Likelihood ratio test p-value: 0.08087292 
+Wald test p-value: 0.08128389 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with KRTAP13-1 
@@ -6027,6 +6537,9 @@ Likelihood ratio test= 3.31  on 2 df,   p=0.2
 Wald test            = 3.64  on 2 df,   p=0.2
 Score (logrank) test = 3.69  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.1908079 
+Wald test p-value: 0.1620521 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with LAMC1 
@@ -6060,6 +6573,9 @@ Likelihood ratio test= 2.82  on 2 df,   p=0.2
 Wald test            = 2.92  on 2 df,   p=0.2
 Score (logrank) test = 2.95  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.2440704 
+Wald test p-value: 0.2327994 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with LRP2 
@@ -6097,6 +6613,9 @@ Likelihood ratio test= 3.32  on 2 df,   p=0.2
 Wald test            = 3.68  on 2 df,   p=0.2
 Score (logrank) test = 3.73  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.1901343 
+Wald test p-value: 0.159073 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with LRP4 
@@ -6132,6 +6651,9 @@ Likelihood ratio test= 3.6  on 2 df,   p=0.2
 Wald test            = 3.96  on 2 df,   p=0.1
 Score (logrank) test = 4.02  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1649318 
+Wald test p-value: 0.1379924 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with LRP6 
@@ -6167,6 +6689,9 @@ Likelihood ratio test= 4.87  on 2 df,   p=0.09
 Wald test            = 4.84  on 2 df,   p=0.09
 Score (logrank) test = 4.96  on 2 df,   p=0.08
 
+
+Likelihood ratio test p-value: 0.08765737 
+Wald test p-value: 0.08911844 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with LRRTM1 
@@ -6202,6 +6727,9 @@ Likelihood ratio test= 2.9  on 2 df,   p=0.2
 Wald test            = 3.18  on 2 df,   p=0.2
 Score (logrank) test = 3.22  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.2341675 
+Wald test p-value: 0.2038788 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with LUZP1 
@@ -6237,6 +6765,9 @@ Likelihood ratio test= 8.18  on 2 df,   p=0.02
 Wald test            = 10.22  on 2 df,   p=0.006
 Score (logrank) test = 11.03  on 2 df,   p=0.004
 
+
+Likelihood ratio test p-value: 0.01676732 
+Wald test p-value: 0.006045691 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with LYST 
@@ -6274,6 +6805,9 @@ Likelihood ratio test= 5.02  on 2 df,   p=0.08
 Wald test            = 5.18  on 2 df,   p=0.07
 Score (logrank) test = 5.26  on 2 df,   p=0.07
 
+
+Likelihood ratio test p-value: 0.08128347 
+Wald test p-value: 0.07489486 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with MACC1 
@@ -6309,6 +6843,9 @@ Likelihood ratio test= 3.56  on 2 df,   p=0.2
 Wald test            = 3.92  on 2 df,   p=0.1
 Score (logrank) test = 3.98  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1686014 
+Wald test p-value: 0.1406289 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with MAGEA10 
@@ -6344,6 +6881,9 @@ Likelihood ratio test= 4.64  on 2 df,   p=0.1
 Wald test            = 5.12  on 2 df,   p=0.08
 Score (logrank) test = 5.2  on 2 df,   p=0.07
 
+
+Likelihood ratio test p-value: 0.09835011 
+Wald test p-value: 0.07735702 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with MAGI1 
@@ -6379,6 +6919,9 @@ Likelihood ratio test= 5.13  on 2 df,   p=0.08
 Wald test            = 5.01  on 2 df,   p=0.08
 Score (logrank) test = 5.15  on 2 df,   p=0.08
 
+
+Likelihood ratio test p-value: 0.07692621 
+Wald test p-value: 0.08173065 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with MAP3K9 
@@ -6414,6 +6957,9 @@ Likelihood ratio test= 3.62  on 2 df,   p=0.2
 Wald test            = 3.98  on 2 df,   p=0.1
 Score (logrank) test = 4.04  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1636201 
+Wald test p-value: 0.1366661 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with MBL2 
@@ -6449,6 +6995,9 @@ Likelihood ratio test= 7.24  on 2 df,   p=0.03
 Wald test            = 4.05  on 2 df,   p=0.1
 Score (logrank) test = 5.98  on 2 df,   p=0.05
 
+
+Likelihood ratio test p-value: 0.02680261 
+Wald test p-value: 0.1323003 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with MDC1 
@@ -6484,6 +7033,9 @@ Likelihood ratio test= 4.45  on 2 df,   p=0.1
 Wald test            = 4.6  on 2 df,   p=0.1
 Score (logrank) test = 4.69  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1078688 
+Wald test p-value: 0.1003925 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with MED1 
@@ -6521,6 +7073,9 @@ Likelihood ratio test= 4.19  on 2 df,   p=0.1
 Wald test            = 4.69  on 2 df,   p=0.1
 Score (logrank) test = 4.76  on 2 df,   p=0.09
 
+
+Likelihood ratio test p-value: 0.1232784 
+Wald test p-value: 0.09569836 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with MFAP3L 
@@ -6556,6 +7111,9 @@ Likelihood ratio test= 3.39  on 2 df,   p=0.2
 Wald test            = 3.74  on 2 df,   p=0.2
 Score (logrank) test = 3.8  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.183828 
+Wald test p-value: 0.1537758 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with MGAM 
@@ -6589,6 +7147,9 @@ Likelihood ratio test= 1.88  on 2 df,   p=0.4
 Wald test            = 2.02  on 2 df,   p=0.4
 Score (logrank) test = 2.03  on 2 df,   p=0.4
 
+
+Likelihood ratio test p-value: 0.3908943 
+Wald test p-value: 0.3647826 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with MKRN3 
@@ -6626,6 +7187,9 @@ Likelihood ratio test= 3.7  on 2 df,   p=0.2
 Wald test            = 4.1  on 2 df,   p=0.1
 Score (logrank) test = 4.16  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1575872 
+Wald test p-value: 0.1286779 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with MLLT3 
@@ -6661,6 +7225,9 @@ Likelihood ratio test= 2.92  on 2 df,   p=0.2
 Wald test            = 3.14  on 2 df,   p=0.2
 Score (logrank) test = 3.18  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.2324731 
+Wald test p-value: 0.2082537 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with MNDA 
@@ -6696,6 +7263,9 @@ Likelihood ratio test= 6.4  on 2 df,   p=0.04
 Wald test            = 6.08  on 2 df,   p=0.05
 Score (logrank) test = 6.28  on 2 df,   p=0.04
 
+
+Likelihood ratio test p-value: 0.04081972 
+Wald test p-value: 0.04795089 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with MPPED1 
@@ -6729,6 +7299,9 @@ Likelihood ratio test= 3.42  on 2 df,   p=0.2
 Wald test            = 3.93  on 2 df,   p=0.1
 Score (logrank) test = 4.04  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1806043 
+Wald test p-value: 0.1401562 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with MRE11A 
@@ -6764,6 +7337,9 @@ Likelihood ratio test= 4.03  on 2 df,   p=0.1
 Wald test            = 4.25  on 2 df,   p=0.1
 Score (logrank) test = 4.33  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1331677 
+Wald test p-value: 0.1194105 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with MS4A14 
@@ -6797,6 +7373,9 @@ Likelihood ratio test= 2.88  on 2 df,   p=0.2
 Wald test            = 2.94  on 2 df,   p=0.2
 Score (logrank) test = 2.98  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.2370421 
+Wald test p-value: 0.2304184 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with MUC16 
@@ -6834,6 +7413,9 @@ Likelihood ratio test= 3.65  on 2 df,   p=0.2
 Wald test            = 4.01  on 2 df,   p=0.1
 Score (logrank) test = 4.07  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1608899 
+Wald test p-value: 0.1344653 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with MUC17 
@@ -6871,6 +7453,9 @@ Likelihood ratio test= 3.96  on 2 df,   p=0.1
 Wald test            = 4.3  on 2 df,   p=0.1
 Score (logrank) test = 4.36  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1380069 
+Wald test p-value: 0.1162789 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with MUC4 
@@ -6906,6 +7491,9 @@ Likelihood ratio test= 5.1  on 2 df,   p=0.08
 Wald test            = 5.7  on 2 df,   p=0.06
 Score (logrank) test = 5.81  on 2 df,   p=0.05
 
+
+Likelihood ratio test p-value: 0.0781938 
+Wald test p-value: 0.05797552 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with MUC6 
@@ -6941,6 +7529,9 @@ Likelihood ratio test= 5.05  on 2 df,   p=0.08
 Wald test            = 5.6  on 2 df,   p=0.06
 Score (logrank) test = 5.7  on 2 df,   p=0.06
 
+
+Likelihood ratio test p-value: 0.07999584 
+Wald test p-value: 0.06090482 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with MYH1 
@@ -6978,6 +7569,9 @@ Likelihood ratio test= 3.37  on 2 df,   p=0.2
 Wald test            = 3.73  on 2 df,   p=0.2
 Score (logrank) test = 3.78  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.1851942 
+Wald test p-value: 0.1550314 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with MYH13 
@@ -7015,6 +7609,9 @@ Likelihood ratio test= 3.36  on 2 df,   p=0.2
 Wald test            = 3.71  on 2 df,   p=0.2
 Score (logrank) test = 3.77  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.1866798 
+Wald test p-value: 0.156106 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with MYO7B 
@@ -7050,6 +7647,9 @@ Likelihood ratio test= 4.63  on 2 df,   p=0.1
 Wald test            = 4.66  on 2 df,   p=0.1
 Score (logrank) test = 4.75  on 2 df,   p=0.09
 
+
+Likelihood ratio test p-value: 0.09871058 
+Wald test p-value: 0.09723077 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with NAV3 
@@ -7087,6 +7687,9 @@ Likelihood ratio test= 3.83  on 2 df,   p=0.1
 Wald test            = 4.16  on 2 df,   p=0.1
 Score (logrank) test = 4.22  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1476309 
+Wald test p-value: 0.1249068 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with NBPF10 
@@ -7122,6 +7725,9 @@ Likelihood ratio test= 3.02  on 2 df,   p=0.2
 Wald test            = 3.29  on 2 df,   p=0.2
 Score (logrank) test = 3.33  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.2212485 
+Wald test p-value: 0.1929293 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with NCAN 
@@ -7157,6 +7763,9 @@ Likelihood ratio test= 2.9  on 2 df,   p=0.2
 Wald test            = 3.19  on 2 df,   p=0.2
 Score (logrank) test = 3.24  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.2348362 
+Wald test p-value: 0.202473 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with NCAPD2 
@@ -7192,6 +7801,9 @@ Likelihood ratio test= 4.39  on 2 df,   p=0.1
 Wald test            = 4.78  on 2 df,   p=0.09
 Score (logrank) test = 4.88  on 2 df,   p=0.09
 
+
+Likelihood ratio test p-value: 0.111208 
+Wald test p-value: 0.09146205 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with NCOA2 
@@ -7227,6 +7839,9 @@ Likelihood ratio test= 4.35  on 2 df,   p=0.1
 Wald test            = 4.48  on 2 df,   p=0.1
 Score (logrank) test = 4.58  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1135238 
+Wald test p-value: 0.1062347 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with NCOR1 
@@ -7262,6 +7877,9 @@ Likelihood ratio test= 9.61  on 2 df,   p=0.008
 Wald test            = 11.24  on 2 df,   p=0.004
 Score (logrank) test = 11.74  on 2 df,   p=0.003
 
+
+Likelihood ratio test p-value: 0.008170503 
+Wald test p-value: 0.003616236 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with NEB 
@@ -7299,6 +7917,9 @@ Likelihood ratio test= 4.2  on 2 df,   p=0.1
 Wald test            = 4.59  on 2 df,   p=0.1
 Score (logrank) test = 4.65  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1224701 
+Wald test p-value: 0.1008931 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with NF1 
@@ -7334,6 +7955,9 @@ Likelihood ratio test= 2.99  on 2 df,   p=0.2
 Wald test            = 3.3  on 2 df,   p=0.2
 Score (logrank) test = 3.35  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.2242499 
+Wald test p-value: 0.191736 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with NFASC 
@@ -7369,6 +7993,9 @@ Likelihood ratio test= 5.77  on 2 df,   p=0.06
 Wald test            = 6.36  on 2 df,   p=0.04
 Score (logrank) test = 6.48  on 2 df,   p=0.04
 
+
+Likelihood ratio test p-value: 0.05588764 
+Wald test p-value: 0.0416098 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with NFE2L2 
@@ -7404,6 +8031,9 @@ Likelihood ratio test= 8.09  on 2 df,   p=0.02
 Wald test            = 9.55  on 2 df,   p=0.008
 Score (logrank) test = 10  on 2 df,   p=0.007
 
+
+Likelihood ratio test p-value: 0.01750001 
+Wald test p-value: 0.008419086 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with NID1 
@@ -7437,6 +8067,9 @@ Likelihood ratio test= 2.56  on 2 df,   p=0.3
 Wald test            = 2.78  on 2 df,   p=0.2
 Score (logrank) test = 2.81  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.2778022 
+Wald test p-value: 0.24955 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with NIPBL 
@@ -7472,6 +8105,9 @@ Likelihood ratio test= 2.72  on 2 df,   p=0.3
 Wald test            = 2.98  on 2 df,   p=0.2
 Score (logrank) test = 3.01  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.256352 
+Wald test p-value: 0.2256947 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with NLGN3 
@@ -7507,6 +8143,9 @@ Likelihood ratio test= 3.73  on 2 df,   p=0.2
 Wald test            = 4.02  on 2 df,   p=0.1
 Score (logrank) test = 4.08  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.155243 
+Wald test p-value: 0.1342236 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with NLRP13 
@@ -7542,6 +8181,9 @@ Likelihood ratio test= 3.55  on 2 df,   p=0.2
 Wald test            = 3.96  on 2 df,   p=0.1
 Score (logrank) test = 4.03  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1691727 
+Wald test p-value: 0.1379439 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with NOD2 
@@ -7577,6 +8219,9 @@ Likelihood ratio test= 3.54  on 2 df,   p=0.2
 Wald test            = 3.89  on 2 df,   p=0.1
 Score (logrank) test = 3.95  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.170694 
+Wald test p-value: 0.1428023 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with NOTCH1 
@@ -7614,6 +8259,9 @@ Likelihood ratio test= 3.6  on 2 df,   p=0.2
 Wald test            = 3.98  on 2 df,   p=0.1
 Score (logrank) test = 4.03  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1651216 
+Wald test p-value: 0.1369178 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with NPAS3 
@@ -7649,6 +8297,9 @@ Likelihood ratio test= 5.46  on 2 df,   p=0.07
 Wald test            = 5.22  on 2 df,   p=0.07
 Score (logrank) test = 5.39  on 2 df,   p=0.07
 
+
+Likelihood ratio test p-value: 0.06523932 
+Wald test p-value: 0.0736027 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with NRCAM 
@@ -7682,6 +8333,9 @@ Likelihood ratio test= 3.24  on 2 df,   p=0.2
 Wald test            = 3.25  on 2 df,   p=0.2
 Score (logrank) test = 3.3  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.1983713 
+Wald test p-value: 0.1964367 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with NRG1 
@@ -7715,6 +8369,9 @@ Likelihood ratio test= 2.34  on 2 df,   p=0.3
 Wald test            = 2.54  on 2 df,   p=0.3
 Score (logrank) test = 2.57  on 2 df,   p=0.3
 
+
+Likelihood ratio test p-value: 0.3108271 
+Wald test p-value: 0.2802463 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with NRIP1 
@@ -7750,6 +8407,9 @@ Likelihood ratio test= 3.67  on 2 df,   p=0.2
 Wald test            = 4.04  on 2 df,   p=0.1
 Score (logrank) test = 4.1  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1599371 
+Wald test p-value: 0.1327046 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with NRK 
@@ -7785,6 +8445,9 @@ Likelihood ratio test= 3.56  on 2 df,   p=0.2
 Wald test            = 3.92  on 2 df,   p=0.1
 Score (logrank) test = 3.98  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1685094 
+Wald test p-value: 0.1409358 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with NTRK2 
@@ -7820,6 +8483,9 @@ Likelihood ratio test= 4.07  on 2 df,   p=0.1
 Wald test            = 4.31  on 2 df,   p=0.1
 Score (logrank) test = 4.38  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1307784 
+Wald test p-value: 0.115992 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with NUMA1 
@@ -7855,6 +8521,9 @@ Likelihood ratio test= 3.32  on 2 df,   p=0.2
 Wald test            = 3.68  on 2 df,   p=0.2
 Score (logrank) test = 3.73  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.1901786 
+Wald test p-value: 0.1591102 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with NUP188 
@@ -7892,6 +8561,9 @@ Likelihood ratio test= 3.59  on 2 df,   p=0.2
 Wald test            = 4.01  on 2 df,   p=0.1
 Score (logrank) test = 4.07  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1663986 
+Wald test p-value: 0.1349042 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with NUP205 
@@ -7927,6 +8599,9 @@ Likelihood ratio test= 4.04  on 2 df,   p=0.1
 Wald test            = 4.49  on 2 df,   p=0.1
 Score (logrank) test = 4.57  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1327368 
+Wald test p-value: 0.1060413 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with NUP210 
@@ -7962,6 +8637,9 @@ Likelihood ratio test= 3.42  on 2 df,   p=0.2
 Wald test            = 3.77  on 2 df,   p=0.2
 Score (logrank) test = 3.83  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1808325 
+Wald test p-value: 0.1514541 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with NYAP2 
@@ -7997,6 +8675,9 @@ Likelihood ratio test= 4.39  on 2 df,   p=0.1
 Wald test            = 4.53  on 2 df,   p=0.1
 Score (logrank) test = 4.62  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1114327 
+Wald test p-value: 0.1035898 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with OCA2 
@@ -8034,6 +8715,9 @@ Likelihood ratio test= 4.22  on 2 df,   p=0.1
 Wald test            = 4.66  on 2 df,   p=0.1
 Score (logrank) test = 4.72  on 2 df,   p=0.09
 
+
+Likelihood ratio test p-value: 0.1210916 
+Wald test p-value: 0.09737902 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with OR10R2 
@@ -8069,6 +8753,9 @@ Likelihood ratio test= 3.42  on 2 df,   p=0.2
 Wald test            = 3.77  on 2 df,   p=0.2
 Score (logrank) test = 3.82  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1807845 
+Wald test p-value: 0.1519922 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with OR10T2 
@@ -8104,6 +8791,9 @@ Likelihood ratio test= 3.4  on 2 df,   p=0.2
 Wald test            = 3.75  on 2 df,   p=0.2
 Score (logrank) test = 3.81  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1822451 
+Wald test p-value: 0.153127 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with OR14C36 
@@ -8139,6 +8829,9 @@ Likelihood ratio test= 4.04  on 2 df,   p=0.1
 Wald test            = 4.51  on 2 df,   p=0.1
 Score (logrank) test = 4.59  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1324494 
+Wald test p-value: 0.1048374 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with OR2C3 
@@ -8174,6 +8867,9 @@ Likelihood ratio test= 6.57  on 2 df,   p=0.04
 Wald test            = 6.31  on 2 df,   p=0.04
 Score (logrank) test = 6.54  on 2 df,   p=0.04
 
+
+Likelihood ratio test p-value: 0.03739914 
+Wald test p-value: 0.04256088 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with OR2G3 
@@ -8211,6 +8907,9 @@ Likelihood ratio test= 3.75  on 2 df,   p=0.2
 Wald test            = 4.15  on 2 df,   p=0.1
 Score (logrank) test = 4.2  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1532207 
+Wald test p-value: 0.1256036 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with OR2L2 
@@ -8248,6 +8947,9 @@ Likelihood ratio test= 4.36  on 2 df,   p=0.1
 Wald test            = 4.9  on 2 df,   p=0.09
 Score (logrank) test = 4.97  on 2 df,   p=0.08
 
+
+Likelihood ratio test p-value: 0.1132067 
+Wald test p-value: 0.08632804 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with OR2M2 
@@ -8281,6 +8983,9 @@ Likelihood ratio test= 4.23  on 2 df,   p=0.1
 Wald test            = 4.13  on 2 df,   p=0.1
 Score (logrank) test = 4.23  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1208405 
+Wald test p-value: 0.1271121 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with OR2T27 
@@ -8316,6 +9021,9 @@ Likelihood ratio test= 9.05  on 2 df,   p=0.01
 Wald test            = 7.23  on 2 df,   p=0.03
 Score (logrank) test = 7.84  on 2 df,   p=0.02
 
+
+Likelihood ratio test p-value: 0.01084378 
+Wald test p-value: 0.02696685 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with OR2T6 
@@ -8351,6 +9059,9 @@ Likelihood ratio test= 7.23  on 2 df,   p=0.03
 Wald test            = 6.5  on 2 df,   p=0.04
 Score (logrank) test = 6.78  on 2 df,   p=0.03
 
+
+Likelihood ratio test p-value: 0.0269705 
+Wald test p-value: 0.0388326 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with OR4A16 
@@ -8386,6 +9097,9 @@ Likelihood ratio test= 3.33  on 2 df,   p=0.2
 Wald test            = 3.68  on 2 df,   p=0.2
 Score (logrank) test = 3.74  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.1894397 
+Wald test p-value: 0.1585176 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with OR4C16 
@@ -8421,6 +9135,9 @@ Likelihood ratio test= 7.59  on 2 df,   p=0.02
 Wald test            = 7.42  on 2 df,   p=0.02
 Score (logrank) test = 7.67  on 2 df,   p=0.02
 
+
+Likelihood ratio test p-value: 0.02245901 
+Wald test p-value: 0.02441981 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with OR4D6 
@@ -8456,6 +9173,9 @@ Likelihood ratio test= 4.61  on 2 df,   p=0.1
 Wald test            = 4.69  on 2 df,   p=0.1
 Score (logrank) test = 4.79  on 2 df,   p=0.09
 
+
+Likelihood ratio test p-value: 0.09989844 
+Wald test p-value: 0.09581411 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with OR51A2 
@@ -8491,6 +9211,9 @@ Likelihood ratio test= 5.9  on 2 df,   p=0.05
 Wald test            = 7.84  on 2 df,   p=0.02
 Score (logrank) test = 8.72  on 2 df,   p=0.01
 
+
+Likelihood ratio test p-value: 0.05246729 
+Wald test p-value: 0.01983428 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with OR51G1 
@@ -8526,6 +9249,9 @@ Likelihood ratio test= 6.13  on 2 df,   p=0.05
 Wald test            = 7.03  on 2 df,   p=0.03
 Score (logrank) test = 7.26  on 2 df,   p=0.03
 
+
+Likelihood ratio test p-value: 0.04671879 
+Wald test p-value: 0.02969422 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with OR5B17 
@@ -8561,6 +9287,9 @@ Likelihood ratio test= 5.63  on 2 df,   p=0.06
 Wald test            = 5.24  on 2 df,   p=0.07
 Score (logrank) test = 5.46  on 2 df,   p=0.07
 
+
+Likelihood ratio test p-value: 0.05988928 
+Wald test p-value: 0.07296699 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with OR5D14 
@@ -8596,6 +9325,9 @@ Likelihood ratio test= 4.05  on 2 df,   p=0.1
 Wald test            = 4.5  on 2 df,   p=0.1
 Score (logrank) test = 4.58  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1320251 
+Wald test p-value: 0.1055336 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with OR5L1 
@@ -8631,6 +9363,9 @@ Likelihood ratio test= 4.76  on 2 df,   p=0.09
 Wald test            = 4.86  on 2 df,   p=0.09
 Score (logrank) test = 4.96  on 2 df,   p=0.08
 
+
+Likelihood ratio test p-value: 0.0923349 
+Wald test p-value: 0.08791943 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with OR5M9 
@@ -8666,6 +9401,9 @@ Likelihood ratio test= 4.28  on 2 df,   p=0.1
 Wald test            = 4.4  on 2 df,   p=0.1
 Score (logrank) test = 4.5  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1177167 
+Wald test p-value: 0.1108075 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with OR6K2 
@@ -8701,6 +9439,9 @@ Likelihood ratio test= 3.71  on 2 df,   p=0.2
 Wald test            = 4.11  on 2 df,   p=0.1
 Score (logrank) test = 4.18  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1565439 
+Wald test p-value: 0.1278115 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with OTUD6A 
@@ -8736,6 +9477,9 @@ Likelihood ratio test= 4.35  on 2 df,   p=0.1
 Wald test            = 4.48  on 2 df,   p=0.1
 Score (logrank) test = 4.57  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1137952 
+Wald test p-value: 0.1065983 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with PAMR1 
@@ -8771,6 +9515,9 @@ Likelihood ratio test= 3.12  on 2 df,   p=0.2
 Wald test            = 3.46  on 2 df,   p=0.2
 Score (logrank) test = 3.51  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.2098223 
+Wald test p-value: 0.1773723 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with PAX4 
@@ -8806,6 +9553,9 @@ Likelihood ratio test= 3.41  on 2 df,   p=0.2
 Wald test            = 3.77  on 2 df,   p=0.2
 Score (logrank) test = 3.83  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1813235 
+Wald test p-value: 0.1517715 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with PCDH11X 
@@ -8843,6 +9593,9 @@ Likelihood ratio test= 3.77  on 2 df,   p=0.2
 Wald test            = 4.11  on 2 df,   p=0.1
 Score (logrank) test = 4.16  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1522085 
+Wald test p-value: 0.1283631 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with PCDH15 
@@ -8880,6 +9633,9 @@ Likelihood ratio test= 4.21  on 2 df,   p=0.1
 Wald test            = 4.59  on 2 df,   p=0.1
 Score (logrank) test = 4.65  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1220053 
+Wald test p-value: 0.100636 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with PCDH20 
@@ -8915,6 +9671,9 @@ Likelihood ratio test= 2.74  on 2 df,   p=0.3
 Wald test            = 3.01  on 2 df,   p=0.2
 Score (logrank) test = 3.04  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.254452 
+Wald test p-value: 0.222431 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with PCDH8 
@@ -8950,6 +9709,9 @@ Likelihood ratio test= 4.06  on 2 df,   p=0.1
 Wald test            = 4.37  on 2 df,   p=0.1
 Score (logrank) test = 4.44  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1315794 
+Wald test p-value: 0.1124994 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with PCDHB2 
@@ -8985,6 +9747,9 @@ Likelihood ratio test= 4.94  on 2 df,   p=0.08
 Wald test            = 5.36  on 2 df,   p=0.07
 Score (logrank) test = 5.44  on 2 df,   p=0.07
 
+
+Likelihood ratio test p-value: 0.08476072 
+Wald test p-value: 0.06851142 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with PCDHB8 
@@ -9020,6 +9785,9 @@ Likelihood ratio test= 4.23  on 2 df,   p=0.1
 Wald test            = 4.6  on 2 df,   p=0.1
 Score (logrank) test = 4.68  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1206099 
+Wald test p-value: 0.1004981 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with PCDHGA3 
@@ -9055,6 +9823,9 @@ Likelihood ratio test= 3.25  on 2 df,   p=0.2
 Wald test            = 3.56  on 2 df,   p=0.2
 Score (logrank) test = 3.61  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.1973207 
+Wald test p-value: 0.1690518 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with PCDHGA8 
@@ -9090,6 +9861,9 @@ Likelihood ratio test= 3.5  on 2 df,   p=0.2
 Wald test            = 3.88  on 2 df,   p=0.1
 Score (logrank) test = 3.94  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1741538 
+Wald test p-value: 0.1437722 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with PDE3A 
@@ -9125,6 +9899,9 @@ Likelihood ratio test= 3.91  on 2 df,   p=0.1
 Wald test            = 4.34  on 2 df,   p=0.1
 Score (logrank) test = 4.42  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1413515 
+Wald test p-value: 0.1140198 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with PDE4DIP 
@@ -9160,6 +9937,9 @@ Likelihood ratio test= 3.27  on 2 df,   p=0.2
 Wald test            = 3.57  on 2 df,   p=0.2
 Score (logrank) test = 3.62  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.1948057 
+Wald test p-value: 0.1675974 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with PDE6A 
@@ -9195,6 +9975,9 @@ Likelihood ratio test= 3.5  on 2 df,   p=0.2
 Wald test            = 3.85  on 2 df,   p=0.1
 Score (logrank) test = 3.91  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1741922 
+Wald test p-value: 0.1458119 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with PDHA2 
@@ -9230,6 +10013,9 @@ Likelihood ratio test= 4.67  on 2 df,   p=0.1
 Wald test            = 5.21  on 2 df,   p=0.07
 Score (logrank) test = 5.32  on 2 df,   p=0.07
 
+
+Likelihood ratio test p-value: 0.09669859 
+Wald test p-value: 0.07380194 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with PDZD8 
@@ -9265,6 +10051,9 @@ Likelihood ratio test= 3.32  on 2 df,   p=0.2
 Wald test            = 3.68  on 2 df,   p=0.2
 Score (logrank) test = 3.73  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.1898372 
+Wald test p-value: 0.158839 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with PKD1L2 
@@ -9300,6 +10089,9 @@ Likelihood ratio test= 4.88  on 2 df,   p=0.09
 Wald test            = 5.57  on 2 df,   p=0.06
 Score (logrank) test = 5.73  on 2 df,   p=0.06
 
+
+Likelihood ratio test p-value: 0.08714658 
+Wald test p-value: 0.06172447 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with PKHD1 
@@ -9337,6 +10129,9 @@ Likelihood ratio test= 4.1  on 2 df,   p=0.1
 Wald test            = 4.41  on 2 df,   p=0.1
 Score (logrank) test = 4.47  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1289022 
+Wald test p-value: 0.1103802 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with PLCH2 
@@ -9372,6 +10167,9 @@ Likelihood ratio test= 4.77  on 2 df,   p=0.09
 Wald test            = 5.37  on 2 df,   p=0.07
 Score (logrank) test = 5.49  on 2 df,   p=0.06
 
+
+Likelihood ratio test p-value: 0.09190443 
+Wald test p-value: 0.06819237 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with PLEKHG3 
@@ -9407,6 +10205,9 @@ Likelihood ratio test= 3.45  on 2 df,   p=0.2
 Wald test            = 3.81  on 2 df,   p=0.1
 Score (logrank) test = 3.86  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1781704 
+Wald test p-value: 0.1491033 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with POM121L12 
@@ -9440,6 +10241,9 @@ Likelihood ratio test= 2.43  on 2 df,   p=0.3
 Wald test            = 2.67  on 2 df,   p=0.3
 Score (logrank) test = 2.7  on 2 df,   p=0.3
 
+
+Likelihood ratio test p-value: 0.2965171 
+Wald test p-value: 0.2636434 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with POTEG 
@@ -9473,6 +10277,9 @@ Likelihood ratio test= 3  on 2 df,   p=0.2
 Wald test            = 3.09  on 2 df,   p=0.2
 Score (logrank) test = 3.13  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.2230727 
+Wald test p-value: 0.2133741 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with PPP1R3A 
@@ -9508,6 +10315,9 @@ Likelihood ratio test= 3.74  on 2 df,   p=0.2
 Wald test            = 4.12  on 2 df,   p=0.1
 Score (logrank) test = 4.18  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1543638 
+Wald test p-value: 0.1277608 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with PRDM15 
@@ -9543,6 +10353,9 @@ Likelihood ratio test= 3.81  on 2 df,   p=0.1
 Wald test            = 4.19  on 2 df,   p=0.1
 Score (logrank) test = 4.26  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1487304 
+Wald test p-value: 0.1228794 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with PRDM9 
@@ -9580,6 +10393,9 @@ Likelihood ratio test= 4.05  on 2 df,   p=0.1
 Wald test            = 4.39  on 2 df,   p=0.1
 Score (logrank) test = 4.44  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1322202 
+Wald test p-value: 0.1113986 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with PREX1 
@@ -9615,6 +10431,9 @@ Likelihood ratio test= 2.65  on 2 df,   p=0.3
 Wald test            = 2.92  on 2 df,   p=0.2
 Score (logrank) test = 2.95  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.2651978 
+Wald test p-value: 0.2327683 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with PRUNE2 
@@ -9652,6 +10471,9 @@ Likelihood ratio test= 5.21  on 2 df,   p=0.07
 Wald test            = 5.66  on 2 df,   p=0.06
 Score (logrank) test = 5.74  on 2 df,   p=0.06
 
+
+Likelihood ratio test p-value: 0.07398656 
+Wald test p-value: 0.05889773 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with PSG1 
@@ -9687,6 +10509,9 @@ Likelihood ratio test= 3.92  on 2 df,   p=0.1
 Wald test            = 4.15  on 2 df,   p=0.1
 Score (logrank) test = 4.22  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1407638 
+Wald test p-value: 0.1257273 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with PSG9 
@@ -9722,6 +10547,9 @@ Likelihood ratio test= 6.03  on 2 df,   p=0.05
 Wald test            = 5.57  on 2 df,   p=0.06
 Score (logrank) test = 5.8  on 2 df,   p=0.06
 
+
+Likelihood ratio test p-value: 0.04901583 
+Wald test p-value: 0.06171915 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with PTPRD 
@@ -9759,6 +10587,9 @@ Likelihood ratio test= 3.51  on 2 df,   p=0.2
 Wald test            = 3.87  on 2 df,   p=0.1
 Score (logrank) test = 3.92  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1729033 
+Wald test p-value: 0.1444311 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with PTPRJ 
@@ -9794,6 +10625,9 @@ Likelihood ratio test= 3.32  on 2 df,   p=0.2
 Wald test            = 3.68  on 2 df,   p=0.2
 Score (logrank) test = 3.73  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.1901668 
+Wald test p-value: 0.1591023 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with PTPRT 
@@ -9831,6 +10665,9 @@ Likelihood ratio test= 6.04  on 2 df,   p=0.05
 Wald test            = 6.52  on 2 df,   p=0.04
 Score (logrank) test = 6.62  on 2 df,   p=0.04
 
+
+Likelihood ratio test p-value: 0.04883548 
+Wald test p-value: 0.03836804 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with PTPRZ1 
@@ -9868,6 +10705,9 @@ Likelihood ratio test= 5.73  on 2 df,   p=0.06
 Wald test            = 5.85  on 2 df,   p=0.05
 Score (logrank) test = 5.93  on 2 df,   p=0.05
 
+
+Likelihood ratio test p-value: 0.0569652 
+Wald test p-value: 0.05372715 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with PYHIN1 
@@ -9903,6 +10743,9 @@ Likelihood ratio test= 2.82  on 2 df,   p=0.2
 Wald test            = 3.08  on 2 df,   p=0.2
 Score (logrank) test = 3.12  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.24397 
+Wald test p-value: 0.2140815 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with RBM10 
@@ -9940,6 +10783,9 @@ Likelihood ratio test= 4.27  on 2 df,   p=0.1
 Wald test            = 4.77  on 2 df,   p=0.09
 Score (logrank) test = 4.84  on 2 df,   p=0.09
 
+
+Likelihood ratio test p-value: 0.1179919 
+Wald test p-value: 0.09203716 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with RELN 
@@ -9977,6 +10823,9 @@ Likelihood ratio test= 3.85  on 2 df,   p=0.1
 Wald test            = 4.17  on 2 df,   p=0.1
 Score (logrank) test = 4.23  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1459789 
+Wald test p-value: 0.1241555 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with REM1 
@@ -10012,6 +10861,9 @@ Likelihood ratio test= 3.43  on 2 df,   p=0.2
 Wald test            = 3.79  on 2 df,   p=0.2
 Score (logrank) test = 3.84  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1798291 
+Wald test p-value: 0.1504725 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with RGPD3 
@@ -10047,6 +10899,9 @@ Likelihood ratio test= 3.98  on 2 df,   p=0.1
 Wald test            = 4.23  on 2 df,   p=0.1
 Score (logrank) test = 4.3  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1369521 
+Wald test p-value: 0.1207508 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with RGS12 
@@ -10082,6 +10937,9 @@ Likelihood ratio test= 3.14  on 2 df,   p=0.2
 Wald test            = 3.44  on 2 df,   p=0.2
 Score (logrank) test = 3.48  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.2084239 
+Wald test p-value: 0.1793105 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with RIMS1 
@@ -10117,6 +10975,9 @@ Likelihood ratio test= 2.88  on 2 df,   p=0.2
 Wald test            = 3.14  on 2 df,   p=0.2
 Score (logrank) test = 3.18  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.2365353 
+Wald test p-value: 0.2075456 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with RIMS2 
@@ -10154,6 +11015,9 @@ Likelihood ratio test= 4.06  on 2 df,   p=0.1
 Wald test            = 4.42  on 2 df,   p=0.1
 Score (logrank) test = 4.47  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1314969 
+Wald test p-value: 0.1097983 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with ROBO3 
@@ -10189,6 +11053,9 @@ Likelihood ratio test= 3.21  on 2 df,   p=0.2
 Wald test            = 3.4  on 2 df,   p=0.2
 Score (logrank) test = 3.45  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.201171 
+Wald test p-value: 0.1826479 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with ROBO4 
@@ -10224,6 +11091,9 @@ Likelihood ratio test= 3.43  on 2 df,   p=0.2
 Wald test            = 3.78  on 2 df,   p=0.2
 Score (logrank) test = 3.84  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1800038 
+Wald test p-value: 0.1507497 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with ROS1 
@@ -10259,6 +11129,9 @@ Likelihood ratio test= 6.17  on 2 df,   p=0.05
 Wald test            = 5.94  on 2 df,   p=0.05
 Score (logrank) test = 6.13  on 2 df,   p=0.05
 
+
+Likelihood ratio test p-value: 0.04574147 
+Wald test p-value: 0.05121478 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with RP1 
@@ -10294,6 +11167,9 @@ Likelihood ratio test= 4.48  on 2 df,   p=0.1
 Wald test            = 4.99  on 2 df,   p=0.08
 Score (logrank) test = 5.09  on 2 df,   p=0.08
 
+
+Likelihood ratio test p-value: 0.1065261 
+Wald test p-value: 0.08233775 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with RPE65 
@@ -10329,6 +11205,9 @@ Likelihood ratio test= 4.4  on 2 df,   p=0.1
 Wald test            = 4.55  on 2 df,   p=0.1
 Score (logrank) test = 4.64  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1110569 
+Wald test p-value: 0.1027803 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with RUNX1T1 
@@ -10362,6 +11241,9 @@ Likelihood ratio test= 2.33  on 2 df,   p=0.3
 Wald test            = 2.54  on 2 df,   p=0.3
 Score (logrank) test = 2.57  on 2 df,   p=0.3
 
+
+Likelihood ratio test p-value: 0.3112865 
+Wald test p-value: 0.2801874 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with RYR2 
@@ -10399,6 +11281,9 @@ Likelihood ratio test= 4.97  on 2 df,   p=0.08
 Wald test            = 5.3  on 2 df,   p=0.07
 Score (logrank) test = 5.36  on 2 df,   p=0.07
 
+
+Likelihood ratio test p-value: 0.08337136 
+Wald test p-value: 0.07071514 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with RYR3 
@@ -10436,6 +11321,9 @@ Likelihood ratio test= 4.6  on 2 df,   p=0.1
 Wald test            = 4.88  on 2 df,   p=0.09
 Score (logrank) test = 4.94  on 2 df,   p=0.08
 
+
+Likelihood ratio test p-value: 0.1000106 
+Wald test p-value: 0.08714479 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with SALL1 
@@ -10471,6 +11359,9 @@ Likelihood ratio test= 2.66  on 2 df,   p=0.3
 Wald test            = 2.92  on 2 df,   p=0.2
 Score (logrank) test = 2.96  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.2639157 
+Wald test p-value: 0.2318672 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with SAMSN1 
@@ -10506,6 +11397,9 @@ Likelihood ratio test= 2.75  on 2 df,   p=0.3
 Wald test            = 3  on 2 df,   p=0.2
 Score (logrank) test = 3.04  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.2523653 
+Wald test p-value: 0.2229784 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with SCN10A 
@@ -10543,6 +11437,9 @@ Likelihood ratio test= 3.33  on 2 df,   p=0.2
 Wald test            = 3.69  on 2 df,   p=0.2
 Score (logrank) test = 3.74  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.1892706 
+Wald test p-value: 0.1583299 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with SCN5A 
@@ -10578,6 +11475,9 @@ Likelihood ratio test= 3.26  on 2 df,   p=0.2
 Wald test            = 3.53  on 2 df,   p=0.2
 Score (logrank) test = 3.58  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.1959739 
+Wald test p-value: 0.1714336 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with SETD2 
@@ -10613,6 +11513,9 @@ Likelihood ratio test= 4.29  on 2 df,   p=0.1
 Wald test            = 4.67  on 2 df,   p=0.1
 Score (logrank) test = 4.74  on 2 df,   p=0.09
 
+
+Likelihood ratio test p-value: 0.1169884 
+Wald test p-value: 0.0968786 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with SFMBT2 
@@ -10648,6 +11551,9 @@ Likelihood ratio test= 4.73  on 2 df,   p=0.09
 Wald test            = 5.25  on 2 df,   p=0.07
 Score (logrank) test = 5.35  on 2 df,   p=0.07
 
+
+Likelihood ratio test p-value: 0.09373712 
+Wald test p-value: 0.07237979 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with SIGLEC1 
@@ -10683,6 +11589,9 @@ Likelihood ratio test= 2.76  on 2 df,   p=0.3
 Wald test            = 3.03  on 2 df,   p=0.2
 Score (logrank) test = 3.07  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.2516279 
+Wald test p-value: 0.2194835 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with SIGLEC10 
@@ -10718,6 +11627,9 @@ Likelihood ratio test= 2.8  on 2 df,   p=0.2
 Wald test            = 3.05  on 2 df,   p=0.2
 Score (logrank) test = 3.09  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.2471864 
+Wald test p-value: 0.2175539 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with SIGLEC6 
@@ -10753,6 +11665,9 @@ Likelihood ratio test= 3.88  on 2 df,   p=0.1
 Wald test            = 4.28  on 2 df,   p=0.1
 Score (logrank) test = 4.34  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1435502 
+Wald test p-value: 0.1177054 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with SLC17A4 
@@ -10788,6 +11703,9 @@ Likelihood ratio test= 3.92  on 2 df,   p=0.1
 Wald test            = 4.19  on 2 df,   p=0.1
 Score (logrank) test = 4.26  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1409985 
+Wald test p-value: 0.1231813 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with SLC26A7 
@@ -10823,6 +11741,9 @@ Likelihood ratio test= 6.13  on 2 df,   p=0.05
 Wald test            = 5.95  on 2 df,   p=0.05
 Score (logrank) test = 6.12  on 2 df,   p=0.05
 
+
+Likelihood ratio test p-value: 0.04667642 
+Wald test p-value: 0.05107774 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with SLC5A11 
@@ -10858,6 +11779,9 @@ Likelihood ratio test= 4.01  on 2 df,   p=0.1
 Wald test            = 4.23  on 2 df,   p=0.1
 Score (logrank) test = 4.3  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1349822 
+Wald test p-value: 0.1207653 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with SLC6A18 
@@ -10893,6 +11817,9 @@ Likelihood ratio test= 7.08  on 2 df,   p=0.03
 Wald test            = 8.16  on 2 df,   p=0.02
 Score (logrank) test = 8.45  on 2 df,   p=0.01
 
+
+Likelihood ratio test p-value: 0.02900384 
+Wald test p-value: 0.01687743 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with SLC6A19 
@@ -10928,6 +11855,9 @@ Likelihood ratio test= 3.59  on 2 df,   p=0.2
 Wald test            = 3.91  on 2 df,   p=0.1
 Score (logrank) test = 3.97  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1664052 
+Wald test p-value: 0.1417314 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with SLC6A5 
@@ -10965,6 +11895,9 @@ Likelihood ratio test= 3.61  on 2 df,   p=0.2
 Wald test            = 3.95  on 2 df,   p=0.1
 Score (logrank) test = 4  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1644006 
+Wald test p-value: 0.1390072 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with SLC8A3 
@@ -11000,6 +11933,9 @@ Likelihood ratio test= 7.26  on 2 df,   p=0.03
 Wald test            = 6.61  on 2 df,   p=0.04
 Score (logrank) test = 6.88  on 2 df,   p=0.03
 
+
+Likelihood ratio test p-value: 0.02645171 
+Wald test p-value: 0.03673916 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with SLITRK1 
@@ -11037,6 +11973,9 @@ Likelihood ratio test= 3.99  on 2 df,   p=0.1
 Wald test            = 4.31  on 2 df,   p=0.1
 Score (logrank) test = 4.36  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1357272 
+Wald test p-value: 0.1161158 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with SLITRK2 
@@ -11074,6 +12013,9 @@ Likelihood ratio test= 3.53  on 2 df,   p=0.2
 Wald test            = 3.89  on 2 df,   p=0.1
 Score (logrank) test = 3.94  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1708593 
+Wald test p-value: 0.142922 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with SLITRK3 
@@ -11109,6 +12051,9 @@ Likelihood ratio test= 4  on 2 df,   p=0.1
 Wald test            = 4.46  on 2 df,   p=0.1
 Score (logrank) test = 4.54  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1354893 
+Wald test p-value: 0.1076671 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with SMARCA4 
@@ -11144,6 +12089,9 @@ Likelihood ratio test= 4.97  on 2 df,   p=0.08
 Wald test            = 5.37  on 2 df,   p=0.07
 Score (logrank) test = 5.45  on 2 df,   p=0.07
 
+
+Likelihood ratio test p-value: 0.08324213 
+Wald test p-value: 0.06826835 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with SMC4 
@@ -11179,6 +12127,9 @@ Likelihood ratio test= 5.61  on 2 df,   p=0.06
 Wald test            = 5.31  on 2 df,   p=0.07
 Score (logrank) test = 5.5  on 2 df,   p=0.06
 
+
+Likelihood ratio test p-value: 0.06062774 
+Wald test p-value: 0.07031454 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with SNCAIP 
@@ -11214,6 +12165,9 @@ Likelihood ratio test= 4.95  on 2 df,   p=0.08
 Wald test            = 5.55  on 2 df,   p=0.06
 Score (logrank) test = 5.67  on 2 df,   p=0.06
 
+
+Likelihood ratio test p-value: 0.08424052 
+Wald test p-value: 0.06246127 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with SORCS1 
@@ -11251,6 +12205,9 @@ Likelihood ratio test= 3.34  on 2 df,   p=0.2
 Wald test            = 3.69  on 2 df,   p=0.2
 Score (logrank) test = 3.75  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.1886616 
+Wald test p-value: 0.1578984 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with SORCS3 
@@ -11286,6 +12243,9 @@ Likelihood ratio test= 4.9  on 2 df,   p=0.09
 Wald test            = 5.28  on 2 df,   p=0.07
 Score (logrank) test = 5.36  on 2 df,   p=0.07
 
+
+Likelihood ratio test p-value: 0.08633987 
+Wald test p-value: 0.07136238 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with SPAG17 
@@ -11321,6 +12281,9 @@ Likelihood ratio test= 4.04  on 2 df,   p=0.1
 Wald test            = 4.3  on 2 df,   p=0.1
 Score (logrank) test = 4.36  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1328958 
+Wald test p-value: 0.1167226 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with SPATA16 
@@ -11356,6 +12319,9 @@ Likelihood ratio test= 3.48  on 2 df,   p=0.2
 Wald test            = 3.84  on 2 df,   p=0.1
 Score (logrank) test = 3.89  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.175368 
+Wald test p-value: 0.146731 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with SPATA31A6 
@@ -11391,6 +12357,9 @@ Likelihood ratio test= 4.54  on 2 df,   p=0.1
 Wald test            = 4.98  on 2 df,   p=0.08
 Score (logrank) test = 5.07  on 2 df,   p=0.08
 
+
+Likelihood ratio test p-value: 0.1035571 
+Wald test p-value: 0.0829985 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with SPEF2 
@@ -11426,6 +12395,9 @@ Likelihood ratio test= 2.83  on 2 df,   p=0.2
 Wald test            = 3.09  on 2 df,   p=0.2
 Score (logrank) test = 3.12  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.2429756 
+Wald test p-value: 0.213777 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with SPHKAP 
@@ -11461,6 +12433,9 @@ Likelihood ratio test= 2.93  on 2 df,   p=0.2
 Wald test            = 3.18  on 2 df,   p=0.2
 Score (logrank) test = 3.22  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.2307219 
+Wald test p-value: 0.2041503 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with SRCAP 
@@ -11496,6 +12471,9 @@ Likelihood ratio test= 2.8  on 2 df,   p=0.2
 Wald test            = 3.06  on 2 df,   p=0.2
 Score (logrank) test = 3.1  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.2466822 
+Wald test p-value: 0.2166516 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with SRGAP3 
@@ -11531,6 +12509,9 @@ Likelihood ratio test= 6.21  on 2 df,   p=0.04
 Wald test            = 5.69  on 2 df,   p=0.06
 Score (logrank) test = 5.93  on 2 df,   p=0.05
 
+
+Likelihood ratio test p-value: 0.04482068 
+Wald test p-value: 0.05819286 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with STAB2 
@@ -11566,6 +12547,9 @@ Likelihood ratio test= 6.51  on 2 df,   p=0.04
 Wald test            = 5.63  on 2 df,   p=0.06
 Score (logrank) test = 5.87  on 2 df,   p=0.05
 
+
+Likelihood ratio test p-value: 0.03855911 
+Wald test p-value: 0.05989906 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with STAG2 
@@ -11601,6 +12585,9 @@ Likelihood ratio test= 4.15  on 2 df,   p=0.1
 Wald test            = 4.65  on 2 df,   p=0.1
 Score (logrank) test = 4.74  on 2 df,   p=0.09
 
+
+Likelihood ratio test p-value: 0.1254863 
+Wald test p-value: 0.0977538 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with STK11 
@@ -11638,6 +12625,9 @@ Likelihood ratio test= 7.6  on 2 df,   p=0.02
 Wald test            = 8.48  on 2 df,   p=0.01
 Score (logrank) test = 8.63  on 2 df,   p=0.01
 
+
+Likelihood ratio test p-value: 0.02237206 
+Wald test p-value: 0.01438622 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with STON1-GTF2A1L 
@@ -11673,6 +12663,9 @@ Likelihood ratio test= 3.35  on 2 df,   p=0.2
 Wald test            = 3.7  on 2 df,   p=0.2
 Score (logrank) test = 3.76  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.1876871 
+Wald test p-value: 0.1569009 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with STON2 
@@ -11708,6 +12701,9 @@ Likelihood ratio test= 3.44  on 2 df,   p=0.2
 Wald test            = 3.78  on 2 df,   p=0.2
 Score (logrank) test = 3.84  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1788896 
+Wald test p-value: 0.1508008 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with SUN1 
@@ -11743,6 +12739,9 @@ Likelihood ratio test= 4.09  on 2 df,   p=0.1
 Wald test            = 4.49  on 2 df,   p=0.1
 Score (logrank) test = 4.56  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1293389 
+Wald test p-value: 0.1059727 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with SV2C 
@@ -11780,6 +12779,9 @@ Likelihood ratio test= 3.32  on 2 df,   p=0.2
 Wald test            = 3.68  on 2 df,   p=0.2
 Score (logrank) test = 3.73  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.1900735 
+Wald test p-value: 0.1590146 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with SYT9 
@@ -11815,6 +12817,9 @@ Likelihood ratio test= 3.32  on 2 df,   p=0.2
 Wald test            = 3.68  on 2 df,   p=0.2
 Score (logrank) test = 3.73  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.1900401 
+Wald test p-value: 0.1590024 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with TAB3 
@@ -11850,6 +12855,9 @@ Likelihood ratio test= 3.66  on 2 df,   p=0.2
 Wald test            = 3.97  on 2 df,   p=0.1
 Score (logrank) test = 4.03  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1605145 
+Wald test p-value: 0.1375039 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with TAF1L 
@@ -11885,6 +12893,9 @@ Likelihood ratio test= 4.18  on 2 df,   p=0.1
 Wald test            = 4.52  on 2 df,   p=0.1
 Score (logrank) test = 4.6  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1237871 
+Wald test p-value: 0.1041486 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with TAOK3 
@@ -11918,6 +12929,9 @@ Likelihood ratio test= 3.13  on 2 df,   p=0.2
 Wald test            = 3.45  on 2 df,   p=0.2
 Score (logrank) test = 3.5  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.2092279 
+Wald test p-value: 0.1779679 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with TAS1R2 
@@ -11955,6 +12969,9 @@ Likelihood ratio test= 3.9  on 2 df,   p=0.1
 Wald test            = 4.34  on 2 df,   p=0.1
 Score (logrank) test = 4.4  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1419651 
+Wald test p-value: 0.1140763 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with TECPR2 
@@ -11990,6 +13007,9 @@ Likelihood ratio test= 3.43  on 2 df,   p=0.2
 Wald test            = 3.78  on 2 df,   p=0.2
 Score (logrank) test = 3.84  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1800981 
+Wald test p-value: 0.1507464 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with TECRL 
@@ -12023,6 +13043,9 @@ Likelihood ratio test= 3.69  on 2 df,   p=0.2
 Wald test            = 3.81  on 2 df,   p=0.1
 Score (logrank) test = 3.87  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1581763 
+Wald test p-value: 0.148484 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with TENM1 
@@ -12058,6 +13081,9 @@ Likelihood ratio test= 3.46  on 2 df,   p=0.2
 Wald test            = 3.77  on 2 df,   p=0.2
 Score (logrank) test = 3.82  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1774914 
+Wald test p-value: 0.1519064 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with TET3 
@@ -12095,6 +13121,9 @@ Likelihood ratio test= 3.34  on 2 df,   p=0.2
 Wald test            = 3.7  on 2 df,   p=0.2
 Score (logrank) test = 3.75  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.1881157 
+Wald test p-value: 0.1573141 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with TEX13A 
@@ -12132,6 +13161,9 @@ Likelihood ratio test= 3.44  on 2 df,   p=0.2
 Wald test            = 3.8  on 2 df,   p=0.1
 Score (logrank) test = 3.85  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1792779 
+Wald test p-value: 0.1497804 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with TG 
@@ -12167,6 +13199,9 @@ Likelihood ratio test= 2.83  on 2 df,   p=0.2
 Wald test            = 3.09  on 2 df,   p=0.2
 Score (logrank) test = 3.13  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.2423523 
+Wald test p-value: 0.2134978 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with THSD7B 
@@ -12204,6 +13239,9 @@ Likelihood ratio test= 3.52  on 2 df,   p=0.2
 Wald test            = 3.89  on 2 df,   p=0.1
 Score (logrank) test = 3.94  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1720346 
+Wald test p-value: 0.1429549 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with TLR4 
@@ -12241,6 +13279,9 @@ Likelihood ratio test= 3.61  on 2 df,   p=0.2
 Wald test            = 3.96  on 2 df,   p=0.1
 Score (logrank) test = 4.01  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1644533 
+Wald test p-value: 0.13823 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with TMEM131 
@@ -12276,6 +13317,9 @@ Likelihood ratio test= 3.33  on 2 df,   p=0.2
 Wald test            = 3.69  on 2 df,   p=0.2
 Score (logrank) test = 3.74  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.1888244 
+Wald test p-value: 0.1580638 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with TMPRSS11F 
@@ -12311,6 +13355,9 @@ Likelihood ratio test= 3.32  on 2 df,   p=0.2
 Wald test            = 3.68  on 2 df,   p=0.2
 Score (logrank) test = 3.73  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.1902079 
+Wald test p-value: 0.1591341 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with TMPRSS15 
@@ -12344,6 +13391,9 @@ Likelihood ratio test= 2.15  on 2 df,   p=0.3
 Wald test            = 2.33  on 2 df,   p=0.3
 Score (logrank) test = 2.35  on 2 df,   p=0.3
 
+
+Likelihood ratio test p-value: 0.3405308 
+Wald test p-value: 0.311937 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with TMTC1 
@@ -12379,6 +13429,9 @@ Likelihood ratio test= 7.07  on 2 df,   p=0.03
 Wald test            = 5.91  on 2 df,   p=0.05
 Score (logrank) test = 6.18  on 2 df,   p=0.05
 
+
+Likelihood ratio test p-value: 0.02913202 
+Wald test p-value: 0.05211037 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with TNN 
@@ -12416,6 +13469,9 @@ Likelihood ratio test= 3.78  on 2 df,   p=0.2
 Wald test            = 4.14  on 2 df,   p=0.1
 Score (logrank) test = 4.2  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1509407 
+Wald test p-value: 0.1259613 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with TNR 
@@ -12453,6 +13509,9 @@ Likelihood ratio test= 3.34  on 2 df,   p=0.2
 Wald test            = 3.7  on 2 df,   p=0.2
 Score (logrank) test = 3.75  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.1883525 
+Wald test p-value: 0.1576051 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with TNXB 
@@ -12488,6 +13547,9 @@ Likelihood ratio test= 3.54  on 2 df,   p=0.2
 Wald test            = 3.92  on 2 df,   p=0.1
 Score (logrank) test = 3.99  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1702273 
+Wald test p-value: 0.1405784 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with TP53 
@@ -12525,6 +13587,9 @@ Likelihood ratio test= 6.24  on 2 df,   p=0.04
 Wald test            = 6.56  on 2 df,   p=0.04
 Score (logrank) test = 6.63  on 2 df,   p=0.04
 
+
+Likelihood ratio test p-value: 0.04421571 
+Wald test p-value: 0.03756629 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with TPR 
@@ -12560,6 +13625,9 @@ Likelihood ratio test= 4.52  on 2 df,   p=0.1
 Wald test            = 4.92  on 2 df,   p=0.09
 Score (logrank) test = 5  on 2 df,   p=0.08
 
+
+Likelihood ratio test p-value: 0.1044568 
+Wald test p-value: 0.08531409 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with TPTE 
@@ -12597,6 +13665,9 @@ Likelihood ratio test= 3.34  on 2 df,   p=0.2
 Wald test            = 3.69  on 2 df,   p=0.2
 Score (logrank) test = 3.75  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.1885217 
+Wald test p-value: 0.1577042 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with TPTE2 
@@ -12632,6 +13703,9 @@ Likelihood ratio test= 3.44  on 2 df,   p=0.2
 Wald test            = 3.78  on 2 df,   p=0.2
 Score (logrank) test = 3.84  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1791238 
+Wald test p-value: 0.1509216 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with TRANK1 
@@ -12667,6 +13741,9 @@ Likelihood ratio test= 3.85  on 2 df,   p=0.1
 Wald test            = 4.24  on 2 df,   p=0.1
 Score (logrank) test = 4.31  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1457215 
+Wald test p-value: 0.1197961 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with TRPM8 
@@ -12704,6 +13781,9 @@ Likelihood ratio test= 3.7  on 2 df,   p=0.2
 Wald test            = 4.04  on 2 df,   p=0.1
 Score (logrank) test = 4.1  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1569503 
+Wald test p-value: 0.1325055 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with TSHZ3 
@@ -12741,6 +13821,9 @@ Likelihood ratio test= 4.55  on 2 df,   p=0.1
 Wald test            = 4.88  on 2 df,   p=0.09
 Score (logrank) test = 4.93  on 2 df,   p=0.08
 
+
+Likelihood ratio test p-value: 0.1029158 
+Wald test p-value: 0.08707073 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with TTBK1 
@@ -12774,6 +13857,9 @@ Likelihood ratio test= 3.32  on 2 df,   p=0.2
 Wald test            = 3.47  on 2 df,   p=0.2
 Score (logrank) test = 3.52  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.189771 
+Wald test p-value: 0.1759694 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with TTC21A 
@@ -12809,6 +13895,9 @@ Likelihood ratio test= 6.67  on 2 df,   p=0.04
 Wald test            = 7.69  on 2 df,   p=0.02
 Score (logrank) test = 7.95  on 2 df,   p=0.02
 
+
+Likelihood ratio test p-value: 0.03565318 
+Wald test p-value: 0.02137766 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with TUBA3D 
@@ -12844,6 +13933,9 @@ Likelihood ratio test= 5.13  on 2 df,   p=0.08
 Wald test            = 5.79  on 2 df,   p=0.06
 Score (logrank) test = 5.92  on 2 df,   p=0.05
 
+
+Likelihood ratio test p-value: 0.07674416 
+Wald test p-value: 0.0553594 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with UBA6 
@@ -12879,6 +13971,9 @@ Likelihood ratio test= 3.2  on 2 df,   p=0.2
 Wald test            = 3.47  on 2 df,   p=0.2
 Score (logrank) test = 3.51  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.2018743 
+Wald test p-value: 0.1762322 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with UBR5 
@@ -12914,6 +14009,9 @@ Likelihood ratio test= 3.44  on 2 df,   p=0.2
 Wald test            = 3.78  on 2 df,   p=0.2
 Score (logrank) test = 3.84  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1792587 
+Wald test p-value: 0.1507667 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with UGT2B11 
@@ -12949,6 +14047,9 @@ Likelihood ratio test= 3.53  on 2 df,   p=0.2
 Wald test            = 3.93  on 2 df,   p=0.1
 Score (logrank) test = 3.99  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1709333 
+Wald test p-value: 0.1404337 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with UGT2B7 
@@ -12984,6 +14085,9 @@ Likelihood ratio test= 3.36  on 2 df,   p=0.2
 Wald test            = 3.71  on 2 df,   p=0.2
 Score (logrank) test = 3.77  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.1866366 
+Wald test p-value: 0.1563949 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with UHRF1BP1L 
@@ -13019,6 +14123,9 @@ Likelihood ratio test= 3.44  on 2 df,   p=0.2
 Wald test            = 3.8  on 2 df,   p=0.1
 Score (logrank) test = 3.85  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1791068 
+Wald test p-value: 0.1499089 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with UMOD 
@@ -13054,6 +14161,9 @@ Likelihood ratio test= 3.57  on 2 df,   p=0.2
 Wald test            = 3.92  on 2 df,   p=0.1
 Score (logrank) test = 3.98  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.168071 
+Wald test p-value: 0.1406914 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with UNC13B 
@@ -13089,6 +14199,9 @@ Likelihood ratio test= 4.01  on 2 df,   p=0.1
 Wald test            = 4.4  on 2 df,   p=0.1
 Score (logrank) test = 4.46  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1349736 
+Wald test p-value: 0.1109864 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with UNC45B 
@@ -13124,6 +14237,9 @@ Likelihood ratio test= 3.63  on 2 df,   p=0.2
 Wald test            = 3.95  on 2 df,   p=0.1
 Score (logrank) test = 4.01  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.163047 
+Wald test p-value: 0.1387784 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with UNC5D 
@@ -13159,6 +14275,9 @@ Likelihood ratio test= 2.95  on 2 df,   p=0.2
 Wald test            = 3.18  on 2 df,   p=0.2
 Score (logrank) test = 3.21  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.2288593 
+Wald test p-value: 0.2040366 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with USP32 
@@ -13194,6 +14313,9 @@ Likelihood ratio test= 3.51  on 2 df,   p=0.2
 Wald test            = 3.87  on 2 df,   p=0.1
 Score (logrank) test = 3.93  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1729505 
+Wald test p-value: 0.1444455 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with VCAN 
@@ -13231,6 +14353,9 @@ Likelihood ratio test= 3.7  on 2 df,   p=0.2
 Wald test            = 4.03  on 2 df,   p=0.1
 Score (logrank) test = 4.09  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1571536 
+Wald test p-value: 0.1330716 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with VN1R2 
@@ -13268,6 +14393,9 @@ Likelihood ratio test= 7.82  on 2 df,   p=0.02
 Wald test            = 9.54  on 2 df,   p=0.008
 Score (logrank) test = 10  on 2 df,   p=0.007
 
+
+Likelihood ratio test p-value: 0.02005503 
+Wald test p-value: 0.00849256 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with VPS13C 
@@ -13303,6 +14431,9 @@ Likelihood ratio test= 5.14  on 2 df,   p=0.08
 Wald test            = 5.29  on 2 df,   p=0.07
 Score (logrank) test = 5.39  on 2 df,   p=0.07
 
+
+Likelihood ratio test p-value: 0.07639934 
+Wald test p-value: 0.07115619 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with WDFY3 
@@ -13338,6 +14469,9 @@ Likelihood ratio test= 3.4  on 2 df,   p=0.2
 Wald test            = 3.77  on 2 df,   p=0.2
 Score (logrank) test = 3.82  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1829527 
+Wald test p-value: 0.1520547 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with WDR17 
@@ -13373,6 +14507,9 @@ Likelihood ratio test= 3.39  on 2 df,   p=0.2
 Wald test            = 3.69  on 2 df,   p=0.2
 Score (logrank) test = 3.73  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.1839841 
+Wald test p-value: 0.1581325 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with WDR62 
@@ -13408,6 +14545,9 @@ Likelihood ratio test= 4.57  on 2 df,   p=0.1
 Wald test            = 4.63  on 2 df,   p=0.1
 Score (logrank) test = 4.74  on 2 df,   p=0.09
 
+
+Likelihood ratio test p-value: 0.1019224 
+Wald test p-value: 0.09871187 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with WDR78 
@@ -13443,6 +14583,9 @@ Likelihood ratio test= 3.8  on 2 df,   p=0.1
 Wald test            = 4.18  on 2 df,   p=0.1
 Score (logrank) test = 4.24  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1494644 
+Wald test p-value: 0.1237149 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with WNK3 
@@ -13478,6 +14621,9 @@ Likelihood ratio test= 3.41  on 2 df,   p=0.2
 Wald test            = 3.76  on 2 df,   p=0.2
 Score (logrank) test = 3.82  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1819627 
+Wald test p-value: 0.1523972 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with XIRP1 
@@ -13513,6 +14659,9 @@ Likelihood ratio test= 5.19  on 2 df,   p=0.07
 Wald test            = 5.04  on 2 df,   p=0.08
 Score (logrank) test = 5.2  on 2 df,   p=0.07
 
+
+Likelihood ratio test p-value: 0.07474777 
+Wald test p-value: 0.08026238 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with XIRP2 
@@ -13550,6 +14699,9 @@ Likelihood ratio test= 3.84  on 2 df,   p=0.1
 Wald test            = 4.17  on 2 df,   p=0.1
 Score (logrank) test = 4.23  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1468762 
+Wald test p-value: 0.1240318 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with XKR6 
@@ -13585,6 +14737,9 @@ Likelihood ratio test= 4.05  on 2 df,   p=0.1
 Wald test            = 4.24  on 2 df,   p=0.1
 Score (logrank) test = 4.32  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1322065 
+Wald test p-value: 0.1202297 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with ZAN 
@@ -13618,6 +14773,9 @@ Likelihood ratio test= 2.7  on 2 df,   p=0.3
 Wald test            = 2.87  on 2 df,   p=0.2
 Score (logrank) test = 2.9  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.2586445 
+Wald test p-value: 0.2381963 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with ZBTB20 
@@ -13653,6 +14811,9 @@ Likelihood ratio test= 3.32  on 2 df,   p=0.2
 Wald test            = 3.68  on 2 df,   p=0.2
 Score (logrank) test = 3.73  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.1902105 
+Wald test p-value: 0.1591359 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with ZDBF2 
@@ -13688,6 +14849,9 @@ Likelihood ratio test= 4.62  on 2 df,   p=0.1
 Wald test            = 5.03  on 2 df,   p=0.08
 Score (logrank) test = 5.12  on 2 df,   p=0.08
 
+
+Likelihood ratio test p-value: 0.09935541 
+Wald test p-value: 0.08102805 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with ZFHX4 
@@ -13725,6 +14889,9 @@ Likelihood ratio test= 4.6  on 2 df,   p=0.1
 Wald test            = 4.94  on 2 df,   p=0.08
 Score (logrank) test = 4.99  on 2 df,   p=0.08
 
+
+Likelihood ratio test p-value: 0.1002709 
+Wald test p-value: 0.08463473 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with ZFPM2 
@@ -13762,6 +14929,9 @@ Likelihood ratio test= 3.54  on 2 df,   p=0.2
 Wald test            = 3.91  on 2 df,   p=0.1
 Score (logrank) test = 3.96  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1700545 
+Wald test p-value: 0.1418716 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with ZNF208 
@@ -13797,6 +14967,9 @@ Likelihood ratio test= 6.73  on 2 df,   p=0.03
 Wald test            = 6.81  on 2 df,   p=0.03
 Score (logrank) test = 6.98  on 2 df,   p=0.03
 
+
+Likelihood ratio test p-value: 0.03452826 
+Wald test p-value: 0.03324873 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with ZNF445 
@@ -13834,6 +15007,9 @@ Likelihood ratio test= 7.03  on 2 df,   p=0.03
 Wald test            = 8.55  on 2 df,   p=0.01
 Score (logrank) test = 8.96  on 2 df,   p=0.01
 
+
+Likelihood ratio test p-value: 0.02968295 
+Wald test p-value: 0.01393173 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with ZNF462 
@@ -13869,6 +15045,9 @@ Likelihood ratio test= 3.37  on 2 df,   p=0.2
 Wald test            = 3.73  on 2 df,   p=0.2
 Score (logrank) test = 3.78  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.1853132 
+Wald test p-value: 0.1551395 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with ZNF512B 
@@ -13904,6 +15083,9 @@ Likelihood ratio test= 4.28  on 2 df,   p=0.1
 Wald test            = 4.43  on 2 df,   p=0.1
 Score (logrank) test = 4.52  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1178432 
+Wald test p-value: 0.1091255 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with ZNF716 
@@ -13939,6 +15121,9 @@ Likelihood ratio test= 4.24  on 2 df,   p=0.1
 Wald test            = 4.52  on 2 df,   p=0.1
 Score (logrank) test = 4.6  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1197711 
+Wald test p-value: 0.1044524 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with ZNF804A 
@@ -13976,6 +15161,9 @@ Likelihood ratio test= 5.2  on 2 df,   p=0.07
 Wald test            = 5.39  on 2 df,   p=0.07
 Score (logrank) test = 5.47  on 2 df,   p=0.06
 
+
+Likelihood ratio test p-value: 0.07426487 
+Wald test p-value: 0.06739029 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with ZNF835 
@@ -14013,6 +15201,9 @@ Likelihood ratio test= 4.73  on 2 df,   p=0.09
 Wald test            = 5.4  on 2 df,   p=0.07
 Score (logrank) test = 5.5  on 2 df,   p=0.06
 
+
+Likelihood ratio test p-value: 0.09403117 
+Wald test p-value: 0.06726011 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with ZNF845 
@@ -14048,6 +15239,9 @@ Likelihood ratio test= 3.43  on 2 df,   p=0.2
 Wald test            = 3.78  on 2 df,   p=0.2
 Score (logrank) test = 3.83  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.17955 
+Wald test p-value: 0.1513707 
 ================================================================================ 
 
 LUAD - KRAS G12C - comutation with ZNF99 
@@ -14083,5 +15277,8 @@ Likelihood ratio test= 4.03  on 2 df,   p=0.1
 Wald test            = 4.48  on 2 df,   p=0.1
 Score (logrank) test = 4.57  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.1336192 
+Wald test p-value: 0.1062349 
 ================================================================================ 
 

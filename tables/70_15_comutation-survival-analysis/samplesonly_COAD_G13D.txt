@@ -17,6 +17,8 @@ comutation=FALSE 29        8     8.33    0.0132    0.0793
 comutation=TRUE   7        2     1.67    0.0659    0.0793
 
  Chisq= 0.1  on 1 degrees of freedom, p= 0.8 
+
+p-value: 0.7782827 
 ================================================================================ 
 
 COAD - KRAS G13D - comutation with GLIS3 
@@ -38,6 +40,8 @@ comutation=FALSE 30        7     8.39     0.229      1.42
 comutation=TRUE   6        3     1.61     1.188      1.42
 
  Chisq= 1.4  on 1 degrees of freedom, p= 0.2 
+
+p-value: 0.2332467 
 ================================================================================ 
 
 COAD - KRAS G13D - comutation with PIK3CA 
@@ -59,6 +63,8 @@ comutation=FALSE 22        6     5.88   0.00253   0.00616
 comutation=TRUE  14        4     4.12   0.00360   0.00616
 
  Chisq= 0  on 1 degrees of freedom, p= 0.9 
+
+p-value: 0.9374271 
 ================================================================================ 
 
 COAD - KRAS G13D - comutation with TENM3 
@@ -80,6 +86,8 @@ comutation=FALSE 29        8     7.94  0.000442   0.00219
 comutation=TRUE   7        2     2.06  0.001704   0.00219
 
  Chisq= 0  on 1 degrees of freedom, p= 1 
+
+p-value: 0.96265 
 ================================================================================ 
 
 COAD - KRAS G13D - comutation with TP53 
@@ -101,6 +109,8 @@ comutation=FALSE 18        5     4.16     0.171     0.295
 comutation=TRUE  18        5     5.84     0.121     0.295
 
  Chisq= 0.3  on 1 degrees of freedom, p= 0.6 
+
+p-value: 0.5872777 
 ================================================================================ 
 
 COAD - KRAS G13D - comutation with TTN 
@@ -122,5 +132,7 @@ comutation=FALSE 18        4     4.82     0.139     0.269
 comutation=TRUE  18        6     5.18     0.129     0.269
 
  Chisq= 0.3  on 1 degrees of freedom, p= 0.6 
+
+p-value: 0.6038586 
 ================================================================================ 
 

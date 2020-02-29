@@ -35,6 +35,9 @@ Likelihood ratio test= 28.2  on 3 df,   p=3e-06
 Wald test            = 30.79  on 3 df,   p=9e-07
 Score (logrank) test = 35.95  on 3 df,   p=8e-08
 
+
+Likelihood ratio test p-value: 3.292265e-06 
+Wald test p-value: 9.412391e-07 
 ================================================================================ 
 
 LUAD survival model by tumor stage 
@@ -74,6 +77,9 @@ Likelihood ratio test= 19.82  on 3 df,   p=2e-04
 Wald test            = 22.36  on 3 df,   p=6e-05
 Score (logrank) test = 23.82  on 3 df,   p=3e-05
 
+
+Likelihood ratio test p-value: 0.0001847885 
+Wald test p-value: 5.501612e-05 
 ================================================================================ 
 
 MM survival model by tumor stage 
@@ -111,6 +117,9 @@ Likelihood ratio test= 78.21  on 2 df,   p=<2e-16
 Wald test            = 68.06  on 2 df,   p=2e-15
 Score (logrank) test = 80.2  on 2 df,   p=<2e-16
 
+
+Likelihood ratio test p-value: 1.040067e-17 
+Wald test p-value: 1.660781e-15 
 ================================================================================ 
 
 PAAD survival model by tumor stage 
@@ -148,5 +157,8 @@ Likelihood ratio test= 6.78  on 3 df,   p=0.08
 Wald test            = 5.56  on 3 df,   p=0.1
 Score (logrank) test = 5.85  on 3 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.07932365 
+Wald test p-value: 0.1351044 
 ================================================================================ 
 

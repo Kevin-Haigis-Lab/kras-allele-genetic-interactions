@@ -17,6 +17,8 @@ kras_allele_grp=mut 209       45     47.3    0.1083     0.192
 kras_allele_grp=WT  314       65     62.7    0.0816     0.192
 
  Chisq= 0.2  on 1 degrees of freedom, p= 0.7 
+
+p-value: 0.6616362 
 ================================================================================ 
 
 COAD KRAS WT vs. mutant 
@@ -37,6 +39,9 @@ Likelihood ratio test= 0.19  on 1 df,   p=0.7
 Wald test            = 0.19  on 1 df,   p=0.7
 Score (logrank) test = 0.19  on 1 df,   p=0.7
 
+
+Likelihood ratio test p-value: 0.6608318 
+Wald test p-value: 0.6616018 
 ================================================================================ 
 
 LUAD KRAS WT vs. mutant 
@@ -58,6 +63,8 @@ kras_allele_grp=mut 149       54     47.8     0.815      1.12
 kras_allele_grp=WT  350      125    131.2     0.297      1.12
 
  Chisq= 1.1  on 1 degrees of freedom, p= 0.3 
+
+p-value: 0.2902685 
 ================================================================================ 
 
 LUAD KRAS WT vs. mutant 
@@ -78,6 +85,9 @@ Likelihood ratio test= 1.09  on 1 df,   p=0.3
 Wald test            = 1.12  on 1 df,   p=0.3
 Score (logrank) test = 1.12  on 1 df,   p=0.3
 
+
+Likelihood ratio test p-value: 0.2962746 
+Wald test p-value: 0.2906136 
 ================================================================================ 
 
 MM KRAS WT vs. mutant 
@@ -99,6 +109,8 @@ kras_allele_grp=mut 214       59     47.4     2.832      3.72
 kras_allele_grp=WT  717      144    155.6     0.863      3.72
 
  Chisq= 3.7  on 1 degrees of freedom, p= 0.05 
+
+p-value: 0.0538895 
 ================================================================================ 
 
 MM KRAS WT vs. mutant 
@@ -121,6 +133,9 @@ Likelihood ratio test= 3.53  on 1 df,   p=0.06
 Wald test            = 3.69  on 1 df,   p=0.05
 Score (logrank) test = 3.71  on 1 df,   p=0.05
 
+
+Likelihood ratio test p-value: 0.06029468 
+Wald test p-value: 0.05481572 
 ================================================================================ 
 
 PAAD KRAS WT vs. mutant 
@@ -142,6 +157,8 @@ kras_allele_grp=mut 116       73     55.1      5.82      14.2
 kras_allele_grp=WT   59       22     39.9      8.04      14.2
 
  Chisq= 14.2  on 1 degrees of freedom, p= 2e-04 
+
+p-value: 0.0001687306 
 ================================================================================ 
 
 PAAD KRAS WT vs. mutant 
@@ -164,5 +181,8 @@ Likelihood ratio test= 15.21  on 1 df,   p=1e-04
 Wald test            = 13.29  on 1 df,   p=3e-04
 Score (logrank) test = 14.15  on 1 df,   p=2e-04
 
+
+Likelihood ratio test p-value: 9.625159e-05 
+Wald test p-value: 0.0002661426 
 ================================================================================ 
 

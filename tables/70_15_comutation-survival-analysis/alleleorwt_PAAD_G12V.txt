@@ -31,6 +31,9 @@ Likelihood ratio test= 6.99  on 2 df,   p=0.03
 Wald test            = 6.95  on 2 df,   p=0.03
 Score (logrank) test = 7.37  on 2 df,   p=0.03
 
+
+Likelihood ratio test p-value: 0.03030596 
+Wald test p-value: 0.03096416 
 ================================================================================ 
 
 PAAD - KRAS G12V - comutation with TP53 
@@ -66,5 +69,8 @@ Likelihood ratio test= 5.22  on 2 df,   p=0.07
 Wald test            = 5.26  on 2 df,   p=0.07
 Score (logrank) test = 5.45  on 2 df,   p=0.07
 
+
+Likelihood ratio test p-value: 0.07350162 
+Wald test p-value: 0.07215587 
 ================================================================================ 
 

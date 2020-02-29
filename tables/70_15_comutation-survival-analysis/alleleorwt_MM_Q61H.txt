@@ -31,6 +31,9 @@ Likelihood ratio test= 6.91  on 2 df,   p=0.03
 Wald test            = 3.69  on 2 df,   p=0.2
 Score (logrank) test = 4.7  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.03158585 
+Wald test p-value: 0.1576367 
 ================================================================================ 
 
 MM - KRAS Q61H - comutation with BRAF 
@@ -64,6 +67,9 @@ Likelihood ratio test= 2.41  on 2 df,   p=0.3
 Wald test            = 2.66  on 2 df,   p=0.3
 Score (logrank) test = 2.7  on 2 df,   p=0.3
 
+
+Likelihood ratio test p-value: 0.3001803 
+Wald test p-value: 0.264248 
 ================================================================================ 
 
 MM - KRAS Q61H - comutation with DST 
@@ -97,6 +103,9 @@ Likelihood ratio test= 0.65  on 2 df,   p=0.7
 Wald test            = 0.67  on 2 df,   p=0.7
 Score (logrank) test = 0.67  on 2 df,   p=0.7
 
+
+Likelihood ratio test p-value: 0.721529 
+Wald test p-value: 0.7149174 
 ================================================================================ 
 
 MM - KRAS Q61H - comutation with FAM135B 
@@ -130,6 +139,9 @@ Likelihood ratio test= 0.31  on 2 df,   p=0.9
 Wald test            = 0.32  on 2 df,   p=0.9
 Score (logrank) test = 0.32  on 2 df,   p=0.9
 
+
+Likelihood ratio test p-value: 0.857074 
+Wald test p-value: 0.8508376 
 ================================================================================ 
 
 MM - KRAS Q61H - comutation with FAT1 
@@ -163,6 +175,9 @@ Likelihood ratio test= 2.76  on 2 df,   p=0.3
 Wald test            = 2.34  on 2 df,   p=0.3
 Score (logrank) test = 2.41  on 2 df,   p=0.3
 
+
+Likelihood ratio test p-value: 0.2515112 
+Wald test p-value: 0.3099262 
 ================================================================================ 
 
 MM - KRAS Q61H - comutation with FGFR3 
@@ -196,6 +211,9 @@ Likelihood ratio test= 2.57  on 2 df,   p=0.3
 Wald test            = 2.97  on 2 df,   p=0.2
 Score (logrank) test = 3.05  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.2768255 
+Wald test p-value: 0.2260107 
 ================================================================================ 
 
 MM - KRAS Q61H - comutation with LAMA1 
@@ -229,6 +247,9 @@ Likelihood ratio test= 0.33  on 2 df,   p=0.8
 Wald test            = 0.31  on 2 df,   p=0.9
 Score (logrank) test = 0.31  on 2 df,   p=0.9
 
+
+Likelihood ratio test p-value: 0.8494254 
+Wald test p-value: 0.8550337 
 ================================================================================ 
 
 MM - KRAS Q61H - comutation with MUC5B 
@@ -262,6 +283,9 @@ Likelihood ratio test= 0.87  on 2 df,   p=0.6
 Wald test            = 0.92  on 2 df,   p=0.6
 Score (logrank) test = 0.92  on 2 df,   p=0.6
 
+
+Likelihood ratio test p-value: 0.6472676 
+Wald test p-value: 0.6323606 
 ================================================================================ 
 
 MM - KRAS Q61H - comutation with PRKD2 
@@ -295,6 +319,9 @@ Likelihood ratio test= 0.33  on 2 df,   p=0.8
 Wald test            = 0.32  on 2 df,   p=0.9
 Score (logrank) test = 0.32  on 2 df,   p=0.9
 
+
+Likelihood ratio test p-value: 0.8477063 
+Wald test p-value: 0.8538932 
 ================================================================================ 
 
 MM - KRAS Q61H - comutation with RUSC2 
@@ -328,6 +355,9 @@ Likelihood ratio test= 0.31  on 2 df,   p=0.9
 Wald test            = 0.29  on 2 df,   p=0.9
 Score (logrank) test = 0.29  on 2 df,   p=0.9
 
+
+Likelihood ratio test p-value: 0.8569737 
+Wald test p-value: 0.8634277 
 ================================================================================ 
 
 MM - KRAS Q61H - comutation with TRAF3 
@@ -363,5 +393,8 @@ Likelihood ratio test= 7.16  on 2 df,   p=0.03
 Wald test            = 5.18  on 2 df,   p=0.07
 Score (logrank) test = 5.65  on 2 df,   p=0.06
 
+
+Likelihood ratio test p-value: 0.02793714 
+Wald test p-value: 0.07487715 
 ================================================================================ 
 

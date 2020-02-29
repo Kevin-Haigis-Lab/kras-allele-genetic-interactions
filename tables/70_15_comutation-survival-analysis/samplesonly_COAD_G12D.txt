@@ -17,6 +17,8 @@ comutation=FALSE 47        9     8.02     0.120     0.609
 comutation=TRUE  10        1     1.98     0.486     0.609
 
  Chisq= 0.6  on 1 degrees of freedom, p= 0.4 
+
+p-value: 0.4352959 
 ================================================================================ 
 
 COAD - KRAS G12D - comutation with APC 
@@ -38,6 +40,8 @@ comutation=FALSE  6        0     1.09     1.089      1.22
 comutation=TRUE  51       10     8.91     0.133      1.22
 
  Chisq= 1.2  on 1 degrees of freedom, p= 0.3 
+
+p-value: 0.2687124 
 ================================================================================ 
 
 COAD - KRAS G12D - comutation with COL12A1 
@@ -59,6 +63,8 @@ comutation=FALSE 47        6     8.39      0.68      4.23
 comutation=TRUE  10        4     1.61      3.54      4.23
 
  Chisq= 4.2  on 1 degrees of freedom, p= 0.04 
+
+p-value: 0.03963612 
 ================================================================================ 
 
 COAD - KRAS G12D - comutation with CSMD2 
@@ -80,6 +86,8 @@ comutation=FALSE 52        9    9.119   0.00154    0.0175
 comutation=TRUE   5        1    0.881   0.01594    0.0175
 
  Chisq= 0  on 1 degrees of freedom, p= 0.9 
+
+p-value: 0.8947975 
 ================================================================================ 
 
 COAD - KRAS G12D - comutation with DYNC1H1 
@@ -101,6 +109,8 @@ comutation=FALSE 51        8    9.227     0.163      2.12
 comutation=TRUE   6        2    0.773     1.949      2.12
 
  Chisq= 2.1  on 1 degrees of freedom, p= 0.1 
+
+p-value: 0.14503 
 ================================================================================ 
 
 COAD - KRAS G12D - comutation with FAM65B 
@@ -122,6 +132,8 @@ comutation=FALSE 52       10    9.019     0.107      1.09
 comutation=TRUE   5        0    0.981     0.981      1.09
 
  Chisq= 1.1  on 1 degrees of freedom, p= 0.3 
+
+p-value: 0.2965209 
 ================================================================================ 
 
 COAD - KRAS G12D - comutation with LAMA1 
@@ -143,6 +155,8 @@ comutation=FALSE 52        8    9.345     0.193      2.98
 comutation=TRUE   5        2    0.655     2.759      2.98
 
  Chisq= 3  on 1 degrees of freedom, p= 0.08 
+
+p-value: 0.0841882 
 ================================================================================ 
 
 COAD - KRAS G12D - comutation with MAGEC1 
@@ -164,6 +178,8 @@ comutation=FALSE 50        8     8.75     0.065     0.524
 comutation=TRUE   7        2     1.25     0.457     0.524
 
  Chisq= 0.5  on 1 degrees of freedom, p= 0.5 
+
+p-value: 0.4692321 
 ================================================================================ 
 
 COAD - KRAS G12D - comutation with MYH6 
@@ -185,6 +201,8 @@ comutation=FALSE 52        9    9.098   0.00105    0.0116
 comutation=TRUE   5        1    0.902   0.01058    0.0116
 
  Chisq= 0  on 1 degrees of freedom, p= 0.9 
+
+p-value: 0.9141032 
 ================================================================================ 
 
 COAD - KRAS G12D - comutation with PCBP1 
@@ -206,6 +224,8 @@ comutation=FALSE 51        9     8.87   0.00182    0.0161
 comutation=TRUE   6        1     1.13   0.01430    0.0161
 
  Chisq= 0  on 1 degrees of freedom, p= 0.9 
+
+p-value: 0.8989485 
 ================================================================================ 
 
 COAD - KRAS G12D - comutation with PDZD2 
@@ -227,6 +247,8 @@ comutation=FALSE 51        8        9     0.111      1.11
 comutation=TRUE   6        2        1     1.000      1.11
 
  Chisq= 1.1  on 1 degrees of freedom, p= 0.3 
+
+p-value: 0.2912284 
 ================================================================================ 
 
 COAD - KRAS G12D - comutation with PIK3CA 
@@ -248,6 +270,8 @@ comutation=FALSE 33        3     5.83      1.37      3.29
 comutation=TRUE  24        7     4.17      1.91      3.29
 
  Chisq= 3.3  on 1 degrees of freedom, p= 0.07 
+
+p-value: 0.06981797 
 ================================================================================ 
 
 COAD - KRAS G12D - comutation with SDK1 
@@ -269,6 +293,8 @@ comutation=FALSE 52        9     9.55    0.0317     0.707
 comutation=TRUE   5        1     0.45    0.6732     0.707
 
  Chisq= 0.7  on 1 degrees of freedom, p= 0.4 
+
+p-value: 0.4005935 
 ================================================================================ 
 
 COAD - KRAS G12D - comutation with TGIF1 
@@ -290,6 +316,8 @@ comutation=FALSE 50        9     8.85   0.00249    0.0217
 comutation=TRUE   7        1     1.15   0.01916    0.0217
 
  Chisq= 0  on 1 degrees of freedom, p= 0.9 
+
+p-value: 0.8829257 
 ================================================================================ 
 
 COAD - KRAS G12D - comutation with TGIF2LX 
@@ -311,6 +339,8 @@ comutation=FALSE 52       10     8.97     0.118      1.15
 comutation=TRUE   5        0     1.03     1.029      1.15
 
  Chisq= 1.1  on 1 degrees of freedom, p= 0.3 
+
+p-value: 0.2838537 
 ================================================================================ 
 
 COAD - KRAS G12D - comutation with TP53 
@@ -332,6 +362,8 @@ comutation=FALSE 26        5     4.47    0.0616     0.112
 comutation=TRUE  31        5     5.53    0.0499     0.112
 
  Chisq= 0.1  on 1 degrees of freedom, p= 0.7 
+
+p-value: 0.7381346 
 ================================================================================ 
 
 COAD - KRAS G12D - comutation with TRIM51 
@@ -353,6 +385,8 @@ comutation=FALSE 51        8     8.76    0.0666     0.539
 comutation=TRUE   6        2     1.24    0.4718     0.539
 
  Chisq= 0.5  on 1 degrees of freedom, p= 0.5 
+
+p-value: 0.4629548 
 ================================================================================ 
 
 COAD - KRAS G12D - comutation with TRPC7 
@@ -374,5 +408,7 @@ comutation=FALSE 52        9    9.485    0.0248     0.483
 comutation=TRUE   5        1    0.515    0.4568     0.483
 
  Chisq= 0.5  on 1 degrees of freedom, p= 0.5 
+
+p-value: 0.4869073 
 ================================================================================ 
 

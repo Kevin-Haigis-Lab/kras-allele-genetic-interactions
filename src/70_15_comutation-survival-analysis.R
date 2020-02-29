@@ -424,11 +424,11 @@ filter_survival_analysis_hits <- function(df, skip = FALSE) {
 genetic_interaction_df %>%
     select(cancer, allele, hugo_symbol, genetic_interaction) %>%
     unique() %>%
-    filter_survival_analysis_hits(skip = FALSE) %>%
+    filter_survival_analysis_hits(skip = TRUE) %>%
     arrange(cancer, allele, hugo_symbol) %T>%
-    # pwalk(alleleonly_samples_comutation_sa) %T>%
-    # pwalk(krasallele_comutation_sa) %T>%
-    # pwalk(krasmutsamples_krasallele_comutation_sa) %T>%
+    pwalk(alleleonly_samples_comutation_sa) %T>%
+    pwalk(krasallele_comutation_sa) %T>%
+    pwalk(krasmutsamples_krasallele_comutation_sa) %T>%
     pwalk(alleleorwt_krasallele_comutation_sa)
 
 

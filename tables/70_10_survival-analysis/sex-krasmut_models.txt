@@ -31,6 +31,9 @@ Likelihood ratio test= 0.2  on 2 df,   p=0.9
 Wald test            = 0.2  on 2 df,   p=0.9
 Score (logrank) test = 0.2  on 2 df,   p=0.9
 
+
+Likelihood ratio test p-value: 0.9066287 
+Wald test p-value: 0.907047 
 ================================================================================ 
 
 LUAD survival model by sex & KRAS mut 
@@ -66,6 +69,9 @@ Likelihood ratio test= 1.22  on 2 df,   p=0.5
 Wald test            = 1.24  on 2 df,   p=0.5
 Score (logrank) test = 1.24  on 2 df,   p=0.5
 
+
+Likelihood ratio test p-value: 0.5444598 
+Wald test p-value: 0.5373977 
 ================================================================================ 
 
 MM survival model by sex & KRAS mut 
@@ -103,6 +109,9 @@ Likelihood ratio test= 15.44  on 2 df,   p=4e-04
 Wald test            = 14.83  on 2 df,   p=6e-04
 Score (logrank) test = 15.11  on 2 df,   p=5e-04
 
+
+Likelihood ratio test p-value: 0.0004446423 
+Wald test p-value: 0.0006033787 
 ================================================================================ 
 
 PAAD survival model by sex & KRAS mut 
@@ -140,5 +149,8 @@ Likelihood ratio test= 16.18  on 2 df,   p=3e-04
 Wald test            = 14.27  on 2 df,   p=8e-04
 Score (logrank) test = 15.13  on 2 df,   p=5e-04
 
+
+Likelihood ratio test p-value: 0.0003071323 
+Wald test p-value: 0.0007979057 
 ================================================================================ 
 

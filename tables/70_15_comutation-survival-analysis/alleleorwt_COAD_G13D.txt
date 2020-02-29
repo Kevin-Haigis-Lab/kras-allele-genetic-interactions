@@ -29,6 +29,9 @@ Likelihood ratio test= 0.73  on 2 df,   p=0.7
 Wald test            = 0.77  on 2 df,   p=0.7
 Score (logrank) test = 0.78  on 2 df,   p=0.7
 
+
+Likelihood ratio test p-value: 0.6959053 
+Wald test p-value: 0.6792746 
 ================================================================================ 
 
 COAD - KRAS G13D - comutation with ANK3 
@@ -64,6 +67,9 @@ Likelihood ratio test= 0.77  on 2 df,   p=0.7
 Wald test            = 0.82  on 2 df,   p=0.7
 Score (logrank) test = 0.83  on 2 df,   p=0.7
 
+
+Likelihood ratio test p-value: 0.6819197 
+Wald test p-value: 0.6620892 
 ================================================================================ 
 
 COAD - KRAS G13D - comutation with ARMC4 
@@ -97,6 +103,9 @@ Likelihood ratio test= 1.48  on 2 df,   p=0.5
 Wald test            = 1.07  on 2 df,   p=0.6
 Score (logrank) test = 1.15  on 2 df,   p=0.6
 
+
+Likelihood ratio test p-value: 0.4779468 
+Wald test p-value: 0.5867619 
 ================================================================================ 
 
 COAD - KRAS G13D - comutation with BRAF 
@@ -130,6 +139,9 @@ Likelihood ratio test= 1.05  on 2 df,   p=0.6
 Wald test            = 1.09  on 2 df,   p=0.6
 Score (logrank) test = 1.1  on 2 df,   p=0.6
 
+
+Likelihood ratio test p-value: 0.5904927 
+Wald test p-value: 0.5796975 
 ================================================================================ 
 
 COAD - KRAS G13D - comutation with CAMTA1 
@@ -163,6 +175,9 @@ Likelihood ratio test= 0.76  on 2 df,   p=0.7
 Wald test            = 0.82  on 2 df,   p=0.7
 Score (logrank) test = 0.83  on 2 df,   p=0.7
 
+
+Likelihood ratio test p-value: 0.6826324 
+Wald test p-value: 0.6628721 
 ================================================================================ 
 
 COAD - KRAS G13D - comutation with CDH12 
@@ -196,6 +211,9 @@ Likelihood ratio test= 0.57  on 2 df,   p=0.8
 Wald test            = 0.61  on 2 df,   p=0.7
 Score (logrank) test = 0.61  on 2 df,   p=0.7
 
+
+Likelihood ratio test p-value: 0.7507647 
+Wald test p-value: 0.7388392 
 ================================================================================ 
 
 COAD - KRAS G13D - comutation with CTCF 
@@ -229,6 +247,9 @@ Likelihood ratio test= 1.82  on 2 df,   p=0.4
 Wald test            = 1.99  on 2 df,   p=0.4
 Score (logrank) test = 2.02  on 2 df,   p=0.4
 
+
+Likelihood ratio test p-value: 0.4025414 
+Wald test p-value: 0.3703084 
 ================================================================================ 
 
 COAD - KRAS G13D - comutation with CTTNBP2 
@@ -262,6 +283,9 @@ Likelihood ratio test= 2.16  on 2 df,   p=0.3
 Wald test            = 2.36  on 2 df,   p=0.3
 Score (logrank) test = 2.4  on 2 df,   p=0.3
 
+
+Likelihood ratio test p-value: 0.3400116 
+Wald test p-value: 0.3070498 
 ================================================================================ 
 
 COAD - KRAS G13D - comutation with GLIS3 
@@ -297,6 +321,9 @@ Likelihood ratio test= 0.78  on 2 df,   p=0.7
 Wald test            = 0.84  on 2 df,   p=0.7
 Score (logrank) test = 0.84  on 2 df,   p=0.7
 
+
+Likelihood ratio test p-value: 0.6778769 
+Wald test p-value: 0.6579499 
 ================================================================================ 
 
 COAD - KRAS G13D - comutation with HELZ2 
@@ -330,6 +357,9 @@ Likelihood ratio test= 1.26  on 2 df,   p=0.5
 Wald test            = 1.31  on 2 df,   p=0.5
 Score (logrank) test = 1.32  on 2 df,   p=0.5
 
+
+Likelihood ratio test p-value: 0.5322947 
+Wald test p-value: 0.5197716 
 ================================================================================ 
 
 COAD - KRAS G13D - comutation with KIF4B 
@@ -363,6 +393,9 @@ Likelihood ratio test= 2.33  on 2 df,   p=0.3
 Wald test            = 2.59  on 2 df,   p=0.3
 Score (logrank) test = 2.65  on 2 df,   p=0.3
 
+
+Likelihood ratio test p-value: 0.3112445 
+Wald test p-value: 0.2732785 
 ================================================================================ 
 
 COAD - KRAS G13D - comutation with KIF9 
@@ -396,6 +429,9 @@ Likelihood ratio test= 0.84  on 2 df,   p=0.7
 Wald test            = 0.89  on 2 df,   p=0.6
 Score (logrank) test = 0.9  on 2 df,   p=0.6
 
+
+Likelihood ratio test p-value: 0.656276 
+Wald test p-value: 0.6407028 
 ================================================================================ 
 
 COAD - KRAS G13D - comutation with MUC5B 
@@ -429,6 +465,9 @@ Likelihood ratio test= 1.4  on 2 df,   p=0.5
 Wald test            = 1.46  on 2 df,   p=0.5
 Score (logrank) test = 1.47  on 2 df,   p=0.5
 
+
+Likelihood ratio test p-value: 0.4975314 
+Wald test p-value: 0.4822243 
 ================================================================================ 
 
 COAD - KRAS G13D - comutation with MYO16 
@@ -462,6 +501,9 @@ Likelihood ratio test= 0.33  on 2 df,   p=0.8
 Wald test            = 0.35  on 2 df,   p=0.8
 Score (logrank) test = 0.35  on 2 df,   p=0.8
 
+
+Likelihood ratio test p-value: 0.8485249 
+Wald test p-value: 0.8413709 
 ================================================================================ 
 
 COAD - KRAS G13D - comutation with NRAS 
@@ -495,6 +537,9 @@ Likelihood ratio test= 1.63  on 2 df,   p=0.4
 Wald test            = 1.75  on 2 df,   p=0.4
 Score (logrank) test = 1.77  on 2 df,   p=0.4
 
+
+Likelihood ratio test p-value: 0.4425346 
+Wald test p-value: 0.4164253 
 ================================================================================ 
 
 COAD - KRAS G13D - comutation with PCDHB6 
@@ -528,6 +573,9 @@ Likelihood ratio test= 0.43  on 2 df,   p=0.8
 Wald test            = 0.46  on 2 df,   p=0.8
 Score (logrank) test = 0.46  on 2 df,   p=0.8
 
+
+Likelihood ratio test p-value: 0.8054561 
+Wald test p-value: 0.7954735 
 ================================================================================ 
 
 COAD - KRAS G13D - comutation with PIK3CA 
@@ -563,6 +611,9 @@ Likelihood ratio test= 1.76  on 2 df,   p=0.4
 Wald test            = 1.79  on 2 df,   p=0.4
 Score (logrank) test = 1.79  on 2 df,   p=0.4
 
+
+Likelihood ratio test p-value: 0.4148191 
+Wald test p-value: 0.4094163 
 ================================================================================ 
 
 COAD - KRAS G13D - comutation with RICTOR 
@@ -596,6 +647,9 @@ Likelihood ratio test= 0.82  on 2 df,   p=0.7
 Wald test            = 0.78  on 2 df,   p=0.7
 Score (logrank) test = 0.79  on 2 df,   p=0.7
 
+
+Likelihood ratio test p-value: 0.6651824 
+Wald test p-value: 0.6772273 
 ================================================================================ 
 
 COAD - KRAS G13D - comutation with SPHKAP 
@@ -629,6 +683,9 @@ Likelihood ratio test= 2.62  on 2 df,   p=0.3
 Wald test            = 1.94  on 2 df,   p=0.4
 Score (logrank) test = 2.13  on 2 df,   p=0.3
 
+
+Likelihood ratio test p-value: 0.2696088 
+Wald test p-value: 0.3781494 
 ================================================================================ 
 
 COAD - KRAS G13D - comutation with TENM3 
@@ -664,6 +721,9 @@ Likelihood ratio test= 1.19  on 2 df,   p=0.6
 Wald test            = 1.28  on 2 df,   p=0.5
 Score (logrank) test = 1.29  on 2 df,   p=0.5
 
+
+Likelihood ratio test p-value: 0.5516102 
+Wald test p-value: 0.5277013 
 ================================================================================ 
 
 COAD - KRAS G13D - comutation with TP53 
@@ -699,6 +759,9 @@ Likelihood ratio test= 0.78  on 2 df,   p=0.7
 Wald test            = 0.84  on 2 df,   p=0.7
 Score (logrank) test = 0.84  on 2 df,   p=0.7
 
+
+Likelihood ratio test p-value: 0.6772565 
+Wald test p-value: 0.6575916 
 ================================================================================ 
 
 COAD - KRAS G13D - comutation with TTN 
@@ -734,6 +797,9 @@ Likelihood ratio test= 1.94  on 2 df,   p=0.4
 Wald test            = 1.99  on 2 df,   p=0.4
 Score (logrank) test = 2.01  on 2 df,   p=0.4
 
+
+Likelihood ratio test p-value: 0.3790364 
+Wald test p-value: 0.3690927 
 ================================================================================ 
 
 COAD - KRAS G13D - comutation with USP9X 
@@ -767,6 +833,9 @@ Likelihood ratio test= 2.62  on 2 df,   p=0.3
 Wald test            = 2.93  on 2 df,   p=0.2
 Score (logrank) test = 3  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.2694945 
+Wald test p-value: 0.23161 
 ================================================================================ 
 
 COAD - KRAS G13D - comutation with ZFHX4 
@@ -800,5 +869,8 @@ Likelihood ratio test= 1.62  on 2 df,   p=0.4
 Wald test            = 1.81  on 2 df,   p=0.4
 Score (logrank) test = 1.85  on 2 df,   p=0.4
 
+
+Likelihood ratio test p-value: 0.4448772 
+Wald test p-value: 0.4041036 
 ================================================================================ 
 

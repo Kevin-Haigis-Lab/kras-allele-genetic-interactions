@@ -17,6 +17,8 @@ comutation=FALSE 11        4    3.271     0.163     0.982
 comutation=TRUE   5        0    0.729     0.729     0.982
 
  Chisq= 1  on 1 degrees of freedom, p= 0.3 
+
+p-value: 0.3216174 
 ================================================================================ 
 
 LUAD - KRAS G12A - comutation with MXRA5 
@@ -38,6 +40,8 @@ comutation=FALSE 9        3     2.06     0.426     0.934
 comutation=TRUE  7        1     1.94     0.454     0.934
 
  Chisq= 0.9  on 1 degrees of freedom, p= 0.3 
+
+p-value: 0.3337037 
 ================================================================================ 
 
 LUAD - KRAS G12A - comutation with TP53 
@@ -59,6 +63,8 @@ comutation=FALSE 11        3     2.77    0.0190     0.062
 comutation=TRUE   5        1     1.23    0.0427     0.062
 
  Chisq= 0.1  on 1 degrees of freedom, p= 0.8 
+
+p-value: 0.8033321 
 ================================================================================ 
 
 LUAD - KRAS G12A - comutation with ZNF208 
@@ -80,5 +86,7 @@ comutation=FALSE 11        4     2.52     0.868      2.41
 comutation=TRUE   5        0     1.48     1.479      2.41
 
  Chisq= 2.4  on 1 degrees of freedom, p= 0.1 
+
+p-value: 0.120855 
 ================================================================================ 
 

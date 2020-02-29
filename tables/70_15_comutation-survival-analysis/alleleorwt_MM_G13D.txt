@@ -31,6 +31,9 @@ Likelihood ratio test= 7.44  on 2 df,   p=0.02
 Wald test            = 9.56  on 2 df,   p=0.008
 Score (logrank) test = 10.3  on 2 df,   p=0.006
 
+
+Likelihood ratio test p-value: 0.02423617 
+Wald test p-value: 0.008399071 
 ================================================================================ 
 
 MM - KRAS G13D - comutation with PREX2 
@@ -64,6 +67,9 @@ Likelihood ratio test= 2.26  on 2 df,   p=0.3
 Wald test            = 2.64  on 2 df,   p=0.3
 Score (logrank) test = 2.7  on 2 df,   p=0.3
 
+
+Likelihood ratio test p-value: 0.3236091 
+Wald test p-value: 0.2676042 
 ================================================================================ 
 
 MM - KRAS G13D - comutation with ROBO3 
@@ -99,5 +105,8 @@ Likelihood ratio test= 2.65  on 2 df,   p=0.3
 Wald test            = 3.1  on 2 df,   p=0.2
 Score (logrank) test = 3.2  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.2655286 
+Wald test p-value: 0.2126514 
 ================================================================================ 
 

@@ -31,6 +31,9 @@ Likelihood ratio test= 5.6  on 2 df,   p=0.06
 Wald test            = 7.6  on 2 df,   p=0.02
 Score (logrank) test = 8.87  on 2 df,   p=0.01
 
+
+Likelihood ratio test p-value: 0.0606959 
+Wald test p-value: 0.02235814 
 ================================================================================ 
 
 COAD - KRAS G12C - comutation with FLG 
@@ -64,6 +67,9 @@ Likelihood ratio test= 1.37  on 2 df,   p=0.5
 Wald test            = 1.54  on 2 df,   p=0.5
 Score (logrank) test = 1.58  on 2 df,   p=0.5
 
+
+Likelihood ratio test p-value: 0.5036044 
+Wald test p-value: 0.4624731 
 ================================================================================ 
 
 COAD - KRAS G12C - comutation with HAO1 
@@ -99,6 +105,9 @@ Likelihood ratio test= 4.41  on 2 df,   p=0.1
 Wald test            = 5.47  on 2 df,   p=0.06
 Score (logrank) test = 5.94  on 2 df,   p=0.05
 
+
+Likelihood ratio test p-value: 0.1102464 
+Wald test p-value: 0.06497757 
 ================================================================================ 
 
 COAD - KRAS G12C - comutation with MAGEE1 
@@ -132,6 +141,9 @@ Likelihood ratio test= 2.3  on 2 df,   p=0.3
 Wald test            = 2.67  on 2 df,   p=0.3
 Score (logrank) test = 2.77  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.3159748 
+Wald test p-value: 0.2626896 
 ================================================================================ 
 
 COAD - KRAS G12C - comutation with MTOR 
@@ -165,6 +177,9 @@ Likelihood ratio test= 1.36  on 2 df,   p=0.5
 Wald test            = 1.53  on 2 df,   p=0.5
 Score (logrank) test = 1.56  on 2 df,   p=0.5
 
+
+Likelihood ratio test p-value: 0.5056105 
+Wald test p-value: 0.4662075 
 ================================================================================ 
 
 COAD - KRAS G12C - comutation with RBM27 
@@ -198,6 +213,9 @@ Likelihood ratio test= 1.42  on 2 df,   p=0.5
 Wald test            = 1.6  on 2 df,   p=0.4
 Score (logrank) test = 1.64  on 2 df,   p=0.4
 
+
+Likelihood ratio test p-value: 0.4909983 
+Wald test p-value: 0.4489337 
 ================================================================================ 
 
 COAD - KRAS G12C - comutation with SCN1A 
@@ -231,6 +249,9 @@ Likelihood ratio test= 2.39  on 2 df,   p=0.3
 Wald test            = 2.75  on 2 df,   p=0.3
 Score (logrank) test = 2.86  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.3025447 
+Wald test p-value: 0.2522824 
 ================================================================================ 
 
 COAD - KRAS G12C - comutation with SVIL 
@@ -264,6 +285,9 @@ Likelihood ratio test= 2.13  on 2 df,   p=0.3
 Wald test            = 2.44  on 2 df,   p=0.3
 Score (logrank) test = 2.52  on 2 df,   p=0.3
 
+
+Likelihood ratio test p-value: 0.3445043 
+Wald test p-value: 0.2949968 
 ================================================================================ 
 
 COAD - KRAS G12C - comutation with ZNF462 
@@ -297,6 +321,9 @@ Likelihood ratio test= 2.61  on 2 df,   p=0.3
 Wald test            = 0.47  on 2 df,   p=0.8
 Score (logrank) test = 1.59  on 2 df,   p=0.5
 
+
+Likelihood ratio test p-value: 0.2714256 
+Wald test p-value: 0.7893617 
 ================================================================================ 
 
 COAD - KRAS G12C - comutation with ZNF804B 
@@ -332,5 +359,8 @@ Likelihood ratio test= 6.02  on 2 df,   p=0.05
 Wald test            = 7.38  on 2 df,   p=0.02
 Score (logrank) test = 8.06  on 2 df,   p=0.02
 
+
+Likelihood ratio test p-value: 0.04935087 
+Wald test p-value: 0.0249943 
 ================================================================================ 
 

@@ -31,6 +31,9 @@ Likelihood ratio test= 5.53  on 2 df,   p=0.06
 Wald test            = 6.83  on 2 df,   p=0.03
 Score (logrank) test = 7.33  on 2 df,   p=0.03
 
+
+Likelihood ratio test p-value: 0.06294253 
+Wald test p-value: 0.03288901 
 ================================================================================ 
 
 MM - KRAS Q61R - comutation with PTPRK 
@@ -66,5 +69,8 @@ Likelihood ratio test= 2.21  on 2 df,   p=0.3
 Wald test            = 2.84  on 2 df,   p=0.2
 Score (logrank) test = 3.01  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.3318711 
+Wald test p-value: 0.2418859 
 ================================================================================ 
 

@@ -29,6 +29,9 @@ Likelihood ratio test= 4.55  on 2 df,   p=0.1
 Wald test            = 3.21  on 2 df,   p=0.2
 Score (logrank) test = 3.61  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.1028395 
+Wald test p-value: 0.2010031 
 ================================================================================ 
 
 COAD - KRAS A146T - comutation with CSDE1 
@@ -62,6 +65,9 @@ Likelihood ratio test= 1.49  on 2 df,   p=0.5
 Wald test            = 1.48  on 2 df,   p=0.5
 Score (logrank) test = 1.54  on 2 df,   p=0.5
 
+
+Likelihood ratio test p-value: 0.4747711 
+Wald test p-value: 0.4760293 
 ================================================================================ 
 
 COAD - KRAS A146T - comutation with CXorf22 
@@ -97,6 +103,9 @@ Likelihood ratio test= 3.05  on 2 df,   p=0.2
 Wald test            = 3.73  on 2 df,   p=0.2
 Score (logrank) test = 4.09  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.2173885 
+Wald test p-value: 0.1546934 
 ================================================================================ 
 
 COAD - KRAS A146T - comutation with DAPK1 
@@ -130,6 +139,9 @@ Likelihood ratio test= 4.29  on 2 df,   p=0.1
 Wald test            = 0.67  on 2 df,   p=0.7
 Score (logrank) test = 2.5  on 2 df,   p=0.3
 
+
+Likelihood ratio test p-value: 0.1171145 
+Wald test p-value: 0.7139739 
 ================================================================================ 
 
 COAD - KRAS A146T - comutation with KIAA2022 
@@ -165,6 +177,9 @@ Likelihood ratio test= 3  on 2 df,   p=0.2
 Wald test            = 2.87  on 2 df,   p=0.2
 Score (logrank) test = 2.78  on 2 df,   p=0.2
 
+
+Likelihood ratio test p-value: 0.2228918 
+Wald test p-value: 0.2386926 
 ================================================================================ 
 
 COAD - KRAS A146T - comutation with MAP3K1 
@@ -198,6 +213,9 @@ Likelihood ratio test= 4.57  on 2 df,   p=0.1
 Wald test            = 0.92  on 2 df,   p=0.6
 Score (logrank) test = 2.75  on 2 df,   p=0.3
 
+
+Likelihood ratio test p-value: 0.1017847 
+Wald test p-value: 0.6299238 
 ================================================================================ 
 
 COAD - KRAS A146T - comutation with SF3B1 
@@ -231,5 +249,8 @@ Likelihood ratio test= 1.64  on 2 df,   p=0.4
 Wald test            = 1.77  on 2 df,   p=0.4
 Score (logrank) test = 1.86  on 2 df,   p=0.4
 
+
+Likelihood ratio test p-value: 0.440452 
+Wald test p-value: 0.4137423 
 ================================================================================ 
 

@@ -29,6 +29,9 @@ Likelihood ratio test= 0.66  on 2 df,   p=0.7
 Wald test            = 0.59  on 2 df,   p=0.7
 Score (logrank) test = 0.59  on 2 df,   p=0.7
 
+
+Likelihood ratio test p-value: 0.7186016 
+Wald test p-value: 0.7459699 
 ================================================================================ 
 
 PAAD - KRAS G12V - comutation with COL5A1 
@@ -62,6 +65,9 @@ Likelihood ratio test= 1.76  on 2 df,   p=0.4
 Wald test            = 2.18  on 2 df,   p=0.3
 Score (logrank) test = 2.29  on 2 df,   p=0.3
 
+
+Likelihood ratio test p-value: 0.4143046 
+Wald test p-value: 0.3354101 
 ================================================================================ 
 
 PAAD - KRAS G12V - comutation with CSMD2 
@@ -95,6 +101,9 @@ Likelihood ratio test= 0.02  on 2 df,   p=1
 Wald test            = 0.02  on 2 df,   p=1
 Score (logrank) test = 0.02  on 2 df,   p=1
 
+
+Likelihood ratio test p-value: 0.9910332 
+Wald test p-value: 0.9909018 
 ================================================================================ 
 
 PAAD - KRAS G12V - comutation with DCHS1 
@@ -128,6 +137,9 @@ Likelihood ratio test= 0.59  on 2 df,   p=0.7
 Wald test            = 0.67  on 2 df,   p=0.7
 Score (logrank) test = 0.68  on 2 df,   p=0.7
 
+
+Likelihood ratio test p-value: 0.7446223 
+Wald test p-value: 0.7164906 
 ================================================================================ 
 
 PAAD - KRAS G12V - comutation with DSCAML1 
@@ -161,6 +173,9 @@ Likelihood ratio test= 0.76  on 2 df,   p=0.7
 Wald test            = 0.86  on 2 df,   p=0.6
 Score (logrank) test = 0.88  on 2 df,   p=0.6
 
+
+Likelihood ratio test p-value: 0.6828673 
+Wald test p-value: 0.649749 
 ================================================================================ 
 
 PAAD - KRAS G12V - comutation with FAT4 
@@ -196,6 +211,9 @@ Likelihood ratio test= 3.06  on 2 df,   p=0.2
 Wald test            = 3.95  on 2 df,   p=0.1
 Score (logrank) test = 4.24  on 2 df,   p=0.1
 
+
+Likelihood ratio test p-value: 0.2163132 
+Wald test p-value: 0.1386697 
 ================================================================================ 
 
 PAAD - KRAS G12V - comutation with FLG 
@@ -229,6 +247,9 @@ Likelihood ratio test= 1.05  on 2 df,   p=0.6
 Wald test            = 1.2  on 2 df,   p=0.5
 Score (logrank) test = 1.22  on 2 df,   p=0.5
 
+
+Likelihood ratio test p-value: 0.5904295 
+Wald test p-value: 0.5489916 
 ================================================================================ 
 
 PAAD - KRAS G12V - comutation with GLI3 
@@ -262,6 +283,9 @@ Likelihood ratio test= 0.24  on 2 df,   p=0.9
 Wald test            = 0.26  on 2 df,   p=0.9
 Score (logrank) test = 0.26  on 2 df,   p=0.9
 
+
+Likelihood ratio test p-value: 0.8865631 
+Wald test p-value: 0.8791301 
 ================================================================================ 
 
 PAAD - KRAS G12V - comutation with GNAS 
@@ -295,6 +319,9 @@ Likelihood ratio test= 1.56  on 2 df,   p=0.5
 Wald test            = 1.78  on 2 df,   p=0.4
 Score (logrank) test = 1.82  on 2 df,   p=0.4
 
+
+Likelihood ratio test p-value: 0.457856 
+Wald test p-value: 0.4108273 
 ================================================================================ 
 
 PAAD - KRAS G12V - comutation with HMCN1 
@@ -328,6 +355,9 @@ Likelihood ratio test= 0.73  on 2 df,   p=0.7
 Wald test            = 0.63  on 2 df,   p=0.7
 Score (logrank) test = 0.64  on 2 df,   p=0.7
 
+
+Likelihood ratio test p-value: 0.6930142 
+Wald test p-value: 0.7306513 
 ================================================================================ 
 
 PAAD - KRAS G12V - comutation with KMT2D 
@@ -361,6 +391,9 @@ Likelihood ratio test= 0.34  on 2 df,   p=0.8
 Wald test            = 0.31  on 2 df,   p=0.9
 Score (logrank) test = 0.31  on 2 df,   p=0.9
 
+
+Likelihood ratio test p-value: 0.8446172 
+Wald test p-value: 0.8560712 
 ================================================================================ 
 
 PAAD - KRAS G12V - comutation with MUC16 
@@ -394,6 +427,9 @@ Likelihood ratio test= 0.51  on 2 df,   p=0.8
 Wald test            = 0.55  on 2 df,   p=0.8
 Score (logrank) test = 0.55  on 2 df,   p=0.8
 
+
+Likelihood ratio test p-value: 0.77659 
+Wald test p-value: 0.7612655 
 ================================================================================ 
 
 PAAD - KRAS G12V - comutation with OBSCN 
@@ -427,6 +463,9 @@ Likelihood ratio test= 0.71  on 2 df,   p=0.7
 Wald test            = 0.61  on 2 df,   p=0.7
 Score (logrank) test = 0.62  on 2 df,   p=0.7
 
+
+Likelihood ratio test p-value: 0.7025085 
+Wald test p-value: 0.7364247 
 ================================================================================ 
 
 PAAD - KRAS G12V - comutation with PCDH9 
@@ -460,6 +499,9 @@ Likelihood ratio test= 1.15  on 2 df,   p=0.6
 Wald test            = 1.41  on 2 df,   p=0.5
 Score (logrank) test = 1.47  on 2 df,   p=0.5
 
+
+Likelihood ratio test p-value: 0.5613608 
+Wald test p-value: 0.4934335 
 ================================================================================ 
 
 PAAD - KRAS G12V - comutation with RYR1 
@@ -493,6 +535,9 @@ Likelihood ratio test= 0.11  on 2 df,   p=0.9
 Wald test            = 0.11  on 2 df,   p=0.9
 Score (logrank) test = 0.11  on 2 df,   p=0.9
 
+
+Likelihood ratio test p-value: 0.9445552 
+Wald test p-value: 0.9463462 
 ================================================================================ 
 
 PAAD - KRAS G12V - comutation with SCN5A 
@@ -528,6 +573,9 @@ Likelihood ratio test= 3.65  on 2 df,   p=0.2
 Wald test            = 4.97  on 2 df,   p=0.08
 Score (logrank) test = 5.54  on 2 df,   p=0.06
 
+
+Likelihood ratio test p-value: 0.1610534 
+Wald test p-value: 0.08316321 
 ================================================================================ 
 
 PAAD - KRAS G12V - comutation with TP53 
@@ -565,5 +613,8 @@ Likelihood ratio test= 6.84  on 2 df,   p=0.03
 Wald test            = 6.49  on 2 df,   p=0.04
 Score (logrank) test = 6.65  on 2 df,   p=0.04
 
+
+Likelihood ratio test p-value: 0.03265119 
+Wald test p-value: 0.03899999 
 ================================================================================ 
 

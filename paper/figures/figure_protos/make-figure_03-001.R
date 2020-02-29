@@ -68,7 +68,7 @@ parse_survival_info <- function(cancer, allele, gene) {
                interaction_allele == !!allele &
                hugo_symbol == !!gene) %>%
         mutate(
-            lbl = paste0("likelihood ratio: ",
+            lbl = paste0("likelihood ratio test: ",
                          str_round(likelihood_ratio_test_pval, 3),
                         "<br>*KRAS* G12C: ",
                         str_round(allele_pval, 3),

@@ -14,7 +14,7 @@ coxph_logtest_pval <- function(fit) {
 
 
 # Get p-value from the Wald test resulting from using `coxph()`.
-coxph_logtest_pval <- function(fit) {
+coxph_waldtest_pval <- function(fit) {
     summary(fit)$waldtest[["pvalue"]]
 }
 
@@ -107,6 +107,8 @@ write_survdiff_summary <- function(fit, title, fname, clear_file = FALSE) {
 
     cat(title, "\n", file = fpath, append = TRUE)
     write_summary(fit, fpath)
+    cat("\np-value:", survdiff_pval(fit), "\n",
+        file = fpath, append = TRUE)
     cat(str_rep("=", 80), "\n\n", file = fpath, append = TRUE)
 }
 
@@ -119,5 +121,9 @@ write_coxph_summary <- function(fit, title, fname, clear_file = FALSE) {
 
     cat(title, "\n", file = fpath, append = TRUE)
     write_summary(summary(fit), fpath)
+    cat("\nLikelihood ratio test p-value:", coxph_logtest_pval(fit), "\n",
+        file = fpath, append = TRUE)
+    cat("Wald test p-value:", coxph_waldtest_pval(fit), "\n",
+        file = fpath, append = TRUE)
     cat(str_rep("=", 80), "\n\n", file = fpath, append = TRUE)
 }

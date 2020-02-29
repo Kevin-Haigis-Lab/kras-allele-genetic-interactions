@@ -31,6 +31,9 @@ Likelihood ratio test= 3.61  on 2 df,   p=0.2
 Wald test            = 4.82  on 2 df,   p=0.09
 Score (logrank) test = 5.31  on 2 df,   p=0.07
 
+
+Likelihood ratio test p-value: 0.1642606 
+Wald test p-value: 0.09001612 
 ================================================================================ 
 
 PAAD - KRAS Q61H - comutation with ATM 
@@ -66,6 +69,9 @@ Likelihood ratio test= 4.35  on 2 df,   p=0.1
 Wald test            = 5.4  on 2 df,   p=0.07
 Score (logrank) test = 5.92  on 2 df,   p=0.05
 
+
+Likelihood ratio test p-value: 0.1137811 
+Wald test p-value: 0.06733187 
 ================================================================================ 
 
 PAAD - KRAS Q61H - comutation with ATP10A 
@@ -101,6 +107,9 @@ Likelihood ratio test= 3.44  on 2 df,   p=0.2
 Wald test            = 4.63  on 2 df,   p=0.1
 Score (logrank) test = 5.12  on 2 df,   p=0.08
 
+
+Likelihood ratio test p-value: 0.1792268 
+Wald test p-value: 0.09865155 
 ================================================================================ 
 
 PAAD - KRAS Q61H - comutation with DNAH10 
@@ -136,6 +145,9 @@ Likelihood ratio test= 3.64  on 2 df,   p=0.2
 Wald test            = 4.81  on 2 df,   p=0.09
 Score (logrank) test = 5.31  on 2 df,   p=0.07
 
+
+Likelihood ratio test p-value: 0.1617827 
+Wald test p-value: 0.09023254 
 ================================================================================ 
 
 PAAD - KRAS Q61H - comutation with DNAH5 
@@ -171,6 +183,9 @@ Likelihood ratio test= 6.92  on 2 df,   p=0.03
 Wald test            = 9.18  on 2 df,   p=0.01
 Score (logrank) test = 10.23  on 2 df,   p=0.006
 
+
+Likelihood ratio test p-value: 0.03146593 
+Wald test p-value: 0.01013345 
 ================================================================================ 
 
 PAAD - KRAS Q61H - comutation with DNAH9 
@@ -206,6 +221,9 @@ Likelihood ratio test= 3.54  on 2 df,   p=0.2
 Wald test            = 4.75  on 2 df,   p=0.09
 Score (logrank) test = 5.24  on 2 df,   p=0.07
 
+
+Likelihood ratio test p-value: 0.170039 
+Wald test p-value: 0.09322211 
 ================================================================================ 
 
 PAAD - KRAS Q61H - comutation with GLI3 
@@ -241,6 +259,9 @@ Likelihood ratio test= 3.69  on 2 df,   p=0.2
 Wald test            = 4.9  on 2 df,   p=0.09
 Score (logrank) test = 5.39  on 2 df,   p=0.07
 
+
+Likelihood ratio test p-value: 0.158266 
+Wald test p-value: 0.08645718 
 ================================================================================ 
 
 PAAD - KRAS Q61H - comutation with GNAS 
@@ -276,6 +297,9 @@ Likelihood ratio test= 4.03  on 2 df,   p=0.1
 Wald test            = 5.26  on 2 df,   p=0.07
 Score (logrank) test = 5.77  on 2 df,   p=0.06
 
+
+Likelihood ratio test p-value: 0.1332519 
+Wald test p-value: 0.07211874 
 ================================================================================ 
 
 PAAD - KRAS Q61H - comutation with HMCN1 
@@ -311,6 +335,9 @@ Likelihood ratio test= 3.45  on 2 df,   p=0.2
 Wald test            = 4.65  on 2 df,   p=0.1
 Score (logrank) test = 5.14  on 2 df,   p=0.08
 
+
+Likelihood ratio test p-value: 0.1777611 
+Wald test p-value: 0.0979279 
 ================================================================================ 
 
 PAAD - KRAS Q61H - comutation with KDM6A 
@@ -346,6 +373,9 @@ Likelihood ratio test= 4.91  on 2 df,   p=0.09
 Wald test            = 6.27  on 2 df,   p=0.04
 Score (logrank) test = 6.83  on 2 df,   p=0.03
 
+
+Likelihood ratio test p-value: 0.08604247 
+Wald test p-value: 0.04349912 
 ================================================================================ 
 
 PAAD - KRAS Q61H - comutation with LAMA1 
@@ -381,6 +411,9 @@ Likelihood ratio test= 6.78  on 2 df,   p=0.03
 Wald test            = 8.97  on 2 df,   p=0.01
 Score (logrank) test = 9.97  on 2 df,   p=0.007
 
+
+Likelihood ratio test p-value: 0.03370086 
+Wald test p-value: 0.01125527 
 ================================================================================ 
 
 PAAD - KRAS Q61H - comutation with MUC16 
@@ -416,6 +449,9 @@ Likelihood ratio test= 3.73  on 2 df,   p=0.2
 Wald test            = 4.93  on 2 df,   p=0.09
 Score (logrank) test = 5.42  on 2 df,   p=0.07
 
+
+Likelihood ratio test p-value: 0.15528 
+Wald test p-value: 0.08515433 
 ================================================================================ 
 
 PAAD - KRAS Q61H - comutation with MYO18B 
@@ -451,6 +487,9 @@ Likelihood ratio test= 5.72  on 2 df,   p=0.06
 Wald test            = 6.18  on 2 df,   p=0.05
 Score (logrank) test = 6.85  on 2 df,   p=0.03
 
+
+Likelihood ratio test p-value: 0.05718777 
+Wald test p-value: 0.04558073 
 ================================================================================ 
 
 PAAD - KRAS Q61H - comutation with OBSCN 
@@ -486,6 +525,9 @@ Likelihood ratio test= 4.7  on 2 df,   p=0.1
 Wald test            = 5.61  on 2 df,   p=0.06
 Score (logrank) test = 6.16  on 2 df,   p=0.05
 
+
+Likelihood ratio test p-value: 0.09531856 
+Wald test p-value: 0.06055326 
 ================================================================================ 
 
 PAAD - KRAS Q61H - comutation with PCLO 
@@ -521,6 +563,9 @@ Likelihood ratio test= 3.43  on 2 df,   p=0.2
 Wald test            = 4.63  on 2 df,   p=0.1
 Score (logrank) test = 5.12  on 2 df,   p=0.08
 
+
+Likelihood ratio test p-value: 0.1796343 
+Wald test p-value: 0.09867191 
 ================================================================================ 
 
 PAAD - KRAS Q61H - comutation with PEG3 
@@ -556,6 +601,9 @@ Likelihood ratio test= 5.45  on 2 df,   p=0.07
 Wald test            = 7  on 2 df,   p=0.03
 Score (logrank) test = 7.64  on 2 df,   p=0.02
 
+
+Likelihood ratio test p-value: 0.06549671 
+Wald test p-value: 0.0301302 
 ================================================================================ 
 
 PAAD - KRAS Q61H - comutation with PXDN 
@@ -591,6 +639,9 @@ Likelihood ratio test= 3.91  on 2 df,   p=0.1
 Wald test            = 5.01  on 2 df,   p=0.08
 Score (logrank) test = 5.52  on 2 df,   p=0.06
 
+
+Likelihood ratio test p-value: 0.1418736 
+Wald test p-value: 0.08183906 
 ================================================================================ 
 
 PAAD - KRAS Q61H - comutation with RNF213 
@@ -626,6 +677,9 @@ Likelihood ratio test= 3.66  on 2 df,   p=0.2
 Wald test            = 4.82  on 2 df,   p=0.09
 Score (logrank) test = 5.32  on 2 df,   p=0.07
 
+
+Likelihood ratio test p-value: 0.160161 
+Wald test p-value: 0.08976474 
 ================================================================================ 
 
 PAAD - KRAS Q61H - comutation with RYR3 
@@ -661,6 +715,9 @@ Likelihood ratio test= 3.59  on 2 df,   p=0.2
 Wald test            = 4.79  on 2 df,   p=0.09
 Score (logrank) test = 5.29  on 2 df,   p=0.07
 
+
+Likelihood ratio test p-value: 0.1663649 
+Wald test p-value: 0.09119151 
 ================================================================================ 
 
 PAAD - KRAS Q61H - comutation with SMAD4 
@@ -696,6 +753,9 @@ Likelihood ratio test= 3.34  on 2 df,   p=0.2
 Wald test            = 4.44  on 2 df,   p=0.1
 Score (logrank) test = 4.93  on 2 df,   p=0.08
 
+
+Likelihood ratio test p-value: 0.188369 
+Wald test p-value: 0.1083917 
 ================================================================================ 
 
 PAAD - KRAS Q61H - comutation with TGFBR2 
@@ -731,6 +791,9 @@ Likelihood ratio test= 5.84  on 2 df,   p=0.05
 Wald test            = 7.42  on 2 df,   p=0.02
 Score (logrank) test = 8.05  on 2 df,   p=0.02
 
+
+Likelihood ratio test p-value: 0.05395532 
+Wald test p-value: 0.02451175 
 ================================================================================ 
 
 PAAD - KRAS Q61H - comutation with TP53 
@@ -766,6 +829,9 @@ Likelihood ratio test= 9.14  on 2 df,   p=0.01
 Wald test            = 9.82  on 2 df,   p=0.007
 Score (logrank) test = 10.52  on 2 df,   p=0.005
 
+
+Likelihood ratio test p-value: 0.01035665 
+Wald test p-value: 0.007384736 
 ================================================================================ 
 
 PAAD - KRAS Q61H - comutation with TPO 
@@ -801,6 +867,9 @@ Likelihood ratio test= 4.58  on 2 df,   p=0.1
 Wald test            = 5.91  on 2 df,   p=0.05
 Score (logrank) test = 6.45  on 2 df,   p=0.04
 
+
+Likelihood ratio test p-value: 0.1014791 
+Wald test p-value: 0.05198882 
 ================================================================================ 
 
 PAAD - KRAS Q61H - comutation with ZFHX4 
@@ -836,5 +905,8 @@ Likelihood ratio test= 3.39  on 2 df,   p=0.2
 Wald test            = 4.59  on 2 df,   p=0.1
 Score (logrank) test = 5.08  on 2 df,   p=0.08
 
+
+Likelihood ratio test p-value: 0.183755 
+Wald test p-value: 0.1009186 
 ================================================================================ 
 

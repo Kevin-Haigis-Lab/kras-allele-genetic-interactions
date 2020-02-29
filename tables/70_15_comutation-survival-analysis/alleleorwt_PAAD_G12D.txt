@@ -31,6 +31,9 @@ Likelihood ratio test= 17.1  on 2 df,   p=2e-04
 Wald test            = 16.48  on 2 df,   p=3e-04
 Score (logrank) test = 18.23  on 2 df,   p=1e-04
 
+
+Likelihood ratio test p-value: 0.0001931009 
+Wald test p-value: 0.0002641939 
 ================================================================================ 
 
 PAAD - KRAS G12D - comutation with GNAS 
@@ -66,6 +69,9 @@ Likelihood ratio test= 18.19  on 2 df,   p=1e-04
 Wald test            = 16.63  on 2 df,   p=2e-04
 Score (logrank) test = 18.62  on 2 df,   p=9e-05
 
+
+Likelihood ratio test p-value: 0.00011199 
+Wald test p-value: 0.0002451282 
 ================================================================================ 
 
 PAAD - KRAS G12D - comutation with RYR1 
@@ -101,6 +107,9 @@ Likelihood ratio test= 15.05  on 2 df,   p=5e-04
 Wald test            = 14.44  on 2 df,   p=7e-04
 Score (logrank) test = 15.78  on 2 df,   p=4e-04
 
+
+Likelihood ratio test p-value: 0.0005387922 
+Wald test p-value: 0.0007322872 
 ================================================================================ 
 
 PAAD - KRAS G12D - comutation with SMAD4 
@@ -136,6 +145,9 @@ Likelihood ratio test= 18.09  on 2 df,   p=1e-04
 Wald test            = 16.81  on 2 df,   p=2e-04
 Score (logrank) test = 18.81  on 2 df,   p=8e-05
 
+
+Likelihood ratio test p-value: 0.0001180778 
+Wald test p-value: 0.000223956 
 ================================================================================ 
 
 PAAD - KRAS G12D - comutation with TP53 
@@ -173,6 +185,9 @@ Likelihood ratio test= 17.06  on 2 df,   p=2e-04
 Wald test            = 16.31  on 2 df,   p=3e-04
 Score (logrank) test = 17.96  on 2 df,   p=1e-04
 
+
+Likelihood ratio test p-value: 0.0001977065 
+Wald test p-value: 0.0002878524 
 ================================================================================ 
 
 PAAD - KRAS G12D - comutation with TTN 
@@ -210,5 +225,8 @@ Likelihood ratio test= 18.85  on 2 df,   p=8e-05
 Wald test            = 18.36  on 2 df,   p=1e-04
 Score (logrank) test = 20.06  on 2 df,   p=4e-05
 
+
+Likelihood ratio test p-value: 8.075362e-05 
+Wald test p-value: 0.0001028497 
 ================================================================================ 
 

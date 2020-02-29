@@ -29,6 +29,9 @@ Likelihood ratio test= 4.37  on 2 df,   p=0.1
 Wald test            = 0.23  on 2 df,   p=0.9
 Score (logrank) test = 2.3  on 2 df,   p=0.3
 
+
+Likelihood ratio test p-value: 0.1127559 
+Wald test p-value: 0.8919542 
 ================================================================================ 
 
 MM - KRAS G12D - comutation with MYH14 
@@ -62,6 +65,9 @@ Likelihood ratio test= 0.15  on 2 df,   p=0.9
 Wald test            = 0.16  on 2 df,   p=0.9
 Score (logrank) test = 0.16  on 2 df,   p=0.9
 
+
+Likelihood ratio test p-value: 0.9274327 
+Wald test p-value: 0.9243048 
 ================================================================================ 
 
 MM - KRAS G12D - comutation with NRAS 
@@ -95,6 +101,9 @@ Likelihood ratio test= 1.11  on 2 df,   p=0.6
 Wald test            = 1.07  on 2 df,   p=0.6
 Score (logrank) test = 1.07  on 2 df,   p=0.6
 
+
+Likelihood ratio test p-value: 0.5753503 
+Wald test p-value: 0.5855656 
 ================================================================================ 
 
 MM - KRAS G12D - comutation with SDK2 
@@ -128,6 +137,9 @@ Likelihood ratio test= 1.22  on 2 df,   p=0.5
 Wald test            = 1.01  on 2 df,   p=0.6
 Score (logrank) test = 1.04  on 2 df,   p=0.6
 
+
+Likelihood ratio test p-value: 0.5433873 
+Wald test p-value: 0.603895 
 ================================================================================ 
 
 MM - KRAS G12D - comutation with ZMYND8 
@@ -163,5 +175,8 @@ Likelihood ratio test= 4.23  on 2 df,   p=0.1
 Wald test            = 5.92  on 2 df,   p=0.05
 Score (logrank) test = 6.65  on 2 df,   p=0.04
 
+
+Likelihood ratio test p-value: 0.1209062 
+Wald test p-value: 0.05174946 
 ================================================================================ 
 
