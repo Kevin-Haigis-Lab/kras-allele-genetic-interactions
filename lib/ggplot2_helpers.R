@@ -71,7 +71,20 @@ round_breaks <- function(n = 5, n_dec = 2, ...) {
 my_trans_log10 <- scales::trans_new(
     name = "log10 pseudo-count +1",
     transform = function(x) { log10(x + 1) },
-    inverse = function(x) { exp(x) - 1 }
+    inverse = function(x) { (10^x) - 1 }
+)
+
+
+#' A function for `coord_trans()` to prevent `log(0)`.
+#' use:
+#'   ggplot(...) +
+#'     ... +
+#'     coord_trans(y = nonzero_trans_log10) +
+#'     .... +
+nonzero_trans_log10 <- scales::trans_new(
+    name = "non-zero log10",
+    transform = function(x) { ifelse(x == 0, 0, log10(x)) },
+    inverse = function(x) { ifelse(x == 0, 0, 10^x) }
 )
 
 
