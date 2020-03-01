@@ -38,7 +38,7 @@ panel_A <- read_fig_proto("gsea-results-COAD-select.rds", FIGNUM) +
     scale_size_continuous(
         range = c(0.5, 3),
         guide = guide_legend(
-            title = "-*log*<sub>10]</sub>(adj. p-value)",
+            title = "-*log*<sub>10</sub>(adj. p-value)",
             title.position = "left",
             label.position = "right",
             label.hjust = 0,
@@ -337,7 +337,6 @@ panel_G <- panel_G +
     )
 
 
-
 #### ---- H. Heatmap of linear model ---- ####
 # Clustered (pretty) heatmap of genes found to be differentially synthetic
 # lethal in LUAD.
@@ -388,7 +387,6 @@ panel_H_legend <- wrap_elements(plot = panel_H_legend) +
     theme(
         plot.margin = margin(0, 0, 0, 0, "mm")
     )
-
 
 
 #### ---- I. PPI of genes from cluster in heatmap ---- ####

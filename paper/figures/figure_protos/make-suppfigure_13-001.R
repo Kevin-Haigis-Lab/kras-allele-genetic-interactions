@@ -40,7 +40,7 @@ panel_A <- read_fig_proto("gsea-results-PAAD-select.rds",
     scale_size_continuous(
         range = c(0.5, 3),
         guide = guide_legend(
-            title = expression(paste(italic("log")[10], "(adj. p-value)")),
+            title = "-*log*<sub>10</sub>(adj. p-value)",
             title.position = "left",
             label.position = "right",
             label.hjust = 0,
@@ -54,7 +54,7 @@ panel_A <- read_fig_proto("gsea-results-PAAD-select.rds",
         plot.title = element_blank(),
         legend.position = "right",
         plot.margin = margin(-2, 0, 0, 0, "mm"),
-        legend.title = element_text(angle = 90, vjust = 0.5, hjust = 0.5),
+        legend.title = element_markdown(angle = 90, vjust = 0.5, hjust = 0.5),
         legend.spacing = unit(0, "mm")
     ) +
     labs(tag = "a")
@@ -285,7 +285,6 @@ panel_E_legend <- wrap_elements(full = panel_E_legend) +
 # Box-plots of example genes found to have allele-specific genetic dependencies.
 # original script: "src/10_11_syn-let_heatmaps-boxplots.R"
 
-
 panel_F_files <- c(
     "PAAD-CEP350.rds",
     "PAAD-EGLN2.rds",
@@ -314,7 +313,6 @@ for (f in panel_F_files) {
 
 panel_F <- wrap_plots(panel_F_plots, ncol = 1)
 panel_F[[1]] <- panel_F[[1]] + labs(tag = "f")
-
 
 
 #### ---- Figure assembly ---- ####
