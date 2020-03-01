@@ -36,7 +36,7 @@ ggraph_of_component <- function(gr, idx, cancer = "", cluster_num = "", ...) {
         ) %>%
         ggraph(layout = "stress") +
         geom_edge_link(aes(width = edge_width),
-                       color = "grey25", alpha = 0.5) +
+                       color = "grey40", alpha = 0.5) +
         geom_node_point(aes(size = node_size), color = "grey20") +
         geom_node_text(aes(label = name),
                        family = "Arial", size = 1.4, repel = TRUE) +
