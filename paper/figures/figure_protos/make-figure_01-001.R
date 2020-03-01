@@ -31,7 +31,8 @@ panel_A <- read_fig_proto("lollipop-kras_2", FIGNUM) +
         legend.spacing.x = unit(1, "mm"),
         legend.background = element_rect(fill = scales::alpha("white", 0.4),
                                          color = NA),
-        legend.margin = margin(1, 1, 1, 1, "mm")
+        legend.margin = margin(1, 1, 1, 1, "mm"),
+        axis.title.y = element_markdown()
     ) +
     labs(tag = "a")
 
@@ -46,7 +47,7 @@ panel_B <- wrap_plots(read_fig_proto("allele_dist_barplot_stackplot", FIGNUM),
                       ncol = 2) &
     theme_fig1() %+replace%
     theme(
-        axis.title = element_blank(),
+        axis.title.y = element_blank(),
         axis.text.y = element_text(hjust = 1)
     )
 
@@ -60,6 +61,13 @@ for (i in 1:4) {
 }
 
 panel_B[[1]][[1]] <- panel_B[[1]][[1]] + labs(tag = "b")
+
+for (i in c(3, 4)) {
+    panel_B[[i]][[1]] <- panel_B[[i]][[1]] + labs(y = "freq. of allele")
+}
+for (i in c(1, 2)) {
+    panel_B[[i]][[1]] <- panel_B[[i]][[1]] + labs(y = "")
+}
 
 panel_B <- wrap_elements(full = panel_B)
 
@@ -84,6 +92,8 @@ panel_C <- read_fig_proto("probability-mutsig-caused-allele", FIGNUM) +
 
 panel_C[[1]][[1]] <- panel_C[[1]][[1]] + labs(tag = "c")
 
+for (i in c(2, 4)) panel_C[[1]][[i]] <- panel_C[[1]][[i]] + labs(y = "")
+
 
 #### ---- D. Probability of select signatures causing KRAS allele ---- ####
 
@@ -103,6 +113,8 @@ panel_D <- read_fig_proto("contribution-of-select-signatures", FIGNUM) +
 
 panel_D[[1]] <- panel_D[[1]] + labs(tag = "d")
 
+for (i in c(2, 4)) panel_D[[i]] <- panel_D[[i]] + labs(y = "")
+
 
 #### ---- E. Predicting the alleles from the mutational signatures ---- ####
 
@@ -116,9 +128,19 @@ panel_E <- wrap_plots(panel_E_proto_list, nrow = 1) +
     plot_layout(guides = "collect",
                 widths = c(1, 1, 1, 1, 0.3),
                 tag_level = "new") &
-    theme_fig1()
+    theme_fig1() %+replace%
+    theme(
+        legend.title = element_markdown(angle = 90,
+                                        vjust = 0.5,
+                                        hjust = 0.5,
+                                        size = 6,
+                                        family = "Arial"),
+    )
 
 panel_E[[1]] <- panel_E[[1]] + labs(tag = "e")
+
+for (i in seq(2, 4)) panel_E[[i]] <- panel_E[[i]] + labs(y = "")
+for (i in seq(1, 4)) panel_E[[i]] <- panel_E[[i]] + labs(x = "")
 
 
 #### ---- F. Predicting the alleles from the mutational signatures ---- ####
@@ -133,16 +155,25 @@ panel_F <- wrap_plots(panel_F_proto_list, nrow = 1) +
     plot_layout(guides = "collect",
                 widths = c(1, 1, 1, 1, 0.3),
                 tag_level = "new") &
-    theme_fig1()
+    theme_fig1() %+replace%
+    theme(
+        legend.title = element_markdown(angle = 90,
+                                        vjust = 0.5,
+                                        hjust = 0.5,
+                                        size = 6,
+                                        family = "Arial"),
+    )
 
 panel_F[[1]] <- panel_F[[1]] + labs(tag = "f")
+
+for (i in seq(2, 4)) panel_F[[i]] <- panel_F[[i]] + labs(y = "")
 
 
 #### ---- Figure assembly ---- ####
 
 {
     # ROW 1
-    row_1 <- (panel_A | panel_B) + plot_layout(widths = c(1, 4))
+    row_1 <- (panel_A | panel_B) + plot_layout(widths = c(1, 3))
 
     # ROW 2
     row_2 <- (panel_C - panel_D) + plot_layout(widths = c(2, 1.2))
