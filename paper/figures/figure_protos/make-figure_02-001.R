@@ -133,7 +133,7 @@ panel_B <- read_fig_proto(
     ) +
     labs(
         tag = "b",
-        edge_width = "-*log*( p-value )"
+        edge_width = "-*log*(p-value)"
     )
 
 
@@ -165,6 +165,7 @@ panel_C <- read_fig_proto("enrichr_COAD", FIGNUM) +
     theme(
         plot.title = element_blank(),
         axis.title = element_blank(),
+        legend.title = element_markdown(),
         legend.position = "bottom",
         legend.box = "vertical",
         legend.spacing.x = unit(0, "mm"),
@@ -174,7 +175,7 @@ panel_C <- read_fig_proto("enrichr_COAD", FIGNUM) +
     ) +
     labs(
         tag = "c",
-        size = expression(-italic("log")[10] ( "adj. p-value" )),
+        size = "-*log*<sub>10</sub>(adj. p-value)",
         alpha = "num. of genes"
     )
 
