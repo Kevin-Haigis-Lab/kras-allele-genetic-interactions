@@ -1,5 +1,9 @@
 # Observed vs. predicted KRAS allele frequency
 
+GRAPHS_DIR <- "50_10_observed-predicted-kras-alleles"
+reset_graph_directory(GRAPHS_DIR)
+reset_table_directory(GRAPHS_DIR)
+
 
 # A tibble with the number of trinuc. contexts for each KRAS allele mutation.
 kras_trinucleotide_contexts_counts <- left_join(
@@ -211,7 +215,7 @@ predicted_kras_allele_frequency_boxplot <- kras_hotspot_probability %>%
 
 ggsave_wrapper(
     predicted_kras_allele_frequency_boxplot,
-    plot_path("50_10_observed-predicted-kras-alleles",
+    plot_path(GRAPHS_DIR,
               "predicted_kras_allele_frequency_boxplot.svg"),
     size = "large"
 )
@@ -262,7 +266,7 @@ predict_kras_allele_frequency_barplot1 <- barplot_df %>%
     scale_fill_manual(values = short_allele_pal) +
     scale_color_manual(values = short_allele_pal) +
     scale_y_continuous(limits = c(0, NA),
-                       expand = expand_scale(mult = c(0, 0.02))) +
+                       expand = expansion(mult = c(0, 0.02))) +
     theme_bw(base_size = 8, base_family = "Arial") +
     theme(
         legend.title = element_blank(),
@@ -276,8 +280,7 @@ predict_kras_allele_frequency_barplot1 <- barplot_df %>%
     )
 ggsave_wrapper(
     predict_kras_allele_frequency_barplot1,
-    plot_path("50_10_observed-predicted-kras-alleles",
-              "predict_kras_allele_frequency_barplot1.svg"),
+    plot_path(GRAPHS_DIR, "predict_kras_allele_frequency_barplot1.svg"),
     size = "wide"
 )
 
@@ -294,7 +297,7 @@ predict_kras_allele_frequency_weighted_barplot1 <- barplot_df %>%
     scale_fill_manual(values = short_allele_pal) +
     scale_color_manual(values = short_allele_pal) +
     scale_y_continuous(limits = c(0, NA),
-                       expand = expand_scale(mult = c(0, 0.02))) +
+                       expand = expansion(mult = c(0, 0.02))) +
     theme_bw(base_size = 8, base_family = "Arial") +
     theme(
         legend.title = element_blank(),
@@ -309,7 +312,7 @@ predict_kras_allele_frequency_weighted_barplot1 <- barplot_df %>%
 
 ggsave_wrapper(
     predict_kras_allele_frequency_weighted_barplot1,
-    plot_path("50_10_observed-predicted-kras-alleles",
+    plot_path(GRAPHS_DIR,
               "predict_kras_allele_frequency_weighted_barplot1.svg"),
     size = "wide"
 )
@@ -340,7 +343,7 @@ single_kras_allele_freq_barplot <- function(cancer, data,
         scale_fill_manual(values = short_allele_pal) +
         scale_color_manual(values = short_allele_pal) +
         scale_y_continuous(limits = c(0, y_max),
-                           expand = expand_scale(mult = c(0, 0.02))) +
+                           expand = expansion(mult = c(0, 0.02))) +
         theme_bw(base_size = 8, base_family = "Arial") +
         theme(
             plot.title = element_text(hjust = 0.5),
@@ -370,8 +373,7 @@ predict_kras_allele_frequency_barplot2 <- patchwork::wrap_plots(
 
 ggsave_wrapper(
     predict_kras_allele_frequency_barplot2,
-    plot_path("50_10_observed-predicted-kras-alleles",
-              "predict_kras_allele_frequency_barplot2.svg"),
+    plot_path(GRAPHS_DIR, "predict_kras_allele_frequency_barplot2.svg"),
     "wide"
 )
 
@@ -394,7 +396,7 @@ predict_kras_allele_frequency_weighted_barplot2 <- patchwork::wrap_plots(
 
 ggsave_wrapper(
     predict_kras_allele_frequency_weighted_barplot2,
-    plot_path("50_10_observed-predicted-kras-alleles",
+    plot_path(GRAPHS_DIR,
               "predict_kras_allele_frequency_weighted_barplot2.svg"),
     "wide"
 )
@@ -415,7 +417,7 @@ predict_kras_allele_frequency_barplot3 <- barplot_df %>%
     scale_fill_manual(values = cancer_palette) +
     scale_color_manual(values = cancer_palette) +
     scale_y_continuous(limits = c(0, NA),
-                       expand = expand_scale(mult = c(0, 0.02))) +
+                       expand = expansion(mult = c(0, 0.02))) +
     theme_bw(base_size = 8, base_family = "Arial") +
     theme(
         legend.title = element_blank(),
@@ -430,8 +432,7 @@ predict_kras_allele_frequency_barplot3 <- barplot_df %>%
 
 ggsave_wrapper(
     predict_kras_allele_frequency_barplot3,
-    plot_path("50_10_observed-predicted-kras-alleles",
-              "predict_kras_allele_frequency_barplot3.svg"),
+    plot_path(GRAPHS_DIR, "predict_kras_allele_frequency_barplot3.svg"),
     size = "large"
 )
 
@@ -473,11 +474,6 @@ individual_obs_v_pred_scatter_plot <- function(plot_df, cancer,
                 range = c(1, 3),
                 limits = p_value_limits,
                 guide = guide_legend(
-                    title.theme = element_text(angle = 90,
-                                               vjust = 0.5,
-                                               hjust = 0.5,
-                                               size = 6,
-                                               family = "Arial"),
                     title.position = "left",
                     keywidth = unit(4, "mm"),
                     keyheight = unit(4, "mm"),
@@ -518,18 +514,22 @@ individual_obs_v_pred_scatter_plot <- function(plot_df, cancer,
         ) +
         scale_x_continuous(
             limits = c(0, axis_lim),
-            expand = expand_scale(mult = c(0, 0.02))
+            expand = expansion(mult = c(0, 0.02))
         ) +
         scale_y_continuous(
             limits = c(0, axis_lim),
-            expand = expand_scale(mult = c(0, 0.02))
+            expand = expansion(mult = c(0, 0.02))
         ) +
-        # coord_fixed() +
         theme_bw(base_size = 8, base_family = "Arial") +
         theme(
             plot.title = element_text(hjust = 0.5),
             legend.position = "right",
             legend.spacing = unit(c(10, 10), "mm"),
+            legend.title = element_markdown(angle = 90,
+                                            vjust = 0.5,
+                                            hjust = 0.5,
+                                            size = 6,
+                                            family = "Arial"),
             legend.text = element_text(size = 6),
             legend.key.size = unit(2, "mm"),
             legend.direction = "vertical",
@@ -538,7 +538,7 @@ individual_obs_v_pred_scatter_plot <- function(plot_df, cancer,
         labs(
             title = cancer,
             color = "KRAS allele",
-            size = "-log10( p-value )",
+            size = "-*log*<sub>10</sub>( p-value )",
             x = "observed frequency",
             y = "predicted frequency"
         )
@@ -567,7 +567,8 @@ obs_v_pred_scatter_plot <- function(real_tib, pred_tib,
             mutate(log_p_value = -log10(p_value),
                    point_shape = ifelse(p_value < 0.05, 16, 17))
 
-        p_val_range <- purrr::map_dbl(list(min, max), ~ .x(-log10(pdata$p_value)))
+        p_val_range <- purrr::map_dbl(list(min, max),
+                                      ~ .x(-log10(pdata$p_value)))
         p_val_range[[1]] <- max(floor(p_val_range[[1]] / 10) * 10, 0)
         p_val_range[[2]] <- ceiling(p_val_range[[2]] / 10) * 10
     }
@@ -582,8 +583,7 @@ obs_v_pred_scatter_plot <- function(real_tib, pred_tib,
                                                with_errorbars = with_errorbars)
         ggsave_wrapper(
             p,
-            plot_path("50_10_observed-predicted-kras-alleles",
-                      glue(save_template)),
+            plot_path(GRAPHS_DIR, as.character(glue(save_template))),
             save_size
         )
         return(p)
@@ -696,11 +696,7 @@ kras_allele_freq_stats <- left_join(
 
 kras_allele_freq_stats %>%
     select(-ci_obj) %>%
-    write_tsv(file.path(
-        "tables",
-        "50_10_observed-predicted-kras-alleles",
-        "kras_allele_freq_stats.tsv"
-    ))
+    write_tsv(table_path(GRAPHS_DIR, "kras_allele_freq_stats.tsv"))
 
 kras_allele_freq_stats %>%
     filter(p_value >= 0.05) %>%
@@ -738,11 +734,7 @@ kras_g12_freq_stats <- left_join(
 
 kras_g12_freq_stats %>%
     select(-ci_obj) %>%
-    write_tsv(file.path(
-        "tables",
-        "50_10_observed-predicted-kras-alleles",
-        "kras_g12_freq_stats.tsv"
-    ))
+    write_tsv(table_path(GRAPHS_DIR, "kras_g12_freq_stats.tsv"))
 
 kras_g12_freq_stats %>%
     filter(p_value >= 0.05) %>%
