@@ -255,45 +255,46 @@ if (caps$X11) {
     dev.off()
 }
 
-
 # My lollipop plot.
 kras_lollipop_plot <- cancer_full_coding_muts_maf %>%
     filter(!is_hypermutant & hugo_symbol == "KRAS") %>%
     mutate(amino_position = as.numeric(amino_position)) %>%
     filter(!is.na(amino_position)) %>%
     group_by(cancer, amino_position) %>%
-    summarise(num_amino_position = n_distinct(tumor_sample_barcode)) %>%
-    ungroup() %>%
-    mutate(log_amino_position = log(num_amino_position)) %>%
+    summarise(num_apos = n_distinct(tumor_sample_barcode)) %>%
     group_by(amino_position) %>%
     mutate(
-        total_num_amino_position = sum(num_amino_position),
-        total_log_amino_position = sum(log_amino_position),
+        total_num_apos = sum(num_apos),
+        log_total_num_apos = log10(total_num_apos)
+    ) %>%
+    ungroup() %>%
+    mutate(
+        cancer_frac_apos = num_apos / total_num_apos,
+        cancer_frac_log_apos = cancer_frac_apos * log_total_num_apos,
         point_label = ifelse(
-            amino_position %in% !!codons_to_label,
+            amino_position %in% !!codons_to_label & cancer == "COAD",
             as.character(amino_position),
             NA
         )
     ) %>%
-    ungroup() %>%
     ggplot(aes(x = amino_position)) +
     geom_col(
-        aes(y = num_amino_position,
+        aes(y = cancer_frac_log_apos,
             fill = cancer)
     ) +
     geom_point(
-        aes(y = total_num_amino_position,
-            color = log10(total_num_amino_position)),
+        aes(y = log_total_num_apos,
+            color = log_total_num_apos),
         size = 1
     ) +
     geom_text(
         aes(label = point_label,
-            y = total_num_amino_position),
+            y = log_total_num_apos),
         family = "Arial",
         size = 2,
         hjust = 0,
-        nudge_x = 5,
-        nudge_y = 2
+        nudge_x = 2,
+        nudge_y = 0
     ) +
     scale_fill_manual(
         values = cancer_palette,
@@ -312,25 +313,30 @@ kras_lollipop_plot <- cancer_full_coding_muts_maf %>%
     ) +
     scale_y_continuous(
         expand = c(0, 0),
-        limits = c(0, 6000),
-        breaks = c(0, 10, 100, 500, 1000, 2000, 4000, 6000)
+        limits = c(0, 4),
+        breaks = c(0, 1, 2, 3, 4, 5),
+        labels = function(x) { 10^x }
+    ) +
+    scale_x_continuous(
+        limits = c(1, 189),
+        expand = c(0, 0)
     ) +
     theme_bw(base_size = 8, base_family = "Arial") +
     theme(
         legend.position = c(0.8, 0.8),
         legend.spacing.x = unit(1, "mm"),
-        plot.margin = unit(c(1, 1, 1, 1), "mm")
+        plot.margin = unit(c(1, 1, 1, 1), "mm"),
+        axis.title.y = element_markdown()
     ) +
-    coord_trans(y = my_trans_log10) +
     labs(
         x = "KRas amino acid sequence",
-        y = "log10( count )"
+        y = "number of samples (*log*<sub>10</sub>-transformed)"
     )
 
 ggsave_wrapper(
     kras_lollipop_plot,
     plot_path(GRAPHS_DIR, "lollipop-kras_2.svg"),
-    width = 3, height = 2
+    "small"
 )
 
 # Save for use in Figure 1.
