@@ -79,7 +79,7 @@ parse_survival_info <- function(cancer, allele, gene) {
 }
 
 
-prepare_survival_curve <- function(path) {
+prepare_survival_curve <- function(path, title_col = "black") {
     info <- basename(path) %>%
         file_sans_ext() %>%
         str_remove("survival_alleleorwt_") %>%
@@ -97,15 +97,25 @@ prepare_survival_curve <- function(path) {
         ) +
         theme_fig3(margin(-2, 0, 0, -3.9, "mm")) +
         theme(
+            plot.title = element_text(size = 7, hjust = 0.5, color = title_col),
             axis.text = element_text(family = "arial", size = 5),
             legend.position = "none"
         ) +
-        labs(x = "days")
+        labs(x = "time (days)")
 }
 
-
-survival_curves <- purrr::map(proto_paths, prepare_survival_curve)
+title_colors <- c(rep(comut_updown_pal[["increased"]], 3),
+                  darken(comut_updown_pal[["reduced"]]))
+survival_curves <- purrr::map2(proto_paths,
+                               title_colors,
+                               prepare_survival_curve)
 survival_curves[[1]] <- survival_curves[[1]] + labs(tag = "b")
+
+for (i in c(1, 3)) {
+    survival_curves[[i]] <- survival_curves[[i]] +
+        labs(y = "survival probability")
+}
+
 panel_B <- wrap_plots(survival_curves, ncol = 2)
 
 panel_B_legend <- read_fig_proto("custom_survival_curve_legend", FIGNUM) +
@@ -145,6 +155,7 @@ panel_C <- read_fig_proto("enrichr_LUAD", FIGNUM) +
     theme(
         plot.title = element_blank(),
         axis.title = element_blank(),
+        legend.title = element_markdown(),
         legend.position = "bottom",
         legend.box = "vertical",
         legend.spacing.x = unit(0, "mm"),
@@ -154,7 +165,7 @@ panel_C <- read_fig_proto("enrichr_LUAD", FIGNUM) +
     ) +
     labs(
         tag = "c",
-        size = expression(-italic("log")[10] ( "adj. p-value" )),
+        size = "-*log*<sub>10</sub>(adj. p-value)",
         alpha = "num. of genes"
     )
 
@@ -177,12 +188,16 @@ panel_D <- read_fig_proto("comut-barplot_LUAD_AllAlleles_AllSources", FIGNUM) +
             title.position = "top"
         )
     ) +
+    scale_y_continuous(
+        label = abs
+    ) +
     theme_fig3() %+replace%
     theme(
         legend.spacing.x = unit(1, "mm"),
         legend.position = "bottom",
         axis.title.y = element_blank(),
-        legend.key.size = unit(2, "mm")
+        legend.key.size = unit(2, "mm"),
+        axis.text = element_text(size = 5, family = "arial")
     ) +
     labs(
         tag = "d",
@@ -240,7 +255,7 @@ panel_F_1 <- read_fig_proto("mm_comut_heatmap", FIGNUM) +
 panel_F_2 <- read_fig_proto("allele_freq_barplot", FIGNUM) +
     scale_y_continuous(
         breaks = c(10, 50, 200, 700),
-        expand = expand_scale(mult = c(0, 0.05)),
+        expand = expansion(mult = c(0, 0.05)),
         trans = "log10"
     ) +
     theme_fig3(margin(-1.9, 0, 0, 0, "mm")) +
@@ -263,7 +278,7 @@ panel_F_2 <- read_fig_proto("allele_freq_barplot", FIGNUM) +
 panel_F_3 <- read_fig_proto("gene_freq_barplot", FIGNUM) +
     scale_y_continuous(
         breaks = c(25, 100, 200),
-        expand = expand_scale(mult = c(0, 0.05)),
+        expand = expansion(mult = c(0, 0.05)),
     ) +
     theme_fig3() +
     theme(
