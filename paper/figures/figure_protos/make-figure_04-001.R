@@ -38,7 +38,7 @@ panel_A <- read_fig_proto("gsea-results-COAD-select.rds", FIGNUM) +
     scale_size_continuous(
         range = c(0.5, 3),
         guide = guide_legend(
-            title = expression(paste(italic("log")[10], "(adj. p-value)")),
+            title = "-*log*<sub>10]</sub>(adj. p-value)",
             title.position = "left",
             label.position = "right",
             label.hjust = 0,
@@ -52,7 +52,7 @@ panel_A <- read_fig_proto("gsea-results-COAD-select.rds", FIGNUM) +
         plot.title = element_blank(),
         legend.position = "right",
         plot.margin = margin(-2, 0, 0, 0, "mm"),
-        legend.title = element_text(angle = 90, vjust = 0.5, hjust = 0.5),
+        legend.title = element_markdown(angle = 90, vjust = 0.5, hjust = 0.5),
         legend.spacing = unit(0, "mm")
     ) +
     labs(tag = "a")
