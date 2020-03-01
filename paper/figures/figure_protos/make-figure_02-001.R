@@ -39,7 +39,8 @@ theme_graph_fig2 <- function() {
 adjust_oncoplot_theme <- function(
         pw,
         right_bar_limits = NULL,
-        right_bar_breaks = integer_breaks(rm_vals = c(0))
+        right_bar_breaks = integer_breaks(rm_vals = c(0)),
+        tag_margin = margin(0, 0, 0, 0, "mm")
     ) {
     # Top bar plot
     pw[[1]] <- pw[[1]] +
@@ -47,7 +48,7 @@ adjust_oncoplot_theme <- function(
             axis.text.y = element_text(size = 5, hjust = 1),
             plot.tag = element_text(size = 7,
                                     face = "bold",
-                                    margin = margin(0, 0, 0, 0, "mm"))
+                                    margin = tag_margin)
         )
 
 
@@ -109,9 +110,11 @@ remove_oncoplot_legend <- function(pw) {
 # original script: "src/20_40_highlivel-genetic-interactions.R"
 
 panel_A <- read_fig_proto("genetic_interaction_network_COAD", FIGNUM) +
+    scale_color_manual(values = short_allele_pal, guide = FALSE) +
     theme_graph_fig2() %+replace%
     theme(
-        legend.spacing.x = unit(1, "mm")
+        legend.spacing.x = unit(1, "mm"),
+        legend.position = c(0.1, 0.1)
     ) +
     labs(tag = "a")
 
@@ -124,13 +127,13 @@ panel_B <- read_fig_proto(
         "goi_overlap_genetic_interactions_network_COAD_allLists",
         FIGNUM
     ) *
-    theme_graph_fig2() +
+    theme_graph_fig2() %+replace%
     theme(
-        legend.position = "bottom"
+        legend.title = element_markdown()
     ) +
     labs(
         tag = "b",
-        edge_width = expression(-italic("log") ( "p-value" ))
+        edge_width = "-*log*( p-value )"
     )
 
 
@@ -181,20 +184,20 @@ panel_C <- read_fig_proto("enrichr_COAD", FIGNUM) +
 # original script: "src/20_50_rainfall-plots.R"
 
 panel_D <- read_fig_proto("COAD_G12D_comutation_oncostrip_select", FIGNUM)
-panel_D <- adjust_oncoplot_theme(panel_D, c(0, 450), c(50, 200, 400))
+panel_D <- adjust_oncoplot_theme(panel_D, c(0, 450), c(50, 200, 400),
+                                 margin(0, 0, 0, -3.5, "mm"))
 panel_D[[1]] <- panel_D[[1]] + labs(tag = "d")
 
-# panel_D[[3]] <- panel_D[[3]] +
-#     scale_y_continuous(
-#             expand = expand_scale(mult = c(0, 0.02)),
-#             limits = c(0, max(total_variants_per_gene$total) * 1.2),
-#             breaks = integer_breaks(rm_vals = c(0))
-#         )
-
+# Legend for panels d-g
 panel_D_leg_1 <- ggpubr::as_ggplot(cowplot::get_legend(panel_D[[2]]))
 panel_D_leg_2 <- ggpubr::as_ggplot(cowplot::get_legend(panel_D[[4]]))
-panel_D_leg <- (panel_D_leg_1 / panel_D_leg_2)
-
+panel_D_leg <- (
+        plot_spacer() / panel_D_leg_1 /
+        plot_spacer() / panel_D_leg_2 /
+        plot_spacer()
+    ) +
+    plot_layout(heights = c(20, 10, 5, 10, 20))
+panel_D_leg <- wrap_elements(full = panel_D_leg)
 panel_D <- remove_oncoplot_legend(panel_D)
 
 
@@ -213,7 +216,8 @@ panel_E <- remove_oncoplot_legend(panel_E)
 # original script: "src/20_50_rainfall-plots.R"
 
 panel_F <- read_fig_proto("COAD_G12V_comutation_oncostrip_select", FIGNUM)
-panel_F <- adjust_oncoplot_theme(panel_F, c(0, 1150), c(100, 500, 1000))
+panel_F <- adjust_oncoplot_theme(panel_F, c(0, 1150), c(100, 500, 1000),
+                                 margin(0, 0, 0, -3.5, "mm"))
 panel_F[[1]] <- panel_F[[1]] + labs(tag = "f")
 panel_F <- remove_oncoplot_legend(panel_F)
 
@@ -223,7 +227,7 @@ panel_F <- remove_oncoplot_legend(panel_F)
 # original script: "src/20_50_rainfall-plots.R"
 
 panel_G <- read_fig_proto("COAD_G12V_exclusivity_oncostrip_select", FIGNUM)
-panel_G <- adjust_oncoplot_theme(panel_G, c(0, 450), c(50, 200, 400))
+panel_G <- adjust_oncoplot_theme(panel_G, c(0, 490), c(50, 200, 400))
 panel_G[[1]] <- panel_G[[1]] + labs(tag = "g")
 panel_G <- remove_oncoplot_legend(panel_G)
 
@@ -233,21 +237,16 @@ panel_G <- remove_oncoplot_legend(panel_G)
 {
     set.seed(0)  # Because the graph-plotting algorithm is stochastic.
 
-    row_1 <- (panel_A | panel_B | panel_C) +
+    row_1 <- (wrap_elements(full = panel_A) | panel_B | panel_C) +
         plot_layout(widths = c(2, 2, 1))
 
-    # row_2 <- plot_spacer() + panel_D + panel_E + panel_D_leg +
-    #     plot_layout(
-    #         nrow = 1,
-    #         widths = c(1, 1000, 1000, 400)
-    #     )
-
-    rows_2_3 <- plot_spacer() +
-    (
-        (panel_D | panel_E) / (panel_F | panel_G )
-    ) +
-    panel_D_leg +
-    plot_layout(widths = c(1, 2000, 300))
+    rows_2_3 <- (
+            (
+                (panel_D | panel_E) / (panel_F | panel_G )
+            ) |
+            panel_D_leg
+        ) +
+        plot_layout(widths = c(20, 3))
 
     # COMPLETE FIGURE
     full_figure <- (row_1) / (rows_2_3) +
