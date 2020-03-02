@@ -21,7 +21,6 @@ theme_figS1 <- function() {
 }
 
 
-
 #### ---- A. Distribution of all alleles in each cancer ---- ####
 
 # The distribution of the alleles (no "Other" group) per cancer.
@@ -43,7 +42,11 @@ for (i in 1:4) {
             axis.title = element_blank(),
             axis.text.x = element_blank()
         )
+
+    panel_A[[i]][[1]] <- panel_A[[i]][[1]] + labs(y = "freq. of allele")
 }
+
+
 
 #### ---- Figure assembly ---- ####
 
