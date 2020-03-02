@@ -20,7 +20,7 @@ R2 <- glance(fit)$r.squared
 equation_dat <- tibble(
     x = c(5.6),
     y = c(-0.26, -0.29, -0.32),
-    label = c(glue("*y* = {round(m, 3)}x + {round(b, 3)}"),
+    label = c(glue("*y* = {round(m, 3)}*x* + {round(b, 3)}"),
               glue("p-value: {round(p_val, 2)}"),
               glue("*R*<sup>2</sup> = {round(R2, 2)}"))
 )
