@@ -74,12 +74,14 @@ figS11_modify_survplot_components <- function(p, leg_regex, pal,
                                  label.position = "top",
                                  label.vjust = -5)
         ) +
-        scale_x_continuous(expand = expand_scale(mult = c(c(0.04, 0.01)))) +
+        scale_x_continuous(expand = expansion(mult = c(c(0.04, 0.01)))) +
         theme_figS11() +
         theme(
             legend.position = "bottom",
             axis.title.x = element_blank(),
-            plot.title = element_blank()
+            plot.title = element_blank(),
+            legend.box.margin = margin(0, 0, 0, 0, "mm"),
+            legend.box.spacing = unit(0, "mm")
         ) +
         labs(
             y = "survival probability",
@@ -94,13 +96,14 @@ figS11_modify_survplot_components <- function(p, leg_regex, pal,
         scale_y_discrete(
             labels = function(x) fct_inorder(rev(str_remove(x, leg_regex)))
         ) +
-        scale_x_continuous(expand = expand_scale(mult = c(c(0.04, 0.01)))) +
+        scale_x_continuous(expand = expansion(mult = c(c(0.04, 0.01)))) +
         theme_classic_figS11() +
         theme(
             legend.position = "none",
             axis.title.y = element_blank(),
             axis.line.y = element_blank(),
-            plot.title = element_blank()
+            plot.title = element_blank(),
+            plot.margin = margin(0, 0, 2, 0, "mm")
         ) +
         labs(x = "time (days)")
     return(p)

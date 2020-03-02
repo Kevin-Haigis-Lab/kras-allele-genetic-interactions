@@ -114,7 +114,11 @@ prep_graph_for_plotting <- memoise::memoise(prep_graph_for_plotting)
 plot_extracted_graph_of_geneset <- function(gr) {
     if (is.null(gr)) return(NULL)
 
-    p <- ggraph(gr, layout = "stress") +
+    interaction_lvls <- c("increased", "reduced", "in_geneset", "none")
+
+    p <- gr %N>%
+        mutate(interaction = factor(interaction, levels = interaction_lvls)) %>%
+        ggraph(layout = "stress") +
         geom_edge_link(
             aes(alpha = edge_alpha),
             color = "grey50",
@@ -133,7 +137,8 @@ plot_extracted_graph_of_geneset <- function(gr) {
         scale_color_manual(
             values = c(comut_updown_pal,
                        "none" = "grey70",
-                       "in_geneset" = "grey40")
+                       "in_geneset" = "grey40"),
+            label = function(x) { str_replace_all(x, "_", " ") }
         ) +
         scale_size_identity() +
         theme_graph(base_size = 7, base_family = "Arial")
