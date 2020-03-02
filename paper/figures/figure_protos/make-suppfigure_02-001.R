@@ -34,12 +34,13 @@ panel_A <- read_fig_proto("signature-level-per-sample",
     ) +
     labs(
         y = "signature level",
+        fill = "signature",
         tag = "a"
-    ) &
+    ) +
     theme_figS2() +
     theme(
         legend.position = "bottom",
-        legend.title = element_blank(),
+        legend.title = element_text(vjust = 0.25),
         axis.text.x = element_blank(),
         legend.key.size = unit(4, "mm")
     )
