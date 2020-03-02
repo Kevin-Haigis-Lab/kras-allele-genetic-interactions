@@ -7,3 +7,12 @@ add.config(
 add.config(
   apply.override = TRUE
 )
+
+
+#### ---- Conflicts ---- ####
+# Declare which namespaces to use for conflicting functions.
+
+conflict_prefer("select", "dplyr")
+conflict_prefer("filter", "dplyr")
+conflict_prefer("slice", "dplyr")
+conflict_prefer("setdiff", "dplyr")
