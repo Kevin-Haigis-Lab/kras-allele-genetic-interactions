@@ -58,6 +58,7 @@ plot_distribution_of_mutation_count <- function(cancer,
         theme(
             plot.title = element_text(hjust = 0.5),
             axis.text.x = element_blank(),
+            axis.title.y = element_markdown(),
             panel.grid.major.x = element_blank(),
             strip.background = element_blank(),
             axis.ticks.x = element_blank()
@@ -67,7 +68,7 @@ plot_distribution_of_mutation_count <- function(cancer,
                 glue("Distribution of mutations in {cancer} samples")
             ),
             x = "tumor samples",
-            y = expression(italic(log)[10] ("num. mutations"))
+            y = "num. mutations (*log*<sub>10</sub>-transformed)"
         )
 
     if (hypermutant_rug) {

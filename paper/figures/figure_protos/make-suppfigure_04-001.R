@@ -30,6 +30,7 @@ get_panel_pieces <- function(cancer) {
         theme_figS4() +
         theme(
             axis.text.x = element_blank(),
+            axis.title.y = element_markdown(),
             panel.grid.major.x = element_blank(),
             panel.grid.minor.x = element_blank(),
             strip.text = element_blank()
