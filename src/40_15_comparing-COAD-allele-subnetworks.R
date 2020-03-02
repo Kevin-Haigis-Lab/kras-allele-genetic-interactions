@@ -95,9 +95,10 @@ annotate_edges_with_clustering <- function(gr) {
 
 plot_overlap_comparison_graph2 <- function(gr, special_labels = NULL) {
     max_ct <- max(str_count(igraph::V(gr)$allele, ",")) + 1
-    pal <- c(short_allele_pal,
-             make_brown_pal(max_ct),
-             "special" = "indianred1")
+    pal <- c(short_allele_pal[names(short_allele_pal) %in% igraph::V(gr)$allele],
+             "special" = "indianred1",
+             make_brown_pal(max_ct))
+
     p <- gr %>%
         mutate(
             node_color = case_when(
@@ -107,7 +108,8 @@ plot_overlap_comparison_graph2 <- function(gr, special_labels = NULL) {
             ),
             node_color = factor_multiple_node_colors(node_color)
         ) %>%
-        annotate_edges_with_clustering() %N>%
+        annotate_edges_with_clustering()  %E>%
+        mutate(edge_color = factor_multiple_node_colors(edge_color)) %N>%
         ggraph(layout = "kk") +
         geom_edge_link(
             aes(color = edge_color),

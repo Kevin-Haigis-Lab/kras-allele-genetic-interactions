@@ -127,6 +127,7 @@ panel_A <- wrap_elements(plot = panel_A) +
     theme_fig5()
 panel_A <- plot_spacer()
 
+
 #### ---- B. Lollipop of STK11 for G12C vs rest ---- ####
 # A table of the genes found to comutate and show differential dependency
 # with an allele.
