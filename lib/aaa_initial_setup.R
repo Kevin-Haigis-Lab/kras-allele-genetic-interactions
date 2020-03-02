@@ -1,5 +1,9 @@
 # Script that runs first from "lib/".
 
-# Declare the `select()` function from 'dplyr' to override that
-# from 'AnnotationDbi'.
-conflicted::conflict_prefer("select", "dplyr")
+#### ---- Conflicts ---- ####
+
+# Declare which namespaces to use for conflicting functions.
+
+conflict_prefer("select", "dplyr")
+conflict_prefer("filter", "dplyr")
+conflict_prefer("slice", "dplyr")
