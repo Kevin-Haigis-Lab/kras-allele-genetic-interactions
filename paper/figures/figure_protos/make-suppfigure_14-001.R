@@ -1,13 +1,12 @@
-# Supplemental Figure 14. #> BRIEF DESCRIPTION OF THE FIGURE.
+# Supplemental Figure 14. Analysis of the JNK and c-Jun dependencies in PAAD.
 
 FIGNUM <- 14
 SUPPLEMENTAL <- TRUE
 VERSION <- 1
 
-#> SET THE FIGURE DIMENSIONS
 FIG_DIMENSIONS <- get_figure_dimensions(2, "short")
 FIG_DIMENSIONS$height <- FIG_DIMENSIONS$height / 2
-FIG_DIMENSIONS$width <- FIG_DIMENSIONS$width * 0.75
+FIG_DIMENSIONS$width <- FIG_DIMENSIONS$width
 
 theme_figS14 <- function(tag_margin = margin(0, 0, 0, 0, "mm")) {
     theme_comutation() %+replace%
@@ -140,8 +139,8 @@ panel_C <- read_fig_proto("JUN_MAPK8_scatter.rds",
         full = (panel_B / panel_C)
     )
 
-    full_figure <- (col1 | col2) +
-        plot_layout(widths = c(9, 4))
+    full_figure <- (plot_spacer() | col1 | col2 | plot_spacer()) +
+        plot_layout(widths = c(1, 9, 4, 1))
 
     save_figure(
         full_figure,

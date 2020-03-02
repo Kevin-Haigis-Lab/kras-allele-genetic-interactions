@@ -303,14 +303,39 @@ fignum <- 14
 supp <- TRUE
 
 # JUN vs. MAPK8 gene effect
-JUN_MAPK8_scatter <- junpw_depmap %>%
+
+JUN_MAPK8_df <- junpw_depmap %>%
     filter(hugo_symbol %in% c("JUN", "MAPK8")) %>%
     select(dep_map_id, allele, hugo_symbol, gene_effect, rna_expression) %>%
     pivot_wider(c(dep_map_id, allele),
                 names_from = hugo_symbol,
-                values_from = c(rna_expression, gene_effect)) %>%
+                values_from = c(rna_expression, gene_effect))
+
+jun_mapk8_fit <- lm(gene_effect_MAPK8 ~ gene_effect_JUN, data = JUN_MAPK8_df)
+summary(jun_mapk8_fit)
+
+fit_x <- round(coef(jun_mapk8_fit)[[2]], 3)
+fit_b <- round(coef(jun_mapk8_fit)[[1]], 3)
+
+jun_mapk8_model_df <- tibble(
+    x = -0.62,
+    y = c(0.52, 0.49, 0.46),
+    label = c(
+        glue("*y* = {fit_x}*x* + {fit_b}"),
+        glue("p-value: {round(glance(jun_mapk8_fit)$p.value, 3)}"),
+        glue("*R*<sup>2</sup>: {round(glance(jun_mapk8_fit)$r.squared, 2)}")
+    )
+)
+
+JUN_MAPK8_scatter <- JUN_MAPK8_df %>%
     ggplot(aes(x = gene_effect_JUN, gene_effect_MAPK8)) +
+    geom_smooth(method = "lm", color = "grey25", size = 0.8, linetype = 2) +
     geom_point(aes(color = allele)) +
+    geom_richtext(aes(x = x, y = y, label = label),
+                  data = jun_mapk8_model_df,
+                  size = 2.3, family = "arial", hjust = 0,
+                  fill = NA, label.color = NA,
+                  label.padding = grid::unit(rep(0, 4), "pt")) +
     scale_color_manual(values = short_allele_pal) +
     scale_shape_manual(values = c(17, 16)) +
     scale_size_manual(values = c(1, 2, 3)) +
