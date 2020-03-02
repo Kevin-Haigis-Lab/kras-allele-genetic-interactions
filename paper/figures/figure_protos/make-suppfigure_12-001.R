@@ -49,7 +49,7 @@ panel_A <- read_fig_proto("genetic_interaction_network_PAAD",
             title.position = "top",
             keywidth = unit(2, "mm"),
             keyheight = unit(1, "mm"),
-            nrow = 1,
+            nrow = 2,
             label.position = "top",
             order = 1
         )
@@ -57,18 +57,12 @@ panel_A <- read_fig_proto("genetic_interaction_network_PAAD",
     scale_color_manual(
         values = short_allele_pal,
         na.value = NA,
-        guide = guide_legend(
-            title = NULL,
-            keywidth = unit(2, "mm"),
-            keyheight = unit(3, "mm"),
-            nrow = 3,
-            order = 2
-        )
+        guide = FALSE
     ) +
     theme_graph_figS12() +
     theme(
         legend.spacing.x = unit(1, "mm"),
-        legend.position = "bottom",
+        legend.position = c(0.05, 0.1),
         legend.box = "horizontal",
         legend.margin = margin(-6, 0, 0, 0, "mm")
     )
@@ -90,8 +84,10 @@ panel_B <- read_fig_proto(
     theme_graph_figS12() +
     theme(
         legend.position = "bottom",
-        legend.margin = margin(-2, 0, 2, 0, "mm")
-    )
+        legend.margin = margin(-2, 0, 2, 0, "mm"),
+        legend.title = element_markdown()
+    ) +
+    labs(edge_width = "-*log*(p-value)")
 
 panel_B <- wrap_elements(full = panel_B) +
     labs(tag = "b") +
@@ -113,10 +109,11 @@ panel_C <- read_fig_proto(
     theme(
         legend.position = "none",
         axis.title.x = element_blank(),
+        axis.title.y = element_markdown(),
         axis.text.x = element_text(angle = 60, hjust = 1),
         strip.text = element_text(face = "bold")
     ) +
-    labs(tag = "c")
+    labs(tag = "c", y = "*log*(OR)")
 
 
 
@@ -139,6 +136,7 @@ panel_D <- read_fig_proto("enrichr_PAAD.rds", FIGNUM, supp = SUPPLEMENTAL) +
     ) +
     scale_alpha_continuous(
         range = c(0.1, 1),
+        breaks = c(2, 4, 6, 8),
         guide = guide_legend(title.position = "top",
                              title.hjust = 0.5,
                              label.position = "top",
@@ -153,11 +151,12 @@ panel_D <- read_fig_proto("enrichr_PAAD.rds", FIGNUM, supp = SUPPLEMENTAL) +
         legend.position = "bottom",
         axis.title = element_blank(),
         plot.title = element_blank(),
-        legend.box = "horizontal"
+        legend.box = "horizontal",
+        legend.title = element_markdown(),
     ) +
     labs(
         tag = "d",
-        size = expression(-italic("log")[10] ( "adj. p-value" )),
+        size = "-*log*<sub>10</sub>(adj. p-value)",
         alpha = "num. of genes"
     )
 
