@@ -30,6 +30,7 @@ make_gray_pal <- function(max_ct, start = 0.8, end = 0.5) {
     return(pal)
 }
 
+
 make_brown_pal <- function(max_ct) {
     pal <- colorRampPalette(c("burlywood2", "burlywood4"))(max_ct)
     names(pal) <- paste(seq(2, max_ct), "alleles", sep = " ")
@@ -95,9 +96,11 @@ annotate_edges_with_clustering <- function(gr) {
 
 plot_overlap_comparison_graph2 <- function(gr, special_labels = NULL) {
     max_ct <- max(str_count(igraph::V(gr)$allele, ",")) + 1
-    pal <- c(short_allele_pal[names(short_allele_pal) %in% igraph::V(gr)$allele],
-             "special" = "indianred1",
-             make_brown_pal(max_ct))
+    pal <- c(
+        short_allele_pal[names(short_allele_pal) %in% igraph::V(gr)$allele],
+        "special" = "indianred1",
+        make_brown_pal(max_ct)
+    )
 
     p <- gr %>%
         mutate(
@@ -140,6 +143,7 @@ plot_overlap_comparison_graph2 <- function(gr, special_labels = NULL) {
     return(p)
 }
 
+
 print_node_names <- function(gr) {
     # cat(igraph::V(gr)$name, sep = "\n")
     return(gr)
@@ -168,9 +172,11 @@ make_overlap_comparison_graph <- function(df) {
 
 special_nodes <- c("KRAS", "BRAF", "NRAS", "PIK3CA", "APC", "TP53")
 genes_to_ignore <- c("TTN")
-
-coad_overlap_comparison_plot <- tibble(cancer = c("COAD", "COAD", "COAD"),
-       allele = c("G12D", "G12V", "G13D")) %>%
+set.seed(0)
+coad_overlap_comparison_plot <- tibble(
+        cancer = c("COAD", "COAD", "COAD"),
+        allele = c("G12D", "G12V", "G13D")
+    ) %>%
     mutate(
         ppi = purrr::map2(cancer, allele,
                           get_overlapped_gr,
