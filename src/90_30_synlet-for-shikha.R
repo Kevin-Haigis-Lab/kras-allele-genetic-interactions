@@ -8,7 +8,7 @@
 GRAPHS_DIR <- "90_30_synlet-for-shikha"
 reset_graph_directory(GRAPHS_DIR)
 
-TABLES_DIR <- "90_30_synlet-for-shikha"
+TABLES_DIR <- GRAPHS_DIR
 reset_table_directory(TABLES_DIR)
 
 
@@ -108,7 +108,7 @@ boxplot_allele_vs_other <- function(df, test_allele) {
         geom_hline(yintercept = 0, size = 0.5, linetype = 2) +
         scale_color_manual(values = pal) +
         scale_fill_manual(values = pal, guide = FALSE) +
-        theme_classic(base_size = 7, base_family = "Arial") +
+        theme_classic(base_size = 7, base_family = "arial") +
         theme(
             axis.title.x = element_blank(),
             strip.background = element_blank()
@@ -129,12 +129,16 @@ boxplot_synlet_results <- function(pval_col, ttest_res_col, test_allele, save_na
         ) %>%
         select(hugo_symbol, data) %>%
         unnest(data) %>%
-        boxplot_allele_vs_other(test_allele = test_allele) %>%
+        boxplot_allele_vs_other(test_allele = test_allele) %T>%
         ggsave_wrapper(
             plot_path(GRAPHS_DIR, save_name),
             width = 12, height = 12
+        ) %>%
+        ggsave_wrapper(
+            paste0(file_sans_ext(plot_path(GRAPHS_DIR, save_name)), ".pdf"),
+            width = 12, height = 12,
+            device = cairo_pdf
         )
-
 }
 
 boxplot_synlet_results(kras_vs_wt_pval, kras_vs_wt,
