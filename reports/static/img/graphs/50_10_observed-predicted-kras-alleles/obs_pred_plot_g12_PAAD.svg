@@ -52,10 +52,10 @@
 <line x1='109.74' y1='249.96' x2='109.74' y2='219.01' style='stroke-width: 1.07; stroke: #AF5FE4; stroke-opacity: 0.30; stroke-linecap: butt;' clip-path='url(#cpMjYuMDV8Mjg0LjAxfDI2NC44MHwxNy4wNg==)' />
 <line x1='185.98' y1='185.17' x2='185.98' y2='21.92' style='stroke-width: 1.07; stroke: #F8D147; stroke-opacity: 0.30; stroke-linecap: butt;' clip-path='url(#cpMjYuMDV8Mjg0LjAxfDI2NC44MHwxNy4wNg==)' />
 <line x1='26.05' y1='264.80' x2='284.01' y2='17.06' style='stroke-width: 1.07; stroke-linecap: butt;' clip-path='url(#cpMjYuMDV8Mjg0LjAxfDI2NC44MHwxNy4wNg==)' />
-<g clip-path='url(#cpMjYuMDV8Mjg0LjAxfDI2NC44MHwxNy4wNg==)'><text x='36.28' y='168.96' style='font-size: 7.11px; fill: #404040; font-family: Arial;' textLength='18.57px' lengthAdjust='spacingAndGlyphs'>G12C</text></g>
-<g clip-path='url(#cpMjYuMDV8Mjg0LjAxfDI2NC44MHwxNy4wNg==)'><text x='205.45' y='121.09' style='font-size: 7.11px; fill: #404040; font-family: Arial;' textLength='18.57px' lengthAdjust='spacingAndGlyphs'>G12D</text></g>
-<g clip-path='url(#cpMjYuMDV8Mjg0LjAxfDI2NC44MHwxNy4wNg==)'><text x='106.91' y='229.16' style='font-size: 7.11px; fill: #404040; font-family: Arial;' textLength='18.57px' lengthAdjust='spacingAndGlyphs'>G12R</text></g>
-<g clip-path='url(#cpMjYuMDV8Mjg0LjAxfDI2NC44MHwxNy4wNg==)'><text x='183.35' y='95.72' style='font-size: 7.11px; fill: #404040; font-family: Arial;' textLength='18.18px' lengthAdjust='spacingAndGlyphs'>G12V</text></g>
+<g clip-path='url(#cpMjYuMDV8Mjg0LjAxfDI2NC44MHwxNy4wNg==)'><text x='36.28' y='168.43' style='font-size: 5.69px; fill: #404040; font-family: Arial;' textLength='14.86px' lengthAdjust='spacingAndGlyphs'>G12C</text></g>
+<g clip-path='url(#cpMjYuMDV8Mjg0LjAxfDI2NC44MHwxNy4wNg==)'><text x='207.85' y='120.03' style='font-size: 5.69px; fill: #404040; font-family: Arial;' textLength='14.86px' lengthAdjust='spacingAndGlyphs'>G12D</text></g>
+<g clip-path='url(#cpMjYuMDV8Mjg0LjAxfDI2NC44MHwxNy4wNg==)'><text x='108.23' y='229.13' style='font-size: 5.69px; fill: #404040; font-family: Arial;' textLength='14.86px' lengthAdjust='spacingAndGlyphs'>G12R</text></g>
+<g clip-path='url(#cpMjYuMDV8Mjg0LjAxfDI2NC44MHwxNy4wNg==)'><text x='184.64' y='95.74' style='font-size: 5.69px; fill: #404040; font-family: Arial;' textLength='14.54px' lengthAdjust='spacingAndGlyphs'>G12V</text></g>
 <rect x='26.05' y='17.06' width='257.97' height='247.73' style='stroke-width: 0.78; stroke: #333333;' clip-path='url(#cpMjYuMDV8Mjg0LjAxfDI2NC44MHwxNy4wNg==)' />
 <defs>
   <clipPath id='cpMC4wMHwyODguMDB8Mjg4LjAwfDAuMDA='>
@@ -86,7 +86,7 @@
 <g clip-path='url(#cpMC4wMHwyODguMDB8Mjg4LjAwfDAuMDA=)'><text x='161.68' y='273.05' style='font-size: 6.40px; fill: #4D4D4D; font-family: Arial;' textLength='8.90px' lengthAdjust='spacingAndGlyphs'>0.3</text></g>
 <g clip-path='url(#cpMC4wMHwyODguMDB8Mjg4LjAwfDAuMDA=)'><text x='208.38' y='273.05' style='font-size: 6.40px; fill: #4D4D4D; font-family: Arial;' textLength='8.90px' lengthAdjust='spacingAndGlyphs'>0.4</text></g>
 <g clip-path='url(#cpMC4wMHwyODguMDB8Mjg4LjAwfDAuMDA=)'><text x='255.07' y='273.05' style='font-size: 6.40px; fill: #4D4D4D; font-family: Arial;' textLength='8.90px' lengthAdjust='spacingAndGlyphs'>0.5</text></g>
-<g clip-path='url(#cpMC4wMHwyODguMDB8Mjg4LjAwfDAuMDA=)'><text x='97.45' y='282.26' style='font-size: 8.00px; font-family: Arial;' textLength='115.16px' lengthAdjust='spacingAndGlyphs'>observed KRAS allele frequency</text></g>
-<g clip-path='url(#cpMC4wMHwyODguMDB8Mjg4LjAwfDAuMDA=)'><text transform='translate(9.81,198.51) rotate(-90)' style='font-size: 8.00px; font-family: Arial;' textLength='115.16px' lengthAdjust='spacingAndGlyphs'>predicted KRAS allele frequency</text></g>
+<g clip-path='url(#cpMC4wMHwyODguMDB8Mjg4LjAwfDAuMDA=)'><text x='119.90' y='282.26' style='font-size: 8.00px; font-family: Arial;' textLength='70.26px' lengthAdjust='spacingAndGlyphs'>observed frequency</text></g>
+<g clip-path='url(#cpMC4wMHwyODguMDB8Mjg4LjAwfDAuMDA=)'><text transform='translate(9.81,176.06) rotate(-90)' style='font-size: 8.00px; font-family: Arial;' textLength='70.26px' lengthAdjust='spacingAndGlyphs'>predicted frequency</text></g>
 <g clip-path='url(#cpMC4wMHwyODguMDB8Mjg4LjAwfDAuMDA=)'><text x='141.97' y='10.99' style='font-size: 9.60px; font-family: Arial;' textLength='26.12px' lengthAdjust='spacingAndGlyphs'>PAAD</text></g>
 </svg>

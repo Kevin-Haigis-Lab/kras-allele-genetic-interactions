@@ -40,9 +40,9 @@
 <line x1='97.98' y1='139.80' x2='97.98' y2='21.92' style='stroke-width: 1.07; stroke: #427FF5; stroke-opacity: 0.30; stroke-linecap: butt;' clip-path='url(#cpMjYuMDV8Mjg0LjAxfDI2NC44MHwxNy4wNg==)' />
 <line x1='68.75' y1='186.28' x2='68.75' y2='109.12' style='stroke-width: 1.07; stroke: #F8D147; stroke-opacity: 0.30; stroke-linecap: butt;' clip-path='url(#cpMjYuMDV8Mjg0LjAxfDI2NC44MHwxNy4wNg==)' />
 <line x1='26.05' y1='264.80' x2='284.01' y2='17.06' style='stroke-width: 1.07; stroke-linecap: butt;' clip-path='url(#cpMjYuMDV8Mjg0LjAxfDI2NC44MHwxNy4wNg==)' />
-<g clip-path='url(#cpMjYuMDV8Mjg0LjAxfDI2NC44MHwxNy4wNg==)'><text x='59.37' y='173.91' style='font-size: 7.11px; fill: #404040; font-family: Arial;' textLength='18.18px' lengthAdjust='spacingAndGlyphs'>G12A</text></g>
-<g clip-path='url(#cpMjYuMDV8Mjg0LjAxfDI2NC44MHwxNy4wNg==)'><text x='82.23' y='87.10' style='font-size: 7.11px; fill: #404040; font-family: Arial;' textLength='18.57px' lengthAdjust='spacingAndGlyphs'>G12D</text></g>
-<g clip-path='url(#cpMjYuMDV8Mjg0LjAxfDI2NC44MHwxNy4wNg==)'><text x='66.12' y='142.10' style='font-size: 7.11px; fill: #404040; font-family: Arial;' textLength='18.18px' lengthAdjust='spacingAndGlyphs'>G12V</text></g>
+<g clip-path='url(#cpMjYuMDV8Mjg0LjAxfDI2NC44MHwxNy4wNg==)'><text x='60.64' y='173.91' style='font-size: 5.69px; fill: #404040; font-family: Arial;' textLength='14.54px' lengthAdjust='spacingAndGlyphs'>G12A</text></g>
+<g clip-path='url(#cpMjYuMDV8Mjg0LjAxfDI2NC44MHwxNy4wNg==)'><text x='84.64' y='86.06' style='font-size: 5.69px; fill: #404040; font-family: Arial;' textLength='14.86px' lengthAdjust='spacingAndGlyphs'>G12D</text></g>
+<g clip-path='url(#cpMjYuMDV8Mjg0LjAxfDI2NC44MHwxNy4wNg==)'><text x='67.42' y='142.09' style='font-size: 5.69px; fill: #404040; font-family: Arial;' textLength='14.54px' lengthAdjust='spacingAndGlyphs'>G12V</text></g>
 <rect x='26.05' y='17.06' width='257.97' height='247.73' style='stroke-width: 0.78; stroke: #333333;' clip-path='url(#cpMjYuMDV8Mjg0LjAxfDI2NC44MHwxNy4wNg==)' />
 <defs>
   <clipPath id='cpMC4wMHwyODguMDB8Mjg4LjAwfDAuMDA='>
@@ -65,7 +65,7 @@
 <g clip-path='url(#cpMC4wMHwyODguMDB8Mjg4LjAwfDAuMDA=)'><text x='103.41' y='273.05' style='font-size: 6.40px; fill: #4D4D4D; font-family: Arial;' textLength='8.90px' lengthAdjust='spacingAndGlyphs'>0.2</text></g>
 <g clip-path='url(#cpMC4wMHwyODguMDB8Mjg4LjAwfDAuMDA=)'><text x='185.23' y='273.05' style='font-size: 6.40px; fill: #4D4D4D; font-family: Arial;' textLength='8.90px' lengthAdjust='spacingAndGlyphs'>0.4</text></g>
 <g clip-path='url(#cpMC4wMHwyODguMDB8Mjg4LjAwfDAuMDA=)'><text x='267.05' y='273.05' style='font-size: 6.40px; fill: #4D4D4D; font-family: Arial;' textLength='8.90px' lengthAdjust='spacingAndGlyphs'>0.6</text></g>
-<g clip-path='url(#cpMC4wMHwyODguMDB8Mjg4LjAwfDAuMDA=)'><text x='97.45' y='282.26' style='font-size: 8.00px; font-family: Arial;' textLength='115.16px' lengthAdjust='spacingAndGlyphs'>observed KRAS allele frequency</text></g>
-<g clip-path='url(#cpMC4wMHwyODguMDB8Mjg4LjAwfDAuMDA=)'><text transform='translate(9.81,198.51) rotate(-90)' style='font-size: 8.00px; font-family: Arial;' textLength='115.16px' lengthAdjust='spacingAndGlyphs'>predicted KRAS allele frequency</text></g>
+<g clip-path='url(#cpMC4wMHwyODguMDB8Mjg4LjAwfDAuMDA=)'><text x='119.90' y='282.26' style='font-size: 8.00px; font-family: Arial;' textLength='70.26px' lengthAdjust='spacingAndGlyphs'>observed frequency</text></g>
+<g clip-path='url(#cpMC4wMHwyODguMDB8Mjg4LjAwfDAuMDA=)'><text transform='translate(9.81,176.06) rotate(-90)' style='font-size: 8.00px; font-family: Arial;' textLength='70.26px' lengthAdjust='spacingAndGlyphs'>predicted frequency</text></g>
 <g clip-path='url(#cpMC4wMHwyODguMDB8Mjg4LjAwfDAuMDA=)'><text x='147.04' y='10.99' style='font-size: 9.60px; font-family: Arial;' textLength='15.98px' lengthAdjust='spacingAndGlyphs'>MM</text></g>
 </svg>
