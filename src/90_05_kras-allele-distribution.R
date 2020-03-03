@@ -65,11 +65,13 @@ get_factor_levels <- function(allele, freq) {
 # Make a bar plot for the distribution of the alleles.
 # Provide a value to `max_freq` to set the y-axis limit.
 make_allele_dist_barplot <- function(cancer, data,
-                                     max_freq = NA) {
+                                     max_freq = NA,
+                                     lvls = NULL) {
 
     data <- data %>% filter(ras_allele != "WT")
 
-    factor_levels <- get_factor_levels(data$ras_allele, data$allele_freq)
+    factor_levels <- unique(get_factor_levels(data$ras_allele, data$allele_freq))
+    if (!is.null(lvls)) factor_levels <- unique(lvls)
 
     p <- data %>%
         mutate(ras_allele = factor(ras_allele, levels = !!factor_levels)) %>%
@@ -80,7 +82,7 @@ make_allele_dist_barplot <- function(cancer, data,
             guide = FALSE) +
         scale_y_continuous(
             limits = c(0, max_freq),
-            expand = expand_scale(mult = c(0, 0.02)),
+            expand = expansion(mult = c(0, 0.02)),
             breaks = round_breaks()
         ) +
         theme_bw(base_size = 8, base_family = "Arial") +
@@ -160,6 +162,34 @@ ggsave_wrapper(
     width = 8, height = 4.5
 )
 
+
+barplots_facet <- make_allele_dist_barplot(cancer = "all",
+                                           data = allele_dist,
+                                           lvls = names(short_allele_pal)) +
+    facet_wrap(~ cancer, scales = "free_x", nrow = 2) +
+    scale_y_continuous(
+        expand = expansion(mult = c(0, 0.02)),
+        breaks = round_breaks(),
+        labels = function(x) ifelse(x == 0.0, "", x)
+    ) +
+    theme_bw(base_size = 8, base_family = "Arial") +
+    theme(
+        plot.title = element_blank(),
+        axis.title.x = element_markdown(),
+        axis.title.y = element_markdown(),
+        axis.ticks = element_blank(),
+        strip.background = element_blank(),
+        strip.text = element_text(face = "bold", size = 9)
+    ) +
+    labs(
+        y = "fraction of samples",
+        x = "*KRAS* alleles"
+    )
+ggsave_wrapper(
+    barplots_facet,
+    plot_path(GRAPHS_DIR, glue("allele_dist_barplot_all_facet.jpeg")),
+    width = 6.5, height = 3.5
+)
 
 
 plot_distribution_and_stacked <- function(cancer, data, with_extra_space = FALSE) {
@@ -453,7 +483,7 @@ cancer_incidence_plot <- cancer_incidence_df %>%
     ggplot(aes(x = cancer, y = incidence)) +
     geom_col(aes(fill = source), position = "dodge") +
     scale_fill_manual(values = incidence_source_pal) +
-    scale_y_continuous(expand = expand_scale(mult = c(0, 0.02))) +
+    scale_y_continuous(expand = expansion(mult = c(0, 0.02))) +
     theme_bw(base_size = 7, base_family = "Arial") +
     theme(
         plot.title = element_blank(),
@@ -478,7 +508,7 @@ cancer_incidence_stacked_plot <- cancer_incidence_df %>%
     ggplot(aes(x = source, y = incidence)) +
     geom_col(aes(fill = cancer), position = "stack") +
     scale_fill_manual(values = cancer_palette) +
-    scale_y_continuous(expand = expand_scale(mult = c(0, 0.02))) +
+    scale_y_continuous(expand = expansion(mult = c(0, 0.02))) +
     theme_bw(base_size = 7, base_family = "Arial") +
     theme(
         plot.title = element_blank(),
@@ -512,7 +542,7 @@ cancer_incidence_diff_plot <- cancer_incidence_df %>%
         na.value = "white"
     ) +
     scale_y_continuous(
-        expand = expand_scale(mult = c(0.02, 0.02))
+        expand = expansion(mult = c(0.02, 0.02))
     ) +
     theme_bw(base_size = 7, base_family = "Arial") +
     theme(
