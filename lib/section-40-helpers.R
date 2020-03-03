@@ -28,8 +28,10 @@ extract_pw <- function(pw, df) {
         mutate(
             g1_avg = purrr::map_dbl(group1, mean_gene_effect, data = df),
             g2_avg = purrr::map_dbl(group2, mean_gene_effect, data = df),
-            g1_other_avg = purrr::map_dbl(group1, mean_other_gene_effect, data = df),
-            g2_other_avg = purrr::map_dbl(group2, mean_other_gene_effect, data = df)
+            g1_other_avg = purrr::map_dbl(group1, mean_other_gene_effect,
+                                          data = df),
+            g2_other_avg = purrr::map_dbl(group2, mean_other_gene_effect,
+                                          data = df)
         )
     return(tidy_pw)
 }
