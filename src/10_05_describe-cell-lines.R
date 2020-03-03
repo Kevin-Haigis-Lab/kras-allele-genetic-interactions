@@ -1,7 +1,8 @@
 # Some descriptive plots for the cell lines used in DepMap project
 
-library(gtable)
-library(gridExtra)
+
+GRAPHS_DIR <- "10_05_describe-cell-lines"
+reset_graph_directory(GRAPHS_DIR)
 
 
 #### ---- Shared mutations ---- ####
@@ -12,10 +13,12 @@ cgc_genes <-  cosmic_cgc_df %>%
     filter(tier == 1) %>%
     u_pull(hugo_symbol)
 
+
 # The cancer and KRAS allele for each cell line.
 ccle_cancers <- model_data %>%
     select(dep_map_id, cancer, allele) %>%
     unique()
+
 
 # Mutation data to plot.
 mut_df <- ccle_mutations_coding %>%
@@ -23,15 +26,6 @@ mut_df <- ccle_mutations_coding %>%
     filter(hugo_symbol %in% !!cgc_genes) %>%
     inner_join(ccle_cancers, by = "dep_map_id") %>%
     filter(cancer != "MM" & hugo_symbol != "KRAS")
-
-# A place-holder for plotting.
-empty_grob <- ggplotGrob(
-    model_data  %>%
-    sample_n(10) %>%
-    ggplot(aes(x = dep_map_id, y = hugo_symbol)) +
-    geom_tile(fill = NA, color = NA) +
-    theme_void()
-)
 
 
 # Create a plot for each cancer.
@@ -56,7 +50,7 @@ for (CANCER in unique(mut_df$cancer)) {
         count(x) %>%
         ggplot(aes(x = x, y = n)) +
         geom_col(aes(alpha = n), fill = "dodgerblue4") +
-        scale_y_continuous(expand = expand_scale(mult = c(0, 0.02))) +
+        scale_y_continuous(expand = expansion(mult = c(0, 0.02))) +
         theme_classic(base_family = "Arial", base_size = 5) +
         theme(
             legend.position = 'none',
@@ -100,7 +94,7 @@ for (CANCER in unique(mut_df$cancer)) {
         count(y) %>%
         ggplot(aes(x = y, y = n)) +
         geom_col(aes(alpha = n), fill = "dodgerblue4") +
-        scale_y_continuous(expand = expand_scale(mult = c(0, 0.02))) +
+        scale_y_continuous(expand = expansion(mult = c(0, 0.02))) +
         theme_classic(base_family = "Arial", base_size = 5) +
         theme(
             legend.position = 'none',
@@ -131,40 +125,8 @@ for (CANCER in unique(mut_df$cancer)) {
             y = "cell line (DepMap ID)"
         )
 
-    ## The rest are concerned with plotting the above pieces in one plot.
-
-    col_bar_grob <- ggplotGrob(col_bar_plot)
-    mut_tile_grob <- ggplotGrob(mut_tile_plot)
-    row_bar_grob <- ggplotGrob(row_bar_plot)
-    kras_allele_grob <- ggplotGrob(kras_allele_plot)
-
-    layout_matrix <- rbind(
-        c(1, NA),
-        c(2, 3),
-        c(4, NA)
-    )
-
-    col_one_width <- grid::unit.pmax(col_bar_grob$widths[2:5], mut_tile_grob$widths[2:5], kras_allele_grob$widths[2:5])
-    col_bar_grob$widths[2:5] <- as.list(col_one_width)
-    mut_tile_grob$widths[2:5] <- as.list(col_one_width)
-    kras_allele_grob$widths[2:5] <- as.list(col_one_width)
-
-    row_two_height <- grid::unit.pmin(mut_tile_grob$heights, row_bar_grob$heights)
-    mut_tile_grob$heights <- as.list(row_two_height)
-    row_bar_grob$heights <- as.list(row_two_height)
-
-    mut_tile_grid_plot <- arrangeGrob(
-        grobs = list(col_bar_grob, mut_tile_grob, row_bar_grob, kras_allele_grob),
-        layout_matrix = layout_matrix,
-        heights = c(1, 5, ifelse(CANCER == "PAAD", 0.8, 0.6)),
-        widths = c(8, 1)
-    )
-
-
-    ## Saving the plot
-    
-    save_path <- plot_path("10_05_describe-cell-lines",
-                           glue("gcg-mutation-tile_{CANCER}.svg"))
+    # Saving the plot
+    save_path <- plot_path(GRAPHS_DIR, glue("gcg-mutation-tile_{CANCER}.svg"))
     save_width <- case_when(
         CANCER == "LUAD" ~ 8,
         CANCER == "PAAD" ~ 4,
@@ -176,6 +138,51 @@ for (CANCER in unique(mut_df$cancer)) {
         CANCER == "COAD" ~ 4
     )
 
-    ggsave_wrapper(mut_tile_grid_plot, save_path,
+    design <- "
+        11111##
+        2222233
+        2222233
+        2222233
+        2222233
+        2222233
+        2222233
+        44444##
+    "
+
+    widths <- c(10, 2)
+    mut_tile_patch <- (
+            ((col_bar_plot | plot_spacer()) + plot_layout(widths = widths)) /
+            ((mut_tile_plot | row_bar_plot) + plot_layout(widths = widths)) /
+            ((kras_allele_plot | plot_spacer()) + plot_layout(widths = widths))
+        ) +
+        plot_layout(heights = c(5, 20, 1))
+
+    ggsave_wrapper(mut_tile_patch, save_path,
                    width = save_width, height = save_height)
 }
+
+
+#### ---- Effect of KRAS KO ---- ####
+
+kras_gene_effect_boxplot <- model1_tib %>%
+    filter(hugo_symbol == "KRAS") %>%
+    select(hugo_symbol, cancer, data) %>%
+    unnest(data)  %>%
+    ggplot(aes(x = allele, y = gene_effect, color = allele)) +
+    facet_grid(~ cancer, scales = "free_x") +
+    geom_boxplot(outlier.shape = NA) +
+    geom_jitter(width = 0.2, size = 0.8) +
+    scale_color_manual(values = short_allele_pal) +
+    theme_bw(base_size = 7, base_family = "arial") +
+    theme(
+        legend.position = "none",
+        strip.background = element_blank(),
+        axis.title.y = element_markdown(),
+        axis.title.x = element_blank()
+    ) +
+    labs(y = "depletion effect of *KRAS* KO")
+ggsave_wrapper(
+    kras_gene_effect_boxplot,
+    plot_path(GRAPHS_DIR, "kras-gene-effect_all-cancers_boxpolot.svg"),
+    "wide"
+)
