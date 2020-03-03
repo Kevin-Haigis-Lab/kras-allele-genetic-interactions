@@ -27,7 +27,9 @@ decide_size <- function(size = NA, width = NA, height = NA) {
 }
 
 #' Save `ggplot` objects in a standardized fashion.
-ggsave_wrapper <- function(p, save_path, size = NA, width = NA, height = NA) {
+ggsave_wrapper <- function(p, save_path,
+                           size = NA, width = NA, height = NA,
+                           ...) {
     dims <- decide_size(size = size[[1]], width = width, height = height)
 
     if (tools::file_ext(save_path) != "svg") {
@@ -35,7 +37,8 @@ ggsave_wrapper <- function(p, save_path, size = NA, width = NA, height = NA) {
     }
 
     ggsave(filename = save_path, plot = p,
-           width = dims[[1]], height = dims[[2]])
+           width = dims[[1]], height = dims[[2]],
+           ...)
 }
 
 
