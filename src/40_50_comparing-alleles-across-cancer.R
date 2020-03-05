@@ -121,7 +121,7 @@ p <- model1_tib %>%
     theme_bw(base_size = 7, base_family = "arial")
 ggsave_wrapper(
     p,
-    plot_path(GRAPHS_DIR, "STED2_all-cancer_box.svg"),
+    plot_path(GRAPHS_DIR, "SETD2_all-cancer_box.svg"),
     "medium"
 )
 

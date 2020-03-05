@@ -52,8 +52,8 @@ null_connectivity_bar <- null_connectivity_dist %>%
     ggplot() +
     geom_bar(aes(x = '', fill = connectivity), position = "fill",
              alpha = 0.9) +
-    scale_y_discrete(expand = expand_scale(mult = c(0, 0))) +
-    scale_x_discrete(expand = expand_scale(mult = c(0, 0))) +
+    scale_y_discrete(expand = expansion(mult = c(0, 0))) +
+    scale_x_discrete(expand = expansion(mult = c(0, 0))) +
     theme_bw(base_size = 7, base_family = "Arial") +
     theme(
         plot.title = element_text(hjust = 0.5),
@@ -75,7 +75,7 @@ ggsave_wrapper(
 #### ---- Calculate  ---- ####
 
 
-measure_connectivity <- function(df, status = NULL, sample_at = 5e4) {
+measure_connectivity <- function(df, status = NULL, sample_at = 2e4) {
     if (!is.null(status)) { print(status) }
 
     res <- df %>%
@@ -156,8 +156,8 @@ comut_dep_connectivity_bars <- comut_dep_connectivity %>%
         width = 1.0
     ) +
     scale_fill_viridis_d(option = "magma", begin = 0.2, end = 1) +
-    scale_x_discrete(expand = expand_scale(mult = c(0, 0))) +
-    scale_y_continuous(expand = expand_scale(mult = c(0, 0))) +
+    scale_x_discrete(expand = expansion(mult = c(0, 0))) +
+    scale_y_continuous(expand = expansion(mult = c(0, 0))) +
     theme_bw(base_size = 7, base_family = "Arial") +
     theme(
         axis.title.x = element_blank(),
