@@ -118,7 +118,7 @@ allele_freq_barplot <- cancer_allele_count_df %>%
     scale_fill_viridis_c(guide = FALSE) +
     scale_y_continuous(
         breaks = c(5, 10, 50, 200, 500),
-        expand = expand_scale(mult = c(0, 0.05)),
+        expand = expansion(mult = c(0, 0.05)),
         trans = my_trans_log10
     ) +
     scale_x_discrete(expand = c(0, 0)) +
@@ -140,7 +140,7 @@ gene_freq_barplot <- mm_mut_df %>%
     scale_fill_viridis_c(guide = FALSE) +
     coord_flip() +
     scale_y_continuous(
-        expand = expand_scale(mult = c(0, 0.05))
+        expand = expansion(mult = c(0, 0.05))
     ) +
     scale_x_discrete(expand = c(0, 0)) +
     theme_bw(base_family = "Arial", base_size = 7) +

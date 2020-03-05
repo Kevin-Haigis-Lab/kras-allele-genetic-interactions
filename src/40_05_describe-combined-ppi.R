@@ -64,8 +64,8 @@ degree_distribution <- giant_combined_gr %N>%
     as_tibble() %>%
     ggplot(aes(x = log2(deg))) +
     geom_density(color = "black", fill = "grey50", alpha = 0.2) +
-    scale_x_continuous(expand = expand_scale(mult = c(0, 0))) +
-    scale_y_continuous(expand = expand_scale(mult = c(0, 0.02))) +
+    scale_x_continuous(expand = expansion(mult = c(0, 0))) +
+    scale_y_continuous(expand = expansion(mult = c(0, 0.02))) +
     theme_bw(base_size = 7, base_family = "Arial") +
     theme(
         plot.title = element_text(hjust = 0.5),

@@ -14,7 +14,7 @@ sig_results_barplot <- rc_test_results %>%
     facet_wrap(~cancer, scales = "free") +
     geom_bar(aes(fill = cancer)) +
     scale_fill_manual(values = cancer_palette, guide = FALSE) +
-    scale_y_continuous(expand = expand_scale(mult = c(0, 0.02))) +
+    scale_y_continuous(expand = expansion(mult = c(0, 0.02))) +
     theme_classic() +
     theme(
         text = element_text(family = "arial"),
@@ -38,7 +38,7 @@ sig_results_barplot_septest <- rc_test_results %>%
     geom_bar(aes(fill = rc_test_type), position = "dodge") +
     scale_fill_manual(
         values = comut_mutex_pal) +
-    scale_y_continuous(expand = expand_scale(mult = c(0, 0.02))) +
+    scale_y_continuous(expand = expansion(mult = c(0, 0.02))) +
     theme_classic() +
     theme(
         text = element_text(family = "arial"),

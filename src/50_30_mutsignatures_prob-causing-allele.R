@@ -159,7 +159,7 @@ plot_signature_probability <- function(cancer, signature, min_allele_num = 15) {
             guide = FALSE
         ) +
         scale_y_continuous(
-            expand = expand_scale(mult = c(0.01, 0.05))
+            expand = expansion(mult = c(0.01, 0.05))
         ) +
         theme_bw(
             base_size = 8,

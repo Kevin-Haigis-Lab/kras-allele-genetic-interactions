@@ -72,7 +72,7 @@ barplot_of_oncogene_comuts <- function(cancer, hugo_symbol,
         ggplot(aes(x = other_oncogene_muts, y = num)) +
         geom_col(aes(fill = has_interaction_allele), position = "dodge") +
         scale_fill_manual(values = c("grey60", "grey30")) +
-        scale_y_continuous(expand = expand_scale(mult = c(0, 0.02))) +
+        scale_y_continuous(expand = expansion(mult = c(0, 0.02))) +
         theme_bw(base_size = 7, base_family = "arial") +
         theme(
             plot.title = element_text(hjust = 0.5),

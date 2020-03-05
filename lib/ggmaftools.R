@@ -210,7 +210,7 @@ make_top_bar_plot <- function(variants_per_sample, sample_order) {
         geom_col(fill = "grey30") +
         scale_x_discrete(expand = c(0, 0)) +
         scale_y_continuous(
-            expand = expand_scale(mult = c(0, 0.02)),
+            expand = expansion(mult = c(0, 0.02)),
             breaks = integer_breaks(rm_vals = c(0))
         ) +
         theme_classic(
@@ -273,7 +273,7 @@ make_right_bar_plot <- function(variants_per_gene_long, maf, cohort_size, gene_o
             expand = c(0, 0)
         ) +
         scale_y_continuous(
-            expand = expand_scale(mult = c(0, 0.02)),
+            expand = expansion(mult = c(0, 0.02)),
             limits = c(0, max(total_variants_per_gene$total) * 1.2),
             breaks = integer_breaks(rm_vals = c(0))
         ) +

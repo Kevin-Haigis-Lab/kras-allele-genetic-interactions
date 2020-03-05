@@ -52,7 +52,7 @@ rc_pval_distribution <- rc_test_results %>%
     scale_color_manual(values = cancer_palette) +
     scale_fill_manual(values = cancer_palette) +
     scale_x_continuous(expand = c(0, 0)) +
-    scale_y_continuous(expand = expand_scale(mult = c(0, 0.02))) +
+    scale_y_continuous(expand = expansion(mult = c(0, 0.02))) +
     theme_bw(base_family = "Arial") +
     labs(
         x = "p-value",
@@ -71,7 +71,7 @@ fish_pval_distribution <- fisher_comut_df %>%
     scale_color_manual(values = cancer_palette) +
     scale_fill_manual(values = cancer_palette) +
     scale_x_continuous(expand = c(0, 0)) +
-    scale_y_continuous(expand = expand_scale(mult = c(0, 0.02))) +
+    scale_y_continuous(expand = expansion(mult = c(0, 0.02))) +
     theme_bw(base_family = "Arial") +
     labs(
         x = "p-value",
@@ -107,7 +107,7 @@ rc_fisher_comparison_barplot <- bind_rows(rc_summary, fisher_summary) %>%
     ggplot(aes(x = kras_allele, y = num_genes_per_type)) +
     facet_grid(cancer ~ test_type, scales = "free") +
     geom_col(aes(fill = test_name), position = "dodge") +
-    scale_y_continuous(expand = expand_scale(mult = c(0, 0.02))) +
+    scale_y_continuous(expand = expansion(mult = c(0, 0.02))) +
     scale_fill_manual(values = test_name_pal) +
     theme_classic() +
     theme(
@@ -159,7 +159,7 @@ rc_fisher_comparison_barplot_samenum <- bind_rows(
     ggplot(aes(x = kras_allele, y = num_genes_per_type)) +
     facet_grid(cancer ~ test_type, scales = "free") +
     geom_col(aes(fill = test_name), position = "dodge") +
-    scale_y_continuous(expand = expand_scale(mult = c(0, 0.02))) +
+    scale_y_continuous(expand = expansion(mult = c(0, 0.02))) +
     scale_fill_manual(values = test_name_pal) +
     theme_classic() +
     theme(
@@ -186,7 +186,7 @@ rc_fisher_comparison_barplot <- bind_rows(
     ggplot(aes(x = kras_allele, y = num_genes_per_type)) +
     facet_wrap(~ cancer, scales = "free", nrow = 2) +
     geom_col(aes(fill = test_type), position = "dodge") +
-    scale_y_continuous(expand = expand_scale(mult = c(0, 0.02))) +
+    scale_y_continuous(expand = expansion(mult = c(0, 0.02))) +
     scale_fill_manual(values = comut_mutex_pal) +
     theme_classic() +
     theme(
@@ -292,10 +292,10 @@ rc_mutations_distribition <- genetic_interaction_df %>%
         guide = guide_legend(label.position = "left", order = 1)
     ) +
     scale_x_continuous(
-        expand = expand_scale(mult = c(0.02, 0.02))
+        expand = expansion(mult = c(0.02, 0.02))
     ) +
     scale_y_continuous(
-        expand = expand_scale(mult = c(0.02, 0.02))
+        expand = expansion(mult = c(0.02, 0.02))
     ) +
     theme_bw(
         base_family = "Arial",

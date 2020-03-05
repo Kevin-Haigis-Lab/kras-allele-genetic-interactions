@@ -72,7 +72,7 @@ functional_enrichment_barplot <- function(cancer, data, genes_names_size = 3) {
         geom_text(aes(label = gene_cls),
                   hjust = 0.0, size = 3, family = "Arial", nudge_y = 0.01) +
         scale_fill_viridis_c() +
-        scale_y_continuous(expand = expand_scale(mult = c(0, 0.02))) +
+        scale_y_continuous(expand = expansion(mult = c(0, 0.02))) +
         theme_bw(base_family = "Arial", base_size = 9) +
         theme(
             axis.title.x = element_blank(),
@@ -144,7 +144,7 @@ enriched_group_effect_barplot <- function(cancer, term, gene_cls,
                       position = position_dodge2(width = 0.25, padding = 0.75)) +
         scale_fill_manual(values = short_allele_pal) +
         scale_color_manual(values = short_allele_pal) +
-        scale_y_continuous(expand = expand_scale(mult = c(0.02, 0.02))) +
+        scale_y_continuous(expand = expansion(mult = c(0.02, 0.02))) +
         theme_bw(base_family = "arial") +
         theme(
             axis.title.x = element_blank()

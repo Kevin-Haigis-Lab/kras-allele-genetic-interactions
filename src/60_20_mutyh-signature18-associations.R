@@ -22,8 +22,8 @@ plot_signature_density <- function(df) {
         geom_density(aes(color = cancer, fill = cancer), alpha = 0.7) +
         scale_fill_manual(values = cancer_palette, guide = FALSE) +
         scale_color_manual(values = cancer_palette, guide = FALSE) +
-        scale_y_continuous(expand = expand_scale(mult = c(0, 0.02))) +
-        scale_x_continuous(expand = expand_scale(mult = c(0, 0))) +
+        scale_y_continuous(expand = expansion(mult = c(0, 0.02))) +
+        scale_x_continuous(expand = expansion(mult = c(0, 0))) +
         theme_bw(base_size = 7, base_family = "Arial") +
         theme(
             strip.background = element_blank()
@@ -219,8 +219,8 @@ plot_classified_signature_density <- function(data, ...) {
             aes(color = classification, fill = classification),
             alpha = 0.7
         ) +
-        scale_y_continuous(expand = expand_scale(mult = c(0, 0.02))) +
-        scale_x_continuous(expand = expand_scale(mult = c(0, 0))) +
+        scale_y_continuous(expand = expansion(mult = c(0, 0.02))) +
+        scale_x_continuous(expand = expansion(mult = c(0, 0))) +
         theme_bw(base_size = 7, base_family = "Arial") +
         theme(
             strip.background = element_blank()

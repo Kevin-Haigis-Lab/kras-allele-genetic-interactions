@@ -42,10 +42,10 @@ mut_freq_hist <- unexprsd_genes_tib %>%
     scale_fill_manual(values = cancer_palette) +
     scale_color_manual(values = cancer_palette) +
     scale_x_continuous(
-        expand = expand_scale(mult = c(0, 0.02)),
+        expand = expansion(mult = c(0, 0.02)),
     ) +
     scale_y_continuous(
-        expand = expand_scale(mult = c(0, 0.02)),
+        expand = expansion(mult = c(0, 0.02)),
         breaks = c(10, 100, 1000, 10000, 40000)
     ) +
     coord_trans(y = my_trans_log10) +

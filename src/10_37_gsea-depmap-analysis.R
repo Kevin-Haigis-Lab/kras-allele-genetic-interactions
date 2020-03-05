@@ -490,7 +490,7 @@ plot_ranked_density <- function(df, cancer, allele, geneset, n_ranks) {
             limits = c(0, n_ranks),
             expand = c(0, 0)
         ) +
-        scale_y_continuous(expand = expand_scale(mult = c(0, 0.02))) +
+        scale_y_continuous(expand = expansion(mult = c(0, 0.02))) +
         theme_bw(base_size = 12, base_family = "Arial") +
         theme(
             axis.title = element_blank(),

@@ -205,7 +205,7 @@ stk11_scheme_plot <- stk11_scheme %>%
         aes(x = x, y = 0, label = domain),
         size = 2, family = "Arial", fontface = "bold"
     ) +
-    scale_x_continuous(expand = expand_scale(mult = c(0.01, 0.01))) +
+    scale_x_continuous(expand = expansion(mult = c(0.01, 0.01))) +
     scale_color_manual(values = stk11_pal, guide = FALSE) +
     theme_minimal(base_size = 7, base_family = "Arial") +
     theme(
@@ -236,10 +236,10 @@ stk11_g12c_lollipop <- stk11_mutations %>%
     scale_fill_manual(values = mod_variant_pal) +
     scale_x_continuous(
         limits = c(min(stk11_breaks), max(stk11_breaks)),
-        expand = expand_scale(mult = c(0.01, 0.01)),
+        expand = expansion(mult = c(0.01, 0.01)),
         breaks = stk11_breaks
     ) +
-    scale_y_continuous(expand = expand_scale(add = c(0, 0.15))) +
+    scale_y_continuous(expand = expansion(add = c(0, 0.15))) +
     theme_bw(base_size = 7, base_family = "Arial") +
     theme(
         axis.title.x = element_blank(),
@@ -270,11 +270,11 @@ stk11_rest_lollipop <- stk11_mutations %>%
     scale_fill_manual(values = mod_variant_pal) +
     scale_x_continuous(
         limits = c(min(stk11_breaks), max(stk11_breaks)),
-        expand = expand_scale(mult = c(0.01, 0.01)),
+        expand = expansion(mult = c(0.01, 0.01)),
         breaks = stk11_breaks
     ) +
     scale_y_continuous(
-        expand = expand_scale(add = c(0.15, 0)),
+        expand = expansion(add = c(0.15, 0)),
         labels = abs
     ) +
     theme_bw(base_size = 7, base_family = "Arial") +
