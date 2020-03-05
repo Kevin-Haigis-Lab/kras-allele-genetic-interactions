@@ -1,5 +1,8 @@
 # The overall distribution of dependencies of cell lines by KRAS allele.
 
+GRAPHS_DIR <- "10_45_overall-dependencies-by-allele"
+reset_graph_directory(GRAPHS_DIR)
+
 library(ggridges)
 
 #### ---- Ridges and Quantiles ---- ####
@@ -26,7 +29,7 @@ for (CANCER in unique(model_data$cancer)) {
         geom_density_ridges(aes(fill = allele), color = "white", alpha = 0.7) +
         scale_fill_manual(values = short_allele_pal) +
         scale_color_manual(values = short_allele_pal) +
-        scale_y_discrete(expand = expand_scale(mult = c(0.02, 0.02))) +
+        scale_y_discrete(expand = expansion(mult = c(0.02, 0.02))) +
         theme_bw(base_family = "Arial", base_size = 10) +
         theme(
             plot.title = element_text(hjust = 0.5),
@@ -64,9 +67,11 @@ for (CANCER in unique(model_data$cancer)) {
             title = glue("Quantiles of DepMap scores per KRAS allele in {CANCER}")
         )
 
-    cp <- cowplot::plot_grid(p1, p2, nrow = 1, align = "h")
+    patch <- p1 + p2
 
-    save_path <- plot_path("10_45_overall-dependencies-by-allele",
-                           glue("dependency-overview_{CANCER}.svg"))
-    cowplot::save_plot(save_path, cp, base_width = 10, base_height = 4)
+    ggsave_wrapper(
+        patch,
+        plot_path(GRAPHS_DIR, glue("dependency-overview_{CANCER}.svg")),
+        width = 10, height = 4
+    )
 }
