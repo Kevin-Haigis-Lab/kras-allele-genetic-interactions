@@ -55,35 +55,23 @@ panel_A <- read_fig_proto("comut_dep_overlap_tbl.rds", FIGNUM) %>%
         genetic_interaction = str_remove(genetic_interaction, "\\ncomut\\."),
         adj_p_value = scales::scientific(adj_p_value, digits = 3),
         p_val = scales::scientific(p_val, digits = 3)
-    ) %>%
-    as.data.frame() %>%
-    column_to_rownames("hugo_symbol") %>%
-    t()
+    )
 
-rownames(panel_A) <- c(
-    "cancer", "allele",
-    "dependency\ncomparison", "adj. p-value",
-    "comutation\ninteraction", "p-value"
+colnames(panel_A) <- c(
+    "Cancer", "Allele", "Gene",
+    "Dependency\ncomparison", "Adj. p-value",
+    "Comutation\ninteraction", "P-value"
 )
 
 core_fontface <- matrix("plain", nrow(panel_A), ncol(panel_A))
-# core_fontface[, 1:2] <- "bold"
-# core_fontface[, 3] <- "italic"
+core_fontface[, 1:2] <- "bold"
+core_fontface[, 3] <- "italic"
 
 ttheme_panel_A <- gridExtra::ttheme_default(
     colhead = list(
         fg_params = list(
             fontsize = 5,
-            fontface = "italic",
-            fontfamily = "Arial"
-        ),
-        bg_params = list(fill = "white"),
-        padding = unit(c(1, 1), "mm")
-    ),
-    rowhead = list(
-        fg_params = list(
-            fontsize = 5,
-            fontface = "italic",
+            fontface = "plain",
             fontfamily = "Arial"
         ),
         bg_params = list(fill = "white"),
@@ -101,7 +89,7 @@ ttheme_panel_A <- gridExtra::ttheme_default(
 )
 
 # Make into a table grob
-panel_A <- gridExtra::tableGrob(panel_A, theme = ttheme_panel_A)
+panel_A <- gridExtra::tableGrob(panel_A, rows = NULL, theme = ttheme_panel_A)
 
 # Add lines
 panel_A <- gtable::gtable_add_grob(
@@ -110,7 +98,7 @@ panel_A <- gtable::gtable_add_grob(
         x0 = unit(0, "npc"), x1 = unit(1, "npc"),
         y0 = unit(0, "npc"), y1 = unit(0, "npc")
     ),
-    t = 1, b = 1, l = 2, r = ncol(panel_A)
+    t = 1, b = 1, l = 1, r = ncol(panel_A)
 )
 panel_A <- gtable::gtable_add_grob(
     panel_A,
@@ -118,14 +106,14 @@ panel_A <- gtable::gtable_add_grob(
         x0 = unit(0, "npc"), x1 = unit(1, "npc"),
         y0 = unit(0, "npc"), y1 = unit(0, "npc")
     ),
-    t = nrow(panel_A), b = nrow(panel_A), l = 2, r = ncol(panel_A)
+    t = nrow(panel_A), b = nrow(panel_A), l = 1, r = ncol(panel_A)
 )
 
 # Wrap for patchwork
 panel_A <- wrap_elements(plot = panel_A) +
     labs(tag = "a") +
     theme_fig5()
-panel_A <- plot_spacer()
+
 
 
 #### ---- B. Lollipop of STK11 for G12C vs rest ---- ####
@@ -169,8 +157,6 @@ panel_B[[3]] <- panel_B[[3]] +
         legend.position = "bottom"
     )
 
-panel_B <- plot_spacer()
-
 
 #### ---- C. Connectivity of hits ---- ####
 # Bar plots of the overall connectivity of hits on the PPI.
@@ -203,7 +189,6 @@ panel_D <- read_fig_proto("coad_overlap_comparison_plot.rds", FIGNUM) +
         color = "allele",
         tag = "d"
     )
-
 
 
 #### ---- Figure assembly ---- ####
