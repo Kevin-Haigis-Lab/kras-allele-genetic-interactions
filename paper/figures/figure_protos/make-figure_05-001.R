@@ -140,10 +140,11 @@ panel_B[[2]] <- panel_B[[2]] +
     theme(
         legend.title = element_blank(),
         legend.key.size = unit(2, "mm"),
-        legend.position = "bottom",
+        legend.position = "none",
         axis.title = element_blank(),
         panel.grid = element_blank(),
-        axis.text = element_blank(),
+        axis.text.x = element_blank(),
+        axis.text.y = element_blank(),
         plot.margin = margin(-2, 0, -2, 0, "mm")
     )
 panel_B[[3]] <- panel_B[[3]] +
