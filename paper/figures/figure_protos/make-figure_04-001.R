@@ -278,12 +278,12 @@ panel_E[[1]] <- panel_E[[1]] + labs(tag = "e")
 # Two heatmaps showing the ranks of genes in the enriched genesets.
 # original script: "src/10_37_gsea-depmap-analysis.R"
 
-panel_F_density <- read_fig_proto("rankline_LUAD_G12C_BIOCARTA_ERK_PATHWAY",
+panel_F_density <- read_fig_proto("rankline_LUAD_G12C_BIOCARTA_P53HYPOXIA_PATHWAY",
                                   FIGNUM, supp = SUPPLEMENTAL) +
     theme_fig4_densityplots() +
-    labs(tag = "f", title = "Erk pathway")
+    labs(tag = "f", title = "p53 hypoxia pathway")
 
-panel_F <- read_fig_proto("rankplot_LUAD_G12C_BIOCARTA_ERK_PATHWAY",
+panel_F <- read_fig_proto("rankplot_LUAD_G12C_BIOCARTA_P53HYPOXIA_PATHWAY",
                           FIGNUM, supp = SUPPLEMENTAL) +
     theme_fig4() +
     theme(
@@ -393,7 +393,7 @@ panel_H_legend <- wrap_elements(plot = panel_H_legend) +
 # A large PPI composed of genes in cluster 4 of the heatmap (panel h).
 # original script: "src/10_15_linear-modeling-syn-let_ppi-subnetworks.R"
 
-panel_I <- read_fig_proto("LUAD_cluster-1_component-1",
+panel_I <- read_fig_proto("LUAD_cluster-4_component-1",
                           FIGNUM, supp = SUPPLEMENTAL) +
     theme_graph_comutation()
 
