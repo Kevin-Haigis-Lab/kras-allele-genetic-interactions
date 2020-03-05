@@ -106,6 +106,39 @@
     </item>
     
     <item>
+      <title>2020-03-04</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2020-03-04/</link>
+      <pubDate>Wed, 04 Mar 2020 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2020-03-04/</guid>
+      <description>
+
+&lt;h2 id=&#34;remove-g13d-from-the-synthetic-lethal-analysis-in-luad&#34;&gt;Remove G13D from the synthetic lethal analysis in LUAD&lt;/h2&gt;
+
+&lt;p&gt;Because of the realization that knocking out &lt;em&gt;KRAS&lt;/em&gt; in &lt;em&gt;KRAS&lt;/em&gt; G13D mutant LUAD cell lines had no greater effect than knocking out WT &lt;em&gt;KRAS&lt;/em&gt;, we decided to remove it from the analysis.
+Thus, it was removed in &amp;ldquo;src/10_10_linear-modeling-syn-let.R&amp;rdquo; and all downstream analysis were re-run.
+I also replaced the manual cluster assignment labels with the originals in &amp;ldquo;src/10_11_syn-let_heatmaps-boxplots.R&amp;rdquo;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;scripts &amp;lt;- c(
+    &amp;quot;10_10_linear-modeling-syn-let.R&amp;quot;,
+    &amp;quot;10_11_syn-let_heatmaps-boxplots.R&amp;quot;,
+    &amp;quot;10_13_linear-modeling-syn-let_fxnal-enrichment.R&amp;quot;,
+    &amp;quot;10_15_linear-modeling-syn-let_ppi-subnetworks.R&amp;quot;,
+    &amp;quot;10_17_linear-modeling-syn-let_specific-protein-types.R&amp;quot;
+)
+
+for (script in scripts) {
+    cat(glue(&amp;quot;Running {script}... &amp;quot;))
+    source(file.path(&amp;quot;src&amp;quot;, script))
+    cat(&amp;quot;done\n&amp;quot;)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Also, the cell lines were removed from the GSEA and the LUAD samples were re-run.
+I also adjusted the downstream analyses of these results to remove G13D cell lines in LUAD.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>2020-03-03</title>
       <link>https://project-notebook-comutation.netlify.com/post/2020-03-03/</link>
       <pubDate>Tue, 03 Mar 2020 00:00:00 +0000</pubDate>
