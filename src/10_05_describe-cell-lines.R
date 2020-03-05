@@ -167,7 +167,7 @@ for (CANCER in unique(mut_df$cancer)) {
 kras_gene_effect_boxplot <- model1_tib %>%
     filter(hugo_symbol == "KRAS") %>%
     select(hugo_symbol, cancer, data) %>%
-    unnest(data)  %>%
+    unnest(data) %>%
     ggplot(aes(x = allele, y = gene_effect, color = allele)) +
     facet_grid(~ cancer, scales = "free_x") +
     geom_boxplot(outlier.shape = NA) +
@@ -186,3 +186,34 @@ ggsave_wrapper(
     plot_path(GRAPHS_DIR, "kras-gene-effect_all-cancers_boxpolot.svg"),
     "wide"
 )
+
+
+summarise_mut_gene_effect <- model1_tib %>%
+    filter(hugo_symbol == "KRAS") %>%
+    select(hugo_symbol, cancer, data) %>%
+    unnest(data) %>%
+    filter(allele != "WT") %>%
+    filter(!(cancer == "LUAD" & allele == "G13D")) %>%
+    summarise(avg_gene_effect = mean(gene_effect),
+              stddev_gene_effect = sd(gene_effect))
+
+summarise_wt_gene_effect <- model1_tib %>%
+    filter(hugo_symbol == "KRAS") %>%
+    select(hugo_symbol, cancer, data) %>%
+    unnest(data) %>%
+    filter(allele == "WT") %>%
+    summarise(avg_gene_effect = mean(gene_effect),
+              stddev_gene_effect = sd(gene_effect))
+
+summarise_LUADG13D_gene_effect <- model_data %>%
+    filter(hugo_symbol == "KRAS") %>%
+    filter(cancer == "LUAD" & allele == "G13D") %>%
+    summarise(avg_gene_effect = mean(gene_effect),
+              stddev_gene_effect = sd(gene_effect))
+
+bind_rows(summarise_LUADG13D_gene_effect,
+          summarise_wt_gene_effect,
+          summarise_mut_gene_effect,) %>%
+    add_column(group = c("LUAD G13D", "all WT", "all other KRAS mutants")) %>%
+    select(group, everything()) %>%
+    knitr::kable()
