@@ -91,6 +91,7 @@ standardize_names <- function(x) {
         str_replace_all("_", " ")
 }
 
+
 gsea_plot <- function(tib, title_suffix = "") {
     p <- tib %>%
         ggplot() +
@@ -150,6 +151,7 @@ plot_gsea_results <- function(cancer, data) {
     }
 }
 
+
 gsea_df %>%
     filter(gene_set_family %in% c("HALLMARK", "KEGG", "REACTOME", "BIOCARTA", "PID")) %>%
     group_by(cancer) %>%
@@ -176,11 +178,10 @@ select_gsea_results <- tibble::tribble(
     "LUAD", "REACTOME", "Hdr through homologous recombination hrr", "HDR through homologous recombination",
     "LUAD", "REACTOME", "Fanconi anemia pathway", "Fanconi anemia pathway",
     "LUAD", "REACTOME", "Eukaryotic translation initiation", "Eukaryotic translation initiation",
-    "LUAD", "BIOCARTA", "Erk pathway", "ERK pathway",
-    "LUAD", "BIOCARTA", "Nkt pathway", "NKT pathway",
+    "LUAD", "REACTOME", "Selenoamino acid metabolism", "Selenoamino acid metabolism",
+    "LUAD", "BIOCARTA", "P53hypoxia pathway", "p53 hypoxia pathway",
     "LUAD", "PID", "Fanconi pathway", "Fanconi pathway",
     "LUAD", "PID", "Bard1 pathway", "BARD1 pathway",
-    "LUAD", "KEGG", "Beta alanine metabolism", "β-alanine metabolism",
 
     "PAAD", "REACTOME", "Jnk c jun kinases phosphorylation and activation mediated by activated human tak1", "JNK phosphorylation and activation by activated TAK1",
     "PAAD", "REACTOME", "G alpha 12 13 signalling events", "G alpha (12/13) signalling events",
@@ -409,6 +410,7 @@ plot_enrichment_heatmap <- function(cancer, name, allele, n_genes = 10, ...) {
 
     genes_to_plot <- get_genes_to_plot(genes_to_plot, cancer, n_genes)
     model_data %>%
+        filter(!(cancer == "LUAD" & allele == "G13D")) %>%
         filter(cancer == !!cancer & hugo_symbol %in% !!genes_to_plot) %>%
         mutate(hugo_symbol = factor(hugo_symbol, levels = genes_to_plot)) %>%
         rank_depmap_data() %>%
@@ -520,6 +522,7 @@ plot_enrichment_bar <- function(cancer, name, allele, n_genes = 10, ...) {
     genes_to_plot <- get_genes_to_plot(genes_to_plot, cancer, n_genes)
 
     model_data %>%
+        filter(!(cancer == "LUAD" & allele == "G13D")) %>%
         filter(cancer == !!cancer & hugo_symbol %in% !!genes_to_plot) %>%
         mutate(hugo_symbol = factor(hugo_symbol, levels = genes_to_plot)) %>%
         rank_depmap_data() %>%
@@ -541,6 +544,7 @@ plot_enrichment_density <- function(cancer, name, allele, n_genes = 10, ...) {
     genes_to_plot <- get_genes_to_plot(genes_to_plot, cancer, n_genes)
 
     dat <- model_data %>%
+        filter(!(cancer == "LUAD" & allele == "G13D")) %>%
         filter(cancer == !!cancer & hugo_symbol %in% !!genes_to_plot) %>%
         mutate(hugo_symbol = factor(hugo_symbol, levels = genes_to_plot))
     dat %>%
@@ -548,6 +552,7 @@ plot_enrichment_density <- function(cancer, name, allele, n_genes = 10, ...) {
         plot_ranked_density(cancer = cancer, allele = allele, geneset = name,
                             n_ranks = n_distinct(dat$dep_map_id))
 }
+
 
 gsea_df %>%
     standard_gsea_results_filter() %T>%
