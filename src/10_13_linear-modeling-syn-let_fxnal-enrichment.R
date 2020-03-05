@@ -19,7 +19,7 @@ cluster_terms <- depmap_gene_clusters %>%
     filter(adjusted_p_value < 0.2 & n_genes > 2) %>%
     mutate(datasource_hr = unlist(mapping_datasource_names[datasource]))
 
-cache("cluster_terms", depends = "model1_tib")
+ProjectTemplate::cache("cluster_terms", depends = "model1_tib")
 
 
 # Write the enrichment results to file.

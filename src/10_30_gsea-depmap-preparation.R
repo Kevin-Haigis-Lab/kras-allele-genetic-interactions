@@ -87,6 +87,7 @@ make_gsea_input_files <- function(cancer, allele, data) {
 
 allele_cancer_tib <- model_data %>%
     filter(cancer != "MM") %>%
+    filter(!(cancer == "LUAD" & allele == "G13D")) %>%
     select(cancer, allele) %>%
     unique() %>%
     pwalk(make_gsea_input_files, data = model_data)

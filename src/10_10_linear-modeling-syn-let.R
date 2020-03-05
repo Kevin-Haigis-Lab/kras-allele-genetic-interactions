@@ -108,6 +108,7 @@ pairwise_wrapper <- function(data, rna_pvalue, scale_gene_effect = FALSE, ...) {
 # conduct the first modeling attempt
 model1_tib <- model_data %>%
     filter(!cancer %in% c("MM", "SKCM")) %>%
+    filter(!(cancer == "LUAD" & allele == "G13D")) %>%
     group_by(cancer, hugo_symbol) %>%
     nest() %>%
     mutate(data = purrr::map2(data, hugo_symbol, lm1_prepare_data)) %>%
@@ -120,7 +121,7 @@ model1_tib <- model_data %>%
     )
 
 info(logger, "Caching results of model 1.")
-cache("model1_tib")
+ProjectTemplate::cache("model1_tib")
 
 
 
@@ -144,4 +145,4 @@ rnai_model1_tib <- rnai_model_data %>%
     )
 
 info(logger, "Caching results of RNAi model 1.")
-cache("rnai_model1_tib")
+ProjectTemplate::cache("rnai_model1_tib")

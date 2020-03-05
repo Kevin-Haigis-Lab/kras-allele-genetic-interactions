@@ -294,10 +294,10 @@ cluster_number_map <- list(
     ),
     LUAD = tibble::tribble(
         ~default_cluster, ~cluster,
-        1, 4,
-        2, 2,
-        3, 1,
-        4, 3,
+        1, 2,
+        2, 3,
+        3, 4,
+        4, 1,
     ),
     PAAD = tibble::tribble(
         ~default_cluster, ~cluster,

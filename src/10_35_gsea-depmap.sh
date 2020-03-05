@@ -47,7 +47,7 @@ java -cp $GSEA_PATH \
 	-create_svgs true \
 	-make_sets true \
 	-plot_top_x 100 \
-	-rnd_seed timestamp \
+	-rnd_seed 23 \
 	-set_max 500 \
 	-set_min 15 \
 	-zip_report false \
