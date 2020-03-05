@@ -65,7 +65,7 @@ adjust_oncoplot_theme <- function(
     # Right bar plot
     pw[[3]] <- pw[[3]] +
         scale_y_continuous(
-            expand = expand_scale(mult = c(0, 0.08)),
+            expand = expansion(mult = c(0, 0.08)),
             limits = right_bar_limits,
             breaks = right_bar_breaks
         ) +
