@@ -31,6 +31,8 @@ comut_dep_overlap_tbl <- depmap_gene_clusters_pairwise_df %>%
            comparison, adj_p_value,
            genetic_interaction, p_val)
 
+knitr::kable(comut_dep_overlap_tbl)
+
 saveRDS(
     comut_dep_overlap_tbl,
     get_fig_proto_path("comut_dep_overlap_tbl.rds", 5)
