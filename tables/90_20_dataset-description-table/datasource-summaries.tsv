@@ -1,81 +1,81 @@
-cancer	dataset	target	num_cancer_samples	unique_genes_detected	types_of_mutations
-COAD	dfci_2016	exome	616	17602	missense_mutation, frame_shift_ins, frame_shift_del, 3'utr, intron, in_frame_del, 5'utr, 5'flank, silent, 3'flank, splice_site, nonstop_mutation, nonsense_mutation, in_frame_ins, translation_start_site, splice_region, rna
-COAD	JHU	JHU_50GP_V2	560	49	splice_site, missense_mutation, frame_shift_del, nonsense_mutation, silent, intron, in_frame_del, frame_shift_ins, splice_region, 3'utr, in_frame_ins
-COAD	tcga_2018	exome	527	19768	missense_mutation, silent, splice_region, 3'utr, translation_start_site, nonsense_mutation, 5'utr, in_frame_del, intron, rna, splice_site, frame_shift_del, 5'flank, in_frame_ins, 3'flank, frame_shift_ins, nonstop_mutation
-COAD	DFCI	DFCI_ONCOPANEL_2	507	308	missense_mutation, nonsense_mutation, frame_shift_del, intron, frame_shift_ins, splice_region, 3'utr, 5'flank, splice_site, silent, in_frame_del, in_frame_ins, 5'utr, nonstop_mutation, 3'flank, translation_start_site
-COAD	MSK	MSK_IMPACT468	475	456	missense_mutation, frame_shift_del, frame_shift_ins, in_frame_del, nonsense_mutation, 3'utr, splice_site, intron, in_frame_ins, translation_start_site, 5'flank, splice_region, 3'flank, 5'utr, silent, nonstop_mutation
-COAD	MSK	MSK_IMPACT410	458	403	missense_mutation, nonsense_mutation, frame_shift_del, in_frame_del, frame_shift_ins, splice_site, intron, 5'flank, in_frame_ins, translation_start_site, 5'utr, nonstop_mutation, silent, splice_region, 3'utr, 3'flank
-COAD	DFCI	DFCI_ONCOPANEL_3	423	451	missense_mutation, in_frame_del, frame_shift_ins, frame_shift_del, nonsense_mutation, intron, 3'utr, in_frame_ins, splice_site, splice_region, 5'utr, silent, 5'flank, 3'flank, translation_start_site, nonstop_mutation, rna
-COAD	coca_cn	exome	291	24047	intronic, missense_mutation, inframe_insertion, 3utr, silent, 3flank, frameshift_insertion, rna, inframe_deletion, frameshift_deletion, 5flank, igr, flank, 5utr, nonsense_mutation, splice_site, nonstop_mutation, unknown, utr
-COAD	MDA	MDA_50_V1	169	28	missense_mutation, nonsense_mutation, splice_site, frame_shift_del, frame_shift_ins, in_frame_del
-COAD	MDA	MDA_46_V1	153	27	missense_mutation, nonsense_mutation, frame_shift_del
-COAD	UHN	UHN_48_V1	144	32	frame_shift_del, silent, missense_mutation, splice_region, intron, nonsense_mutation, frame_shift_ins, splice_site, in_frame_del, 3'utr
-COAD	DFCI	DFCI_ONCOPANEL_1	106	181	missense_mutation, nonsense_mutation, splice_site, frame_shift_ins, translation_start_site, frame_shift_del, in_frame_del, in_frame_ins, intron
-COAD	MSK	MSK_IMPACT341	102	232	missense_mutation, nonsense_mutation, frame_shift_del, frame_shift_ins, splice_site, in_frame_del, 5'flank, in_frame_ins, intron, 5'utr
-COAD	VICC	VICC_01_T7	86	242	missense_mutation, nonsense_mutation, frame_shift_ins, in_frame_del, frame_shift_del, in_frame_ins, splice_site, intron, silent, 5'flank, 5'utr, 3'utr, 3'flank, translation_start_site
-COAD	genentech	exome	72	13026	missense_mutation, nonsense_mutation, splice_site, 3'utr, rna, 5'utr, splice_region, intron, nonstop_mutation, 5'flank, translation_start_site, 3'flank, silent, frame_shift_del, frame_shift_ins
-COAD	NKI	NKI_TSACP_MISEQ_NGS	62	21	missense_mutation, frame_shift_ins, splice_site, nonsense_mutation, frame_shift_del, in_frame_del
-COAD	coca_cn	genome	30	20735	igr, intronic, 3flank, rna, missense_mutation, 5flank, 3utr, silent, flank, 5utr, nonsense_mutation, splice_site, nonstop_mutation, unknown, utr
-COAD	MDA	MDA_409_V1	27	76	nonsense_mutation, missense_mutation, frame_shift_del, in_frame_del, frame_shift_ins, splice_site
-COAD	VICC	VICC_01_T5A	22	103	frame_shift_ins, missense_mutation, nonsense_mutation, frame_shift_del, in_frame_del, 5'utr, in_frame_ins, splice_site, silent
-COAD	WAKE	WAKE_CLINICAL_T7	22	66	missense_mutation, nonsense_mutation, splice_site, splice_region
-COAD	VICC	VICC_01_SOLIDTUMOR	11	18	intron, missense_mutation, silent, splice_site, splice_region, 3'utr, frame_shift_del, frame_shift_ins
-COAD	GRCC	GRCC_MOSC3	2	3	missense_mutation
-LUAD	JHU	JHU_50GP_V2	894	50	missense_mutation, nonsense_mutation, splice_site, frame_shift_del, intron, 3'utr, in_frame_del, silent, frame_shift_ins, splice_region, in_frame_ins, 5'utr
-LUAD	MSK	MSK_IMPACT468	756	458	frame_shift_del, splice_site, missense_mutation, nonsense_mutation, in_frame_del, frame_shift_ins, nonstop_mutation, translation_start_site, in_frame_ins, 5'flank, intron, 5'utr, silent, 3'flank
-LUAD	MSK	MSK_IMPACT410	700	390	5'flank, missense_mutation, splice_site, frame_shift_ins, nonsense_mutation, frame_shift_del, in_frame_del, in_frame_ins, 5'utr, translation_start_site, nonstop_mutation, 3'flank, intron, 3'utr
-LUAD	DFCI	DFCI_ONCOPANEL_2	586	305	missense_mutation, frame_shift_ins, intron, nonsense_mutation, splice_region, frame_shift_del, in_frame_del, splice_site, 5'flank, in_frame_ins, 3'utr, silent, translation_start_site, 5'utr, 3'flank, nonstop_mutation
-LUAD	tcga_2018	exome	560	18903	missense_mutation, silent, in_frame_del, rna, splice_site, intron, 3'utr, frame_shift_del, 5'flank, 5'utr, nonsense_mutation, nonstop_mutation, frame_shift_ins, 3'flank, translation_start_site, in_frame_ins
-LUAD	DFCI	DFCI_ONCOPANEL_3	354	449	missense_mutation, nonsense_mutation, frame_shift_del, frame_shift_ins, in_frame_ins, in_frame_del, splice_region, splice_site, intron, silent, 3'utr, 5'flank, 5'utr, nonstop_mutation, translation_start_site, 3'flank, rna
-LUAD	DFCI	DFCI_ONCOPANEL_1	217	243	missense_mutation, splice_site, nonsense_mutation, frame_shift_ins, in_frame_del, frame_shift_del, intron, 5'flank, in_frame_ins, nonstop_mutation, translation_start_site
-LUAD	MSK	MSK_IMPACT341	167	251	nonsense_mutation, missense_mutation, in_frame_del, splice_site, frame_shift_del, 3'flank, translation_start_site, in_frame_ins, 5'flank, frame_shift_ins
-LUAD	broad	exome	164	14041	missense_mutation, silent, nonsense_mutation, rna, splice_site, splice_region, 5'flank, 5'utr, intron, translation_start_site, nonstop_mutation, 3'flank, 3'utr, in_frame_del, frame_shift_ins, frame_shift_del, in_frame_ins, igr
-LUAD	tsp	washu_broad_tsp_623	162	359	missense_mutation, nonsense_mutation, splice_site, frame_shift_del, 5'flank, frame_shift_ins, in_frame_del, intron, 3'flank, in_frame_ins, translation_start_site, igr, rna, nonstop_mutation, 3'utr, 5'utr, silent, splice_region
-LUAD	WAKE	WAKE_CA_NGSQ3	60	379	missense_mutation, nonsense_mutation, in_frame_ins, in_frame_del, splice_region, frame_shift_ins, splice_site, frame_shift_del, intron, nonstop_mutation, translation_start_site
-LUAD	UHN	UHN_48_V1	58	22	missense_mutation, in_frame_del, splice_site, intron, nonsense_mutation, silent, in_frame_ins, frame_shift_ins, frame_shift_del
-LUAD	lee_cell_2019	genome	49	21232	intronic, igr, rna, 3flank, 5flank, 3utr, missense_mutation, nonsense_mutation, silent, 5utr, splice_site, flank, inframe_deletion, frameshift_deletion, inframe_insertion, frameshift_insertion, nonstop_mutation, utr, unknown
-LUAD	lusc_kr	exome	36	13376	igr, intronic, 5flank, missense_mutation, rna, 3utr, 3flank, silent, 5utr, flank, nonsense_mutation, nonstop_mutation, splice_site, utr
-LUAD	WAKE	WAKE_CA_01	36	16	missense_mutation, nonsense_mutation, in_frame_del
-LUAD	mskcc_2015	exome	34	5698	nonsense_mutation, missense_mutation, intron, translation_start_site, 3'flank, splice_site, silent, 5'flank, nonstop_mutation, 3'utr, rna, 5'utr, splice_region
-LUAD	VICC	VICC_01_T7	32	152	intron, missense_mutation, nonsense_mutation, 3'utr, frame_shift_del, in_frame_del, in_frame_ins, splice_site, frame_shift_ins, 5'flank, 5'utr, splice_region
-LUAD	bgi_2015	genome	24	19413	igr, intronic, 3utr, rna, missense_mutation, 5flank, 3flank, silent, 5utr, splice_site, flank, nonsense_mutation, utr, frameshift_deletion, inframe_deletion, nonstop_mutation, frameshift_insertion, inframe_insertion, unknown
-LUAD	GRCC	GRCC_MOSC3	24	19	missense_mutation, nonsense_mutation, splice_site
-LUAD	imielski_cell_2012	genome	24	22769	rna, 5flank, intronic, silent, missense_mutation, igr, 3flank, 3utr, nonsense_mutation, 5utr, splice_site, unknown, nonstop_mutation, frameshift_deletion, inframe_insertion, frameshift_insertion, flank, inframe_deletion, utr
-LUAD	VICC	VICC_01_SOLIDTUMOR	24	12	intron, missense_mutation, splice_region, in_frame_ins, nonsense_mutation, silent, frame_shift_del, splice_site, 3'utr, in_frame_del
-LUAD	NKI	NKI_TSACP_MISEQ_NGS	21	13	missense_mutation, splice_site, frame_shift_del, nonsense_mutation, nonstop_mutation, in_frame_del, frame_shift_ins
-LUAD	WAKE	WAKE_CLINICAL_T7	20	73	nonsense_mutation, missense_mutation, intron, frame_shift_ins
-LUAD	MDA	MDA_409_V1	13	44	missense_mutation, nonsense_mutation, intron, frame_shift_ins, splice_site, frame_shift_del
-LUAD	MDA	MDA_50_V1	12	6	missense_mutation, in_frame_del, in_frame_ins
-LUAD	VICC	VICC_01_T5A	12	71	missense_mutation, frame_shift_del, frame_shift_ins, intron, nonsense_mutation, in_frame_del, silent, splice_site
-LUAD	GRCC	GRCC_CHP2	6	6	missense_mutation, silent, in_frame_del
-LUAD	MDA	MDA_46_V1	6	5	missense_mutation, nonsense_mutation
-MM	mmrf	exome	931	20613	missense_mutation, 3utr, intronic, igr, 5flank, rna, silent, frameshift_deletion, 5utr, nonsense_mutation, 3flank, splice_site, frameshift_insertion, inframe_deletion, nonstop_mutation, utr, flank, inframe_insertion, unknown
-MM	broad	exome	204	6756	silent, missense_mutation, nonstop_mutation, splice_region, splice_site, nonsense_mutation, intron, rna, 5'flank, 3'utr, 3'flank, 5'utr, translation_start_site, frame_shift_del, igr, in_frame_del
-MM	dafa2014	exome	66	3065	missense_mutation, silent, nonsense_mutation, 3utr, intronic, splice_site, 5utr, frameshift_deletion, inframe_deletion, igr, rna, frameshift_insertion, 5flank, 3flank, nonstop_mutation, flank
-MM	DFCI	DFCI_ONCOPANEL_3	43	166	missense_mutation, 5'flank, splice_region, splice_site, intron, frame_shift_ins, nonsense_mutation, silent, in_frame_del, frame_shift_del, in_frame_ins
-MM	DFCI	DFCI_ONCOPANEL_2	16	54	missense_mutation, in_frame_del, nonsense_mutation, in_frame_ins, frame_shift_ins, splice_region, translation_start_site
-MM	DFCI	DFCI_ONCOPANEL_1	1	4	missense_mutation, nonsense_mutation
-MM	MSK	MSK_IMPACT410	1	4	missense_mutation
-PAAD	qcmg_uq_2016	exome	381	10490	frame_shift_del, missense_mutation, silent, splice_region, nonsense_mutation, 5'flank, intron, splice_site, nonstop_mutation, targeted_region, frame_shift_ins, 5'utr, 3'utr, 3'flank, rna, translation_start_site, igr
-PAAD	paca_au	exome	367	23358	igr, intronic, 3utr, rna, missense_mutation, 5flank, silent, 3flank, 5utr, frameshift_insertion, utr, flank, inframe_deletion, nonsense_mutation, splice_site, unknown, frameshift_deletion, inframe_insertion, nonstop_mutation
-PAAD	MSK	MSK_IMPACT468	306	268	missense_mutation, splice_site, frame_shift_del, nonsense_mutation, frame_shift_ins, in_frame_ins, in_frame_del, 5'utr, silent, intron, translation_start_site, 3'utr, 5'flank
-PAAD	MSK	MSK_IMPACT410	272	255	missense_mutation, nonsense_mutation, frame_shift_del, splice_site, frame_shift_ins, in_frame_del, splice_region, in_frame_ins, translation_start_site, 5'flank, nonstop_mutation
-PAAD	ca	genome	220	23842	igr, intronic, missense_mutation, rna, silent, nonsense_mutation, 3flank, 5utr, 5flank, 3utr, frameshift_insertion, inframe_deletion, frameshift_deletion, splice_site, flank, inframe_insertion, nonstop_mutation, utr, unknown
-PAAD	tcga_2018	exome	175	12823	missense_mutation, frame_shift_ins, rna, intron, silent, frame_shift_del, 5'flank, nonsense_mutation, 3'utr, in_frame_del, 5'utr, 3'flank, splice_site, in_frame_ins, nonstop_mutation, translation_start_site
-PAAD	DFCI	DFCI_ONCOPANEL_3	115	299	missense_mutation, in_frame_del, intron, nonsense_mutation, in_frame_ins, frame_shift_del, frame_shift_ins, splice_region, splice_site, 5'utr, 3'utr, silent, translation_start_site, 5'flank, rna
-PAAD	DFCI	DFCI_ONCOPANEL_2	107	191	missense_mutation, frame_shift_del, nonsense_mutation, in_frame_del, splice_region, splice_site, silent, 5'utr, frame_shift_ins, 5'flank, in_frame_ins, intron, nonstop_mutation
-PAAD	utsw_2015	exome	106	4678	frame_shift_del, missense_mutation, rna, frame_shift_ins, 3'utr, nonsense_mutation, splice_region, in_frame_del, 5'utr, igr, 3'flank, splice_site, intron, 5'flank, silent, translation_start_site
-PAAD	icgc_2012	exome	98	1515	frameshift_deletion, missense_mutation, nonsense_mutation, silent, intronic, frameshift_insertion, rna, igr, splice_site, inframe_deletion, inframe_insertion, 3utr, 5utr, 5flank, 3flank, nonstop_mutation
-PAAD	ca	exome	48	3546	missense_mutation, intronic, nonsense_mutation, igr, silent, rna, 3flank, splice_site, 5utr, 3utr, frameshift_insertion, frameshift_deletion, inframe_insertion, inframe_deletion, 5flank, utr, flank, nonstop_mutation, unknown
-PAAD	UHN	UHN_48_V1	26	21	intron, missense_mutation, 3'utr, silent, frame_shift_del, splice_region, nonsense_mutation, in_frame_del, splice_site
-PAAD	VICC	VICC_01_T7	22	101	in_frame_del, missense_mutation, nonsense_mutation, 3'utr, in_frame_ins, frame_shift_ins, frame_shift_del, translation_start_site, intron, silent, splice_site
-PAAD	DFCI	DFCI_ONCOPANEL_1	18	56	missense_mutation, nonsense_mutation, in_frame_del, frame_shift_del, splice_site, frame_shift_ins
-PAAD	MDA	MDA_50_V1	15	8	nonsense_mutation, missense_mutation
-PAAD	MSK	MSK_IMPACT341	10	21	missense_mutation, nonsense_mutation, frame_shift_del, frame_shift_ins, in_frame_del, in_frame_ins
-PAAD	WAKE	WAKE_CLINICAL_T7	8	26	missense_mutation, nonsense_mutation, splice_site
-PAAD	MDA	MDA_46_V1	6	5	missense_mutation, nonsense_mutation
-PAAD	NKI	NKI_TSACP_MISEQ_NGS	5	3	missense_mutation, nonsense_mutation, frame_shift_del
-PAAD	JHU	JHU_50GP_V2	4	4	missense_mutation, nonsense_mutation
-PAAD	VICC	VICC_01_T5A	3	9	missense_mutation, frame_shift_del
-PAAD	GRCC	GRCC_CHP2	1	2	missense_mutation
-PAAD	GRCC	GRCC_MOSC3	1	2	missense_mutation
+cancer	dataset	target	num_cancer_samples	unique_genes_detected	types_of_mutations	num_hypermutants
+COAD	dfci_2016	exome	616	17602	missense_mutation, frame_shift_ins, frame_shift_del, 3'utr, intron, in_frame_del, 5'utr, 5'flank, silent, 3'flank, splice_site, nonstop_mutation, nonsense_mutation, in_frame_ins, translation_start_site, splice_region, rna	74
+COAD	JHU	JHU_50GP_V2	560	49	splice_site, missense_mutation, frame_shift_del, nonsense_mutation, silent, intron, in_frame_del, frame_shift_ins, splice_region, 3'utr, in_frame_ins	58
+COAD	tcga_2018	exome	527	19768	missense_mutation, silent, splice_region, 3'utr, translation_start_site, nonsense_mutation, 5'utr, in_frame_del, intron, rna, splice_site, frame_shift_del, 5'flank, in_frame_ins, 3'flank, frame_shift_ins, nonstop_mutation	78
+COAD	DFCI	DFCI_ONCOPANEL_2	507	308	missense_mutation, nonsense_mutation, frame_shift_del, intron, frame_shift_ins, splice_region, 3'utr, 5'flank, splice_site, silent, in_frame_del, in_frame_ins, 5'utr, nonstop_mutation, 3'flank, translation_start_site	85
+COAD	MSK	MSK_IMPACT468	475	456	missense_mutation, frame_shift_del, frame_shift_ins, in_frame_del, nonsense_mutation, 3'utr, splice_site, intron, in_frame_ins, translation_start_site, 5'flank, splice_region, 3'flank, 5'utr, silent, nonstop_mutation	72
+COAD	MSK	MSK_IMPACT410	458	403	missense_mutation, nonsense_mutation, frame_shift_del, in_frame_del, frame_shift_ins, splice_site, intron, 5'flank, in_frame_ins, translation_start_site, 5'utr, nonstop_mutation, silent, splice_region, 3'utr, 3'flank	76
+COAD	DFCI	DFCI_ONCOPANEL_3	423	451	missense_mutation, in_frame_del, frame_shift_ins, frame_shift_del, nonsense_mutation, intron, 3'utr, in_frame_ins, splice_site, splice_region, 5'utr, silent, 5'flank, 3'flank, translation_start_site, nonstop_mutation, rna	67
+COAD	coca_cn	exome	291	24047	intronic, missense_mutation, inframe_insertion, 3utr, silent, 3flank, frameshift_insertion, rna, inframe_deletion, frameshift_deletion, 5flank, igr, flank, 5utr, nonsense_mutation, splice_site, nonstop_mutation, unknown, utr	83
+COAD	MDA	MDA_50_V1	169	28	missense_mutation, nonsense_mutation, splice_site, frame_shift_del, frame_shift_ins, in_frame_del	12
+COAD	MDA	MDA_46_V1	153	27	missense_mutation, nonsense_mutation, frame_shift_del	17
+COAD	UHN	UHN_48_V1	144	32	frame_shift_del, silent, missense_mutation, splice_region, intron, nonsense_mutation, frame_shift_ins, splice_site, in_frame_del, 3'utr	21
+COAD	DFCI	DFCI_ONCOPANEL_1	106	181	missense_mutation, nonsense_mutation, splice_site, frame_shift_ins, translation_start_site, frame_shift_del, in_frame_del, in_frame_ins, intron	14
+COAD	MSK	MSK_IMPACT341	102	232	missense_mutation, nonsense_mutation, frame_shift_del, frame_shift_ins, splice_site, in_frame_del, 5'flank, in_frame_ins, intron, 5'utr	13
+COAD	VICC	VICC_01_T7	86	242	missense_mutation, nonsense_mutation, frame_shift_ins, in_frame_del, frame_shift_del, in_frame_ins, splice_site, intron, silent, 5'flank, 5'utr, 3'utr, 3'flank, translation_start_site	14
+COAD	genentech	exome	72	13026	missense_mutation, nonsense_mutation, splice_site, 3'utr, rna, 5'utr, splice_region, intron, nonstop_mutation, 5'flank, translation_start_site, 3'flank, silent, frame_shift_del, frame_shift_ins	16
+COAD	NKI	NKI_TSACP_MISEQ_NGS	62	21	missense_mutation, frame_shift_ins, splice_site, nonsense_mutation, frame_shift_del, in_frame_del	4
+COAD	coca_cn	genome	30	20735	igr, intronic, 3flank, rna, missense_mutation, 5flank, 3utr, silent, flank, 5utr, nonsense_mutation, splice_site, nonstop_mutation, unknown, utr	5
+COAD	MDA	MDA_409_V1	27	76	nonsense_mutation, missense_mutation, frame_shift_del, in_frame_del, frame_shift_ins, splice_site	3
+COAD	VICC	VICC_01_T5A	22	103	frame_shift_ins, missense_mutation, nonsense_mutation, frame_shift_del, in_frame_del, 5'utr, in_frame_ins, splice_site, silent	4
+COAD	WAKE	WAKE_CLINICAL_T7	22	66	missense_mutation, nonsense_mutation, splice_site, splice_region	3
+COAD	VICC	VICC_01_SOLIDTUMOR	11	18	intron, missense_mutation, silent, splice_site, splice_region, 3'utr, frame_shift_del, frame_shift_ins	1
+COAD	GRCC	GRCC_MOSC3	2	3	missense_mutation	0
+LUAD	JHU	JHU_50GP_V2	894	50	missense_mutation, nonsense_mutation, splice_site, frame_shift_del, intron, 3'utr, in_frame_del, silent, frame_shift_ins, splice_region, in_frame_ins, 5'utr	0
+LUAD	MSK	MSK_IMPACT468	756	458	frame_shift_del, splice_site, missense_mutation, nonsense_mutation, in_frame_del, frame_shift_ins, nonstop_mutation, translation_start_site, in_frame_ins, 5'flank, intron, 5'utr, silent, 3'flank	0
+LUAD	MSK	MSK_IMPACT410	700	390	5'flank, missense_mutation, splice_site, frame_shift_ins, nonsense_mutation, frame_shift_del, in_frame_del, in_frame_ins, 5'utr, translation_start_site, nonstop_mutation, 3'flank, intron, 3'utr	0
+LUAD	DFCI	DFCI_ONCOPANEL_2	586	305	missense_mutation, frame_shift_ins, intron, nonsense_mutation, splice_region, frame_shift_del, in_frame_del, splice_site, 5'flank, in_frame_ins, 3'utr, silent, translation_start_site, 5'utr, 3'flank, nonstop_mutation	0
+LUAD	tcga_2018	exome	560	18903	missense_mutation, silent, in_frame_del, rna, splice_site, intron, 3'utr, frame_shift_del, 5'flank, 5'utr, nonsense_mutation, nonstop_mutation, frame_shift_ins, 3'flank, translation_start_site, in_frame_ins	0
+LUAD	DFCI	DFCI_ONCOPANEL_3	354	449	missense_mutation, nonsense_mutation, frame_shift_del, frame_shift_ins, in_frame_ins, in_frame_del, splice_region, splice_site, intron, silent, 3'utr, 5'flank, 5'utr, nonstop_mutation, translation_start_site, 3'flank, rna	0
+LUAD	DFCI	DFCI_ONCOPANEL_1	217	243	missense_mutation, splice_site, nonsense_mutation, frame_shift_ins, in_frame_del, frame_shift_del, intron, 5'flank, in_frame_ins, nonstop_mutation, translation_start_site	0
+LUAD	MSK	MSK_IMPACT341	167	251	nonsense_mutation, missense_mutation, in_frame_del, splice_site, frame_shift_del, 3'flank, translation_start_site, in_frame_ins, 5'flank, frame_shift_ins	0
+LUAD	broad	exome	164	14041	missense_mutation, silent, nonsense_mutation, rna, splice_site, splice_region, 5'flank, 5'utr, intron, translation_start_site, nonstop_mutation, 3'flank, 3'utr, in_frame_del, frame_shift_ins, frame_shift_del, in_frame_ins, igr	0
+LUAD	tsp	washu_broad_tsp_623	162	359	missense_mutation, nonsense_mutation, splice_site, frame_shift_del, 5'flank, frame_shift_ins, in_frame_del, intron, 3'flank, in_frame_ins, translation_start_site, igr, rna, nonstop_mutation, 3'utr, 5'utr, silent, splice_region	0
+LUAD	WAKE	WAKE_CA_NGSQ3	60	379	missense_mutation, nonsense_mutation, in_frame_ins, in_frame_del, splice_region, frame_shift_ins, splice_site, frame_shift_del, intron, nonstop_mutation, translation_start_site	0
+LUAD	UHN	UHN_48_V1	58	22	missense_mutation, in_frame_del, splice_site, intron, nonsense_mutation, silent, in_frame_ins, frame_shift_ins, frame_shift_del	0
+LUAD	lee_cell_2019	genome	49	21232	intronic, igr, rna, 3flank, 5flank, 3utr, missense_mutation, nonsense_mutation, silent, 5utr, splice_site, flank, inframe_deletion, frameshift_deletion, inframe_insertion, frameshift_insertion, nonstop_mutation, utr, unknown	0
+LUAD	lusc_kr	exome	36	13376	igr, intronic, 5flank, missense_mutation, rna, 3utr, 3flank, silent, 5utr, flank, nonsense_mutation, nonstop_mutation, splice_site, utr	0
+LUAD	WAKE	WAKE_CA_01	36	16	missense_mutation, nonsense_mutation, in_frame_del	0
+LUAD	mskcc_2015	exome	34	5698	nonsense_mutation, missense_mutation, intron, translation_start_site, 3'flank, splice_site, silent, 5'flank, nonstop_mutation, 3'utr, rna, 5'utr, splice_region	0
+LUAD	VICC	VICC_01_T7	32	152	intron, missense_mutation, nonsense_mutation, 3'utr, frame_shift_del, in_frame_del, in_frame_ins, splice_site, frame_shift_ins, 5'flank, 5'utr, splice_region	0
+LUAD	bgi_2015	genome	24	19413	igr, intronic, 3utr, rna, missense_mutation, 5flank, 3flank, silent, 5utr, splice_site, flank, nonsense_mutation, utr, frameshift_deletion, inframe_deletion, nonstop_mutation, frameshift_insertion, inframe_insertion, unknown	0
+LUAD	GRCC	GRCC_MOSC3	24	19	missense_mutation, nonsense_mutation, splice_site	0
+LUAD	imielski_cell_2012	genome	24	22769	rna, 5flank, intronic, silent, missense_mutation, igr, 3flank, 3utr, nonsense_mutation, 5utr, splice_site, unknown, nonstop_mutation, frameshift_deletion, inframe_insertion, frameshift_insertion, flank, inframe_deletion, utr	0
+LUAD	VICC	VICC_01_SOLIDTUMOR	24	12	intron, missense_mutation, splice_region, in_frame_ins, nonsense_mutation, silent, frame_shift_del, splice_site, 3'utr, in_frame_del	0
+LUAD	NKI	NKI_TSACP_MISEQ_NGS	21	13	missense_mutation, splice_site, frame_shift_del, nonsense_mutation, nonstop_mutation, in_frame_del, frame_shift_ins	0
+LUAD	WAKE	WAKE_CLINICAL_T7	20	73	nonsense_mutation, missense_mutation, intron, frame_shift_ins	0
+LUAD	MDA	MDA_409_V1	13	44	missense_mutation, nonsense_mutation, intron, frame_shift_ins, splice_site, frame_shift_del	0
+LUAD	MDA	MDA_50_V1	12	6	missense_mutation, in_frame_del, in_frame_ins	0
+LUAD	VICC	VICC_01_T5A	12	71	missense_mutation, frame_shift_del, frame_shift_ins, intron, nonsense_mutation, in_frame_del, silent, splice_site	0
+LUAD	GRCC	GRCC_CHP2	6	6	missense_mutation, silent, in_frame_del	0
+LUAD	MDA	MDA_46_V1	6	5	missense_mutation, nonsense_mutation	0
+MM	mmrf	exome	931	20613	missense_mutation, 3utr, intronic, igr, 5flank, rna, silent, frameshift_deletion, 5utr, nonsense_mutation, 3flank, splice_site, frameshift_insertion, inframe_deletion, nonstop_mutation, utr, flank, inframe_insertion, unknown	0
+MM	broad	exome	204	6756	silent, missense_mutation, nonstop_mutation, splice_region, splice_site, nonsense_mutation, intron, rna, 5'flank, 3'utr, 3'flank, 5'utr, translation_start_site, frame_shift_del, igr, in_frame_del	0
+MM	dafa2014	exome	66	3065	missense_mutation, silent, nonsense_mutation, 3utr, intronic, splice_site, 5utr, frameshift_deletion, inframe_deletion, igr, rna, frameshift_insertion, 5flank, 3flank, nonstop_mutation, flank	0
+MM	DFCI	DFCI_ONCOPANEL_3	43	166	missense_mutation, 5'flank, splice_region, splice_site, intron, frame_shift_ins, nonsense_mutation, silent, in_frame_del, frame_shift_del, in_frame_ins	0
+MM	DFCI	DFCI_ONCOPANEL_2	16	54	missense_mutation, in_frame_del, nonsense_mutation, in_frame_ins, frame_shift_ins, splice_region, translation_start_site	0
+MM	DFCI	DFCI_ONCOPANEL_1	1	4	missense_mutation, nonsense_mutation	0
+MM	MSK	MSK_IMPACT410	1	4	missense_mutation	0
+PAAD	qcmg_uq_2016	exome	381	10490	frame_shift_del, missense_mutation, silent, splice_region, nonsense_mutation, 5'flank, intron, splice_site, nonstop_mutation, targeted_region, frame_shift_ins, 5'utr, 3'utr, 3'flank, rna, translation_start_site, igr	0
+PAAD	paca_au	exome	367	23358	igr, intronic, 3utr, rna, missense_mutation, 5flank, silent, 3flank, 5utr, frameshift_insertion, utr, flank, inframe_deletion, nonsense_mutation, splice_site, unknown, frameshift_deletion, inframe_insertion, nonstop_mutation	0
+PAAD	MSK	MSK_IMPACT468	306	268	missense_mutation, splice_site, frame_shift_del, nonsense_mutation, frame_shift_ins, in_frame_ins, in_frame_del, 5'utr, silent, intron, translation_start_site, 3'utr, 5'flank	0
+PAAD	MSK	MSK_IMPACT410	272	255	missense_mutation, nonsense_mutation, frame_shift_del, splice_site, frame_shift_ins, in_frame_del, splice_region, in_frame_ins, translation_start_site, 5'flank, nonstop_mutation	0
+PAAD	ca	genome	220	23842	igr, intronic, missense_mutation, rna, silent, nonsense_mutation, 3flank, 5utr, 5flank, 3utr, frameshift_insertion, inframe_deletion, frameshift_deletion, splice_site, flank, inframe_insertion, nonstop_mutation, utr, unknown	0
+PAAD	tcga_2018	exome	175	12823	missense_mutation, frame_shift_ins, rna, intron, silent, frame_shift_del, 5'flank, nonsense_mutation, 3'utr, in_frame_del, 5'utr, 3'flank, splice_site, in_frame_ins, nonstop_mutation, translation_start_site	0
+PAAD	DFCI	DFCI_ONCOPANEL_3	115	299	missense_mutation, in_frame_del, intron, nonsense_mutation, in_frame_ins, frame_shift_del, frame_shift_ins, splice_region, splice_site, 5'utr, 3'utr, silent, translation_start_site, 5'flank, rna	0
+PAAD	DFCI	DFCI_ONCOPANEL_2	107	191	missense_mutation, frame_shift_del, nonsense_mutation, in_frame_del, splice_region, splice_site, silent, 5'utr, frame_shift_ins, 5'flank, in_frame_ins, intron, nonstop_mutation	0
+PAAD	utsw_2015	exome	106	4678	frame_shift_del, missense_mutation, rna, frame_shift_ins, 3'utr, nonsense_mutation, splice_region, in_frame_del, 5'utr, igr, 3'flank, splice_site, intron, 5'flank, silent, translation_start_site	0
+PAAD	icgc_2012	exome	98	1515	frameshift_deletion, missense_mutation, nonsense_mutation, silent, intronic, frameshift_insertion, rna, igr, splice_site, inframe_deletion, inframe_insertion, 3utr, 5utr, 5flank, 3flank, nonstop_mutation	0
+PAAD	ca	exome	48	3546	missense_mutation, intronic, nonsense_mutation, igr, silent, rna, 3flank, splice_site, 5utr, 3utr, frameshift_insertion, frameshift_deletion, inframe_insertion, inframe_deletion, 5flank, utr, flank, nonstop_mutation, unknown	0
+PAAD	UHN	UHN_48_V1	26	21	intron, missense_mutation, 3'utr, silent, frame_shift_del, splice_region, nonsense_mutation, in_frame_del, splice_site	0
+PAAD	VICC	VICC_01_T7	22	101	in_frame_del, missense_mutation, nonsense_mutation, 3'utr, in_frame_ins, frame_shift_ins, frame_shift_del, translation_start_site, intron, silent, splice_site	0
+PAAD	DFCI	DFCI_ONCOPANEL_1	18	56	missense_mutation, nonsense_mutation, in_frame_del, frame_shift_del, splice_site, frame_shift_ins	0
+PAAD	MDA	MDA_50_V1	15	8	nonsense_mutation, missense_mutation	0
+PAAD	MSK	MSK_IMPACT341	10	21	missense_mutation, nonsense_mutation, frame_shift_del, frame_shift_ins, in_frame_del, in_frame_ins	0
+PAAD	WAKE	WAKE_CLINICAL_T7	8	26	missense_mutation, nonsense_mutation, splice_site	0
+PAAD	MDA	MDA_46_V1	6	5	missense_mutation, nonsense_mutation	0
+PAAD	NKI	NKI_TSACP_MISEQ_NGS	5	3	missense_mutation, nonsense_mutation, frame_shift_del	0
+PAAD	JHU	JHU_50GP_V2	4	4	missense_mutation, nonsense_mutation	0
+PAAD	VICC	VICC_01_T5A	3	9	missense_mutation, frame_shift_del	0
+PAAD	GRCC	GRCC_CHP2	1	2	missense_mutation	0
+PAAD	GRCC	GRCC_MOSC3	1	2	missense_mutation	0
