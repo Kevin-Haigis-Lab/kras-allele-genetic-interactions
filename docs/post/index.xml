@@ -5,12 +5,235 @@
     <link>https://project-notebook-comutation.netlify.com/post/</link>
       <atom:link href="https://project-notebook-comutation.netlify.com/post/index.xml" rel="self" type="application/rss+xml" />
     <description>Posts</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Thu, 05 Mar 2020 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Fri, 06 Mar 2020 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://project-notebook-comutation.netlify.com/img/icon-192.png</url>
       <title>Posts</title>
       <link>https://project-notebook-comutation.netlify.com/post/</link>
     </image>
+    
+    <item>
+      <title>2020-03-06</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2020-03-06/</link>
+      <pubDate>Fri, 06 Mar 2020 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2020-03-06/</guid>
+      <description>
+
+&lt;h2 id=&#34;tables-of-numbers-of-samples&#34;&gt;Tables of numbers of samples&lt;/h2&gt;
+
+&lt;p&gt;These numbers were generated in &amp;ldquo;src/90_20_dataset-description-table.R&amp;rdquo;.&lt;/p&gt;
+
+&lt;p&gt;Number of whole exome or genome sequencing samples per cancer.&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th align=&#34;left&#34;&gt;cancer&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;total samples&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;total samples (no hypermutants)&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;COAD&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1536&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1280&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;LUAD&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;891&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;891&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;MM&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1201&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1201&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;PAAD&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1395&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1395&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;Total&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;5023&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;4767&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Number of targeted sequencing samples per cancer.&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th align=&#34;left&#34;&gt;cancer&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;total samples&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;total samples (no hypermutants)&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;COAD&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;3329&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;2865&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;LUAD&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;4160&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;4160&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;MM&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;61&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;61&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;PAAD&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;919&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;919&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;Total&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;8469&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;8005&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Number of samples total per cancer.&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th align=&#34;left&#34;&gt;cancer&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;total samples&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;total samples (no hypermutants)&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;COAD&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;4865&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;4145&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;LUAD&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;5051&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;5051&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;MM&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1262&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1262&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;PAAD&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;2314&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;2314&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;Total&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;13492&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;12772&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&#34;vaf-of-mutated-genes&#34;&gt;VAF of mutated genes&lt;/h2&gt;
+
+&lt;p&gt;Here is a table describing the VAF values of mutations in each cancer.&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th align=&#34;left&#34;&gt;cancer&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;min_vaf&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;q25_vaf&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;avg_vaf&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;mid_vaf&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;q75_vaf&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;max_vaf&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;stddev_vaf&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;COAD&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.000&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.188&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.336&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.289&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.402&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.221&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;LUAD&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.020&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.132&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.248&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.211&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.319&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.159&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;MM&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.002&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.185&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.340&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.345&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.463&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.189&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;PAAD&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.002&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.138&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.255&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.198&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.333&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.178&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;The follow plot shows the distribution of the VAF of mutations.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/90_03_mutation-burden-distribution/vaf_distribution_density.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The next plot shows the mutation frequency against the average VAF value for each gene.
+The top 20 most frequently mutated genes are labeled.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/90_03_mutation-burden-distribution/vaf_mutfreq_scatter.jpeg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The following plot, though, shows only the genes found to have a comutation interaction with a &lt;em&gt;KRAS&lt;/em&gt; allele in the cancer.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/90_03_mutation-burden-distribution/vaf_mutfreq_comuts_scatter.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>2020-03-05</title>
