@@ -14,22 +14,6 @@ save_fig_proto_wrapper <- function(p, n) {
 }
 
 
-#### ---- Find hypermutant cut-off for COAD ---- ####
-
-upper_hypermut_bound <- cancer_coding_muts_df %>%
-    filter(cancer == "COAD" & is_hypermutant) %>%
-    count(tumor_sample_barcode, dataset) %>%
-    group_by(dataset) %>%
-    summarise(min_hypermut_muts = min(n))
-
-lower_hypermut_bound <- cancer_coding_muts_df %>%
-    filter(cancer == "COAD" & !is_hypermutant) %>%
-    count(tumor_sample_barcode, dataset) %>%
-    group_by(dataset) %>%
-    summarise(min_hypermut_muts = max(n))
-
-
-
 #### ---- Mut. burden distribution ---- ####
 # Plots showing the distribution of the mutations per sample.
 
@@ -183,3 +167,147 @@ mut_type_bars <- cancer_coding_muts_df %>%
     nest() %>%
     mutate(save_name = paste0(cancer, "_mutation_types.svg")) %>%
     pwalk(plot_distribution_of_mutation_type)
+
+
+
+#### ---- VAF distribution ---- ####
+
+# A function to make the labels of a ggplot a bit prettier.
+pretty_rounding <- function(x) {
+    case_when(x == 0 ~ "0",
+              x == 1 ~ "1",
+              TRUE ~ as.character(round(x, 2)))
+}
+
+# Density plot of the distribution of VAFs.
+vaf_distribution_density <- cancer_coding_muts_df %>%
+    filter(cancer != "SKCM" & !is.na(VAF)) %>%
+    ggplot(aes(x = VAF)) +
+    facet_wrap(~ cancer, scales = "free_y") +
+    geom_density(aes(color = cancer)) +
+    scale_color_manual(values = cancer_palette, guide = FALSE) +
+    scale_y_continuous(
+        expand = expansion(mult = c(0, 0.02))
+    ) +
+    scale_x_continuous(
+        limits = c(0, 1),
+        expand = c(0, 0),
+        labels = pretty_rounding
+    ) +
+    theme_bw(base_size = 7, base_family = "arial") +
+    theme(
+        strip.background = element_blank()
+    )
+ggsave_wrapper(
+    vaf_distribution_density,
+    plot_path(GRAPHS_DIR, "vaf_distribution_density.svg"),
+    "small"
+)
+
+
+
+plot_mutfreq_by_avgvaf_scatter <- function(df) {
+    df %>%
+        ggplot(aes(x = avg_vaf, y = mut_freq)) +
+        facet_wrap(~ cancer, scales = "free") +
+        geom_point(size = 0.3, alpha = 0.7, color = "grey25") +
+        ggrepel::geom_text_repel(
+            aes(label = label),
+            size = 1.2, family = "arial", color = "blue",
+            segment.color = "grey40", segment.size = 0.2, segment.alpha = 0.5,
+            seed = 0,
+        ) +
+        scale_x_continuous(
+            limits = c(0, 1),
+            expand = c(0, 0),
+            labels = pretty_rounding
+        ) +
+        scale_y_continuous(
+            expand = expansion(mult = c(0, 0.02)),
+            labels = pretty_rounding
+        ) +
+        theme_bw(base_size = 7, base_family = "arial") +
+        theme(
+            strip.background = element_blank()
+        ) +
+        labs(
+            x = "average VAF",
+            y = "mutation frequency"
+        )
+}
+
+# Average VAF of mutations in a gene vs. mutational frequency of the gene.
+vaf_mutfreq_scatter <- cancer_coding_muts_df %>%
+    filter(cancer != "SKCM" & !is.na(VAF)) %>%
+    group_by(cancer) %>%
+    mutate(num_cancer_samples = n_distinct(tumor_sample_barcode)) %>%
+    group_by(cancer, hugo_symbol) %>%
+    summarise(
+        avg_vaf = mean(VAF),
+        mut_freq = n_distinct(tumor_sample_barcode) / unique(num_cancer_samples)
+    ) %>%
+    group_by(cancer) %>%
+    arrange(-mut_freq, -avg_vaf) %>%
+    mutate(label = ifelse(1:n() < 20, hugo_symbol, NA)) %>%
+    ungroup() %>%
+    plot_mutfreq_by_avgvaf_scatter()
+
+ggsave_wrapper(
+    vaf_mutfreq_scatter,
+    plot_path(GRAPHS_DIR, "vaf_mutfreq_scatter.jpeg"),
+    "medium"
+)
+
+
+# A simple data frame of the genes with genetic interactions per cancer type.
+genetic_interaction_genes <- genetic_interaction_df %>%
+    select(cancer, hugo_symbol) %>%
+    unique() %>%
+    bind_rows(
+        tibble(cancer = names(cancer_palette), hugo_symbol = "KRAS")
+    )
+
+
+# Average VAF of mutations in a gene vs. mutational frequency of the gene, but
+# only for genes with a comutation interaction
+vaf_mutfreq_comuts_scatter <- cancer_coding_muts_df %>%
+    filter(cancer != "SKCM" & !is.na(VAF)) %>%
+    inner_join(genetic_interaction_genes, by = c("cancer", "hugo_symbol")) %>%
+    group_by(cancer) %>%
+    mutate(num_cancer_samples = n_distinct(tumor_sample_barcode)) %>%
+    group_by(cancer, hugo_symbol) %>%
+    summarise(
+        avg_vaf = mean(VAF),
+        mut_freq = n_distinct(tumor_sample_barcode) / unique(num_cancer_samples)
+    ) %>%
+    group_by(cancer) %>%
+    arrange(-mut_freq, -avg_vaf) %>%
+    mutate(label = ifelse(1:n() < 20, hugo_symbol, NA)) %>%
+    ungroup() %>%
+    plot_mutfreq_by_avgvaf_scatter()
+
+ggsave_wrapper(
+    vaf_mutfreq_comuts_scatter,
+    plot_path(GRAPHS_DIR, "vaf_mutfreq_comuts_scatter.svg"),
+    "medium"
+)
+
+
+# Simple rounding alias.
+r3 <- function(x) round(x, 3)
+
+# Summary statistics on VAF values per cancer type.
+cancer_coding_muts_df %>%
+    filter(cancer != "SKCM" & !is.na(VAF)) %>%
+    group_by(cancer) %>%
+    summarise(
+        min_vaf = r3(min(VAF)),
+        q25_vaf = r3(quantile(VAF, 0.25)),
+        avg_vaf = r3(mean(VAF)),
+        mid_vaf = r3(median(VAF)),
+        q75_vaf = r3(quantile(VAF, 0.75)),
+        max_vaf = r3(max(VAF)),
+        stddev_vaf = r3(sd(VAF))
+    ) %>%
+    ungroup() %>%
+    knitr::kable()
