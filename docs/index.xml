@@ -106,6 +106,50 @@
     </item>
     
     <item>
+      <title>2020-03-05</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2020-03-05/</link>
+      <pubDate>Thu, 05 Mar 2020 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2020-03-05/</guid>
+      <description>
+
+&lt;h2 id=&#34;average-gene-effect-for-kras-in-g13d-luad-cell-lines&#34;&gt;Average gene effect for &lt;em&gt;KRAS&lt;/em&gt; in G13D LUAD cell lines&lt;/h2&gt;
+
+&lt;p&gt;I included the fact that we remove G13D cell lines from LUAD dependency analysis in the Methods section.
+For evidence, I also included the average gene effect scores of &lt;em&gt;KRAS&lt;/em&gt; in G13D LUAD, all WT, and all other mutants.&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th align=&#34;left&#34;&gt;group&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;avg_gene_effect&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;stddev_gene_effect&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;LUAD G13D&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;-0.5534650&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.2600804&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;all WT&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;-0.5530092&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.2793851&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;all other KRAS mutants&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;-1.2639220&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.3292334&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+</description>
+    </item>
+    
+    <item>
       <title>2020-03-04</title>
       <link>https://project-notebook-comutation.netlify.com/post/2020-03-04/</link>
       <pubDate>Wed, 04 Mar 2020 00:00:00 +0000</pubDate>
