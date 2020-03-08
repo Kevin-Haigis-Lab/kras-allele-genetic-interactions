@@ -493,8 +493,8 @@ depmap_gene_clusters <- model1_tib %>%
     unnest(data) %>%
     group_by(cancer) %>%
     nest() %T>%
-    purrr::pwalk(plot_cancer_heatmaps_multiple_methods,
-             screen = "CRISPR", methods_df = methods_tib) %>%
+    pwalk(plot_cancer_heatmaps_multiple_methods,
+          screen = "CRISPR", methods_df = methods_tib) %>%
     mutate(cluster_tib = purrr::map2(cancer, data, cluster_genes,
                                      row_dist_method = "manhattan",
                                      row_hclust_method = "ward.D2")) %>%
