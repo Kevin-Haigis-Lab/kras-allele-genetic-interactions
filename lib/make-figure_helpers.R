@@ -204,12 +204,6 @@ save_figure <- function(p,
                                  supp = supp,
                                  file_fmt = "jpeg")
 
-    pdf_names <- get_figure_path(figure_num,
-                                 version,
-                                 supp = supp,
-                                 file_fmt = "pdf",
-                                 subdir = "pdfs")
-
     # Save versioned.
     for (names_list in list(svg_names, jpg_names)) {
         ggsave(
@@ -225,14 +219,6 @@ save_figure <- function(p,
                 width = dim$width, height = dim$height, unit = "mm"
             )
         }
-    }
-
-    for (name in pdf_names$unversioned) {
-        ggsave(
-            name, p,
-            width = dim$width, height = dim$height, unit = "mm",
-            device = cairo_pdf
-        )
     }
 
     # Save a JPEG to "reports/content/home/gallery/gallery/"
