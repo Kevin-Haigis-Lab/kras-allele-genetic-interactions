@@ -28,8 +28,16 @@ theme_figS15 <- function() {
 
 panel_A <- read_fig_proto("coad_depmap_wdr26-rna-v-dep.svg",
                           FIGNUM, supp = SUPPLEMENTAL) +
+    scale_size_manual(values = c("norm" = 3, "amp" = 5)) +
     theme_figS15() +
-    labs(tag = "a")
+    theme(
+        legend.title = element_markdown(),
+        axis.title.x = element_markdown()
+    ) +
+    labs(
+        color = "*KRAS* allele",
+        tag = "a"
+    )
 
 
 #### ---- Figure assembly ---- ####
