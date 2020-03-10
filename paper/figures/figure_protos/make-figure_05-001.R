@@ -171,7 +171,8 @@ panel_C <- read_fig_proto("comut_dep_connectivity_bars.rds", FIGNUM) +
         axis.title.x = element_blank()
     ) +
     labs(
-        tag = "c"
+        tag = "c",
+        y = "fraction of geodesic distances"
     )
 
 

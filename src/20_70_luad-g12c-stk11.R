@@ -286,7 +286,7 @@ stk11_rest_lollipop <- stk11_mutations %>%
     labs(
         fill = "mutation type",
         y = "num. mut.\nin other samples",
-        x = "amino acid position on STK11"
+        x = "STK11 amino acid position"
     )
 stk11_rest_lollipop <- add_damage_pts(stk11_rest_lollipop, "rest")
 ggsave_wrapper(
