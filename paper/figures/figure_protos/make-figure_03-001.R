@@ -193,6 +193,7 @@ panel_D <- read_fig_proto("comut-barplot_LUAD_AllAlleles_AllSources", FIGNUM) +
     ) +
     theme_fig3() %+replace%
     theme(
+        legend.title = element_markdown(),
         legend.spacing.x = unit(1, "mm"),
         legend.position = "bottom",
         axis.title.y = element_blank(),
@@ -201,7 +202,8 @@ panel_D <- read_fig_proto("comut-barplot_LUAD_AllAlleles_AllSources", FIGNUM) +
     ) +
     labs(
         tag = "d",
-        y = expression("" %<-% "reduced | increased" %->% "")
+        y = expression("" %<-% "reduced | increased" %->% ""),
+        alpha = "*KRAS*"
     )
 
 
