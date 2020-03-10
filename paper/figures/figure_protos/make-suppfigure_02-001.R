@@ -52,10 +52,11 @@ panel_A <- read_fig_proto("signature-level-per-sample",
 
 panel_B <- read_fig_proto("signature-level-boxplots_with0",
                           FIGNUM, supp = SUPPLEMENTAL) +
+    scale_y_continuous(expand = expansion(add = c(0.02, 0.02))) +
     labs(
         tag = "b",
         y = "signature level"
-    ) &
+    ) +
     theme_figS2() +
     theme(
         legend.position = "none"
@@ -68,7 +69,7 @@ panel_B <- read_fig_proto("signature-level-boxplots_with0",
 
 panel_C <- read_fig_proto("mutational-signatures-distribution-by-allele",
                           FIGNUM, supp = SUPPLEMENTAL) +
-    labs(tag = "c") &
+    labs(tag = "c") +
     theme_figS2() +
     theme(
         legend.position = "none",
@@ -82,7 +83,7 @@ panel_C <- read_fig_proto("mutational-signatures-distribution-by-allele",
 
 panel_D <- read_fig_proto("clock-signatures_violin-box",
                           FIGNUM, supp = SUPPLEMENTAL) +
-    labs(tag = "d") &
+    labs(tag = "d") +
     theme_figS2() +
     theme(
         legend.position = "none",
