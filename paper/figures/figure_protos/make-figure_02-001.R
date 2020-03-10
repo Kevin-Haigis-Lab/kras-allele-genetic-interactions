@@ -56,7 +56,9 @@ adjust_oncoplot_theme <- function(
     pw[[2]] <- pw[[2]] +
         scale_fill_manual(
             values = mod_variant_pal,
-            guide = guide_legend(title = NULL, ncol = 1)
+            guide = guide_legend(title = "mutation type",
+                                 ncol = 1,
+                                 title.position = "top")
         ) +
         theme(
             axis.text.y = element_text(size = 6, hjust = 1)
@@ -79,14 +81,15 @@ adjust_oncoplot_theme <- function(
         scale_fill_manual(
             values = short_allele_pal,
             guide = guide_legend(
-                title = NULL,
+                title = "*KRAS*<br>allele",
                 ncol = 1,
                 label.hjust = 0,
                 label.position = "right",
             )
         ) +
         theme(
-            legend.spacing.x = unit(2, "mm")
+            legend.spacing.x = unit(2, "mm"),
+            legend.title = element_markdown()
         )
 
     return(pw)
@@ -108,7 +111,6 @@ remove_oncoplot_legend <- function(pw) {
 #### ---- A. High-level comutation network for COAD ---- ####
 # The high-level network plot for the comutation graph for COAD.
 # original script: "src/20_40_highlivel-genetic-interactions.R"
-
 panel_A <- read_fig_proto("genetic_interaction_network_COAD", FIGNUM) +
     scale_color_manual(values = short_allele_pal, guide = FALSE) +
     theme_graph_fig2() %+replace%
@@ -122,7 +124,6 @@ panel_A <- read_fig_proto("genetic_interaction_network_COAD", FIGNUM) +
 #### ---- B. A priori genes of interest comutation network for COAD ---- ####
 # The subset from the high-level network for genes known to be related to KRAS.
 # original script: "src/20_43_apriori-lists-genetic-interactions.R"
-
 panel_B <- read_fig_proto(
         "goi_overlap_genetic_interactions_network_COAD_allLists",
         FIGNUM
