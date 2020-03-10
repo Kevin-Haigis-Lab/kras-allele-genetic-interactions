@@ -155,7 +155,8 @@ get_fig_proto_path <- function(name,
 get_figure_path <- function(figure_num,
                             version = "latest",
                             supp = FALSE,
-                            file_fmt = "svg") {
+                            file_fmt = "svg",
+                            subdir = "") {
     base_n <- str_pad(as.character(figure_num), 2, pad = "0")
     if (version == "latest") {
         version <- get_latest_version_of_figure(base_n, supp = supp)
@@ -174,7 +175,7 @@ get_figure_path <- function(figure_num,
 
     return(list(
         versioned = file.path(FIGURE_PROTOS_DIR, fig_dir, versioned_name),
-        unversioned = file.path(FIGURE_DIR, unversioned_name)
+        unversioned = file.path(FIGURE_DIR, subdir, unversioned_name)
     ))
 }
 
@@ -194,14 +195,20 @@ save_figure <- function(p,
     }
 
     svg_names <- get_figure_path(figure_num,
-                                  version,
-                                  supp = supp,
-                                  file_fmt = "svg")
+                                 version,
+                                 supp = supp,
+                                 file_fmt = "svg")
 
     jpg_names <- get_figure_path(figure_num,
-                                  version,
-                                  supp = supp,
-                                  file_fmt = "jpeg")
+                                 version,
+                                 supp = supp,
+                                 file_fmt = "jpeg")
+
+    pdf_names <- get_figure_path(figure_num,
+                                 version,
+                                 supp = supp,
+                                 file_fmt = "pdf",
+                                 subdir = "pdfs")
 
     # Save versioned.
     for (names_list in list(svg_names, jpg_names)) {
@@ -212,12 +219,20 @@ save_figure <- function(p,
     }
 
     if (!unversioned_only) {
-        for (names_list in list(svg_names, jpg_names)) {
+        for (names_list in list(svg_names, jpg_names, pdf_names)) {
             ggsave(
                 names_list$unversioned, p,
                 width = dim$width, height = dim$height, unit = "mm"
             )
         }
+    }
+
+    for (name in pdf_names$unversioned) {
+        ggsave(
+            name, p,
+            width = dim$width, height = dim$height, unit = "mm",
+            device = cairo_pdf
+        )
     }
 
     # Save a JPEG to "reports/content/home/gallery/gallery/"
