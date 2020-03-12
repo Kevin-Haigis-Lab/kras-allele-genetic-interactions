@@ -1,0 +1,4 @@
+Gene	Shortest dist.	Num. of shortest paths	Avg. shortest dist.	std. dev	p-value	Avg. number paths	std. dev.	p-value
+HSPA13	2	2	Inf	NaN	0.17	72.05	147.6	0.81
+TP53BP2	2	9	2.73	0.7	0.34	39.06	69.6	0.71
+ZKSCAN8	3	36	3.35	0.6	0.6	44.94	93.7	0.77
