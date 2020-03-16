@@ -202,3 +202,15 @@ tibble(hugo_symbol = YJ_GENES) %>%
         num_pval = calculate_bootstrap_pvalues(len_sp, rdm_num_sp, "greater"),
     ) %>%
     pretty_print_results()
+
+
+#### ---- Follow-up ---- ####
+
+combined_ppi_gr %N>%
+    filter(name %in% c("KRAS", "BAG4", "HSPA13"))
+
+string_gr %N>%
+    filter(name %in% c("KRAS", "BAG4", "HSPA13")) %E>%
+    pull(.orig_data) %>%
+    bind_rows %>%
+    glimpse()
