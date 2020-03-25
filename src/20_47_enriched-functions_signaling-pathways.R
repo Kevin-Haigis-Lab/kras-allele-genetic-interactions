@@ -308,7 +308,7 @@ save_neighborhood_proto <- function(gr_plot,
     datasource <- str_replace_all(datasource, "_", "-")
     save_name <- glue(glue_template)
     save_name <- sanitize_save_names(save_name)
-    saveRDS(gr_plot, get_fig_proto_path(save_name, fig_num, supp = supp))
+    saveFigRds(gr_plot, save_name)
 }
 
 

@@ -162,7 +162,7 @@ panel_B[[3]] <- panel_B[[3]] +
 # Bar plots of the overall connectivity of hits on the PPI.
 # original script: "src/40_20_comut-dependency-genes-ppi-connectivity.R"
 
-panel_C <- read_fig_proto("comut_dep_connectivity_bars.rds") +
+panel_C <- read_fig_proto("comut_dep_connectivity_bars") +
     theme_fig5() +
     theme(
         legend.title = element_text(size = 5, hjust = 0),

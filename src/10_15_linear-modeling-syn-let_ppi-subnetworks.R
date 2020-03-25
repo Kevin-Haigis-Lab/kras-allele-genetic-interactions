@@ -6,19 +6,14 @@ reset_graph_directory(GRAPHS_DIR)
 set.seed(0)
 
 
-ggproto_save_info <- list(
-    LUAD = list(fig_num = 4, supp = FALSE)
-)
+cancers_to_save_for_figures <- c("LUAD")
 
 save_graph_proto <- function(gg_obj, save_path, cancer) {
-    if (cancer %in% names(ggproto_save_info)) {
-        save_info <- ggproto_save_info[[cancer]]
-        saveRDS(gg_obj,
-                get_fig_proto_path(basename(save_path),
-                                   figure_num = save_info$fig_num,
-                                   supp = save_info$supp))
+    if (cancer %in% cancers_to_save_for_figures) {
+        saveFigRds(gg_obj, basename(save_path))
     }
 }
+
 
 ggraph_of_component <- function(gr, idx, cancer = "", cluster_num = "", ...) {
 
@@ -56,6 +51,7 @@ ggraph_of_component <- function(gr, idx, cancer = "", cluster_num = "", ...) {
     save_graph_proto(p, save_path, cancer)
 }
 ggraph_of_component <- memoise::memoise(ggraph_of_component)
+
 
 weakly_connected_components <- function(cancer, gene_cls, hugo_symbols,
                                         min_comp_size = 3) {

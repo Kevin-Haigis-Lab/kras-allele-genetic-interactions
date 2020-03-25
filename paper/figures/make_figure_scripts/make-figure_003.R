@@ -56,10 +56,10 @@ panel_A <- read_fig_proto("genetic_interaction_network_LUAD") +
 # Survival curves of genes comutating with G12C.
 # original script: "src/70_15_comutation-survival-analysis.R"
 
-proto_paths <- c("survival_alleleorwt_CHRNB4-G12C-LUAD.rds",
-                 "survival_alleleorwt_VN1R2-G12C-LUAD.rds",
-                 "survival_alleleorwt_ZNF445-G12C-LUAD.rds",
-                 "survival_alleleorwt_ZNF804A-G12C-LUAD.rds")
+proto_paths <- c("survival_alleleorwt_CHRNB4-G12C-LUAD",
+                 "survival_alleleorwt_VN1R2-G12C-LUAD",
+                 "survival_alleleorwt_ZNF445-G12C-LUAD",
+                 "survival_alleleorwt_ZNF804A-G12C-LUAD")
 
 
 parse_survival_info <- function(cancer, allele, gene) {

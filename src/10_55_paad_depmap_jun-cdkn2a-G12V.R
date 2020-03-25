@@ -165,6 +165,7 @@ ggsave_wrapper(
     "small"
 )
 
+
 # JUN gene effect vs. MEN1 gene effect.
 JUN_MEN1_scatter <- junpw_depmap %>%
     filter(hugo_symbol %in% c("JUN", "MEN1")) %>%
@@ -346,7 +347,4 @@ ggsave_wrapper(
     plot_path(GRAPHS_DIR, "JUN_MAPK8_scatter.svg"),
     "small"
 )
-saveRDS(
-    JUN_MAPK8_scatter,
-    get_fig_proto_path("JUN_MAPK8_scatter", fignum, supp = supp)
-)
+saveFigRds(JUN_MAPK8_scatter, "JUN_MAPK8_scatter")

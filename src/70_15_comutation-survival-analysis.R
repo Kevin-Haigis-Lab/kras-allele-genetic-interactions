@@ -328,10 +328,7 @@ ggsurv_figure_wrapper <- function(fit, surv_data, cancer, allele, hugo_symbol,
     fname <- as.character(glue(
         "survival_{comp_type}_{hugo_symbol}-{allele}-{cancer}.rds"
     ))
-    saveRDS(surv_plot,
-            get_fig_proto_path(fname,
-                               fig_info[[cancer]]["fignum"],
-                               supp = fig_info[[cancer]]["supp"]))
+    saveFigRds(surv_plot, fname)
 }
 
 
@@ -450,7 +447,4 @@ custom_survival_legend <- tibble::tribble(
     scale_color_identity() +
     theme_void() +
     theme(legend.position = "none")
-saveRDS(
-    custom_survival_legend,
-    get_fig_proto_path("custom_survival_curve_legend", 3)
-)
+saveFigRds(custom_survival_legend, "custom_survival_curve_legend")

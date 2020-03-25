@@ -28,7 +28,7 @@ theme_graph_fig12 <- function() {
 # original script: "src/20_40_highlivel-genetic-interactions.R"
 
 panel_A <- read_fig_proto(
-        "genetic_interaction_reduced_G12Conly_network_labeled_LUAD",
+        "genetic_interaction_reduced_G12Conly_network_labeled_LUAD"
     ) +
     theme_graph_fig12()
 

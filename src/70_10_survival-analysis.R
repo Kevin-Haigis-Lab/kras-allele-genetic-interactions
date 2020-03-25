@@ -110,18 +110,9 @@ ProjectTemplate::cache(
 
 # Save ggproto objects for use in figures.
 save_ggproto_for_figures <- function(p, cancer, sname) {
-    save_info <- list(
-        LUAD = c(fignum = 11, supp = TRUE)
-    )
+    save_cancers <- c("LUAD")
 
-    if (!cancer %in% names(save_info)) return()
-
-    saveRDS(
-        p,
-        get_fig_proto_path(sname,
-                           save_info[[cancer]][["fignum"]],
-                           supp = save_info[[cancer]][["supp"]])
-    )
+    if (cancer %in% save_cancers) { saveFigRds(p, sname) }
 }
 
 

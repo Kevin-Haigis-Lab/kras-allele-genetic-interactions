@@ -80,7 +80,7 @@ theme_fig4_densityplots <- function(tag_margin_l = -3) {
 x_label <- expression("" %<-% "greater dep. - ranked gene effect - less dep." %->% "")
 
 panel_B_density <- read_fig_proto(
-        "rankline_COAD_G12V_REACTOME_RESPIRATORY_ELECTRON_TRANSPORT.rds",
+        "rankline_COAD_G12V_REACTOME_RESPIRATORY_ELECTRON_TRANSPORT"
     ) +
     theme_fig4_densityplots(tag_margin_l = -7) +
     labs(
@@ -90,7 +90,7 @@ panel_B_density <- read_fig_proto(
     )
 
 panel_B <- read_fig_proto(
-        "rankplot_COAD_G12V_REACTOME_RESPIRATORY_ELECTRON_TRANSPORT.rds",
+        "rankplot_COAD_G12V_REACTOME_RESPIRATORY_ELECTRON_TRANSPORT.rds"
     ) +
     theme_fig4() +
     theme(
@@ -155,9 +155,8 @@ panel_C <- panel_C +
 # lethal in COAD.
 # original script: "src/10_11_syn-let_heatmaps-boxplots.R"
 
-pre_panel_D <- read_fig_proto(
-    "COAD_CRISPR_manhattan_ward.D2_pheatmap.rds"
-)[[4]]
+pre_panel_D <- read_fig_proto("COAD_CRISPR_manhattan_ward.D2_pheatmap.rds")
+pre_panel_D <- pre_panel_D[[4]]
 
 pre_panel_D_main <- gtable::gtable_filter(pre_panel_D,
                                           "legend",
@@ -449,7 +448,6 @@ panel_I <- wrap_elements(plot = panel_I) +
     save_figure(
         full_figure,
         figure_num = FIGNUM,
-        supp = SUPPLEMENTAL,
         dim = FIG_DIMENSIONS
     )
 }

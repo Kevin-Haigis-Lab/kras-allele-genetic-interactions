@@ -203,8 +203,7 @@ save_comparison_heatmaps <- function(grp, data, hm, ...) {
             filter(grp == !!grp) %>%
             pull(info) %>%
             unlist(recursive = FALSE)
-        saveRDS(hm,
-                get_fig_proto_path(save_name, info$fig_num, supp = info$supp))
+        saveFigRds(hm, save_name)
     }
 }
 

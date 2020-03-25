@@ -126,7 +126,7 @@ panel_A <- read_fig_proto("genetic_interaction_network_COAD") +
 # The subset from the high-level network for genes known to be related to KRAS.
 # original script: "src/20_43_apriori-lists-genetic-interactions.R"
 panel_B <- read_fig_proto(
-        "goi_overlap_genetic_interactions_network_COAD_allLists",
+        "goi_overlap_genetic_interactions_network_COAD_allLists"
     ) *
     theme_graph_fig2() %+replace%
     theme(

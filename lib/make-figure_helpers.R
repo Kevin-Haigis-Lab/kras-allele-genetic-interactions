@@ -112,6 +112,7 @@ GGPROTO_OBJECTS_DIR <- file.path(FIGURE_DIR, "ggproto_objects")
 
 # Save a ggproto object to the directory for the figures.
 saveFigRds <- function(obj, name) {
+    name <- file_sans_ext(basename(name))
     saveRDS(obj, file.path(GGPROTO_OBJECTS_DIR, name))
 }
 
@@ -182,13 +183,14 @@ save_figure <- function(p,
         "reports", "content", "home", "gallery", "gallery",
         basename(jpg_name)
     )
-    file.copy(jpg_name, gallery_path)
-
+    x <- file.copy(jpg_name, gallery_path)
+    invisible(NULL)
 }
 
 
 # Read in the proto RDS file names `name`.
 read_fig_proto <- function(name) {
+    name <- file_sans_ext(basename(name))
     path <- file.path(GGPROTO_OBJECTS_DIR, name)
     readRDS(path)
 }
@@ -244,6 +246,19 @@ initialize_figure <- function() {
 
 #### ---- Build all figures ---- ####
 
+
+# Build one or more specific figures.
+build_comutation_figure <- function(nums) {
+    if (is.infinite(nums)) {
+        build_comutation_figures()
+    } else {
+        for (i in nums) {
+            source(get_figure_file_path(i))
+        }
+    }
+}
+
+
 # Build all of the figures.
 build_comutation_figures <- function() {
 
@@ -261,4 +276,50 @@ build_comutation_figures <- function() {
     }
 
     cat("Done\n")
+}
+
+
+#### ---- Compiling final figures ---- ####
+
+JSON_PATH <- file.path(FIGURE_DIR, "figure_conversion.json")
+
+check_conversion_df <- function(df) {
+    stopifnot(nrow(df) == nrow(unique(df)))
+    stopifnot(n_distinct(df$make_num) == nrow(df))
+    return(df)
+}
+
+
+get_conversion_df <- function() {
+    jsonlite::fromJSON(JSON_PATH) %>%
+        as_tibble() %>%
+        check_conversion_df()
+}
+
+
+get_final_figure_path <- function(num, supp, fmt = "svg") {
+    prefix <- ifelse(supp, "Supp_Fig", "Fig")
+    file.path(FIGURE_DIR, glue("{prefix}_{as.character(num)}.{fmt}"))
+}
+
+
+copy_final_figure <- function(figure_num, make_num, supp) {
+    for (fmt in c("svg", "jpeg")) {
+        base_img_path <- get_figure_img_path(make_num, fmt)
+        output_path <- get_final_figure_path(figure_num, supp, fmt)
+        file.copy(base_img_path, output_path)
+    }
+    invisible(NULL)
+}
+
+
+make_final_pdfs <- function(...) {
+    system("paper/figures_to_pdf.sh")
+}
+
+
+copy_final_figures <- function() {
+    get_conversion_df() %>%
+        pwalk(copy_final_figure) %>%
+        make_final_pdfs()
 }

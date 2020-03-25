@@ -96,8 +96,7 @@ plot_genetic_interaction_graph <- function(gr_to_plot, CANCER, SUFFIX = "") {
     fig_info <- imgs_to_save_for_figure[[CANCER]]
     if (!is.null(fig_info) & SUFFIX %in% fig_info$suffix) {
         base_n <- file_sans_ext(basename(save_path))
-        saveRDS(gr_plot,
-                get_fig_proto_path(base_n, fig_info$num, supp = fig_info$supp))
+        saveFigRds(gr_plot, base_n)
     }
 
 }

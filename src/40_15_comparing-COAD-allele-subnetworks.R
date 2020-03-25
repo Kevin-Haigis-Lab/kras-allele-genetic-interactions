@@ -195,7 +195,4 @@ ggsave_wrapper(
     "large"
 )
 
-saveRDS(
-    coad_overlap_comparison_plot,
-    get_fig_proto_path("coad_overlap_comparison_plot.rds", 5)
-)
+saveFigRds(coad_overlap_comparison_plot, "coad_overlap_comparison_plot.rds")

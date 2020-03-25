@@ -33,7 +33,4 @@ comut_dep_overlap_tbl <- depmap_gene_clusters_pairwise_df %>%
 
 knitr::kable(comut_dep_overlap_tbl)
 
-saveRDS(
-    comut_dep_overlap_tbl,
-    get_fig_proto_path("comut_dep_overlap_tbl.rds", 5)
-)
+saveFigRds(comut_dep_overlap_tbl, "comut_dep_overlap_tbl.rds")

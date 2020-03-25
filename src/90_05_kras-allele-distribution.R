@@ -219,10 +219,7 @@ ggsave_wrapper(
     width = 8, height = 4.5
 )
 
-saveRDS(
-    plots,
-    get_fig_proto_path("allele_dist_barplot_stackplot", 1),
-)
+saveFigRds(plots, "allele_dist_barplot_stackplot")
 
 
 # Plot all of the alleles (with at least 3 appearences)
@@ -253,10 +250,7 @@ saveRDS(
         width = 8, height = 4.5
     )
 
-    saveRDS(
-        plots,
-        get_fig_proto_path("allele_dist_barplot_stackplot_all", 1, supp = TRUE)
-    )
+    saveFigRds(plots, "allele_dist_barplot_stackplot_all")
 
     short_allele_pal <- ORIGINAL_PAL
 }
@@ -370,10 +364,7 @@ ggsave_wrapper(
 )
 
 # Save for use in Figure 1.
-saveRDS(
-    kras_lollipop_plot,
-    get_fig_proto_path("lollipop-kras_2", 1)
-)
+saveFigRds(kras_lollipop_plot, "lollipop-kras_2")
 
 
 #### ---- Table of the distribution of alleles ---- ####

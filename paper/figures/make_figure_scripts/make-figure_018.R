@@ -21,7 +21,7 @@ theme_fig18 <- function(tag_margin = margin(0, 0, 0, 0, "mm")) {
 # A dot-plot showing some interesting gene sets enriched for the KRAS alleles.
 # original script: "src/10_37_gsea-depmap-analysis.R"
 
-panel_A <- read_fig_proto("gsea-results-PAAD-select.rds") +
+panel_A <- read_fig_proto("gsea-results-PAAD-select") +
     scale_color_gradient2(
         low = synthetic_lethal_pal["down"],
         high = synthetic_lethal_pal["up"],
@@ -84,7 +84,7 @@ x_label <- expression("" %<-% "greater dep. - ranked gene effect - less dep." %-
 
 
 panel_B_density <- read_fig_proto(
-        "rankline_PAAD_G12D_REACTOME_G_ALPHA_12_13_SIGNALLING_EVENTS.rds",
+        "rankline_PAAD_G12D_REACTOME_G_ALPHA_12_13_SIGNALLING_EVENTS"
     ) +
     theme_fig18_densityplots(tag_margin_l = -7) +
     labs(
@@ -94,7 +94,7 @@ panel_B_density <- read_fig_proto(
     )
 
 panel_B <- read_fig_proto(
-        "rankplot_PAAD_G12D_REACTOME_G_ALPHA_12_13_SIGNALLING_EVENTS.rds",
+        "rankplot_PAAD_G12D_REACTOME_G_ALPHA_12_13_SIGNALLING_EVENTS"
     ) +
     theme_fig18() +
     theme(
@@ -118,7 +118,7 @@ panel_B <- read_fig_proto(
 # original script: "src/10_37_gsea-depmap-analysis.R"
 
 panel_C <- panel_C_density <- read_fig_proto(
-        "rankline_PAAD_G12R_REACTOME_G2_M_DNA_DAMAGE_CHECKPOINT.rds",
+        "rankline_PAAD_G12R_REACTOME_G2_M_DNA_DAMAGE_CHECKPOINT"
     ) +
     theme_fig18_densityplots(tag_margin_l = -7) +
     labs(
@@ -128,7 +128,7 @@ panel_C <- panel_C_density <- read_fig_proto(
     )
 
 panel_C <- read_fig_proto(
-        "rankplot_PAAD_G12R_REACTOME_G2_M_DNA_DAMAGE_CHECKPOINT.rds",
+        "rankplot_PAAD_G12R_REACTOME_G2_M_DNA_DAMAGE_CHECKPOINT"
     ) +
     theme_fig18() +
     theme(
@@ -151,7 +151,7 @@ panel_C <- read_fig_proto(
 # original script: "src/10_37_gsea-depmap-analysis.R"
 
 panel_D_density <- read_fig_proto(
-        "rankline_PAAD_G12V_HALLMARK_HEDGEHOG_SIGNALING.rds",
+        "rankline_PAAD_G12V_HALLMARK_HEDGEHOG_SIGNALING"
     ) +
     theme_fig18_densityplots(tag_margin_l = -7) +
     labs(
@@ -161,7 +161,7 @@ panel_D_density <- read_fig_proto(
     )
 
 panel_D <- read_fig_proto(
-        "rankplot_PAAD_G12V_HALLMARK_HEDGEHOG_SIGNALING.rds",
+        "rankplot_PAAD_G12V_HALLMARK_HEDGEHOG_SIGNALING"
     ) +
     theme_fig18() +
     theme(
@@ -198,9 +198,7 @@ panel_D <- panel_D +
 # A heatmap of the genes found to have allele-specific genetic dependencies.
 # original script: "src/10_11_syn-let_heatmaps-boxplots.R"
 
-pre_panel_E <- read_fig_proto(
-        "PAAD_CRISPR_manhattan_ward.D2_pheatmap.rds",
-    )[[4]]
+pre_panel_E <- read_fig_proto("PAAD_CRISPR_manhattan_ward.D2_pheatmap")[[4]]
 
 pre_panel_E_main <- gtable::gtable_filter(pre_panel_E,
                                           "legend",
@@ -248,17 +246,17 @@ prep_pheatmap_colorbar <- function(name) {
 }
 
 panel_E_legend1 <- prep_pheatmap_colorbar(
-        "PAAD_CRISPR_manhattan_ward.D2_pheatmap_heatpal.rds"
+        "PAAD_CRISPR_manhattan_ward.D2_pheatmap_heatpal"
     ) +
     labs(title = "scaled\ndep. score")
 
 panel_E_legend2 <- prep_pheatmap_legend(
-        "PAAD_CRISPR_manhattan_ward.D2_pheatmap_allelepal.rds"
+        "PAAD_CRISPR_manhattan_ward.D2_pheatmap_allelepal"
     ) +
     labs(title = "allele")
 
 panel_E_legend3 <- prep_pheatmap_legend(
-        "PAAD_CRISPR_manhattan_ward.D2_pheatmap_clusterpal.rds"
+        "PAAD_CRISPR_manhattan_ward.D2_pheatmap_clusterpal"
     ) +
     labs(title = "cluster")
 
@@ -276,11 +274,11 @@ panel_E_legend <- wrap_elements(full = panel_E_legend) +
 # original script: "src/10_11_syn-let_heatmaps-boxplots.R"
 
 panel_F_files <- c(
-    "PAAD-CEP350.rds",
-    "PAAD-EGLN2.rds",
-    "PAAD-JUN.rds",
-    "PAAD-NUMB.rds",
-    "PAAD-TMED2.rds"
+    "PAAD-CEP350",
+    "PAAD-EGLN2",
+    "PAAD-JUN",
+    "PAAD-NUMB",
+    "PAAD-TMED2"
 )
 
 panel_F_plots <- as.list(rep(NA, length(panel_F_files)))
@@ -340,7 +338,6 @@ AAAAAAAA
     save_figure(
         full_figure,
         figure_num = FIGNUM,
-        supp = SUPPLEMENTAL,
         dim = FIG_DIMENSIONS
     )
 }

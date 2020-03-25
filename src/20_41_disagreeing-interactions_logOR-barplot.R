@@ -101,13 +101,9 @@ specific_interactions <- c(
 
 # Save the ggplot object for a figure.
 save_logOR_ggproto <- function(bar_plot, si_obj, ...) {
-    saveRDS(
+    saveFigRds(
         bar_plot,
-        get_fig_proto_path(
-            as.character(glue("log-odds-ratio_barplot_{si_obj@cancer}")),
-            figure_num = si_obj@fig_num,
-            supp = si_obj@supp
-        )
+        as.character(glue("log-odds-ratio_barplot_{si_obj@cancer}"))
     )
 
 }

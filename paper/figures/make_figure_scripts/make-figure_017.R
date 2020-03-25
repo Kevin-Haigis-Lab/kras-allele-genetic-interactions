@@ -75,7 +75,7 @@ panel_A <- wrap_elements(full = panel_A) +
 # original script: "src/20_43_apriori-lists-genetic-interactions.R"
 
 panel_B <- read_fig_proto(
-        "goi_overlap_genetic_interactions_network_PAAD_allLists",
+        "goi_overlap_genetic_interactions_network_PAAD_allLists"
     ) +
     theme_graph_figS12() +
     theme(
@@ -97,7 +97,7 @@ panel_B <- wrap_elements(full = panel_B) +
 # original script: "src/20_41_disagreeing-interactions_logOR-barplot.R"
 
 panel_C <- read_fig_proto(
-        "log-odds-ratio_barplot_PAAD.rds",
+        "log-odds-ratio_barplot_PAAD.rds"
     ) +
     facet_wrap(~ hugo_symbol, scales = "free", ncol = 1) +
     theme_fig17() +
@@ -162,7 +162,7 @@ panel_D <- read_fig_proto("enrichr_PAAD.rds") +
 # original script: "src/20_47_enriched-functions_signaling-pathways.R"
 
 panel_E <- read_fig_proto(
-        "PAAD_G12V_GO-Biological-Process-2018_calcium-ion-transport.rds",
+        "PAAD_G12V_GO-Biological-Process-2018_calcium-ion-transport.rds"
     ) +
     scale_color_manual(
         values = c(comut_updown_pal,
