@@ -17,7 +17,14 @@ cancer_oncogenes <- list(
     )
 )
 
-FRACTION_OF_LUNG_THAT_ARE_LUAD <- 0.84
+
+FRACTION_OF_TISSUE_THAT_ARE_CANCER <- list(
+    "COAD" = 0.96,  # ACS: https://www.cancer.org/cancer/colon-rectal-cancer/about/what-is-colorectal-cancer.html
+    "LUAD" = 0.50,  # PMID: 25822850
+      "MM" = 1.00,
+    "PAAD" = 0.95,   # ACS: https://www.cancer.org/cancer/pancreatic-cancer/about/what-is-pancreatic-cancer.html
+    "SKCM" = 1.00
+)
 
 
 # Regular expressions to filter `cosmic_cgc_df$tumour_types_somatic`.

@@ -552,18 +552,21 @@ ggsave_wrapper(
 )
 
 
+percent_of_cancer <- tibble::enframe(FRACTION_OF_TISSUE_THAT_ARE_CANCER,
+                                     name = "cancer",
+                                     value = "frac") %>%
+    unnest(frac)
+
 # The incidence weights for each cancer.
 incidence_data <- acs_incidence_df %>%
     filter(!is.na(cancer) & !(cancer %in% c("SKCM", "all"))) %>%
     select(cancer, incidence) %>%
+    left_join(percent_of_cancer, by = "cancer") %>%
     mutate(
-        incidence = ifelse(
-            cancer == "LUAD",
-            incidence * !!FRACTION_OF_LUNG_THAT_ARE_LUAD,
-            incidence
-        ),
+        incidence = incidence * frac,
         incidence_frac_of_cancers = incidence / sum(incidence)
-    )
+    ) %>%
+    select(-frac)
 
 # Fraction of KRAS mutations at the hotspot codons.
 # `avg_codon_freq` is the average of the frequencies across the 4 cancers
@@ -592,4 +595,4 @@ alleles_df %>%
     ) %>%
     arrange(-adj_codon_freq) %T>%
     write_tsv(table_path(GRAPHS_DIR, "fraction-kras-percodon-adjusted.tsv")) %>%
-    knitr::kable()
+    knitr::kable(digits = 3)
