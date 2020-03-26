@@ -208,11 +208,7 @@ filter_gsea_for_select_results <- function(cancer, df, key) {
 
 
 # Information for where to save the ggplot proto object for a Figure.
-ggproto_save_info <- list(
-    COAD = list(fig_num = 4, supp = FALSE),
-    LUAD = list(fig_num = 4, supp = FALSE),
-    PAAD = list(fig_num = 13, supp = TRUE)
-)
+cancers_to_save_for_figures <- c("COAD", "LUAD", "PAAD")
 
 
 # MEMO sort of gene sets based on FDR and x-axis order.
@@ -251,12 +247,8 @@ select_gsea_plot <- function(cancer, data, ...) {
 
     purrr::pwalk(mod_data, pull_gsea_enplot)
 
-    if (cancer %in% names(ggproto_save_info)) {
-        save_info <- ggproto_save_info[[cancer]]
-        saveRDS(p,
-                get_fig_proto_path(basename(save_path),
-                                   figure_num = save_info$fig_num,
-                                   supp = save_info$supp))
+    if (cancer %in% cancers_to_save_for_figures) {
+        saveFigRds(p, basename(save_path))
     }
 }
 
@@ -324,9 +316,7 @@ get_color_values_to_highlight_allele <- function(data, allele) {
 
 
 save_to_proto <- function(cancer, allele, geneset, gg_obj, save_name) {
-    if (cancer %in% names(ggproto_save_info)) {
-        save_info <- ggproto_save_info[[cancer]]
-    } else {
+    if (!(cancer %in% cancers_to_save_for_figures)) {
         return(NULL)
     }
 
@@ -339,10 +329,7 @@ save_to_proto <- function(cancer, allele, geneset, gg_obj, save_name) {
     cond <- str_detect(str_to_lower(standardize_names(geneset)),
                        selected_genesets)
     if (any(cond)) {
-        saveRDS(gg_obj,
-                get_fig_proto_path(basename(save_name),
-                                   save_info$fig_num,
-                                   supp = save_info$supp))
+        saveFigRds(gg_obj, basename(save_name))
     }
 }
 

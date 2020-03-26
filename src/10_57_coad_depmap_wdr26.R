@@ -57,7 +57,4 @@ ggsave_wrapper(
     "small"
 )
 
-saveRDS(
-    p,
-    get_fig_proto_path("coad_depmap_wdr26-rna-v-dep.svg", 15, supp = TRUE)
-)
+saveFigRds(p, "coad_depmap_wdr26-rna-v-dep.svg")

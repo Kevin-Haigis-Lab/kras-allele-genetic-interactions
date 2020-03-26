@@ -9,21 +9,8 @@ GRAPHS_DIR_BOXES <- "10_11_linear-modeling-syn-let_boxplots"
 reset_graph_directory(GRAPHS_DIR_BOXES)
 
 
-ggproto_save_info <- list(
-    COAD = list(fig_num = 4, supp = FALSE),
-    LUAD = list(fig_num = 5, supp = FALSE),
-    PAAD = list(fig_num = 13, supp = TRUE)
-)
-
-
 save_boxplot_proto <- function(gg_obj, save_path, cancer) {
-    if (cancer %in% names(ggproto_save_info)) {
-        save_info <- ggproto_save_info[[cancer]]
-        saveRDS(gg_obj,
-                get_fig_proto_path(basename(save_path),
-                                   figure_num = save_info$fig_num,
-                                   supp = save_info$supp))
-    }
+    saveFigRds(gg_obj, basename(save_path))
 }
 
 
@@ -123,7 +110,7 @@ plot_pairwise_test_results2 <- function(hugo_symbol, cancer, data,
     }
 
     if (save_proto) {
-        save_boxplot_proto(p, plot_fname, cancer)
+        save_boxplot_proto(p, plot_fname)
     }
 }
 
@@ -212,16 +199,11 @@ merge_wt <- function(df, data) {
     return(new_df)
 }
 
-fig_save_info <- list(
-    COAD = list(fig_num = 4, supp = FALSE),
-    LUAD = list(fig_num = 4, supp = FALSE),
-    PAAD = list(fig_num = 13, supp = TRUE)
-)
-
 
 replace_WT_in_luad <- function(df) {
     df %>% mutate(name = ifelse(name == "WT (avg.)", "WT", name))
 }
+
 
 # Custom annotation legends using `ggplot2::geom_tile()`.
 make_annotation_tile <- function(v, grp) {
@@ -247,15 +229,8 @@ make_annotation_tile <- function(v, grp) {
 # Save a proto for a figure.
 save_pheatmap_proto <- function(cancer, ph, save_path,
                                 anno_pal = NULL, heat_pal = NULL) {
-    if (cancer %in% names(fig_save_info)) {
-        save_info <- fig_save_info[[cancer]]
-    } else {
-        return(NULL)
-    }
 
-    saveRDS(ph, get_fig_proto_path(basename(save_path),
-                                   save_info$fig_num,
-                                   supp = save_info$supp))
+    saveFigRds(ph, basename(save_path))
 
     anno_save_path <- function(pal_name) {
         paste0(file_sans_ext(basename(save_path)), "_", pal_name, ".svg")
@@ -264,19 +239,16 @@ save_pheatmap_proto <- function(cancer, ph, save_path,
     if (!is.null(anno_pal)) {
         g_allele <- make_annotation_tile(anno_pal$allele, "allele")
         p <- anno_save_path("allelepal")
-        saveRDS(g_allele,
-                get_fig_proto_path(p, save_info$fig_num, supp = save_info$supp))
+        saveFigRds(g_allele, p)
         g_cls <- make_annotation_tile(anno_pal$cluster, "cluster")
         p <- anno_save_path("clusterpal")
-        saveRDS(g_cls,
-                get_fig_proto_path(p, save_info$fig_num, supp = save_info$supp))
+        saveFigRds(g_cls, p)
     }
 
     if (!is.null(heat_pal)) {
         g_heat <- make_annotation_tile(heat_pal, "heat")
         p <- anno_save_path("heatpal")
-        saveRDS(g_heat,
-                get_fig_proto_path(p, save_info$fig_num, supp = save_info$supp))
+        saveFigRds(g_heat, p)
     }
 }
 

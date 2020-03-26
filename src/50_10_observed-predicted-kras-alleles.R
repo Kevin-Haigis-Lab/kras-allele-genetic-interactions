@@ -711,10 +711,7 @@ plots <- obs_v_pred_scatter_plot(
     save_template = "obs_pred_plot_stats_{CANCER}.svg"
 )
 
-saveRDS(
-    plots,
-    get_fig_proto_path("obs_pred_plot_stats", 1)
-)
+saveFigRds(plots, "obs_pred_plot_stats")
 
 
 
@@ -746,7 +743,4 @@ plots <- obs_v_pred_scatter_plot(real_af, predicted_af_g12,
                         stats_tib = kras_g12_freq_stats,
                         with_errorbars = TRUE,
                         save_template = "obs_pred_plot_g12_stats_{CANCER}.svg")
-saveRDS(
-    plots,
-    get_fig_proto_path("obs_pred_plot_g12_stats", 1)
-)
+saveFigRds(plots, "obs_pred_plot_g12_stats")

@@ -175,7 +175,4 @@ ggsave_wrapper(
     "tall"
 )
 
-saveRDS(
-    comut_dep_connectivity_bars,
-    get_fig_proto_path("comut_dep_connectivity_bars", 5)
-)
+saveFigRds(comut_dep_connectivity_bars, "comut_dep_connectivity_bars")

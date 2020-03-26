@@ -203,8 +203,7 @@ save_to_graphs_dir <- function(cancer,
 
     # Save the ggplot object for figure `save_for_fig`.
     if (!is.na(save_for_fig)) {
-        saveRDS(comut_plot,
-                get_fig_proto_path(save_name, save_for_fig, supp = supp))
+        saveFigRds(comut_plot, save_name)
     }
 }
 

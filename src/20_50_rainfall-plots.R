@@ -423,12 +423,10 @@ save_gg_onco_proto <- function(gg_obj, save_name, cancer) {
     n <- file_sans_ext(save_name)
     cat("saving gg object for:", n, "\n")
 
-    if (cancer == "COAD") {
-        saveRDS(gg_obj, get_fig_proto_path(n, 2))
-    } else if (cancer == "LUAD") {
-        saveRDS(gg_obj, get_fig_proto_path(n, 3))
-        saveRDS(gg_obj, get_fig_proto_path(n, 5))
+    if (cancer %in% c("COAD", "LUAD")) {
+        saveFigRds(gg_obj, n)
     }
+
     invisible(NULL)
 }
 

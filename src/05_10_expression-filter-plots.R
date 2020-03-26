@@ -64,10 +64,7 @@ ggsave_wrapper(
     plot_path(GRAPHS_DIR, "mutation-frequency-hist.svg"),
     width = 6, height = 4
 )
-saveRDS(
-    mut_freq_hist,
-    get_fig_proto_path("mutation-frequency-hist", 3, supp = TRUE)
-)
+saveFigRds(mut_freq_hist, "mutation-frequency-hist")
 
 
 #### ---- Data to TSV ---- ####

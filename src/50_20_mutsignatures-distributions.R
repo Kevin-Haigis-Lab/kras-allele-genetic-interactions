@@ -258,10 +258,7 @@ mutsig_per_sample_plots <- mutsig_noartifact_df %>%
     pwalk(save_barplot_distribution_per_sample_plots)
 
 # Save faceted plot as proto for Supp. Figure 2.
-saveRDS(
-    mutsig_per_sample_plots,
-    get_fig_proto_path("mutsig_per_sample_plots", 2, supp = TRUE)
-)
+saveFigRds(mutsig_per_sample_plots, "mutsig_per_sample_plots")
 
 
 
@@ -298,10 +295,7 @@ ggsave_wrapper(
     "large"
 )
 # Save faceted plot as proto for Supp. Figure 2.
-saveRDS(
-    mutsig_per_sample_plot,
-    get_fig_proto_path("signature-level-per-sample", 2, supp = TRUE)
-)
+saveFigRds(mutsig_per_sample_plot, "signature-level-per-sample")
 
 
 
@@ -346,10 +340,7 @@ ggsave_wrapper(
     plot_path(GRAPHS_DIR, "signature-level-boxplots_with0.svg"),
     "tall"
 )
-saveRDS(
-    sig_boxes_with0s,
-    get_fig_proto_path("signature-level-boxplots_with0", 2, supp = TRUE)
-)
+saveFigRds(sig_boxes_with0s, "signature-level-boxplots_with0")
 
 # Boxplots of mutational signatures in each sample (values of zero maintained).
 sig_boxes <- mutsig_noartifact_df %>%
@@ -362,10 +353,7 @@ ggsave_wrapper(
     plot_path(GRAPHS_DIR, "signature-level-boxplots.svg"),
     "tall"
 )
-saveRDS(
-    sig_boxes,
-    get_fig_proto_path("signature-level-boxplots", 2, supp = TRUE)
-)
+saveFigRds(sig_boxes, "signature-level-boxplots")
 
 
 
@@ -424,12 +412,8 @@ ggsave_wrapper(
     'wide'
 )
 
-saveRDS(
-    distribution_plots,
-    get_fig_proto_path(
-        "mutational-signatures-distribution-by-allele", 2, supp = TRUE
-    ),
-)
+saveFigRds(distribution_plots,
+           "mutational-signatures-distribution-by-allele")
 
 
 
@@ -500,10 +484,8 @@ ggsave_wrapper(
     width = 5, height = 4
 )
 
-saveRDS(
-    clock_violin_box,
-    get_fig_proto_path("clock-signatures_violin-box", 2, supp = TRUE)
-)
+saveFigRds(clock_violin_box,
+           "clock-signatures_violin-box")
 
 # Distribution of levels of clock vs. non-clock signatures.
 # horizontal density plot.

@@ -307,7 +307,4 @@ ggsave_wrapper(
     "wide"
 )
 
-saveRDS(
-    stk11_lollipop_patch,
-    get_fig_proto_path("stk11_lollipop_patch.rds", 5)
-)
+saveFigRds(stk11_lollipop_patch, "stk11_lollipop_patch.rds")

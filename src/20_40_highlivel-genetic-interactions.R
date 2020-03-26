@@ -157,14 +157,11 @@ for (CANCER in sort(unique(genetic_interaction_df$cancer))) {
 
     rds_template <- "genetic_interaction_network_{CANCER}"
     if (CANCER == "COAD") {
-        saveRDS(gr_plot, get_fig_proto_path(as.character(glue(rds_template)),
-                                            2))
+        saveFigRds(gr_plot, as.character(glue(rds_template)))
     } else if (CANCER == "LUAD") {
-        saveRDS(gr_plot, get_fig_proto_path(as.character(glue(rds_template)),
-                                            3))
+        saveFigRds(gr_plot, as.character(glue(rds_template)))
     } else if (CANCER  == "PAAD") {
-        saveRDS(gr_plot, get_fig_proto_path(as.character(glue(rds_template)),
-                                            3, supp = FALSE))
+        saveFigRds(gr_plot, as.character(glue(rds_template)))
     }
 }
 
@@ -209,10 +206,7 @@ for (CANCER in sort(unique(genetic_interaction_df$cancer))) {
         )
 
     rds_template <- "genetic_interaction_network_labeled_{CANCER}"
-    save_path <- get_fig_proto_path(as.character(glue(rds_template)),
-                                    cancer_fignum[[CANCER]],
-                                    supp = TRUE)
-    saveRDS(gr_plot, save_path)
+    saveFigRds(gr_plot, as.character(glue(rds_template)))
 }
 
 
@@ -231,10 +225,7 @@ gr_plot <- get_plotting_graph(genetic_interaction_gr, "LUAD") %E>%
     labs(
         edge_color = "interaction"
     )
-save_path <- get_fig_proto_path(
-    "genetic_interaction_increased_network_labeled_LUAD", 6, supp = TRUE
-)
-saveRDS(gr_plot, save_path)
+saveFigRds(gr_plot, "genetic_interaction_increased_network_labeled_LUAD")
 
 
 # Supplemental 7: reduced comutation for G12C-only interactions
@@ -249,10 +240,7 @@ gr_plot <- g12c_luad_gr %>%
     labs(
         edge_color = "interaction"
     )
-save_path <- get_fig_proto_path(
-    "genetic_interaction_reduced_G12Conly_network_labeled_LUAD", 7, supp = TRUE
-)
-saveRDS(gr_plot, save_path)
+saveFigRds(gr_plot, "genetic_interaction_reduced_G12Conly_network_labeled_LUAD")
 
 
 # Supplemental 8: reduced comutation for all but G12C-only interactions
@@ -268,11 +256,10 @@ gr_plot <- get_plotting_graph(genetic_interaction_gr, "LUAD") %E>%
     labs(
         edge_color = "interaction"
     )
-save_path <- get_fig_proto_path(
-    "genetic_interaction_reduced_notG12Conly_network_labeled_LUAD",
-    8, supp = TRUE
+saveFigRds(
+    gr_plot,
+    "genetic_interaction_reduced_notG12Conly_network_labeled_LUAD"
 )
-saveRDS(gr_plot, save_path)
 
 
 

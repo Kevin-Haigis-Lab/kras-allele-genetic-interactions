@@ -19,7 +19,7 @@ cd paper/figures
 for img in *svg
 do
 	echo "Converting $img"
-	PDF_NAME="pdfs/$(basename $img svg)pdf"
+	PDF_NAME="$(basename $img svg)pdf"
 	cairosvg $img -o $PDF_NAME -s 1.333
 done
 

@@ -161,21 +161,6 @@ ggsave_wrapper(patch,
                "medium")
 
 
-# Save the ggprotos to Supp. Figure 9.
-save_mm_supp_figure <- function(gg_obj, name) {
-    saveRDS(gg_obj,
-            get_fig_proto_path(name, 9, supp = TRUE))
-}
-# Save the ggprotos to Figure 3.
-save_mm_figure <- function(gg_obj, name) {
-    saveRDS(gg_obj,
-            get_fig_proto_path(name, 3, supp = FALSE))
-}
-
-save_mm_figure(mm_comut_heatmap, "mm_comut_heatmap")
-save_mm_figure(allele_freq_barplot, "allele_freq_barplot")
-save_mm_figure(gene_freq_barplot, "gene_freq_barplot")
-
-save_mm_supp_figure(mm_comut_heatmap, "mm_comut_heatmap")
-save_mm_supp_figure(allele_freq_barplot, "allele_freq_barplot")
-save_mm_supp_figure(gene_freq_barplot, "gene_freq_barplot")
+saveFigRds(mm_comut_heatmap, "mm_comut_heatmap")
+saveFigRds(allele_freq_barplot, "allele_freq_barplot")
+saveFigRds(gene_freq_barplot, "gene_freq_barplot")
