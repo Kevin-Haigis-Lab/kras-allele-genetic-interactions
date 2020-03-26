@@ -1,4 +1,4 @@
-# Co-mutation of *KRAS*
+# Comutation of *KRAS*
 
 **author: Joshua Cook**
 
