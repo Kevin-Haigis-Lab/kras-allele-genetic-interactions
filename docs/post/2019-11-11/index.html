@@ -82,7 +82,7 @@ The second fix was to set some custom sizes for the manually-selected plots. Thi
   
   
   
-  <link rel="stylesheet" href="/css/academic.min.a3cda781a9b24f26fefd34a53547835b.css">
+  <link rel="stylesheet" href="/css/academic.min.8dd578cd76c3629e6ab58a6a8cf64508.css">
 
   
 
@@ -509,121 +509,81 @@ The second fix was to set some custom sizes for the manually-selected plots. Thi
   <div class="article-container">
 
     <div class="article-style">
-      
-
-<h2 id="refine-rainfall-plots">Refine rainfall plots</h2>
-
+      <h2 id="refine-rainfall-plots">Refine rainfall plots</h2>
 <p>I first had to fix a mistake in the creation of the MAF-compliant tibble by removing hypermutants.
 This had no effects on the results because the hypermutants were removed from the initial tests for comutation and mutual exclusivity.
 The only effect was to make some comutation interactions look even more striking.</p>
-
 <p>The second fix was to set some custom sizes for the manually-selected plots.
 This was purely aesthetic.</p>
-
-<hr />
-
+<hr>
 <h2 id="coloration-of-synthetic-lethal-heat-maps">Coloration of synthetic lethal heat maps</h2>
-
 <p>I updated the color scale used for the heatmaps to use the orange and purple for up and down effects, respectively:</p>
-
-<p><img src="/img/graphs/00_miscellaneous/genetic_interaction_pal.svg" width=400 /></p>
-
+<p><!-- raw HTML omitted --></p>
 <p>This was pretty simple to do, and for future reference, here was all I had to do.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">pal <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">c</span>(synthetic_lethal_pal[<span style="color:#e6db74">&#34;down&#34;</span>], <span style="color:#e6db74">&#34;grey95&#34;</span>, synthetic_lethal_pal[<span style="color:#e6db74">&#34;up&#34;</span>])
+pal <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">colorRampPalette</span>(pal)(<span style="color:#ae81ff">7</span>)
 
-<pre><code class="language-r">pal &lt;- c(synthetic_lethal_pal[&quot;down&quot;], &quot;grey95&quot;, synthetic_lethal_pal[&quot;up&quot;])
-pal &lt;- colorRampPalette(pal)(7)
-
-ph &lt;- pheatmap::pheatmap(
+ph <span style="color:#f92672">&lt;-</span> pheatmap<span style="color:#f92672">::</span><span style="color:#a6e22e">pheatmap</span>(
     mod_data,
-    color = pal,
-    ...
+    color <span style="color:#f92672">=</span> pal,
+    <span style="color:#66d9ef">...</span>
 )
-</code></pre>
-
-<h2 id="fix-observed-vs-predicted-allele-frequency-plots">Fix observed vs. predicted allele frequency plots</h2>
-
+</code></pre></div><h2 id="fix-observed-vs-predicted-allele-frequency-plots">Fix observed vs. predicted allele frequency plots</h2>
 <p>Originally, GM used some funky formulation to create the observed vs. predicted plots was way to convoluted - he wasn&rsquo;t even able to explain it to me in person, so how could I do it in text?
 Therefore, I wanted to create a simpler formulation to answer the question: <strong>If a sample was to have a KRAS mutation, what is the most likely one for it to get if decided by mutational signatures?</strong></p>
-
 <p>My formulation is as follows:</p>
-
 <ul>
 <li>for a tumor sample:
-
 <ul>
 <li>for each trinucleotide mutation $m$ with context $c$ that can cause a KRAS mutation:
-
 <ul>
 <li>calculate: $\frac{|m|}{|c|}$</li>
-</ul></li>
+</ul>
+</li>
 <li>for each allele $a$:
-
 <ul>
 <li>$p(a) = \sum{p(m)} \quad \text{where} \quad m \rightarrow a$</li>
-</ul></li>
-<li>normalize such that ${A} \Rightarrow \sum^{A}{a} = 1$</li>
-</ul></li>
 </ul>
-
+</li>
+<li>normalize such that ${A} \Rightarrow \sum^{A}{a} = 1$</li>
+</ul>
+</li>
+</ul>
 <p>This approach assumes that all codons are the same.
 If we were interested in only G12 mutations (the null hypothesis being that all G12 mutations are equal), then the same approach is followed again, but only normalizing the G12 mutations at the end.</p>
-
 <p>The data I used was from GM:</p>
-
 <ul>
-<li>&rdquo;/n/data1/hms/dbmi/park/gmelloni/cooc_mutex_driver/data/cbioportal/&rdquo;:
-
+<li>&ldquo;/n/data1/hms/dbmi/park/gmelloni/cooc_mutex_driver/data/cbioportal/&quot;:
 <ul>
 <li>&ldquo;paad_luad_coadread_skcm_mm_tricLong_newAug2019.rds&rdquo;</li>
 <li>&ldquo;context_and_signa_paad_luad_coadread_skcm_mm_NEW.rds&rdquo;</li>
-</ul></li>
 </ul>
-
+</li>
+</ul>
 <p>It was prepared in &ldquo;munge/50_trinucleotide-mutations.R&rdquo;</p>
-
 <p>The analysis was conducted in &ldquo;src/50_10_observed-predicted-kras-alleles.R&rdquo;.
 The box plot below shows the distribution of predicted allele frequencies in each cancer.</p>
-
-<p><img src="/img/graphs/50_10_observed-predicted-kras-alleles/predicted_kras_allele_frequency_boxplot.svg" alt="" /></p>
-
+<p><img src="/img/graphs/50_10_observed-predicted-kras-alleles/predicted_kras_allele_frequency_boxplot.svg" alt=""></p>
 <p>The bar plot shows the same data, just taking the average across all samples.
 The error bars indicate the SEM.</p>
-
-<p><img src="/img/graphs/50_10_observed-predicted-kras-alleles/predict_kras_allele_frequency_barplot1.svg" alt="" /></p>
-
+<p><img src="/img/graphs/50_10_observed-predicted-kras-alleles/predict_kras_allele_frequency_barplot1.svg" alt=""></p>
 <p>The following bar plot, again, shows the same results, just stratified by allele across cancers.</p>
-
-<p><img src="/img/graphs/50_10_observed-predicted-kras-alleles/predict_kras_allele_frequency_barplot2.svg" alt="" /></p>
-
+<p><img src="/img/graphs/50_10_observed-predicted-kras-alleles/predict_kras_allele_frequency_barplot2.svg" alt=""></p>
 <p>Below are the results for two different null hypothesis: 1) all <em>KRAS</em> hotspots are equivalent, and 2) all <em>KRAS</em> G12 alleles are equivalent.</p>
-
 <h3 id="coad">COAD</h3>
-
-<p><img src="/img/graphs/50_10_observed-predicted-kras-alleles/obs_pred_plot_stats_COAD.svg" width=400 /></p>
-
-<p><img src="/img/graphs/50_10_observed-predicted-kras-alleles/obs_pred_plot_g12_stats_COAD.svg" width=400 /></p>
-
+<p><!-- raw HTML omitted --></p>
+<p><!-- raw HTML omitted --></p>
 <h3 id="luad">LUAD</h3>
-
-<p><img src="/img/graphs/50_10_observed-predicted-kras-alleles/obs_pred_plot_stats_LUAD.svg" width=400 /></p>
-
-<p><img src="/img/graphs/50_10_observed-predicted-kras-alleles/obs_pred_plot_g12_stats_LUAD.svg" width=400 /></p>
-
+<p><!-- raw HTML omitted --></p>
+<p><!-- raw HTML omitted --></p>
 <h3 id="mm">MM</h3>
-
-<p><img src="/img/graphs/50_10_observed-predicted-kras-alleles/obs_pred_plot_stats_MM.svg" width=400 /></p>
-
-<p><img src="/img/graphs/50_10_observed-predicted-kras-alleles/obs_pred_plot_g12_stats_MM.svg" width=400 /></p>
-
+<p><!-- raw HTML omitted --></p>
+<p><!-- raw HTML omitted --></p>
 <h3 id="paad">PAAD</h3>
-
-<p><img src="/img/graphs/50_10_observed-predicted-kras-alleles/obs_pred_plot_stats_PAAD.svg" width=400 /></p>
-
-<p><img src="/img/graphs/50_10_observed-predicted-kras-alleles/obs_pred_plot_g12_stats_PAAD.svg" width=400 /></p>
-
+<p><!-- raw HTML omitted --></p>
+<p><!-- raw HTML omitted --></p>
 <p>I ran a binomial test to find which observed rates of the alleles matched the predicted.
 The alleles that could be predicted (p &gt; 0.05) trinucleotide context are shown below.</p>
-
 <table>
 <thead>
 <tr>
@@ -634,7 +594,6 @@ The alleles that could be predicted (p &gt; 0.05) trinucleotide context are show
 <th align="center"><em>p</em>-value</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td align="center">COAD</td>
@@ -643,7 +602,6 @@ The alleles that could be predicted (p &gt; 0.05) trinucleotide context are show
 <td align="center">0.0314</td>
 <td align="center">0.445</td>
 </tr>
-
 <tr>
 <td align="center">COAD</td>
 <td align="center">G12R</td>
@@ -651,7 +609,6 @@ The alleles that could be predicted (p &gt; 0.05) trinucleotide context are show
 <td align="center">0.0171</td>
 <td align="center">0.301</td>
 </tr>
-
 <tr>
 <td align="center">COAD</td>
 <td align="center">Q61L</td>
@@ -659,7 +616,6 @@ The alleles that could be predicted (p &gt; 0.05) trinucleotide context are show
 <td align="center">0.0133</td>
 <td align="center">0.697</td>
 </tr>
-
 <tr>
 <td align="center">LUAD</td>
 <td align="center">Q61L</td>
@@ -667,7 +623,6 @@ The alleles that could be predicted (p &gt; 0.05) trinucleotide context are show
 <td align="center">0.0249</td>
 <td align="center">0.503</td>
 </tr>
-
 <tr>
 <td align="center">MM</td>
 <td align="center">G12A</td>
@@ -675,7 +630,6 @@ The alleles that could be predicted (p &gt; 0.05) trinucleotide context are show
 <td align="center">0.0431</td>
 <td align="center">0.171</td>
 </tr>
-
 <tr>
 <td align="center">MM</td>
 <td align="center">G12C</td>
@@ -683,7 +637,6 @@ The alleles that could be predicted (p &gt; 0.05) trinucleotide context are show
 <td align="center">0.0332</td>
 <td align="center">1</td>
 </tr>
-
 <tr>
 <td align="center">MM</td>
 <td align="center">G12D</td>
@@ -691,7 +644,6 @@ The alleles that could be predicted (p &gt; 0.05) trinucleotide context are show
 <td align="center">0.0910</td>
 <td align="center">0.108</td>
 </tr>
-
 <tr>
 <td align="center">MM</td>
 <td align="center">G12V</td>
@@ -699,7 +651,6 @@ The alleles that could be predicted (p &gt; 0.05) trinucleotide context are show
 <td align="center">0.0602</td>
 <td align="center">0.436</td>
 </tr>
-
 <tr>
 <td align="center">MM</td>
 <td align="center">G13D</td>
@@ -707,7 +658,6 @@ The alleles that could be predicted (p &gt; 0.05) trinucleotide context are show
 <td align="center">0.104</td>
 <td align="center">0.191</td>
 </tr>
-
 <tr>
 <td align="center">MM</td>
 <td align="center">Q61R</td>
@@ -717,9 +667,7 @@ The alleles that could be predicted (p &gt; 0.05) trinucleotide context are show
 </tr>
 </tbody>
 </table>
-
 <p>The alleles that could be predicted (p &gt; 0.05) when only considering the G12 alleles are show below.</p>
-
 <table>
 <thead>
 <tr>
@@ -730,7 +678,6 @@ The alleles that could be predicted (p &gt; 0.05) trinucleotide context are show
 <th align="center"><em>p</em>-value</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td align="center">COAD</td>
@@ -739,7 +686,6 @@ The alleles that could be predicted (p &gt; 0.05) trinucleotide context are show
 <td align="center">0.321</td>
 <td align="center">0.185</td>
 </tr>
-
 <tr>
 <td align="center">COAD</td>
 <td align="center">G12V</td>
@@ -747,7 +693,6 @@ The alleles that could be predicted (p &gt; 0.05) trinucleotide context are show
 <td align="center">0.196</td>
 <td align="center">1</td>
 </tr>
-
 <tr>
 <td align="center">LUAD</td>
 <td align="center">G12A</td>
@@ -755,7 +700,6 @@ The alleles that could be predicted (p &gt; 0.05) trinucleotide context are show
 <td align="center">0.0717</td>
 <td align="center">0.350</td>
 </tr>
-
 <tr>
 <td align="center">LUAD</td>
 <td align="center">G12D</td>
@@ -763,7 +707,6 @@ The alleles that could be predicted (p &gt; 0.05) trinucleotide context are show
 <td align="center">0.139</td>
 <td align="center">0.552</td>
 </tr>
-
 <tr>
 <td align="center">LUAD</td>
 <td align="center">G12V</td>
@@ -771,7 +714,6 @@ The alleles that could be predicted (p &gt; 0.05) trinucleotide context are show
 <td align="center">0.253</td>
 <td align="center">0.386</td>
 </tr>
-
 <tr>
 <td align="center">MM</td>
 <td align="center">G12R</td>
@@ -781,11 +723,8 @@ The alleles that could be predicted (p &gt; 0.05) trinucleotide context are show
 </tr>
 </tbody>
 </table>
-
-<hr />
-
+<hr>
 <p>Minor changes to make:</p>
-
 <ol>
 <li>To waterfall plots in &ldquo;90_03_mutation-burden-distribution&rdquo;: make shorter and wider</li>
 <li>&ldquo;20_35_rc-fisher-comparison/rc_mutations_distribition.svg&rdquo;: let each axis scale separately.</li>

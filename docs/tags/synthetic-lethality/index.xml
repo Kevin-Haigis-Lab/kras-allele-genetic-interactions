@@ -17,161 +17,90 @@
       <link>https://project-notebook-comutation.netlify.com/project/allele-specific-synthetic-lethality/</link>
       <pubDate>Wed, 09 Oct 2019 06:58:30 -0400</pubDate>
       <guid>https://project-notebook-comutation.netlify.com/project/allele-specific-synthetic-lethality/</guid>
-      <description>
-
-&lt;h2 id=&#34;synthetic-lethality&#34;&gt;Synthetic Lethality&lt;/h2&gt;
-
+      <description>&lt;h2 id=&#34;synthetic-lethality&#34;&gt;Synthetic Lethality&lt;/h2&gt;
 &lt;p&gt;Synthetic lethality refers to a genetic interaction whereby one mutation sensitizes an organism to another normally-benign mutation.
 This overlaps with &amp;ldquo;dependency&amp;rdquo; whereby the first mutation pushes the organism into a state of reliance on specific functions.
 Blocking (by mutation or inhibition) this function would cause the mutant organism to die, but not effect the wild-type organisms.
 Thus, much of current cancer therapy research is focused on finding synthetic lethal interactions with common oncogenes.&lt;/p&gt;
-
 &lt;h2 id=&#34;allele-specific-synthetic-lethality&#34;&gt;Allele-specific synthetic lethality&lt;/h2&gt;
-
 &lt;p&gt;The goal of this portion of the Comutation project is to identify synthetic lethal interactions with specific &lt;em&gt;KRAS&lt;/em&gt; alleles.
 From a theory point-of-view, these interactions would provide information on the differences between the alleles.
 From a therapeutics point-of-view, the identification of allele-specific interactions could be used to further personalize treatment strategies towards the pursuit of precision medicine.&lt;/p&gt;
-
 &lt;h2 id=&#34;data&#34;&gt;Data&lt;/h2&gt;
-
 &lt;p&gt;For this analysis, we used the Cancer Dependency Mapping (DepMap) data.
 In this ongoing study, the cell lines from the Cancer Cell Line Encyclopedia (CCLE) were analyzed in a genome-wide, CRISPR-Cas9, loss-of-function screen whereby each gene was systemically knocked-out and the loss of growth of the cell line was measured.
 Thankfully, many omics data are available for the cell lines, including RNA expression, mutations, and CNA.&lt;/p&gt;
-
 &lt;p&gt;(Of note, there was an RNAi screen, though it was not as extensive as the CRISPR screen, and thus, was not used for this analysis.)&lt;/p&gt;
-
 &lt;h2 id=&#34;results&#34;&gt;Results&lt;/h2&gt;
-
 &lt;h3 id=&#34;identification-synthetic-lethal-interactions&#34;&gt;Identification synthetic lethal interactions&lt;/h3&gt;
-
 &lt;p&gt;The first test employed searched for individual genes with allele-specific synthetic lethality.
 Any depletion effects of knocking-out a gene that could be explained by the gene&amp;rsquo;s own RNA expression were removed first, as this was likely the cause.
 Then, an ANOVA was used to find genes that had differential effects across cell lines when grouped by their &lt;em&gt;KRAS&lt;/em&gt; allele.
 The genes with a statistically significant (p &amp;lt; 0.01) difference are shown below.
 Below the heatmaps are specific genes with strong allele-specific effects.&lt;/p&gt;
-
 &lt;p&gt;&lt;strong&gt;COAD&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_pheatmaps/COAD_CRISPR_pheatmap.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/COAD-IDH1.svg&#34; width=500 /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/COAD-PIP5K1A.svg&#34; width=500 /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/COAD-WDR26.svg&#34; width=500 /&gt;&lt;/p&gt;
-
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_pheatmaps/COAD_CRISPR_pheatmap.svg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;!-- raw HTML omitted --&gt;&lt;/p&gt;
+&lt;p&gt;&lt;!-- raw HTML omitted --&gt;&lt;/p&gt;
+&lt;p&gt;&lt;!-- raw HTML omitted --&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;LUAD&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_pheatmaps/LUAD_CRISPR_pheatmap.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_pheatmaps/LUAD_CRISPR_pheatmap.svg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;Because there are too many genes to show their names for LUAD, I identified enriched functions in the clusters.
 The functions that are a single gene are either transcription factors or kinases with their targets enriched in the cluster (the number at the end of each bar indicates the cluster).&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_13_linear-modeling-syn-let_fxnal-enrichment/functional-enrichment_LUAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-ARMC6.svg&#34; width=500 /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-EPN2.svg&#34; width=500 /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-FOXJ3.svg&#34; width=500 /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-HSBP1.svg&#34; width=500 /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-MAPK6.svg&#34; width=500 /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-P4HTM.svg&#34; width=500 /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-PTBP3.svg&#34; width=500 /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-TP53BP1.svg&#34; width=500 /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/LUAD-STAMBP.svg&#34; width=500 /&gt;&lt;/p&gt;
-
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_13_linear-modeling-syn-let_fxnal-enrichment/functional-enrichment_LUAD.svg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;!-- raw HTML omitted --&gt;&lt;/p&gt;
+&lt;p&gt;&lt;!-- raw HTML omitted --&gt;&lt;/p&gt;
+&lt;p&gt;&lt;!-- raw HTML omitted --&gt;&lt;/p&gt;
+&lt;p&gt;&lt;!-- raw HTML omitted --&gt;&lt;/p&gt;
+&lt;p&gt;&lt;!-- raw HTML omitted --&gt;&lt;/p&gt;
+&lt;p&gt;&lt;!-- raw HTML omitted --&gt;&lt;/p&gt;
+&lt;p&gt;&lt;!-- raw HTML omitted --&gt;&lt;/p&gt;
+&lt;p&gt;&lt;!-- raw HTML omitted --&gt;&lt;/p&gt;
+&lt;p&gt;&lt;!-- raw HTML omitted --&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;PAAD&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_pheatmaps/PAAD_CRISPR_pheatmap.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/PAAD-JUN.svg&#34; width=500 /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/PAAD-EGLN2.svg&#34; width=500 /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/PAAD-GPT2.svg&#34; width=500 /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_boxplots/PAAD-MRPS25.svg&#34; width=500 /&gt;&lt;/p&gt;
-
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_10_linear-modeling-syn-let_pheatmaps/PAAD_CRISPR_pheatmap.svg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;!-- raw HTML omitted --&gt;&lt;/p&gt;
+&lt;p&gt;&lt;!-- raw HTML omitted --&gt;&lt;/p&gt;
+&lt;p&gt;&lt;!-- raw HTML omitted --&gt;&lt;/p&gt;
+&lt;p&gt;&lt;!-- raw HTML omitted --&gt;&lt;/p&gt;
 &lt;h3 id=&#34;functional-enrichment-of-synthetic-lethal-interactions&#34;&gt;Functional enrichment of synthetic lethal interactions&lt;/h3&gt;
-
 &lt;p&gt;I use GSEA to identify functions that were generally enriched by &lt;em&gt;KRAS&lt;/em&gt; allele.
-Select results are shown below, but the full results are available in the notebook page from &lt;a href=&#34;https://project-notebook-comutation.netlify.com/post/2019-10-18/&#34; target=&#34;_blank&#34;&gt;2019-10-18&lt;/a&gt;.
+Select results are shown below, but the full results are available in the notebook page from &lt;a href=&#34;https://project-notebook-comutation.netlify.com/post/2019-10-18/&#34;&gt;2019-10-18&lt;/a&gt;.
 Note that a &lt;strong&gt;positive&lt;/strong&gt; NES corresponds to &lt;strong&gt;stronger&lt;/strong&gt; depletion effect.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_37_gsea-depmap-analysis/gsea-results-COAD-select.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_37_gsea-depmap-analysis/gsea-results-COAD-select.svg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;G12V de-enriched for nonsense-mediated decay&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_37_gsea-depmap-output/COAD_G12V/enplot_REACTOME_NONSENSE_MEDIATED_DECAY_NMD_66.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_37_gsea-depmap-output/COAD_G12V/enplot_REACTOME_NONSENSE_MEDIATED_DECAY_NMD_66.svg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;G12V enriched in TP53-regulated metabolism&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_37_gsea-depmap-output/COAD_G12V/enplot_REACTOME_TP53_REGULATES_METABOLIC_GENES_57.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_37_gsea-depmap-output/COAD_G12V/enplot_REACTOME_TP53_REGULATES_METABOLIC_GENES_57.svg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;G13D de-enriched for complement&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_37_gsea-depmap-output/COAD_G13D/enplot_REACTOME_COMPLEMENT_CASCADE_117.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_37_gsea-depmap-output/COAD_G13D/enplot_REACTOME_COMPLEMENT_CASCADE_117.svg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;G13D de-enriched for the ETC&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_37_gsea-depmap-output/COAD_G13D/enplot_REACTOME_RESPIRATORY_ELECTRON_TRANSPORT_69.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_37_gsea-depmap-output/COAD_G13D/enplot_REACTOME_RESPIRATORY_ELECTRON_TRANSPORT_69.svg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;LUAD&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_37_gsea-depmap-analysis/gsea-results-LUAD-select.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_37_gsea-depmap-analysis/gsea-results-LUAD-select.svg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;G12C enriched in the Bard1 pathway&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_37_gsea-depmap-output/LUAD_G12C/enplot_PID_BARD1_PATHWAY_33.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_37_gsea-depmap-output/LUAD_G12C/enplot_PID_BARD1_PATHWAY_33.svg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;G12C enriched in the Faconi anemia pathway&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_37_gsea-depmap-output/LUAD_G12C/enplot_REACTOME_FANCONI_ANEMIA_PATHWAY_3.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_37_gsea-depmap-output/LUAD_G12C/enplot_REACTOME_FANCONI_ANEMIA_PATHWAY_3.svg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;G12C de-enriched for $\beta$ alanine metabolism&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_37_gsea-depmap-output/LUAD_G12C/enplot_KEGG_BETA_ALANINE_METABOLISM_66.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_37_gsea-depmap-output/LUAD_G12C/enplot_KEGG_BETA_ALANINE_METABOLISM_66.svg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;PAAD&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_37_gsea-depmap-analysis/gsea-results-PAAD-select.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_37_gsea-depmap-analysis/gsea-results-PAAD-select.svg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;G12R enriched in JNK (c-Jun kinases) phosphorylation and activation mediated by activated human TAK1&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_37_gsea-depmap-output/PAAD_G12R/enplot_REACTOME_JNK_C_JUN_KINASES_PHOSPHORYLATION_AND_ACTIVATION_MEDIATED_BY_ACTIVATED_HUMAN_TAK1_57.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_37_gsea-depmap-output/PAAD_G12R/enplot_REACTOME_JNK_C_JUN_KINASES_PHOSPHORYLATION_AND_ACTIVATION_MEDIATED_BY_ACTIVATED_HUMAN_TAK1_57.svg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;G12R enriched in NF-kB Signaling Pathway&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_37_gsea-depmap-output/PAAD_G12R/enplot_BIOCARTA_NFKB_PATHWAY_45.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_37_gsea-depmap-output/PAAD_G12R/enplot_BIOCARTA_NFKB_PATHWAY_45.svg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;G12R enriched in G2/M DNA damage checkpoint&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_37_gsea-depmap-output/PAAD_G12R/enplot_REACTOME_G2_M_DNA_DAMAGE_CHECKPOINT_24.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_37_gsea-depmap-output/PAAD_G12R/enplot_REACTOME_G2_M_DNA_DAMAGE_CHECKPOINT_24.svg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;G12V de-enriched in the hedgehog signaling pathway&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_37_gsea-depmap-output/PAAD_G12V/enplot_HALLMARK_HEDGEHOG_SIGNALING_72.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_37_gsea-depmap-output/PAAD_G12V/enplot_HALLMARK_HEDGEHOG_SIGNALING_72.svg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;G12V de-enriched in the regulation of cholesterol biosynthesis by SREBP (SREBF)&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_37_gsea-depmap-output/PAAD_G12V/enplot_REACTOME_REGULATION_OF_CHOLESTEROL_BIOSYNTHESIS_BY_SREBP_SREBF_69.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_37_gsea-depmap-output/PAAD_G12V/enplot_REACTOME_REGULATION_OF_CHOLESTEROL_BIOSYNTHESIS_BY_SREBP_SREBF_69.svg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;h3 id=&#34;no-obvious-differences-in-the-general-distribution-of-depletion-effects-per-allele&#34;&gt;No obvious differences in the general distribution of depletion effects per allele&lt;/h3&gt;
-
 &lt;p&gt;Of note, there are no obvious differences in the overall distribution of depletion effects per &lt;em&gt;KRAS&lt;/em&gt; allele.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_45_overall-dependencies-by-allele/dependency-overview_COAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_45_overall-dependencies-by-allele/dependency-overview_LUAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_45_overall-dependencies-by-allele/dependency-overview_PAAD.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_45_overall-dependencies-by-allele/dependency-overview_COAD.svg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_45_overall-dependencies-by-allele/dependency-overview_LUAD.svg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/10_45_overall-dependencies-by-allele/dependency-overview_PAAD.svg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 </description>
     </item>
     
