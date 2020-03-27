@@ -5,12 +5,55 @@
     <link>https://project-notebook-comutation.netlify.com/post/</link>
       <atom:link href="https://project-notebook-comutation.netlify.com/post/index.xml" rel="self" type="application/rss+xml" />
     <description>Posts</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Thu, 26 Mar 2020 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Fri, 27 Mar 2020 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://project-notebook-comutation.netlify.com/img/icon-192.png</url>
       <title>Posts</title>
       <link>https://project-notebook-comutation.netlify.com/post/</link>
     </image>
+    
+    <item>
+      <title>2020-03-27</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2020-03-27/</link>
+      <pubDate>Fri, 27 Mar 2020 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2020-03-27/</guid>
+      <description>&lt;h2 id=&#34;integration-ananlysis-for-luad-and-paad&#34;&gt;Integration ananlysis for LUAD and PAAD&lt;/h2&gt;
+&lt;p&gt;( I did not do an analysis for MM because the comutation network was so sparse and there was no dependency analysis for the cancer.)&lt;/p&gt;
+&lt;p&gt;The two new analysis are in separate scripts, though they both use functions from the original COAD script:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;LUAD: &lt;code&gt;40_16_comparing-LUAD-allele-subnetworks.R&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;PAAD: &lt;code&gt;40_17_comparing-PAAD-allele-subnetworks.R&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;For LUAD, because the network was so large, it was further filtered for only the &lt;em&gt;a priori&lt;/em&gt; gene set used earlier in the comutation analysis section.&lt;/p&gt;
+&lt;h3 id=&#34;annotations-using-ggforce&#34;&gt;Annotations using &amp;lsquo;ggforce&amp;rsquo;&lt;/h3&gt;
+&lt;p&gt;To add &amp;lsquo;ggforce&amp;rsquo; annotations, I needed to install the &amp;lsquo;concaveman&amp;rsquo; package which, in turn, was dependent upon &lt;a href=&#34;https://github.com/r-spatial/sf&#34;&gt;&amp;lsquo;sf&amp;rsquo;&lt;/a&gt;.
+&amp;lsquo;sf&amp;rsquo; required 3 other software packages to run: GDAL, GEOS, and Proj.4.
+GDAL is available on O2, and can be loaded with:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;module load gcc gdal
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;GEOS required manual installation.
+Following their &lt;a href=&#34;https://github.com/libgeos/geos/blob/master/INSTALL&#34;&gt;instructions&lt;/a&gt;, below are the commands I used:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;cd ~/mysoftware
+
+&lt;span style=&#34;color:#75715e&#34;&gt;# Download the latest release (not development version v3.9.0)&lt;/span&gt;
+wget https://github.com/libgeos/geos/archive/3.8.1.zip
+unzip 3.8.1.zip
+cd geos-3.8.1
+
+module load gcc cmake
+mkdir build &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; cd build &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; cmake -DCMAKE_BUILD_TYPE&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;Release ..
+make
+
+mkdir ~/mysoftware/geos-bin
+make DESTDIR&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/home/jc604/mysoftware/geos-bin&amp;#34;&lt;/span&gt; install
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The paths to the three directories (bin, include, and lib) were added to the &lt;code&gt;PATH&lt;/code&gt; global variable in &lt;code&gt;.bash_profile&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Finally, Proj.4 was installed using &amp;lsquo;conda&amp;rsquo;.
+I made a new environment for the comutation project.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;module load conda2
+conda create --name comutation
+conda activate comutation
+conda install -c conda-forge proj 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
     
     <item>
       <title>2020-03-26</title>
