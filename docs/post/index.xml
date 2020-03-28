@@ -32,27 +32,32 @@ GDAL is available on O2, and can be loaded with:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;module load gcc gdal
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;GEOS required manual installation.
 Following their &lt;a href=&#34;https://github.com/libgeos/geos/blob/master/INSTALL&#34;&gt;instructions&lt;/a&gt;, below are the commands I used:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;cd ~/mysoftware
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;module load gcc
+
+cd ~/mysoftware
 
 &lt;span style=&#34;color:#75715e&#34;&gt;# Download the latest release (not development version v3.9.0)&lt;/span&gt;
 wget https://github.com/libgeos/geos/archive/3.8.1.zip
 unzip 3.8.1.zip
 cd geos-3.8.1
 
-module load gcc cmake
-mkdir build &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; cd build &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; cmake -DCMAKE_BUILD_TYPE&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;Release ..
-make
+./autogen.sh
 
 mkdir ~/mysoftware/geos-bin
-make DESTDIR&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/home/jc604/mysoftware/geos-bin&amp;#34;&lt;/span&gt; install
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The paths to the three directories (bin, include, and lib) were added to the &lt;code&gt;PATH&lt;/code&gt; global variable in &lt;code&gt;.bash_profile&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;Finally, Proj.4 was installed using &amp;lsquo;conda&amp;rsquo;.
-I made a new environment for the comutation project.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;module load conda2
-conda create --name comutation
-conda activate comutation
-conda install -c conda-forge proj 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+mkdir obj &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; cd obj
+../configure --prefix&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;/home/jc604/mysoftware/geos-bin
+
+make
+
+make install
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The paths to the three directories (bin, include, and lib) were added to the &lt;code&gt;PATH&lt;/code&gt; global variable in &lt;code&gt;.bash_profile&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# For GEOS&lt;/span&gt;
+export PATH&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;$PATH:$HOME/mysoftware/geos-bin/bin
+export PATH&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;$PATH:$HOME/mysoftware/geos-bin/include
+export PATH&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;$PATH:$HOME/mysoftware/geos-bin/lib
+export LD_LIBRARY_PATH&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;$LD_LIBRARY_PATH:$HOME/mysoftware/geos-bin/lib
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Finally, Proj.4 was already installed and I didn&amp;rsquo;t need to take any extra steps.&lt;/p&gt;
+</description>
     </item>
     
     <item>

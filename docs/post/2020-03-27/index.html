@@ -526,27 +526,32 @@ GDAL is available on O2, and can be loaded with:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">module load gcc gdal
 </code></pre></div><p>GEOS required manual installation.
 Following their <a href="https://github.com/libgeos/geos/blob/master/INSTALL">instructions</a>, below are the commands I used:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cd ~/mysoftware
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">module load gcc
+
+cd ~/mysoftware
 
 <span style="color:#75715e"># Download the latest release (not development version v3.9.0)</span>
 wget https://github.com/libgeos/geos/archive/3.8.1.zip
 unzip 3.8.1.zip
 cd geos-3.8.1
 
-module load gcc cmake
-mkdir build <span style="color:#f92672">&amp;&amp;</span> cd build <span style="color:#f92672">&amp;&amp;</span> cmake -DCMAKE_BUILD_TYPE<span style="color:#f92672">=</span>Release ..
-make
+./autogen.sh
 
 mkdir ~/mysoftware/geos-bin
-make DESTDIR<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/home/jc604/mysoftware/geos-bin&#34;</span> install
-</code></pre></div><p>The paths to the three directories (bin, include, and lib) were added to the <code>PATH</code> global variable in <code>.bash_profile</code>.</p>
-<p>Finally, Proj.4 was installed using &lsquo;conda&rsquo;.
-I made a new environment for the comutation project.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">module load conda2
-conda create --name comutation
-conda activate comutation
-conda install -c conda-forge proj 
-</code></pre></div>
+mkdir obj <span style="color:#f92672">&amp;&amp;</span> cd obj
+../configure --prefix<span style="color:#f92672">=</span>/home/jc604/mysoftware/geos-bin
+
+make
+
+make install
+</code></pre></div><p>The paths to the three directories (bin, include, and lib) were added to the <code>PATH</code> global variable in <code>.bash_profile</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># For GEOS</span>
+export PATH<span style="color:#f92672">=</span>$PATH:$HOME/mysoftware/geos-bin/bin
+export PATH<span style="color:#f92672">=</span>$PATH:$HOME/mysoftware/geos-bin/include
+export PATH<span style="color:#f92672">=</span>$PATH:$HOME/mysoftware/geos-bin/lib
+export LD_LIBRARY_PATH<span style="color:#f92672">=</span>$LD_LIBRARY_PATH:$HOME/mysoftware/geos-bin/lib
+</code></pre></div><p>Finally, Proj.4 was already installed and I didn&rsquo;t need to take any extra steps.</p>
+
     </div>
 
     
