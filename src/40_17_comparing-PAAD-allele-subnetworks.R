@@ -2,6 +2,8 @@
 
 source(file.path("src", "40_15_comparing-COAD-allele-subnetworks.R"))
 
+set.seed(0)
+
 GRAPHS_DIR <- "40_17_comparing-PAAD-allele-subnetworks"
 reset_graph_directory(GRAPHS_DIR)
 reset_table_directory(GRAPHS_DIR)

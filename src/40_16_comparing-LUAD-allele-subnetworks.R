@@ -93,6 +93,7 @@ luad_overlap_comparison_ppin <- tibble(
     )
 
 
+set.seed(511)
 for (al in c("G12C", "G12V")) {
 
     anno_tib <- LUAD_GRAPH_ANNOTATIONS %>%
@@ -122,7 +123,7 @@ for (al in c("G12C", "G12V")) {
     allele_ppin %>%
         plot_overlap_comparison_graph(
             annotation_tib = anno_tib,
-            graph_layout = ifelse(al == "G12C", "nicely", "stress"),
+            graph_layout = ifelse(al == "G12C", "lgl", "stress"),
             node_size = node_size
         ) %T>%
         ggsave_wrapper(plt_name, "large") %>%
