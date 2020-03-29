@@ -79,13 +79,39 @@ add_group_annotations <- function(gr, anno_tib) {
 }
 
 
-plot_overlap_comparison_graph2 <- function(gr,
-                                           special_labels = NULL,
-                                           annotation_tib = NULL,
-                                           node_label_size = 2,
-                                           node_label_repel = TRUE,
-                                           node_size = 3
-                                       ) {
+add_ggforce_annotations <- function(p, anno_tib) {
+    anno_pal <- anno_tib %>%
+        select(name, fill) %>%
+        dplyr::rename(value = fill) %>%
+        deframe()
+    p <- p +
+        ggforce::geom_mark_hull(
+            aes(x, y,
+                fill = grp_name,
+                label = grp_name,
+                filter = !is.na(grp_name)),
+            color = NA,
+            alpha = 0.2,
+            label.family = "arial",
+            label.fontsize = 7,
+            con.cap = unit(1, "mm"),
+            con.type = "straight",
+            label.buffer = unit(3, "mm"),
+            label.fill = NULL,
+            concavity = 20,
+            expand = unit(3, "mm")
+        ) +
+        scale_fill_manual(
+            values = anno_pal,
+            guide = FALSE
+        )
+    return(p)
+}
+
+
+prepare_overlap_comparison_graph_plot <- function(gr,
+                                                  special_labels = NULL,
+                                                  annotation_tib = NULL) {
     mod_gr <- gr %>%
         mutate(
             node_color = case_when(
@@ -102,41 +128,41 @@ plot_overlap_comparison_graph2 <- function(gr,
         mod_gr <- add_group_annotations(mod_gr, annotation_tib)
     }
 
+    return(mod_gr)
+}
+
+
+make_node_and_edge_palettes <- function(gr) {
     max_ct <- max(str_count(igraph::V(gr)$allele, ",")) + 1
     pal <- c(
         short_allele_pal[names(short_allele_pal) %in% igraph::V(gr)$allele],
         "special" = "indianred1",
         make_brown_pal(max_ct)
     )
-    edge_pal <- pal[names(pal) %in% levels(igraph::E(mod_gr)$edge_color)]
+    edge_pal <- pal[names(pal) %in% levels(igraph::E(gr)$edge_color)]
+
+    return(list(
+        node_pal = pal,
+        edge_pal = edge_pal
+    ))
+}
 
 
-    p <- ggraph(mod_gr, layout = "kk")
+
+
+plot_overlap_comparison_graph <- function(gr,
+                                           annotation_tib = NULL,
+                                           node_label_size = 2,
+                                           node_label_repel = TRUE,
+                                           node_size = 3
+                                       ) {
+
+    pals <- make_node_and_edge_palettes(gr)
+
+    p <- ggraph(gr, layout = "kk")
 
     if (!is.null(annotation_tib)) {
-        anno_pal <- annotation_tib %>%
-            select(name, fill) %>%
-            dplyr::rename(value = fill) %>%
-            deframe()
-        p <- p +
-            ggforce::geom_mark_hull(
-                aes(x, y,
-                    fill = grp_name,
-                    label = grp_name,
-                    filter = !is.na(grp_name)),
-                color = NA,
-                alpha = 0.2,
-                label.family = "arial",
-                label.fontsize = 7,
-                con.cap = unit(1, "mm"),
-                label.buffer = unit(6, "mm"),
-                label.fill = NULL,
-                concavity = 10
-            ) +
-            scale_fill_manual(
-                values = anno_pal,
-                guide = FALSE
-            )
+        p <- add_ggforce_annotations(p, annotation_tib)
     }
 
     p <- p +
@@ -155,7 +181,7 @@ plot_overlap_comparison_graph2 <- function(gr,
             repel = node_label_repel
         ) +
         scale_color_manual(
-            values = pal,
+            values = pals$node_pal,
             guide = guide_legend(
                 ncol = 2,
                 title.hjust = 0.5,
@@ -163,11 +189,12 @@ plot_overlap_comparison_graph2 <- function(gr,
             )
         ) +
         scale_edge_color_manual(
-            values = edge_pal,
+            values = pals$edge_pal,
             na.value = "grey70",
             guide = FALSE
         ) +
-        theme_graph()
+        theme_graph() +
+        theme(legend.position = "bottom")
     return(p)
 }
 
@@ -198,14 +225,16 @@ make_overlap_comparison_graph <- function(df) {
 }
 
 
-stop("Need to make COAD graph annotation tibble.")
 COAD_GRAPH_ANNOTATIONS <- list(
-        "WNT signaling" = c("WNT11", "WNT9A", "LRP6", "WNT2", "CTNNB1",
-                            "NOTCH1", "FRAT2", "PTPRJ", "TCF7L1"),
-        "ARF6" = c("ARF6", "KALRN")
+        "adhesion" = c("MYH6", "MYH9", "L1CAM", "LAMA1", "LAMA2",
+                       "DMD", "ITGA6"),
+        "extracellular signal\ntransduction" = c("DSCAM", "DCC",
+                                                 "ELMO1", "VAV1", "ARHGAP5"),
+        "cell morphology" = c("UNK", "AMOT", "USP9X"),
+        "immune signaling" = c("NLRP3", "PYCARD", "TOLLIP", "DYNC1H1")
     ) %>%
     enframe(name = "name", value = "nodes") %>%
-    mutate(fill = c("grey50", "grey50"))
+    mutate(fill = "grey50")
 
 
 special_nodes <- c("KRAS", "BRAF", "NRAS", "PIK3CA", "APC", "TP53")
@@ -225,8 +254,11 @@ coad_overlap_comparison_plot <- tibble(
     ) %>%
     make_overlap_comparison_graph() %>%
     print_node_names() %>%
-    plot_overlap_comparison_graph2(special_labels = special_nodes,
-                                   annotation_tib = COAD_GRAPH_ANNOTATIONS)
+    prepare_overlap_comparison_graph_plot(
+        special_labels = special_nodes,
+        annotation_tib = COAD_GRAPH_ANNOTATIONS
+    ) %>%
+    plot_overlap_comparison_graph(annotation_tib = COAD_GRAPH_ANNOTATIONS)
 
 ggsave_wrapper(
     coad_overlap_comparison_plot,
