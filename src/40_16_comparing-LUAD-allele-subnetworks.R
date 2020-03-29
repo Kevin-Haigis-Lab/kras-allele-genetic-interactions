@@ -105,9 +105,6 @@ for (al in c("G12C", "G12V")) {
         GRAPHS_DIR, as.character(glue("luad-{al}_overlap_comparison_plot.svg"))
     )
 
-    node_size <- ifelse(al == "G12C", 1, 3)
-
-
     allele_ppin <- luad_overlap_comparison_ppin %N>%
         filter(allele == !!al) %>%
         print_functional_groups(
@@ -124,7 +121,8 @@ for (al in c("G12C", "G12V")) {
         plot_overlap_comparison_graph(
             annotation_tib = anno_tib,
             graph_layout = ifelse(al == "G12C", "lgl", "stress"),
-            node_size = node_size
+            edge_width = ifelse(al == "G12C", 0.5, 1),
+            node_size = ifelse(al == "G12C", 1, 2)
         ) %T>%
         ggsave_wrapper(plt_name, "large") %>%
         saveFigRds(as.character(glue("luad-{al}_overlap_comparison_plot")))

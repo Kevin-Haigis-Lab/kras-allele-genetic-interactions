@@ -93,10 +93,10 @@ add_ggforce_annotations <- function(p, anno_tib) {
             color = NA,
             alpha = 0.2,
             label.family = "arial",
-            label.fontsize = 7,
+            label.fontsize = 6,
             con.cap = unit(1, "mm"),
             con.type = "straight",
-            label.buffer = unit(3, "mm"),
+            label.buffer = unit(2, "mm"),
             label.fill = NULL,
             concavity = 20,
             expand = unit(3, "mm")
@@ -159,7 +159,8 @@ plot_overlap_comparison_graph <- function(gr,
                                            graph_layout = "kk",
                                            node_label_size = 2,
                                            node_label_repel = TRUE,
-                                           node_size = 3
+                                           node_size = 3,
+                                           edge_width = 1
                                        ) {
 
     pals <- make_node_and_edge_palettes(gr)
@@ -173,7 +174,7 @@ plot_overlap_comparison_graph <- function(gr,
     p <- p +
         geom_edge_link(
             aes(color = edge_color),
-            width = 1, alpha = 0.5
+            width = edge_width, alpha = 0.5
         ) +
         geom_node_point(
             aes(color = node_color),
@@ -233,10 +234,10 @@ make_overlap_comparison_graph <- function(df) {
 COAD_GRAPH_ANNOTATIONS <- list(
         "adhesion" = c("MYH6", "MYH9", "L1CAM", "LAMA1", "LAMA2",
                        "DMD", "ITGA6"),
-        "extracellular signal\ntransduction" = c("DSCAM", "DCC",
+        "extracellular signal transduction" = c("DSCAM", "DCC",
                                                  "ELMO1", "VAV1", "ARHGAP5"),
         "cell morphology" = c("UNK", "AMOT", "USP9X"),
-        "immune signaling" = c("NLRP3", "PYCARD", "TOLLIP", "DYNC1H1")
+        "immune\nsignaling" = c("NLRP3", "PYCARD", "TOLLIP", "DYNC1H1")
     ) %>%
     enframe(name = "name", value = "nodes") %>%
     mutate(fill = "grey50")

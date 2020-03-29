@@ -46,7 +46,9 @@ paad_overlap_comparison_plot <- tibble(
     ) %>%
     plot_overlap_comparison_graph(
         annotation_tib = PAAD_GRAPH_ANNOTATIONS,
-        graph_layout = "stress"
+        graph_layout = "stress",
+        node_size = 2,
+        edge_width = 0.7
     )
 
 ggsave_wrapper(

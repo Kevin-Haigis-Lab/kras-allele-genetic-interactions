@@ -183,7 +183,7 @@ panel_C <- read_fig_proto("comut_dep_connectivity_bars") +
 panel_D <- read_fig_proto("coad_overlap_comparison_plot.rds") +
     theme_graph_fig5() +
     theme(
-        legend.position = c(0.8, 0.95),
+        legend.position = c(0.8, 1.0),
         legend.title = element_blank()
     ) +
     labs(

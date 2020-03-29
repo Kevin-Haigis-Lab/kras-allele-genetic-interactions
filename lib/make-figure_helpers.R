@@ -307,7 +307,8 @@ copy_final_figure <- function(figure_num, make_num, supp) {
     for (fmt in c("svg", "jpeg")) {
         base_img_path <- get_figure_img_path(make_num, fmt)
         output_path <- get_final_figure_path(figure_num, supp, fmt)
-        file.copy(base_img_path, output_path)
+        file.copy(base_img_path, output_path,
+                  overwrite = TRUE, recursive = FALSE)
     }
     invisible(NULL)
 }
