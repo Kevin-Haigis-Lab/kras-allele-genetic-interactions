@@ -148,3 +148,30 @@ get_overlapped_gr <- function(cancer, allele, min_comp_size, ignore_genes) {
 
     return(list(graph = gr, data = merged_df))
 }
+
+
+print_functional_groups <- function(gr, file_name, ignore_genes = NULL) {
+
+    datasources <- c("KEGG_2019_Human", "BioCarta_2016",
+                     "GO_Biological_Process_2018", "KEGG_2019_Human",
+                     "Panther_2016", "Reactome_2016", "WikiPathways_2019_Human")
+    genes <- unique(unlist(igraph::V(gr)$name))
+    genes <- genes[!(genes %in% ignore_genes)]
+    enrichr_wrapper(genes) %>%
+        select(datasource, term, adjusted_p_value, odds_ratio, genes) %>%
+        filter(datasource %in% !!datasources) %>%
+        filter(adjusted_p_value < 0.05 & odds_ratio > 1.5) %>%
+        dplyr::rename(adj_p_value = adjusted_p_value) %>%
+        write_tsv(file_name)
+    invisible(gr)
+}
+
+
+
+isolate_kras_subnetwork <- function(gr) {
+    gr %N>%
+        morph(to_components) %>%
+        mutate(has_kras = any(name == "KRAS")) %>%
+        unmorph() %>%
+        filter(has_kras)
+}
