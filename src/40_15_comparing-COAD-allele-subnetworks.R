@@ -136,9 +136,13 @@ make_node_and_edge_palettes <- function(gr) {
     max_ct <- max(str_count(igraph::V(gr)$allele, ",")) + 1
     pal <- c(
         short_allele_pal[names(short_allele_pal) %in% igraph::V(gr)$allele],
-        "special" = "indianred1",
-        make_brown_pal(max_ct)
+        "special" = "indianred1"
     )
+
+    if (max_ct >= 2) {
+        pal <- c(pal, make_brown_pal(max_ct))
+    }
+
     edge_pal <- pal[names(pal) %in% levels(igraph::E(gr)$edge_color)]
 
     return(list(
@@ -152,6 +156,7 @@ make_node_and_edge_palettes <- function(gr) {
 
 plot_overlap_comparison_graph <- function(gr,
                                            annotation_tib = NULL,
+                                           graph_layout = "kk",
                                            node_label_size = 2,
                                            node_label_repel = TRUE,
                                            node_size = 3
@@ -159,7 +164,7 @@ plot_overlap_comparison_graph <- function(gr,
 
     pals <- make_node_and_edge_palettes(gr)
 
-    p <- ggraph(gr, layout = "kk")
+    p <- ggraph(gr, layout = graph_layout)
 
     if (!is.null(annotation_tib)) {
         p <- add_ggforce_annotations(p, annotation_tib)
