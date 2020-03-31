@@ -30,7 +30,8 @@ datasource_summary_df <- cancer_full_muts_df %>%
     ungroup() %>%
     mutate(dataset = rename_datasets(dataset)) %>%
     arrange(cancer, -num_cancer_samples) %T>%
-    write_tsv(table_path(TABLES_DIR, "datasource-summaries.tsv"))
+    write_tsv(table_path(TABLES_DIR, "datasource-summaries.tsv")) %T>%
+    save_supp_data(1, "Data source summary")
 
 
 print_pretty_samplecount_tibble <- function(df, with_marginal = TRUE) {
@@ -78,7 +79,8 @@ paneldata_summary_df <- cancer_full_muts_df %>%
     ungroup() %>%
     mutate(dataset = rename_datasets(dataset)) %>%
     arrange(cancer, -num_cancer_samples, -num_genes_detected, dataset) %T>%
-    write_tsv(table_path(TABLES_DIR, "panel-datasource-summaries.tsv"))
+    write_tsv(table_path(TABLES_DIR, "panel-datasource-summaries.tsv")) %T>%
+    save_supp_data(2, "Targeted sequencing panels")
 
 paneldata_summary_df %>%
     pull(num_genes_detected) %>%

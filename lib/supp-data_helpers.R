@@ -29,13 +29,13 @@ sheets_path <- function(...) {
 # Write a table to be included as a sheet in the Supp. Data.
 #
 # tbl: a data frame to be written as a TSV.
+# num: a number to assign to the sheet - ordering can be changed later.
 # sheet_name: the name of the final sheet in the Supp. Data file.
 #
 # Invisibly returns the original table.
-save_supp_data <- function(tbl, sheet_name, verbose = TRUE) {
+save_supp_data <- function(tbl, num, sheet_name, verbose = TRUE) {
 
-    next_sheet_num <- get_max_sheet_number() + 1
-    file_name <- supp_data_filename(next_sheet_num, sheet_name)
+    file_name <- supp_data_filename(num, sheet_name)
     file_name <- sheets_path(file_name)
 
     janitor::clean_names(tbl) %>%
@@ -50,6 +50,7 @@ save_supp_data <- function(tbl, sheet_name, verbose = TRUE) {
 }
 
 
+# Returns the maximum number of the currently saved sheets.
 get_max_sheet_number <- function() {
     all_files <- list_all_sheet_paths()
     if (length(all_files) == 0) {
@@ -76,9 +77,9 @@ supp_data_filename <- function(number, sheet_name) {
 
 # Get the sheet numbers of the files.
 extract_sheet_nums <- function(fs) {
-    unlist() %>%
+    unlist(fs) %>%
         basename() %>%
-        str_etract("^[:digit:]{3}")
+        str_extract("^[:digit:]{3}")
 }
 
 
@@ -106,6 +107,10 @@ compile_supp_data <- function(verbose = TRUE) {
     if (verbose) cat("Clearing old spreadsheet (if necessary).\n")
     clear_final_data_file()
 
+    if (verbose) cat("Apportioning memory for java.\n")
+    options(java.parameters = "-Xmx8g")
+    clear_java_memory()
+
     cat("Writing:\n")
     for (sheet_path in all_sheet_paths) {
         df <- read_tsv(sheet_path, col_types = cols(.default = "c"))
@@ -121,8 +126,16 @@ compile_supp_data <- function(verbose = TRUE) {
             row.names = TRUE,
             append = TRUE
         )
+        clear_java_memory()
     }
     if (verbose) cat("final file: \"", SUPP_DATA_FILE, "\"\n", sep = "")
+}
+
+
+clear_java_memory <- function() {
+    gc()
+    XLConnect::xlcFreeMemory()
+    invisible(NULL)
 }
 
 
@@ -136,7 +149,8 @@ get_sheet_order_df <- function() {
 # Get a tibble of the supp. data sheet names and their make numbers.
 get_sheet_file_numbers <- function(fs) {
     tibble(sheet = fs) %>%
-        mutate(make_num = extract_sheet_nums(fs))
+        mutate(make_num = extract_sheet_nums(fs),
+               make_num = as.numeric(make_num))
 }
 
 
@@ -153,9 +167,9 @@ put_sheets_in_order <- function(fs) {
 # Return all sheet paths in correct order.
 # The order can be adjusted at `SUPP_DATA_ORDER_JSON`.
 list_all_sheet_paths <- function() {
-    files <- list.files(SUPP_DATA_SHEETS_DIR,
-                        pattern = "txt$",
-                        full.names = TRUE)
+    list.files(SUPP_DATA_SHEETS_DIR,
+               pattern = "txt$",
+               full.names = TRUE)
 
 }
 
@@ -167,12 +181,29 @@ clear_final_data_file <- function() {
 }
 
 
+
+replace_specific_terms <- function(s) {
+    df <- tibble::tribble(
+        ~ old, ~ new,
+        " coad", " COAD",
+        " luad", " LUAD",
+        " mm", " MM",
+        " paad", " PAAD",
+        "kras", "KRAS"
+    )
+
+    for (i in seq(1, nrow(df))) {
+        s <- str_replace_all(s, df$old[[i]], df$new[[i]])
+    }
+
+    return(s)
+}
+
+
 # Prepare the sheet name from the file path.
 prep_sheet_name <- function(sheet_path) {
     sheet_name <- file_sans_ext(basename(sheet_path))
-
-    if (str_count(sheet_name, "_") != 2) stop("Sheet name does not conform.")
-
-    sheet_name <- unlist(str_split_fixed(sheet_name, "_", 3)[, 3])
-    str_replace_all(sheet_name, "-", " ")
+    sheet_name <- unlist(str_split_fixed(sheet_name, "_", 2)[, 2])
+    str_replace_all(sheet_name, "-", " ") %>%
+        replace_specific_terms()
 }

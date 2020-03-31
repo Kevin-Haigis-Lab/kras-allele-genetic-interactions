@@ -239,6 +239,10 @@ comutation_df <- fisher_sig %>%
 genetic_interaction_df <- bind_rows(exclusivity_df, comutation_df)
 ProjectTemplate::cache("genetic_interaction_df")
 
+genetic_interaction_df %>%
+    select(cancer, allele, hugo_symbol,
+           genetic_interaction, test_name, p_val) %>%
+    save_supp_data(7, "comutation interactions")
 
 
 #### ---- Distribution of the effect size of genetic interactions ---- ####

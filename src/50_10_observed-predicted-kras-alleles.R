@@ -630,6 +630,11 @@ obs_v_pred_scatter_plot(real_af, predicted_af,
                         save_template = "obs_pred_plot_{CANCER}.svg",
                         with_errorbars = TRUE)
 
+# left_join(real_af, predicted_af,
+#                     by = c("cancer", "kras_allele")) %>%
+#     filter(kras_allele %in% names(short_allele_pal)) %>%
+#     filter(!is.na(avg_kras_allele_prob)) %>%
+#     filter(cancer != "SKCM")
 
 
 # Scatter plot of G12 alleles observed vs. predicted KRAS allele frequency.
@@ -695,8 +700,14 @@ kras_allele_freq_stats <- left_join(
     janitor::clean_names()
 
 kras_allele_freq_stats %>%
-    select(-ci_obj) %>%
-    write_tsv(table_path(GRAPHS_DIR, "kras_allele_freq_stats.tsv"))
+    select(-ci_obj) %T>%
+    write_tsv(table_path(GRAPHS_DIR, "kras_allele_freq_stats.tsv")) %>%
+    select(cancer, kras_allele,
+           real_kras_allele_frequency, avg_kras_allele_prob,
+           ci_lower_avg_kras_allele_prob, ci_upper_avg_kras_allele_prob,
+           p_value, conf_low, conf_high, method, alternative) %>%
+    save_supp_data(6, "predicted-vs-observed KRAS allele frequencies")
+
 
 kras_allele_freq_stats %>%
     filter(p_value >= 0.05) %>%
@@ -710,7 +721,6 @@ plots <- obs_v_pred_scatter_plot(
     with_errorbars = TRUE,
     save_template = "obs_pred_plot_stats_{CANCER}.svg"
 )
-
 saveFigRds(plots, "obs_pred_plot_stats")
 
 

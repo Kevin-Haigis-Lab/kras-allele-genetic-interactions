@@ -482,7 +482,8 @@ ProjectTemplate::cache("depmap_gene_clusters", depends = "model1_tib")
 depmap_gene_clusters %>%
     group_by(cancer) %>%
     summarise(num_genes = n_distinct(hugo_symbol)) %>%
-    ungroup()
+    ungroup() %>%
+    knitr::kable()
 
 
 # RNAi heatmaps
@@ -496,3 +497,31 @@ rnai_model1_tib %>%
     nest() %>%
     ungroup() %T>%
     purrr::pwalk(plot_cancer_heatmaps, screen = "RNAi", save_proto = FALSE)
+
+
+
+#### ---- Supp. Data: heatmaps as numeric matrices ---- ####
+
+depmap_supp_data_df <- model1_tib %>%
+    select(hugo_symbol, cancer, data) %>%
+    right_join(depmap_gene_clusters, by = c("cancer", "hugo_symbol"))
+
+supp_data_nums <- list(
+    COAD = 8,
+    LUAD = 9,
+    PAAD = 10
+)
+
+for (cancer in names(supp_data_nums)) {
+    depmap_supp_data_df %>%
+        filter(cancer == !!cancer) %>%
+        unnest(data) %>%
+        mutate(cell_line_id = paste(allele, dep_map_id, sep = " - ")) %>%
+        select(cancer, hugo_symbol, gene_cls, cell_line_id, gene_effect) %>%
+        pivot_wider(c(cancer, hugo_symbol, gene_cls),
+                    names_from = cell_line_id,
+                    values_from = gene_effect) %>%
+        arrange(gene_cls, hugo_symbol) %>%
+        save_supp_data(supp_data_nums[[cancer]], 
+                       glue("KRAS genetic dependencies in {cancer}"))
+}

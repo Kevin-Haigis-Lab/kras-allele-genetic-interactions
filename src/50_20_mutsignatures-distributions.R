@@ -5,6 +5,30 @@ TABLES_DIR <- "50_20_mutsignatures-distributions"
 reset_graph_directory(GRAPHS_DIR)
 reset_table_directory(TABLES_DIR)
 
+
+#### ---- Save spectra and mut. sig. levels for Supp Data ---- ####
+
+
+mutational_signatures_df %>%
+    select(cancer, tumor_sample_barcode, signature, contribution) %>%
+    mutate(signature = paste0("sig_", signature)) %>%
+    pivot_wider(c(cancer, tumor_sample_barcode),
+                names_from = signature,
+                values_from = contribution) %>%
+    save_supp_data(4, "mutational signature levels")
+
+
+mutational_signature_spectra %>%
+    mutate(signature = paste0("sig_", signature)) %>%
+    pivot_wider(tricontext,
+                names_from = signature,
+                values_from = composition) %>%
+    save_supp_data(5, "mutational signature spectra")
+
+
+#### ---- KRAS allele information for mut. sig. analysis ---- ####
+
+
 alleles_frequency_per_cancer_df <- mutational_signatures_df %>%
     filter(!is_hypermutant) %>%
     mutate(ras_allele = str_remove_all(ras_allele, "KRAS_")) %>%
