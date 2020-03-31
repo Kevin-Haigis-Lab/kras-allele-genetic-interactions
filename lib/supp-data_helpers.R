@@ -29,14 +29,13 @@ sheets_path <- function(...) {
 # Write a table to be included as a sheet in the Supp. Data.
 #
 # tbl: a data frame to be written as a TSV.
-# section: section of the paper the table pertains to.
-# number: order of the sheet in the section.
 # sheet_name: the name of the final sheet in the Supp. Data file.
 #
 # Invisibly returns the original table.
-save_supp_data <- function(tbl, section, number, sheet_name, verbose = TRUE) {
+save_supp_data <- function(tbl, sheet_name, verbose = TRUE) {
 
-    file_name <- supp_data_filename(section, number, sheet_name)
+    next_sheet_num <- get_max_sheet_number() + 1
+    file_name <- supp_data_filename(next_sheet_num, sheet_name)
     file_name <- sheets_path(file_name)
 
     janitor::clean_names(tbl) %>%
@@ -51,17 +50,35 @@ save_supp_data <- function(tbl, section, number, sheet_name, verbose = TRUE) {
 }
 
 
+get_max_sheet_number <- function() {
+    all_files <- list_all_sheet_paths()
+    if (length(all_files) == 0) {
+        return(0)
+    } else {
+        all_nums <- extract_sheet_nums(all_files) %>%
+            as.numeric()
+        return(max(all_nums))
+    }
+}
+
+
 # Get the file name for a sheet.
-supp_data_filename <- function(section, number, sheet_name) {
-    new_section <- str_pad(as.character(section), 2, "left", "0")
+supp_data_filename <- function(number, sheet_name) {
     new_number <- str_pad(as.character(number), 3, "left", "0")
     new_sheet_name <- clean_sheet_name(sheet_name)
 
-    if (str_length(new_section) > 2) stop("Section value is too long.")
     if (str_length(new_number) > 3) stop("Number of sheet is too long.")
     if (str_length(new_sheet_name) < 3) stop("Sheet name is too short.")
-    fname <- glue("{new_section}_{new_number}_{new_sheet_name}.txt")
+    fname <- glue("{new_number}_{new_sheet_name}.txt")
     return(as.character(fname))
+}
+
+
+# Get the sheet numbers of the files.
+extract_sheet_nums <- function(fs) {
+    unlist() %>%
+        basename() %>%
+        str_etract("^[:digit:]{3}")
 }
 
 
@@ -79,18 +96,19 @@ clean_sheet_name <- function(sheet_name) {
 
 # The final Excel spreadsheet.
 SUPP_DATA_FILE <- file.path(SUPP_DATA_DIR, "Supplemental-Data.xlsx")
+SUPP_DATA_ORDER_JSON <- file.path(SUPP_DATA_DIR, "suppdata-sheet-order.json")
 
 
 # Compile all of the separate sheets into a single Excel spreadsheet.
 compile_supp_data <- function(verbose = TRUE) {
-    all_sheet_paths <- list_all_sheet_paths()
+    all_sheet_paths <- list_all_sheet_paths() %>% put_sheets_in_order()
 
     if (verbose) cat("Clearing old spreadsheet (if necessary).\n")
     clear_final_data_file()
 
     cat("Writing:\n")
     for (sheet_path in all_sheet_paths) {
-        df <- read_tsv(sheet_path, col_types = cols())
+        df <- read_tsv(sheet_path, col_types = cols(.default = "c"))
 
         sheet_name <- prep_sheet_name(sheet_path)
         if (verbose) cat("  -->", sheet_name, "\n")
@@ -108,15 +126,44 @@ compile_supp_data <- function(verbose = TRUE) {
 }
 
 
-# Return all sheet paths.
+# Get a data frame mapping the sheet number to the final number.
+get_sheet_order_df <- function() {
+    jsonlite::fromJSON(SUPP_DATA_ORDER_JSON) %>%
+        as_tibble()
+}
+
+
+# Get a tibble of the supp. data sheet names and their make numbers.
+get_sheet_file_numbers <- function(fs) {
+    tibble(sheet = fs) %>%
+        mutate(make_num = extract_sheet_nums(fs))
+}
+
+
+# Put the sheets in the correct order using `SUPP_DATA_ORDER_JSON`.
+put_sheets_in_order <- function(fs) {
+    left_join(get_sheet_file_numbers(fs),
+              get_sheet_order_df(),
+              by = "make_num") %>%
+        arrange(final_order) %>%
+        pull(sheet)
+}
+
+
+# Return all sheet paths in correct order.
+# The order can be adjusted at `SUPP_DATA_ORDER_JSON`.
 list_all_sheet_paths <- function() {
-    list.files(SUPP_DATA_SHEETS_DIR, pattern = "txt$", full.names = TRUE)
+    files <- list.files(SUPP_DATA_SHEETS_DIR,
+                        pattern = "txt$",
+                        full.names = TRUE)
+
 }
 
 
 # If the final spreadsheet already exists, remove it.
 clear_final_data_file <- function() {
-    if (file.exists(SUPP_DATA_FILE)) file.remove(SUPP_DATA_FILE)
+    if (file.exists(SUPP_DATA_FILE)) { file.remove(SUPP_DATA_FILE) }
+    invisible(NULL)
 }
 
 
