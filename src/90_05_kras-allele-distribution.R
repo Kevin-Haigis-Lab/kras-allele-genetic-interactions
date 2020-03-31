@@ -309,7 +309,7 @@ kras_lollipop_plot <- cancer_full_coding_muts_maf %>%
     geom_point(
         aes(y = log_total_num_apos,
             color = log_total_num_apos),
-        size = 1
+        size = 0.8
     ) +
     geom_text(
         aes(label = point_label,
@@ -317,7 +317,7 @@ kras_lollipop_plot <- cancer_full_coding_muts_maf %>%
         family = "Arial",
         size = 2,
         hjust = 0,
-        nudge_x = 2,
+        nudge_x = 5,
         nudge_y = 0
     ) +
     scale_fill_manual(
@@ -331,7 +331,7 @@ kras_lollipop_plot <- cancer_full_coding_muts_maf %>%
         )
     ) +
     scale_color_viridis_c(
-        begin = 0.3, end = 0.9,
+        begin = 0.8, end = 0.3,
         option = "A",
         guide = FALSE
     ) +
