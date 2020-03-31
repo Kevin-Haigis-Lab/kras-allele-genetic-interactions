@@ -1,9 +1,9 @@
-# Figure 001. #> BRIEF DESCRIPTION OF THE FIGURE.
+# Figure 001. Mutational signatures main figure
 
 FIGNUM <- 001
 
 #> SET THE FIGURE DIMENSIONS
-FIG_DIMENSIONS <- get_figure_dimensions(2, "medium")
+FIG_DIMENSIONS <- get_figure_dimensions(2, "short")
 
 
 #### ---- Figure theme ---- ####
@@ -149,24 +149,24 @@ for (i in seq(1, 4)) panel_E[[i]] <- panel_E[[i]] + labs(x = "")
 # The observed vs. predicted KRAS allele frequencies.
 # original script: "src/50_10_observed-predicted-kras-alleles.R"
 
-panel_F_proto_list <- read_fig_proto("obs_pred_plot_g12_stats")
-panel_F <- wrap_plots(panel_F_proto_list, nrow = 1) +
-    guide_area() +
-    plot_layout(guides = "collect",
-                widths = c(1, 1, 1, 1, 0.3),
-                tag_level = "new") &
-    theme_fig1() %+replace%
-    theme(
-        legend.title = element_markdown(angle = 90,
-                                        vjust = 0.5,
-                                        hjust = 0.5,
-                                        size = 6,
-                                        family = "Arial"),
-    )
+# panel_F_proto_list <- read_fig_proto("obs_pred_plot_g12_stats")
+# panel_F <- wrap_plots(panel_F_proto_list, nrow = 1) +
+#     guide_area() +
+#     plot_layout(guides = "collect",
+#                 widths = c(1, 1, 1, 1, 0.3),
+#                 tag_level = "new") &
+#     theme_fig1() %+replace%
+#     theme(
+#         legend.title = element_markdown(angle = 90,
+#                                         vjust = 0.5,
+#                                         hjust = 0.5,
+#                                         size = 6,
+#                                         family = "Arial"),
+#     )
 
-panel_F[[1]] <- panel_F[[1]] + labs(tag = "f")
+# panel_F[[1]] <- panel_F[[1]] + labs(tag = "f")
 
-for (i in seq(2, 4)) panel_F[[i]] <- panel_F[[i]] + labs(y = "")
+# for (i in seq(2, 4)) panel_F[[i]] <- panel_F[[i]] + labs(y = "")
 
 
 #### ---- Figure assembly ---- ####
@@ -179,8 +179,8 @@ for (i in seq(2, 4)) panel_F[[i]] <- panel_F[[i]] + labs(y = "")
     row_2 <- (panel_C - panel_D) + plot_layout(widths = c(2, 1.2))
 
     # COMPLETE FIGURE
-    full_figure <- row_1 / row_2 / panel_E / panel_F +
-        plot_layout(heights = c(1, 1, 0.7, 0.7))
+    full_figure <- row_1 / row_2 / panel_E +
+        plot_layout(heights = c(1, 1.1, 0.6))
 
     save_figure(
         full_figure,
