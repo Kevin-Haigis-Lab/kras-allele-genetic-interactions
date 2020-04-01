@@ -51,11 +51,11 @@ panel_A <- read_fig_proto("genetic_interaction_network_PAAD") +
             order = 1
         )
     ) +
-    scale_color_manual(
-        values = short_allele_pal,
-        na.value = NA,
-        guide = FALSE
-    ) +
+    # scale_color_manual(
+    #     values = short_allele_pal,
+    #     na.value = NA,
+    #     guide = FALSE
+    # ) +
     theme_graph_figS12() +
     theme(
         legend.spacing.x = unit(1, "mm"),

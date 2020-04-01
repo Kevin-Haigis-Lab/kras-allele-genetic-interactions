@@ -251,6 +251,10 @@ factor_alleles <- function(alleles, reverse = FALSE) {
     factor(alleles, levels = lvls)
 }
 
+kras_dark_lbls <- c("G12C", "G12D", "G12R",
+                    "G13D",
+                    "Q61H", "Q61K", "Q61R",
+                    "A146T", "A146V")
 
 ggsave_wrapper(
     show_palette(short_allele_pal, "square", font_family = "Arial"),

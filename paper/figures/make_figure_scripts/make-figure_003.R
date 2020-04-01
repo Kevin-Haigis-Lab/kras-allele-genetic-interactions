@@ -42,7 +42,6 @@ theme_graph_fig3 <- function() {
 # original script: "src/20_40_highlivel-genetic-interactions.R"
 
 panel_A <- read_fig_proto("genetic_interaction_network_LUAD") +
-    scale_color_manual(values = short_allele_pal, guide = FALSE) +
     theme_graph_fig3() %+replace%
     theme(
         legend.spacing.x = unit(1, "mm"),
@@ -224,7 +223,7 @@ SEPARATING_LINE <- tibble(x = c(1, 2), y = c(1, 1)) %>%
 # original script: "src/20_40_highlivel-genetic-interactions.R"
 
 panel_E <- read_fig_proto("genetic_interaction_network_labeled_MM") +
-    scale_color_manual(values = short_allele_pal, guide = FALSE) +
+    # scale_color_manual(values = short_allele_pal, guide = FALSE) +
     theme_graph_fig3() %+replace%
     theme(
         legend.spacing.x = unit(1, "mm"),

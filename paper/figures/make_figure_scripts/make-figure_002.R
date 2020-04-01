@@ -113,7 +113,6 @@ remove_oncoplot_legend <- function(pw) {
 # The high-level network plot for the comutation graph for COAD.
 # original script: "src/20_40_highlivel-genetic-interactions.R"
 panel_A <- read_fig_proto("genetic_interaction_network_COAD") +
-    scale_color_manual(values = short_allele_pal, guide = FALSE) +
     theme_graph_fig2() %+replace%
     theme(
         legend.spacing.x = unit(1, "mm"),
