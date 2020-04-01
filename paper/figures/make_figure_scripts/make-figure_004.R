@@ -259,6 +259,18 @@ panel_E[[1]] <- panel_E[[1]] + labs(tag = "e")
 
 
 
+#### ---- A LINE ---- ####
+
+SEPARATING_LINE <- tibble(x = c(1, 2), y = c(1, 1)) %>%
+    ggplot(aes(x = x, y = y)) +
+    geom_path(color = "grey70", size = 0.3, lineend = "round") +
+    scale_x_continuous(limits = c(1, 2)) +
+    theme_void() +
+    theme(
+        plot.margin = margin(0, 0, 0, 0, "mm")
+    )
+
+
 ################################################################################
 #----------------------------------  LUAD  ------------------------------------#
 ################################################################################
@@ -442,8 +454,10 @@ panel_I <- wrap_elements(plot = panel_I) +
 
     ## Full Figure ##
     full_figure <- wrap_elements(full = coad_figure) /
+        SEPARATING_LINE /
         wrap_elements(full = luad_figure) +
-        plot_layout(heights = c(1, 1))
+        plot_layout(heights = c(30, 1, 30))
+    
 
     save_figure(
         full_figure,
