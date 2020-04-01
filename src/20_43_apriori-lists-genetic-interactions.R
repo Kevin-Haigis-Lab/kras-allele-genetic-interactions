@@ -36,8 +36,9 @@ ProjectTemplate::cache("wide_genetic_interaction_df",
 
 # Queryable list of which plots to save to protos for Figure 2.
 imgs_to_save_for_figure <- list(
-    COAD = list(suffix = "_allLists", num = 2, supp = FALSE),
-    PAAD = list(suffix = "_allLists", num = 3, supp = FALSE)
+    COAD = list(suffix = "_allLists"),
+    LUAD = list(suffix = c("_allLists", "_kegg")),
+    PAAD = list(suffix = "_allLists")
 )
 
 
@@ -45,12 +46,20 @@ imgs_to_save_for_figure <- list(
 adjust_layout_manually <- function(layout, CANCER, SUFFIX) {
     layout_attrs <- attributes(layout)
 
+    msg <- glue("Manually adjust plot for {CANCER} with suffix '{SUFFIX}'")
+
+
     if (CANCER == "COAD" & SUFFIX == "_allLists") {
-        message(glue(
-            "Manually adjust plot for {CANCER} with suffix '{SUFFIX}'"
-        ))
+        message(msg)
         layout <- layout %>%
             mutate(x = ifelse(node_label == "G12S", x - 0.5, x))
+    }
+
+    if (CANCER == "LUAD" & SUFFIX == "_kegg") {
+        message(msg)
+        layout <- layout %>%
+            mutate(x = ifelse(node_label == "EGFR", x - 0.2, x),
+                   y = ifelse(node_label == "EGFR", y + 0.1, y))
     }
 
     attributes(layout) <- layout_attrs
@@ -58,11 +67,12 @@ adjust_layout_manually <- function(layout, CANCER, SUFFIX) {
 }
 
 
-plot_genetic_interaction_graph <- function(gr_to_plot, CANCER, SUFFIX = "") {
+plot_genetic_interaction_graph <- function(gr_to_plot, CANCER, SUFFIX = "",
+                                           gr_layout = "fr") {
     set.seed(0)
     num_nodes <- igraph::vcount(gr_to_plot)
 
-    layout <- create_layout(gr_to_plot, layout = "fr")
+    layout <- create_layout(gr_to_plot, layout = gr_layout)
     layout <- adjust_layout_manually(layout, CANCER, SUFFIX)
 
     gr_plot <- ggraph(layout) +
@@ -144,7 +154,8 @@ for (CANCER in unique(genetic_interaction_df$cancer)) {
     if (igraph::vcount(gr_to_plot) == 0) { next }
 
     # plot all interactions with goi
-    plot_genetic_interaction_graph(gr_to_plot, CANCER, "_allLists")
+    plot_genetic_interaction_graph(gr_to_plot, CANCER, "_allLists",
+                                   gr_layout = gr_layout)
 
     plot_specific_lists <- function(gene_list, suffix) {
         j <- which(colnames(as_tibble(gr_to_plot, "nodes")) == gene_list)
@@ -154,7 +165,12 @@ for (CANCER in unique(genetic_interaction_df$cancer)) {
             filter(is_kras | !!idx) %>%
             filter(centrality_degree(mode = "all") > 0)
         if (igraph::vcount(gr_to_plot_MOD) > 0) {
-            plot_genetic_interaction_graph(gr_to_plot_MOD, CANCER, suffix)
+
+            grlay <- ifelse(CANCER == "LUAD" & suffix == "_kegg",
+                            "stress", "fr")
+
+            plot_genetic_interaction_graph(gr_to_plot_MOD, CANCER, suffix,
+                                           gr_layout = grlay)
         }
     }
 

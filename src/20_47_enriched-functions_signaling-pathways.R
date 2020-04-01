@@ -3,7 +3,6 @@
 GRAPHS_DIR <- "20_47_enriched-functions_signaling-pathways"
 reset_graph_directory(GRAPHS_DIR)
 
-library(ggraph)
 
 #### ---- General Setup ---- ####
 
@@ -135,6 +134,7 @@ plot_extracted_graph_of_geneset <- function(gr) {
             repel = TRUE,
             family = "Arial") +
         scale_color_manual(
+            drop = FALSE,
             values = c(comut_updown_pal,
                        "none" = "grey70",
                        "in_geneset" = "grey40"),
@@ -362,8 +362,8 @@ protos_save_tib <- tibble::tribble(
 adjust_gr_for_figure_proto <- function(gr) {
     mod_gr <- gr %N>%
         mutate(
-            node_size = node_size / 2,
-            label_size = label_size / 2
+            node_size = ifelse(node_size == 4, 1.5, 1.2),
+            label_size = ifelse(label_size == 4, 1.2, 1),
         )
     return(mod_gr)
 }
