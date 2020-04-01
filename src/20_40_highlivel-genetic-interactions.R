@@ -65,9 +65,18 @@ ProjectTemplate::cache("genetic_interaction_gr",
 goi_genes <- unique(genes_of_interest_df$hugo_symbol)
 
 # Plots the genetic interaction networks.
-make_network_plot <- function(gr, layout = "nicely", fill_na_val = NA) {
-    p <- gr %>%
-        ggraph(layout = layout) +
+# A custom layout can be provided using `ggraph::create_layout()`.
+make_network_plot <- function(gr, layout = "nicely",
+                              custom_layout = NULL,
+                              fill_na_val = NA) {
+
+    if (is.null(custom_layout)) {
+        p <- ggraph(gr, layout = layout)
+    } else {
+        p <- ggraph(custom_layout)
+    }
+
+    p <- p +
         geom_edge_link(
             aes(color = genetic_interaction),
             width = 0.3
@@ -168,16 +177,31 @@ prep_highlevel_labeled <- function(gr, other_label_size = 1) {
 }
 
 
+ceate_mm_custom_layout <- function(gr) {
+    layout <- create_layout(gr, layout = "nicely")
+    layout_attrs <- attributes(layout)
+
+    layout <- layout %>%
+        mutate(x = ifelse(node_label == "DNAH10", x + 0.6, x))
+
+    attributes(layout) <- layout_attrs
+    return(layout)
+}
+
+
 # Make high-level network with all genes labeled for MM.
 set.seed(0)
-gr_plot <- get_plotting_graph(genetic_interaction_gr, "MM") %>%
+mm_gr_layout <- get_plotting_graph(genetic_interaction_gr, "MM") %>%
     prep_highlevel_labeled(other_label_size = 1.5) %>%
-    make_network_plot(fill_na_val = "grey85") +
+    ceate_mm_custom_layout()
+
+mm_gr_plot <- make_network_plot(custom_layout = mm_gr_layout,
+                                fill_na_val = "grey85") +
     labs(
         edge_color = "interaction"
     )
 
-saveFigRds(gr_plot, "genetic_interaction_network_labeled_MM")
+saveFigRds(mm_gr_plot, "genetic_interaction_network_labeled_MM")
 
 
 
