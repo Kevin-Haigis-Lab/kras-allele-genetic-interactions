@@ -41,10 +41,31 @@ imgs_to_save_for_figure <- list(
 )
 
 
+# Manual adjustments to some nodes in the plots for figures.
+adjust_layout_manually <- function(layout, CANCER, SUFFIX) {
+    layout_attrs <- attributes(layout)
+
+    if (CANCER == "COAD" & SUFFIX == "_allLists") {
+        message(glue(
+            "Manually adjust plot for {CANCER} with suffix '{SUFFIX}'"
+        ))
+        layout <- layout %>%
+            mutate(x = ifelse(node_label == "G12S", x - 0.5, x))
+    }
+
+    attributes(layout) <- layout_attrs
+    return(layout)
+}
+
+
 plot_genetic_interaction_graph <- function(gr_to_plot, CANCER, SUFFIX = "") {
     set.seed(0)
-    gr_plot <- gr_to_plot %>%
-        ggraph(layout = "nicely") +
+    num_nodes <- igraph::vcount(gr_to_plot)
+
+    layout <- create_layout(gr_to_plot, layout = "fr")
+    layout <- adjust_layout_manually(layout, CANCER, SUFFIX)
+
+    gr_plot <- ggraph(layout) +
         geom_edge_link(
             aes(color = genetic_interaction,
                 width = -log(p_val + 0.0000001))
@@ -60,25 +81,27 @@ plot_genetic_interaction_graph <- function(gr_to_plot, CANCER, SUFFIX = "") {
                 keyheight = unit(1, "mm")
             )
         ) +
-        geom_node_point(
-            aes(color = node_color,
-                size = node_size)
+        geom_node_label(
+            aes(label = node_label,
+                fontface = label_face,
+                fill = node_fill,
+                color = node_color,
+                size = node_size
+            ),
+            family = "Arial",
+            label.padding = unit(0.07, "lines"),
+            label.r = unit(0.1, "lines"),
+            label.size = 0
         ) +
-        scale_color_manual(
+        scale_color_identity() +
+        scale_fill_manual(
             values = short_allele_pal,
             guide = FALSE,
-            na.value = "grey75"
+            na.value = "grey85"
         ) +
         scale_size_manual(
-            values = c(big = 2, small = 1),
+            values = c(big = 1.6, small = 1.2),
             guide = FALSE
-        ) +
-        geom_node_text(
-            aes(label = node_label,
-                fontface = label_face),
-            repel = TRUE,
-            family = "Arial",
-            size = 2
         ) +
         theme_graph() +
         theme(
@@ -91,7 +114,7 @@ plot_genetic_interaction_graph <- function(gr_to_plot, CANCER, SUFFIX = "") {
         GRAPHS_DIR,
         glue("goi_overlap_genetic_interactions_network_{CANCER}{SUFFIX}.svg")
     )
-    ggsave_wrapper(gr_plot, save_path, "wide")
+    ggsave_wrapper(gr_plot, save_path, "small")
 
     fig_info <- imgs_to_save_for_figure[[CANCER]]
     if (!is.null(fig_info) & SUFFIX %in% fig_info$suffix) {
@@ -100,7 +123,6 @@ plot_genetic_interaction_graph <- function(gr_to_plot, CANCER, SUFFIX = "") {
     }
 
 }
-
 
 
 for (CANCER in unique(genetic_interaction_df$cancer)) {
@@ -113,7 +135,9 @@ for (CANCER in unique(genetic_interaction_df$cancer)) {
         mutate(
             label_face = ifelse(is_kras, "bold", "plain"),
             node_label = str_remove_all(name, "KRAS_"),
-            node_color = ifelse(is_kras, node_label, NA),
+            node_fill = ifelse(is_kras, node_label, NA),
+            node_color = ifelse(node_label %in% kras_dark_lbls,
+                                "white", "black"),
             node_size = ifelse(is_kras, "big", "small")
         )
 
