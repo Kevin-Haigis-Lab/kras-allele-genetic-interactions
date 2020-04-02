@@ -522,6 +522,6 @@ for (cancer in names(supp_data_nums)) {
                     names_from = cell_line_id,
                     values_from = gene_effect) %>%
         arrange(gene_cls, hugo_symbol) %>%
-        save_supp_data(supp_data_nums[[cancer]], 
-                       glue("KRAS genetic dependencies in {cancer}"))
+        save_supp_data(supp_data_nums[[cancer]],
+                       glue("KRAS genetic dep in {cancer}"))
 }
