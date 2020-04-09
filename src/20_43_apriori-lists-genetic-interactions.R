@@ -154,8 +154,7 @@ for (CANCER in unique(genetic_interaction_df$cancer)) {
     if (igraph::vcount(gr_to_plot) == 0) { next }
 
     # plot all interactions with goi
-    plot_genetic_interaction_graph(gr_to_plot, CANCER, "_allLists",
-                                   gr_layout = gr_layout)
+    plot_genetic_interaction_graph(gr_to_plot, CANCER, "_allLists")
 
     plot_specific_lists <- function(gene_list, suffix) {
         j <- which(colnames(as_tibble(gr_to_plot, "nodes")) == gene_list)
