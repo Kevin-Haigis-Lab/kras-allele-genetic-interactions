@@ -33,7 +33,7 @@ fisher_sig <- fisher_comut_df %>%
         n11 >= 3 &
         (
             ((n10 + n11) / (n00 + n10 + n01 + n11) > !!mutfreq_comut) |
-            (n11 / n01 > !!comutfreq_comut)
+            (n11 / (n01 + n11) > !!comutfreq_comut)
         )
     ) %>%
     mutate(test_type = ifelse(
