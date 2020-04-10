@@ -1,4 +1,4 @@
-# Figure 002. #> BRIEF DESCRIPTION OF THE FIGURE.
+# Figure 002. Main comutation figure for COAD.
 
 FIGNUM <- 2
 

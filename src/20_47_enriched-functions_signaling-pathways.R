@@ -3,6 +3,8 @@
 GRAPHS_DIR <- "20_47_enriched-functions_signaling-pathways"
 reset_graph_directory(GRAPHS_DIR)
 
+set.seed(0)
+
 
 #### ---- General Setup ---- ####
 
