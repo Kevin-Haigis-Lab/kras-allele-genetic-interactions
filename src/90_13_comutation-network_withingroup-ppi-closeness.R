@@ -1,6 +1,6 @@
 # Are the comutation genes for each KRAS allele closer to each other in the PPI?
 
-GRAPHS_DIR <- "90_15_comutation-network_withingroup-ppi-closeness"
+GRAPHS_DIR <- "90_13_comutation-network_withingroup-ppi-closeness"
 reset_graph_directory(GRAPHS_DIR)
 
 

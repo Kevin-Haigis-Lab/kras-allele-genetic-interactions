@@ -199,6 +199,7 @@ save_to_graphs_dir <- function(cancer,
     save_name <- as.character(
         glue("comut-barplot_{cancer}_{allele}_{datasource}.svg")
     )
+    print(save_name)
     ggsave_wrapper(comut_plot, plot_path(GRAPHS_DIR, save_name), size)
 
     # Save the ggplot object for figure `save_for_fig`.
@@ -227,7 +228,7 @@ source(file.path("src", "20_44_select-enriched-functions.R"))
 
 additional_adjustments <- function(p) {
     p <- p +
-        facet_grid(allele ~ .,
+        facet_grid(rows = vars(allele),
                    scales = "free_y",
                    space = "free_y")
     return(p)
@@ -240,6 +241,7 @@ enrichr_comut_freq_tib %>%
     mutate(
         term = map2_chr(term, datasource, mod_term_for_datasource)
     ) %>%
+    filter(!is.na(allele)) %>%
     group_by(cancer) %>%
     nest() %>%
     mutate(
@@ -248,3 +250,9 @@ enrichr_comut_freq_tib %>%
     ) %>%
     mutate(save_for_fig = ifelse(cancer == "LUAD", 3, NA)) %>%
     pwalk(save_to_graphs_dir, size = "medium")
+
+
+enrichr_comut_freq_tib %>%
+    filter(str_detect(datasource, "BioCarta")) %>%
+    pull(term) %>%
+    unique()

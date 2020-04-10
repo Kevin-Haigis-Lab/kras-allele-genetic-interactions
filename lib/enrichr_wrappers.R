@@ -88,6 +88,8 @@ standardize_enricher_terms <- function(terms) {
         str_remove_all("_96h.*$") %>%
         str_remove_all("[:space:]WP.*$") %>%
         str_remove_all("[:space:]\\(GO.*$") %>%
+        str_remove_all("[:space:]*Homo sapiens P[:digit:]+$") %>%
+        str_remove_all("[:space:]*Homo sapiens h.*") %>%
         str_replace_all("_", " ")
 }
 
