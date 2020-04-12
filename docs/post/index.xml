@@ -5,12 +5,116 @@
     <link>https://project-notebook-comutation.netlify.com/post/</link>
       <atom:link href="https://project-notebook-comutation.netlify.com/post/index.xml" rel="self" type="application/rss+xml" />
     <description>Posts</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Wed, 08 Apr 2020 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Sat, 11 Apr 2020 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://project-notebook-comutation.netlify.com/img/icon-192.png</url>
       <title>Posts</title>
       <link>https://project-notebook-comutation.netlify.com/post/</link>
     </image>
+    
+    <item>
+      <title>2020-04-11</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2020-04-11/</link>
+      <pubDate>Sat, 11 Apr 2020 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2020-04-11/</guid>
+      <description>&lt;h2 id=&#34;predicted-vs-observed-kras-allele-frequency-using-mutational-signatures-v2&#34;&gt;Predicted vs. observed &lt;em&gt;KRAS&lt;/em&gt; allele frequency using mutational signatures (v2)&lt;/h2&gt;
+&lt;h3 id=&#34;approach&#34;&gt;Approach&lt;/h3&gt;
+&lt;p&gt;There are three matrices:&lt;/p&gt;
+&lt;p&gt;$\textbf{A} = \lbrack \text{KRAS allele} \times \text{mutational signature} \rbrack$&lt;/p&gt;
+&lt;p&gt;$\textbf{B} = \lbrack \text{mutational signature} \times \text{tumor sample barcode} \rbrack$&lt;/p&gt;
+&lt;p&gt;$\textbf{C} = \textbf{A} \times \textbf{B} = \lbrack \text{KRAS allele} \times \text{tumor sample barcode} \rbrack$&lt;/p&gt;
+&lt;p&gt;Matrix &lt;strong&gt;A&lt;/strong&gt; is the liklihood of each mutational signature causing each &lt;em&gt;KRAS&lt;/em&gt; allele.
+An additional row, &lt;code&gt;&amp;quot;remainder&amp;quot;&lt;/code&gt;, was added to represent the portion of the mutational signature that doesn&amp;rsquo;t cause a mutation to &lt;strong&gt;KRAS&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Matrix &lt;strong&gt;B&lt;/strong&gt; is the contribution of each mutational signature to each tumor sample.&lt;/p&gt;
+&lt;p&gt;Matrix &lt;strong&gt;C&lt;/strong&gt; is calculated by multiplying $\textbf{A} \times \textbf{B}$ and represents the probability of each mutational signature to cause a &lt;em&gt;KRAS&lt;/em&gt; allele.
+In this case, the &lt;code&gt;&amp;quot;remainder&amp;quot;&lt;/code&gt; may be thought of as WT &lt;em&gt;KRAS&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;The &amp;ldquo;artifact&amp;rdquo; were removed at the beginning to remove their impact on the predicted frequency.&lt;/p&gt;
+&lt;h3 id=&#34;results&#34;&gt;Results&lt;/h3&gt;
+&lt;p&gt;Most samples would be predicted to not have a &lt;em&gt;KRAS&lt;/em&gt; mutation.
+Only a handful of those that do have a &lt;em&gt;KRAS&lt;/em&gt; mutation were predicted to have one.
+Only one sample had the most likely &lt;em&gt;KRAS&lt;/em&gt; mutation (A146T in MM).&lt;/p&gt;
+&lt;p&gt;Estimating the frequency of the KRAS alleles by assigning each sample the mutation it would most likely get from the mutational signatures resulted in horrible predictions.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/50_11_observed-predicted-kras-alleles_v2/kras_freq_per_sample_scatter.svg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Estimating the frequency of the &lt;em&gt;KRAS&lt;/em&gt; alleles by taking the average likelihood over all samples and normalizing the values to sum to one produced better estimates.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/50_11_observed-predicted-kras-alleles_v2/PAAD_kras_freq_sample_avg_scatter.svg&#34; alt=&#34;&#34;&gt;
+&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/50_11_observed-predicted-kras-alleles_v2/LUAD_kras_freq_sample_avg_scatter.svg&#34; alt=&#34;&#34;&gt;
+&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/50_11_observed-predicted-kras-alleles_v2/MM_kras_freq_sample_avg_scatter.svg&#34; alt=&#34;&#34;&gt;
+&lt;img src=&#34;https://project-notebook-comutation.netlify.com/img/graphs/50_11_observed-predicted-kras-alleles_v2/COAD_kras_freq_sample_avg_scatter.svg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;adjustments&#34;&gt;Adjustments&lt;/h3&gt;
+&lt;p&gt;I will adjust the model to use all oncogenic alleles in every cancer, not only if it is found in that cancer.
+This is because the null hypothesis is that any oncogenic &lt;em&gt;KRAS&lt;/em&gt; allele should do and the mutational signature is making the decision.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>2020-04-09</title>
+      <link>https://project-notebook-comutation.netlify.com/post/2020-04-09/</link>
+      <pubDate>Thu, 09 Apr 2020 00:00:00 +0000</pubDate>
+      <guid>https://project-notebook-comutation.netlify.com/post/2020-04-09/</guid>
+      <description>&lt;h2 id=&#34;fix-bug-in-filtering-comutation-interactions&#34;&gt;Fix bug in filtering comutation interactions&lt;/h2&gt;
+&lt;h3 id=&#34;bug&#34;&gt;Bug&lt;/h3&gt;
+&lt;p&gt;file: &lt;code&gt;src/20_35_rc-fisher-comparison.R&lt;/code&gt;&lt;br&gt;
+line: &lt;code&gt;36&lt;/code&gt;&lt;br&gt;
+current: &lt;code&gt;(n11 / n01 &amp;gt; !!comutfreq_comut)&lt;/code&gt;&lt;br&gt;
+should be: &lt;code&gt;(n11 / (n01 + n11) &amp;gt; !!comutfreq_comut)&lt;/code&gt;&lt;/p&gt;
+&lt;h3 id=&#34;process-to-fixing-the-bug&#34;&gt;Process to fixing the bug&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# Make change and re-run the script.&lt;/span&gt;
+&lt;span style=&#34;color:#a6e22e&#34;&gt;source&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;src/20_35_rc-fisher-comparison.R&amp;#34;&lt;/span&gt;)
+
+&lt;span style=&#34;color:#75715e&#34;&gt;# Re-run all downstream scripts.&lt;/span&gt;
+downstream_scripts &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;c&lt;/span&gt;(
+    &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;20_40_highlivel-genetic-interactions.R&amp;#34;&lt;/span&gt;,
+    &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;20_41_disagreeing-interactions_logOR-barplot.R&amp;#34;&lt;/span&gt;,
+    &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;20_43_apriori-lists-genetic-interactions.R&amp;#34;&lt;/span&gt;,
+    &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;20_44_select-enriched-functions.R&amp;#34;&lt;/span&gt;,
+    &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;20_45_fxnal-enrich-genetic-interactions.R&amp;#34;&lt;/span&gt;,
+    &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;20_46_enriched-functions_bar-plots.R&amp;#34;&lt;/span&gt;,
+    &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;20_47_enriched-functions_signaling-pathways.R&amp;#34;&lt;/span&gt;,
+    &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;20_48_enriched-functions_compare-functions_heatmaps.R&amp;#34;&lt;/span&gt;,
+    &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;20_49_rainfall-plots-subroutines.R&amp;#34;&lt;/span&gt;,
+    &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;20_50_rainfall-plots.R&amp;#34;&lt;/span&gt;,
+    &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;20_55_lollipop_plots.R&amp;#34;&lt;/span&gt;,
+    &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;20_70_luad-g12c-stk11.R&amp;#34;&lt;/span&gt;,
+    &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;40_10_overlap-synlet-comutation.R&amp;#34;&lt;/span&gt;,
+    &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;40_12_overlap-synlet-comutation-hits.R&amp;#34;&lt;/span&gt;,
+    &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;40_15_comparing-COAD-allele-subnetworks.R&amp;#34;&lt;/span&gt;,
+    &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;40_16_comparing-LUAD-allele-subnetworks.R&amp;#34;&lt;/span&gt;,
+    &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;40_17_comparing-PAAD-allele-subnetworks.R&amp;#34;&lt;/span&gt;,
+    &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;40_20_comut-dependency-genes-ppi-connectivity.R&amp;#34;&lt;/span&gt;,
+    &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;40_25_luad_co-enriched-functions.R&amp;#34;&lt;/span&gt;,
+    &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;40_50_comparing-alleles-across-cancer.R&amp;#34;&lt;/span&gt;,
+    &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;60_10_MM-specific-oncogenes.R&amp;#34;&lt;/span&gt;,
+    &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;90_13_comutation-network_withingroup-ppi-closeness.R&amp;#34;&lt;/span&gt;
+)
+
+&lt;span style=&#34;color:#a6e22e&#34;&gt;for &lt;/span&gt;(f in downstream_scripts) {
+    msg &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;glue&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;running: &amp;#39;{f}&amp;#39;&amp;#34;&lt;/span&gt;)
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;cat&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;str_rep&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;=&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;str_length&lt;/span&gt;(msg)), &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;\n&amp;#34;&lt;/span&gt;)
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;cat&lt;/span&gt;(msg, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;\n&amp;#34;&lt;/span&gt;)
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;cat&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;str_rep&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;=&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;str_length&lt;/span&gt;(msg)), &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;\n&amp;#34;&lt;/span&gt;)
+    
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;source&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;file.path&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;src&amp;#34;&lt;/span&gt;, f))
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;report-on-downstream-effects&#34;&gt;Report on downstream effects&lt;/h3&gt;
+&lt;p&gt;There were no changes to the high level graph plots for LUAD and COAD and only minor changes to those for MM and PAAD.
+This indicates that the change has no effect on the results for COAD nor LUAD.
+The conclusions on MM were already limited and it doesn&amp;rsquo;t look like the few that are mentioned were disrupted.&lt;/p&gt;
+&lt;p&gt;There were no effects on the &lt;em&gt;a priori&lt;/em&gt; interaction plots.
+There was a bug in the script I had to fix, but it has no effect on output or results.
+(There will be one updated in git, but it was from a change to the graph layout used that I had changed earlier but forget to update.)&lt;/p&gt;
+&lt;p&gt;I had to address a bug in &amp;ldquo;src/20_46_enriched-functions_bar-plots.R&amp;rdquo;.
+I&amp;rsquo;m not sure what had caused it, but I just had to remove &lt;code&gt;NA&lt;/code&gt; values that previously I was allowed to leave.
+Also, Enrichr seems to have made some changes on the server so now the Panther and BioCarta terms a suffix.
+The removal of these were added to the &lt;code&gt;standardize_enricher_terms()&lt;/code&gt; function in &amp;ldquo;lib/enrichr_wrappers.R&amp;rdquo;.&lt;/p&gt;
+&lt;p&gt;The rest of the scripts rand without a hitch.
+Some resulted in minor changes to plots caused by some piece that is partially randomly placed.&lt;/p&gt;
+&lt;p&gt;No results nor conclusions were affected.&lt;/p&gt;
+&lt;h3 id=&#34;rebuild-figures&#34;&gt;Rebuild figures&lt;/h3&gt;
+&lt;p&gt;There were no changes to results and conclusions as presented in the figures and paper.
+Some of the figure panels were changed to include an &lt;code&gt;NA&lt;/code&gt; section.
+I think there was a change to the default behavior of some &amp;lsquo;ggplot2&amp;rsquo; geoms, but I will address these later.&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>2020-04-08</title>
