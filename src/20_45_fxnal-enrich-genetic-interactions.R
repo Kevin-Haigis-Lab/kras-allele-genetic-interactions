@@ -50,7 +50,8 @@ purrr::pwalk(enrichr_tib, write_enrichr_results, pval = 0.2, min_overlap = 2)
 dotplot_top_functions <- function(cancer,
                                   datasource,
                                   data,
-                                  reorder_terms = TRUE) {
+                                  reorder_terms = TRUE,
+                                  cancer_facet = FALSE) {
     mod_data <- data %>%
         filter(!str_detect(term, !!uninteresting_enrichr_regex)) %>%
         mutate(
@@ -65,8 +66,8 @@ dotplot_top_functions <- function(cancer,
 
     if (nrow(mod_data) == 0) return()
 
-    min_size <- ifelse(min(mod_data$n_overlap) == 0,  0,  1 )
-    min_alpha <- ifelse(min(mod_data$n_overlap) == 0,  0,  0.1)
+    min_size <- ifelse(min(mod_data$n_overlap) == 0, 0, 1)
+    min_alpha <- ifelse(min(mod_data$n_overlap) == 0, 0, 0.1)
 
     if (reorder_terms) {
         term_levels <- mod_data %>%
@@ -85,8 +86,8 @@ dotplot_top_functions <- function(cancer,
             aes(x = allele, y = term)
         ) +
         geom_point(
-            aes(size = -log10(adjusted_p_value),
-                alpha = n_overlap),
+            aes(alpha = -log10(adjusted_p_value),
+                size = n_overlap),
             color = "dodgerblue"
         ) +
         scale_size_continuous(
@@ -106,13 +107,20 @@ dotplot_top_functions <- function(cancer,
             text = element_text(family = "Arial"),
             plot.title = element_text(hjust = 0.5),
             legend.position = "right",
-            axis.title = element_blank()
+            axis.title = element_blank(),
+            strip.background = element_blank()
         ) +
         labs(
             title = glue("{cancer} - data source: {datasource}"),
-            alpha = "no. of genes",
-            size = "-log10(adj. p-val)"
+            size = "no. of genes",
+            alpha = "-log10(adj. p-val)"
         )
+
+    if (cancer_facet) {
+        p <- p +
+            facet_wrap(. ~ cancer, scales = "free")
+    }
+
     save_path <- plot_path(GRAPHS_DIR,
                            glue("enrichr_{cancer}_{datasource}.svg"))
     ggsave_wrapper(p, save_path, "large")
@@ -129,6 +137,12 @@ dotplot_selected_functions <- function(cancer, data) {
     if (cancer %in% c("COAD", "LUAD", "PAAD")) {
         saveFigRds(p, save_name)
     }
+}
+
+dotplot_selected_functions_faceted <- function(data) {
+    p <- dotplot_top_functions("FACET-CANCER", "SELECT", data,
+                               cancer_facet = TRUE)
+    saveFigRds(p, "enrichr_all-cancers-faceted")
 }
 
 
@@ -148,7 +162,8 @@ enrichr_tib %>%
     purrr::pwalk(dotplot_top_functions) %>%
     unnest(data) %>%
     right_join(selected_enrichments,
-               by = c("cancer", "datasource", "term")) %>%
+               by = c("cancer", "datasource", "term")) %T>%
+    dotplot_selected_functions_faceted() %>%
     group_by(cancer) %>%
     nest() %>%
     purrr::pwalk(dotplot_selected_functions)
