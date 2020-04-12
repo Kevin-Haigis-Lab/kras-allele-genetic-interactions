@@ -224,6 +224,11 @@ kras_freq_sample_avg <- kras_by_tsb_df %>%
     left_join(real_kras_allele_freq,
               by = c("cancer", "kras_allele"))
 
+    
+kras_freq_sample_avg %>%
+    group_by(cancer) %>%
+    summarise(total_probability = sum(avg_probability))
+
 
 plot_obs_pred_pointrange_scatter <- function(cancer, data) {
     max_val <- max(c(data$ymax, data$real_allele_freq))
