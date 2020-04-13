@@ -695,6 +695,23 @@ specific_oncoplot_info_tib %>%
         annotate_kras_allele = TRUE
     )
 
+# Without KRAS allele annotation bar at the bottom.
+specific_oncoplot_info_tib %>%
+    mutate(
+        save_name = paste0(cancer, "_",
+                           allele, "_",
+                           interaction_type,
+                           "_oncostrip_select_NO-KRAS-ANNO",
+                           name_suffix,
+                           ".svg")
+    ) %>%
+    pwalk(
+        allele_specificgenes_oncoplot,
+        top_n_genes = 15,
+        save_dir = SELECT_DIR,
+        annotate_kras_allele = FALSE
+    )
+
 
 #### ---- Oncoplots for known interactors ---- ####
 
