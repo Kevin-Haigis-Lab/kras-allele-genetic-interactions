@@ -235,7 +235,8 @@ make_top_bar_plot <- function(variants_per_sample, sample_order) {
 
 
 #' A bar plot along the right with the number of mutations per gene.
-make_right_bar_plot <- function(variants_per_gene_long, maf, cohort_size, gene_order) {
+make_right_bar_plot <- function(variants_per_gene_long, maf,
+                                cohort_size, gene_order) {
     total_variants_per_gene <- as_tibble(maf@gene.summary) %>%
         select(Hugo_Symbol, total) %>%
         filter(Hugo_Symbol %in% !!gene_order) %>%
@@ -260,7 +261,7 @@ make_right_bar_plot <- function(variants_per_gene_long, maf, cohort_size, gene_o
         geom_text(
             data = total_variants_per_gene,
             mapping = aes(x = Hugo_Symbol, y = total, label = percent_mut),
-            size = 1.5,
+            size = 1.9,
             family = "Arial",
             hjust = 0,
             nudge_y = max(total_variants_per_gene$total) * 0.02
