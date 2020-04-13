@@ -121,8 +121,7 @@ make_allele_freq_barplot <- function(df) {
     df %>%
         mutate(allele = factor_alleles(allele)) %>%
         ggplot(aes(x = allele, y = num_allele_samples)) +
-        geom_col(aes(fill = log10(num_allele_samples))) +
-        scale_fill_viridis_c(guide = FALSE) +
+        geom_col(fill = "grey75") +
         scale_y_continuous(
             breaks = c(5, 10, 50, 200, 500),
             expand = expansion(mult = c(0, 0.05)),
@@ -147,8 +146,7 @@ make_gene_freq_barplot <- function(df) {
     df %>%
         mutate(hugo_symbol = fct_reorder(hugo_symbol, n)) %>%
         ggplot(aes(x = hugo_symbol, y = n)) +
-        geom_col(aes(fill = log10(n))) +
-        scale_fill_viridis_c(guide = FALSE) +
+        geom_col(fill = "grey75") +
         coord_flip() +
         scale_y_continuous(
             expand = expansion(mult = c(0, 0.05))
