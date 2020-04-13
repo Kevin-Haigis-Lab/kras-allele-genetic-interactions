@@ -21,7 +21,8 @@ theme_fig22 <- function(tag_margin = margin(-1, -1, -1, -1, "mm")) {
 theme_graph_fig22 <- function(plot_margin = margin(0, 0, 0, 0, "mm")) {
     theme_graph(base_size = 7, base_family = "Arial") %+replace%
     theme(
-        plot.title = element_blank(),
+        plot.title = element_text(size = 7, face = "bold",
+                                  hjust = 0.1, vjust = 5),
         plot.tag = element_text(size = 7,
                                 face = "bold",
                                 margin = margin(0, 0, 0, 0, "mm")),
@@ -42,9 +43,12 @@ panel_A <- read_fig_proto("genetic_interaction_network_COAD") +
     theme_graph_fig22() %+replace%
     theme(
         legend.spacing.x = unit(1, "mm"),
-        legend.position = c(0.1, 0.1)
+        legend.position = c(0.05, 0.05),
+        legend.title = element_text(size = 6, face = "bold"),
+        legend.text = element_text(size = 6)
     ) +
-    labs(tag = "a")
+    labs(tag = "a",
+         title = "COAD")
 
 
 #### ---- B. A priori genes of interest comutation network for COAD ---- ####
@@ -52,14 +56,20 @@ panel_A <- read_fig_proto("genetic_interaction_network_COAD") +
 # original script: "src/20_43_apriori-lists-genetic-interactions.R"
 panel_B <- read_fig_proto(
         "goi_overlap_genetic_interactions_network_COAD_allLists"
-    ) *
+    ) +
+    scale_size_manual(
+        values = c(big = 1.6, small = 1.5),
+        guide = FALSE
+    ) +
     theme_graph_fig22(plot_margin = margin(0, 0, 0, 0, "mm")) %+replace%
     theme(
-        legend.title = element_markdown()
+        legend.title = element_markdown(size = 6),
+        legend.text = element_text(size = 6)
     ) +
     labs(
         tag = "b",
-        edge_width = "-*log*(p-value)"
+        edge_width = "-*log*(p-value)",
+        title = "COAD"
     )
 
 
@@ -93,6 +103,7 @@ prepare_enrichr_dotplot <- function(plt) {
         theme(
             plot.title = element_blank(),
             axis.title = element_blank(),
+            axis.text.x = element_text(size = 6),
             legend.title = element_markdown(),
             legend.position = "bottom",
             legend.box = "horizontal",
@@ -100,7 +111,8 @@ prepare_enrichr_dotplot <- function(plt) {
             legend.spacing.y = unit(0, "mm"),
             legend.margin = margin(-1, 3, -1, 3, "mm"),
             legend.box.background = element_rect(fill = NA, color = NA),
-            plot.margin = margin(0, 0, 0, 0, "mm")
+            plot.margin = margin(0, 0, 0, 0, "mm"),
+            strip.text = element_text(size = 7, hjust = 0.5, face = "bold")
         ) +
         labs(
             tag = "c",
@@ -120,17 +132,29 @@ panel_C <- read_fig_proto("enrichr_all-cancers-faceted") %>%
 # Adjust the oncoplots.
 adjust_oncoplot_theme <- function(
         pw,
+        top_bar_limits = NULL,
+        top_bar_breaks = integer_breaks(rm_vals = c(0)),
+        top_bar_labels = waiver(),
         right_bar_limits = NULL,
         right_bar_breaks = integer_breaks(rm_vals = c(0)),
+        right_bar_labels = waiver(),
         tag_margin = margin(0, 0, 0, 0, "mm")
     ) {
     # Top bar plot
     pw[[1]] <- pw[[1]] +
+        scale_y_continuous(
+            expand = expansion(mult = c(0, 0.01)),
+            limits = top_bar_limits,
+            breaks = top_bar_breaks,
+            labels = top_bar_labels
+        ) +
         theme(
-            axis.text.y = element_text(size = 5, hjust = 1),
+            axis.text.y = element_text(size = 6, hjust = 1),
             plot.tag = element_text(size = 7,
                                     face = "bold",
-                                    margin = tag_margin)
+                                    margin = tag_margin),
+            axis.ticks = element_blank(),
+            plot.margin = margin(0, 0, 0, 0, "mm")
         )
 
 
@@ -139,11 +163,16 @@ adjust_oncoplot_theme <- function(
         scale_fill_manual(
             values = mod_variant_pal,
             guide = guide_legend(title = "mutation type",
-                                 ncol = 1,
+                                 nrow = 2,
+                                 label.theme = element_text(size = 5.5),
                                  title.position = "top")
         ) +
         theme(
-            axis.text.y = element_text(size = 6, hjust = 1)
+            axis.text.y = element_text(size = 6, hjust = 1),
+            plot.margin = margin(0, 0, 0, 0, "mm"),
+            legend.background = element_rect(fill = NULL, color = NULL),
+            legend.margin = margin(-5, 0, -5, 0, "mm"),
+            legend.spacing.x = unit(1, "mm")
         )
 
     # Right bar plot
@@ -151,28 +180,27 @@ adjust_oncoplot_theme <- function(
         scale_y_continuous(
             expand = expansion(mult = c(0, 0.08)),
             limits = right_bar_limits,
-            breaks = right_bar_breaks
+            breaks = right_bar_breaks,
+            labels = right_bar_labels
         ) +
         theme(
-            axis.text.x = element_text(size = 5, vjust = 1)
+            axis.text.x = element_text(size = 6, vjust = 1),
+            axis.ticks = element_blank(),
+            plot.margin = margin(0, 0, 0, 0, "mm")
         )
 
 
-    # Clinical feature bar (KRAS allele)
-    pw[[4]] <- pw[[4]] +
-        scale_fill_manual(
-            values = short_allele_pal,
-            guide = guide_legend(
-                title = "*KRAS*<br>allele",
-                ncol = 1,
-                label.hjust = 0,
-                label.position = "right",
-            )
-        ) +
-        theme(
-            legend.spacing.x = unit(2, "mm"),
-            legend.title = element_markdown()
-        )
+    oncoplot_design <- "
+        11111#
+        11111#
+        222223
+        222223
+        222223
+        222223
+        222223
+    "
+
+    pw <- pw + plot_layout(design = oncoplot_design)
 
     return(pw)
 }
@@ -180,29 +208,25 @@ adjust_oncoplot_theme <- function(
 
 # Set the legend position for the oncoplots to "none".
 remove_oncoplot_legend <- function(pw) {
-    # Only panels 2 and 4 have legends.
-    for (i in c(2, 4)) {
-        pw[[i]] <- pw[[i]] + theme(legend.position = "none")
-    }
+    # Only panel 2 has a legend.
+    pw[[2]] <- pw[[2]] + theme(legend.position = "none")
     return(pw)
 }
 
 
-panel_D <- read_fig_proto("COAD_G12D_comutation_oncostrip_select")
-panel_D <- adjust_oncoplot_theme(panel_D, c(0, 450), c(50, 200, 400),
-                                 margin(0, 0, 0, -3.5, "mm"))
+panel_D <- read_fig_proto("COAD_G12D_comutation_oncostrip_select_NO-KRAS-ANNO")
+panel_D <- adjust_oncoplot_theme(panel_D,
+                                 right_bar_limits = c(0, 510),
+                                 right_bar_breaks = c(100, 200, 300, 400),
+                                 right_bar_labels = c("", "200", "", "400"),
+                                 tag_margin = margin(-3, 0, 0, -3.5, "mm"))
 panel_D[[1]] <- panel_D[[1]] + labs(tag = "d")
 
 # Legend for panels d-g
-panel_D_leg_1 <- ggpubr::as_ggplot(cowplot::get_legend(panel_D[[2]]))
-panel_D_leg_2 <- ggpubr::as_ggplot(cowplot::get_legend(panel_D[[4]]))
-panel_D_leg <- (
-        plot_spacer() / panel_D_leg_1 /
-        plot_spacer() / panel_D_leg_2 /
-        plot_spacer()
-    ) +
-    plot_layout(heights = c(20, 10, 5, 10, 20))
-panel_D_leg <- wrap_elements(full = panel_D_leg)
+# panel_D_leg_1 <- ggpubr::as_ggplot(cowplot::get_legend(panel_D[[2]]))
+# panel_D_leg <- (plot_spacer() / panel_D_leg_1 / plot_spacer()) +
+#     plot_layout(heights = c(2, 1, 2))
+# panel_D_leg <- wrap_elements(full = panel_D_leg)
 panel_D <- remove_oncoplot_legend(panel_D)
 
 
@@ -210,10 +234,56 @@ panel_D <- remove_oncoplot_legend(panel_D)
 # A rainfall plot of select reduced comutation interactions with G12D in COAD.
 # original script: "src/20_50_rainfall-plots.R"
 
-panel_E <- read_fig_proto("COAD_G12D_exclusivity_oncostrip_select")
-panel_E <- adjust_oncoplot_theme(panel_E, c(0, 450), c(50, 200, 400))
+panel_E <- read_fig_proto("COAD_G12D_exclusivity_oncostrip_select_NO-KRAS-ANNO")
+panel_E <- adjust_oncoplot_theme(panel_E,
+                                 top_bar_breaks = c(1:4),
+                                 top_bar_labels = c("", "2", "", "4"),
+                                 right_bar_limits = c(0, 510),
+                                 right_bar_breaks = c(100, 200, 300, 400),
+                                 right_bar_labels = c("", "200", "", "400"),
+                                 tag_margin = margin(0, 0, 0, -3.5, "mm"))
 panel_E[[1]] <- panel_E[[1]] + labs(tag = "e")
 panel_E <- remove_oncoplot_legend(panel_E)
+
+
+#### ---- Oncoplot mutation legend ---- ####
+
+extract_variants_from_oncoplots <- function(p) {
+    ggplot_build(p[[2]])$plot$data$Variant_Classification
+}
+
+calc_starts <- function(x, gap = 0, starting_pt = 0) {
+    starts <- accumulate(x, .init = starting_pt, ~ .x + .y + gap)
+    starts[-length(starts)]
+}
+
+variants <- unique(c(extract_variants_from_oncoplots(panel_D),
+                     extract_variants_from_oncoplots(panel_E)))
+
+panel_D_leg_df <- tibble(lbl = variants) %>%
+    mutate(
+        len = str_length(lbl),
+        start = calc_starts(len, gap = 0),
+        end = len + start,
+        mid = (start + end) / 2
+    )
+
+panel_D_leg <- panel_D_leg_df %>%
+    ggplot(aes(x = mid, y = 1)) +
+    geom_text(aes(label = lbl, color = lbl),
+              family = "Arial", size = 1.8, fontface = "bold") +
+    scale_color_manual(values = mod_variant_pal, guide = FALSE) +
+    scale_x_continuous(
+        limits = c(min(panel_D_leg_df$start), max(panel_D_leg_df$end)),
+        expand = c(0, 0)
+    ) +
+    theme_void() +
+    theme(
+        plot.title = element_text(size = 6, hjust = 0),
+        axis.title = element_blank(),
+        axis.text = element_blank()
+    ) +
+    labs(title = "mutation type")
 
 
 #### ---- F. Labeled MM comutation graph ---- ####
@@ -244,9 +314,11 @@ panel_F_2 <- read_fig_proto("allele_freq_barplot_TRUNCATED") +
     ) +
     theme_fig22(margin(-1.9, 0, 0, 0, "mm")) +
     theme(
+        plot.title = element_text(hjust = 0, face = "bold",
+                                  size = 7, vjust = 5),
         axis.title.x = element_blank(),
         axis.title.y = element_textbox_simple(
-            size = 5,
+            size = 6,
             hjust = 0.5,
             vjust = 0,
             padding = margin(0, 0, 0, 0),
@@ -255,10 +327,11 @@ panel_F_2 <- read_fig_proto("allele_freq_barplot_TRUNCATED") +
             orientation = "left-rotated",
         ),
         axis.text.x = element_blank(),
-        plot.margin = margin(3, 0, -0.5, 1, "mm")
+        plot.margin = margin(6, 0, -0.5, 1, "mm")
     ) +
     labs(tag = "f",
-         y = "num. tumor<br>samples<br>(*log*<sub>10</sub>)")
+         y = "num. tumor<br>samples<br>(*log*<sub>10</sub>)",
+         title = "MM")
 panel_F_3 <- read_fig_proto("gene_freq_barplot_TRUNCATED") +
     scale_y_continuous(
         breaks = c(25, 100, 200),
@@ -268,7 +341,7 @@ panel_F_3 <- read_fig_proto("gene_freq_barplot_TRUNCATED") +
     theme(
         axis.title.y = element_blank(),
         axis.text.y = element_blank(),
-        axis.title.x = element_text(size = 5),
+        axis.title.x = element_text(size = 6),
         plot.margin = margin(0, 0, 0, -0.5, "mm")
     )
 
@@ -292,12 +365,24 @@ panel_F <- panel_F_2 + panel_F_1 + panel_F_3 +
 
     row_1 <- wrap_elements(full = panel_A | panel_B)
 
-    panels_DE <- wrap_elements(full = panel_D / panel_E)
-    # row_3 <- wrap_elements(full = panels_DE | panel_F)
+    panels_DE <- (panel_D / panel_E / wrap_elements(full = panel_D_leg)) +
+        plot_layout(heights = c(15, 15, 1)) +
+        plot_annotation(
+            title = "COAD",
+            theme = theme(plot.title = element_text(size = 7,
+                                                    face = "bold",
+                                                    hjust = 0.1,
+                                                    vjust = -1))
+        )
+    panels_DE <- wrap_elements(full = panels_DE)
 
     # COMPLETE FIGURE
-    full_figure <- row_1 / panel_C / (panels_DE | panel_F) +
-        plot_layout(heights = c(3, 2, 3))
+    full_figure <- (
+        row_1 /
+        panel_C /
+        ((panels_DE | panel_F) + plot_layout(widths = c(2, 3)))
+    ) +
+        plot_layout(heights = c(4, 3, 3))
 
     save_figure(
         full_figure,

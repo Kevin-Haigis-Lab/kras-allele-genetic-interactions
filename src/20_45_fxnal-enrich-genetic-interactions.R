@@ -55,7 +55,7 @@ dotplot_top_functions <- function(cancer,
     mod_data <- data %>%
         filter(!str_detect(term, !!uninteresting_enrichr_regex)) %>%
         mutate(
-            term = str_wrap(term, 40),
+            term = str_wrap(term, 30),
             term = map2_chr(term, datasource, mod_term_for_datasource)
         ) %>%
         complete(allele, term) %>%
