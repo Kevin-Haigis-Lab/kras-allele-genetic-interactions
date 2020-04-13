@@ -1,4 +1,4 @@
-# Figure 024. #> BRIEF DESCRIPTION OF THE FIGURE.
+# Figure 024. #> MM comutation network
 
 FIGNUM <- 24
 

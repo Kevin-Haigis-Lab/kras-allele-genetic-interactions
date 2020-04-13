@@ -1,4 +1,4 @@
-# Figure 023. #> BRIEF DESCRIPTION OF THE FIGURE.
+# Figure 023. #> LUAD comutation network
 
 FIGNUM <- 23
 
