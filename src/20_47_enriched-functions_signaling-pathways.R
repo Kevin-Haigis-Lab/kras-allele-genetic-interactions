@@ -364,8 +364,8 @@ protos_save_tib <- tibble::tribble(
 adjust_gr_for_figure_proto <- function(gr) {
     mod_gr <- gr %N>%
         mutate(
-            node_size = ifelse(node_size == 4, 1.5, 1.2),
-            label_size = ifelse(label_size == 4, 1.2, 1),
+            node_size = ifelse(node_size == 4, 1.8, 1.5),
+            label_size = ifelse(label_size == 4, 2.5, 2.3),
         )
     return(mod_gr)
 }
