@@ -18,7 +18,7 @@ line_count_per_directory <- function(directory) {
 comutation_proj_lines_of_code <- function() {
     lapply(
             c("src", "munge", "lib", "tests",
-              file.path("paper", "figures", "figure_protos")),
+              file.path("paper", "figures", "make_figure_scripts")),
             line_count_per_directory
         ) %>%
         unlist() %>%
