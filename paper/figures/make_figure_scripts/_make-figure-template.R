@@ -6,13 +6,13 @@ FIGNUM <- __FIGURE_NUM__
 FIG_DIMENSIONS <- get_figure_dimensions(2, "tall")
 
 
-theme_fig__THEME_SUFFIX__ <- function() {
+theme_fig__THEME_SUFFIX__ <- function(tag_margin = margin(-1, -1, -1, -1, "mm")) {
     theme_comutation() %+replace%
     theme(
         legend.title = element_blank(),
         plot.tag = element_text(size = 7,
                                 face = "bold",
-                                margin = margin(-1, -1, -1, -1, "mm"))
+                                margin = tag_margin)
     )
 }
 
