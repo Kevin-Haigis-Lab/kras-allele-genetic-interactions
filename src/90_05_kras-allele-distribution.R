@@ -265,8 +265,8 @@ saveFigRds(plots, "allele_dist_barplot_stackplot")
 
 cancer_to_longname <- tibble(
     cancer = c("COAD", "LUAD", "MM", "PAAD", "SKCM"),
-    long_cancer = c("colon (COAD)", "lung (LUAD)", "WBC (MM)",
-                    "pancreas (PAAD)", "skin (SKCM)")
+    long_cancer = c("colon\n(COAD)", "lung\n(LUAD)", "WBC\n(MM)",
+                    "pancreas\n(PAAD)", "skin\n(SKCM)")
 ) %>%
     mutate(long_cancer = fct_rev(fct_inorder(long_cancer)))
 

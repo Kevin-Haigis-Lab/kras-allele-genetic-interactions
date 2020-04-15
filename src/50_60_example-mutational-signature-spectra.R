@@ -55,7 +55,7 @@ saveFigRds(coad_mut_spectrum, "coad_mut_spectrum")
 
 #### ---- Example signature spectra ---- ####
 
-example_signatures <- c("1", "4", "18")
+example_signatures <- c("1", "4", "5", "8", "9", "18")
 
 example_mutsig_spectra <- mutational_signature_spectra %>%
     filter(signature %in% example_signatures) %>%
@@ -76,3 +76,22 @@ ggsave_wrapper(
     "wide"
 )
 saveFigRds(example_mutsig_spectra, "example_mutsig_spectra")
+
+
+# Also save each signature as a separate object.
+for (sig in example_signatures) {
+    eg_spectrum <- mutational_signature_spectra %>%
+        filter(signature %in% !!sig) %>%
+        mutate(signature = paste("sig.", signature),
+               signature = fct_inorder(signature),
+               context = str_remove(tricontext, "\\>[:alpha:]\\]"),
+               context = str_remove(context, "\\["),
+               context_grp = extract_context_group(tricontext)) %>%
+        ggplot(aes(x = context, y = composition)) +
+        facet_grid(. ~ context_grp, scales = "free") +
+        geom_col(aes(fill = context_grp)) +
+        labs(y = "composition",
+             title = "Example signature mutational spectra")
+    saveFigRds(style_mutational_spectrum_plot(eg_spectrum),
+               as.character(glue("sig{sig}_example_mutsig_spectra")))
+}

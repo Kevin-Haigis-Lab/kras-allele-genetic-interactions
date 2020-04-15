@@ -67,7 +67,7 @@ panel_C <- read_fig_proto("cancer_freq_kras_mut_column") +
     theme_fig28() +
     theme(
         axis.title.x = element_markdown(),
-        axis.text.x = element_text(angle = -90),
+        axis.text.x = element_text(hjust = 0, vjust = 0.5, angle = -90),
         axis.title.y = element_blank(),
         axis.text.y = element_blank(),
         legend.position = "none",
@@ -83,48 +83,169 @@ panel_C <- read_fig_proto("cancer_freq_kras_mut_column") +
 mutational_spectrum_theme <- function(...) {
     theme_fig28(...) %+replace%
     theme(
-        plot.title = element_text(size = 7, face = "bold"),
-        axis.text.x = element_text(size = 6, angle = -90,
+        plot.title = element_text(size = 7, face = "bold", vjust = 1.4),
+        axis.text.x = element_text(size = 5, angle = -90,
                                    hjust = 0, vjust = 0.5),
         axis.text.y = element_text(size = 6),
         axis.title.x = element_blank(),
         strip.text = element_text(face = "bold", size = 6),
         legend.position = "none",
+        panel.spacing.x = unit(0, "mm"),
         panel.grid.major.x = element_blank()
     )
 }
 
 panel_D_1 <- read_fig_proto("coad_mut_spectrum") +
     mutational_spectrum_theme() +
-    labs(title = "COAD mutational spectrum")
-
-panel_D_2 <- read_fig_proto("example_mutsig_spectra") +
-    mutational_spectrum_theme() +
-    labs(title = NULL)
-
-panel_D <- (
-        (plot_spacer() / panel_D_1 / plot_spacer()) +
-        plot_layout(heights = c(1, 2, 1))
-    ) |
-    panel_D_2
+    labs(title = "COAD mutational spectrum",
+         tag = "d")
 
 
-#### ---- E. Predicted vs Observed allele frequency ---- ####
+mutational_spectrum_theme_minimal <- function(...) {
+    mutational_spectrum_theme() %+replace%
+    theme(
+        axis.text.x = element_blank(),
+        axis.text.y = element_blank(),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        strip.text = element_text(face = "bold", size = 5),
+    )
+}
+
+
+read_panel_D_subpanel <- function(sig) {
+    glue("sig{sig}_example_mutsig_spectra") %>%
+        as.character() %>%
+        read_fig_proto() +
+        mutational_spectrum_theme_minimal() +
+        labs(title = glue("Sig. {sig}"))
+}
+panel_D_subpanels <- c("1", "4", "5", "8", "9", "18") %>%
+    map(read_panel_D_subpanel) %>%
+    wrap_plots(nrow = 2)
+
+panel_D <- (panel_D_1 / panel_D_subpanels)
+
+
+#### ---- E. Mutational signatures probability of causing KRAS allele ---- ####
+# The probability that each allele was caused by each detectable mutational
+# signature.
+# original script: "src/50_30_mutsignatures_prob-causing-allele.R"
+
+style_mutsig_prob_barplots <- function(plt, i, tag = NULL, y = NULL) {
+    themed_plt <- plt +
+        scale_fill_manual(
+            values = mutsig_descrpt_pal,
+            guide = guide_legend(
+                nrow = 1,
+                title.position = "left",
+                title.vjust = 0.2,
+                label.position = "top",
+                label.hjust = 0.5,
+                label.vjust = -4.5
+            )
+        ) +
+        theme_fig28() +
+        theme(
+            plot.title = element_text(vjust = 0.5, size = 7, face = "bold"),
+            plot.margin = margin(1, 1, 1, 1, "mm"),
+            axis.title.x = element_blank(),
+            axis.text.x = element_text(size = 5.8),
+            legend.position = "bottom",
+            legend.title = element_text(size = 6, face = "bold"),
+            legend.text = element_text(size = 6),
+            legend.key.size = unit(3, "mm"),
+            legend.spacing.x = unit(1, "mm"),
+            legend.spacing.y = unit(0, "mm")
+        )
+    if (i == 1) {
+        themed_plt <- themed_plt + labs(tag = tag)
+    }
+    if (i %% 2 == 1) {
+        themed_plt <- themed_plt + labs(y = y)
+    } else {
+        themed_plt <- themed_plt + labs(y = NULL)
+    }
+    return(themed_plt)
+}
+
+
+panel_E <- read_fig_proto("probability-mutsig-caused-allele_barplot-list") %>%
+    imap(style_mutsig_prob_barplots, tag = "e", y = "probability")
+
+panel_E_design <- "
+    111111122222
+    111111122222
+    111111122222
+    111111122222
+    111111122222
+    111111122222
+    111111122222
+    111111122222
+    111111122222
+    111111122222
+    333333444444
+    333333444444
+    333333444444
+    333333444444
+    333333444444
+    333333444444
+    333333444444
+    333333444444
+    333333444444
+    333333444444
+    555555555555
+"
+
+panel_E <- wrap_plots(panel_E, guides = "collect") + guide_area() +
+    plot_layout(design = panel_E_design, guides = "collect")
+
+
+#### ---- F. Predicted vs Observed allele frequency ---- ####
 # Predicted vs. observed frequency of KRAS alleles in each cancer.
-# original script: "src/##_##_ORIGINAL-SCRIPT.R"
+# original script: "src/50_10_observed-predicted-kras-alleles.R"
 
-panel_E <- plot_spacer()
+panel_F_plots <- paste0(c("COAD", "LUAD", "MM", "PAAD"),
+                        "_predict-allele-freq_scatter.svg")
+
+panel_F_proto_list <- lapply(panel_F_plots, read_fig_proto)
+panel_F <- wrap_plots(panel_F_proto_list, nrow = 1, guides = "collect") &
+    theme_fig28() %+replace%
+    theme(
+        plot.title = element_text(size = 7, face = "bold"),
+        legend.title = element_markdown(vjust = 0.5, hjust = 0.5,
+                                        face = "bold", size = 6,
+                                        family = "Arial"),
+        legend.text = element_text(size = 6, hjust = 0.5, vjust = 0.5),
+        legend.key.height = unit(1, "mm"),
+        legend.key.width = unit(1, "mm"),
+        legend.spacing.y = unit(3, "mm"),
+        plot.margin = margin(0, 0, 0, 0, "mm")
+    )
+
+for (i in seq(2, 4)) panel_F[[i]] <- panel_F[[i]] + labs(y = "")
+
+panel_F[[1]] <- panel_F[[1]] + labs(tag = "f")
+
+panel_F <- (panel_F | guide_area()) +
+    plot_layout(widths = c(10, 10, 10, 10, 3))
 
 
 #### ---- Figure assembly ---- ####
 
 {
+    set.seed(0)
+
     # COMPLETE FIGURE
     row_1 <- (panel_A  | panel_B | panel_C) +
-        plot_layout(widths = c(2, 5, 1))
+        plot_layout(widths = c(4, 10, 3))
 
-    full_figure <- (row_1 / panel_D / panel_E) +
-        plot_layout(heights = c(2, 3, 3))
+    full_figure <- (
+        row_1 /
+        ((panel_D | wrap_elements(full = panel_E)) + plot_layout(widths = c(8, 10))) /
+        wrap_elements(full = panel_F)
+    ) +
+        plot_layout(heights = c(2, 3, 2))
 
     save_figure(
         full_figure,

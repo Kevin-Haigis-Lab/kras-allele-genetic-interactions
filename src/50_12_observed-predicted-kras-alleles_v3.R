@@ -387,8 +387,8 @@ ggsave_wrapper(
 
 plot_kras_allele_predictions <- function(cancer, data, p_val_cut = 0.05) {
 
-    pval_labels <- c(glue("p-value < {p_val_cut}"),
-                     glue("p-value ≥ {p_val_cut}"))
+    pval_labels <- c(glue("p < {p_val_cut}"),
+                     glue("p ≥ {p_val_cut}"))
 
     mod_data <- data %>%
         mutate(
@@ -410,28 +410,37 @@ plot_kras_allele_predictions <- function(cancer, data, p_val_cut = 0.05) {
         geom_pointrange(
             aes(shape = is_significant, ymin = lower_ci, ymax = upper_ci),
             size = 0.8,
-            fatten = 2
+            fatten = 1.5
         ) +
         ggrepel::geom_text_repel(aes(label = kras_allele),
-                                 size = 2,
+                                 size = 2.2,
                                  family = "Arial",
                                  seed = 0,
-                                 box.padding = unit(3, "mm"),
-                                 min.segment.length = unit(100, "mm")) +
+                                 force = 1,
+                                 box.padding = unit(2, "mm"),
+                                 segment.alpha = 0.5,
+                                 segment.color = "grey30",
+                                 segment.size = 0.3,
+                                 min.segment.length = unit(5, "mm")) +
         scale_x_continuous(limits = c(0, max_val),
                            expand = expansion(mult = c(0, 0.03))) +
         scale_y_continuous(limits = c(0, max_val),
-                           expand = expansion(mult = c(0, 0.03))) +
-        scale_shape_manual(values = c(15, 16), drop = FALSE) +
+                           expand = expansion(mult = c(0, 0.03)),
+                           labels = function(x) {ifelse(x == 0, "", x)}) +
+        scale_shape_manual(values = c(17, 16),
+                           drop = FALSE,
+                           guide = guide_legend(title.position = "top",
+                                                label.position = "top")) +
         coord_fixed() +
         theme_bw(base_size = 7, base_family = "Arial") +
         theme(
             plot.title = element_text(hjust = 0.5),
-            strip.background = element_blank()
+            strip.background = element_blank(),
+            legend.title = element_markdown(hjust = 0.5, vjust = 0.5)
         ) +
         labs(x = "observed",
-             y = "expected",
-             shape = "Chi-squared test",
+             y = "predicted",
+             shape = "χ<sup>2</sup> test",
              title = cancer)
 
     if (is.null(mod_data$R_squared)) { return(p) }
@@ -440,11 +449,12 @@ plot_kras_allele_predictions <- function(cancer, data, p_val_cut = 0.05) {
     lbl <- glue("R<sup>2</sup> = {r_sq}")
 
     r_sq_ypos <- max_val - (max_val * 0.05)
+    r_sq_xpos <- max_val * 0.05
 
     p +
         geom_richtext(
-            label = lbl, x = 0.03, y = r_sq_ypos,
-            hjust = 0, family = "Arial", size = 2,
+            label = lbl, x = r_sq_xpos, y = r_sq_ypos,
+            hjust = 0, family = "Arial", size = 2.8,
             fill = NA, label.color = NA,
             label.padding = grid::unit(rep(0, 4), "pt")
         )

@@ -111,17 +111,17 @@ barplots <- kras_allele_mutsig_df %>%
     arrange(cancer) %>%
     pmap(plot_probability_of_causation)
 combined_plots <-  wrap_plots(barplots) / guide_area() +
-    plot_layout(guides = 'collect', heights = c(14, 1))
+    plot_layout(guides = "collect", heights = c(14, 1))
 ggsave_wrapper(
     combined_plots,
     plot_path(GRAPHS_DIR, "probability-mutsig-caused-allele.svg"),
-    'wide'
+    "wide"
 )
-saveFigRds(combined_plots,
-           "probability-mutsig-caused-allele")
+saveFigRds(combined_plots, "probability-mutsig-caused-allele")
+saveFigRds(barplots, "probability-mutsig-caused-allele_barplot-list")
+
 
 #### ---- Distribution of select signatures ---- ####
-
 
 plot_signature_probability <- function(cancer, signature, min_allele_num = 15) {
     # Alleles to include in the plots.
