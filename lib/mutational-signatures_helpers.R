@@ -106,3 +106,22 @@ ggsave_wrapper(
 
 # Mutational signature contexts
 mutsigs_contexts <- colnames(deconstructSigs::signatures.cosmic)
+
+
+# Colors from 'MutationalPatterns' R package `COLORS6` object.
+# https://rdrr.io/bioc/MutationalPatterns/src/R/MutationalPatterns.R
+mutsig_context_group_pal <- c(
+    "C>A" = "#2EBAED",
+    "C>G" = "#000000",
+    "C>T" = "#DE1C14",
+    "T>A" = "#D4D2D2",
+    "T>C" = "#ADCC54",
+    "T>G" = "#F0D0CE"
+)
+
+
+ggsave_wrapper(
+    show_palette(mutsig_context_group_pal, font_family = "Arial"),
+    plot_path("00_miscellaneous", "mutsig-context-group_pal.svg"),
+    width = 3.5, height = 2
+)

@@ -78,9 +78,35 @@ panel_C <- read_fig_proto("cancer_freq_kras_mut_column") +
 
 #### ---- D. Mutational signature demonstration ---- ####
 # Demonstration of mutational signatures decomposing a mutational spectrum.
-# original script: "src/##_##_ORIGINAL-SCRIPT.R"
+# original script: "src/50_60_example-mutational-signature-spectra.R"
 
-panel_D <- plot_spacer()
+mutational_spectrum_theme <- function(...) {
+    theme_fig28(...) %+replace%
+    theme(
+        plot.title = element_text(size = 7, face = "bold"),
+        axis.text.x = element_text(size = 6, angle = -90,
+                                   hjust = 0, vjust = 0.5),
+        axis.text.y = element_text(size = 6),
+        axis.title.x = element_blank(),
+        strip.text = element_text(face = "bold", size = 6),
+        legend.position = "none",
+        panel.grid.major.x = element_blank()
+    )
+}
+
+panel_D_1 <- read_fig_proto("coad_mut_spectrum") +
+    mutational_spectrum_theme() +
+    labs(title = "COAD mutational spectrum")
+
+panel_D_2 <- read_fig_proto("example_mutsig_spectra") +
+    mutational_spectrum_theme() +
+    labs(title = NULL)
+
+panel_D <- (
+        (plot_spacer() / panel_D_1 / plot_spacer()) +
+        plot_layout(heights = c(1, 2, 1))
+    ) |
+    panel_D_2
 
 
 #### ---- E. Predicted vs Observed allele frequency ---- ####
@@ -98,7 +124,7 @@ panel_E <- plot_spacer()
         plot_layout(widths = c(2, 5, 1))
 
     full_figure <- (row_1 / panel_D / panel_E) +
-        plot_layout(heights = c(1, 2, 2))
+        plot_layout(heights = c(2, 3, 3))
 
     save_figure(
         full_figure,
