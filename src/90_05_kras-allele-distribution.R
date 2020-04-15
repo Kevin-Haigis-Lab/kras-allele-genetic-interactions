@@ -261,6 +261,84 @@ saveFigRds(plots, "allele_dist_barplot_stackplot")
 }
 
 
+#### ---- Dot-plot of allele frequency ---- ####
+
+cancer_to_longname <- tibble(
+    cancer = c("COAD", "LUAD", "MM", "PAAD", "SKCM"),
+    long_cancer = c("colon (COAD)", "lung (LUAD)", "WBC (MM)",
+                    "pancreas (PAAD)", "skin (SKCM)")
+) %>%
+    mutate(long_cancer = fct_rev(fct_inorder(long_cancer)))
+
+long_cancer_palette <- cancer_palette
+names(long_cancer_palette) <- cancer_to_longname$long_cancer
+
+
+allele_dist_dotplot <- allele_dist %>%
+    filter(!(ras_allele %in% c("WT", "Other")) &
+           ras_allele %in% names(short_allele_pal)) %>%
+    group_by(cancer) %>%
+    mutate(allele_freq = 100 * num_allele_samples / sum(num_allele_samples),
+           codon = str_extract(ras_allele, "[:digit:]+"),
+           codon = as.numeric(codon)) %>%
+    ungroup() %>%
+    left_join(cancer_to_longname, by = "cancer") %>%
+    ggplot(aes(x = ras_allele, y = long_cancer)) +
+    facet_grid(. ~ codon, scales = "free_x", space = "free") +
+    geom_point(aes(size = allele_freq, color = long_cancer)) +
+    scale_color_manual(values = long_cancer_palette) +
+    theme_bw(base_size = 7, base_family = "Arial") +
+    theme(
+        axis.ticks = element_blank(),
+        axis.title.x = element_markdown(),
+        axis.title.y = element_blank(),
+        legend.position = "none",
+        strip.background = element_blank(),
+        strip.text = element_text(face = "bold")
+    ) +
+    labs(x = "*KRAS* alleles")
+
+ggsave_wrapper(
+    allele_dist_dotplot,
+    plot_path(GRAPHS_DIR, "allele_dist_dotplot.svg"),
+    "wide"
+)
+
+saveFigRds(allele_dist_dotplot, "allele_dist_dotplot")
+
+
+#### ---- Barplot of KRAS mut freq per cancer ---- ####
+
+cancer_freq_kras_mut_column <- cancer_full_muts_df %>%
+    filter(!is_hypermutant & cancer != "SKCM") %>%
+    group_by(cancer, tumor_sample_barcode, ras_allele) %>%
+    slice(1) %>%
+    ungroup() %>%
+    select(cancer, tumor_sample_barcode, ras_allele) %>%
+    group_by(cancer) %>%
+    summarise(freq_kras_mut = sum(ras_allele != "WT") / n()) %>%
+    ungroup() %>%
+    mutate(cancer = factor(cancer, levels = rev(names(cancer_palette)))) %>%
+    ggplot(aes(x = freq_kras_mut, y = cancer)) +
+    geom_col(aes(fill = cancer), width = 0.6) +
+    scale_x_continuous(expand = expansion(add = c(0, 0.02))) +
+    scale_fill_manual(values = cancer_palette) +
+    theme_bw(base_size = 7, base_family = "Arial") +
+    theme(
+        axis.ticks = element_blank(),
+        axis.title.x = element_markdown(),
+        axis.title.y = element_blank(),
+        legend.position = "none"
+    ) +
+    labs(x = "freq. of *KRAS* mut.")
+ggsave_wrapper(
+    cancer_freq_kras_mut_column,
+    plot_path(GRAPHS_DIR, "cancer_freq_kras_mut_column.svg"),
+    "small"
+)
+saveFigRds(cancer_freq_kras_mut_column, "cancer_freq_kras_mut_column")
+
+
 #### ---- Lollipop plot of KRAS mutations ---- ####
 
 codons_to_label <- c(12, 13, 61, 146)
