@@ -79,8 +79,8 @@ panel_B <- read_fig_proto(
 
 prepare_enrichr_dotplot <- function(plt) {
     plt +
-        scale_size_continuous(
-            range = c(0, 4),
+        scale_size_area(
+            max_size = 4,
             guide = guide_legend(
                 title.position = "left",
                 title.hjust = 0.5,
@@ -90,7 +90,7 @@ prepare_enrichr_dotplot <- function(plt) {
             )
         ) +
         scale_alpha_continuous(
-            range = c(0, 1),
+            range = c(0.3, 1),
             guide = guide_legend(
                 title.position = "left",
                 title.hjust = 0,
@@ -363,8 +363,6 @@ panel_F <- panel_F_2 + panel_F_1 + panel_F_3 +
 {
     set.seed(0)
 
-    row_1 <- wrap_elements(full = panel_A | panel_B)
-
     panels_DE <- (panel_D / panel_E / wrap_elements(full = panel_D_leg)) +
         plot_layout(heights = c(15, 15, 1)) +
         plot_annotation(
@@ -375,6 +373,8 @@ panel_F <- panel_F_2 + panel_F_1 + panel_F_3 +
                                                     vjust = -1))
         )
     panels_DE <- wrap_elements(full = panels_DE)
+
+    row_1 <- wrap_elements(full = panel_A | panel_B)
 
     # COMPLETE FIGURE
     full_figure <- (
