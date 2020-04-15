@@ -49,8 +49,10 @@ get_allele_distribtion_dataframe <- function(with_other = TRUE) {
 
     return(df)
 }
+
 allele_dist <- get_allele_distribtion_dataframe(with_other = TRUE)
 allele_dist_all <- get_allele_distribtion_dataframe(FALSE)
+
 
 # Return the alleles in order of the frequency, except with "Other" always
 # at the end.
@@ -61,6 +63,7 @@ get_factor_levels <- function(allele, freq) {
     }
     return(lvls)
 }
+
 
 # Make a bar plot for the distribution of the alleles.
 # Provide a value to `max_freq` to set the y-axis limit.
@@ -99,6 +102,7 @@ make_allele_dist_barplot <- function(cancer, data,
     return(p)
 }
 
+
 # Make a stacked bar plot of the allele frequency.
 make_allele_stackedplot <- function(cancer, data, ...) {
     factor_levels <- get_factor_levels(data$ras_allele, data$allele_freq)
@@ -126,6 +130,7 @@ make_allele_stackedplot <- function(cancer, data, ...) {
 
     return(p)
 }
+
 
 # A wrapper to save the bar plot for a cancer.
 save_allele_dist_barplot <- function(barplot, cancer,
@@ -307,8 +312,8 @@ kras_lollipop_plot <- cancer_full_coding_muts_maf %>%
             fill = cancer)
     ) +
     geom_point(
-        aes(y = log_total_num_apos,
-            color = log_total_num_apos),
+        aes(y = log_total_num_apos),
+        color = "grey25",
         size = 0.8
     ) +
     geom_text(
@@ -329,11 +334,6 @@ kras_lollipop_plot <- cancer_full_coding_muts_maf %>%
             keyheight = unit(2, "mm"),
             ncol = 1
         )
-    ) +
-    scale_color_viridis_c(
-        begin = 0.8, end = 0.3,
-        option = "A",
-        guide = FALSE
     ) +
     scale_y_continuous(
         expand = c(0, 0),
@@ -365,6 +365,86 @@ ggsave_wrapper(
 
 # Save for use in Figure 1.
 saveFigRds(kras_lollipop_plot, "lollipop-kras_2")
+
+
+#### ---- Lollipop plot of KRAS mutations (only hot-spot) ---- ####
+
+manual_spacing_levels <- c(1, 12, 13, 15:16, 61, 65:67, 146, 188:189)
+
+# My lollipop plot.
+kras_lollipop_plot <- cancer_full_coding_muts_maf %>%
+    filter(!is_hypermutant & hugo_symbol == "KRAS") %>%
+    mutate(amino_position = as.numeric(amino_position)) %>%
+    filter(!is.na(amino_position)) %>%
+    filter(amino_position %in% codons_to_label) %>%
+    group_by(cancer, amino_position) %>%
+    summarise(num_apos = n_distinct(tumor_sample_barcode)) %>%
+    group_by(amino_position) %>%
+    mutate(
+        total_num_apos = sum(num_apos),
+        log_total_num_apos = log10(total_num_apos)
+    ) %>%
+    ungroup() %>%
+    mutate(
+        cancer_frac_apos = num_apos / total_num_apos,
+        cancer_frac_log_apos = cancer_frac_apos * log_total_num_apos,
+        point_label = ifelse(
+            amino_position %in% !!codons_to_label & cancer == "COAD",
+            as.character(amino_position),
+            NA
+        ),
+        amino_position = factor(amino_position, levels = manual_spacing_levels)
+    ) %>%
+    ggplot(aes(x = amino_position)) +
+    geom_col(
+        aes(y = cancer_frac_log_apos,
+            fill = cancer)
+    ) +
+    scale_fill_manual(
+        values = cancer_palette,
+        guide = guide_legend(
+            title = NULL,
+            label.hjust = 0,
+            keywidth = unit(3, "mm"),
+            keyheight = unit(3, "mm"),
+            ncol = 1
+        )
+    ) +
+    scale_y_continuous(
+        expand = c(0, 0),
+        limits = c(0, 4),
+        breaks = c(0, 1, 2, 3, 4, 5),
+        labels = function(x) { 10^x }
+    ) +
+    scale_x_discrete(
+        expand = c(0, 0), drop = FALSE,
+        labels = function(x) {
+            ifelse(x %in% c(codons_to_label, 1, 189), x, "")
+        }
+    ) +
+    theme_bw(base_size = 8, base_family = "Arial") +
+    theme(
+        legend.position = c(0.8, 0.8),
+        legend.spacing.x = unit(1, "mm"),
+        plot.margin = unit(c(1, 1, 1, 1), "mm"),
+        axis.title.y = element_markdown(),
+        axis.ticks = element_blank(),
+        panel.grid.major.x = element_blank()
+    ) +
+    labs(
+        x = "KRas amino acid sequence",
+        y = "number of samples (*log*<sub>10</sub>-transformed)"
+    )
+
+ggsave_wrapper(
+    kras_lollipop_plot,
+    plot_path(GRAPHS_DIR, "lollipop-kras_hotspot-only.svg"),
+    "small"
+)
+
+# Save for use in Figure 1.
+saveFigRds(kras_lollipop_plot, "lollipop-kras_hotspot-only")
+
 
 
 #### ---- Table of the distribution of alleles ---- ####
