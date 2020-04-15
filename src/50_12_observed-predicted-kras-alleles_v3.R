@@ -256,14 +256,20 @@ extract_boot_results <- function(boot_res, conf = 0.95) {
 
 # Results from bootstrapping the samples used for the calculation of the
 # predicted KRAS alleles.
-kras_allele_predictions_boot_results <- kras_allele_predictions %>%
-    group_by(cancer) %>%
-    nest() %>%
-    mutate(
-        boot_res = map2(cancer, data, boot_cancer_expect_frequncies, R = 1e3),
-        boot_ci = map(boot_res, extract_boot_results)
-    )
+cache("kras_allele_predictions_boot_results",
+      depends = c("kras_allele_predictions"),
+{
+    set.seed(0)
 
+    kras_allele_predictions_boot_results <- kras_allele_predictions %>%
+        group_by(cancer) %>%
+        nest() %>%
+        mutate(
+            boot_res = map2(cancer, data, boot_cancer_expect_frequncies,
+                            R = 1e3),
+            boot_ci = map(boot_res, extract_boot_results)
+        )
+})
 
 cancer_expect_frequencies <- kras_allele_predictions_boot_results %>%
     select(cancer, boot_ci) %>%
@@ -400,14 +406,14 @@ plot_kras_allele_predictions <- function(cancer, data, p_val_cut = 0.05) {
     p <- mod_data %>%
         ggplot(aes(x = observed_allele_frequency,
                    y = expected_allele_frequency)) +
-        geom_abline(lty = 2, size = 1, color = "grey60") +
+        geom_abline(lty = 2, size = 0.7, color = "grey60") +
         geom_pointrange(
             aes(shape = is_significant, ymin = lower_ci, ymax = upper_ci),
             size = 0.8,
-            fatten = 3
+            fatten = 2
         ) +
         ggrepel::geom_text_repel(aes(label = kras_allele),
-                                 size = 3,
+                                 size = 2,
                                  family = "Arial",
                                  seed = 0,
                                  box.padding = unit(3, "mm"),
@@ -433,10 +439,12 @@ plot_kras_allele_predictions <- function(cancer, data, p_val_cut = 0.05) {
     r_sq <- round(mod_data$R_squared[[1]], 3)
     lbl <- glue("R<sup>2</sup> = {r_sq}")
 
+    r_sq_ypos <- max_val - (max_val * 0.05)
+
     p +
         geom_richtext(
-            label = lbl, x = 0.03, y = max_val - 0.03,
-            hjust = 0, family = "Arial", size = 4,
+            label = lbl, x = 0.03, y = r_sq_ypos,
+            hjust = 0, family = "Arial", size = 2,
             fill = NA, label.color = NA,
             label.padding = grid::unit(rep(0, 4), "pt")
         )
