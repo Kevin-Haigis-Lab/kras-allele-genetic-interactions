@@ -74,6 +74,7 @@ string_length_dictionary <- tibble::tribble(
     "WT", 0.2591146,
     "G12D", 0.4353841,
     "G13D", 0.4353841,
+    "G12R", 0.4353841
 )
 
 
