@@ -23,18 +23,18 @@ ggraph_of_component <- function(gr, idx, cancer = "", cluster_num = "", ...) {
     p <- gr %E>%
         mutate(
             edge_width = centrality_edge_betweenness(directed = FALSE),
-            edge_width = scales::rescale(edge_width, to = c(0.2, 1.5))
+            edge_width = scales::rescale(edge_width, to = c(0.6, 2))
         ) %N>%
         mutate(
             node_size = log(centrality_pagerank(directed = FALSE)),
-            node_size = scales::rescale(node_size, to = c(0.4, 2.0))
+            node_size = scales::rescale(node_size, to = c(1, 3))
         ) %>%
         ggraph(layout = "stress") +
         geom_edge_link(aes(width = edge_width),
                        color = "grey40", alpha = 0.5) +
         geom_node_point(aes(size = node_size), color = "grey20") +
         geom_node_text(aes(label = name),
-                       family = "Arial", size = 1.4, repel = TRUE) +
+                       family = "Arial", size = 2, repel = TRUE) +
         scale_size_identity() +
         scale_edge_width_identity() +
         theme_graph() +
