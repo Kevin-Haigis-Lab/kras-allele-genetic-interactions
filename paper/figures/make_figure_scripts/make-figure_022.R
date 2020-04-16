@@ -221,12 +221,6 @@ panel_D <- adjust_oncoplot_theme(panel_D,
                                  right_bar_labels = c("", "200", "", "400"),
                                  tag_margin = margin(-3, 0, 0, -3.5, "mm"))
 panel_D[[1]] <- panel_D[[1]] + labs(tag = "d")
-
-# Legend for panels d-g
-# panel_D_leg_1 <- ggpubr::as_ggplot(cowplot::get_legend(panel_D[[2]]))
-# panel_D_leg <- (plot_spacer() / panel_D_leg_1 / plot_spacer()) +
-#     plot_layout(heights = c(2, 1, 2))
-# panel_D_leg <- wrap_elements(full = panel_D_leg)
 panel_D <- remove_oncoplot_legend(panel_D)
 
 
@@ -252,38 +246,24 @@ extract_variants_from_oncoplots <- function(p) {
     ggplot_build(p[[2]])$plot$data$Variant_Classification
 }
 
-calc_starts <- function(x, gap = 0, starting_pt = 0) {
-    starts <- accumulate(x, .init = starting_pt, ~ .x + .y + gap)
-    starts[-length(starts)]
-}
-
 variants <- unique(c(extract_variants_from_oncoplots(panel_D),
                      extract_variants_from_oncoplots(panel_E)))
 
-panel_D_leg_df <- tibble(lbl = variants) %>%
-    mutate(
-        len = str_length(lbl),
-        start = calc_starts(len, gap = 0),
-        end = len + start,
-        mid = (start + end) / 2
-    )
+panel_D_leg_df <- custom_label_legend_df(variants, colors = "white")
 
-panel_D_leg <- panel_D_leg_df %>%
-    ggplot(aes(x = mid, y = 1)) +
-    geom_text(aes(label = lbl, color = lbl),
-              family = "Arial", size = 1.8, fontface = "bold") +
-    scale_color_manual(values = mod_variant_pal, guide = FALSE) +
-    scale_x_continuous(
-        limits = c(min(panel_D_leg_df$start), max(panel_D_leg_df$end)),
-        expand = c(0, 0)
-    ) +
-    theme_void() +
+panel_D_leg <- custom_label_legend_plot(panel_D_leg_df,
+                                        family = "Arial", size = 1.8,
+                                        label.padding = unit(1, "mm"),
+                                        label.size = unit(0, "mm"),
+                                        hjust = 0.5) +
+    scale_fill_manual(values = mod_variant_pal, guide = FALSE) +
     theme(
-        plot.title = element_text(size = 6, hjust = 0),
+        plot.title = element_text(size = 6, hjust = 0, face = "bold"),
         axis.title = element_blank(),
         axis.text = element_blank()
     ) +
     labs(title = "mutation type")
+
 
 
 #### ---- F. Labeled MM comutation graph ---- ####
@@ -364,7 +344,7 @@ panel_F <- panel_F_2 + panel_F_1 + panel_F_3 +
     set.seed(0)
 
     panels_DE <- (panel_D / panel_E / wrap_elements(full = panel_D_leg)) +
-        plot_layout(heights = c(15, 15, 1)) +
+        plot_layout(heights = c(10, 10, 1)) +
         plot_annotation(
             title = "COAD",
             theme = theme(plot.title = element_text(size = 7,

@@ -6,10 +6,12 @@
 custom_label_legend <- function(lbl,
                                 gap = 0,
                                 colors = rep("black", length(lbl)),
+                                y_value = 1,
                                 ...) {
     custom_label_legend_df(lbl, gap, colors) %>%
-        custom_label_legend_plot(...)
+        custom_label_legend_plot(y_value = y_value, ...)
 }
+
 
 custom_label_legend_df <- function(lbl,
                                    gap = 0,
@@ -25,9 +27,10 @@ custom_label_legend_df <- function(lbl,
 }
 
 
-custom_label_legend_plot <- function(legend_df, ...) {
+custom_label_legend_plot <- function(legend_df, y_value = 1, ...) {
     legend_df %>%
-        ggplot(aes(x = mid, y = 1, label = lbl, fill = lbl, color = color)) +
+        ggplot(aes(x = mid, y = y_value, label = lbl,
+                   fill = lbl, color = color)) +
         geom_label(...) +
         scale_color_identity() +
         scale_x_continuous(
@@ -48,6 +51,7 @@ get_string_length <- function(x) {
     if (all(x %in% string_length_dictionary$word)) {
         known_lengths <- tibble(word = x) %>%
             left_join(string_length_dictionary, by = "word") %>%
+            distinct() %>%
             pull(known_length) %>%
             unlist()
         return(known_lengths / min(known_lengths))
@@ -64,9 +68,13 @@ string_length_dictionary <- tibble::tribble(
     "frame shift ins.", 1.0836589,
     "nonsense", 0.7228190,
     "in-frame ins.", 0.9169108,
-    "splice site", 0.7317708
+    "splice site", 0.7317708,
+    "G12C", 0.4353841,
+    "G12V", 0.4261882,
+    "WT", 0.2591146,
+    "G12D", 0.4353841,
+    "G13D", 0.4353841,
 )
-
 
 
 calc_string_width <- function(s) {

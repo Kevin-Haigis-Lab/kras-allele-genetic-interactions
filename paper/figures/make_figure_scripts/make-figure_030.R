@@ -92,11 +92,14 @@ panel_B <- panel_B +
     )
 
 
-panel_AB_legend <- tibble(lbl = c("G12C", "G12V", "WT")) %>%
+panel_AB_legend <- tibble(lbl = c("G12C", "G12V", "WT"),
+                          color = c("white", "black", "white")) %>%
     mutate(lbl = fct_rev(factor_alleles(lbl))) %>%
-    ggplot(aes(x = 1, y = lbl, label = lbl, color = lbl)) +
-    geom_text(size = 2, fontface = "bold", family = "Arial") +
-    scale_color_manual(values = short_allele_pal) +
+    ggplot(aes(x = 1, y = lbl, label = lbl, fill = lbl, color = color)) +
+    geom_label(size = 2, fontface = "bold", family = "Arial",
+               label.padding = unit(1, "mm"), label.size = unit(0, "mm")) +
+    scale_fill_manual(values = short_allele_pal) +
+    scale_color_identity() +
     theme_void() +
     theme(
         legend.position = "none",
@@ -112,7 +115,8 @@ panel_AB_legend <- tibble(lbl = c("G12C", "G12V", "WT")) %>%
     full_figure <- (
         (panel_A_density / panel_A) + plot_layout(heights = c(200, 500)) |
         (panel_B_density / panel_B) + plot_layout(heights = c(200, 500)) |
-        (plot_spacer() / panel_AB_legend / plot_spacer())
+        (plot_spacer() / panel_AB_legend / plot_spacer()) +
+            plot_layout(heights = c(1, 2, 1))
     ) +
         plot_layout(widths = c(10, 10, 1))
 

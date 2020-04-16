@@ -149,21 +149,27 @@ panel_C <- panel_C +
     )
 
 
-panel_BC_legend <- tibble(
-        lbl =  unique(ggplot_build(panel_C)$plot$data$allele)
-    ) %>%
-    mutate(lbl = factor_alleles(lbl)) %>%
-    ggplot(aes(x = lbl, y = "*KRAS* allele",
-               label = lbl, color = lbl)) +
-    geom_text(size = 2, fontface = "bold", family = "Arial") +
-    scale_color_manual(values = short_allele_pal) +
-    theme_void() +
+lbl_alleles <- ggplot_build(panel_C)$plot$data$allele %>%
+    unique() %>%
+    factor_alleles() %>%
+    sort() %>%
+    as.character()
+
+panel_BC_legend <- custom_label_legend(
+        lbl_alleles,
+        gap = 0,
+        colors = ifelse(lbl_alleles %in% kras_dark_lbls, "white", "black"),
+        y_value = "*KRAS* allele",
+        size = 2, fontface = "bold", family = "Arial",
+        label.padding = unit(1, "mm"), label.size = unit(0, "mm")
+    ) +
+    scale_fill_manual(values = short_allele_pal) +
     theme(
         legend.position = "none",
         plot.title = element_blank(),
-        axis.text.y = element_markdown(hjust = 0.5, face = "bold", size = 6)
-    ) +
-    labs(title = "*KRAS* allele")
+        axis.text.y = element_markdown(hjust = 0.5, face = "bold",
+                                       size = 6, family = "Arial")
+    )
 
 
 #### ---- D. Heatmap of linear model ---- ####
@@ -300,7 +306,7 @@ panel_E[[1]] <- panel_E[[1]] + labs(tag = "e")
                 wrap_elements(full = panel_BC) /
                 panel_BC_legend
             ) +
-                plot_layout(heights = c(40, 60, 1))
+                plot_layout(heights = c(20, 30, 1))
         ) |
         (
             panel_D
