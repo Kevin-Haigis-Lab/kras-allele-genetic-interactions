@@ -369,17 +369,26 @@ format_var_names <- function(x) {
 #     'black', 'violet', 'royalblue', '#7b7060'
 # )
 
-maftools_variant_pal <- c(
-    "#A6CEE3", "#1F78B4", "#B2DF8A", "#33A02C", "#FB9A99", "#E31A1C",
-    "#FDBF6F", "#FF7F00", "#CAB2D6", "#6A3D9A", "#FFFF99", "#B15928",
-    "#9E0142", "#D53E4F", "#F46D43", "black", "violet", "royalblue", "#7b7060"
-)
-
-names(maftools_variant_pal) <-c(
-    'Nonstop_Mutation', 'Frame_Shift_Del', 'IGR', 'Missense_Mutation','Silent',
-    'Nonsense_Mutation', 'RNA','Splice_Site', 'Intron', 'Frame_Shift_Ins',
-    'Nonstop_Mutation', 'In_Frame_Del', 'ITD', 'In_Frame_Ins',
-    'Translation_Start_Site', "Multi_Hit", 'Amp', 'Del', 'Complex_Event'
+names(maftools_variant_pal) <- c(
+    "Nonstop_Mutation" = "#A6CEE3",
+    "Frame_Shift_Del" = "#02D9A0",
+    "IGR" = "#B2DF8A",
+    "Missense_Mutation" = "#35B03F",
+    "Silent" = "#FB9A99",
+    "Nonsense_Mutation" = "#1F78B4",
+    "RNA" = "#FDBF6F",
+    "Splice_Site" = "#FF7F00",
+    "Intron" = "#CAB2D6",
+    "Frame_Shift_Ins" = "#9E0142",
+    "Nonstop_Mutation" = "#FFFF99",
+    "In_Frame_Del" = "#B15928",
+    "ITD" = "#D53E4F",
+    "In_Frame_Ins" = "#6A3D9A",
+    "Translation_Start_Site" = "#E31A1C",
+    "Multi_Hit" = "black",
+    "Amp" = "violet",
+    "Del" = "royalblue",
+    "Complex_Event" = "#7b7060"
 )
 
 mod_variant_pal <- maftools_variant_pal

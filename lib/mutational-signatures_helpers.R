@@ -79,23 +79,23 @@ ggsave_wrapper(
 # Palette for all of the mutational signatures.
 # Generated with the 'randomcoloR' package.
 mutsig_descrpt_pal <- c(
-    "1" = "#F3635E",
-    "2" = "#71E989",
+    "1" = "#F3635E",  # VIBRANT
+    "2" = "#A7BA9C",  # MUTED
     "3" = "#93CBED",
-    "4" = "#878787",
-    "5" = "#EFA61C",
+    "4" = "#56c596",  # VIBRANT
+    "5" = "#FFAE00",  # VIBRANT
     "6" = "#DBE93E",
-    "8" = "#AAC476",
-    "9" = "#5BE4DF",
-    "10" = "#BF9DFB",
-    "13" = "#10B21A",
-    "17" = "#ED93C8",
-    "18" = "#03A1FC",
+    "8" = "#C3E890",  # MUTED
+    "9" = "#BF53E0",  # VIBRANT
+    "10" = "#C286B5",  # MUTED
+    "13" = "#C79271",  # MUTED
+    "17" = "#FF7DCF",  # VIBRANT
+    "18" = "#0080FF",  # VIBRANT
     "26" = "#EFA61C",
     "30" = "#E2B798",
     "N3V2" = "#9A9C59",
-    "UV" = "#B279D1",
-    "MSI" = "#C9DE6A",
+    "UV" = "#887BC2",  # MUTED
+    "MSI" = "#C3768A",  # MUTED
     "artifact" = "gray50"
 )
 ggsave_wrapper(

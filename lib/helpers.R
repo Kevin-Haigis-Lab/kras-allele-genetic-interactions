@@ -222,25 +222,25 @@ ggsave_wrapper(
 
 # colors for KRAS alleles
 allele_palette <- c(
-    "KRAS G12A" = "#fb7810",
-    "KRAS G12C" = "#0a4f4e",
-    "KRAS G12D" = "#427ff5",
-    "KRAS G12R" = "#af5fe4",
-    "KRAS G12S" = "#f4cacb",
-    "KRAS G12V" = "#f8d147",
-    "KRAS G13C" = "#afe642",
-    "KRAS G13D" = "#1c4585",
-    "KRAS Q61H" = "#fd2c3b",
-    "KRAS Q61K" = "#E76707",
-    "KRAS Q61L" = "#56eead",
-    "KRAS Q61R" = "#f33bea",
+     "KRAS G12A" = "#fb7810",
+     "KRAS G12C" = "#0a4f4e",
+     "KRAS G12D" = "#2249F5",
+     "KRAS G12R" = "#af5fe4",
+     "KRAS G12S" = "#f4cacb",
+     "KRAS G12V" = "#f8d147",
+     "KRAS G13C" = "#afe642",
+     "KRAS G13D" = "#1c4585",
+     "KRAS Q61H" = "#fd2c3b",
+     "KRAS Q61K" = "#E76707",
+     "KRAS Q61L" = "#56eead",
+     "KRAS Q61R" = "#f33bea",
     "KRAS K117N" = "#E707C8",
     "KRAS A146T" = "#859947",
     "KRAS A146V" = "#9f75a7",
-    "KRAS Other" = "grey75"
+    "KRAS Other" = "grey75",
+            "WT" = "grey65"
 )
 
-allele_palette <- c(allele_palette, "WT" = "grey50")
 short_allele_pal <- allele_palette
 names(short_allele_pal) <- str_remove_all(names(short_allele_pal), "KRAS ")
 
@@ -266,11 +266,11 @@ ggsave_wrapper(
 
 # colors for cancers
 cancer_palette <- c(
-    COAD = "darkolivegreen3",
-    LUAD = "black",
-    MM = "cornflowerblue",
-    PAAD = "brown",
-    SKCM = "darksalmon"
+    COAD = "#7EA1D9",
+    LUAD = "#D975AD",
+    MM = "#F4C080",
+    PAAD = "#86D982",
+    SKCM = "grey80"
 )
 
 ggsave_wrapper(
@@ -284,7 +284,7 @@ ggsave_wrapper(
 # colors for comutation vs mutual exclusivity
 comut_mutex_pal <- c(
     comutation = "#1f71c2",  # blue
-    exclusivity = "#3deb74"  # green
+    exclusivity = "#00C255"  # green
 )
 comut_updown_pal <- comut_mutex_pal
 names(comut_updown_pal) <- c("increased", "reduced")

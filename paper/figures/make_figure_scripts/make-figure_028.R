@@ -22,6 +22,8 @@ theme_fig28 <- function(tag_margin = margin(-1, -1, -1, -1, "mm")) {
 # The distribution of mutations at the 4 hotspots.
 # original script: "src/90_05_kras-allele-distribution.R"
 
+codons_to_label <- c(12, 13, 61, 146)
+
 panel_A <- read_fig_proto("lollipop-kras_hotspot-only") +
     theme_fig28() +
     theme(
