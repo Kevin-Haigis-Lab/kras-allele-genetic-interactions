@@ -33,14 +33,14 @@ ProjectTemplate::cache("null_connectivity_dist",
     all_ppi_nodes <- na.omit(igraph::V(simple_combined_ppi_gr)$name)
     n_samples <- 2e3
     null_connectivity_dist <- tibble(
-            from = sample(all_ppi_nodes, n_samples * 1.1, replace = TRUE),
-            to = sample(all_ppi_nodes, n_samples * 1.1, replace = TRUE)
-        ) %>%
-            filter(from != to) %>%
-            slice(1:n_samples) %>%
-            mutate(connectivity = map2_dbl(from, to,
-                                           calc_nodes_connectivity)) %>%
-            filter(is.finite(connectivity))
+        from = sample(all_ppi_nodes, n_samples * 1.1, replace = TRUE),
+        to = sample(all_ppi_nodes, n_samples * 1.1, replace = TRUE)
+    ) %>%
+        filter(from != to) %>%
+        slice(1:n_samples) %>%
+        mutate(connectivity = map2_dbl(from, to,
+                                       calc_nodes_connectivity)) %>%
+        filter(is.finite(connectivity))
     return(null_connectivity_dist)
 })
 
