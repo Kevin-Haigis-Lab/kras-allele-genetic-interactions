@@ -1,12 +1,12 @@
-# Figure 036. #> BRIEF DESCRIPTION OF THE FIGURE.
+# Figure 037. #> BRIEF DESCRIPTION OF THE FIGURE.
 
-FIGNUM <- 36
+FIGNUM <- 37
 
 #> SET THE FIGURE DIMENSIONS
 FIG_DIMENSIONS <- get_figure_dimensions(2, "short")
+FIG_DIMENSIONS$height <- 110
 
-
-theme_fig36 <- function(tag_margin = margin(-1, -1, -1, -1, "mm")) {
+theme_fig37 <- function(tag_margin = margin(-1, -1, -1, -1, "mm")) {
     theme_comutation() %+replace%
     theme(
         legend.title = element_blank(),
@@ -16,8 +16,9 @@ theme_fig36 <- function(tag_margin = margin(-1, -1, -1, -1, "mm")) {
     )
 }
 
+
 # Special theme for graphs from 'ggraph'.
-theme_graph_fig36 <- function() {
+theme_graph_fig37 <- function() {
     theme_graph(base_size = 7, base_family = "Arial") %+replace%
     theme(
         plot.title = element_blank(),
@@ -33,12 +34,12 @@ theme_graph_fig36 <- function() {
 }
 
 
-#### ---- A. PPIN for LUAD G12C ---- ####
-# Annotated PPIN for LUAD G12C.
+#### ---- A. PPIN for LUAD G12V ---- ####
+# Annotated PPIN for LUAD G12V.
 # original script: "src/40_16_comparing-LUAD-allele-subnetworks.R"
 
-panel_A <- read_fig_proto("luad-G12C_overlap_comparison_plot") +
-    theme_graph_fig36() +
+panel_A <- read_fig_proto("luad-G12V_overlap_comparison_plot") +
+    theme_graph_fig37() +
     theme(
         legend.position = "none"
     )
@@ -48,7 +49,7 @@ panel_A <- read_fig_proto("luad-G12C_overlap_comparison_plot") +
 
 {
     set.seed(0)
-    
+
     # COMPLETE FIGURE
     full_figure <- panel_A +
         plot_layout()
