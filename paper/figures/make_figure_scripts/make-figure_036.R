@@ -26,8 +26,8 @@ theme_graph_fig36 <- function() {
                                 margin = margin(0, 0, 0, 0, "mm")),
         legend.margin = margin(0, 0, 0, 0, "mm"),
         legend.position = "right",
-        legend.title = element_text(size = 5, hjust = 0.5),
-        legend.text = element_text(size = 5, hjust = 0.5),
+        legend.title = element_text(size = 6, hjust = 0.5),
+        legend.text = element_text(size = 6, hjust = 0.5),
         plot.margin = margin(0, 0, 0, 0, "mm")
     )
 }
@@ -48,7 +48,7 @@ panel_A <- read_fig_proto("luad-G12C_overlap_comparison_plot") +
 
 {
     set.seed(0)
-    
+
     # COMPLETE FIGURE
     full_figure <- panel_A +
         plot_layout()

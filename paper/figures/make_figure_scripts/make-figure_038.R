@@ -1,12 +1,13 @@
-# Figure 037. #> BRIEF DESCRIPTION OF THE FIGURE.
+# Figure 038. #> BRIEF DESCRIPTION OF THE FIGURE.
 
-FIGNUM <- 37
+FIGNUM <- 38
 
 #> SET THE FIGURE DIMENSIONS
 FIG_DIMENSIONS <- get_figure_dimensions(2, "short")
 FIG_DIMENSIONS$height <- 110
 
-theme_fig37 <- function(tag_margin = margin(-1, -1, -1, -1, "mm")) {
+
+theme_fig38 <- function(tag_margin = margin(-1, -1, -1, -1, "mm")) {
     theme_comutation() %+replace%
     theme(
         legend.title = element_blank(),
@@ -18,7 +19,7 @@ theme_fig37 <- function(tag_margin = margin(-1, -1, -1, -1, "mm")) {
 
 
 # Special theme for graphs from 'ggraph'.
-theme_graph_fig37 <- function() {
+theme_graph_fig38 <- function() {
     theme_graph(base_size = 7, base_family = "Arial") %+replace%
     theme(
         plot.title = element_blank(),
@@ -28,20 +29,21 @@ theme_graph_fig37 <- function() {
         legend.margin = margin(0, 0, 0, 0, "mm"),
         legend.position = "right",
         legend.title = element_text(size = 6, hjust = 0.5),
-        legend.text = element_text(size = 6, hjust = 0.5),
+        legend.text = element_text(size = 6, hjust = 0),
         plot.margin = margin(0, 0, 0, 0, "mm")
     )
 }
 
 
-#### ---- A. PPIN for LUAD G12V ---- ####
-# Annotated PPIN for LUAD G12V.
-# original script: "src/40_16_comparing-LUAD-allele-subnetworks.R"
+#### ---- A. PPIN for PAAD ---- ####
+# Annotated PPIN for PAAD.
+# original script: "src/40_17_comparing-PAAD-allele-subnetworks.R"
 
-panel_A <- read_fig_proto("luad-G12V_overlap_comparison_plot") +
-    theme_graph_fig37() +
+panel_A <- read_fig_proto("paad_overlap_comparison_plot") +
+    theme_graph_fig38() +
     theme(
-        legend.position = "none"
+        legend.position = c(0.1, 0.80),
+        legend.title = element_blank()
     )
 
 
