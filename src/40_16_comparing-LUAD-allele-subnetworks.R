@@ -93,7 +93,7 @@ luad_overlap_comparison_ppin <- tibble(
     )
 
 
-set.seed(511)
+set.seed(42)
 for (al in c("G12C", "G12V")) {
 
     anno_tib <- LUAD_GRAPH_ANNOTATIONS %>%
@@ -122,7 +122,8 @@ for (al in c("G12C", "G12V")) {
             annotation_tib = anno_tib,
             graph_layout = ifelse(al == "G12C", "lgl", "stress"),
             edge_width = ifelse(al == "G12C", 0.5, 1),
-            node_size = ifelse(al == "G12C", 1, 2)
+            node_size = ifelse(al == "G12C", 1, 2),
+            edge_alpha = 0.3
         ) %T>%
         ggsave_wrapper(plt_name, "large") %>%
         saveFigRds(as.character(glue("luad-{al}_overlap_comparison_plot")))

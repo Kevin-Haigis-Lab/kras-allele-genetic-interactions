@@ -160,7 +160,8 @@ plot_overlap_comparison_graph <- function(gr,
                                            node_label_size = 2,
                                            node_label_repel = TRUE,
                                            node_size = 3,
-                                           edge_width = 1
+                                           edge_width = 1,
+                                           edge_alpha = 0.5
                                        ) {
 
     pals <- make_node_and_edge_palettes(gr)
@@ -174,7 +175,8 @@ plot_overlap_comparison_graph <- function(gr,
     p <- p +
         geom_edge_link(
             aes(color = edge_color),
-            width = edge_width, alpha = 0.5
+            width = edge_width,
+            alpha = edge_alpha
         ) +
         geom_node_point(
             aes(color = node_color),
