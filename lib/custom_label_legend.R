@@ -49,6 +49,7 @@ calc_starts <- function(x, gap = 0, starting_pt = 0) {
 
 get_string_length <- function(x) {
     if (all(x %in% string_length_dictionary$word)) {
+        message("Using known string widths.")
         known_lengths <- tibble(word = x) %>%
             left_join(string_length_dictionary, by = "word") %>%
             distinct() %>%
@@ -56,6 +57,7 @@ get_string_length <- function(x) {
             unlist()
         return(known_lengths / min(known_lengths))
     } else {
+        message("Using number of chars. as string width.")
         return(str_length(x))
     }
 }
