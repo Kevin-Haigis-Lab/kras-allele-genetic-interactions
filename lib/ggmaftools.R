@@ -369,7 +369,7 @@ format_var_names <- function(x) {
 #     'black', 'violet', 'royalblue', '#7b7060'
 # )
 
-names(maftools_variant_pal) <- c(
+maftools_variant_pal <- c(
     "Nonstop_Mutation" = "#A6CEE3",
     "Frame_Shift_Del" = "#02D9A0",
     "IGR" = "#B2DF8A",
