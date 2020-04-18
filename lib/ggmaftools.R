@@ -371,7 +371,7 @@ format_var_names <- function(x) {
 
 maftools_variant_pal <- c(
     "Nonstop_Mutation" = "#A6CEE3",
-    "Frame_Shift_Del" = "#02D9A0",
+    "Frame_Shift_Del" = "#C667A7",
     "IGR" = "#B2DF8A",
     "Missense_Mutation" = "#35B03F",
     "Silent" = "#FB9A99",
