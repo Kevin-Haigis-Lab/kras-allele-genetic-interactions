@@ -129,6 +129,7 @@ panel_D_subpanels <- c("1", "4", "5", "8", "9", "18") %>%
 panel_D <- (panel_D_1 / panel_D_subpanels)
 
 
+
 #### ---- E. Mutational signatures probability of causing KRAS allele ---- ####
 # The probability that each allele was caused by each detectable mutational
 # signature.
@@ -153,7 +154,7 @@ style_mutsig_prob_barplots <- function(plt, i, tag = NULL, y = NULL) {
             plot.margin = margin(1, 1, 1, 1, "mm"),
             axis.title.x = element_blank(),
             axis.text.x = element_text(size = 5.8),
-            legend.position = "bottom",
+            legend.position = "none",
             legend.title = element_text(size = 6, face = "bold"),
             legend.text = element_text(size = 6),
             legend.key.size = unit(3, "mm"),
@@ -199,8 +200,32 @@ panel_E_design <- "
     555555555555
 "
 
-panel_E <- wrap_plots(panel_E, guides = "collect") + guide_area() +
-    plot_layout(design = panel_E_design, guides = "collect")
+pull_signatures_from_panel_E <- function(x) {
+    unique(ggplot_build(x)$plot$data$description)
+}
+
+signatures <- map(panel_E, pull_signatures_from_panel_E) %>%
+    unlist() %>%
+    unique() %>%
+    sort() %>%
+    as.character()
+
+panel_E_legend <- custom_label_legend(
+        signatures,
+        y_value = "signature",
+        family = "Arial", size = 1.8,
+        label.padding = unit(1, "mm"),
+        label.size = unit(0, "mm"),
+        hjust = 0.5
+    ) +
+    scale_fill_manual(values = mutsig_descrpt_pal) +
+    theme(
+        legend.position = "none",
+        plot.margin = margin(-5, 0, 0, 0, "mm")
+    )
+
+panel_E <- wrap_plots(panel_E) +
+    plot_layout(design = panel_E_design)
 
 
 #### ---- F. Predicted vs Observed allele frequency ---- ####
@@ -239,14 +264,19 @@ panel_F <- (panel_F | guide_area()) +
     set.seed(0)
 
     # COMPLETE FIGURE
-    row_1 <- (panel_A  | panel_B | panel_C) +
+    row_1 <- (panel_A | panel_B | panel_C) +
         plot_layout(widths = c(4, 10, 3))
 
-    full_figure <- (
-        row_1 /
-        ((panel_D | wrap_elements(full = panel_E)) + plot_layout(widths = c(8, 10))) /
-        wrap_elements(full = panel_F)
-    ) +
+    panel_E_legend_spacer <- (plot_spacer() | panel_E_legend | plot_spacer()) +
+        plot_layout(widths = c(1, 20, 1))
+
+    panel_E_group <- (panel_E / panel_E_legend) +
+            plot_layout(heights = c(15, 1))
+
+    row_2 <- (panel_D | wrap_elements(full = panel_E_group)) +
+        plot_layout(widths = c(8, 10))
+
+    full_figure <- (row_1 / row_2 / wrap_elements(full = panel_F)) +
         plot_layout(heights = c(2, 3, 2))
 
     save_figure(

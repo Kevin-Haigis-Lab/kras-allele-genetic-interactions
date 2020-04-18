@@ -11,6 +11,7 @@ style_mutational_spectrum_plot <- function(p) {
     p +
         scale_y_continuous(expand = c(0, 0)) +
         scale_fill_manual(values = mutsig_context_group_pal) +
+        # scale_fill_brewer(type = "seq", palette = "PuBuGn") +
         theme_bw(base_size = 7, base_family = "Arial") +
         theme(
             plot.title = element_text(hjust = 0.5),

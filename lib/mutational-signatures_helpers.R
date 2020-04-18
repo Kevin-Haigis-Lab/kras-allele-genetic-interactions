@@ -119,6 +119,18 @@ mutsig_context_group_pal <- c(
     "T>G" = "#F0D0CE"
 )
 
+mutsig_context_group_pal <- c(
+    "C>A" = "grey60",
+    "C>G" = "grey70",
+    "C>T" = "grey80",
+    "T>A" = "grey55",
+    "T>C" = "grey75",
+    "T>G" = "grey65"
+)
+
+
+
+
 
 ggsave_wrapper(
     show_palette(mutsig_context_group_pal, font_family = "Arial"),
