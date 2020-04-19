@@ -224,7 +224,7 @@ ggsave_wrapper(
 allele_palette <- c(
      "KRAS G12A" = "#fb7810",
      "KRAS G12C" = "#0a4f4e",
-     "KRAS G12D" = "#2249F5",
+     "KRAS G12D" = "#2B63FF",
      "KRAS G12R" = "#af5fe4",
      "KRAS G12S" = "#f4cacb",
      "KRAS G12V" = "#f8d147",
@@ -238,7 +238,7 @@ allele_palette <- c(
     "KRAS A146T" = "#859947",
     "KRAS A146V" = "#9f75a7",
     "KRAS Other" = "grey75",
-            "WT" = "grey65"
+            "WT" = "#A0A3AF"
 )
 
 short_allele_pal <- allele_palette
