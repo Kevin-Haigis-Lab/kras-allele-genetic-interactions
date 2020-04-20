@@ -319,7 +319,19 @@ make_final_pdfs <- function(...) {
 }
 
 
+remove_old_final_figures <- function() {
+    old_figure_files <- unlist(list.files(FIGURE_DIR, full.names = TRUE))
+
+    idx <- str_detect(old_figure_files, "Fig_[:digit:]+\\.(jpeg|pdf|svg)")
+    old_figure_files <- old_figure_files[idx]
+
+    a <- file.remove(old_figure_files)
+    invisible(NULL)
+}
+
 copy_final_figures <- function() {
+    remove_old_final_figures()
+
     get_conversion_df() %>%
         pwalk(copy_final_figure) %>%
         make_final_pdfs()
