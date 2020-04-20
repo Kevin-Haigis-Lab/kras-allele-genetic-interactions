@@ -82,14 +82,14 @@ mutsig_descrpt_pal <- c(
     "1" = "#F3635E",  # VIBRANT
     "2" = "#A7BA9C",  # MUTED
     "3" = "#93CBED",
-    "4" = "#56c596",  # VIBRANT
+    "4" = "#86C5B1",  # VIBRANT
     "5" = "#FFAE00",  # VIBRANT
     "6" = "#DBE93E",
     "8" = "#C3E890",  # MUTED
     "9" = "#BF53E0",  # VIBRANT
     "10" = "#C286B5",  # MUTED
     "13" = "#C79271",  # MUTED
-    "17" = "#FF7DCF",  # VIBRANT
+    "17" = "#E880C1",  # VIBRANT
     "18" = "#0080FF",  # VIBRANT
     "26" = "#EFA61C",
     "30" = "#E2B798",
