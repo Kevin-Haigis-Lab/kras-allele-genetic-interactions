@@ -221,7 +221,8 @@ panel_E_legend <- custom_label_legend(
     scale_fill_manual(values = mutsig_descrpt_pal) +
     theme(
         legend.position = "none",
-        plot.margin = margin(-5, 0, 0, 0, "mm")
+        plot.margin = margin(-2, 0, -4, 0, "mm"),
+        axis.text.y = element_text(size = 6, face = "bold")
     )
 
 panel_E <- wrap_plots(panel_E) +
@@ -270,7 +271,7 @@ panel_F <- (panel_F | guide_area()) +
     panel_E_legend_spacer <- (plot_spacer() | panel_E_legend | plot_spacer()) +
         plot_layout(widths = c(1, 20, 1))
 
-    panel_E_group <- (panel_E / panel_E_legend) +
+    panel_E_group <- (panel_E / wrap_elements(full = panel_E_legend)) +
             plot_layout(heights = c(15, 1))
 
     row_2 <- (panel_D | wrap_elements(full = panel_E_group)) +
