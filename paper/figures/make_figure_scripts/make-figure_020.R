@@ -6,8 +6,8 @@
 FIGNUM <- 20
 
 #> SET THE FIGURE DIMENSIONS
-# FIG_DIMENSIONS <- get_figure_dimensions(2, "short")
-FIG_DIMENSIONS <- list(width = 110, height = 100)
+FIG_DIMENSIONS <- get_figure_dimensions(2, "short")
+FIG_DIMENSIONS$height <- 80
 
 
 theme_fig20 <- function() {
@@ -28,12 +28,12 @@ panel_A <- read_fig_proto("coad_depmap_wdr26-rna-v-dep.svg") +
     scale_size_manual(values = c("norm" = 3, "amp" = 5)) +
     theme_fig20() +
     theme(
-        legend.title = element_markdown(),
+        legend.title = element_markdown(size = 6),
+        legend.text = element_markdown(size = 6),
         axis.title.x = element_markdown()
     ) +
     labs(
-        color = "*KRAS* allele",
-        tag = "a"
+        color = "*KRAS* allele"
     )
 
 
@@ -41,8 +41,8 @@ panel_A <- read_fig_proto("coad_depmap_wdr26-rna-v-dep.svg") +
 
 {
     # COMPLETE FIGURE
-    full_figure <- panel_A +
-        plot_layout()
+    full_figure <- (plot_spacer() | panel_A  | plot_spacer()) +
+        plot_layout(widths = c(2, 3, 2))
 
     save_figure(
         full_figure,

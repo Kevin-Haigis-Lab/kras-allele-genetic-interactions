@@ -252,7 +252,9 @@ variants <- unique(c(extract_variants_from_oncoplots(panel_D),
 panel_D_leg_df <- custom_label_legend_df(variants, colors = "white")
 
 panel_D_leg <- custom_label_legend_plot(panel_D_leg_df,
-                                        family = "Arial", size = 1.8,
+                                        family = "Arial",
+                                        size = 1.8,
+                                        face = "bold",
                                         label.padding = unit(1, "mm"),
                                         label.size = unit(0, "mm"),
                                         hjust = 0.5) +

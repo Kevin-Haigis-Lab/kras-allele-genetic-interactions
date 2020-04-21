@@ -39,7 +39,7 @@ for (i in 1:4) {
             axis.text.x = element_blank()
         )
 
-    panel_A[[i]][[1]] <- panel_A[[i]][[1]] + labs(y = "freq. of allele")
+    panel_A[[i]][[1]] <- panel_A[[i]][[1]] + labs(y = "frequency of allele")
 }
 
 

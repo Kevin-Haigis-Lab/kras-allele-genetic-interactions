@@ -1,4 +1,4 @@
-# Figure 027. #> BRIEF DESCRIPTION OF THE FIGURE.
+# Figure 027. PPIN of enriched functions in LUAD comutation
 
 FIGNUM <- 27
 
