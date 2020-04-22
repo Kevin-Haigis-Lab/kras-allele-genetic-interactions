@@ -407,11 +407,10 @@ plot_kras_allele_predictions <- function(cancer, data, p_val_cut = 0.05) {
         ggplot(aes(x = observed_allele_frequency,
                    y = expected_allele_frequency)) +
         geom_abline(lty = 2, size = 0.7, color = "grey60") +
-        geom_pointrange(
-            aes(shape = is_significant, ymin = lower_ci, ymax = upper_ci),
-            size = 0.8,
-            fatten = 1.5
-        ) +
+        geom_point(aes(shape = is_significant),
+                   size = 1.3) +
+        geom_linerange(aes(ymin = lower_ci, ymax = upper_ci),
+                       size = 0.6) +
         ggrepel::geom_text_repel(aes(label = kras_allele),
                                  size = 2.2,
                                  family = "Arial",
