@@ -219,7 +219,7 @@ panel_D <- adjust_oncoplot_theme(panel_D,
                                  right_bar_limits = c(0, 510),
                                  right_bar_breaks = c(100, 200, 300, 400),
                                  right_bar_labels = c("", "200", "", "400"),
-                                 tag_margin = margin(-3, 0, 0, -3.5, "mm"))
+                                 tag_margin = margin(-6, 0, 0, -3.5, "mm"))
 panel_D[[1]] <- panel_D[[1]] + labs(tag = "d")
 panel_D <- remove_oncoplot_legend(panel_D)
 
@@ -268,76 +268,37 @@ panel_D_leg <- custom_label_legend_plot(panel_D_leg_df,
 
 
 
-#### ---- F. Labeled MM comutation graph ---- ####
-# The comutation graph for MM with every node labeled.
-# original script: "src/60_10_MM-specific-oncogenes.R"
+#### ---- F. Distribution of comutation events ---- ####
+# A dot-plot of some selected enriched functions from the comutation network.
+# original script: "src/20_48_enriched-functions_compare-functions_heatmaps.R"
 
-panel_F_1 <- read_fig_proto("mm_comut_heatmap_TRUNCATED") +
-    scale_fill_gradient2(
-        low = "dodgerblue",
-        high = "tomato",
-        mid = "grey90",
-        midpoint = 0.10,
-        guide = guide_colorbar(
-            barheight = unit(2, "mm")
-        )
-    ) +
-    theme_fig22() +
+panel_F <- read_fig_proto("comparison-heatmap_PAAD-1.rds")
+
+panel_F[[1]] <- panel_F[[1]] +
+    theme_fig22() %+replace%
     theme(
-        legend.position = "none",
+        plot.margin = margin(2, 0, 0, 0, "mm"),
         axis.title = element_blank(),
-        plot.margin = margin(0, 0, 0, 1, "mm")
-    )
-panel_F_2 <- read_fig_proto("allele_freq_barplot_TRUNCATED") +
-    scale_y_continuous(
-        breaks = c(10, 50, 200, 700),
-        expand = expansion(mult = c(0, 0.05)),
-        trans = "log10"
-    ) +
-    theme_fig22(margin(-1.9, 0, 0, 0, "mm")) +
-    theme(
-        plot.title = element_text(hjust = 0, face = "bold",
-                                  size = 7, vjust = 5),
-        axis.title.x = element_blank(),
-        axis.title.y = element_textbox_simple(
-            size = 6,
-            hjust = 0.5,
-            vjust = 0,
-            padding = margin(0, 0, 0, 0),
-            margin = margin(0, 0, -10, 0),
-            halign = 0.5,
-            orientation = "left-rotated",
-        ),
         axis.text.x = element_blank(),
-        plot.margin = margin(6, 0, -0.5, 1, "mm")
+        axis.text.y = element_text(size = 7, hjust = 1.0),
+        legend.position = "none"
     ) +
-    labs(tag = "f",
-         y = "num. tumor<br>samples<br>(*log*<sub>10</sub>)",
-         title = "MM")
-panel_F_3 <- read_fig_proto("gene_freq_barplot_TRUNCATED") +
-    scale_y_continuous(
-        breaks = c(25, 100, 200),
-        expand = expansion(mult = c(0, 0.05)),
-    ) +
-    theme_fig22() +
+    labs(tag = "f")
+
+panel_F[[2]] <- panel_F[[2]] +
+    theme_fig22() %+replace%
     theme(
-        axis.title.y = element_blank(),
-        axis.text.y = element_blank(),
-        axis.title.x = element_text(size = 6),
-        plot.margin = margin(0, 0, 0, -0.5, "mm")
-    )
-
-panel_F_design <- "
-    11111#
-    222223
-    222223
-    222223
-    222223
-"
-
-panel_F <- panel_F_2 + panel_F_1 + panel_F_3 +
-    plot_layout(design = panel_F_design)
-
+        axis.title.x = element_blank(),
+        axis.text.x = element_text(angle = 35, hjust = 1, vjust = 1, size = 7),
+        axis.text.y = element_text(size = 6),
+        axis.ticks.y = element_line(size = 0.1),
+        legend.key.size = unit(4, "mm"),
+        legend.title = element_markdown(size = 6),
+        legend.text = element_text(size = 6),
+        legend.margin = margin(0, -3, 0, -1, "mm")
+    ) +
+    labs(y = "distribution of comutation events",
+         fill = "*KRAS* allele")
 
 
 #### ---- Figure assembly ---- ####
@@ -352,7 +313,7 @@ panel_F <- panel_F_2 + panel_F_1 + panel_F_3 +
             theme = theme(plot.title = element_text(size = 7,
                                                     face = "bold",
                                                     hjust = 0.1,
-                                                    vjust = -1))
+                                                    vjust = 6))
         )
     panels_DE <- wrap_elements(full = panels_DE)
 
@@ -362,9 +323,9 @@ panel_F <- panel_F_2 + panel_F_1 + panel_F_3 +
     full_figure <- (
         row_1 /
         panel_C /
-        ((panels_DE | panel_F) + plot_layout(widths = c(2, 3)))
+        ((panels_DE | wrap_elements(full = panel_F)) + plot_layout(widths = c(2, 3)))
     ) +
-        plot_layout(heights = c(4, 3, 3))
+        plot_layout(heights = c(3, 3, 3))
 
     save_figure(
         full_figure,
