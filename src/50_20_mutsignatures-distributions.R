@@ -383,62 +383,92 @@ saveFigRds(sig_boxes, "signature-level-boxplots")
 
 #### ---- Mutational signatures per KRAS allele ---- ####
 
+mutsig_dist_barplot <- function(data) {
+    data %>%
+        ggplot(aes(x = ras_allele, y = contribution)) +
+        geom_col(aes(fill = description), position = "fill") +
+        scale_fill_manual(
+            values = mutsig_descrpt_pal,
+            guide = guide_legend(
+                title = "signature",
+                nrow = 1,
+                title.position = "left",
+                title.vjust = 0.5,
+                label.position = "top",
+                label.hjust = 0.5,
+                label.vjust = -6
+            )
+        ) +
+        scale_x_discrete(expand = c(0, 0)) +
+        scale_y_continuous(expand = c(0, 0)) +
+        theme_bw(
+            base_size = 7,
+            base_family = "Arial"
+        ) +
+        theme(
+            plot.title = element_text(hjust = 0.5),
+            axis.title.x = element_blank(),
+            legend.position = "bottom",
+            legend.key.size = unit(4, "mm"),
+            legend.spacing.y = unit(0, "mm"),
+            strip.background = element_blank()
+        ) +
+        labs(
+            y = "average level"
+        )
+}
+
+
+# Data should already be grouped by cancer!
+prep_mutsig_dist_barplot <- function(cancer, data) {
+    data %>%
+        filter(description != "artifact" & !is_hypermutant) %>%
+        mutate(
+            signature = factor(signature, levels = names(mutsig_pal)),
+            description = factor(description, levels = names(mutsig_descrpt_pal)),
+            ras_allele = str_remove_all(ras_allele, "KRAS_"),
+            ras_allele = factor_alleles(ras_allele)
+        ) %>%
+        filter(ras_allele %in% alleles_to_plot(cancer = !!cancer)) %>%
+        group_by(ras_allele, description) %>%
+        summarise(contribution = sum(contribution)) %>%
+        ungroup()
+}
+
 # Combine the plots into a grid using 'patchwork'.
 distribution_plots <- mutational_signatures_df %>%
-    filter(description != "artifact" & !is_hypermutant) %>%
-    mutate(
-        signature = factor(signature, levels = names(mutsig_pal)),
-        description = factor(description, levels = names(mutsig_descrpt_pal)),
-        ras_allele = str_remove_all(ras_allele, "KRAS_"),
-        ras_allele = factor_alleles(ras_allele)
-    ) %>%
     group_by(cancer) %>%
-    filter(ras_allele %in% alleles_to_plot(cancer = unique(cancer))) %>%
-    group_by(cancer, ras_allele, description) %>%
-    summarise(contribution = sum(contribution)) %>%
+    nest() %>%
+    mutate(data = map2(cancer, data, prep_mutsig_dist_barplot)) %>%
+    unnest(data) %>%
     ungroup() %>%
-    ggplot(aes(x = ras_allele, y = contribution)) +
-    facet_wrap(~ cancer, scales = "free", nrow = 2) +
-    geom_col(aes(fill = description), position = "fill") +
-    scale_fill_manual(
-        values = mutsig_descrpt_pal,
-        guide = guide_legend(
-            title = "signature",
-            nrow = 1,
-            title.position = "left",
-            title.vjust = 0.5,
-            label.position = "top",
-            label.hjust = 0.5,
-            label.vjust = -6
-        )
-    ) +
-    scale_x_discrete(expand = c(0, 0)) +
-    scale_y_continuous(expand = c(0, 0)) +
-    theme_bw(
-        base_size = 7,
-        base_family = "Arial"
-    ) +
-    theme(
-        plot.title = element_text(hjust = 0.5),
-        axis.title.x = element_blank(),
-        legend.position = "bottom",
-        legend.key.size = unit(4, "mm"),
-        legend.spacing.y = unit(0, "mm"),
-        strip.background = element_blank()
-    ) +
-    labs(
-        y = "average level"
-    )
+    mutsig_dist_barplot() +
+    facet_wrap(~ cancer, nrow = 2, scales = "free")
 
 ggsave_wrapper(
     distribution_plots,
     plot_path(GRAPHS_DIR, "mutsig-dist_combined.svg"),
     'wide'
 )
-
 saveFigRds(distribution_plots,
            "mutational-signatures-distribution-by-allele")
 
+
+
+# Individual plots per cancer
+gl_template <- "{.x}_mutational-signatures-distribution-by-allele"
+distribution_plots <- mutational_signatures_df %>%
+    filter(ras_allele != "WT") %>%
+    group_by(cancer) %>%
+    nest() %>%
+    mutate(
+        data = map2(cancer, data, prep_mutsig_dist_barplot),
+        plt = map(data, mutsig_dist_barplot),
+        plt = map2(cancer, plt, ~ .y + ggtitle(.x)),
+        plt = map2(cancer, plt, ~ saveFigRds(
+            .y, as.character((glue(gl_template)))
+        ))
+    )
 
 
 #### ---- Clock vs. non-clock ---- ####
