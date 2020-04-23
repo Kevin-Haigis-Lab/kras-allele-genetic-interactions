@@ -80,7 +80,7 @@ ggsave_wrapper(
 # Generated with the 'randomcoloR' package.
 mutsig_descrpt_pal <- c(
     "1" = "#F3635E",  # VIBRANT
-    "2" = "#A7BA9C",  # MUTED
+    "2" = "#BA9CBA",  # MUTED
     "3" = "#93CBED",
     "4" = "#86C5B1",  # VIBRANT
     "5" = "#FFAE00",  # VIBRANT

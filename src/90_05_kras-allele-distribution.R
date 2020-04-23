@@ -265,10 +265,17 @@ saveFigRds(plots, "allele_dist_barplot_stackplot")
 
 cancer_to_longname <- tibble(
     cancer = c("COAD", "LUAD", "MM", "PAAD", "SKCM"),
-    long_cancer = c("colon\n(COAD)", "lung\n(LUAD)", "WBC\n(MM)",
-                    "pancreas\n(PAAD)", "skin\n(SKCM)")
+    long_cancer = c("COAD\n(colon", "LUAD\n(lung", "MM\n(WBC",
+                    "PAAD\n(pancreas", "SKCM\n(skin")
 ) %>%
-    mutate(long_cancer = fct_rev(fct_inorder(long_cancer)))
+    left_join(distinct(select(allele_dist, cancer, num_cancer_samples)),
+              by = "cancer") %>%
+    mutate(
+        num = scales::comma(num_cancer_samples),
+        long_cancer = paste0(long_cancer, ", n=", num, ")"),
+        long_cancer = fct_rev(fct_inorder(long_cancer))
+    ) %>%
+    select(cancer, long_cancer)
 
 long_cancer_palette <- cancer_palette
 names(long_cancer_palette) <- cancer_to_longname$long_cancer
@@ -278,7 +285,7 @@ allele_dist_dotplot <- allele_dist %>%
     filter(!(ras_allele %in% c("WT", "Other")) &
            ras_allele %in% names(short_allele_pal)) %>%
     group_by(cancer) %>%
-    mutate(allele_freq = 100 * num_allele_samples / sum(num_allele_samples),
+    mutate(allele_freq = num_allele_samples / sum(num_allele_samples),
            codon = str_extract(ras_allele, "[:digit:]+"),
            codon = as.numeric(codon)) %>%
     ungroup() %>%
@@ -286,7 +293,7 @@ allele_dist_dotplot <- allele_dist %>%
     ggplot(aes(x = ras_allele, y = long_cancer)) +
     facet_grid(. ~ codon, scales = "free_x", space = "free") +
     geom_point(aes(size = allele_freq, color = long_cancer)) +
-    scale_color_manual(values = long_cancer_palette) +
+    scale_color_manual(values = long_cancer_palette, guide = NULL) +
     theme_bw(base_size = 7, base_family = "Arial") +
     theme(
         axis.ticks = element_blank(),
@@ -573,7 +580,6 @@ alleles_df %>%
     filter(kras_allele != "WT") %>%
     calc_frequency_of_alleles_by_cancer() %>%
     write_tsv(table_path(GRAPHS_DIR, "kras-allele-distribution-all-noWT.tsv"))
-
 
 
 

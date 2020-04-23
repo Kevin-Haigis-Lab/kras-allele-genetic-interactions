@@ -385,7 +385,9 @@ ggsave_wrapper(
 
 #### ---- Plot: Predicted vs. Observed ---- ####
 
-plot_kras_allele_predictions <- function(cancer, data, p_val_cut = 0.05) {
+plot_kras_allele_predictions <- function(cancer, data,
+                                         p_val_cut = 0.05,
+                                         use_cancer_color = FALSE) {
 
     pval_labels <- c(glue("p < {p_val_cut}"),
                      glue("p ≥ {p_val_cut}"))
@@ -403,14 +405,20 @@ plot_kras_allele_predictions <- function(cancer, data, p_val_cut = 0.05) {
     max_val <- max(c(mod_data$observed_allele_frequency,
                      mod_data$upper_ci))
 
+    point_color <- ifelse(use_cancer_color,
+                          cancer_palette[[cancer]],
+                          "grey20")
+
     p <- mod_data %>%
         ggplot(aes(x = observed_allele_frequency,
                    y = expected_allele_frequency)) +
-        geom_abline(lty = 2, size = 0.7, color = "grey60") +
-        geom_point(aes(shape = is_significant),
-                   size = 1.3) +
+        geom_abline(lty = 2, size = 0.6, color = "grey60") +
         geom_linerange(aes(ymin = lower_ci, ymax = upper_ci),
+                       color = "grey35",
                        size = 0.6) +
+        geom_point(aes(shape = is_significant),
+                   size = 1.3,
+                   color = point_color) +
         ggrepel::geom_text_repel(aes(label = kras_allele),
                                  size = 2.2,
                                  family = "Arial",
@@ -480,7 +488,8 @@ predicted_allele_frequency_scatter <- cancer_expect_frequencies %>%
     nest() %>%
     ungroup() %>%
     mutate(
-        plt = map2(cancer, data, plot_kras_allele_predictions),
+        plt = map2(cancer, data, plot_kras_allele_predictions,
+                   use_cancer_color = TRUE),
         plt = map2(cancer, plt, save_kras_allele_predictions,
                    gl_template = "{cancer}_predict-allele-freq_scatter.svg")
     )
