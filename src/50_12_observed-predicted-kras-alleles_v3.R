@@ -284,16 +284,22 @@ cancer_expect_frequencies <- kras_allele_predictions_boot_results %>%
 
 calc_obs_pred_rsquared <- function(x, y) {
     dat <- tibble(x = x, y = y)
-    fit <- lm(y ~ x, data = dat)
-    summary(fit)$r.squared
+    lm(y ~ x, data = dat) %>%
+        broom::glance() %>%
+        janitor::clean_names()
 }
 
 
 obs_pred_rsquareds <- cancer_expect_frequencies %>%
     group_by(cancer) %>%
-    summarise(R_squared = calc_obs_pred_rsquared(observed_allele_frequency,
-                                                 expected_allele_frequency)) %>%
-    ungroup()
+    summarise(model_fit = list(
+        calc_obs_pred_rsquared(observed_allele_frequency,
+                               expected_allele_frequency)
+    )) %>%
+    unnest(model_fit) %>%
+    ungroup() %>%
+    select(cancer, r_squared, adj_r_squared, p_value) %>%
+    rename(model_p_value = p_value)
 
 
 #### ---- Statistics: Chi-Squared ---- ####
@@ -339,7 +345,17 @@ obs_pred_chisquared_res %>%
     filter(p_value > 0.05) %>%
     select(cancer, kras_allele, p_value) %>%
     knitr::kable(digits = 3)
-
+#> |cancer |kras_allele | p_value|
+#> |:------|:-----------|-------:|
+#> |COAD   |G12A        |   0.637|
+#> |LUAD   |G12V        |   0.896|
+#> |MM     |G12A        |   0.863|
+#> |MM     |G12D        |   0.424|
+#> |MM     |G12R        |   0.420|
+#> |MM     |G12V        |   0.689|
+#> |MM     |G13D        |   0.238|
+#> |MM     |Q61L        |   0.940|
+#> |MM     |Q61R        |   0.519|
 
 
 #### ---- Plot: Distribution of probabilities ---- ####
@@ -450,18 +466,22 @@ plot_kras_allele_predictions <- function(cancer, data,
              shape = "χ<sup>2</sup> test",
              title = cancer)
 
-    if (is.null(mod_data$R_squared)) { return(p) }
+    if (is.null(mod_data$adj_r_squared)) { return(p) }
 
-    r_sq <- round(mod_data$R_squared[[1]], 3)
-    lbl <- glue("R<sup>2</sup> = {r_sq}")
+    r_sq <- round(mod_data$adj_r_squared[[1]], 3)
+    r_sq <- str_pad(r_sq, width = 5, side = "right", pad = "0")
+    mdl_p_val <- round(mod_data$model_p_value[[1]], 2)
+    mdl_p_val <- str_pad(mdl_p_val, width = 4, side = "right", pad = "0")
+    lbl <- glue("adj. R<sup>2</sup> = {r_sq}<br>p-val = {mdl_p_val}")
 
-    r_sq_ypos <- max_val - (max_val * 0.05)
+
     r_sq_xpos <- max_val * 0.05
+    r_sq_ypos <- max_val - (max_val * 0.01)
 
     p +
         geom_richtext(
             label = lbl, x = r_sq_xpos, y = r_sq_ypos,
-            hjust = 0, family = "Arial", size = 2.8,
+            hjust = 0, vjust = 1, family = "Arial", size = 2.8,
             fill = NA, label.color = NA,
             label.padding = grid::unit(rep(0, 4), "pt")
         )

@@ -79,25 +79,26 @@ ggsave_wrapper(
 # Palette for all of the mutational signatures.
 # Generated with the 'randomcoloR' package.
 mutsig_descrpt_pal <- c(
-    "1" = "#F3635E",  # VIBRANT
-    "2" = "#BA9CBA",  # MUTED
-    "3" = "#93CBED",
-    "4" = "#86C5B1",  # VIBRANT
-    "5" = "#FFAE00",  # VIBRANT
+    "1" = "#9FCCDC",
+    "2" = "#BA9CBA",
+    "3" = "#AAADB3",
+    "4" = "#C5BA7C",
+    "5" = "#579185",
     "6" = "#DBE93E",
-    "8" = "#C3E890",  # MUTED
-    "9" = "#BF53E0",  # VIBRANT
-    "10" = "#C286B5",  # MUTED
-    "13" = "#C79271",  # MUTED
-    "17" = "#E880C1",  # VIBRANT
-    "18" = "#0080FF",  # VIBRANT
+    "8" = "#C3E890",
+    "9" = "#856AB0",
+    "10" = "#C286B5",
+    "13" = "#C79271",
+    "17" = "#E8A9A9",
+    "18" = "#00689F",
     "26" = "#EFA61C",
     "30" = "#E2B798",
     "N3V2" = "#9A9C59",
-    "UV" = "#887BC2",  # MUTED
-    "MSI" = "#C3768A",  # MUTED
+    "UV" = "#887BC2",
+    "MSI" = "#C3768A",
     "artifact" = "gray50"
 )
+
 ggsave_wrapper(
     show_palette(mutsig_descrpt_pal, font_family = "Arial"),
     plot_path("00_miscellaneous", "mutational-signature-descriptions_pal.svg"),

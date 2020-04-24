@@ -72,7 +72,11 @@ plot_probability_of_causation <- function(cancer, data,
             description = factor(description, levels = names(mutsig_descrpt_pal))
         ) %>%
         ggplot(aes(x = kras_allele, y = prob_sum)) +
-        geom_col(aes(fill = description), position = "fill") +
+        geom_col(
+            aes(fill = description),
+            width = 0.8,
+            position = "fill"
+        ) +
         scale_fill_manual(
             values = mutsig_descrpt_pal,
             guide = guide_legend(

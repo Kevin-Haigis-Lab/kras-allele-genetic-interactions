@@ -6,12 +6,12 @@ FIGNUM <- 7
 FIG_DIMENSIONS <- get_figure_dimensions(2, "short")
 
 
-theme_fig7 <- function() {
+theme_fig7 <- function(tag_margin = margin(0, 0, 0, 0, "mm")) {
     theme_comutation() %+replace%
     theme(
         plot.tag = element_text(size = 7,
                                 face = "bold",
-                                margin = margin(0, 0, 0, 0, "mm"))
+                                margin = tag_margin)
     )
 }
 
@@ -48,6 +48,32 @@ panel_A <- read_fig_proto("signature-level-per-sample") +
     )
 
 
+pull_signatures_from_panel_A <- function(x) {
+    unique(ggplot_build(x)$plot$data$description)
+}
+
+signatures <- pull_signatures_from_panel_C(panel_A) %>%
+    unlist() %>%
+    unique() %>%
+    sort() %>%
+    as.character()
+
+panel_AB_legend <- custom_label_legend(
+        signatures,
+        y_value = "signature",
+        family = "Arial", size = 2.0,
+        label.padding = unit(1, "mm"),
+        label.size = unit(0, "mm"),
+        hjust = 0.5
+    ) +
+    scale_fill_manual(values = mutsig_descrpt_pal) +
+    theme(
+        legend.position = "none",
+        plot.margin = margin(0, 0, -5, 0, "mm"),
+        axis.text.y = element_text(size = 6, face = "bold")
+    )
+
+
 #### ---- B. Distirubiton of mutational signature levels ---- ####
 # The distribution of mutational signature levels in each sample (boxplot).
 # original script: "src/50_20_mutsignatures-distributions.R"
@@ -67,57 +93,19 @@ panel_B <- read_fig_proto("signature-level-boxplots_with0") +
     )
 
 
-#### ---- C. Distirubiton of mutational signatures by allele ---- ####
-# The distribution of mutational signature levels in samples with each allele.
+#### ---- D. Levels of clock vs. non-clock mutational signatures ---- ####
+# The levels of clock and non-clock mutational signatures per cancer.
 # original script: "src/50_20_mutsignatures-distributions.R"
 
-panel_C <- read_fig_proto("mutational-signatures-distribution-by-allele") +
+panel_C <- read_fig_proto("clock-signatures_violin-box") +
+    facet_wrap(~ cancer, nrow = 1) +
     labs(tag = "c") +
     theme_fig7() +
     theme(
         legend.position = "none",
         axis.title.x = element_blank(),
-        strip.text = element_text(size = 7)
-    )
-
-
-pull_signatures_from_panel_C <- function(x) {
-    unique(ggplot_build(x)$plot$data$description)
-}
-
-signatures <- pull_signatures_from_panel_C(panel_C) %>%
-    unlist() %>%
-    unique() %>%
-    sort() %>%
-    as.character()
-
-panel_C_legend <- custom_label_legend(
-        signatures,
-        y_value = "signature",
-        family = "Arial", size = 2.0,
-        label.padding = unit(1, "mm"),
-        label.size = unit(0, "mm"),
-        hjust = 0.5
-    ) +
-    scale_fill_manual(values = mutsig_descrpt_pal) +
-    theme(
-        legend.position = "none",
-        plot.margin = margin(0, 0, 0, 0, "mm"),
-        axis.text.y = element_text(size = 6, face = "bold")
-    )
-
-
-#### ---- D. Levels of clock vs. non-clock mutational signatures ---- ####
-# The levels of clock and non-clock mutational signatures per cancer.
-# original script: "src/50_20_mutsignatures-distributions.R"
-
-panel_D <- read_fig_proto("clock-signatures_violin-box") +
-    labs(tag = "d") +
-    theme_fig7() +
-    theme(
-        legend.position = "none",
-        axis.title.x = element_blank(),
-        strip.text = element_text(size = 7)
+        strip.text = element_text(size = 7),
+        panel.spacing.x = unit(4, "mm")
     )
 
 
@@ -128,14 +116,14 @@ panel_D <- read_fig_proto("clock-signatures_violin-box") +
 
     # COMPLETE FIGURE
     full_figure <- (panel_A + panel_B + plot_layout(widths = c(1))) /
-        (panel_C + panel_D + plot_layout(widths = c(8, 3))) /
         (
             (
-                plot_spacer() | panel_C_legend | plot_spacer()
+                plot_spacer() | panel_AB_legend | plot_spacer()
             ) +
             plot_layout(widths = c(1, 3, 1))
-        ) +
-        plot_layout(heights = c(15, 10, 1))
+        ) /
+        panel_C +
+        plot_layout(heights = c(42, 1, 8))
 
     save_figure(
         full_figure,

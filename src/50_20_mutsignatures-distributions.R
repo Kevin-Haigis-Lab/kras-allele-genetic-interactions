@@ -386,7 +386,10 @@ saveFigRds(sig_boxes, "signature-level-boxplots")
 mutsig_dist_barplot <- function(data) {
     data %>%
         ggplot(aes(x = ras_allele, y = contribution)) +
-        geom_col(aes(fill = description), position = "fill") +
+        geom_col(
+            aes(fill = description),
+            width = 0.8,
+            position = "fill") +
         scale_fill_manual(
             values = mutsig_descrpt_pal,
             guide = guide_legend(

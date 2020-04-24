@@ -83,7 +83,7 @@ style_mutsig_prob_barplots <- function(plt, i, tag = NULL, y = NULL) {
                 label.vjust = -4.5
             )
         ) +
-        theme_fig42(tag_margin = margin(-1, -1, -1, -4, "mm")) +
+        theme_fig42(tag_margin = margin(-1, -1, -1, -9, "mm")) +
         theme(
             plot.title = element_text(vjust = 0.5, size = 7, face = "bold"),
             plot.margin = margin(1, 1, 1, 1, "mm"),
@@ -102,8 +102,8 @@ style_mutsig_prob_barplots <- function(plt, i, tag = NULL, y = NULL) {
             labs(tag = tag, y = y)
     } else {
         themed_plt <- themed_plt +
-            theme(axis.text.y = element_blank(),
-                  axis.title.y = element_blank())
+            theme(axis.text.y = element_blank()) +
+            labs(y = " ")
     }
     return(themed_plt)
 }
@@ -138,7 +138,8 @@ signatures <- map(panel_D, pull_signatures_from_panel_D) %>%
 panel_D_legend <- custom_label_legend(
         signatures,
         y_value = "signature",
-        family = "Arial", size = 1.8,
+        family = "Arial",
+        size = 1.8,
         label.padding = unit(1, "mm"),
         label.size = unit(0, "mm"),
         hjust = 0.5
@@ -146,7 +147,7 @@ panel_D_legend <- custom_label_legend(
     scale_fill_manual(values = mutsig_descrpt_pal) +
     theme(
         legend.position = "none",
-        plot.margin = margin(-2, 0, -4, 0, "mm"),
+        plot.margin = margin(-10, 0, -10, 0, "mm"),
         axis.text.y = element_text(size = 6, face = "bold")
     )
 
@@ -198,7 +199,13 @@ panel_E <- (panel_E | guide_area()) +
     row_1 <- (panel_A | panel_B) +
         plot_layout(widths = c(10, 3))
 
-    row_2 <- wrap_elements(full = panel_C / panel_D)
+    panel_D_legend_sp <- (plot_spacer() | panel_D_legend | plot_spacer()) +
+        plot_layout(widths = c(1, 6, 1))
+
+    row_2 <- (panel_C / panel_D / panel_D_legend_sp) +
+        plot_layout(heights = c(10, 10, 1))
+
+    row_2 <- wrap_elements(full = row_2)
 
     full_figure <- (row_1 / row_2 / wrap_elements(full = panel_E)) +
         plot_layout(heights = c(2, 6, 3))
