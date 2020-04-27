@@ -64,6 +64,13 @@ ProjectTemplate::cache("kegg_geneset_df",
         ) %>%
         dplyr::rename(hugo_symbol = "gene")
 
+    manual_additions <- tribble(
+        ~ gene_set, ~ hugo_symbol,
+        "KEGG_WNT_SIGNALING_PATHWAY", "AMER1"
+    )
+
+    kegg_geneset_df <- bind_rows(kegg_geneset_df, manual_additions)
+
     log_rows(logger, kegg_geneset_df, "kegg_geneset_df")
     info(logger, "Caching KEGG gene set data frame.")
     return(kegg_geneset_df)
