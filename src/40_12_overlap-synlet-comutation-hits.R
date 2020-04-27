@@ -1,4 +1,4 @@
-# Individual genes that have both comutation and genetic dpendency interactions
+# Individual genes that have both comutation and genetic dependency interactions
 # with an allele in a cancer.
 
 make_depmap_gene_clusters_pairwise_df()
@@ -17,8 +17,7 @@ get_shared_comutation_dependency <- function(cancer, allele) {
 
 
 comut_dep_overlap_tbl <- depmap_gene_clusters_pairwise_df %>%
-    select(cancer, group1, group2) %>%
-    unique() %>%
+    distinct(cancer, group1, group2) %>%
     group_by(cancer) %>%
     summarise(allele = list(unique(c(unlist(group1), unlist(group2))))) %>%
     ungroup() %>%
