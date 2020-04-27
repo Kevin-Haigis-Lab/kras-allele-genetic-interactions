@@ -53,31 +53,35 @@ cell_line_info <- model_data %>%
     select(dep_map_id, cancer, allele) %>%
     unique()
 
-cellline_enrichment_results <- purrr::map(
-    1:nrow(gene_sets_df),
-    function(i) {
-        gene_set_name <- unlist(gene_sets_df$gene_set[i])
-        genes <- unlist(gene_sets_df$genes[i])
+cache("cellline_enrichment_results",
+      depends = c("gene_sets_df", "cellline_data"),
+{
+    cellline_enrichment_results <- purrr::map(
+        1:nrow(gene_sets_df),
+        function(i) {
+            gene_set_name <- unlist(gene_sets_df$gene_set[i])
+            genes <- unlist(gene_sets_df$genes[i])
 
-        results <- cellline_data %>%
-            mutate(
-                gene_set = !!gene_set_name,
-                enrichment_results = purrr::map(data,
-                                                ranksum_enrichment,
-                                                gene_set = genes)
-            ) %>%
-            select(-data) %>%
-            unnest(enrichment_results)
-        return(results)
-    }
-) %>% bind_rows() %>%
-    janitor::clean_names() %>%
-    group_by(dep_map_id) %>%
-    mutate(adjusted_p_value = p.adjust(p_value, method = "BH")) %>%
-    ungroup() %>%
-    left_join(cell_line_info, by = "dep_map_id")
-
-cache("cellline_enrichment_results")
+            results <- cellline_data %>%
+                mutate(
+                    gene_set = !!gene_set_name,
+                    enrichment_results = purrr::map(data,
+                                                    ranksum_enrichment,
+                                                    gene_set = genes)
+                ) %>%
+                select(-data) %>%
+                unnest(enrichment_results)
+            return(results)
+        }
+    ) %>%
+        bind_rows() %>%
+        janitor::clean_names() %>%
+        group_by(dep_map_id) %>%
+        mutate(adjusted_p_value = p.adjust(p_value, method = "BH")) %>%
+        ungroup() %>%
+        left_join(cell_line_info, by = "dep_map_id")
+    return(cellline_enrichment_results)
+})
 
 
 #### ---- Run the test on cell lines of an allele ---- ####
@@ -93,30 +97,33 @@ allele_data <- model_data %>%
     nest() %>%
     ungroup()
 
-allele_enrichment_results <- purrr::map(
-    1:nrow(gene_sets_df),
-    function(i) {
-        gene_set_name <- unlist(gene_sets_df$gene_set[i])
-        genes <- unlist(gene_sets_df$genes[i])
+cache("allele_enrichment_results",
+      depends = c("gene_sets_df", "allele_data"),
+{
+    allele_enrichment_results <- purrr::map(
+        1:nrow(gene_sets_df),
+        function(i) {
+            gene_set_name <- unlist(gene_sets_df$gene_set[i])
+            genes <- unlist(gene_sets_df$genes[i])
 
-        results <- allele_data %>%
-            mutate(
-                gene_set = !!gene_set_name,
-                enrichment_results = purrr::map(data,
-                                                ranksum_enrichment,
-                                                gene_set = genes)
-            ) %>%
-            select(-data) %>%
-            unnest(enrichment_results)
-        return(results)
-    }
-) %>% bind_rows() %>%
-    janitor::clean_names() %>%
-    group_by(cancer, gene_set) %>%
-    mutate(adjusted_p_value = p.adjust(p_value, method = "BH")) %>%
-    ungroup()
-
-cache("allele_enrichment_results")
+            results <- allele_data %>%
+                mutate(
+                    gene_set = !!gene_set_name,
+                    enrichment_results = purrr::map(data,
+                                                    ranksum_enrichment,
+                                                    gene_set = genes)
+                ) %>%
+                select(-data) %>%
+                unnest(enrichment_results)
+            return(results)
+        }
+    ) %>%
+        bind_rows() %>%
+        janitor::clean_names() %>%
+        group_by(cancer, gene_set) %>%
+        mutate(adjusted_p_value = p.adjust(p_value, method = "BH")) %>%
+        ungroup()
+})
 
 
 #### ---- Plotting allele results ---- ####
@@ -222,17 +229,8 @@ gene_set_waterfall_plot <- function(cancer, allele, gene_set,
             legend.position = "none"
         )
 
-    grob_waterfall <- ggplotGrob(p_waterfall)
-    grob_tile <- ggplotGrob(p_tile)
-    col_width <- grid::unit.pmax(grob_waterfall$widths[2:5], grob_tile$widths[2:5])
-    grob_waterfall$widths[2:5] <- col_width
-    grob_tile$widths[2:5] <- col_width
-
-    p_arranged <- arrangeGrob(
-        grobs = list(grob_waterfall, grob_tile),
-        ncol = 1,
-        heights = c(20, 1)
-    )
+    p_arranged <- (p_waterfall / p_tile) +
+        plot_layout(heights = c(40, 1))
 
     save_path <- plot_path(
         "10_50_single-sample-rank-sum",
@@ -248,6 +246,7 @@ gene_set_waterfall_plot <- function(cancer, allele, gene_set,
                    width = save_size[[1]],
                    height = save_size[[2]])
 }
+
 allele_enrichment_results %>%
     filter(adjusted_p_value < 0.1) %>%
     pwalk(gene_set_waterfall_plot)
