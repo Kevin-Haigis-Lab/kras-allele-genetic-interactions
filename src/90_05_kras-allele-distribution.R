@@ -317,7 +317,7 @@ saveFigRds(allele_dist_dotplot, "allele_dist_dotplot")
 
 #### ---- Barplot of KRAS mut freq per cancer ---- ####
 
-cancer_freq_kras_mut_column <- cancer_full_muts_df %>%
+cancer_freq_kras_mut <- cancer_full_muts_df %>%
     filter(!is_hypermutant & cancer != "SKCM") %>%
     group_by(cancer, tumor_sample_barcode, ras_allele) %>%
     slice(1) %>%
@@ -326,7 +326,10 @@ cancer_freq_kras_mut_column <- cancer_full_muts_df %>%
     group_by(cancer) %>%
     summarise(freq_kras_mut = sum(ras_allele != "WT") / n()) %>%
     ungroup() %>%
-    mutate(cancer = factor(cancer, levels = rev(names(cancer_palette)))) %>%
+    mutate(cancer = factor(cancer, levels = rev(names(cancer_palette))))
+knitr::kable(cancer_freq_kras_mut, digits = 3)
+
+cancer_freq_kras_mut_column <- cancer_freq_kras_mut %>%
     ggplot(aes(x = freq_kras_mut, y = cancer)) +
     geom_col(aes(fill = cancer), width = 0.6) +
     scale_x_continuous(expand = expansion(add = c(0, 0.02))) +

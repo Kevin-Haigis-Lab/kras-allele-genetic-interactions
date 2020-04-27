@@ -52,7 +52,7 @@ pull_signatures_from_panel_A <- function(x) {
     unique(ggplot_build(x)$plot$data$description)
 }
 
-signatures <- pull_signatures_from_panel_C(panel_A) %>%
+signatures <- pull_signatures_from_panel_A(panel_A) %>%
     unlist() %>%
     unique() %>%
     sort() %>%

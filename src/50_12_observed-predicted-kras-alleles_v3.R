@@ -276,7 +276,7 @@ cancer_expect_frequencies <- kras_allele_predictions_boot_results %>%
     unnest(boot_ci) %>%
     right_join(cancer_expect_frequencies, by = c("cancer", "kras_allele"))
 
-
+knitr::kable(cancer_expect_frequencies, digits = 3)
 
 
 
@@ -466,13 +466,13 @@ plot_kras_allele_predictions <- function(cancer, data,
              shape = "χ<sup>2</sup> test",
              title = cancer)
 
-    if (is.null(mod_data$adj_r_squared)) { return(p) }
+    if (is.null(mod_data$r_squared)) { return(p) }
 
-    r_sq <- round(mod_data$adj_r_squared[[1]], 3)
+    r_sq <- round(mod_data$r_squared[[1]], 3)
     r_sq <- str_pad(r_sq, width = 5, side = "right", pad = "0")
     mdl_p_val <- round(mod_data$model_p_value[[1]], 2)
     mdl_p_val <- str_pad(mdl_p_val, width = 4, side = "right", pad = "0")
-    lbl <- glue("adj. R<sup>2</sup> = {r_sq}<br>p-val = {mdl_p_val}")
+    lbl <- glue("R<sup>2</sup> = {r_sq}<br>p-val = {mdl_p_val}")
 
 
     r_sq_xpos <- max_val * 0.05
