@@ -136,31 +136,23 @@ ggsave_wrapper(
 
 #### ---- Statistics ---- ####
 
-
-amino_position_enrichment_test <- function(df) {
-    df[is.na(df)] <- 0
-    x <- c(df$group_position_type_num_stk11_samples_G12C,
-           df$group_position_type_num_stk11_samples_rest)
-    return(tidy(binom.test(x = x, p = 0.5))$p.value)
-}
-
-# Is there enrichment for mutation at any location in the G12C group?
+# Fisher test for difference in types of mutations.
 stk11_mutations %>%
     filter(!is.na(amino_position)) %>%
-    pivot_wider(
-        id_cols = c(num_luad_samples, num_stk11_samples, amino_position),
-        names_from = group,
-        values_from = c(group_num_stk11_samples, group_position_type_num_stk11_samples),
-        values_fn = list(
-            "group_num_stk11_samples" = unique,
-            "group_position_type_num_stk11_samples" = sum
-        )
-    ) %>%
-    group_by(amino_position) %>%
-    nest() %>%
-    ungroup() %>%
-    mutate(p_val = map_dbl(data, amino_position_enrichment_test)) %>%
-    filter(p_val < 0.10)
+    select(group, amino_position, mutation_type) %>%
+    count(group, mutation_type, name = "mut_type_total") %>%
+    pivot_wider(c(group, mutation_type, mut_type_total),
+                names_from = group,
+                values_from = mut_type_total) %>%
+    as.data.frame() %>%
+    column_to_rownames("mutation_type") %>%
+    fisher.test()
+
+#>     Fisher's Exact Test for Count Data
+#>
+#> data:  .
+#> p-value = 0.726
+#> alternative hypothesis: two.sided
 
 
 #### ---- STK11 Lollipop ---- ####
