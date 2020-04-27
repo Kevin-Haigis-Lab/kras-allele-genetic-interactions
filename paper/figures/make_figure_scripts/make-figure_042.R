@@ -5,7 +5,7 @@ FIGNUM <- 42
 
 #> SET THE FIGURE DIMENSIONS
 FIG_DIMENSIONS <- get_figure_dimensions(2, "short")
-
+FIG_DIMENSIONS$height <- 160
 
 theme_fig42 <- function(tag_margin = margin(-1, -1, -1, -1, "mm")) {
     theme_comutation() %+replace%
@@ -203,12 +203,12 @@ panel_E <- (panel_E | guide_area()) +
         plot_layout(widths = c(1, 6, 1))
 
     row_2 <- (panel_C / panel_D / panel_D_legend_sp) +
-        plot_layout(heights = c(10, 10, 1))
+        plot_layout(heights = c(6, 6, 1))
 
     row_2 <- wrap_elements(full = row_2)
 
     full_figure <- (row_1 / row_2 / wrap_elements(full = panel_E)) +
-        plot_layout(heights = c(2, 6, 3))
+        plot_layout(heights = c(2, 5, 3))
 
     save_figure(
         full_figure,

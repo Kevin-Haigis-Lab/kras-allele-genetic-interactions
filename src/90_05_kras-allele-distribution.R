@@ -6,8 +6,8 @@ reset_table_directory(GRAPHS_DIR)
 
 
 # A data frame of the KRAS allele for each `tumor_sample_barcode`.
-alleles_df <- cancer_full_coding_muts_df %>%
-    group_by(tumor_sample_barcode) %>%
+alleles_df <- cancer_full_muts_df %>%
+    group_by(cancer, tumor_sample_barcode) %>%
     slice(1) %>%
     ungroup() %>%
     select(cancer, tumor_sample_barcode, dataset, target,
@@ -262,6 +262,7 @@ saveFigRds(plots, "allele_dist_barplot_stackplot")
 
 
 #### ---- Dot-plot of allele frequency ---- ####
+
 
 cancer_to_longname <- tibble(
     cancer = c("COAD", "LUAD", "MM", "PAAD", "SKCM"),

@@ -74,7 +74,7 @@ plot_probability_of_causation <- function(cancer, data,
         ggplot(aes(x = kras_allele, y = prob_sum)) +
         geom_col(
             aes(fill = description),
-            width = 0.8,
+            width = 0.75,
             position = "fill"
         ) +
         scale_fill_manual(

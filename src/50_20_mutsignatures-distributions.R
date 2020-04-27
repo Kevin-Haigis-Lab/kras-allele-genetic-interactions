@@ -388,7 +388,7 @@ mutsig_dist_barplot <- function(data) {
         ggplot(aes(x = ras_allele, y = contribution)) +
         geom_col(
             aes(fill = description),
-            width = 0.8,
+            width = 0.75,
             position = "fill") +
         scale_fill_manual(
             values = mutsig_descrpt_pal,
