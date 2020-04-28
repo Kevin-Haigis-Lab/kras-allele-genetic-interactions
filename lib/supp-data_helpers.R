@@ -112,16 +112,18 @@ compile_supp_data <- function(verbose = TRUE) {
     clear_java_memory()
 
     cat("Writing:\n")
-    for (sheet_path in all_sheet_paths) {
+    for (i in seq(1, length(all_sheet_paths))) {
+        sheet_path <- all_sheet_paths[[i]]
         df <- read_tsv(sheet_path, col_types = cols(.default = "c"))
 
-        sheet_name <- prep_sheet_name(sheet_path)
-        if (verbose) cat("  -->", sheet_name, "\n")
+        sheet_name <- glue("ST{i}. {prep_sheet_name(sheet_path)}")
+        sheet_name <- as.character(sheet_name)
+        if (verbose) { cat("  -->", sheet_name, "\n") }
 
         xlsx::write.xlsx(
             x = df,
             file = SUPP_DATA_FILE,
-            sheetName = prep_sheet_name(sheet_path),
+            sheetName = sheet_name,
             col.names = TRUE,
             row.names = TRUE,
             append = TRUE

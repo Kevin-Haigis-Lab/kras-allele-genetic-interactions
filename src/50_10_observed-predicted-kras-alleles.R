@@ -706,7 +706,7 @@ kras_allele_freq_stats %>%
            real_kras_allele_frequency, avg_kras_allele_prob,
            ci_lower_avg_kras_allele_prob, ci_upper_avg_kras_allele_prob,
            p_value, conf_low, conf_high, method, alternative) %>%
-    save_supp_data(6, "predicted-vs-observed KRAS allele frequencies")
+    knitr::kable(digits = 3)
 
 
 kras_allele_freq_stats %>%

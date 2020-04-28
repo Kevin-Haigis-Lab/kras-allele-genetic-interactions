@@ -278,6 +278,10 @@ cancer_expect_frequencies <- kras_allele_predictions_boot_results %>%
 
 knitr::kable(cancer_expect_frequencies, digits = 3)
 
+save_supp_data(cancer_expect_frequencies,
+               6,
+               "pred vs obs KRAS allele freq")
+
 
 
 #### ---- Statistics: R-squared ---- ####
