@@ -5,6 +5,7 @@
 #   3. syn. let. with G13D
 #   4. syn. let. with G12V
 
+
 GRAPHS_DIR <- "90_30_synlet-for-shikha"
 reset_graph_directory(GRAPHS_DIR)
 
@@ -28,6 +29,13 @@ genes_with_synthetic_level_possiblities <- synlet_data %>%
 
 synlet_data %<>%
     filter(hugo_symbol %in% genes_with_synthetic_level_possiblities)
+
+coad_dep_map_ids <- synlet_data %>%
+    unnest(data) %>%
+    pull(dep_map_id) %>%
+    unlist() %>%
+    unique()
+
 
 
 #### ---- Statistical testing ---- ####
@@ -70,6 +78,106 @@ synlet_results <- synlet_data %>%
     )
 
 
+
+#### ---- Modeling with comutation interactions ---- ####
+
+# Comutation partners for each allele.
+coad_comutations <- genetic_interaction_df %>%
+    filter(cancer == "COAD" & genetic_interaction == "comutation") %>%
+    select(allele, hugo_symbol, p_val) %>%
+    arrange(allele, p_val, hugo_symbol)
+coad_comutations %>%
+    count(allele)
+
+# CCLE mutations for cell lines of COAD.
+coad_ccle_mutations <- ccle_mutations %>%
+    filter(dep_map_id %in% coad_dep_map_ids) %>%
+    filter(variant_classification %in% !!coding_mut_var_classes)
+
+
+# Create a wide tibble of mutations for each cell line in the genes that
+# comutate with `allele`. (memoized)
+get_comutation_model_data <- function(allele) {
+    comut_genes <- coad_comutations %>%
+        filter(allele == !!allele) %>%
+        pull(hugo_symbol) %>%
+        unlist()
+
+    muts <- coad_ccle_mutations %>%
+        filter(hugo_symbol %in% comut_genes) %>%
+        add_column(is_mut = 1) %>%
+        distinct(dep_map_id, hugo_symbol, is_mut) %>%
+        pivot_wider(dep_map_id, names_from = hugo_symbol, values_from = is_mut) %>%
+        mutate_if(is.numeric, replace_na_zero)
+}
+get_comutation_model_data <- memoise::memoise(get_comutation_model_data)
+
+
+# Model 1.
+#   model the gene effect by the RNA expression of the gene, the KRAS allele,
+#   mutations to any comutating genes with the allele, and the interactions
+#   between the KRAS allele and the comutating gene. The model is fit using
+#   using elastic net to find the best alpha and lambda.
+model_dependency_with_comutation_1 <- function(df, allele) {
+    dat <- df %>%
+        select(dep_map_id, gene_effect, rna_scaled, allele, is_altered) %>%
+        mutate(allele = as.numeric(allele == !!allele)) %>%
+        left_join(get_comutation_model_data(allele), by = "dep_map_id") %>%
+        mutate_if(is.numeric, replace_na_zero) %>%
+        select(-dep_map_id)
+
+
+    # Set up model matrix
+    mm1 <- model.matrix(~ gene_effect + rna_scaled + is_altered, data = dat)
+    dat_mod <- dat %>% select(-c(gene_effect, rna_scaled, is_altered))
+    mm2 <- model.matrix( ~ -1 + allele * ., data = dat_mod)
+    mm <- cbind(mm1, mm2)
+    all_zeros <- apply(mm, 2, function(x) { all(x == 0) })
+    mm <- mm[, !all_zeros]
+
+    message("Tuning elastic net...")
+    # Tune the elastic net using 'caret'.
+    elastic <- train(
+        gene_effect ~ -1 + .,
+        data = as.data.frame(mm),
+        method = "glmnet",
+        trControl = trainControl("cv", number = 5),
+        tuneLength = 10
+    )
+
+    # Modify model matrix for `glmnet()`.
+    y <- mm[, "gene_effect"]
+    mm <- mm[, colnames(mm) != "gene_effect"]
+
+    message("Fitting final elastic net...")
+    fit <- glmnet(x = mm,
+                  y = y,
+                  alpha = elastic$bestTune$alpha,
+                  lambda = elastic$bestTune$lambda)
+
+    message("Done!")
+    return(list(
+        caret_tune = elastic,
+        elastic_model = fit,
+        alpha = elastic$bestTune$alpha,
+        lambda = elastic$bestTune$lambda
+    ))
+
+}
+
+
+synlet_data %>%
+    sample_n(3) %>%
+    mutate(
+        fit1 = map(data, model_dependency_with_comutation_1, allele = "G12D")
+    )
+toc()
+
+tictoc::tic("Testing speed of model 1 function.")
+synlet_data$fit1 <- lapply(synlet_data$data[1:5],
+                           model_dependency_with_comutation_1,
+                           allele = "G12D")
+tictoc::toc()
 
 #### ---- Box plots ---- ####
 
