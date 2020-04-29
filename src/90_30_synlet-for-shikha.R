@@ -126,19 +126,18 @@ model_dependency_with_comutation_1 <- function(df, allele) {
         mutate_if(is.numeric, replace_na_zero) %>%
         select(-dep_map_id)
 
-
     # Set up model matrix
-    mm1 <- model.matrix(~ gene_effect + rna_scaled + is_altered, data = dat)
+    mm1 <- model.matrix(~ 1 + gene_effect + rna_scaled + is_altered, data = dat)
     dat_mod <- dat %>% select(-c(gene_effect, rna_scaled, is_altered))
     mm2 <- model.matrix( ~ -1 + allele * ., data = dat_mod)
     mm <- cbind(mm1, mm2)
-    all_zeros <- apply(mm, 2, function(x) { all(x == 0) })
-    mm <- mm[, !all_zeros]
+    too_many_zeros <- apply(mm, 2, function(x) { sum(x != 0) < 2 })
+    mm <- mm[, !too_many_zeros]
 
     message("Tuning elastic net...")
     # Tune the elastic net using 'caret'.
     elastic <- train(
-        gene_effect ~ -1 + .,
+        gene_effect ~ .,
         data = as.data.frame(mm),
         method = "glmnet",
         trControl = trainControl("cv", number = 5),
@@ -147,7 +146,7 @@ model_dependency_with_comutation_1 <- function(df, allele) {
 
     # Modify model matrix for `glmnet()`.
     y <- mm[, "gene_effect"]
-    mm <- mm[, colnames(mm) != "gene_effect"]
+    mm <- mm[, !(colnames(mm) %in% c("(Intercept)", "gene_effect"))]
 
     message("Fitting final elastic net...")
     fit <- glmnet(x = mm,
@@ -157,27 +156,151 @@ model_dependency_with_comutation_1 <- function(df, allele) {
 
     message("Done!")
     return(list(
+        data = dat,
         caret_tune = elastic,
         elastic_model = fit,
         alpha = elastic$bestTune$alpha,
-        lambda = elastic$bestTune$lambda
+        lambda = elastic$bestTune$lambda,
+        allele = allele
     ))
 
 }
 
 
-synlet_data %>%
-    sample_n(3) %>%
+model_dependency_with_comutation_1_plot <- function(hugo_symbol, fit_results) {
+    # coefficient plot
+    p_coefs <- coefplot(fit_results$elastic_model) +
+        theme_bw(base_size = 8, base_family = "Arial") +
+        labs(title = hugo_symbol)
+
+    # RNA expression
+    rna_pal <- c("grey20", "grey50")
+    names(rna_pal) <- c(fit_results$allele, "other")
+
+    p_rna_gene_eff <- fit_results$data %>%
+        mutate(
+            allele = ifelse(allele == 1, fit_results$allele, "other"),
+            is_altered = ifelse(is_altered == 1, "mut", "not. mut")
+        ) %>%
+        ggplot(aes(x = rna_scaled, y = gene_effect)) +
+            geom_point(aes(color = allele, shape = is_altered), size = 2) +
+            geom_smooth(method = "lm") +
+            scale_color_manual(values = rna_pal) +
+            scale_shape_manual(values = c(17, 16)) +
+            theme_bw(base_size = 8, base_family = "Arial") +
+            labs(x = "RNA expression (scaled)",
+                 y = "CERES gene effect",
+                 color = "KRAS mut.",
+                 shape = glue("{hugo_symbol} mut."))
+
+
+    # Table of coefficients
+    em_coefs_tbl <- broom::tidy(fit_results$elastic_model) %>%
+        select(-step, -lambda, -dev.ratio) %>%
+        mutate_if(is.numeric, function(x) { round(x, 4) })
+
+    # Box-plots of comutating genes
+    comut_terms <- em_coefs_tbl %>%
+        filter(!term %in% c("(Intercept)", "allele", "rna_scaled")) %>%
+        filter(!str_detect(term, ":")) %>%
+        pull(term)
+
+    comut_terms <- c("allele", comut_terms)
+
+    get_comutation_term_data <- function(df, term) {
+        mod_df <- df %>%
+            select(gene_effect, allele, grp = tidyselect::matches(term))
+        if (term == "allele") {
+            mod_df$allele <- mod_df$grp
+        }
+        return(mod_df)
+    }
+
+    facet_nrow <- length(comut_terms) %/% 6 + 1
+
+    comut_terms_plot <- tibble(comutation_term = comut_terms) %>%
+        mutate(data = map(comutation_term,
+                          get_comutation_term_data,
+                          df = fit_results$data)) %>%
+        unnest(data) %>%
+        mutate(
+            allele = ifelse(allele == 1, fit_results$allele, "other"),
+            grp = ifelse(grp == 0, "no", "yes")
+        ) %>%
+        ggplot(aes(x = grp, y = gene_effect)) +
+        facet_wrap(~ comutation_term,
+                   nrow = facet_nrow,
+                   scales = "free") +
+        geom_boxplot(fill = NA, color = "grey50", outlier.shape = NA) +
+        geom_jitter(aes(color = allele), alpha = 0.7, width = 0.2, size = 0.7) +
+        scale_color_manual(values = rna_pal) +
+        theme_bw(base_size = 8, base_family = "Arial") +
+            labs(x = "in comutation group",
+                 y = "CERES gene effect",
+                 color = "KRAS mut.")
+
+    patch <- (p_coefs | p_rna_gene_eff ) / comut_terms_plot +
+        plot_layout(heights = c(2, facet_nrow))
+
+    ggsave_wrapper(patch,
+                   plot_path(GRAPHS_DIR, glue("{hugo_symbol}_model1.svg")),
+                   "large")
+}
+
+
+
+TEST_GENES <- synlet_results %>%
+    arrange(g12d_vs_rest_pval) %>%
+    slice(1:10) %>%
+    select(hugo_symbol, g12d_vs_rest_pval) %T>%
+    print() %>%
+    pull(hugo_symbol)
+
+sample_model1 <- synlet_data %>%
+    filter(hugo_symbol %in% !!TEST_GENES) %>%
     mutate(
         fit1 = map(data, model_dependency_with_comutation_1, allele = "G12D")
     )
-toc()
 
-tictoc::tic("Testing speed of model 1 function.")
-synlet_data$fit1 <- lapply(synlet_data$data[1:5],
-                           model_dependency_with_comutation_1,
-                           allele = "G12D")
-tictoc::toc()
+sample_model1 %>%
+    mutate(temp_col = map2(
+        hugo_symbol, fit1,
+        model_dependency_with_comutation_1_plot
+    ))
+
+
+
+
+sample_fit <- sample_model1$fit1[[2]]$elastic_model
+sample_hugo <- sample_model1$hugo_symbol[[2]]
+sample_data <- sample_model1$data[[2]]
+
+library(coefplot)
+x <- coefplot(sample_fit) +
+    theme_bw(base_size = 8,
+             base_family = "Arial") +
+    labs(title = sample_hugo)
+ggsave_wrapper(x, plot_path(GRAPHS_DIR, "test_coefplot.svg"), "medium")
+
+
+# ggfortify
+x <- autoplot(sample_fit, xvar = "lambda")
+ggsave_wrapper(x, plot_path(GRAPHS_DIR, "test_autoplot.svg"), "medium")
+
+
+# broom
+
+# GGally
+x <- GGally::ggcoef(sample_fit) +
+    theme_bw(base_size = 8, base_family = "Arial") +
+    labs(title = sample_hugo)
+ggsave_wrapper(x, plot_path(GRAPHS_DIR, "test_ggally_coef.svg"), "medium")
+
+
+sample_fit
+x <- GGally::ggpairs(sample_data)
+
+
 
 #### ---- Box plots ---- ####
 
