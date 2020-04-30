@@ -35,7 +35,7 @@ panel_A <- read_fig_proto("allele_dist_dotplot") +
         legend.title = element_markdown(size = 6),
         legend.margin = margin(0, 0, 0, 0, "mm"),
         strip.background = element_blank(),
-        strip.text = element_text(size = 7, face = "bold")
+        strip.text = element_text(size = 7, face = "bold", vjust = -1)
     ) +
     labs(tag = "a",
          size = "percent of<br>*KRAS* mutations")
