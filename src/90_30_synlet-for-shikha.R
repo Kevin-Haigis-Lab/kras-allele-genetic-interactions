@@ -13,6 +13,9 @@ TABLES_DIR <- GRAPHS_DIR
 reset_table_directory(TABLES_DIR)
 
 
+set.seed(0)
+
+
 synlet_data <- model1_tib %>%
     filter(cancer == "COAD") %>%
     select(hugo_symbol, data)
@@ -38,7 +41,7 @@ coad_dep_map_ids <- synlet_data %>%
 
 
 
-#### ---- Statistical testing ---- ####
+#### ---- Basic statistical testing ---- ####
 
 
 # Test one allele vs. all others.
@@ -78,12 +81,21 @@ synlet_results <- synlet_data %>%
     )
 
 
+# GENES TO USE FOR TESTING COMPLEX MODELS
+TEST_GENES <- synlet_results %>%
+    filter(g12d_vs_rest_pval < 0.01) %>%
+    arrange(g12d_vs_rest_pval) %>%
+    slice(1:25) %>%
+    select(hugo_symbol, g12d_vs_rest_pval) %T>%
+    print() %>%
+    pull(hugo_symbol)
 
-#### ---- Modeling with comutation interactions ---- ####
+
+#### ---- Model 1. Modeling with comutation interactions ---- ####
 
 # Comutation partners for each allele.
 coad_comutations <- genetic_interaction_df %>%
-    filter(cancer == "COAD" & genetic_interaction == "comutation") %>%
+    filter(cancer == "COAD") %>%
     select(allele, hugo_symbol, p_val) %>%
     arrange(allele, p_val, hugo_symbol)
 coad_comutations %>%
@@ -95,45 +107,47 @@ coad_ccle_mutations <- ccle_mutations %>%
     filter(variant_classification %in% !!coding_mut_var_classes)
 
 
-# Create a wide tibble of mutations for each cell line in the genes that
-# comutate with `allele`. (memoized)
-get_comutation_model_data <- function(allele) {
-    comut_genes <- coad_comutations %>%
+replace_numeric_NAs <- function(df) {
+    mutate_if(df, is.numeric, replace_na_zero)
+}
+
+get_comutating_genes <- function(allele) {
+    coad_comutations %>%
         filter(allele == !!allele) %>%
         pull(hugo_symbol) %>%
         unlist()
+}
+get_comutating_genes <- memoise::memoise(get_comutating_genes)
+
+# Create a wide tibble of mutations for each cell line in the genes that
+# comutate with `allele`. (memoized)
+get_comutation_model_data <- function(allele) {
+    comut_genes <- get_comutating_genes(allele)
 
     muts <- coad_ccle_mutations %>%
         filter(hugo_symbol %in% comut_genes) %>%
         add_column(is_mut = 1) %>%
         distinct(dep_map_id, hugo_symbol, is_mut) %>%
         pivot_wider(dep_map_id, names_from = hugo_symbol, values_from = is_mut) %>%
-        mutate_if(is.numeric, replace_na_zero)
+        replace_numeric_NAs()
+    return(muts)
 }
 get_comutation_model_data <- memoise::memoise(get_comutation_model_data)
 
 
-# Model 1.
-#   model the gene effect by the RNA expression of the gene, the KRAS allele,
-#   mutations to any comutating genes with the allele, and the interactions
-#   between the KRAS allele and the comutating gene. The model is fit using
-#   using elastic net to find the best alpha and lambda.
-model_dependency_with_comutation_1 <- function(df, allele) {
-    dat <- df %>%
+extract_core_modeling_data <- function(df, allele) {
+    df %>%
         select(dep_map_id, gene_effect, rna_scaled, allele, is_altered) %>%
-        mutate(allele = as.numeric(allele == !!allele)) %>%
-        left_join(get_comutation_model_data(allele), by = "dep_map_id") %>%
-        mutate_if(is.numeric, replace_na_zero) %>%
-        select(-dep_map_id)
+        mutate(allele = as.numeric(allele == !!allele))
+}
 
-    # Set up model matrix
-    mm1 <- model.matrix(~ 1 + gene_effect + rna_scaled + is_altered, data = dat)
-    dat_mod <- dat %>% select(-c(gene_effect, rna_scaled, is_altered))
-    mm2 <- model.matrix( ~ -1 + allele * ., data = dat_mod)
-    mm <- cbind(mm1, mm2)
-    too_many_zeros <- apply(mm, 2, function(x) { sum(x != 0) < 2 })
-    mm <- mm[, !too_many_zeros]
 
+core_model_matrix <- function(df) {
+    model.matrix(~ 1 + gene_effect + rna_scaled + is_altered, data = df)
+}
+
+
+tune_and_fit_glmnet_elastic <- function(mm) {
     message("Tuning elastic net...")
     # Tune the elastic net using 'caret'.
     elastic <- train(
@@ -156,11 +170,42 @@ model_dependency_with_comutation_1 <- function(df, allele) {
 
     message("Done!")
     return(list(
-        data = dat,
         caret_tune = elastic,
-        elastic_model = fit,
-        alpha = elastic$bestTune$alpha,
-        lambda = elastic$bestTune$lambda,
+        elastic_model = fit
+    ))
+}
+tune_and_fit_glmnet_elastic <- memoise::memoise(tune_and_fit_glmnet_elastic)
+
+
+# Model 1.
+#   model the gene effect by the RNA expression of the gene, the KRAS allele,
+#   mutations to any comutating genes with the allele, and the interactions
+#   between the KRAS allele and the comutating gene. The model is fit using
+#   using elastic net to find the best alpha and lambda.
+model_dependency_with_comutation_1 <- function(df, allele) {
+    set.seed(0)
+
+    dat <- extract_core_modeling_data(df, allele) %>%
+        left_join(get_comutation_model_data(allele), by = "dep_map_id") %>%
+        replace_numeric_NAs() %>%
+        select(-dep_map_id)
+
+    # Set up model matrix
+    mm1 <- core_model_matrix(dat)
+    dat_mod <- dat %>% select(-c(gene_effect, rna_scaled, is_altered))
+    mm2 <- model.matrix( ~ -1 + allele * ., data = dat_mod)
+    mm <- cbind(mm1, mm2)
+    too_many_zeros <- apply(mm, 2, function(x) { sum(x != 0) < 2 })
+    mm <- mm[, !too_many_zeros]
+
+    fit <- tune_and_fit_glmnet_elastic(mm)
+
+    return(list(
+        data = dat,
+        caret_tune = fit$caret_tune,
+        elastic_model = fit$elastic_model,
+        alpha = fit$caret_tune$bestTune$alpha,
+        lambda = fit$caret_tune$bestTune$lambda,
         allele = allele
     ))
 
@@ -169,7 +214,7 @@ model_dependency_with_comutation_1 <- function(df, allele) {
 
 model_dependency_with_comutation_1_plot <- function(hugo_symbol, fit_results) {
     # coefficient plot
-    p_coefs <- coefplot(fit_results$elastic_model) +
+    p_coefs <- coefplot::coefplot(fit_results$elastic_model) +
         theme_bw(base_size = 8, base_family = "Arial") +
         labs(title = hugo_symbol)
 
@@ -243,18 +288,11 @@ model_dependency_with_comutation_1_plot <- function(hugo_symbol, fit_results) {
         plot_layout(heights = c(2, facet_nrow))
 
     ggsave_wrapper(patch,
-                   plot_path(GRAPHS_DIR, glue("{hugo_symbol}_model1.svg")),
+                   plot_path(GRAPHS_DIR, glue("model1_{hugo_symbol}.svg")),
                    "large")
 }
 
 
-
-TEST_GENES <- synlet_results %>%
-    arrange(g12d_vs_rest_pval) %>%
-    slice(1:10) %>%
-    select(hugo_symbol, g12d_vs_rest_pval) %T>%
-    print() %>%
-    pull(hugo_symbol)
 
 sample_model1 <- synlet_data %>%
     filter(hugo_symbol %in% !!TEST_GENES) %>%
@@ -270,35 +308,100 @@ sample_model1 %>%
 
 
 
+#### ---- Model 2. Including gene effect of comutating genes ---- ####
 
-sample_fit <- sample_model1$fit1[[2]]$elastic_model
-sample_hugo <- sample_model1$hugo_symbol[[2]]
-sample_data <- sample_model1$data[[2]]
+get_comutation_geneeffect_model_data <- function(allele) {
+    comut_genes <- get_comutating_genes(allele)
 
-library(coefplot)
-x <- coefplot(sample_fit) +
-    theme_bw(base_size = 8,
-             base_family = "Arial") +
-    labs(title = sample_hugo)
-ggsave_wrapper(x, plot_path(GRAPHS_DIR, "test_coefplot.svg"), "medium")
-
-
-# ggfortify
-x <- autoplot(sample_fit, xvar = "lambda")
-ggsave_wrapper(x, plot_path(GRAPHS_DIR, "test_autoplot.svg"), "medium")
+    muts <- synlet_data %>%
+        filter(hugo_symbol %in% comut_genes) %>%
+        unnest(data) %>%
+        pivot_wider(dep_map_id,
+                    names_from = hugo_symbol,
+                    values_from = gene_effect) %>%
+        replace_numeric_NAs()
+    return(muts)
+}
 
 
-# broom
+model_dependency_with_comutation_2 <- function(df, allele) {
+    set.seed(0)
 
-# GGally
-x <- GGally::ggcoef(sample_fit) +
-    theme_bw(base_size = 8, base_family = "Arial") +
-    labs(title = sample_hugo)
-ggsave_wrapper(x, plot_path(GRAPHS_DIR, "test_ggally_coef.svg"), "medium")
+    dat <- extract_core_modeling_data(df, allele) %>%
+        left_join(get_comutation_geneeffect_model_data(allele),
+                  by = "dep_map_id") %>%
+        replace_numeric_NAs() %>%
+        select(-dep_map_id)
+
+    # Set up model matrix
+    mm <- model.matrix(~ ., data = dat)
+    fit <- tune_and_fit_glmnet_elastic(mm)
+
+    return(list(
+        data = dat,
+        caret_tune = fit$caret_tune,
+        elastic_model = fit$elastic_model,
+        alpha = fit$caret_tune$bestTune$alpha,
+        lambda = fit$caret_tune$bestTune$lambda,
+        allele = allele
+    ))
+}
 
 
-sample_fit
-x <- GGally::ggpairs(sample_data)
+
+model_dependency_with_comutation_2_plot <- function(hugo_symbol, fit_results) {
+    # coefficient plot
+    p_coefs <- coefplot::coefplot(fit_results$elastic_model) +
+        theme_bw(base_size = 8, base_family = "Arial") +
+        labs(title = hugo_symbol)
+
+    ggsave_wrapper(
+        p_coefs,
+        plot_path(GRAPHS_DIR, glue("model2_{hugo_symbol}_coefs.svg")),
+        size = "medium"
+    )
+
+    top_coefs <- broom::tidy(fit_results$elastic_model) %>%
+        filter(!str_detect(term, "Intercept|scaled|\\:")) %>%
+        top_n(5, wt = abs(estimate)) %>%
+        pull(term)
+
+    scatmat_data <- fit_results$data %>%
+        select(-rna_scaled) %>%
+        mutate(
+            allele = ifelse(allele == 1, fit_results$allele, "other"),
+            is_altered = ifelse(is_altered == 1, "mut", "not. mut")
+        ) %>%
+        select(allele, is_altered, gene_effect,
+               tidyselect::all_of(top_coefs)) %>%
+        dplyr::rename(!!hugo_symbol := gene_effect)
+
+    if (ncol(scatmat_data) > 3) {
+        scatmat <- GGally::ggscatmat(scatmat_data, color = "allele") +
+            theme_bw(base_size = 9, base_family = "Arial") +
+            theme(
+                strip.background = element_blank()
+            )
+        ggsave_wrapper(
+            scatmat,
+            plot_path(GRAPHS_DIR, glue("model2_{hugo_symbol}_scatmat.svg")),
+            "large"
+        )
+    }
+}
+
+
+sample_model1 <- sample_model1 %>%
+    mutate(
+        fit2 = map(data, model_dependency_with_comutation_2, allele = "G12D")
+    )
+
+sample_model1 %>%
+    mutate(temp_col = map2(
+        hugo_symbol, fit2,
+        model_dependency_with_comutation_2_plot
+    ))
+
 
 
 
