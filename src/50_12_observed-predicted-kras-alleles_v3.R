@@ -155,7 +155,6 @@ alleles_for_each_cancer %>%
     group_by(cancer) %>%
     summarise(alleles = paste0(kras_allele, collapse = ", "))
 
-
 kras_allele_predictions <- trinucleotide_mutations_df %>%
     filter(cancer != "SKCM" & !(tumor_sample_barcode %in% REMOVE_TSB)) %>%
     count(cancer, tumor_sample_barcode, target, context, tricontext,
@@ -492,14 +491,17 @@ plot_kras_allele_predictions <- function(cancer, data,
 }
 
 
-save_kras_allele_predictions <- function(cancer, plt, gl_template) {
+save_kras_allele_predictions <- function(cancer, plt, gl_template,
+                                         save_rds = TRUE) {
     ggsave_wrapper(
         plt,
         plot_path(GRAPHS_DIR, as.character(glue(gl_template))),
         size = "small"
     )
 
-    saveFigRds(plt, as.character(glue(gl_template)))
+    if(save_rds) {
+        saveFigRds(plt, as.character(glue(gl_template)))
+    }
 
     invisible(plt)
 }
@@ -516,4 +518,56 @@ predicted_allele_frequency_scatter <- cancer_expect_frequencies %>%
                    use_cancer_color = TRUE),
         plt = map2(cancer, plt, save_kras_allele_predictions,
                    gl_template = "{cancer}_predict-allele-freq_scatter.svg")
+    )
+
+
+
+#### ---- Repeat the calculate but using all possible KRAS alleles ---- ####
+
+
+# All detect KRAS alleles.
+all_observed_alleles <- expand.grid(
+    kras_allele = sort(unique(kras_trinucleotide_contexts$kras_allele)),
+    cancer = sort(unique(alleles_for_each_cancer$cancer))
+) %>%
+    filter(!str_detect(kras_allele, "117")) %>%
+    as_tibble()
+
+all_kras_allele_predictions <- trinucleotide_mutations_df %>%
+    filter(cancer != "SKCM" & !(tumor_sample_barcode %in% REMOVE_TSB)) %>%
+    count(cancer, tumor_sample_barcode, target, context, tricontext,
+          name = "tumor_count") %>%
+    left_join(tricontext_genome_counts, by = c("context", "target")) %>%
+    mutate(tumor_count_norm = tumor_count / genome_count) %>%
+    inner_join(kras_trinucleotide_contexts,
+               by = c("context", "tricontext")) %>%
+    right_join(all_observed_alleles, by = c("cancer", "kras_allele")) %>%
+    group_by(cancer, tumor_sample_barcode, target, kras_allele) %>%
+    summarise(allele_prob = sum(tumor_count_norm)) %>%
+    group_by(cancer, tumor_sample_barcode) %>%
+    mutate(allele_prob = allele_prob / sum(allele_prob)) %>%
+    ungroup() %>%
+    left_join(real_kras_allele_freq, by = c("cancer", "kras_allele"))
+
+
+add_dummy_ci <- function(df) {
+    df$lower_ci <- df$expected_allele_frequency
+    df$upper_ci <- df$expected_allele_frequency
+    df$p_value <- df$expected_allele_frequency
+    return(df)
+}
+
+
+all_kras_allele_predictions %>%
+    group_by(cancer) %>%
+    nest() %>%
+    ungroup() %>%
+    mutate(
+        data = map(data, calc_expected_frequency),
+        data = map(data, add_dummy_ci),
+        plt = map2(cancer, data, plot_kras_allele_predictions,
+                   use_cancer_color = TRUE),
+        plt = map2(cancer, plt, save_kras_allele_predictions,
+                   gl_template = "{cancer}_predict-ALL-allele-freq_scatter.svg",
+                   save_rds = FALSE)
     )
