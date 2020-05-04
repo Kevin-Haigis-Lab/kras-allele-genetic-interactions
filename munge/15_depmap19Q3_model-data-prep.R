@@ -75,14 +75,14 @@ info(logger, "Collection CNA and coding mutations for each gene and cell line.")
 gene_is_aletered_tib <- bind_rows(
     {
         ccle_copy_number %>%
-        filter(copy_number_label != "norm") %>%
-        select(dep_map_id, hugo_symbol) %>%
-        add_column(is_altered = TRUE)
+            filter(copy_number_label != "norm") %>%
+            select(dep_map_id, hugo_symbol) %>%
+            add_column(is_altered = TRUE)
     },
     {
         ccle_mutations_coding %>%
-        select(dep_map_id, hugo_symbol) %>%
-        add_column(is_altered = TRUE)
+            select(dep_map_id, hugo_symbol) %>%
+            add_column(is_altered = TRUE)
     }
 ) %>%
     group_by(dep_map_id, hugo_symbol) %>%
