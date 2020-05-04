@@ -40,7 +40,6 @@ coad_dep_map_ids <- synlet_data %>%
     unique()
 
 
-
 #### ---- Basic statistical testing ---- ####
 
 
@@ -101,40 +100,79 @@ coad_comutations <- genetic_interaction_df %>%
 coad_comutations %>%
     count(allele)
 
+
 # CCLE mutations for cell lines of COAD.
 coad_ccle_mutations <- ccle_mutations %>%
     filter(dep_map_id %in% coad_dep_map_ids) %>%
     filter(variant_classification %in% !!coding_mut_var_classes)
 
 
+# For any numeric columns in a data frame `df`, replace NA's with zero.
 replace_numeric_NAs <- function(df) {
     mutate_if(df, is.numeric, replace_na_zero)
 }
 
+
+# Get the comutating genes for a KRAS allele. (memoized)
 get_comutating_genes <- function(allele) {
-    coad_comutations %>%
+    genes <- coad_comutations %>%
         filter(allele == !!allele) %>%
         pull(hugo_symbol) %>%
         unlist()
 }
 get_comutating_genes <- memoise::memoise(get_comutating_genes)
 
+
 # Create a wide tibble of mutations for each cell line in the genes that
 # comutate with `allele`. (memoized)
 get_comutation_model_data <- function(allele) {
     comut_genes <- get_comutating_genes(allele)
 
+    cna_muts <- coad_ccle_cna
+
     muts <- coad_ccle_mutations %>%
         filter(hugo_symbol %in% comut_genes) %>%
         add_column(is_mut = 1) %>%
         distinct(dep_map_id, hugo_symbol, is_mut) %>%
-        pivot_wider(dep_map_id, names_from = hugo_symbol, values_from = is_mut) %>%
+        pivot_wider(dep_map_id,
+                    names_from = hugo_symbol,
+                    values_from = is_mut) %>%
         replace_numeric_NAs()
+
+    allele_comut_plot <- plot_path(
+        GRAPHS_DIR,
+        as.character(glue("{allele}-ccle-comutation-matrix.svg"))
+    )
+    if (!file.exists(allele_comut_plot)) {
+        plt <- coad_ccle_mutations %>%
+            filter(hugo_symbol %in% comut_genes) %>%
+            distinct(dep_map_id, hugo_symbol) %>%
+            add_column(is_mut = 1) %>%
+            complete(dep_map_id, hugo_symbol, fill = list(is_mut = 0)) %>%
+            mutate(is_mut = factor(is_mut)) %>%
+            ggplot(aes(x = dep_map_id, y = hugo_symbol)) +
+            geom_tile(aes(fill = is_mut), color = NA) +
+            scale_x_discrete(expand = c(0, 0)) +
+            scale_y_discrete(expand = c(0, 0)) +
+            scale_fill_manual(values = c("1" = "#6498FF",
+                                         "0" = "white")) +
+            theme_bw(base_size = 8, base_family = "Arial") +
+            theme(
+                axis.text.x = element_text(angle = 30, hjust = 1)
+            )
+        ggsave_wrapper(
+            plt,
+            allele_comut_plot,
+            "large"
+        )
+    }
+
     return(muts)
 }
 get_comutation_model_data <- memoise::memoise(get_comutation_model_data)
 
 
+# Return the data frame with the covariates except for those of comut. genes.
 extract_core_modeling_data <- function(df, allele) {
     df %>%
         select(dep_map_id, gene_effect, rna_scaled, allele, is_altered) %>%
@@ -142,20 +180,76 @@ extract_core_modeling_data <- function(df, allele) {
 }
 
 
+# Make a model matrix of the core covariates.
 core_model_matrix <- function(df) {
     model.matrix(~ 1 + gene_effect + rna_scaled + is_altered, data = df)
 }
 
 
+# Remove the comutation covariates that are the same as `allele`.
+remove_covariates_identical_to_allele <- function(mm) {
+    allele_vals <- mm[, "allele"]
+    same_as_allele <- apply(mm, 2, function(x) all(x == allele_vals))
+    same_as_allele[1] <- FALSE
+    return(mm[, !same_as_allele])
+}
+
+
+# Merge all identical comutation covariates into a single covariate.
+merge_identical_comutation_covariates <- function(mm) {
+
+    merged_columns <- tibble(
+        col_name = colnames(mm),
+        values = apply(mm, 2, function(x) {paste0(x, collapse = ",")})
+    ) %>%
+        filter(col_name != "allele") %>%
+        group_by(values) %>%
+        summarise(comb_cols = list(col_name),
+                  new_col_name = paste0(col_name, collapse = ",")) %>%
+        select(new_col_name, comb_cols)
+
+
+    for (i in seq(1, nrow(merged_columns))) {
+        mod_mm <- mm
+
+        rm_cols <- unlist(merged_columns$comb_cols[i])
+        rm_cols_idx <- Matrix::which(colnames(mod_mm) %in% rm_cols)
+        mod_mm <- mod_mm[, -c(rm_cols_idx)]
+
+        new_col_name <- merged_columns$new_col_name[[i]]
+        new_mat <- as.matrix(mm[, rm_cols[[1]]])
+        colnames(new_mat) <- new_col_name
+        mod_mm <- cbind(mod_mm, new_mat)
+
+        mm <- mod_mm
+    }
+
+    return(mm)
+}
+
+
+# Make the model matrix for the comutation covariates.
+comutation_model_matrix <- function(df) {
+    mm <- model.matrix( ~ -1 + allele * ., data = df) %>%
+        remove_covariates_identical_to_allele() %>%
+        merge_identical_comutation_covariates()
+}
+
+
+# Tune an fit a `glmnet()` elastic net model using 'caret'. The parameter
+# grid is restricted to favor LASSO over Ridge. (memoized)
 tune_and_fit_glmnet_elastic <- function(mm) {
+    tune_grid <- expand.grid(alpha = seq(0.5, 1, 0.1),
+                             lambda = seq(0.0001, 0.5, length = 10))
+
     message("Tuning elastic net...")
     # Tune the elastic net using 'caret'.
     elastic <- train(
         gene_effect ~ .,
         data = as.data.frame(mm),
         method = "glmnet",
-        trControl = trainControl("cv", number = 5),
-        tuneLength = 10
+        trControl = trainControl("boot", number = 25),
+        tuneGrid = tune_grid
     )
 
     # Modify model matrix for `glmnet()`.
@@ -192,9 +286,11 @@ model_dependency_with_comutation_1 <- function(df, allele) {
 
     # Set up model matrix
     mm1 <- core_model_matrix(dat)
-    dat_mod <- dat %>% select(-c(gene_effect, rna_scaled, is_altered))
-    mm2 <- model.matrix( ~ -1 + allele * ., data = dat_mod)
+    mm2 <- dat %>%
+        select(-c(gene_effect, rna_scaled, is_altered)) %>%
+        comutation_model_matrix()
     mm <- cbind(mm1, mm2)
+
     too_many_zeros <- apply(mm, 2, function(x) { sum(x != 0) < 2 })
     mm <- mm[, !too_many_zeros]
 
@@ -212,11 +308,28 @@ model_dependency_with_comutation_1 <- function(df, allele) {
 }
 
 
+# A plot of the coefficient estimates.
+coef_plot <- function(mdl) {
+    broom::tidy(mdl) %>%
+        mutate(term = fct_reorder(term, estimate)) %>%
+        ggplot(aes(x = estimate, y = term)) +
+        geom_vline(xintercept = 0, lty = 2, size = 0.5, color = "grey25") +
+        geom_point() +
+        labs(x = "estimate", y = NULL)
+}
+
+
+# Plot the results of model 1.
 model_dependency_with_comutation_1_plot <- function(hugo_symbol, fit_results) {
+
+    r3 <- function(x) { round(x, 3) }
+    model_caption <- glue(
+        "alpha: {r3(fit_results$alpha)}; lambda: {r3(fit_results$lambda)}"
+    )
+
     # coefficient plot
-    p_coefs <- coefplot::coefplot(fit_results$elastic_model) +
-        theme_bw(base_size = 8, base_family = "Arial") +
-        labs(title = hugo_symbol)
+    p_coefs <- coef_plot(fit_results$elastic_model) +
+        labs(title = NULL)
 
     # RNA expression
     rna_pal <- c("grey20", "grey50")
@@ -229,10 +342,9 @@ model_dependency_with_comutation_1_plot <- function(hugo_symbol, fit_results) {
         ) %>%
         ggplot(aes(x = rna_scaled, y = gene_effect)) +
             geom_point(aes(color = allele, shape = is_altered), size = 2) +
-            geom_smooth(method = "lm") +
+            geom_smooth(method = "lm", formula = "y ~ x") +
             scale_color_manual(values = rna_pal) +
             scale_shape_manual(values = c(17, 16)) +
-            theme_bw(base_size = 8, base_family = "Arial") +
             labs(x = "RNA expression (scaled)",
                  y = "CERES gene effect",
                  color = "KRAS mut.",
@@ -247,16 +359,28 @@ model_dependency_with_comutation_1_plot <- function(hugo_symbol, fit_results) {
     # Box-plots of comutating genes
     comut_terms <- em_coefs_tbl %>%
         filter(!term %in% c("(Intercept)", "allele", "rna_scaled")) %>%
-        filter(!str_detect(term, ":")) %>%
         pull(term)
 
     comut_terms <- c("allele", comut_terms)
 
     get_comutation_term_data <- function(df, term) {
-        mod_df <- df %>%
-            select(gene_effect, allele, grp = tidyselect::matches(term))
-        if (term == "allele") {
-            mod_df$allele <- mod_df$grp
+        term_split <- unlist(str_split(term, ":|,"))
+
+        if (length(term_split) == 1) {
+            mod_df <- df %>%
+                select(gene_effect, allele, grp = tidyselect::matches(term))
+
+            if (term == "allele") {
+                mod_df$allele <- mod_df$grp
+            }
+        } else {
+            row_sumed <- df %>%
+                select(tidyselect::all_of(term_split)) %>%
+                apply(1, function(x) { all(x == 1) }) %>%
+                as.numeric()
+            mod_df <- df %>%
+                select(gene_effect, allele) %>%
+                mutate(grp = row_sumed)
         }
         return(mod_df)
     }
@@ -279,13 +403,14 @@ model_dependency_with_comutation_1_plot <- function(hugo_symbol, fit_results) {
         geom_boxplot(fill = NA, color = "grey50", outlier.shape = NA) +
         geom_jitter(aes(color = allele), alpha = 0.7, width = 0.2, size = 0.7) +
         scale_color_manual(values = rna_pal) +
-        theme_bw(base_size = 8, base_family = "Arial") +
-            labs(x = "in comutation group",
-                 y = "CERES gene effect",
-                 color = "KRAS mut.")
+        labs(x = "in comutation group",
+             y = "CERES gene effect",
+             color = "KRAS mut.")
 
     patch <- (p_coefs | p_rna_gene_eff ) / comut_terms_plot +
-        plot_layout(heights = c(2, facet_nrow))
+        plot_layout(heights = c(2, facet_nrow)) +
+        plot_annotation(title = hugo_symbol, caption = model_caption) &
+        theme_bw(base_size = 8, base_family = "Arial")
 
     ggsave_wrapper(patch,
                    plot_path(GRAPHS_DIR, glue("model1_{hugo_symbol}.svg")),
@@ -391,12 +516,12 @@ model_dependency_with_comutation_2_plot <- function(hugo_symbol, fit_results) {
 }
 
 
-sample_model1 <- sample_model1 %>%
+sample_model2 <- sample_model1 %>%
     mutate(
         fit2 = map(data, model_dependency_with_comutation_2, allele = "G12D")
     )
 
-sample_model1 %>%
+sample_model2 %>%
     mutate(temp_col = map2(
         hugo_symbol, fit2,
         model_dependency_with_comutation_2_plot
