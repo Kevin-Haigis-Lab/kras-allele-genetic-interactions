@@ -19,14 +19,19 @@ info(logger, "Making a single data frame of gene essentiality.")
 
 cache("essentiality_tib",
 {
-    Achilles_common_essentials <- read_depmap_csv("Achilles_common_essentials.csv")
+    Achilles_common_essentials <- read_depmap_csv(
+        "Achilles_common_essentials.csv"
+    )
     common_essentials <- read_depmap_csv("common_essentials.csv")
     nonessentials <- read_depmap_csv("nonessentials.csv")
 
     essentiality_tib <- bind_rows(
-            Achilles_common_essentials %>% add_column(label = "achilles_essential"),
-            common_essentials %>% add_column(label = "common_essential"),
-            nonessentials %>% add_column(label = "nonessential")
+            Achilles_common_essentials %>%
+                add_column(label = "achilles_essential"),
+            common_essentials %>%
+                add_column(label = "common_essential"),
+            nonessentials %>%
+                add_column(label = "nonessential")
         ) %>%
         mutate(hugo_symbol = get_hugo_from_depmap_ids(gene),
                entrez_id = get_entrez_from_depmap_ids(gene)) %>%
@@ -83,11 +88,13 @@ cache("ccle_mutations",
 
     ccle_mutations <- read_depmap_csv("CCLE_mutations.csv") %>%
         janitor::clean_names() %>%
-        select(dep_map_id, hugo_symbol, entrez_gene_id, chromosome, start_position,
-               end_position, variant_classification, variant_type, reference_allele,
-               tumor_seq_allele1, codon_change, protein_change,
-               is_deleterious, is_cosmi_chotspot) %>%
-        dplyr::rename(is_cosmic_hotspot = "is_cosmi_chotspot")
+        select(
+            dep_map_id, hugo_symbol, entrez_gene_id, chromosome,
+            start_position, end_position, variant_classification, variant_type,
+            reference_allele, tumor_seq_allele1, codon_change, protein_change,
+            is_deleterious, is_cosmi_chotspot
+        ) %>%
+        rename(is_cosmic_hotspot = "is_cosmi_chotspot")
 
     log_rows(logger, ccle_mutations, "ccle_mutations")
     info(logger, "Caching `ccle_mutations`.")
@@ -159,15 +166,19 @@ cache("kras_mutation_tib",
         select(dep_map_id, copy_number_label) %>%
         unique()
 
-    kras_mutation_tib <- full_join(kras_mutation_tib, kras_amps, by = "dep_map_id")
+    kras_mutation_tib <- full_join(kras_mutation_tib, kras_amps,
+                                   by = "dep_map_id")
 
     log_rows(logger, kras_mutation_tib, "kras_mutation_tib")
 
-    num_kras_cn <- sum(kras_mutation_tib$copy_number_label == "amp", na.rm = TRUE)
+    num_kras_cn <- sum(kras_mutation_tib$copy_number_label == "amp",
+                       na.rm = TRUE)
     num_kras_muts <- n_distinct(kras_mutation_tib$dep_map_id)
 
-    info(logger, paste("There were", num_kras_cn, "cell lines with KRAS amplifications."))
-    info(logger, paste("There were", num_kras_muts, "cell lines with a KRAS alteration."))
+    info(logger, paste("There were", num_kras_cn,
+                        "cell lines with KRAS amplifications."))
+    info(logger, paste("There were", num_kras_muts,
+                       "cell lines with a KRAS alteration."))
 
     info(logger, "Caching `kras_mutation_tib`.")
     return(kras_mutation_tib)
@@ -200,7 +211,8 @@ cache("cell_lines",
         left_join(kras_mutation_tib, by = "dep_map_id")
 
     log_rows(logger, cell_lines, "cell_lines")
-    info(logger, paste("`cell_lines` has", n_distinct(cell_lines$dep_map_id), "cells."))
+    info(logger, paste("`cell_lines` has",
+                       n_distinct(cell_lines$dep_map_id), "cells."))
     info(logger, "Caching `cell_lines.`")
     return(cell_lines)
 })
