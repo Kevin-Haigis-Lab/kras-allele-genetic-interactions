@@ -55,3 +55,11 @@ get_cgc_genes <- function(cancer, tier = c(1, 2), full_df = FALSE) {
     }
     return(unique(df$hugo_symbol))
 }
+
+
+filter_depmap_by_allele_count <- function(df, min = 3) {
+    df %>%
+        add_count(cancer, kras_allele, name = ".num_alleles_in_a_cancer") %>%
+        filter(.num_alleles_in_a_cancer >= !!min) %>%
+        select(-.num_alleles_in_a_cancer)
+}
