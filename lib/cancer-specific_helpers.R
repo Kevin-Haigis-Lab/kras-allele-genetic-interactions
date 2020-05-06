@@ -58,8 +58,12 @@ get_cgc_genes <- function(cancer, tier = c(1, 2), full_df = FALSE) {
 
 
 filter_depmap_by_allele_count <- function(df, min = 3) {
+    count_tib <- df %>%
+        distinct(cancer, dep_map_id, kras_allele) %>%
+        add_count(cancer, kras_allele, name = "n") %>%
+        filter(n >= !!min) %>%
+        select(cancer, dep_map_id, kras_allele)
+
     df %>%
-        add_count(cancer, kras_allele, name = ".num_alleles_in_a_cancer") %>%
-        filter(.num_alleles_in_a_cancer >= !!min) %>%
-        select(-.num_alleles_in_a_cancer)
+        inner_join(count_tib, by = c("cancer", "dep_map_id", "kras_allele"))
 }
