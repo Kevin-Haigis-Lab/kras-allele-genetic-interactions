@@ -15,14 +15,14 @@ cgc_genes <-  cosmic_cgc_df %>%
 
 
 # The cancer and KRAS allele for each cell line.
-ccle_cancers <- model_data %>%
-    select(dep_map_id, cancer, allele) %>%
-    unique()
+ccle_cancers <- depmap_modelling_df %>%
+    distinct(dep_map_id, cancer, kras_allele) %>%
+    filter_depmap_by_allele_count(min = 3)
 
 
 # Mutation data to plot.
-mut_df <- ccle_mutations_coding %>%
-    filter(dep_map_id %in% !!model_data$dep_map_id) %>%
+mut_df <- ccle_mutations_dmg %>%
+    filter(dep_map_id %in% !!depmap_modelling_df$dep_map_id) %>%
     filter(hugo_symbol %in% !!cgc_genes) %>%
     inner_join(ccle_cancers, by = "dep_map_id") %>%
     filter(cancer != "MM" & hugo_symbol != "KRAS")
@@ -39,7 +39,7 @@ for (CANCER in unique(mut_df$cancer)) {
     mut_cancer_data <- mut_df %>%
         filter(cancer == !!CANCER) %>%
         complete(dep_map_id, hugo_symbol) %>%
-        arrange(allele) %>%
+        arrange(kras_allele) %>%
         mutate(x = fct_inorder(dep_map_id),
                y = factor(hugo_symbol, rev(sort(unique(hugo_symbol)))),
                mut_label = ifelse(is_cosmic_hotspot, "•", ""))
@@ -109,7 +109,7 @@ for (CANCER in unique(mut_df$cancer)) {
     # A strip showing KRAS allele along the top
     kras_allele_plot <- mut_cancer_data %>%
         ggplot(aes(x = x, y = "KRAS")) +
-        geom_tile(aes(fill = allele), color = "black") +
+        geom_tile(aes(fill = kras_allele), color = "black") +
         scale_fill_manual(values = short_allele_pal, guide = FALSE) +
         scale_y_discrete(expand = c(0, 0)) +
         scale_x_discrete(expand = c(0, 0)) +
@@ -126,7 +126,7 @@ for (CANCER in unique(mut_df$cancer)) {
         )
 
     # Saving the plot
-    save_path <- plot_path(GRAPHS_DIR, glue("gcg-mutation-tile_{CANCER}.svg"))
+    save_path <- plot_path(GRAPHS_DIR, glue("cgc-mutation-tile_{CANCER}.svg"))
     save_width <- case_when(
         CANCER == "LUAD" ~ 8,
         CANCER == "PAAD" ~ 4,
@@ -164,11 +164,9 @@ for (CANCER in unique(mut_df$cancer)) {
 
 #### ---- Effect of KRAS KO ---- ####
 
-kras_gene_effect_boxplot <- model1_tib %>%
+kras_gene_effect_boxplot <- depmap_modelling_df %>%
     filter(hugo_symbol == "KRAS") %>%
-    select(hugo_symbol, cancer, data) %>%
-    unnest(data) %>%
-    ggplot(aes(x = allele, y = gene_effect, color = allele)) +
+    ggplot(aes(x = kras_allele, y = gene_effect, color = kras_allele)) +
     facet_grid(~ cancer, scales = "free_x") +
     geom_boxplot(outlier.shape = NA) +
     geom_jitter(width = 0.2, size = 0.8) +
@@ -188,26 +186,22 @@ ggsave_wrapper(
 )
 
 
-summarise_mut_gene_effect <- model1_tib %>%
+summarise_mut_gene_effect <- depmap_modelling_df %>%
     filter(hugo_symbol == "KRAS") %>%
-    select(hugo_symbol, cancer, data) %>%
-    unnest(data) %>%
-    filter(allele != "WT") %>%
-    filter(!(cancer == "LUAD" & allele == "G13D")) %>%
+    filter(kras_allele != "WT") %>%
+    filter(!(cancer == "LUAD" & kras_allele == "G13D")) %>%
     summarise(avg_gene_effect = mean(gene_effect),
               stddev_gene_effect = sd(gene_effect))
 
-summarise_wt_gene_effect <- model1_tib %>%
+summarise_wt_gene_effect <- depmap_modelling_df %>%
     filter(hugo_symbol == "KRAS") %>%
-    select(hugo_symbol, cancer, data) %>%
-    unnest(data) %>%
-    filter(allele == "WT") %>%
+    filter(kras_allele == "WT") %>%
     summarise(avg_gene_effect = mean(gene_effect),
               stddev_gene_effect = sd(gene_effect))
 
-summarise_LUADG13D_gene_effect <- model_data %>%
+summarise_LUADG13D_gene_effect <- depmap_modelling_df %>%
     filter(hugo_symbol == "KRAS") %>%
-    filter(cancer == "LUAD" & allele == "G13D") %>%
+    filter(cancer == "LUAD" & kras_allele == "G13D") %>%
     summarise(avg_gene_effect = mean(gene_effect),
               stddev_gene_effect = sd(gene_effect))
 
@@ -216,4 +210,10 @@ bind_rows(summarise_LUADG13D_gene_effect,
           summarise_mut_gene_effect,) %>%
     add_column(group = c("LUAD G13D", "all WT", "all other KRAS mutants")) %>%
     select(group, everything()) %>%
-    knitr::kable()
+    knitr::kable(digits = 3)
+
+#> |group                  | avg_gene_effect| stddev_gene_effect|
+#> |:----------------------|---------------:|------------------:|
+#> |LUAD G13D              |          -0.709|              0.144|
+#> |all WT                 |          -0.556|              0.258|
+#> |all other KRAS mutants |          -1.309|              0.328|

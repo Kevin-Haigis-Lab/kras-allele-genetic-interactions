@@ -232,8 +232,6 @@ cache("ccle_cell_lines",
 
 
 
-
-
 #### ---- Gene effect ---- ####
 
 cache("gene_effect",
