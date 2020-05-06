@@ -1,5 +1,22 @@
-
 # Prepare the data from DepMap (2019 Q3 release)
+
+################################################################################
+################################################################################
+
+# NOTES: this data is old and this script is for legacy purposes, only.
+# The munge script "15_depmap20Q1.R" uses the newest available data.
+
+# To run this script, set `RUN_LEGACY_DEPMAP_MUNGE = TRUE`
+# Everything is wrapped in a massive if-statement.
+
+################################################################################
+################################################################################
+
+
+RUN_LEGACY_DEPMAP_MUNGE <- FALSE
+if (RUN_LEGACY_DEPMAP_MUNGE) {
+
+
 info(logger, "Prepare the data from DepMap (2019 Q3 release)")
 
 # Read in a DepMap data file.
@@ -286,3 +303,11 @@ cache("rnai_effect",
     info(logger, "Caching `rnai_effect`.")
     return(rnai_effect)
 })
+
+
+
+
+
+
+
+}

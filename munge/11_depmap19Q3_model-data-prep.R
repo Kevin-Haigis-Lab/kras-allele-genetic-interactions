@@ -2,6 +2,23 @@
 # Prepare the data to be used to model depletion effects from the KRAS allele
 
 
+################################################################################
+################################################################################
+
+# NOTES: this data is old and this script is for legacy purposes, only.
+# The munge script "16_depmap20Q1_model-data-prep.R" uses the newest available
+# data.
+
+# To run this script, set `RUN_LEGACY_DEPMAP_MUNGE = TRUE`
+# Everything is wrapped in a massive if-statement.
+
+################################################################################
+################################################################################
+
+RUN_LEGACY_DEPMAP_MUNGE <- FALSE
+if (RUN_LEGACY_DEPMAP_MUNGE) {
+
+
 #### ---- General Data ---- ####
 
 # Cell lines with two oncogenic KRAS mutations
@@ -388,3 +405,7 @@ cache("rnai_model_data", depends = "rnai_model_data_base",
 #     group_by(cancer, allele) %>%
 #     summarise(n = n_distinct(dep_map_id)) %>%
 #     arrange(cancer, n)
+
+
+
+}
