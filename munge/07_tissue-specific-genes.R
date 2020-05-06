@@ -14,7 +14,7 @@ gtex_info_dir <- file.path(db_dir, "GTEx_v7_sampleattributes.txt")
 hpa_data_dir <- file.path(db_dir, "HumanProteinAtlas_tissueRNA.txt")
 
 # read in info on each patient
-gtex_info <- read_tsv(gtex_info_dir, col_types = cols()) %>%
+gtex_info <- read_tsv(gtex_info_dir, col_types = cols(.default = "c")) %>%
     select(SAMPID, SMTS) %>%
     dplyr::rename(sampleid = SAMPID,
                   tissue = SMTS) %>%
@@ -221,7 +221,7 @@ get_tissue_genes_with_max_expr <- function(cancer_name,
                                            max_expr = 1) {
     tiss <- normal_tissue_expr %>%
         filter(tissue %in% !!tissue_name) %>%
-        filter(HPA_expr < !!max_expr | GTEx_expr < !!max_expr) %>%
+        filter(HPA_expr < !!max_expr & GTEx_expr < !!max_expr) %>%
         pull(gene) %>%
         unique()
     canc <- cancer_rna_tib %>%
@@ -229,7 +229,7 @@ get_tissue_genes_with_max_expr <- function(cancer_name,
         filter(mid_expr < !!max_expr) %>%
         pull(hugo_symbol) %>%
         unique()
-    genes <- unique(c(tiss, canc))
+    genes <- intersect(tiss, canc)
     return(genes)
 }
 
