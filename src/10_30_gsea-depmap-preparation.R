@@ -36,6 +36,7 @@ make_expression_dataset <- function(data) {
     invisible(wide_data)
 }
 
+
 # Make the CLS file for GSEA.
 make_cls_file <- function(wide_data, data, output_path) {
     # collect line 1 info
@@ -43,37 +44,42 @@ make_cls_file <- function(wide_data, data, output_path) {
     number_of_classes <- 2
 
     # collect line 2 info
-    classes <- unique(data$allele)
+    classes <- unique(data$kras_allele)
     class_0_name <- classes[classes != "other"]
     class_1_name <- "other"
 
     # collect line 3 info
     cls_nums <- tibble(dep_map_id = colnames(wide_data)[c(-1, -2)]) %>%
         left_join(
-            { data %>% select(dep_map_id, allele) %>% unique() },
+            { data %>% select(dep_map_id, kras_allele) %>% unique() },
             by = "dep_map_id"
         ) %>%
         mutate(
-            cls_num = ifelse(allele == class_0_name, 0, 1)
+            cls_num = ifelse(kras_allele == class_0_name, 0, 1)
         ) %>%
         pull(cls_num)
 
     # write out
-    if (file.exists(output_path)) { file.remove(output_path) }
+    if (file.exists(output_path)) {
+        file.remove(output_path)
+    }
+
     cat(number_of_samples, number_of_classes, "1\n", file = output_path)
     cat("#", class_0_name, class_1_name, "\n", file = output_path, append = TRUE)
     cat(cls_nums, "\n", file = output_path, append = TRUE)
 }
 
+
 # Make the input files for GSEA for a cancer and allele
-make_gsea_input_files <- function(cancer, allele, data) {
+make_gsea_input_files <- function(cancer, kras_allele, data) {
     # destinations for expression and CLS files
-    save_paths <- gsea_save_paths(cancer, allele)
+    save_paths <- gsea_save_paths(cancer, kras_allele)
 
     # data for the cancer and adjusted allele names to <allele> and "other"
     mod_data <- data %>%
         filter(cancer == !!cancer) %>%
-        mutate(allele = ifelse(allele == !!allele, allele, "other"))
+        mutate(kras_allele = ifelse(kras_allele == !!kras_allele,
+                                    kras_allele, "other"))
 
     # expression file
     expr_df <- make_expression_dataset(mod_data)
@@ -85,21 +91,15 @@ make_gsea_input_files <- function(cancer, allele, data) {
     return(NULL)
 }
 
-allele_cancer_tib <- model_data %>%
-    filter(cancer != "MM") %>%
-    filter(!(cancer == "LUAD" & allele == "G13D")) %>%
-    select(cancer, allele) %>%
-    unique() %>%
-    pwalk(make_gsea_input_files, data = model_data)
-
-
-
-# model_data %>%
-#     select(hugo_symbol) %>%
-#     mutate(
-#         `Probe Set ID` = hugo_symbol,
-#         `Gene Symbol` = hugo_symbol,
-#         `Gene Title` = "some text"
-#     ) %>%
-#     select(-hugo_symbol) %>%
-#     write_tsv(file.path("data", "gsea", "hugo_symbol.chip"))
+allele_cancer_tib <- depmap_modelling_df %>%
+    filter_depmap_by_allele_count() %>%
+    group_by(cancer) %>%
+    filter(n_distinct(kras_allele) >= 3) %>%
+    filter(!is_deleted) %>%
+    add_count(cancer, hugo_symbol, kras_allele) %>%
+    group_by(cancer, hugo_symbol) %>%
+    filter(all(n >= 3)) %>%
+    select(-n) %>%
+    ungroup() %>%
+    distinct(cancer, kras_allele) %>%
+    pwalk(make_gsea_input_files, data = depmap_modelling_df)
