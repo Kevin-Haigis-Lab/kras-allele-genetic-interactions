@@ -112,6 +112,12 @@ str_round <- function(x, digits = 0, zeros = digits) {
 }
 
 
+# Center and standardize a numeric value
+scale_numeric <- function(x, na.rm = FALSE) {
+    (x - mean(x, na.rm = na.rm)) / sd(x, na.rm = na.rm)
+}
+
+
 
 #### ---- Helpful regular expressions ---- ####
 
