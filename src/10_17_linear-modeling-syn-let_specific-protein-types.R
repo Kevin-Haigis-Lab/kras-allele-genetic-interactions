@@ -41,12 +41,12 @@ genesets <- list(
 multigene_boxplot <- function(data) {
     g <- data %>%
         group_by(hugo_symbol) %>%
-        mutate(gene_effect_norm = scales::rescale(gene_effect, 
+        mutate(gene_effect_norm = scales::rescale(gene_effect,
                                                   to = c(-1, 1))) %>%
         ungroup() %>%
         ggplot(aes(x = hugo_symbol, y = gene_effect_norm)) +
         geom_boxplot(
-            aes(fill = allele, color = allele),
+            aes(fill = kras_allele, color = kras_allele),
             position = position_dodge2(),
             alpha = 0.5,
             outlier.shape = NA
@@ -80,7 +80,11 @@ top_n_variable_hugos <- function(df, N = 10) {
 gene_types_plot <- function(cancer, gene_cls, hugo_symbols) {
     hugo_symbols <- unique(unlist(hugo_symbols))
 
-    data <- model_data %>%
+    data <- depmap_modelling_df %>%
+        filter_depmap_by_allele_count() %>%
+        group_by(cancer) %>%
+        filter(n_distinct(kras_allele) >= 3) %>%
+        ungroup() %>%
         filter(cancer == !!cancer)
 
     purrr::pwalk(genesets, function(gene_type, genes) {

@@ -1,5 +1,5 @@
-# An API for common manipulations of `depmap_modelling_df`: the results of the
-# DepMap modeling workflow.
+# An API for common manipulations of `depmap_model_workflow_res`: the results
+# of the DepMap modeling workflow.
 
 #### ---- Filtering the workflow ---- ####
 

@@ -20,7 +20,7 @@ prepare_depdency_data_for_alluvial <- function(data) {
 
 dependency_cancer_alluvial_plot <- function(data) {
     p <- data %>%
-        ggplot(aes(x = allele,
+        ggplot(aes(x = kras_allele,
                    alluvium = hugo_symbol,
                    stratum = avg_gene_effect_rnd)) +
         ggalluvial::geom_alluvium(aes(fill = gene_cls)) +
@@ -70,17 +70,13 @@ save_alluvial_patch <- function(ps) {
 }
 
 
-genetic_dep_res <- model1_tib %>%
-    filter(rna_pvalue > 0.01) %>%
-    mutate(aov_p_val = map_dbl(allele_aov, ~tidy(.x)$p.value[[1]])) %>%
-    filter(aov_p_val < 0.01)
-
-genetic_dep_res %>%
+depmap_model_workflow_res %>%
+    filter_depmap_model_workflow_res() %>%
     select(cancer, hugo_symbol, data) %>%
     unnest(data) %>%
     group_by(cancer, hugo_symbol) %>%
     mutate(gene_effect = scale(gene_effect)[, 1]) %>%
-    group_by(cancer, hugo_symbol, allele) %>%
+    group_by(cancer, hugo_symbol, kras_allele) %>%
     summarise(avg_gene_effect = mean(gene_effect)) %>%
     ungroup() %>%
     left_join(depmap_gene_clusters, by = c("cancer", "hugo_symbol")) %>%
