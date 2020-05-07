@@ -1,0 +1,2 @@
+cancer	gene_cls	datasource	term	overlap	p_value	adjusted_p_value	old_p_value	old_adjusted_p_value	odds_ratio	combined_score	genes	n_genes	datasource_hr
+PAAD	2	WikiPathways_2019_Human	VEGFA-VEGFR2 Signaling Pathway WP3888	3/236	0.004726260057271997	0.13122322041366957	0	0	8.766803039158388	46.942908312108486	KL;MAPK8;JUN	3	WikiPathways
