@@ -107,6 +107,14 @@ cache("depmap_modelling_df",
         filter(!any(is.na(gene_effect))) %>%
         ungroup()
 
+    # Make sure each row is unique.
+    depmap_modelling_df %<>% distinct()
+
+    x <- depmap_modelling_df %>%
+        count(dep_map_id, hugo_symbol) %>%
+        filter(n > 1)
+    stopifnot(nrow(x) == 0)
+
     return(depmap_modelling_df)
 })
 
