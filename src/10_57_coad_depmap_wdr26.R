@@ -6,7 +6,7 @@ reset_graph_directory(GRAPHS_DIR)
 
 GENE <- "WDR26"
 
-dat <- model1_tib %>%
+dat <- depmap_model_workflow_res %>%
     filter(cancer == "COAD" & hugo_symbol == !!GENE) %>%
     select(hugo_symbol, cancer, data) %>%
     unnest(data)
@@ -26,19 +26,17 @@ equation_dat <- tibble(
 )
 
 p <- dat %>%
-    mutate(allele = factor_alleles(allele),
-           copy_number_label = factor(copy_number_label,
-                                      levels = c("norm", "amp"))) %>%
+    mutate(kras_allele = factor_alleles(kras_allele)) %>%
     ggplot(aes(x = rna_expression, y = gene_effect)) +
-    geom_point(aes(color = allele, size = copy_number_label), alpha = 0.7) +
-    geom_smooth(method = "lm", color = "grey20", linetype = 2, size = 0.6) +
+    geom_point(aes(color = kras_allele), alpha = 0.7) +
+    geom_smooth(method = "lm", formula = "y ~ x",
+                color = "grey20", linetype = 2, size = 0.6) +
     geom_richtext(aes(x = x, y = y, label = label),
                   data = equation_dat,
                   size = 2.6, family = "arial", hjust = 1.0,
                   fill = NA, label.color = NA,
                   label.padding = unit(rep(0, 4), "pt")) +
     scale_color_manual(values = short_allele_pal) +
-    scale_size_manual(values = c("norm" = 1.3, "amp" = 2)) +
     theme_bw(base_size = 7, base_family = "arial") +
     theme(
         plot.title = element_text(hjust = 0.5),
@@ -48,7 +46,6 @@ p <- dat %>%
         x = "mRNA expression (*log* TPM)",
         y = "dependency score",
         title = GENE,
-        size = "copy number",
         color = "KRAS allele"
     )
 ggsave_wrapper(

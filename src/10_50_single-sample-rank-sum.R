@@ -1,8 +1,7 @@
 # A rank-sum test within each cell line for genes in relevant gene sets.
 
-library(gtable)
-library(gridExtra)
-
+GRAPHS_DIR <- "10_50_single-sample-rank-sum"
+reset_graph_directory(GRAPHS_DIR)
 
 #### ---- Prepare gene-sets ---- ####
 
@@ -13,6 +12,7 @@ compress_gene_set_tibble <- function(gs_tib, gene_col) {
         group_by(gene_set) %>%
         summarise(genes = list(!!gene_col))
 }
+
 
 # All gene sets in one tibble with one row per gene set.
 gene_sets_df <- bind_rows(
@@ -40,24 +40,24 @@ ranksum_enrichment <- function(df, gene_set, ...) {
 
 #### ---- Run the test on each cell line ---- ####
 
-cellline_data <- model_data %>%
-    filter(!cancer %in% c("MM", "SKCM")) %>%
-    filter(!(cancer == "LUAD" & allele == "G13D")) %>%
+cellline_data <- depmap_modelling_df %>%
+    filter_depmap_by_allele_count() %>%
+    group_by(cancer) %>%
+    filter(n_distinct(kras_allele) >= 3) %>%
     group_by(cancer, hugo_symbol) %>%
     mutate(gene_effect_scaled = scale(gene_effect)[, 1]) %>%
     group_by(dep_map_id) %>%
     nest() %>%
     ungroup()
 
-cell_line_info <- model_data %>%
-    select(dep_map_id, cancer, allele) %>%
-    unique()
+cell_line_info <- depmap_modelling_df %>%
+    distinct(dep_map_id, cancer, kras_allele)
 
 cache("cellline_enrichment_results",
       depends = c("gene_sets_df", "cellline_data"),
 {
     cellline_enrichment_results <- purrr::map(
-        1:nrow(gene_sets_df),
+        seq(1, nrow(gene_sets_df)),
         function(i) {
             gene_set_name <- unlist(gene_sets_df$gene_set[i])
             genes <- unlist(gene_sets_df$genes[i])
@@ -86,14 +86,15 @@ cache("cellline_enrichment_results",
 
 #### ---- Run the test on cell lines of an allele ---- ####
 
-allele_data <- model_data %>%
-    filter(!cancer %in% c("MM", "SKCM")) %>%
-    filter(!(cancer == "LUAD" & allele == "G13D")) %>%
-    group_by(cancer, hugo_symbol, allele) %>%
+allele_data <- depmap_modelling_df %>%
+    filter_depmap_by_allele_count() %>%
+    group_by(cancer) %>%
+    filter(n_distinct(kras_allele) >= 3) %>%
+    group_by(cancer, hugo_symbol, kras_allele) %>%
     summarise(avg_gene_effect = mean(gene_effect, rm.na = TRUE)) %>%
     group_by(cancer, hugo_symbol) %>%
     mutate(gene_effect_scaled = scale(avg_gene_effect)[, 1]) %>%
-    group_by(cancer, allele) %>%
+    group_by(cancer, kras_allele) %>%
     nest() %>%
     ungroup()
 
@@ -101,7 +102,7 @@ cache("allele_enrichment_results",
       depends = c("gene_sets_df", "allele_data"),
 {
     allele_enrichment_results <- purrr::map(
-        1:nrow(gene_sets_df),
+        seq(1, nrow(gene_sets_df)),
         function(i) {
             gene_set_name <- unlist(gene_sets_df$gene_set[i])
             genes <- unlist(gene_sets_df$genes[i])
@@ -123,6 +124,7 @@ cache("allele_enrichment_results",
         group_by(cancer, gene_set) %>%
         mutate(adjusted_p_value = p.adjust(p_value, method = "BH")) %>%
         ungroup()
+    return(allele_enrichment_results)
 })
 
 
@@ -131,7 +133,7 @@ cache("allele_enrichment_results",
 p <- allele_enrichment_results %>%
     filter(adjusted_p_value < 0.1) %>%
     mutate(norm_statistic = scales::rescale(statistic, to = c(-1, 1))) %>%
-    ggplot(aes(x = allele, y = gene_set)) +
+    ggplot(aes(x = kras_allele, y = gene_set)) +
     facet_wrap(~ cancer, nrow = 1, scale = "free") +
     geom_point(
         aes(size = -log10(adjusted_p_value),
@@ -150,12 +152,12 @@ p <- allele_enrichment_results %>%
         color = "test stat. (norm.)",
         size = "-log10( FDR-adj. p-value )"
     )
-save_path <- plot_path("10_50_single-sample-rank-sum",
+save_path <- plot_path(GRAPHS_DIR,
                        "enriched_gene_sets.svg")
 ggsave_wrapper(p, save_path, "wide")
 
 
-gene_set_waterfall_plot <- function(cancer, allele, gene_set,
+gene_set_waterfall_plot <- function(cancer, kras_allele, gene_set,
                                     p_value, statistic, adjusted_p_value,
                                     ...) {
     genes <- gene_sets_df %>%
@@ -168,12 +170,12 @@ gene_set_waterfall_plot <- function(cancer, allele, gene_set,
         unnest(data) %>%
         filter(hugo_symbol %in% !!genes) %>%
         mutate(
-            allele_gene = paste0(allele, "_", hugo_symbol),
+            allele_gene = paste0(kras_allele, "_", hugo_symbol),
             allele_gene = fct_reorder(allele_gene, gene_effect_scaled),
             y = gene_effect_scaled,
             ymin = purrr::map_dbl(y, ~ min(.x, 0)),
             ymax = purrr::map_dbl(y, ~ max(.x, 0)),
-            label = ifelse(allele == !!allele, hugo_symbol, NA),
+            label = ifelse(kras_allele == !!kras_allele, hugo_symbol, NA),
             label_hjust = ifelse(y > 0, 1.0, 0.0)
         )
 
@@ -186,7 +188,7 @@ gene_set_waterfall_plot <- function(cancer, allele, gene_set,
             color = "grey50"
         ) +
         geom_point(
-            aes(y = y, color = allele),
+            aes(y = y, color = kras_allele),
             size = 0.8
         ) +
         geom_text(
@@ -208,13 +210,13 @@ gene_set_waterfall_plot <- function(cancer, allele, gene_set,
             legend.position = c(0.8, 0.2)
         ) +
         labs(
-            title = glue("{cancer} KRAS {allele} enriched in {gene_set}"),
+            title = glue("{cancer} KRAS {kras_allele} enriched in {gene_set}"),
             y = "average scaled depletion effect"
         )
 
     p_tile <- p_data %>%
         ggplot(aes(x = allele_gene)) +
-        geom_tile(aes(fill = allele, y = "KRAS"), color = NA) +
+        geom_tile(aes(fill = kras_allele, y = "KRAS"), color = NA) +
         scale_fill_manual(values = short_allele_pal) +
         scale_x_discrete(expand = c(0, 0)) +
         scale_y_discrete(expand = c(0, 0)) +
@@ -233,8 +235,8 @@ gene_set_waterfall_plot <- function(cancer, allele, gene_set,
         plot_layout(heights = c(40, 1))
 
     save_path <- plot_path(
-        "10_50_single-sample-rank-sum",
-        glue("waterfall_{cancer}_{allele}_{gene_set}.svg")
+        GRAPHS_DIR,
+        glue("waterfall_{cancer}_{kras_allele}_{gene_set}.svg")
     )
 
     save_size <- case_when(

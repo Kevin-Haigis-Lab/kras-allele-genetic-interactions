@@ -17,16 +17,17 @@ calculate_quantiles <- function(x, n = 5) {
 
 
 
-for (CANCER in unique(model_data$cancer)) {
-    if (CANCER == "MM") next
-    p1 <- model_data %>%
+for (CANCER in unique(depmap_modelling_df$cancer)) {
+    p1 <- depmap_modelling_df %>%
+        filter_depmap_by_allele_count() %>%
         filter(cancer == !!CANCER & !is.na(gene_effect)) %>%
-        group_by(allele, hugo_symbol) %>%
+        group_by(kras_allele, hugo_symbol) %>%
         summarise(avg_gene_effect = mean(gene_effect)) %>%
         ungroup() %>%
         filter(avg_gene_effect < 0.5) %>%
-        ggplot(aes(x = avg_gene_effect, y = allele)) +
-        geom_density_ridges(aes(fill = allele), color = "white", alpha = 0.7) +
+        ggplot(aes(x = avg_gene_effect, y = kras_allele)) +
+        geom_density_ridges(aes(fill = kras_allele),
+                            color = "white", alpha = 0.7) +
         scale_fill_manual(values = short_allele_pal) +
         scale_color_manual(values = short_allele_pal) +
         scale_y_discrete(expand = expansion(mult = c(0.02, 0.02))) +
@@ -41,23 +42,25 @@ for (CANCER in unique(model_data$cancer)) {
             title = glue("Distribution of dependencies in {CANCER} cell lines")
         )
 
-    p2 <- model_data %>%
+    p2 <- depmap_modelling_df %>%
+        filter_depmap_by_allele_count() %>%
         filter(cancer == !!CANCER & !is.na(gene_effect)) %>%
-        group_by(allele) %>%
+        group_by(kras_allele) %>%
         summarise(data = calculate_quantiles(gene_effect, 10)) %>%
         ungroup() %>%
         unnest(data) %>%
         ggplot(aes(x = percentile, y = value)) +
         geom_hline(yintercept = 0, linetype = 2, color = "grey50") +
-        geom_line(aes(color = allele, group = allele), alpha = 0.7) +
-        geom_point(aes(color = allele), alpha = 0.7) +
+        geom_line(aes(color = kras_allele, group = kras_allele), alpha = 0.7) +
+        geom_point(aes(color = kras_allele), alpha = 0.7) +
         scale_fill_manual(values = short_allele_pal) +
         scale_color_manual(values = short_allele_pal) +
         theme_bw(base_family = "Arial", base_size = 10) +
         theme(
             plot.title = element_text(hjust = 0.5),
             legend.position = c(0.1, 0.8),
-            legend.box.background = element_rect(color = "grey25", fill = "white"),
+            legend.box.background = element_rect(color = "grey25",
+                                                 fill = "white"),
             legend.box.margin = margin(0, 0.2, 0, 0, "lines"),
             legend.title = element_blank()
         ) +

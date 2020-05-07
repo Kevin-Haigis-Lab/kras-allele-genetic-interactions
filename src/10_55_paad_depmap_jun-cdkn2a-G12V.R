@@ -11,12 +11,16 @@ jun_pw <- c("KRAS", "TAB1", "MAP2K4", "MAP2K7", "MAPK8", "MAPK9", "MAPK10",
 
 #### ---- Data preparation ---- ####
 
-paad_cell_lines <- model_data %>%
+paad_cell_lines <- depmap_modelling_df %>%
+    filter_depmap_by_allele_count() %>%
+    group_by(cancer) %>%
+    filter(n_distinct(kras_allele) >= 3) %>%
+    ungroup() %>%
     filter(cancer == "PAAD") %>%
-    select(dep_map_id, cancer, allele) %>%
+    select(dep_map_id, cancer, kras_allele) %>%
     unique()
 
-jun_pw[!(jun_pw %in% model1_tib[model1_tib$cancer == "PAAD", ]$hugo_symbol)]
+jun_pw[!(jun_pw %in% depmap_modelling_df[depmap_modelling_df$cancer == "PAAD", ]$hugo_symbol)]
 
 
 junpw_depmap <- gene_effect %>%
@@ -39,8 +43,9 @@ junpw_mut <- ccle_mutations %>%
     filter(hugo_symbol %in% jun_pw) %>%
     filter(hugo_symbol != "KRAS") %>%
     select(dep_map_id, hugo_symbol, variant_classification, variant_type,
-           protein_change, is_deleterious, is_cosmic_hotspot, cancer, allele) %>%
-    group_by(cancer, allele, dep_map_id, hugo_symbol) %>%
+           protein_change, is_deleterious, is_cosmic_hotspot,
+           cancer, kras_allele) %>%
+    group_by(cancer, kras_allele, dep_map_id, hugo_symbol) %>%
     summarise(
         n_muts = n_distinct(protein_change),
         protein_change = paste(protein_change, collapse = ", "),
@@ -59,12 +64,12 @@ junpw_expr <- ccle_expression %>%
 all(jun_pw %in% junpw_expr$hugo_symbol)
 
 cn_levels <- c("het_del", "norm", "amp")
-
+joining_cols <- c("hugo_symbol", "dep_map_id", "cancer", "kras_allele")
 junpw_depmap %<>%
-    select(cancer, dep_map_id, allele, hugo_symbol, gene_effect) %>%
-    left_join(junpw_cn, by = c("hugo_symbol", "dep_map_id", "cancer", "allele")) %>%
-    left_join(junpw_mut, by = c("hugo_symbol", "dep_map_id", "cancer", "allele")) %>%
-    left_join(junpw_expr, by = c("hugo_symbol", "dep_map_id", "cancer", "allele")) %>%
+    select(cancer, dep_map_id, kras_allele, hugo_symbol, gene_effect) %>%
+    left_join(junpw_cn, by = joining_cols) %>%
+    left_join(junpw_mut, by = joining_cols) %>%
+    left_join(junpw_expr, by = joining_cols) %>%
     mutate(
         is_mutated = ifelse(!is.na(protein_change), "mut.", "not mut."),
         copy_number_label = factor(copy_number_label, levels = cn_levels)
@@ -83,12 +88,12 @@ set.seed(0)
 # Box-plots of gene effect by KRAS allele
 geneeffect_boxplots <- junpw_depmap %>%
     mutate(hugo_symbol = factor(hugo_symbol, levels = jun_pw)) %>%
-    ggplot(aes(x = allele, y = gene_effect)) +
+    ggplot(aes(x = kras_allele, y = gene_effect)) +
     facet_wrap(. ~ hugo_symbol, scales = "free", ncol = 4) +
     geom_hline(yintercept = 0, linetype = 2, color = "grey25", size = 0.6) +
-    geom_boxplot(aes(color = allele, fill = allele),
+    geom_boxplot(aes(color = kras_allele, fill = kras_allele),
                  alpha = 0.5, outlier.shape = NA) +
-    geom_jitter(aes(color = allele, shape = is_mutated),
+    geom_jitter(aes(color = kras_allele, shape = is_mutated),
                 width = 0.25, size = 0.8) +
     scale_color_manual(values = short_allele_pal) +
     scale_fill_manual(values = short_allele_pal) +
@@ -109,9 +114,10 @@ geneeffect_rnaexpr_scatter <- junpw_depmap %>%
     facet_wrap(. ~ hugo_symbol, scales = "free", ncol = 4) +
     geom_hline(yintercept = 0, linetype = 1, color = "grey50", size = 0.3) +
     geom_vline(xintercept = 0, linetype = 1, color = "grey50", size = 0.3) +
-    geom_point(aes(color = allele,
+    geom_point(aes(color = kras_allele,
                    shape = is_mutated,
-                   size = copy_number_label)) +
+                   size = copy_number_label),
+               alpha = 0.6) +
     scale_color_manual(values = short_allele_pal) +
     scale_shape_manual(values = c(17, 16)) +
     scale_size_manual(values = c(1, 2, 3)) +
@@ -127,12 +133,13 @@ ggsave_wrapper(
 # JUN expression and CDKN2A gene effect.
 JUNexpr_CDKN2Adep_scatter <- junpw_depmap %>%
     filter(hugo_symbol %in% c("JUN", "CDKN2A")) %>%
-    select(dep_map_id, allele, hugo_symbol, gene_effect, rna_expression) %>%
-    pivot_wider(c(dep_map_id, allele),
+    select(dep_map_id, kras_allele, hugo_symbol,
+           gene_effect, rna_expression) %>%
+    pivot_wider(c(dep_map_id, kras_allele),
                 names_from = hugo_symbol,
                 values_from = c(rna_expression, gene_effect)) %>%
     ggplot(aes(x = gene_effect_JUN, rna_expression_CDKN2A)) +
-    geom_point(aes(color = allele)) +
+    geom_point(aes(color = kras_allele)) +
     scale_color_manual(values = short_allele_pal) +
     scale_shape_manual(values = c(17, 16)) +
     scale_size_manual(values = c(1, 2, 3)) +
@@ -148,12 +155,13 @@ ggsave_wrapper(
 # JUN gene effect vs. TP53 gene effect.
 JUN_TP53_scatter <- junpw_depmap %>%
     filter(hugo_symbol %in% c("JUN", "TP53")) %>%
-    select(dep_map_id, allele, hugo_symbol, gene_effect, rna_expression) %>%
-    pivot_wider(c(dep_map_id, allele),
+    select(dep_map_id, kras_allele, hugo_symbol,
+           gene_effect, rna_expression) %>%
+    pivot_wider(c(dep_map_id, kras_allele),
                 names_from = hugo_symbol,
                 values_from = c(rna_expression, gene_effect)) %>%
     ggplot(aes(x = gene_effect_JUN, gene_effect_TP53)) +
-    geom_point(aes(color = allele)) +
+    geom_point(aes(color = kras_allele)) +
     scale_color_manual(values = short_allele_pal) +
     scale_shape_manual(values = c(17, 16)) +
     scale_size_manual(values = c(1, 2, 3)) +
@@ -169,12 +177,13 @@ ggsave_wrapper(
 # JUN gene effect vs. MEN1 gene effect.
 JUN_MEN1_scatter <- junpw_depmap %>%
     filter(hugo_symbol %in% c("JUN", "MEN1")) %>%
-    select(dep_map_id, allele, hugo_symbol, gene_effect, rna_expression) %>%
-    pivot_wider(c(dep_map_id, allele),
+    select(dep_map_id, kras_allele, hugo_symbol,
+           gene_effect, rna_expression) %>%
+    pivot_wider(c(dep_map_id, kras_allele),
                 names_from = hugo_symbol,
                 values_from = c(rna_expression, gene_effect)) %>%
     ggplot(aes(x = gene_effect_JUN, gene_effect_MEN1)) +
-    geom_point(aes(color = allele)) +
+    geom_point(aes(color = kras_allele)) +
     scale_color_manual(values = short_allele_pal) +
     scale_shape_manual(values = c(17, 16)) +
     scale_size_manual(values = c(1, 2, 3)) +
@@ -192,7 +201,7 @@ ggsave_wrapper(
 genetic_interaction_df %>%
     filter(cancer == "PAAD") %>%
     filter(hugo_symbol %in% jun_pw) %>%
-    select(hugo_symbol, allele, p_val, genetic_interaction)
+    select(hugo_symbol, kras_allele, p_val, genetic_interaction)
 
 
 #### ---- JUN-regulated genes ---- ####
@@ -203,18 +212,17 @@ jun_bs <- encode_tf_bindingsites %>%
 
 jun_bs
 
-paad_deps <- model1_tib %>%
-    filter(cancer == "PAAD") %>%
-    filter(!is.na(allele_aov)) %>%
-    mutate(anova_pval = map_dbl(allele_aov,  ~ tidy(.x)$p.value[[1]])) %>%
-    filter(anova_pval < 0.01)
+paad_deps <- depmap_model_workflow_res %>%
+    filter_depmap_model_workflow_res() %>%
+    filter(cancer == "PAAD")
 
 jun_bs_deps <- paad_deps %>% filter(hugo_symbol %in% jun_bs$gene)
 
 jun_bs_dep_boxplots <- jun_bs_deps %>%
     select(hugo_symbol, data) %>%
     unnest(data) %>%
-    ggplot(aes(x = allele, y = gene_effect, color = allele, fill = allele)) +
+    ggplot(aes(x = kras_allele, y = gene_effect,
+               color = kras_allele, fill = kras_allele)) +
     facet_wrap(~ hugo_symbol, scales = "free") +
     geom_boxplot(alpha = 0.5, outlier.shape = NA) +
     scale_color_manual(values = short_allele_pal) +
@@ -232,7 +240,7 @@ ggsave_wrapper(
 # Test for enrichment of JUN-regulated genes in the allele-specific
 # genetic dependencies in PAAD.
 
-all_paad_genes <- unique(model1_tib[model1_tib$cancer == "PAAD", ]$hugo_symbol)
+all_paad_genes <- unique(depmap_modelling_df[depmap_modelling_df$cancer == "PAAD", ]$hugo_symbol)
 sig_paad_genes <- unique(paad_deps$hugo_symbol)
 jun_targets <- jun_bs$gene
 
@@ -271,30 +279,34 @@ tf_stats %>%
     mutate(p_value_adj = p.adjust(p_value, method = "BH")) %>%
     filter(p_value < 0.05 & p_value_adj < 0.25)
 
-tf_stats_volcano <- tf_stats %>%
-    mutate(
-        tf_gs_len = map_dbl(data, ~ length(unlist(.x))),
-        norm_log_or = log2(estimate) / sqrt(tf_gs_len),
-        jun = ifelse(gene_set == "JUN", "JUN", "other"),
-        labels = ifelse(p_value < 0.05 | gene_set == "JUN", gene_set, NA)
-    ) %>%
-    ggplot(aes(x = log2(estimate), y = -log10(p_value))) +
-    geom_hline(yintercept = 0, size = 0.5, color = "grey25") +
-    geom_vline(xintercept = 0, size = 0.5, color = "grey25") +
-    geom_hline(yintercept = -log10(0.05),
-               size = 0.7, linetype = 2, color = "tomato") +
-    geom_point(aes(color = jun, size = jun), alpha = 0.6) +
-    ggrepel::geom_text_repel(aes(label = labels),
-                             size = 2, color = "black", family = "Arial") +
-    scale_color_manual(values = c("dodgerblue", "grey50"), guide = FALSE) +
-    scale_size_manual(values = c(0.9, 0.7), guide = FALSE) +
-    theme_bw(base_size = 7, base_family = "Arial") +
-    labs(x = "log2 OR", y = "-log10 p-value")
-ggsave_wrapper(
-    tf_stats_volcano,
-    plot_path(GRAPHS_DIR, "tf_stats_volcano.svg"),
-    "medium"
-)
+if (nrow(tf_stats) > 0) {
+    tf_stats_volcano <- tf_stats %>%
+        mutate(
+            tf_gs_len = map_dbl(data, ~ length(unlist(.x))),
+            norm_log_or = log2(estimate) / sqrt(tf_gs_len),
+            jun = ifelse(gene_set == "JUN", "JUN", "other"),
+            labels = ifelse(p_value < 0.05 | gene_set == "JUN", gene_set, NA)
+        ) %>%
+        ggplot(aes(x = log2(estimate), y = -log10(p_value))) +
+        geom_hline(yintercept = 0, size = 0.5, color = "grey25") +
+        geom_vline(xintercept = 0, size = 0.5, color = "grey25") +
+        geom_hline(yintercept = -log10(0.05),
+                   size = 0.7, linetype = 2, color = "tomato") +
+        geom_point(aes(color = jun, size = jun), alpha = 0.6) +
+        ggrepel::geom_text_repel(aes(label = labels),
+                                 size = 2, color = "black",
+                                 family = "Arial") +
+        scale_color_manual(values = c("dodgerblue", "grey50"),
+                           guide = FALSE) +
+        scale_size_manual(values = c(0.9, 0.7), guide = FALSE) +
+        theme_bw(base_size = 7, base_family = "Arial") +
+        labs(x = "log2 OR", y = "-log10 p-value")
+    ggsave_wrapper(
+        tf_stats_volcano,
+        plot_path(GRAPHS_DIR, "tf_stats_volcano.svg"),
+        "medium"
+    )
+}
 
 
 #### ---- JUN vs MAPK8 gene effect ---- ####
@@ -307,8 +319,9 @@ supp <- TRUE
 
 JUN_MAPK8_df <- junpw_depmap %>%
     filter(hugo_symbol %in% c("JUN", "MAPK8")) %>%
-    select(dep_map_id, allele, hugo_symbol, gene_effect, rna_expression) %>%
-    pivot_wider(c(dep_map_id, allele),
+    select(dep_map_id, kras_allele, hugo_symbol,
+           gene_effect, rna_expression) %>%
+    pivot_wider(c(dep_map_id, kras_allele),
                 names_from = hugo_symbol,
                 values_from = c(rna_expression, gene_effect))
 
@@ -331,7 +344,7 @@ jun_mapk8_model_df <- tibble(
 JUN_MAPK8_scatter <- JUN_MAPK8_df %>%
     ggplot(aes(x = gene_effect_JUN, gene_effect_MAPK8)) +
     geom_smooth(method = "lm", color = "grey25", size = 0.8, linetype = 2) +
-    geom_point(aes(color = allele)) +
+    geom_point(aes(color = kras_allele)) +
     geom_richtext(aes(x = x, y = y, label = label),
                   data = jun_mapk8_model_df,
                   size = 2.3, family = "arial", hjust = 0,
