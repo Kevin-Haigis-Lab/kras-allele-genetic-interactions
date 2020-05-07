@@ -6,7 +6,7 @@ reset_graph_directory(GRAPHS_DIR)
 set.seed(0)
 
 
-cancers_to_save_for_figures <- c("LUAD")
+cancers_to_save_for_figures <- c()
 
 save_graph_proto <- function(gg_obj, save_path, cancer) {
     if (cancer %in% cancers_to_save_for_figures) {
@@ -70,4 +70,4 @@ depmap_gene_clusters %>%
     group_by(cancer, gene_cls) %>%
     summarise(hugo_symbols = list(hugo_symbol)) %>%
     ungroup() %>%
-    purrr::pwalk(weakly_connected_components, min_comp_size = 4)
+    purrr::pwalk(weakly_connected_components, min_comp_size = 3)
