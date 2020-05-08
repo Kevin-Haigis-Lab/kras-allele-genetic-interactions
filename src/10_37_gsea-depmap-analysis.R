@@ -22,7 +22,6 @@ gsea_df <- file.path("data", "gsea", "output") %>%
         gene_set_family = str_split_fixed(name, "_", 2)[, 1],
         gene_set = str_split_fixed(name, "_", 2)[, 2]
     ) %>%
-    filter(!(cancer == "LUAD" & allele == "G13D")) %>%
     mutate(
         nes = ifelse(cancer == "PAAD" & allele == "G12V", -nes, nes),
         es = ifelse(cancer == "PAAD" & allele == "G12V", -es, es)
@@ -153,7 +152,8 @@ plot_gsea_results <- function(cancer, data) {
 
 
 gsea_df %>%
-    filter(gene_set_family %in% c("HALLMARK", "KEGG", "REACTOME", "BIOCARTA", "PID")) %>%
+    filter(gene_set_family %in% c("HALLMARK", "KEGG", "REACTOME",
+                                  "BIOCARTA", "PID")) %>%
     group_by(cancer) %>%
     nest() %>%
     purrr::pwalk(plot_gsea_results)
@@ -166,34 +166,47 @@ select_gsea_results <- tibble::tribble(
     ~ cancer, ~gene_set_family, ~gene_set, ~gene_set_pretty,
     "COAD", "REACTOME", "Tp53 regulates metabolic genes", "TP53 regulates metabolic genes",
     "COAD", "REACTOME", "Respiratory electron transport", "Respiratory electron transport",
-    "COAD", "REACTOME", "Regulation of pyruvate dehydrogenase pdh complex", "Regulation of pyruvate dehydrogenase complex",
-    "COAD", "REACTOME", "Regulation of expression of slits and robos", "Regulation of expression of SLITS and ROBOS",
+    "COAD", "REACTOME", "Regulation of expression of slits and robos",
+        "Regulation of expression of SLITS and ROBOS",
     "COAD", "REACTOME", "Nonsense mediated decay nmd", "Nonsense Mediated Decay",
-    "COAD", "REACTOME", "Complement cascade", "Complement cascade",
     "COAD", "REACTOME", "Complex i biogenesis", "Complex I biogenesis",
+    "COAD", "REACTOME", "Mitotic spindle checkpoint", "Mitotic spindle checkpoint",
+    "COAD", "REACTOME", "Downstream signaling of activated fgfr1",
+        "Downstream signaling of activated FGFR1",
+    "COAD", "REACTOME", "Resolution of d loop structures through synthesis dependent strand annealing sdsa",
+        "resolution of D-loop structures through SDSA",
+    "COAD", "REACTOME", "Fanconi anemia pathway", "Fanconi anemia pathway",
+    "COAD", "REACTOME", "Dual incision in tc ner", "Dual incision in TC-NER",
+    "COAD", "REACTOME", "Tgf beta receptor signaling in emt epithelial to mesenchymal transition",
+        "TGF-β receptor signaling in EMT",
+    "COAD", "REACTOME", "Cell extracellular matrix interactions", "ECM interactions",
     "COAD", "HALLMARK", "Oxidative phosphorylation", "Oxidative phosphorylation",
-    "COAD", "BIOCARTA", "Gpcr pathway", "GPCR pathway",
+    "COAD", "BIOCARTA", "Tff pathway", "Trefoil factor (TFF) pathway",
+    "COAD", "KEGG", "Mismatch repair", "Mismatch repair",
+    "COAD", "PID", "Erbb4 pathway", "ERBB4 pathway",
+    "COAD", "PID", "Bard1 pathway", "BARD1 pathway",
 
-    "LUAD", "REACTOME", "Srp dependent cotranslational protein targeting to membrane", "SRP-dependent cotranslational protein targeting to membrane",
-    "LUAD", "REACTOME", "Hdr through homologous recombination hrr", "HDR through homologous recombination",
-    "LUAD", "REACTOME", "Fanconi anemia pathway", "Fanconi anemia pathway",
-    "LUAD", "REACTOME", "Eukaryotic translation initiation", "Eukaryotic translation initiation",
-    "LUAD", "REACTOME", "Selenoamino acid metabolism", "Selenoamino acid metabolism",
-    "LUAD", "BIOCARTA", "P53hypoxia pathway", "p53 hypoxia pathway",
-    "LUAD", "PID", "Fanconi pathway", "Fanconi pathway",
-    "LUAD", "PID", "Bard1 pathway", "BARD1 pathway",
-
-    "PAAD", "REACTOME", "Jnk c jun kinases phosphorylation and activation mediated by activated human tak1", "JNK phosphorylation and activation by activated TAK1",
-    "PAAD", "REACTOME", "G alpha 12 13 signalling events", "G alpha (12/13) signalling events",
     "PAAD", "REACTOME", "G2 m dna damage checkpoint", "G2/M DNA damage checkpoint",
     "PAAD", "REACTOME", "Mitochondrial translation", "Mitochondrial translation",
-    "PAAD", "REACTOME", "Regulation of cholesterol biosynthesis by srebp srebf", "Regulation of cholesterol biosynthesis by SREBP and SREBF",
+    "PAAD", "REACTOME", "Activation of gene expression by srebf srebp",
+        "Activation of gene expression by SREBF and SREBP",
     "PAAD", "REACTOME", "Tp53 regulates metabolic genes", "TP53 regulates metabolic genes",
-    "PAAD", "REACTOME", "Copii mediated vesicle transport", "COPII-mediated vesicle transport",
-    "PAAD", "PID", "Fak pathway", "FAK pathway",
     "PAAD", "BIOCARTA", "Toll pathway", "Toll pathway",
-    "PAAD", "BIOCARTA", "Nfkb pathway", "NFκB pathway",
-    "PAAD", "HALLMARK", "Hedgehog signaling", "Hedgehog signaling",
+    "PAAD", "PID", "Fanconi pathway", "Fanconi pathway",
+    "PAAD", "PID", "Foxm1 pathway", "FOXM1 pathway",
+    "PAAD", "PID", "Atm pathway", "ATM pathway",
+    "PAAD", "PID", "S1p s1p2 pathway", "S1P S1P2 pathway",
+    "PAAD", "KEGG", "Peroxisome", "Peroxisome",
+    "PAAD", "REACTOME", "Pi 3k cascade:fgfr1", "PI-3K cascade:FGFR1",
+    "PAAD", "REACTOME", "Nonhomologous end joining nhej", "Nonhomologous end joining",
+    "PAAD", "REACTOME", "Homology directed repair", "Homology directed repair",
+    "PAAD", "REACTOME", "Fgfr1 mutant receptor activation", "FGFR1 mutant receptor activation",
+    "PAAD", "REACTOME", "Fanconi anemia pathway", "Fanconi anemia pathway",
+    "PAAD", "REACTOME", "Cellular senescence", "Cellular senescence",
+    "PAAD", "REACTOME", "Signaling by egfr in cancer", "Signaling by EGFR in cancer",
+    "PAAD", "REACTOME", "Wnt5a dependent internalization of fzd4", "WNT5A-dependent internalization of FZD4",
+    "PAAD", "REACTOME", "Resolution of d loop structures", "Resolution of D-loop structures"
+
 )
 
 
@@ -208,7 +221,7 @@ filter_gsea_for_select_results <- function(cancer, df, key) {
 
 
 # Information for where to save the ggplot proto object for a Figure.
-cancers_to_save_for_figures <- c("COAD", "LUAD", "PAAD")
+cancers_to_save_for_figures <- c("COAD", "PAAD")
 
 
 # MEMO sort of gene sets based on FDR and x-axis order.
@@ -267,21 +280,25 @@ gsea_df %>%
 # Gene sets used in the GSEA
 gsea_geneset_df <- bind_rows(msigdb_hallmark_df, msigdb_c2_df)
 
-# A list of genes that are missing data in at least one cell line.
-# These should not be used for plotting.
-genes_to_not_plot_df <- model_data %>%
-    group_by(cancer, hugo_symbol) %>%
-    summarise(n_cell_lines = n_distinct(dep_map_id)) %>%
+
+gsea_input_data <- depmap_modelling_df %>%
+    filter_depmap_by_allele_count() %>%
     group_by(cancer) %>%
-    filter(n_cell_lines != max(n_cell_lines)) %>%
+    filter(n_distinct(kras_allele) >= 3) %>%
+    filter(!is_deleted) %>%
+    add_count(cancer, hugo_symbol, kras_allele) %>%
+    group_by(cancer, hugo_symbol) %>%
+    filter(all(n >= 3)) %>%
+    select(-n) %>%
     ungroup()
 
-# Get the genes that should not be used for plotting for a `cancer`.
-genes_to_not_plot <- function(cancer) {
-    genes_to_not_plot_df %>%
-        filter(cancer == !!cancer) %>%
-        pull(hugo_symbol)
-}
+# Remove genes that do not have gene effect data for each cell line
+gsea_input_data %<>%
+    group_by(cancer, hugo_symbol) %>%
+    mutate(num_cell_lines = n_distinct(dep_map_id)) %>%
+    group_by(cancer) %>%
+    filter(num_cell_lines == max(num_cell_lines)) %>%
+    ungroup()
 
 
 rank_depmap_data <- function(data) {
@@ -305,13 +322,13 @@ get_alpha_values_by_distance <- function(data) {
 
 get_alpha_values_to_highlight_allele <- function(data, allele) {
     data %>%
-        mutate(alpha_val = ifelse(allele == !!allele, 1.0, 0.7))
+        mutate(alpha_val = ifelse(kras_allele == !!allele, 1.0, 0.7))
 }
 
 
 get_color_values_to_highlight_allele <- function(data, allele) {
     data %>%
-        mutate(color_val = ifelse(allele == !!allele, "black", NA))
+        mutate(color_val = ifelse(kras_allele == !!allele, "black", NA))
 }
 
 
@@ -347,10 +364,10 @@ plot_ranked_data <- function(df, cancer, allele, geneset,
 
     if (use_alpha_grad) {
         p <- p +
-            geom_tile(aes(fill = allele, alpha = alpha_val), size = 0.5)
+            geom_tile(aes(fill = kras_allele, alpha = alpha_val), size = 0.5)
     } else {
         p <- p +
-            geom_tile(aes(fill = allele), size = 0.5)
+            geom_tile(aes(fill = kras_allele), size = 0.5)
     }
         p <- p +
         scale_fill_manual(values = short_allele_pal) +
@@ -381,7 +398,6 @@ plot_ranked_data <- function(df, cancer, allele, geneset,
 
 get_genes_to_plot <- function(gsea_xls_data, cancer, n_genes) {
     gtp <- gsea_xls_data %>%
-            filter(!(probe %in% genes_to_not_plot(!!cancer))) %>%
             slice(seq(1, n_genes)) %>%
             pull(probe) %>%
             rev()
@@ -396,12 +412,13 @@ plot_enrichment_heatmap <- function(cancer, name, allele, n_genes = 10, ...) {
     }
 
     genes_to_plot <- get_genes_to_plot(genes_to_plot, cancer, n_genes)
-    model_data %>%
-        filter(!(cancer == "LUAD" & allele == "G13D")) %>%
+    gsea_input_data %>%
         filter(cancer == !!cancer & hugo_symbol %in% !!genes_to_plot) %>%
         mutate(hugo_symbol = factor(hugo_symbol, levels = genes_to_plot)) %>%
         rank_depmap_data() %>%
-        plot_ranked_data(cancer = cancer, allele = allele, geneset = name)
+        plot_ranked_data(cancer = cancer,
+                         allele = allele,
+                         geneset = name)
 }
 
 
@@ -409,10 +426,10 @@ plot_enrichment_heatmap <- function(cancer, name, allele, n_genes = 10, ...) {
 calculate_enrichment_average <- function(df, rescale = TRUE) {
     n_rows <- n_distinct(df$hugo_symbol)
     df %>%
-        group_by(allele) %>%
+        group_by(kras_allele) %>%
         mutate(num_celllines = n_distinct(dep_map_id)) %>%
         ungroup() %>%
-        group_by(effect_rank, allele) %>%
+        group_by(effect_rank, kras_allele) %>%
         mutate(
             fraction_rows = n_distinct(hugo_symbol) / !!n_rows / num_celllines
         ) %>%
@@ -433,8 +450,8 @@ plot_ranked_bar <- function(df, cancer, allele, geneset) {
         str_wrap(50)
 
     p <- df %>%
-        ggplot(aes(x = effect_rank, y = allele)) +
-        geom_tile(aes(fill = allele, alpha = fraction_rows), size = 0.5) +
+        ggplot(aes(x = effect_rank, y = kras_allele)) +
+        geom_tile(aes(fill = kras_allele, alpha = fraction_rows), size = 0.5) +
         scale_fill_manual(values = short_allele_pal) +
         scale_alpha_identity() +
         scale_x_discrete(expand = c(0, 0)) +
@@ -469,7 +486,7 @@ plot_ranked_density <- function(df, cancer, allele, geneset, n_ranks) {
 
     p <- df %>%
         ggplot(aes(x = effect_rank)) +
-        geom_density(aes(color = allele, fill = allele),
+        geom_density(aes(color = kras_allele, fill = kras_allele),
                      size = 0.5, alpha = 0.2) +
         scale_color_manual(values = short_allele_pal) +
         scale_fill_manual(values = short_allele_pal) +
@@ -490,8 +507,9 @@ plot_ranked_density <- function(df, cancer, allele, geneset, n_ranks) {
             title = glue("{cancer} - {allele}\n{plot_title}")
         )
 
-    save_name <- plot_path(GRAPHS_DIR,
-                           glue("rankline_{cancer}_{allele}_{geneset}.svg"))
+    save_name <- plot_path(
+        GRAPHS_DIR, glue("rankline_{cancer}_{allele}_{geneset}.svg")
+    )
     ggsave_wrapper(p, save_name, width = 5, height = 3)
     save_to_proto(cancer, allele, geneset, p, save_name)
 
@@ -508,14 +526,15 @@ plot_enrichment_bar <- function(cancer, name, allele, n_genes = 10, ...) {
 
     genes_to_plot <- get_genes_to_plot(genes_to_plot, cancer, n_genes)
 
-    model_data %>%
-        filter(!(cancer == "LUAD" & allele == "G13D")) %>%
-        filter(cancer == !!cancer & hugo_symbol %in% !!genes_to_plot) %>%
+    gsea_input_data %>%
+    filter(cancer == !!cancer & hugo_symbol %in% !!genes_to_plot) %>%
         mutate(hugo_symbol = factor(hugo_symbol, levels = genes_to_plot)) %>%
         rank_depmap_data() %>%
         calculate_enrichment_average(rescale = TRUE) %>%
-        mutate(allele = fct_rev(allele)) %T>%
-        plot_ranked_bar(cancer = cancer, allele = allele, geneset = name)
+        mutate(kras_allele = fct_rev(kras_allele)) %T>%
+        plot_ranked_bar(cancer = cancer,
+                        allele = allele,
+                        geneset = name)
 
     return(NULL)
 }
@@ -530,13 +549,14 @@ plot_enrichment_density <- function(cancer, name, allele, n_genes = 10, ...) {
 
     genes_to_plot <- get_genes_to_plot(genes_to_plot, cancer, n_genes)
 
-    dat <- model_data %>%
-        filter(!(cancer == "LUAD" & allele == "G13D")) %>%
+    dat <- gsea_input_data %>%
         filter(cancer == !!cancer & hugo_symbol %in% !!genes_to_plot) %>%
         mutate(hugo_symbol = factor(hugo_symbol, levels = genes_to_plot))
     dat %>%
         rank_depmap_data() %>%
-        plot_ranked_density(cancer = cancer, allele = allele, geneset = name,
+        plot_ranked_density(cancer = cancer,
+                            allele = allele,
+                            geneset = name,
                             n_ranks = n_distinct(dat$dep_map_id))
 }
 
