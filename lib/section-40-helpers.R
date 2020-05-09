@@ -4,56 +4,25 @@
 
 #### ---- Codify the clusters from synthetic lethal analysis ---- ####
 
-# Get the average `gene_effect` for an allele.
-# The function for calculate the average is in the argument `f`.
-#   By default it is `mean()`.
-mean_gene_effect <- function(allele, data, f = mean) {
-    filter(data, allele == !!allele) %>% pull(gene_effect) %>% unlist() %>% f()
-}
-
-
-# Get the average `gene_effect` for all alleles except for `allele`.
-# The function for calculate the average is in the argument `f`.
-#   By default it is `mean()`.
-mean_other_gene_effect <- function(allele, data, f = mean) {
-    filter(data, allele != !!allele) %>% pull(gene_effect) %>% unlist() %>% f()
-}
-
-
-# Extract and parse the pair-wise comparisons from the linear modeling of
-#   the synthetic lethal data.
-extract_pw <- function(pw, df) {
-    tidy_pw <- tidy(pw) %>%
-        janitor::clean_names() %>%
-        mutate(
-            g1_avg = purrr::map_dbl(group1, mean_gene_effect, data = df),
-            g2_avg = purrr::map_dbl(group2, mean_gene_effect, data = df),
-            g1_other_avg = purrr::map_dbl(group1, mean_other_gene_effect,
-                                          data = df),
-            g2_other_avg = purrr::map_dbl(group2, mean_other_gene_effect,
-                                          data = df)
-        )
-    return(tidy_pw)
-}
-
-
 # A tibble of the pairwise comparisons between all alleles for the genes in
-#   the `depmap_gene_clusters`.
-make_depmap_gene_clusters_pairwise_df <- function() {
-    if (exists("depmap_gene_clusters_pairwise_df")) {
+# the `depmap_gene_clusters`. Set `force = TRUE` to force the remaking of
+# of the data frame.
+make_depmap_gene_clusters_pairwise_df <- function(force = FALSE) {
+    if (exists("depmap_gene_clusters_pairwise_df") & !force) {
         cat("(`depmap_gene_clusters_pairwise_df` already exists)\n")
         return()
     }
     cat("Creating `depmap_gene_clusters_pairwise_df`.\n")
 
-    depmap_gene_clusters_pairwise_df <- model1_tib %>%
+    depmap_gene_clusters_pairwise_df <- depmap_model_workflow_res %>%
+        filter_depmap_model_workflow_res() %>%
         inner_join(depmap_gene_clusters, by = c("cancer", "hugo_symbol")) %>%
-        mutate(
-            allele_pairwise = purrr::map2(allele_pairwise, data, extract_pw)
-        ) %>%
-        select(cancer, hugo_symbol, gene_cls, allele_pairwise) %>%
-        unnest(allele_pairwise) %>%
-        dplyr::rename(adj_p_value = p_value)
+        select(hugo_symbol, cancer, ova_pairs, gene_cls) %>%
+        unnest(ova_pairs) %>%
+        select(hugo_symbol, cancer, allele, gene_cls,
+               p_value, adj_p_value,
+               estimate, estimate_allele, estimate_other,
+               conf_low, conf_high)
 
     assign("depmap_gene_clusters_pairwise_df",
            depmap_gene_clusters_pairwise_df,
