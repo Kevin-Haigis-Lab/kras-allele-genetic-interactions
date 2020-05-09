@@ -14,7 +14,7 @@ unnest_rna_lm_depmap_model_workflow <- function(df) {
 filter_depmap_model_workflow_res <- function(df) {
     df %>%
         unnest_rna_lm_depmap_model_workflow() %>%
-        filter(rna_lm_stats_p_value >= 0.05) %>%
+        filter(rna_lm_stats_p_value >= 0.05 | rna_lm_stats_r_squared < 0.4) %>%
         filter(ismut_pvalue >= 0.05) %>%
         filter(allele_aov_pvalue < 0.01) %>%
         filter(ova_any_sig)

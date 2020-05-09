@@ -105,19 +105,22 @@ plot_pairwise_test_results2 <- function(hugo_symbol, cancer, data,
 # Select genes for figures.
 select_gene_boxplots <- tibble::tribble(
     ~ cancer, ~ hugo_symbol,
-      "COAD",        "IDH1",
+      "COAD",        "FAF2",
       "COAD",       "KNTC1",
-      "COAD",     "PIP5K1A",
-      "COAD",       "WDR26",
-      "PAAD",         "JUN",
-      "PAAD",      "CEP350",
+      "COAD",       "LIN7C",
+      "COAD",        "NKD1",
+      "COAD",      "STARD9",
+      "COAD",        "TFPT",
+      "PAAD",      "BRI3BP",
       "PAAD",       "EGLN2",
-      "PAAD",        "NUMB",
-      "PAAD",        "TMED2",
-      "PAAD",        "MAPK8",
-      "LUAD",        "ABCC9",
-      "LUAD",        "CPSF1",
-      "LUAD",        "WDFY3",
+      "PAAD",         "JUN",
+      "PAAD",     "KHDRBS1",
+      "PAAD",       "MAPK8",
+      "PAAD",     "MAPKBP1",
+      "PAAD",       "SPC24",
+      "PAAD",       "ZZEF1",
+      "PAAD",      "ZNF701",
+      "PAAD",     "ZSCAN31"
 )
 
 

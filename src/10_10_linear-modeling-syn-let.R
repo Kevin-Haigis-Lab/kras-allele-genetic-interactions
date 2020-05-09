@@ -29,6 +29,21 @@ get_rna_linear_model_stats <- function(fit) {
 }
 
 
+# Compare the AIC of the linear model of gene effect and RNA expression with
+# and without a parameter for if KRAS is mutated. A negative value means that
+# adding the KRAS mutation parameter was a better model (with the assumptions
+# of the model and AIC).
+rna_linear_model_aic_comparison <- function(data) {
+    if (all(is.na(data$rna_expression_std))) {
+        return(NA)
+    }
+    d <- data %>% mutate(is_kras_mut = kras_allele != "WT")
+    fit1 <- lm(gene_effect ~ 1 + rna_expression_std, data = d)
+    fit2 <- lm(gene_effect ~ 1 + rna_expression_std + is_kras_mut, data = d)
+    AIC(fit2) - AIC(fit1)
+}
+
+
 # Make some diagnostic plots for the linear model of gene effect and RNA.
 rna_linear_model_diagnosticplots <- function(hugo_symbol, fit) {
     if (all(is.na(fit))) { return(fit) }
@@ -90,6 +105,7 @@ rna_linear_model_diagnosticplots <- function(hugo_symbol, fit) {
 
     return(fit)
 }
+
 
 
 #### ---- Test if mutation matters ---- ####
@@ -222,9 +238,9 @@ one_vs_one_pairwise_test <- function(data, padjust_method = "BH") {
             mean()
     }
 
-    pairwise.wilcox.test(x = data$gene_effect,
-                         g = data$kras_allele,
-                         p.adjust.method = "none") %>%
+    pairwise.t.test(x = data$gene_effect,
+                    g = data$kras_allele,
+                    p.adjust.method = "none") %>%
         tidy() %>%
         janitor::clean_names() %>%
         mutate(adj_p_value = p.adjust(p_value, method = padjust_method),
@@ -292,6 +308,7 @@ cache("depmap_model_workflow_res",
 })
 
 
+
 #### ---- Inspection of genes that fit RNA linear model ---- ####
 
 rna_lm_plot1 <- depmap_model_workflow_res %>%
@@ -334,6 +351,7 @@ rna_lm_plot2 <- depmap_model_workflow_res %>%
 ggsave_wrapper(rna_lm_plot2,
                plot_path(GRAPHS_DIR, "rna_lm_plot2.svg"),
                "wide")
+
 
 
 #### ---- Overview plots of genes with diff. dependency by KRAS ---- ####
