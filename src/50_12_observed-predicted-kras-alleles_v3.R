@@ -190,8 +190,7 @@ calc_expected_frequency <- function(df) {
                                         sum(expected_allele_frequency),
             observed_allele_frequency = observed_allele_frequency /
                                         sum(observed_allele_frequency)
-        ) %>%
-        ungroup()
+        )
 }
 
 
@@ -226,9 +225,9 @@ cancer_expect_frequencies <- kras_allele_predictions %>%
 boot_cancer_expect_frequncies <- function(cancer, df, R = 1e3) {
     nested_df <- df %>% group_by(tumor_sample_barcode) %>% nest()
     boot_res <- boot::boot(nested_df,
-               calc_expected_frequency_boot,
-               R = R,
-               all_alleles = unique(df$kras_allele))
+                           calc_expected_frequency_boot,
+                           R = R,
+                           all_alleles = unique(df$kras_allele))
     return(list(boot_obj = boot_res,
                 alleles = unique(df$kras_allele)))
 }
@@ -405,11 +404,12 @@ ggsave_wrapper(
 #### ---- Plot: Predicted vs. Observed ---- ####
 
 plot_kras_allele_predictions <- function(cancer, data,
-                                         p_val_cut = 0.05,
-                                         use_cancer_color = FALSE) {
+                                         p_val_cut = 0.05) {
 
     pval_labels <- c(glue("p < {p_val_cut}"),
                      glue("p ≥ {p_val_cut}"))
+
+    codon_pal <- codon_palette[names(codon_palette) != "Other"]
 
     mod_data <- data %>%
         mutate(
@@ -418,26 +418,23 @@ plot_kras_allele_predictions <- function(cancer, data,
             is_significant = ifelse(
                 p_value < p_val_cut, pval_labels[[1]], pval_labels[[2]]
             ),
-            is_significant = factor(is_significant, levels = pval_labels)
+            is_significant = factor(is_significant, levels = pval_labels),
+            codon = str_extract(kras_allele, "[:digit:]+|WT"),
+            codon = factor(codon, levels = names(codon_pal))
         )
 
     max_val <- max(c(mod_data$observed_allele_frequency,
                      mod_data$upper_ci))
 
-    point_color <- ifelse(use_cancer_color,
-                          cancer_palette[[cancer]],
-                          "grey20")
-
     p <- mod_data %>%
-        ggplot(aes(x = observed_allele_frequency,
-                   y = expected_allele_frequency)) +
+        ggplot(aes(x = expected_allele_frequency,
+                   y = observed_allele_frequency)) +
         geom_abline(lty = 2, size = 0.6, color = "grey60") +
-        geom_linerange(aes(ymin = lower_ci, ymax = upper_ci),
+        geom_linerange(aes(xmin = lower_ci, xmax = upper_ci),
                        color = "grey35",
                        size = 0.6) +
-        geom_point(aes(shape = is_significant),
-                   size = 1.3,
-                   color = point_color) +
+        geom_point(aes(shape = is_significant, color = codon),
+                   size = 1.3) +
         ggrepel::geom_text_repel(aes(label = kras_allele),
                                  size = 2.2,
                                  family = "Arial",
@@ -448,6 +445,9 @@ plot_kras_allele_predictions <- function(cancer, data,
                                  segment.color = "grey30",
                                  segment.size = 0.3,
                                  min.segment.length = unit(5, "mm")) +
+        scale_color_manual(values = codon_pal,
+                           drop = FALSE,
+                           guide = guide_legend(order = 10)) +
         scale_x_continuous(limits = c(0, max_val),
                            expand = expansion(mult = c(0, 0.03))) +
         scale_y_continuous(limits = c(0, max_val),
@@ -456,7 +456,8 @@ plot_kras_allele_predictions <- function(cancer, data,
         scale_shape_manual(values = c(17, 16),
                            drop = FALSE,
                            guide = guide_legend(title.position = "top",
-                                                label.position = "top")) +
+                                                label.position = "top",
+                                                order = 20)) +
         coord_fixed() +
         theme_bw(base_size = 7, base_family = "Arial") +
         theme(
@@ -464,9 +465,10 @@ plot_kras_allele_predictions <- function(cancer, data,
             strip.background = element_blank(),
             legend.title = element_markdown(hjust = 0.5, vjust = 0.5)
         ) +
-        labs(x = "observed",
-             y = "predicted",
+        labs(x = "predicted",
+             y = "observed",
              shape = "χ<sup>2</sup> test",
+             color = "codon",
              title = cancer)
 
     if (is.null(mod_data$r_squared)) { return(p) }
@@ -514,8 +516,7 @@ predicted_allele_frequency_scatter <- cancer_expect_frequencies %>%
     nest() %>%
     ungroup() %>%
     mutate(
-        plt = map2(cancer, data, plot_kras_allele_predictions,
-                   use_cancer_color = TRUE),
+        plt = map2(cancer, data, plot_kras_allele_predictions),
         plt = map2(cancer, plt, save_kras_allele_predictions,
                    gl_template = "{cancer}_predict-allele-freq_scatter.svg")
     )
@@ -565,8 +566,7 @@ all_kras_allele_predictions %>%
     mutate(
         data = map(data, calc_expected_frequency),
         data = map(data, add_dummy_ci),
-        plt = map2(cancer, data, plot_kras_allele_predictions,
-                   use_cancer_color = TRUE),
+        plt = map2(cancer, data, plot_kras_allele_predictions),
         plt = map2(cancer, plt, save_kras_allele_predictions,
                    gl_template = "{cancer}_predict-ALL-allele-freq_scatter.svg",
                    save_rds = FALSE)

@@ -270,6 +270,17 @@ ggsave_wrapper(
 )
 
 
+codon_palette <- c(
+    "12" = "#60D17B",
+    "13" = "#F2C83F",
+    "61" = "#425CFF",
+    "146" = "#FF4F5F",
+    "Other" = "grey75",
+    "WT" = "#A0A3AF"
+)
+
+
+
 # colors for cancers
 cancer_palette <- c(
     COAD = "#7EA1D9",
