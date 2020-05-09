@@ -279,6 +279,11 @@ codon_palette <- c(
     "WT" = "#A0A3AF"
 )
 
+ggsave_wrapper(
+    show_palette(codon_palette, "square", font_family = "Arial"),
+    plot_path("00_miscellaneous", "codon_palette.svg"),
+    "small"
+)
 
 
 # colors for cancers
