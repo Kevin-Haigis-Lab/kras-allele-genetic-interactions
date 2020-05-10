@@ -570,4 +570,10 @@ all_kras_allele_predictions %>%
         plt = map2(cancer, plt, save_kras_allele_predictions,
                    gl_template = "{cancer}_predict-ALL-allele-freq_scatter.svg",
                    save_rds = FALSE)
+    ) %>%
+    pull(plt) %>%
+    wrap_plots(nrow = 2) %>%
+    ggsave_wrapper(
+        plot_path(GRAPHS_DIR, "ALL_predict-ALL-allele-freq_scatter.svg"),
+        "large"
     )
