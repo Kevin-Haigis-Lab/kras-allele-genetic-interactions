@@ -462,6 +462,7 @@ plot_kras_allele_predictions <- function(cancer, data,
         theme_bw(base_size = 7, base_family = "Arial") +
         theme(
             plot.title = element_text(hjust = 0.5),
+            plot.subtitle = element_markdown(hjust = 0.05),
             strip.background = element_blank(),
             legend.title = element_markdown(hjust = 0.5, vjust = 0.5)
         ) +
@@ -477,19 +478,11 @@ plot_kras_allele_predictions <- function(cancer, data,
     r_sq <- str_pad(r_sq, width = 5, side = "right", pad = "0")
     mdl_p_val <- round(mod_data$model_p_value[[1]], 2)
     mdl_p_val <- str_pad(mdl_p_val, width = 4, side = "right", pad = "0")
-    lbl <- glue("R<sup>2</sup> = {r_sq}<br>p-val = {mdl_p_val}")
+    subtitle <- glue("R<sup>2</sup> = {r_sq}; p-val = {mdl_p_val}")
 
-
-    r_sq_xpos <- max_val * 0.05
-    r_sq_ypos <- max_val - (max_val * 0.01)
-
-    p +
-        geom_richtext(
-            label = lbl, x = r_sq_xpos, y = r_sq_ypos,
-            hjust = 0, vjust = 1, family = "Arial", size = 2.8,
-            fill = NA, label.color = NA,
-            label.padding = grid::unit(rep(0, 4), "pt")
-        )
+    p <- p +
+        labs(subtitle = subtitle)
+    return(p)
 }
 
 
