@@ -82,20 +82,20 @@ theme_fig29_densityplots <- function(tag_margin_l = -3) {
     )
 }
 
-x_label <- expression("" %<-% "greater dep. - ranked gene effect - less dep." %->% "")
+x_label <- expression("" %<-% "greater dep. - ranked by gene effect - less dep." %->% "")
 
 panel_B_density <- read_fig_proto(
-        "rankline_COAD_G12V_REACTOME_RESPIRATORY_ELECTRON_TRANSPORT"
+        "rankline_COAD_G12V_PID_ERBB4_PATHWAY.svg"
     ) +
     theme_fig29_densityplots(tag_margin_l = -7) +
     labs(
         y = "density",
         tag = "b",
-        title = "Respiratory electron transport"
+        title = "ERBB4 pathway"
     )
 
 panel_B <- read_fig_proto(
-        "rankplot_COAD_G12V_REACTOME_RESPIRATORY_ELECTRON_TRANSPORT.rds"
+        "rankplot_COAD_G12V_PID_ERBB4_PATHWAY.svg"
     ) +
     theme_fig29() +
     theme(
@@ -112,7 +112,7 @@ panel_B <- read_fig_proto(
 
 
 panel_C <- read_fig_proto(
-        "rankplot_COAD_G13D_REACTOME_COMPLEMENT_CASCADE.rds") +
+        "rankplot_COAD_G13D_KEGG_OXIDATIVE_PHOSPHORYLATION") +
     theme_fig29() +
     theme(
         plot.title = element_text(size = 7, family = "Arial"),
@@ -125,12 +125,12 @@ panel_C <- read_fig_proto(
 
 
 panel_C_density <- read_fig_proto(
-        "rankline_COAD_G13D_REACTOME_COMPLEMENT_CASCADE.rds"
+        "rankline_COAD_G13D_KEGG_OXIDATIVE_PHOSPHORYLATION"
     ) +
     theme_fig29_densityplots(tag_margin_l = -7) +
     labs(
         y = "density",
-        title = "Complement cascade",
+        title = "Oxidative phosphorylation",
         tag = "c"
     )
 
@@ -149,7 +149,7 @@ panel_C <- panel_C +
     )
 
 
-lbl_alleles <- ggplot_build(panel_C)$plot$data$allele %>%
+lbl_alleles <- ggplot_build(panel_C)$plot$data$kras_allele %>%
     unique() %>%
     factor_alleles() %>%
     sort() %>%
@@ -177,7 +177,7 @@ panel_BC_legend <- custom_label_legend(
 # lethal in COAD.
 # original script: "src/10_11_syn-let_heatmaps-boxplots.R"
 
-pre_panel_D <- read_fig_proto("COAD_CRISPR_manhattan_ward.D2_pheatmap.rds")
+pre_panel_D <- read_fig_proto("COAD_CRISPR_euclidean_ward.D2_pheatmap.rds")
 pre_panel_D <- pre_panel_D[[4]]
 
 pre_panel_D_main <- gtable::gtable_filter(pre_panel_D,
@@ -192,52 +192,30 @@ panel_D <- wrap_elements(plot = pre_panel_D_main) *
     labs(tag = "d")
 
 
-prep_pheatmap_legend <- function(name) {
-    read_fig_proto(name) +
-        scale_x_discrete(expand = c(0, 0)) +
-        scale_y_discrete(expand = c(0, 0)) +
-        theme_fig29() +
-        theme(
-            plot.title = element_text(size = 6, family = "Arial"),
-            axis.title = element_blank(),
-            axis.text.x = element_blank(),
-            axis.text.y = element_text(size = 6, family = "Arial"),
-            plot.background = element_rect(fill = NA, color = NA),
-            panel.background = element_rect(fill = NA, color = NA)
-        )
-}
+panel_D_legend1 <- read_fig_proto(
+        "COAD_CRISPR_euclidean_ward.D2_pheatmap_heatpal.rds"
+    )
 
-prep_pheatmap_colorbar <- function(name) {
-    read_fig_proto(name) +
-        scale_x_discrete(expand = c(0, 0)) +
-        scale_y_continuous(expand = c(0, 0)) +
-        theme_fig29() +
-            theme(
-                plot.title = element_text(size = 6, family = "Arial"),
-                axis.title = element_blank(),
-                axis.text.x = element_blank(),
-                axis.text.y = element_text(size = 6, family = "Arial"),
-                plot.background = element_rect(fill = NA, color = NA),
-                panel.background = element_rect(fill = NA, color = NA)
-            )
-}
-
-panel_D_legend1 <- prep_pheatmap_colorbar(
-        "COAD_CRISPR_manhattan_ward.D2_pheatmap_heatpal.rds"
+panel_D_legend <- ggplot_build(panel_D_legend1)$plot$data %>%
+    mutate(x = 1:n(),
+           name = as.character(round(name, 1)),
+           name = fct_inorder(name)) %>%
+    ggplot(aes(x = name, y = "1")) +
+    geom_tile(aes(fill = value), color = NA) +
+    scale_fill_identity(guide = FALSE) +
+    scale_x_discrete(expand = c(0, 0)) +
+    scale_y_discrete(expand = c(0, 0)) +
+    theme_fig34() +
+    theme(
+        axis.title = element_blank(),
+        axis.ticks = element_blank(),
+        axis.text.y = element_blank(),
+        panel.background = element_blank(),
+        panel.border = element_blank(),
+        panel.grid = element_blank()
     ) +
-    labs(title = "scaled\ndep. score")
+    labs(title = "scaled dep. score")
 
-panel_D_legend2 <- prep_pheatmap_legend(
-        "COAD_CRISPR_manhattan_ward.D2_pheatmap_allelepal.rds"
-    ) +
-    labs(title = "allele")
-
-panel_D_legend3 <- prep_pheatmap_legend(
-        "COAD_CRISPR_manhattan_ward.D2_pheatmap_clusterpal.rds"
-    ) +
-    labs(title = "cluster")
-
-panel_D_legend <- panel_D_legend1 | panel_D_legend2 | panel_D_legend3
 
 
 #### ---- E. Box plots of select genes ---- ####
@@ -245,17 +223,17 @@ panel_D_legend <- panel_D_legend1 | panel_D_legend2 | panel_D_legend3
 # original script: "src/10_11_syn-let_heatmaps-boxplots.R"
 
 panel_E_files <- c(
-    "COAD-KNTC1.rds",
-    "COAD-IDH1.rds",
-    "COAD-PIP5K1A.rds",
-    "COAD-WDR26.rds"
+    "COAD-LIN7C_extra.rds",
+    "COAD-TFPT_extra.rds",
+    "COAD-STARD9_extra.rds",
+    "COAD-KNTC1_extra.rds"
 )
 
 panel_E_plots <- as.list(rep(NA, length(panel_E_files)))
 names(panel_E_plots) <- panel_E_files
 for (f in panel_E_files) {
 
-    if (f != "COAD-WDR26.rds") {
+    if (FALSE) {
         x_axis_text <- element_blank()
     } else {
         x_axis_text <- element_text(size = 5.5, hjust = 0.5, vjust = 1)
@@ -268,12 +246,12 @@ for (f in panel_E_files) {
             axis.title.x = element_blank(),
             axis.text.x = x_axis_text,
             legend.position = "none",
-            plot.margin = margin(0, 0, 0, 0, "mm")
+            plot.margin = margin(1, 0, 1, 0, "mm")
         ) +
         labs(
-            title = str_remove(file_sans_ext(f), "COAD-")
+            title = str_remove_all(file_sans_ext(f), "COAD-|_extra"),
+            y = "dependency score"
         )
-
 }
 
 panel_E <- wrap_plots(panel_E_plots, ncol = 1)
@@ -312,10 +290,10 @@ panel_E[[1]] <- panel_E[[1]] + labs(tag = "e")
             panel_D
         ) |
         (
-            column_3
+            panel_E
         )
     ) +
-        plot_layout(widths = c(3, 7, 2.1))
+        plot_layout(widths = c(3, 8, 2.5))
 
     save_figure(
         full_figure,

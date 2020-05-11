@@ -5,7 +5,7 @@ FIGNUM <- 42
 
 #> SET THE FIGURE DIMENSIONS
 FIG_DIMENSIONS <- get_figure_dimensions(2, "short")
-FIG_DIMENSIONS$height <- 160
+FIG_DIMENSIONS$height <- 130
 
 theme_fig42 <- function(tag_margin = margin(-1, -1, -1, -1, "mm")) {
     theme_comutation() %+replace%
@@ -122,7 +122,9 @@ panel_C <- lapply(panel_C_plots, read_fig_proto) %>%
 # original script: "src/50_30_mutsignatures_prob-causing-allele.R"
 
 panel_D <- read_fig_proto("probability-mutsig-caused-allele_barplot-list") %>%
-    imap(style_mutsig_prob_barplots, tag = "d", y = "probability of causing allele")
+    imap(style_mutsig_prob_barplots,
+         tag = "d",
+         y = "probability of causing allele")
 
 
 pull_signatures_from_panel_D <- function(x) {
@@ -154,42 +156,6 @@ panel_D_legend <- custom_label_legend(
 panel_D <- wrap_plots(panel_D, nrow = 1, widths = mutsig_barplot_widths)
 
 
-#### ---- E. Predicted vs Observed allele frequency ---- ####
-# Predicted vs. observed frequency of KRAS alleles in each cancer.
-# original script: "src/50_12_observed-predicted-kras-alleles_v3.R"
-
-panel_E_plots <- paste0(c("COAD", "LUAD", "MM", "PAAD"),
-                        "_predict-allele-freq_scatter.svg")
-
-panel_E_proto_list <- lapply(panel_E_plots, read_fig_proto)
-panel_E <- wrap_plots(panel_E_proto_list, nrow = 1, guides = "collect") &
-    theme_fig42() %+replace%
-    theme(
-        plot.title = element_text(size = 7, face = "bold"),
-        legend.title = element_markdown(vjust = 0.5, hjust = 0.5,
-                                        face = "bold", size = 6,
-                                        family = "Arial"),
-        legend.text = element_text(size = 6, hjust = 0.5, vjust = 0.5),
-        legend.key.height = unit(1, "mm"),
-        legend.key.width = unit(1, "mm"),
-        legend.spacing.y = unit(3, "mm"),
-        plot.margin = margin(0, 0, 0, 0, "mm")
-    )
-
-for (i in seq(2, 4)) {
-    panel_E[[i]] <- panel_E[[i]] + labs(y = "")
-}
-
-for (i in seq(2, 4)) {
-    panel_E[[i]] <- panel_E[[i]] + theme(legend.position = "none")
-}
-
-panel_E[[1]] <- panel_E[[1]] + labs(tag = "e")
-
-panel_E <- (panel_E | guide_area()) +
-    plot_layout(widths = c(10, 10, 10, 10, 3))
-
-
 #### ---- Figure assembly ---- ####
 
 {
@@ -207,8 +173,8 @@ panel_E <- (panel_E | guide_area()) +
 
     row_2 <- wrap_elements(full = row_2)
 
-    full_figure <- (row_1 / row_2 / wrap_elements(full = panel_E)) +
-        plot_layout(heights = c(2, 5, 3))
+    full_figure <- (row_1 / row_2) +
+        plot_layout(heights = c(2, 5))
 
     save_figure(
         full_figure,

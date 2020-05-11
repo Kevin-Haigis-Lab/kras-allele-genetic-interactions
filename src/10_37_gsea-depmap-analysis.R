@@ -174,7 +174,7 @@ select_gsea_results <- tibble::tribble(
     "COAD", "REACTOME", "Downstream signaling of activated fgfr1",
         "Downstream signaling of activated FGFR1",
     "COAD", "REACTOME", "Resolution of d loop structures through synthesis dependent strand annealing sdsa",
-        "resolution of D-loop structures through SDSA",
+        "Resolution of D-loop structures through SDSA",
     "COAD", "REACTOME", "Fanconi anemia pathway", "Fanconi anemia pathway",
     "COAD", "REACTOME", "Dual incision in tc ner", "Dual incision in TC-NER",
     "COAD", "REACTOME", "Tgf beta receptor signaling in emt epithelial to mesenchymal transition",
@@ -247,7 +247,7 @@ select_gsea_plot <- function(cancer, data, ...) {
     mod_data <- mod_data %>%
         mutate(
             allele = factor_alleles(allele),
-            gene_set = str_wrap(gene_set, width = 30),
+            gene_set = str_wrap(gene_set, width = 40),
             gene_set = get_geneset_order(gene_set,
                                          as.numeric(allele),
                                          -log10(fdr_q_val))
@@ -342,7 +342,6 @@ save_to_proto <- function(cancer, allele, geneset, gg_obj, save_name) {
         pull(gene_set) %>%
         standardize_names() %>%
         str_to_lower()
-
     cond <- str_detect(str_to_lower(standardize_names(geneset)),
                        selected_genesets)
     if (any(cond)) {

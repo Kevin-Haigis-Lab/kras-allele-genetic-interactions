@@ -1,4 +1,4 @@
-# Figure 033. #> BRIEF DESCRIPTION OF THE FIGURE.
+# Figure 033. GSEA of DepMap of PAAD cell lines
 
 FIGNUM <- 33
 
@@ -82,21 +82,21 @@ theme_fig33_densityplots <- function(tag_margin_l = -3) {
     )
 }
 
-x_label <- expression("" %<-% "greater dep. - ranked gene effect - less dep." %->% "")
+x_label <- expression("" %<-% "greater dep. - ranked by gene effect - less dep." %->% "")
 
 
 panel_B_density <- read_fig_proto(
-        "rankline_PAAD_G12D_REACTOME_G_ALPHA_12_13_SIGNALLING_EVENTS"
+        "rankline_PAAD_G12D_REACTOME_G2_M_DNA_DAMAGE_CHECKPOINT"
     ) +
     theme_fig33_densityplots(tag_margin_l = -7) +
     labs(
         y = "density",
         tag = "b",
-        title = "G alpha (12/13) signalling events"
+        title = "G2/M DNA damage checkpoint"
     )
 
 panel_B <- read_fig_proto(
-        "rankplot_PAAD_G12D_REACTOME_G_ALPHA_12_13_SIGNALLING_EVENTS"
+        "rankplot_PAAD_G12D_REACTOME_G2_M_DNA_DAMAGE_CHECKPOINT"
     ) +
     theme_fig33() +
     theme(
@@ -120,17 +120,17 @@ panel_B <- read_fig_proto(
 # original script: "src/10_37_gsea-depmap-analysis.R"
 
 panel_C <- panel_C_density <- read_fig_proto(
-        "rankline_PAAD_G12R_REACTOME_G2_M_DNA_DAMAGE_CHECKPOINT"
+        "rankline_PAAD_G12R_REACTOME_PI_3K_CASCADE:FGFR1"
     ) +
     theme_fig33_densityplots(tag_margin_l = -7) +
     labs(
         y = "density",
         tag = "c",
-        title = "G2/M DNA damage checkpoint"
+        title = "PI3K-FGFR1 cascade"
     )
 
 panel_C <- read_fig_proto(
-        "rankplot_PAAD_G12R_REACTOME_G2_M_DNA_DAMAGE_CHECKPOINT"
+        "rankplot_PAAD_G12R_REACTOME_PI_3K_CASCADE:FGFR1"
     ) +
     theme_fig33() +
     theme(
@@ -153,17 +153,17 @@ panel_C <- read_fig_proto(
 # original script: "src/10_37_gsea-depmap-analysis.R"
 
 panel_D_density <- read_fig_proto(
-        "rankline_PAAD_G12V_HALLMARK_HEDGEHOG_SIGNALING"
+        "rankline_PAAD_G12V_REACTOME_CELLULAR_SENESCENCE"
     ) +
     theme_fig33_densityplots(tag_margin_l = -7) +
     labs(
         y = "density",
-        title = "Hedgehog signaling",
+        title = "Cellular senescence",
         tag = "d"
     )
 
 panel_D <- read_fig_proto(
-        "rankplot_PAAD_G12V_HALLMARK_HEDGEHOG_SIGNALING"
+        "rankplot_PAAD_G12V_REACTOME_CELLULAR_SENESCENCE"
     ) +
     theme_fig33() +
     theme(
@@ -179,7 +179,7 @@ panel_D <- read_fig_proto(
     )
 
 
-lbl_alleles <- ggplot_build(panel_D)$plot$data$allele %>%
+lbl_alleles <- ggplot_build(panel_D)$plot$data$kras_allele %>%
     unique() %>%
     factor_alleles() %>%
     sort() %>%

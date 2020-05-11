@@ -21,7 +21,7 @@ theme_fig34 <- function(tag_margin = margin(0, 0, 0, 0, "mm")) {
 # A heatmap of the genes found to have allele-specific genetic dependencies.
 # original script: "src/10_11_syn-let_heatmaps-boxplots.R"
 
-pre_panel_A <- read_fig_proto("PAAD_CRISPR_manhattan_ward.D2_pheatmap")[[4]]
+pre_panel_A <- read_fig_proto("PAAD_CRISPR_euclidean_ward.D2_pheatmap")[[4]]
 
 pre_panel_A_main <- gtable::gtable_filter(pre_panel_A,
                                           "legend",
@@ -35,61 +35,29 @@ panel_A <- wrap_elements(plot = pre_panel_A_main) *
     labs(tag = "a")
 
 
+panel_A_legend1 <- read_fig_proto(
+    "PAAD_CRISPR_manhattan_ward.D2_pheatmap_heatpal"
+)
 
-prep_pheatmap_legend <- function(name) {
-    read_fig_proto(name) +
-        scale_x_discrete(expand = c(0, 0)) +
-        scale_y_discrete(expand = c(0, 0)) +
-        theme_fig34() +
-        theme(
-            plot.margin = margin(0, 3, 0, 3, "mm"),
-            plot.title = element_text(size = 6, family = "Arial"),
-            axis.title = element_blank(),
-            axis.text.x = element_blank(),
-            axis.text.y = element_text(size = 6, family = "Arial"),
-            plot.background = element_rect(fill = NA, color = NA),
-            panel.background = element_rect(fill = NA, color = NA)
-        )
-}
-
-prep_pheatmap_colorbar <- function(name) {
-    read_fig_proto(name) +
-        scale_x_discrete(expand = c(0, 0)) +
-        scale_y_continuous(expand = c(0, 0)) +
-        theme_fig34() +
-            theme(
-                plot.margin = margin(0, 3, 0, 3, "mm"),
-                plot.title = element_text(size = 6, family = "Arial"),
-                axis.title = element_blank(),
-                axis.text.x = element_blank(),
-                axis.text.y = element_text(size = 6, family = "Arial"),
-                plot.background = element_rect(fill = NA, color = NA),
-                panel.background = element_rect(fill = NA, color = NA)
-            )
-}
-
-panel_A_legend1 <- prep_pheatmap_colorbar(
-        "PAAD_CRISPR_manhattan_ward.D2_pheatmap_heatpal"
+panel_A_legend <- ggplot_build(panel_A_legend1)$plot$data %>%
+    mutate(x = 1:n(),
+           name = as.character(round(name, 1)),
+           name = fct_inorder(name)) %>%
+    ggplot(aes(x = name, y = "1")) +
+    geom_tile(aes(fill = value), color = NA) +
+    scale_fill_identity(guide = FALSE) +
+    scale_x_discrete(expand = c(0, 0)) +
+    scale_y_discrete(expand = c(0, 0)) +
+    theme_fig34() +
+    theme(
+        axis.title = element_blank(),
+        axis.ticks = element_blank(),
+        axis.text.y = element_blank(),
+        panel.background = element_blank(),
+        panel.border = element_blank(),
+        panel.grid = element_blank()
     ) +
-    labs(title = "scaled\ndep. score")
-
-panel_A_legend2 <- prep_pheatmap_legend(
-        "PAAD_CRISPR_manhattan_ward.D2_pheatmap_allelepal"
-    ) +
-    labs(title = "allele")
-
-panel_A_legend3 <- prep_pheatmap_legend(
-        "PAAD_CRISPR_manhattan_ward.D2_pheatmap_clusterpal"
-    ) +
-    labs(title = "cluster")
-
-panel_A_legend <- (
-        panel_A_legend1 | panel_A_legend2 | panel_A_legend3
-    ) +
-        plot_layout(widths = c(1, 1, 1))
-
-panel_A_legend <- wrap_elements(full = panel_A_legend) +
-    theme_fig34()
+    labs(title = "scaled dep. score")
 
 
 #### ---- B. Genetic dependency box-plots ---- ####
@@ -97,11 +65,11 @@ panel_A_legend <- wrap_elements(full = panel_A_legend) +
 # original script: "src/10_11_syn-let_heatmaps-boxplots.R"
 
 panel_B_files <- c(
-    "PAAD-CEP350",
-    "PAAD-EGLN2",
-    "PAAD-JUN",
-    "PAAD-NUMB",
-    "PAAD-TMED2"
+    "PAAD-KHDRBS1_extra",
+    "PAAD-EGLN2_extra",
+    "PAAD-JUN_extra",
+    "PAAD-MAPK8_extra",
+    "PAAD-BRI3BP_extra"
 )
 
 panel_B_plots <- as.list(rep(NA, length(panel_B_files)))
@@ -117,7 +85,8 @@ for (f in panel_B_files) {
             plot.margin = margin(0, 0, 3, 0, "mm")
         ) +
         labs(
-            title = str_remove(file_sans_ext(f), "PAAD-")
+            title = str_remove_all(file_sans_ext(f), "PAAD-|_extra"),
+            y = "dependency score"
         )
 
 }
@@ -130,33 +99,15 @@ panel_B[[1]] <- panel_B[[1]] + labs(tag = "b")
 #### ---- Figure assembly ---- ####
 
 
-col1_layout <- "
-    AAAAAAA
-    AAAAAAA
-    AAAAAAA
-    AAAAAAA
-    AAAAAAA
-    AAAAAAA
-    AAAAAAA
-    AAAAAAA
-    AAAAAAA
-    AAAAAAA
-    AAAAAAA
-    ##BBB##
-"
-
 {
     set.seed(0)
 
-
-    column1 <- (panel_A + panel_A_legend) + plot_layout(design = col1_layout)
-
     # COMPLETE FIGURE
     full_figure <- (
-        column1 |
+        panel_A |
         (
-            (panel_B / plot_spacer()) +
-            plot_layout(heights = c(5, 5, 5, 5, 5, 2))
+            (panel_B / wrap_elements(full = panel_A_legend)) +
+            plot_layout(heights = c(5, 5, 5, 5, 5, 1))
         )
     ) +
         plot_layout(widths = c(7, 2))

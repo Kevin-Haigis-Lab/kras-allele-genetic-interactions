@@ -65,6 +65,8 @@ plot_pairwise_test_results <- function(hugo_symbol, cancer, data, ...) {
 # This version of the function uses my own box-plot creation function
 #   located in "lib/stats-boxplot.R".
 plot_pairwise_test_results2 <- function(hugo_symbol, cancer, data,
+                                        up_spacing = 0.02,
+                                        dn_spacing = 0,
                                         save_proto = FALSE,
                                         replace_svg = FALSE,
                                         ...) {
@@ -76,13 +78,16 @@ plot_pairwise_test_results2 <- function(hugo_symbol, cancer, data,
 
 
     stat_tib <- make_stats_dataframe(data, auto_filter = TRUE,
-                                     method = "wilcox.test",
+                                     method = "t.test",
                                      p.adjust.method = "BH")
 
     p <- stats_boxplot(data, stat_tib,
                        box_color = kras_allele,
-                       up_spacing = 0.06,
-                       point_size = 0.1, label_size = 3, bar_size = 0.3) +
+                       up_spacing = up_spacing,
+                       dn_spacing = dn_spacing,
+                       point_size = 0.1,
+                       label_size = 3,
+                       bar_size = 0.3) +
         scale_color_manual(values = short_allele_pal) +
         theme_bw(base_size = 7, base_family = "Arial") +
         theme(
@@ -104,29 +109,29 @@ plot_pairwise_test_results2 <- function(hugo_symbol, cancer, data,
 
 # Select genes for figures.
 select_gene_boxplots <- tibble::tribble(
-    ~ cancer, ~ hugo_symbol,
-      "COAD",        "FAF2",
-      "COAD",       "KNTC1",
-      "COAD",       "LIN7C",
-      "COAD",        "NKD1",
-      "COAD",      "STARD9",
-      "COAD",        "TFPT",
-      "PAAD",      "BRI3BP",
-      "PAAD",       "EGLN2",
-      "PAAD",         "JUN",
-      "PAAD",     "KHDRBS1",
-      "PAAD",       "MAPK8",
-      "PAAD",     "MAPKBP1",
-      "PAAD",       "SPC24",
-      "PAAD",       "ZZEF1",
-      "PAAD",      "ZNF701",
-      "PAAD",     "ZSCAN31"
+    ~ cancer, ~ hugo_symbol, ~ up_spacing, ~ dn_spacing,
+      "COAD",        "FAF2", 0.06, 0.06,
+      "COAD",       "KNTC1", 0.04, 0.06,
+      "COAD",       "LIN7C", 0.01, 0.06,
+      "COAD",        "NKD1", 0.06, 0.06,
+      "COAD",      "STARD9", 0.01, 0.04,
+      "COAD",        "TFPT", 0.06, 0.06,
+      "PAAD",      "BRI3BP", 0.02, 0.06,
+      "PAAD",       "EGLN2", 0.03, 0.06,
+      "PAAD",         "JUN", 0.06, 0.06,
+      "PAAD",     "KHDRBS1", 0.04, 0.06,
+      "PAAD",       "MAPK8", 0.06, 0.04,
+      "PAAD",     "MAPKBP1", 0.06, 0.06,
+      "PAAD",       "SPC24", 0.06, 0.06,
+      "PAAD",       "ZZEF1", 0.06, 0.06,
+      "PAAD",      "ZNF701", 0.06, 0.06,
+      "PAAD",     "ZSCAN31", 0.06, 0.06
 )
 
 
 depmap_model_workflow_res %>%
     filter_depmap_model_workflow_res() %>%
-    pwalk(plot_pairwise_test_results) %>%
+    # pwalk(plot_pairwise_test_results) %>%
     inner_join(select_gene_boxplots, by = c("cancer", "hugo_symbol")) %>%
     pwalk(plot_pairwise_test_results2, save_proto = TRUE)
 
@@ -236,8 +241,8 @@ cluster_number_map <- list(
     ),
     PAAD = tibble::tribble(
         ~default_cluster, ~cluster,
-        1, 1,
-        2, 3,
+        1, 3,
+        2, 1,
         3, 2
     )
 )
