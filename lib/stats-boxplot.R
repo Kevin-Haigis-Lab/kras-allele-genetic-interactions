@@ -67,11 +67,15 @@ stats_boxplot <- function(df, stats_df = NULL,
         )
 
     bp <- add_stats_comparisons(bp, df, stats_df,
-                                up_spacing = 0.1, dn_spacing = up_spacing,
-                                bar_color = bar_color, bar_alpha = bar_alpha,
-                                bar_size = bar_size, label_color = label_color,
+                                up_spacing = up_spacing,
+                                dn_spacing = dn_spacing,
+                                bar_color = bar_color,
+                                bar_alpha = bar_alpha,
+                                bar_size = bar_size,
+                                label_color = label_color,
                                 label_alpha = label_alpha,
-                                label_size = label_size, fontface = fontface,
+                                label_size = label_size,
+                                fontface = fontface,
                                 family = family)
     return(bp)
 }
