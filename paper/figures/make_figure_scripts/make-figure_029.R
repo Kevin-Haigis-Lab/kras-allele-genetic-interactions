@@ -82,7 +82,7 @@ theme_fig29_densityplots <- function(tag_margin_l = -3) {
     )
 }
 
-x_label <- expression("" %<-% "greater dep. - ranked by gene effect - less dep." %->% "")
+x_label <- expression("" %<-% "greater dep. - ranked by dep. score - less dep." %->% "")
 
 panel_B_density <- read_fig_proto(
         "rankline_COAD_G12V_PID_ERBB4_PATHWAY.svg"
@@ -166,6 +166,7 @@ panel_BC_legend <- custom_label_legend(
     scale_fill_manual(values = short_allele_pal) +
     theme(
         legend.position = "none",
+        plot.margin = margin(0, 10, 0, 20, "mm"),
         plot.title = element_blank(),
         axis.text.y = element_markdown(hjust = 0.5, face = "bold",
                                        size = 6, family = "Arial")
@@ -262,19 +263,10 @@ panel_E[[1]] <- panel_E[[1]] + labs(tag = "e")
 #### ---- Figure assembly ---- ####
 
 {
-    panel_BC_legend_spaced <- (
-        plot_spacer() | panel_BC_legend | plot_spacer()
-    ) +
-        plot_layout(widths = c(1, 5, 1))
-
+    set.seed(0)
 
     panel_BC <- (panel_B_density / panel_B / panel_C_density / panel_C) +
         plot_layout(heights = c(2, 5, 2, 5))
-
-    column_3 <- (
-        panel_E /
-        wrap_elements(full = panel_D_legend)
-    )
 
     # COMPLETE FIGURE
     full_figure <- (
@@ -282,7 +274,7 @@ panel_E[[1]] <- panel_E[[1]] + labs(tag = "e")
             (
                 panel_A /
                 wrap_elements(full = panel_BC) /
-                panel_BC_legend
+                wrap_elements(full = panel_BC_legend)
             ) +
                 plot_layout(heights = c(20, 30, 1))
         ) |
@@ -290,7 +282,8 @@ panel_E[[1]] <- panel_E[[1]] + labs(tag = "e")
             panel_D
         ) |
         (
-            panel_E
+            (panel_E / wrap_elements(full = panel_D_legend)) +
+            plot_layout(heights = c(5, 5, 5, 5, 1))
         )
     ) +
         plot_layout(widths = c(3, 8, 2.5))

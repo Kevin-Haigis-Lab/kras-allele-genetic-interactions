@@ -404,64 +404,64 @@ panel_I <- wrap_elements(plot = panel_I) +
 
 #### ---- Figure assembly ---- ####
 
-{
-    set.seed(0)
+# {
+#     set.seed(0)
 
-    ## COAD ##
+#     ## COAD ##
 
-    panel_BC <- (panel_B_density / panel_B / panel_C_density / panel_C) +
-        plot_layout(heights = c(2, 5, 2, 5))
+#     panel_BC <- (panel_B_density / panel_B / panel_C_density / panel_C) +
+#         plot_layout(heights = c(2, 5, 2, 5))
 
-    column_3 <- (
-        panel_E /
-        wrap_elements(full = panel_D_legend)
-    )
+#     column_3 <- (
+#         panel_E /
+#         wrap_elements(full = panel_D_legend)
+#     )
 
-    # COMPLETE FIGURE
-    coad_figure <- (
-        (
-            panel_A / wrap_elements(full = panel_BC) / panel_BC_legend +
-                plot_layout(heights = c(400, 600, 1))
-        ) |
-        (
-            panel_D
-        ) |
-        (
-            column_3
-        )
-    ) +
-        plot_layout(widths = c(3, 7, 2.1))
-
-
-    ## LUAD ##
-
-    panel_FG <- (panel_F_density / panel_F / panel_G_density / panel_G)
-
-    luad_figure <- (
-        (
-            (panel_FG / panel_FG_legend / panel_I) +
-            plot_layout(heights = c(200, 500, 200, 500, 1, 800))
-        ) |
-        (
-            panel_H
-        ) |
-        (
-            panel_H_legend
-        )
-    ) +
-        plot_layout(widths = c(10, 12, 2.1))
+#     # COMPLETE FIGURE
+#     coad_figure <- (
+#         (
+#             panel_A / wrap_elements(full = panel_BC) / panel_BC_legend +
+#                 plot_layout(heights = c(400, 600, 1))
+#         ) |
+#         (
+#             panel_D
+#         ) |
+#         (
+#             column_3
+#         )
+#     ) +
+#         plot_layout(widths = c(3, 7, 2.1))
 
 
-    ## Full Figure ##
-    full_figure <- wrap_elements(full = coad_figure) /
-        SEPARATING_LINE /
-        wrap_elements(full = luad_figure) +
-        plot_layout(heights = c(30, 1, 30))
-    
+#     ## LUAD ##
 
-    save_figure(
-        full_figure,
-        figure_num = FIGNUM,
-        dim = FIG_DIMENSIONS
-    )
-}
+#     panel_FG <- (panel_F_density / panel_F / panel_G_density / panel_G)
+
+#     luad_figure <- (
+#         (
+#             (panel_FG / panel_FG_legend / panel_I) +
+#             plot_layout(heights = c(200, 500, 200, 500, 1, 800))
+#         ) |
+#         (
+#             panel_H
+#         ) |
+#         (
+#             panel_H_legend
+#         )
+#     ) +
+#         plot_layout(widths = c(10, 12, 2.1))
+
+
+#     ## Full Figure ##
+#     full_figure <- wrap_elements(full = coad_figure) /
+#         SEPARATING_LINE /
+#         wrap_elements(full = luad_figure) +
+#         plot_layout(heights = c(30, 1, 30))
+
+
+#     save_figure(
+#         full_figure,
+#         figure_num = FIGNUM,
+#         dim = FIG_DIMENSIONS
+#     )
+# }

@@ -318,26 +318,26 @@ AAAAAAAA
 ##BBBB##
 "
 
-{
-    set.seed(0)
+# {
+#     set.seed(0)
 
-    panels_BCD <- (panel_B_density / panel_B /
-                   panel_C_density / panel_C /
-                   panel_D_density / panel_D) +
-        plot_layout(heights = c(2, 5, 2, 5, 2, 5))
+#     panels_BCD <- (panel_B_density / panel_B /
+#                    panel_C_density / panel_C /
+#                    panel_D_density / panel_D) +
+#         plot_layout(heights = c(2, 5, 2, 5, 2, 5))
 
-    column1 <- (panel_A / wrap_elements(full = panels_BCD) / panel_BCD_legend) +
-        plot_layout(heights = c(400, 900, 1))
+#     column1 <- (panel_A / wrap_elements(full = panels_BCD) / panel_BCD_legend) +
+#         plot_layout(heights = c(400, 900, 1))
 
-    column2 <- (panel_E + panel_E_legend) + plot_layout(design = col2_layout)
+#     column2 <- (panel_E + panel_E_legend) + plot_layout(design = col2_layout)
 
-    # COMPLETE FIGURE
-    full_figure <- (column1 | column2 | panel_F) +
-        plot_layout(widths = c(1, 3, 1))
+#     # COMPLETE FIGURE
+#     full_figure <- (column1 | column2 | panel_F) +
+#         plot_layout(widths = c(1, 3, 1))
 
-    save_figure(
-        full_figure,
-        figure_num = FIGNUM,
-        dim = FIG_DIMENSIONS
-    )
-}
+#     save_figure(
+#         full_figure,
+#         figure_num = FIGNUM,
+#         dim = FIG_DIMENSIONS
+#     )
+# }

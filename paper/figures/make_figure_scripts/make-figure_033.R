@@ -82,7 +82,7 @@ theme_fig33_densityplots <- function(tag_margin_l = -3) {
     )
 }
 
-x_label <- expression("" %<-% "greater dep. - ranked by gene effect - less dep." %->% "")
+x_label <- expression("" %<-% "greater dep. - ranked by dep. score - less dep." %->% "")
 
 
 panel_B_density <- read_fig_proto(

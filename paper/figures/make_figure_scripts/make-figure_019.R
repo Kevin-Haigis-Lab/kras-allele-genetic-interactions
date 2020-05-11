@@ -65,7 +65,7 @@ panel_A <- read_fig_proto(
         plot.title = element_blank(),
         axis.title.y = element_blank(),
         legend.position = "bottom",
-        legend.text = element_blank(size = 6, family = "Arial"),
+        legend.text = element_blank(),
         panel.grid = element_blank(),
         axis.text.x = element_blank(),
         plot.background = element_rect(fill = NA, color = NA),
