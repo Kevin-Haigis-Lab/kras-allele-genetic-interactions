@@ -37,6 +37,12 @@ replace_na_zero <- function(x) {
 }
 
 
+#' For any numeric columns in a data frame `df`, replace NA's with zero.
+replace_numeric_NAs <- function(df) {
+    mutate_if(df, is.numeric, replace_na_zero)
+}
+
+
 #' Create or reset a directory in 'graphs'
 #'
 #' This is useful to call at the top of an analysis to remove the old graphs
