@@ -4,6 +4,7 @@
 #
 # Also, GM and I discussed the statsitical testing and decided to calculate and
 # R-squared value and use the Chi squared test instead of a binomial.
+#
 
 set.seed(0)
 
@@ -24,6 +25,7 @@ message(glue("The following are artifact signatures: {msg_sigs}"))
 
 
 oncogenic_alleles <- unique(kras_trinucleotide_contexts$kras_allele)
+oncogenic_alleles <- oncogenic_alleles[!oncogenic_alleles %in% c("K117N")]
 message("The following are the oncogenic KRAS alleles:")
 print(oncogenic_alleles)
 
@@ -134,11 +136,50 @@ trinucleotide_mutations_df %>%
 #> |PAAD   |              1192|
 
 
+#### ---- Calculate predicted frequency ---- ####
+
 tricontext_genome_counts <- tricontext_counts_df %>%
     set_names(c("context", "exome", "genome")) %>%
     pivot_longer(-context, names_to = "target", values_to = "genome_count")
 
 
+
+count_tricontext_allele_mutations <- function(tricontext_mut_data,
+                                              allele_df,
+                                              remove_samples = NULL,
+                                              remove_cancers = c("SKCM")) {
+    # Check for global data frames.
+    if (!exists("tricontext_genome_counts")) {
+        print("data frame missing: `tricontext_genome_counts`")
+    }
+    if (!exists("kras_trinucleotide_contexts")) {
+        print("data frame missing: `kras_trinucleotide_contexts`")
+    }
+    if (!exists("real_kras_allele_freq")) {
+        print("data frame missing: `real_kras_allele_freq`")
+    }
+
+    tricontext_mut_data %>%
+        filter(!(cancer %in% !!remove_cancers)) %>%
+        filter(!(tumor_sample_barcode %in% !!remove_samples)) %>%
+        count(cancer, tumor_sample_barcode, target, context, tricontext,
+              name = "tumor_count") %>%
+        left_join(tricontext_genome_counts, by = c("context", "target")) %>%
+        mutate(tumor_count_norm = tumor_count / genome_count) %>%
+        inner_join(kras_trinucleotide_contexts,
+                   by = c("context", "tricontext")) %>%
+        right_join(allele_df, by = c("cancer", "kras_allele")) %>%
+        group_by(cancer, tumor_sample_barcode, target, kras_allele) %>%
+        summarise(allele_prob = sum(tumor_count_norm)) %>%
+        group_by(cancer, tumor_sample_barcode) %>%
+        mutate(allele_prob = allele_prob / sum(allele_prob)) %>%
+        ungroup() %>%
+        left_join(real_kras_allele_freq, by = c("cancer", "kras_allele"))
+
+}
+
+
+# Limiting alleles to only those found in the cancer at a certain frequency.
 MINIMUM_ALLELE_FREQ <- 0.03
 TOP_ALLELES_PER_CANCER <- 5
 alleles_for_each_cancer <- real_kras_allele_freq %>%
@@ -155,24 +196,33 @@ alleles_for_each_cancer %>%
     group_by(cancer) %>%
     summarise(alleles = paste0(kras_allele, collapse = ", "))
 
-kras_allele_predictions <- trinucleotide_mutations_df %>%
-    filter(cancer != "SKCM" & !(tumor_sample_barcode %in% REMOVE_TSB)) %>%
-    count(cancer, tumor_sample_barcode, target, context, tricontext,
-          name = "tumor_count") %>%
-    left_join(tricontext_genome_counts, by = c("context", "target")) %>%
-    mutate(tumor_count_norm = tumor_count / genome_count) %>%
-    inner_join(kras_trinucleotide_contexts,
-               by = c("context", "tricontext")) %>%
-    right_join(alleles_for_each_cancer, by = c("cancer", "kras_allele")) %>%
-    group_by(cancer, tumor_sample_barcode, target, kras_allele) %>%
-    summarise(allele_prob = sum(tumor_count_norm)) %>%
-    group_by(cancer, tumor_sample_barcode) %>%
-    mutate(allele_prob = allele_prob / sum(allele_prob)) %>%
-    ungroup() %>%
-    left_join(real_kras_allele_freq, by = c("cancer", "kras_allele"))
-
-# KRAS allele probabilities per tumor sample.
+kras_allele_predictions <- count_tricontext_allele_mutations(
+    tricontext_mut_data = trinucleotide_mutations_df,
+    allele_df = alleles_for_each_cancer,
+    remove_samples = REMOVE_TSB,
+    remove_cancers = c("SKCM")
+)
 kras_allele_predictions
+
+
+
+# Using all oncogenic alleles found in any of the cancers.
+
+all_observed_alleles <- expand.grid(
+    kras_allele = sort(unique(kras_trinucleotide_contexts$kras_allele)),
+    cancer = sort(unique(alleles_for_each_cancer$cancer)),
+    stringsAsFactors = FALSE
+) %>%
+    filter(!str_detect(kras_allele, "117")) %>%
+    as_tibble()
+
+all_kras_allele_predictions <- count_tricontext_allele_mutations(
+    tricontext_mut_data = trinucleotide_mutations_df,
+    allele_df = all_observed_alleles,
+    remove_samples = REMOVE_TSB,
+    remove_cancers = c("SKCM")
+)
+all_kras_allele_predictions
 
 
 
@@ -213,14 +263,6 @@ calc_expected_frequency_boot <- function(data,
 }
 
 
-# Real values
-cancer_expect_frequencies <- kras_allele_predictions %>%
-    group_by(cancer) %>%
-    nest() %>%
-    mutate(data = map(data, calc_expected_frequency)) %>%
-    unnest(data)
-
-
 # Bootstrapping
 boot_cancer_expect_frequncies <- function(cancer, df, R = 1e3) {
     nested_df <- df %>% group_by(tumor_sample_barcode) %>% nest()
@@ -238,7 +280,7 @@ get_conf_intervals <- function(boot_obj, conf, index) {
     boot::boot.ci(boot_obj,
                   index = index,
                   conf = conf,
-                  type = "basic")$basic[, c(4, 5)]
+                  type = "perc")$perc[, c(4, 5)]
 }
 
 # Extract 95% CI for each index from bootstrap results.
@@ -251,6 +293,7 @@ extract_boot_results <- function(boot_res, conf = 0.95) {
         bind_rows()
 }
 
+## For KRAS alleles found in each cancer as a high frequency.
 
 # Results from bootstrapping the samples used for the calculation of the
 # predicted KRAS alleles.
@@ -267,7 +310,15 @@ cache("kras_allele_predictions_boot_results",
                             R = 1e3),
             boot_ci = map(boot_res, extract_boot_results)
         )
+    return(kras_allele_predictions_boot_results)
 })
+
+# Real values
+cancer_expect_frequencies <- kras_allele_predictions %>%
+    group_by(cancer) %>%
+    nest() %>%
+    mutate(data = map(data, calc_expected_frequency)) %>%
+    unnest(data)
 
 cancer_expect_frequencies <- kras_allele_predictions_boot_results %>%
     select(cancer, boot_ci) %>%
@@ -275,10 +326,44 @@ cancer_expect_frequencies <- kras_allele_predictions_boot_results %>%
     right_join(cancer_expect_frequencies, by = c("cancer", "kras_allele"))
 
 knitr::kable(cancer_expect_frequencies, digits = 3)
+save_supp_data(cancer_expect_frequencies, 6, "pred vs obs KRAS alleles")
 
-save_supp_data(cancer_expect_frequencies,
-               6,
-               "pred vs obs KRAS allele freq")
+
+
+## For all KRAS alleles for in any cancer.
+
+# Results from bootstrapping the samples used for the calculation of the
+# predicted KRAS alleles.
+cache("all_kras_allele_predictions_boot_results",
+      depends = c("all_kras_allele_predictions"),
+{
+    set.seed(0)
+
+    all_kras_allele_predictions_boot_results <- all_kras_allele_predictions %>%
+        group_by(cancer) %>%
+        nest() %>%
+        mutate(
+            boot_res = map2(cancer, data, boot_cancer_expect_frequncies,
+                            R = 1e3),
+            boot_ci = map(boot_res, extract_boot_results)
+        )
+    return(all_kras_allele_predictions_boot_results)
+})
+
+
+all_expect_frequencies <- all_kras_allele_predictions %>%
+    group_by(cancer) %>%
+    nest() %>%
+    mutate(data = map(data, calc_expected_frequency)) %>%
+    unnest(data)
+
+all_expect_frequencies <- all_kras_allele_predictions_boot_results %>%
+    select(cancer, boot_ci) %>%
+    unnest(boot_ci) %>%
+    right_join(all_expect_frequencies, by = c("cancer", "kras_allele"))
+knitr::kable(all_expect_frequencies, digits = 3)
+save_supp_data(all_expect_frequencies, 7, "pred vs obs all KRAS alleles")
+
 
 
 
@@ -292,7 +377,17 @@ calc_obs_pred_rsquared <- function(x, y) {
 }
 
 
-obs_pred_rsquareds <- cancer_expect_frequencies %>%
+calc_obs_pred_correlation <- function(x, y) {
+    res <- cor.test(x, y) %>%
+        broom::tidy() %>%
+        janitor::clean_names() %>%
+        select(estimate, p_value, conf_low, conf_high, method)
+    colnames(res) <- paste0("cor_", colnames(res))
+    return(res)
+}
+
+
+cancer_rsquareds <- cancer_expect_frequencies %>%
     group_by(cancer) %>%
     summarise(model_fit = list(
         calc_obs_pred_rsquared(observed_allele_frequency,
@@ -302,6 +397,32 @@ obs_pred_rsquareds <- cancer_expect_frequencies %>%
     ungroup() %>%
     select(cancer, r_squared, adj_r_squared, p_value) %>%
     rename(model_p_value = p_value)
+cancer_correlations <- cancer_expect_frequencies %>%
+    group_by(cancer) %>%
+    summarise(model_fit = list(
+        calc_obs_pred_correlation(observed_allele_frequency,
+                                  expected_allele_frequency)
+    )) %>%
+    unnest(model_fit)
+
+
+all_rsquareds <- all_expect_frequencies %>%
+    group_by(cancer) %>%
+    summarise(model_fit = list(
+        calc_obs_pred_rsquared(observed_allele_frequency,
+                               expected_allele_frequency)
+    )) %>%
+    unnest(model_fit) %>%
+    ungroup() %>%
+    select(cancer, r_squared, adj_r_squared, p_value) %>%
+    rename(model_p_value = p_value)
+all_correlations <- all_expect_frequencies %>%
+    group_by(cancer) %>%
+    summarise(model_fit = list(
+        calc_obs_pred_correlation(observed_allele_frequency,
+                                  expected_allele_frequency)
+    )) %>%
+    unnest(model_fit)
 
 
 #### ---- Statistics: Chi-Squared ---- ####
@@ -321,28 +442,38 @@ allele_pred_obs_chisquared <- function(num_mut, num_tot, pred_freq) {
 }
 
 
-obs_pred_chisquared_res <- cancer_full_coding_muts_df %>%
-    mutate(kras_allele = str_remove(ras_allele, "KRAS_")) %>%
-    right_join(alleles_for_each_cancer, by = c("cancer", "kras_allele")) %>%
-    group_by(cancer, kras_allele) %>%
-    summarise(num_allele_samples = n_distinct(tumor_sample_barcode)) %>%
-    group_by(cancer) %>%
-    mutate(num_cancer_samples = sum(num_allele_samples)) %>%
-    ungroup() %>%
-    left_join(cancer_expect_frequencies, by = c("cancer", "kras_allele")) %>%
-    filter(!is.na(expected_allele_frequency)) %>%
-    group_by(cancer, kras_allele) %>%
-    mutate(
-        chi_squared_test = list(
-            allele_pred_obs_chisquared(num_allele_samples,
-                                       num_cancer_samples,
-                                       expected_allele_frequency)
-        )
-    ) %>%
-    ungroup() %>%
-    select(cancer, kras_allele, chi_squared_test) %>%
-    unnest(chi_squared_test)
+calc_chisquared_test <- function(allele_df, expected_freq_df) {
+    # Check for global data frames.
+    if (!exists("cancer_full_coding_muts_df")) {
+        print("data frame missing: `cancer_full_coding_muts_df`")
+    }
 
+    cancer_full_coding_muts_df %>%
+        mutate(kras_allele = str_remove(ras_allele, "KRAS_")) %>%
+        right_join(allele_df, by = c("cancer", "kras_allele")) %>%
+        group_by(cancer, kras_allele) %>%
+        summarise(num_allele_samples = n_distinct(tumor_sample_barcode)) %>%
+        group_by(cancer) %>%
+        mutate(num_cancer_samples = sum(num_allele_samples)) %>%
+        ungroup() %>%
+        right_join(expected_freq_df, by = c("cancer", "kras_allele")) %>%
+        group_by(cancer, kras_allele) %>%
+        mutate(
+            chi_squared_test = list(
+                allele_pred_obs_chisquared(num_allele_samples,
+                                           num_cancer_samples,
+                                           expected_allele_frequency)
+            )
+        ) %>%
+        ungroup() %>%
+        select(cancer, kras_allele, chi_squared_test) %>%
+        unnest(chi_squared_test)
+}
+
+cancer_chisquared_res <- calc_chisquared_test(
+    allele_df = alleles_for_each_cancer,
+    expected_freq_df = cancer_expect_frequencies
+)
 obs_pred_chisquared_res %>%
     filter(p_value > 0.05) %>%
     select(cancer, kras_allele, p_value) %>%
@@ -360,6 +491,31 @@ obs_pred_chisquared_res %>%
 #> |MM     |Q61R        |   0.519|
 
 
+all_chisquared_res <- calc_chisquared_test(
+    allele_df = all_observed_alleles,
+    expected_freq_df = all_expect_frequencies
+)
+all_chisquared_res %>%
+    filter(p_value > 0.05) %>%
+    select(cancer, kras_allele, p_value) %>%
+    knitr::kable(digits = 3)
+#> |cancer |kras_allele | p_value|
+#> |:------|:-----------|-------:|
+#> |COAD   |G12C        |   0.118|
+#> |COAD   |G12R        |   0.147|
+#> |COAD   |G13D        |   0.536|
+#> |COAD   |Q61L        |   0.436|
+#> |MM     |G12A        |   0.555|
+#> |MM     |G12C        |   0.867|
+#> |MM     |G12D        |   0.572|
+#> |MM     |G12R        |   0.126|
+#> |MM     |G12V        |   0.607|
+#> |MM     |G13D        |   0.761|
+#> |MM     |Q61L        |   0.396|
+#> |MM     |Q61R        |   0.929|
+
+
+
 #### ---- Plot: Distribution of probabilities ---- ####
 
 return_one_followed_by_NA <- function(x) {
@@ -367,7 +523,7 @@ return_one_followed_by_NA <- function(x) {
 }
 
 
-per_sample_allele_probability_plot <- kras_allele_predictions %>%
+per_sample_allele_probability_plot <- all_kras_allele_predictions %>%
     group_by(cancer, kras_allele) %>%
     mutate(real_allele_freq = return_one_followed_by_NA(real_allele_freq)) %>%
     ungroup() %>%
@@ -376,7 +532,9 @@ per_sample_allele_probability_plot <- kras_allele_predictions %>%
     geom_density(aes(color = kras_allele), fill = NA) +
     geom_vline(aes(xintercept = real_allele_freq, color = kras_allele),
                lty = 2, alpha = 0.6) +
-    scale_x_continuous(expand = c(0, 0), breaks = seq(0, 1, length.out = 5)) +
+    scale_x_continuous(expand = c(0, 0),
+                       breaks = seq(0.25, 0.75, length.out = 3),
+                       labels = scales::percent_format()) +
     scale_y_continuous(expand = expansion(mult = c(0, 0.03))) +
     scale_color_manual(values = short_allele_pal) +
     theme_bw(base_size = 7, base_family = "arial") +
@@ -472,13 +630,11 @@ plot_kras_allele_predictions <- function(cancer, data,
              color = "codon",
              title = cancer)
 
-    if (is.null(mod_data$r_squared)) { return(p) }
+    if (is.null(mod_data$cor_estimate)) { return(p) }
 
-    r_sq <- round(mod_data$r_squared[[1]], 3)
-    r_sq <- str_pad(r_sq, width = 5, side = "right", pad = "0")
-    mdl_p_val <- round(mod_data$model_p_value[[1]], 2)
-    mdl_p_val <- str_pad(mdl_p_val, width = 4, side = "right", pad = "0")
-    subtitle <- glue("R<sup>2</sup> = {r_sq}; p-val = {mdl_p_val}")
+    cor_coef <- round(mod_data$cor_estimate[[1]], 3)
+    cor_coef <- str_pad(cor_coef, width = 5, side = "right", pad = "0")
+    subtitle <- glue("Pearson correlation: {cor_coef}")
 
     p <- p +
         labs(subtitle = subtitle)
@@ -502,9 +658,10 @@ save_kras_allele_predictions <- function(cancer, plt, gl_template,
 }
 
 
-predicted_allele_frequency_scatter <- cancer_expect_frequencies %>%
-    left_join(obs_pred_chisquared_res, by = c("cancer", "kras_allele")) %>%
-    left_join(obs_pred_rsquareds, by = c("cancer")) %>%
+cancer_expect_frequencies %>%
+    left_join(cancer_chisquared_res, by = c("cancer", "kras_allele")) %>%
+    left_join(cancer_rsquareds, by = c("cancer")) %>%
+    left_join(cancer_correlations, by = c("cancer")) %>%
     group_by(cancer) %>%
     nest() %>%
     ungroup() %>%
@@ -514,59 +671,34 @@ predicted_allele_frequency_scatter <- cancer_expect_frequencies %>%
                    gl_template = "{cancer}_predict-allele-freq_scatter.svg")
     )
 
-
-
-#### ---- Repeat the calculate but using all possible KRAS alleles ---- ####
-
-
-# All detect KRAS alleles.
-all_observed_alleles <- expand.grid(
-    kras_allele = sort(unique(kras_trinucleotide_contexts$kras_allele)),
-    cancer = sort(unique(alleles_for_each_cancer$cancer))
-) %>%
-    filter(!str_detect(kras_allele, "117")) %>%
-    as_tibble()
-
-all_kras_allele_predictions <- trinucleotide_mutations_df %>%
-    filter(cancer != "SKCM" & !(tumor_sample_barcode %in% REMOVE_TSB)) %>%
-    count(cancer, tumor_sample_barcode, target, context, tricontext,
-          name = "tumor_count") %>%
-    left_join(tricontext_genome_counts, by = c("context", "target")) %>%
-    mutate(tumor_count_norm = tumor_count / genome_count) %>%
-    inner_join(kras_trinucleotide_contexts,
-               by = c("context", "tricontext")) %>%
-    right_join(all_observed_alleles, by = c("cancer", "kras_allele")) %>%
-    group_by(cancer, tumor_sample_barcode, target, kras_allele) %>%
-    summarise(allele_prob = sum(tumor_count_norm)) %>%
-    group_by(cancer, tumor_sample_barcode) %>%
-    mutate(allele_prob = allele_prob / sum(allele_prob)) %>%
-    ungroup() %>%
-    left_join(real_kras_allele_freq, by = c("cancer", "kras_allele"))
-
-
-add_dummy_ci <- function(df) {
-    df$lower_ci <- df$expected_allele_frequency
-    df$upper_ci <- df$expected_allele_frequency
-    df$p_value <- df$expected_allele_frequency
-    return(df)
-}
-
-
-all_kras_allele_predictions %>%
+all_expect_frequencies %>%
+    left_join(all_chisquared_res, by = c("cancer", "kras_allele")) %>%
+    left_join(all_rsquareds, by = c("cancer")) %>%
+    left_join(all_correlations, by = c("cancer")) %>%
     group_by(cancer) %>%
     nest() %>%
     ungroup() %>%
     mutate(
-        data = map(data, calc_expected_frequency),
-        data = map(data, add_dummy_ci),
         plt = map2(cancer, data, plot_kras_allele_predictions),
         plt = map2(cancer, plt, save_kras_allele_predictions,
-                   gl_template = "{cancer}_predict-ALL-allele-freq_scatter.svg",
-                   save_rds = FALSE)
-    ) %>%
-    pull(plt) %>%
-    wrap_plots(nrow = 2) %>%
-    ggsave_wrapper(
-        plot_path(GRAPHS_DIR, "ALL_predict-ALL-allele-freq_scatter.svg"),
-        "large"
+                   gl_template = "{cancer}_predict-ALL-allele-freq_scatter.svg")
     )
+
+
+#### ---- Correlation coefficients of G12 mutations ---- ####
+
+cancer_expect_frequencies %>%
+    filter(str_detect(kras_allele, "G12")) %>%
+    group_by(cancer) %>%
+    summarise(model_fit = list(
+        calc_obs_pred_correlation(observed_allele_frequency,
+                                  expected_allele_frequency)
+    )) %>%
+    unnest(model_fit) %>%
+    knitr::kable(digits = 3)
+#> |cancer | cor_estimate| cor_p_value| cor_conf_low| cor_conf_high|cor_method                           |
+#> |:------|------------:|-----------:|------------:|-------------:|:------------------------------------|
+#> |COAD   |        0.822|       0.088|       -0.221|         0.988|Pearson's product-moment correlation |
+#> |LUAD   |        0.828|       0.172|       -0.651|         0.996|Pearson's product-moment correlation |
+#> |MM     |        0.367|       0.544|       -0.762|         0.944|Pearson's product-moment correlation |
+#> |PAAD   |        0.839|       0.161|       -0.630|         0.997|Pearson's product-moment correlation |
