@@ -101,7 +101,8 @@ string_length_dictionary <- tibble::tribble(
     "30", 0.2777778,
     "N3V2", 0.5555556,
     "UV", 0.2777778,
-    "MSI", 0.416666
+    "MSI", 0.416666,
+    "N", 0.1388889
 )
 
 

@@ -128,7 +128,9 @@ panel_D <- read_fig_proto("probability-mutsig-caused-allele_barplot-list") %>%
 
 
 pull_signatures_from_panel_D <- function(x) {
-    unique(ggplot_build(x)$plot$data$description)
+    ggplot_build(x)$plot$data %>%
+        filter(prob_sum > 0) %>%
+        u_pull(description)
 }
 
 signatures <- map(panel_D, pull_signatures_from_panel_D) %>%
@@ -136,6 +138,8 @@ signatures <- map(panel_D, pull_signatures_from_panel_D) %>%
     unique() %>%
     sort() %>%
     as.character()
+
+
 
 panel_D_legend <- custom_label_legend(
         signatures,
@@ -150,7 +154,7 @@ panel_D_legend <- custom_label_legend(
     theme(
         legend.position = "none",
         plot.margin = margin(-10, 0, -10, 0, "mm"),
-        axis.text.y = element_text(size = 6, face = "bold")
+        axis.text.y = element_text(size = 6, face = "bold", family = "Arial")
     )
 
 panel_D <- wrap_plots(panel_D, nrow = 1, widths = mutsig_barplot_widths)
@@ -166,7 +170,7 @@ panel_D <- wrap_plots(panel_D, nrow = 1, widths = mutsig_barplot_widths)
         plot_layout(widths = c(10, 3))
 
     panel_D_legend_sp <- (plot_spacer() | panel_D_legend | plot_spacer()) +
-        plot_layout(widths = c(1, 6, 1))
+        plot_layout(widths = c(1, 2, 1))
 
     row_2 <- (panel_C / panel_D / panel_D_legend_sp) +
         plot_layout(heights = c(6, 6, 1))

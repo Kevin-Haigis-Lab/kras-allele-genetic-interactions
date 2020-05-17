@@ -31,7 +31,7 @@ signature_description_df <- tibble::tribble(
           "55",    "artifact",
          "AR1",    "artifact",
          "AR2",    "artifact",
-        "N3V2",    "N3V2"
+        "N3V2",    "N"
 )
 
 
@@ -93,7 +93,7 @@ mutsig_descrpt_pal <- c(
     "18" = "#00689F",
     "26" = "#EFA61C",
     "30" = "#E2B798",
-    "N3V2" = "#9A9C59",
+    "N" = "#9A9C59",
     "UV" = "#887BC2",
     "MSI" = "#C3768A",
     "artifact" = "gray50"

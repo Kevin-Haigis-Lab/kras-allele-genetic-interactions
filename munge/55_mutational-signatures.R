@@ -1,11 +1,13 @@
 # Parse the mutational signatures results from GM.
 
 
-ProjectTemplate::cache("mutational_signatures_df",
+cache("mutational_signatures_df",
+      depends = c("signature_description_df"),
 {
     # KRAS and tumor sample information.
     kras_muts <- cancer_muts_df %>%
-        select(tumor_sample_barcode, dataset, target, cancer, is_hypermutant, ras_allele) %>%
+        select(tumor_sample_barcode, dataset, target, cancer,
+               is_hypermutant, ras_allele) %>%
         group_by(tumor_sample_barcode) %>%
         slice(1) %>%
         ungroup() %>%
@@ -47,8 +49,8 @@ ProjectTemplate::cache("mutational_signatures_df",
 })
 
 
-ProjectTemplate::cache("mutsig_noartifact_df",
-                       depends = "mutational_signatures_df",
+cache("mutsig_noartifact_df",
+      depends = "mutational_signatures_df",
 {
     mutsig_noartifact_df <- mutational_signatures_df %>%
         filter(description != "artifact") %>%
@@ -66,7 +68,7 @@ ProjectTemplate::cache("mutsig_noartifact_df",
 
 
 
-ProjectTemplate::cache("mutational_signature_spectra",
+cache("mutational_signature_spectra",
 {
     mutational_signature_spectra <- file.path(
             "data", "mutational-signatures", "cosmic_signatures_extended.csv"
