@@ -282,8 +282,9 @@ long_cancer_palette <- cancer_palette
 names(long_cancer_palette) <- cancer_to_longname$long_cancer
 
 
-allele_dist_dotplot <- allele_dist %>%
-    filter(!(ras_allele %in% c("WT", "Other")) &
+allele_dist_dotplot <- allele_dist_all %>%
+    filter(allele_freq > 0.001 & num_allele_samples >= 5) %>%
+    filter(!(ras_allele %in% c("WT", "Other", "K117N")) &
            ras_allele %in% names(short_allele_pal)) %>%
     group_by(cancer) %>%
     mutate(allele_freq = num_allele_samples / sum(num_allele_samples),
@@ -294,13 +295,14 @@ allele_dist_dotplot <- allele_dist %>%
     ggplot(aes(x = ras_allele, y = long_cancer)) +
     facet_grid(. ~ codon, scales = "free_x", space = "free") +
     geom_point(aes(size = allele_freq, color = long_cancer)) +
+    scale_size_area() +
     scale_color_manual(values = long_cancer_palette, guide = NULL) +
     theme_bw(base_size = 7, base_family = "Arial") +
     theme(
         axis.ticks = element_blank(),
         axis.title.x = element_markdown(),
         axis.title.y = element_blank(),
-        legend.position = "none",
+        legend.position = "left",
         strip.background = element_blank(),
         strip.text = element_text(face = "bold")
     ) +
