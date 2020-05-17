@@ -206,7 +206,7 @@ panel_D_legend <- ggplot_build(panel_D_legend1)$plot$data %>%
     scale_fill_identity(guide = FALSE) +
     scale_x_discrete(expand = c(0, 0)) +
     scale_y_discrete(expand = c(0, 0)) +
-    theme_fig34() +
+    theme_fig29() +
     theme(
         axis.title = element_blank(),
         axis.ticks = element_blank(),
