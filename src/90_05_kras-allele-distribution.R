@@ -631,6 +631,15 @@ alleles_df %>%
     calc_frequency_of_codons_by_cancer() %>%
     write_tsv(table_path(GRAPHS_DIR, "kras-codon-distribution-all-noWT.tsv"))
 
+# The frequency of codon with all cancers combined without WT and K117.
+alleles_df %>%
+    filter(!str_detect(kras_allele, "117|WT")) %>%
+    mutate(cancer = "ALL") %>%
+    calc_frequency_of_codons_by_cancer() %>%
+    write_tsv(
+        table_path(GRAPHS_DIR, "kras-codon-distribution-all-noWTK117.tsv")
+    )
+
 
 
 #### ---- Accounting for cancer prevelance ---- ####
