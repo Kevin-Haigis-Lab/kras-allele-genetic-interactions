@@ -4,28 +4,111 @@
 GRAPHS_DIR <- "40_60_synlet-explained-by-comuts"
 reset_graph_directory(GRAPHS_DIR)
 
-
+glmnet_cache <- memoise::cache_filesystem(".memoise_cache")
 
 #### ---- Data preparation subroutines ---- ####
+
+# A blacklist of genes to not include as comutation covariates.
+# BRAF is included because oncogenic BRAF mutants were already removed.
+model_comut_gene_blacklist <- c(
+    "BRAF",
+    "MUC[:digit:]+",
+    "TTN", "NEB", "OBSCN",
+    "COL[:digit:]+[:alpha:]+[:digit:]+"
+)
+
+
+# Returns a logical vector for whether each gene in `genes` is in the
+# blacklist or not.
+check_blacklisted_genes <- function(genes) {
+    check_bl <- function(g) {
+        any(map_lgl(model_comut_gene_blacklist, ~ str_detect(g, .x)))
+    }
+    map_lgl(genes, check_bl)
+}
+
 
 # Get the genes that comutate with an allele in a cancer.
 get_comutating_genes <- function(cancer, allele) {
     genetic_interaction_df %>%
         filter(cancer == !!cancer & allele == !!allele) %>%
-        pull(hugo_symbol) %>%
-        unlist() %>%
-        unique()
+        select(cancer, allele, hugo_symbol, genetic_interaction) %>%
+        mutate(
+            genetic_interaction = switch_comut_terms(genetic_interaction),
+            is_blacklisted = check_blacklisted_genes(hugo_symbol)
+        ) %>%
+        filter(!is_blacklisted)
+}
+get_comutating_genes <- memoise::memoise(get_comutating_genes)
+
+
+# Matrix of comutation interactions per DepMap ID. The KRAS allele is also
+# indicated.
+make_comutation_matrix_plot <- function(cells_df, comut_df, cancer, allele) {
+    pname <- plot_path(GRAPHS_DIR, glue("comut-matrix_{cancer}_{allele}.svg"))
+    if (file.exists(pname)) { return(NULL) }
+
+    plotting_data <- cells_df %>%
+        left_join(distinct(comut_df, hugo_symbol, genetic_interaction),
+                  by = "hugo_symbol") %>%
+        left_join(distinct(ccle_kras_muts, dep_map_id, allele),
+                  by = "dep_map_id") %>%
+        mutate(allele = ifelse(is.na(allele), "WT", allele)) %>%
+        arrange(allele) %>%
+        mutate(dep_map_id = fct_inorder(dep_map_id))
+
+    matrix_plot <- plotting_data %>%
+        ggplot(aes(x = hugo_symbol, y = dep_map_id)) +
+        geom_tile(aes(fill = genetic_interaction), color = "grey75") +
+        scale_fill_manual(values = comut_updown_pal,
+                          drop = FALSE,
+                          na.value = "grey95") +
+        theme_bw(base_size = 7, base_family = "Arial") +
+        theme(
+            axis.title = element_blank(),
+            axis.text.x = element_text(angle = 60, hjust = 1),
+            legend.key.size = unit(3, "mm"),
+            legend.position = "top",
+            axis.ticks = element_blank()
+        ) +
+        labs(title = glue("Comutation matrix for KRAS {allele} in {cancer}"))
+
+    kras_allele_plot <- plotting_data %>%
+        ggplot(aes(y = dep_map_id, x = "allele")) +
+        geom_tile(aes(fill = allele), color = "grey75") +
+        scale_fill_manual(values = short_allele_pal) +
+        scale_x_discrete(expand = c(0, 0)) +
+        scale_y_discrete(expand = c(0, 0)) +
+        theme_bw(base_size = 7, base_family = "Arial") +
+        theme(
+            axis.title = element_blank(),
+            axis.text.y = element_blank(),
+            legend.position = "right",
+            legend.key.size = unit(3, "mm"),
+            axis.ticks = element_blank(),
+            panel.grid = element_blank()
+        )
+
+    patch <- (matrix_plot | kras_allele_plot) +
+        plot_layout(widths = c(15, 1))
+    ggsave_wrapper(patch, pname, "large")
+
+    return(NULL)
 }
 
 
 # Get a wide data framge of comutations in the cell lines. (memoised)
 get_comutation_dataframe <- function(cancer, allele, cell_lines, min_muts = 0) {
     comut_genes <- get_comutating_genes(cancer, allele)
-    ccle_mutations_dmg %>%
+    df <- ccle_mutations_dmg %>%
         filter(dep_map_id %in% !!cell_lines) %>%
-        filter(hugo_symbol %in% !!comut_genes) %>%
+        filter(hugo_symbol %in% !!comut_genes$hugo_symbol) %>%
         distinct(dep_map_id, hugo_symbol) %>%
-        add_column(is_mut = 1) %>%
+        add_column(is_mut = 1)
+
+    make_comutation_matrix_plot(df, comut_genes, cancer, allele)
+
+    df %>%
         add_count(hugo_symbol) %>%
         filter(n >= min_muts) %>%
         select(-n) %>%
@@ -46,6 +129,20 @@ remove_covariates_identical_to_allele <- function(mm) {
     same_as_allele <- apply(mm, 2, function(x) all(x == allele_vals))
     same_as_allele[1] <- FALSE
     return(mm[, !same_as_allele])
+}
+
+
+# Remove the interaction terms between the KRAS allele and gene that has
+# a reduced comutation interaction.
+interaction_terms_only_for_increased_comuts <- function(mm, cancer, allele) {
+    reduced_comuts <- get_comutating_genes(cancer, allele) %>%
+        filter(genetic_interaction == "reduced") %>%
+        pull(hugo_symbol)
+    interactions_with_reduced_comuts <- map_lgl(colnames(mm), function(x) {
+        any(str_detect(x, reduced_comuts)) & str_detect(x, "\\:")
+    })
+
+    return(mm[, !interactions_with_reduced_comuts])
 }
 
 
@@ -83,9 +180,10 @@ merge_identical_comutation_covariates <- function(mm) {
 
 
 # Make the model matrix for the comutation covariates.
-comutation_model_matrix <- function(df) {
+comutation_model_matrix <- function(df, cancer, allele) {
     mm <- model.matrix( ~ -1 + kras_allele * ., data = df) %>%
         remove_covariates_identical_to_allele() %>%
+        interaction_terms_only_for_increased_comuts(cancer, allele) %>%
         merge_identical_comutation_covariates()
 }
 
@@ -120,7 +218,7 @@ get_best_glmnet_result <- function(caret_fit) {
 # grid is restricted to favor LASSO over Ridge. (memoized)
 tune_and_fit_glmnet_elastic <- function(mm) {
     tune_grid <- expand.grid(alpha = seq(0.75, 1, 0.05),
-                             lambda = seq(0.0001, 0.5, length = 20))
+                             lambda = seq(0.001, 0.5, length = 20))
 
     message("Tuning elastic net...")
     # Tune the elastic net using 'caret'.
@@ -148,7 +246,8 @@ tune_and_fit_glmnet_elastic <- function(mm) {
         elastic_model = fit
     ))
 }
-tune_and_fit_glmnet_elastic <- memoise::memoise(tune_and_fit_glmnet_elastic)
+tune_and_fit_glmnet_elastic <- memoise::memoise(tune_and_fit_glmnet_elastic,
+                                                cache = glmnet_cache)
 
 
 # Model the dependency score using the standard covariates and vairbales for
@@ -169,7 +268,11 @@ synlet_with_comutations <- function(cancer, allele, hugo_symbol, data,
     mm1 <- core_model_matrix(model_data)
     mm2 <- model_data %>%
         select(-c(gene_effect, rna_expression_std, is_mutated)) %>%
-        comutation_model_matrix()
+        comutation_model_matrix(cancer = cancer, allele = allele)
+
+    too_little_var <- apply(mm2, 2, function(x) { any(table(x) < 3) })
+    mm2 <- mm2[, !too_little_var]
+
     mm <- cbind(mm1, mm2)
 
     too_many_zeros <- apply(mm, 2, function(x) { sum(x != 0) < 3 })
@@ -187,6 +290,7 @@ synlet_with_comutations <- function(cancer, allele, hugo_symbol, data,
         allele = allele
     ))
 }
+
 
 
 #### ---- Diagnositc and model plotting ---- ####
@@ -298,7 +402,9 @@ comut_term_boxplots <- function(fit_results) {
 
 
 # Plot the results of model 1.
-synlet_with_comutations_plots <- function(hugo_symbol, fit_results) {
+synlet_with_comutations_plots <- function(name, fit_results) {
+
+    message(glue("Plotting results for '{name}'"))
 
     r3 <- function(x) { round(x, 3) }
     fit_diagnotics <- fit_results$result_diagnostics
@@ -318,6 +424,7 @@ synlet_with_comutations_plots <- function(hugo_symbol, fit_results) {
     p_coefs <- coef_plot(fit_results$elastic_model) +
         labs(title = NULL)
 
+    hugo_symbol <- str_split_fixed(name, "_", 3)[[3]]
     p_rna_gene_eff <- rna_plot(hugo_symbol, fit_results)
 
     # Box-plots of comutating genes
@@ -327,11 +434,12 @@ synlet_with_comutations_plots <- function(hugo_symbol, fit_results) {
 
     patch <- (p_coefs | p_rna_gene_eff ) / comut_terms_plots +
         plot_layout(heights = c(2, facet_nrow)) +
-        plot_annotation(title = hugo_symbol, caption = model_caption) &
+        plot_annotation(title = str_replace_all(name, "_", " - "),
+                        caption = model_caption) &
         theme_bw(base_size = 8, base_family = "Arial")
 
     ggsave_wrapper(patch,
-                   plot_path(GRAPHS_DIR, glue("synlet-comut_{hugo_symbol}.svg")),
+                   plot_path(GRAPHS_DIR, glue("synlet-comut_{name}.svg")),
                    "large")
 
     return(patch)
@@ -354,6 +462,7 @@ cache("synlet_comut_model_res",
         filter(adj_p_value < 0.05 & allele != "WT") %>%
         select(cancer, allele, hugo_symbol, data) %>%
         mutate(fit = pmap(., synlet_with_comutations),
-               plt = map2(hugo_symbol, fit, synlet_with_comutations_plots))
+               name = paste(cancer, allele, hugo_symbol, sep = "_"),
+               plt = map2(name, fit, synlet_with_comutations_plots))
     return(synlet_comut_model_res)
 })
