@@ -562,7 +562,8 @@ ggsave_wrapper(
 #### ---- Plot: Predicted vs. Observed ---- ####
 
 plot_kras_allele_predictions <- function(cancer, data,
-                                         p_val_cut = 0.05) {
+                                         p_val_cut = 0.05,
+                                         zero_axis_lines = FALSE) {
 
     pval_labels <- c(glue("p < {p_val_cut}"),
                      glue("p ≥ {p_val_cut}"))
@@ -586,13 +587,19 @@ plot_kras_allele_predictions <- function(cancer, data,
 
     p <- mod_data %>%
         ggplot(aes(x = expected_allele_frequency,
-                   y = observed_allele_frequency)) +
+                   y = observed_allele_frequency))
+
+    if (zero_axis_lines) {
+        p <- p +
+            geom_vline(xintercept = 0, size = 0.2, color = "grey50") +
+            geom_hline(yintercept = 0, size = 0.2, color = "grey50")
+    }
+
+    p <- p +
         geom_abline(lty = 2, size = 0.6, color = "grey60") +
         geom_linerange(aes(xmin = lower_ci, xmax = upper_ci),
                        color = "grey35",
                        size = 0.6) +
-        geom_point(aes(shape = is_significant, color = codon),
-                   size = 1.3) +
         ggrepel::geom_text_repel(aes(label = kras_allele),
                                  size = 2.2,
                                  family = "Arial",
@@ -603,6 +610,8 @@ plot_kras_allele_predictions <- function(cancer, data,
                                  segment.color = "grey30",
                                  segment.size = 0.3,
                                  min.segment.length = unit(5, "mm")) +
+        geom_point(aes(shape = is_significant, color = codon),
+                   size = 1.3) +
         scale_color_manual(values = codon_pal,
                            drop = FALSE,
                            guide = guide_legend(order = 10)) +
@@ -679,7 +688,8 @@ all_expect_frequencies %>%
     nest() %>%
     ungroup() %>%
     mutate(
-        plt = map2(cancer, data, plot_kras_allele_predictions),
+        plt = map2(cancer, data, plot_kras_allele_predictions,
+                   zero_axis_lines = TRUE),
         plt = map2(cancer, plt, save_kras_allele_predictions,
                    gl_template = "{cancer}_predict-ALL-allele-freq_scatter.svg")
     )
