@@ -422,7 +422,10 @@ depmap_gene_clusters %>%
     summarise(num_genes = n_distinct(hugo_symbol)) %>%
     ungroup() %>%
     knitr::kable()
-
+#> |cancer | num_genes|
+#> |:------|---------:|
+#> |COAD   |        62|
+#> |PAAD   |       130|
 
 #### ---- Supp. Data: heatmaps as numeric matrices ---- ####
 
