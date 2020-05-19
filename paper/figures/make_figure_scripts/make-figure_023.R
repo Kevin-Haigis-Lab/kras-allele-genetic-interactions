@@ -46,8 +46,7 @@ panel_A <- read_fig_proto("genetic_interaction_network_LUAD") +
         legend.title = element_text(size = 6, face = "bold"),
         legend.text = element_text(size = 6)
     ) +
-    labs(tag = "a",
-         title = "LUAD")
+    labs(tag = "a")
 
 
 
@@ -68,8 +67,7 @@ panel_B <- read_fig_proto(
     ) +
     labs(
         tag = "b",
-        edge_width = "-*log*(p-value)",
-        title = "LUAD"
+        edge_width = "-*log*(p-value)"
     )
 
 

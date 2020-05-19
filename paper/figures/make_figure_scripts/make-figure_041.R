@@ -61,8 +61,7 @@ panel_A_2 <- read_fig_proto("allele_freq_barplot_TRUNCATED") +
         plot.margin = margin(6, 0, -0.5, 1, "mm")
     ) +
     labs(tag = "f",
-         y = "num. tumor<br>samples<br>(*log*<sub>10</sub>)",
-         title = "MM")
+         y = "num. tumor<br>samples<br>(*log*<sub>10</sub>)")
 panel_A_3 <- read_fig_proto("gene_freq_barplot_TRUNCATED") +
     scale_y_continuous(
         breaks = c(25, 100, 200),

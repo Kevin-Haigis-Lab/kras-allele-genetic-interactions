@@ -275,15 +275,18 @@ panel_D_leg <- custom_label_legend_plot(panel_D_leg_df,
 panel_F <- read_fig_proto("comparison-heatmap_PAAD-1.rds")
 
 panel_F[[1]] <- panel_F[[1]] +
-    theme_fig22() %+replace%
+    theme_fig22(tag_margin = margin(-3.7, -1, -1, -1, "mm")) %+replace%
     theme(
+        plot.title = element_text(size = 7, hjust = 0,
+                                  vjust = 5, face = "bold"),
         plot.margin = margin(2, 0, 0, 0, "mm"),
         axis.title = element_blank(),
         axis.text.x = element_blank(),
         axis.text.y = element_text(size = 7, hjust = 1.0),
         legend.position = "none"
     ) +
-    labs(tag = "f")
+    labs(tag = "f",
+         title = "PAAD")
 
 panel_F[[2]] <- panel_F[[2]] +
     theme_fig22() %+replace%
@@ -299,6 +302,7 @@ panel_F[[2]] <- panel_F[[2]] +
     ) +
     labs(y = "distribution of comutation events",
          fill = "*KRAS* allele")
+
 
 
 #### ---- Figure assembly ---- ####

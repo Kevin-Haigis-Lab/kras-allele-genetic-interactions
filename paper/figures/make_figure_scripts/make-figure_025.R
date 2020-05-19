@@ -66,8 +66,7 @@ panel_A <- read_fig_proto("genetic_interaction_network_PAAD") +
         legend.title = element_text(face = "bold", size = 7),
         legend.margin = margin(-6, 0, 0, 0, "mm")
     ) +
-    labs(tag = "a",
-         title = "PAAD")
+    labs(tag = "a")
 
 
 #### ---- B. Labeled comutation network of genes in a priori lists ---- ####
@@ -89,7 +88,6 @@ panel_B <- read_fig_proto(
         legend.title = element_markdown()
     ) +
     labs(edge_width = "-*log*(p-value)",
-         title = "PAAD",
          tag = "b")
 
 
