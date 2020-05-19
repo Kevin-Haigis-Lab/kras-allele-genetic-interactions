@@ -362,7 +362,7 @@ all_expect_frequencies <- all_kras_allele_predictions_boot_results %>%
     unnest(boot_ci) %>%
     right_join(all_expect_frequencies, by = c("cancer", "kras_allele"))
 knitr::kable(all_expect_frequencies, digits = 3)
-save_supp_data(all_expect_frequencies, 7, "pred vs obs all KRAS alleles")
+save_supp_data(all_expect_frequencies, 10, "pred vs obs all KRAS alleles")
 
 
 
@@ -474,7 +474,7 @@ cancer_chisquared_res <- calc_chisquared_test(
     allele_df = alleles_for_each_cancer,
     expected_freq_df = cancer_expect_frequencies
 )
-obs_pred_chisquared_res %>%
+cancer_chisquared_res %>%
     filter(p_value > 0.05) %>%
     select(cancer, kras_allele, p_value) %>%
     knitr::kable(digits = 3)
