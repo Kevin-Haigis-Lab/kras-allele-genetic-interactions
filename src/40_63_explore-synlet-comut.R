@@ -7,45 +7,45 @@ reset_graph_directory(GRAPHS_DIR)
 ################################################################################
 ## REMOVE FOR O2 ##
 
-# library(stats)
-# library(glue)
-# library(conflicted)
-# library(ggfortify)
-# library(tidygraph)
-# library(jhcutils)
-# library(magrittr)
-# library(ggpubr)
-# library(ggraph)
-# library(ggtext)
-# library(patchwork)
-# library(ggplot2)
-# library(broom)
-# library(tidyverse)
-#
-# conflict_prefer("select", "dplyr")
-# conflict_prefer("filter", "dplyr")
-# conflict_prefer("slice", "dplyr")
-# conflict_prefer("setdiff", "dplyr")
-# conflict_prefer("intersect", "dplyr")
-# conflict_prefer("cache", "ProjectTemplate")
-# conflict_prefer("rename", "dplyr")
-# conflict_prefer("parLapply", "parallel")
-# conflict_prefer("which", "Matrix")
-#
-#
-# load("cache/synlet_comut_model_res.RData")
-#
-# synlet_comut_model_res %<>%
-#     filter(
-#         (cancer == "COAD" & allele == "G12D" & hugo_symbol == "STARD9") |
-#             (cancer == "PAAD" & allele == "G12D" & hugo_symbol == "EEF1E1") |
-#             (cancer == "COAD" & allele == "G12D" & hugo_symbol == "SRSF5") |
-#             (cancer == "PAAD" & allele == "G12R" & hugo_symbol == "KIAA1257")
-#     )
-#
-#
-# source("lib/ggplot2_helpers.R")
-# source("lib/helpers.R")
+library(stats)
+library(glue)
+library(conflicted)
+library(ggfortify)
+library(tidygraph)
+library(jhcutils)
+library(magrittr)
+library(ggpubr)
+library(ggraph)
+library(ggtext)
+library(patchwork)
+library(ggplot2)
+library(broom)
+library(tidyverse)
+
+conflict_prefer("select", "dplyr")
+conflict_prefer("filter", "dplyr")
+conflict_prefer("slice", "dplyr")
+conflict_prefer("setdiff", "dplyr")
+conflict_prefer("intersect", "dplyr")
+conflict_prefer("cache", "ProjectTemplate")
+conflict_prefer("rename", "dplyr")
+conflict_prefer("parLapply", "parallel")
+conflict_prefer("which", "Matrix")
+
+
+load("cache/synlet_comut_model_res.RData")
+
+synlet_comut_model_res %<>%
+    filter(
+        (cancer == "COAD" & allele == "G12D" & hugo_symbol == "STARD9") |
+            (cancer == "PAAD" & allele == "G12D" & hugo_symbol == "EEF1E1") |
+            (cancer == "COAD" & allele == "G12D" & hugo_symbol == "SRSF5") |
+            (cancer == "PAAD" & allele == "G12R" & hugo_symbol == "KIAA1257")
+    )
+
+
+source("lib/ggplot2_helpers.R")
+source("lib/helpers.R")
 
 ################################################################################
 
@@ -220,6 +220,52 @@ srsf5_res$fit[[1]]$data %>%
     ggplot(aes(x = gene_effect, y = mutation)) +
     geom_jitter(height = 0.1, width = 0)
 
+srsf5_res$fit[[1]]$data %>%
+    mutate(
+        AMER1 = ifelse(AMER1 == 1, "AMER1", ""),
+        APC = ifelse(APC == 1, "APC", ""),
+        HECW1 = ifelse(HECW1 == 1, "HECW1", ""),
+        SORL1 = ifelse(SORL1 == 1, "SORL1", ""),
+        mutation = paste(AMER1, APC, HECW1, SORL1, sep = ", ")
+    ) %>%
+    ggplot(aes(x = gene_effect, y = mutation, shape = factor(kras_allele))) +
+    geom_jitter(height = 0.1, width = 0)
+
+
+srsf5_res$fit[[1]]$elastic_model %>%
+    broom::tidy() %>%
+    filter(term != "(Intercept)") %>%
+    mutate(term = ifelse(term == "kras_allele", srsf5_res$fit[[1]]$allele, term),
+           term = fct_reorder(term, estimate)) %>%
+    ggplot(aes(x = estimate, y = term)) +
+    geom_vline(xintercept = 0, lty = 2, size = 0.5, color = "grey25") +
+    geom_segment(aes(yend = term, color = estimate), xend = 0, size = 1) +
+    geom_label(aes(label = term, fill = estimate),
+               family = "Arial", size = 2.2,
+               label.padding = unit(0.8, "mm"),
+               label.r = unit(0.4, "mm"),
+               color = "black", label.size = 0) +
+    scale_color_gradient2(high = pastel_red, mid = "grey90", low = pastel_blue) +
+    scale_fill_gradient2(high = pastel_red, mid = "grey90", low = pastel_blue) +
+    scale_x_continuous(expand = expansion(mult = c(0.1, 0.1))) +
+    theme_bw(base_size = 7, base_family = "Arial") +
+    theme(
+        plot.title = element_blank(),
+        legend.position = "none",
+        axis.text.y = element_blank(),
+        axis.ticks.y = element_blank(),
+        axis.title.y = element_blank(),
+        axis.title.x = element_markdown(),
+        panel.border = element_blank()
+    ) +
+    labs(x = glue(
+        "estimated effect of mutation on dependency on *{srsf5_res$hugo_symbol[[1]]}*"
+    ))
+
+
+
+
+
 
 
 
@@ -232,16 +278,119 @@ srsf5_res$fit[[1]]$data %>%
 
 # group: interaction
 
-
 kiaa1257_res <- synlet_comut_model_res %>%
     filter(cancer == "PAAD" & allele == "G12R" & hugo_symbol == "KIAA1257")
 
-kiaa1257_res$fit[[1]]$data %>%
+kiaa1257_pal <- c("neither" = "grey50",
+                  "DNAH5" = "#F59237",
+                  "G12R" = short_allele_pal[["G12R"]],
+                  "G12R & DNAH5" = "#FF6B72")
+
+p_data <- kiaa1257_res$fit[[1]]$data %>%
     mutate(mutation = case_when(
         kras_allele + DNAH5 == 2 ~ "G12R & DNAH5",
         kras_allele == 1 ~ "G12R",
         DNAH5 == 1 ~ "DNAH5",
-        TRUE ~ "none"
-    )) %>%
-    ggplot(aes(x = gene_effect, y = mutation)) +
-    geom_jitter(height = 0.1, width = 0)
+        TRUE ~ "neither"
+    ),
+    mutation = factor(mutation, names(kiaa1257_pal)))
+
+p_data_summary <- p_data %>%
+    group_by(mutation) %>%
+    summarise(gene_effect = mean(gene_effect)) %>%
+    ungroup()
+
+set.seed(123)
+kiaa1257_box_plot <- p_data %>%
+    ggplot(aes(y = gene_effect, x = mutation)) +
+    geom_line(data = p_data_summary,
+              group = 1, color = "grey50", alpha = 0.5) +
+    geom_point(data = p_data_summary,
+               aes(color = mutation),
+               size = 3, shape = 18) +
+    geom_jitter(aes(color = mutation), height = 0, width = 0.2, alpha = 0.8) +
+    scale_color_manual(values = kiaa1257_pal) +
+    theme_bw(base_size = 10, base_family = "Arial") +
+    theme(
+        plot.title = element_blank(),
+        legend.position = "none",
+        axis.text.y = element_blank(),
+        axis.ticks = element_blank(),
+        axis.title.x = element_blank(),
+        axis.title.y = element_markdown()
+    ) +
+    labs(y = glue(
+        "dependency score of *{kiaa1257_res$hugo_symbol[[1]]}*"
+    ))
+ggsave_wrapper(
+    kiaa1257_box_plot,
+    plot_path(GRAPHS_DIR, "PAAD_G12R_KIAA1257_box-plot.svg"),
+    "small"
+)
+
+
+kiaa1257_coef_plot <- kiaa1257_res$fit[[1]]$elastic_model %>%
+    broom::tidy() %>%
+    filter(term != "(Intercept)") %>%
+    mutate(term = ifelse(term == "kras_allele", kiaa1257_res$fit[[1]]$allele, term)) %>%
+    ggplot(aes(x = estimate, y = term)) +
+    geom_vline(xintercept = 0, lty = 2, size = 0.5, color = "grey25") +
+    geom_segment(aes(yend = term, color = estimate), xend = 0, size = 1) +
+    geom_label(aes(label = term, fill = estimate),
+               family = "Arial", size = 2.2,
+               label.padding = unit(0.8, "mm"),
+               label.r = unit(0.4, "mm"),
+               color = "black", label.size = 0) +
+    scale_color_gradient2(high = pastel_red, mid = "grey90", low = pastel_blue) +
+    scale_fill_gradient2(high = pastel_red, mid = "grey90", low = pastel_blue) +
+    scale_x_continuous(expand = expansion(mult = c(0.1, 0.1))) +
+    theme_bw(base_size = 7, base_family = "Arial") +
+    theme(
+        plot.title = element_blank(),
+        legend.position = "none",
+        axis.text.y = element_blank(),
+        axis.ticks.y = element_blank(),
+        axis.title.y = element_blank(),
+        axis.title.x = element_markdown(),
+        panel.border = element_blank()
+    ) +
+    labs(x = glue(
+        "estimated effect of mutation on dependency on *{kiaa1257_res$hugo_symbol[[1]]}*"
+    ))
+ggsave_wrapper(
+    kiaa1257_coef_plot,
+    plot_path(GRAPHS_DIR, "PAAD_G12R_KIAA1257_coef-plot.svg"),
+    "small"
+)
+
+
+g12r_dnah5_line <- tibble(name = c("DNAH5", "reduced comutation", "G12R"),
+                          color = c("white", comut_updown_pal[["reduced"]], "white"),
+                          y = c(1, 1.3, 1)) %>%
+    mutate(name = fct_inorder(name)) %>%
+    ggplot(aes(x = name, y = y)) +
+    geom_segment(x = "DNAH5", xend = "G12R", y = 1, yend = 1,
+                 color = comut_updown_pal[["reduced"]],
+                 size = 1.4) +
+    geom_label(aes(label = name, fill = name, color = color),
+               family = "Arial", size = 2.2,
+               label.size = 0) +
+    scale_color_identity() +
+    scale_fill_manual(values = kiaa1257_pal, guide = FALSE) +
+    scale_y_continuous(limits = c(0.5, 1.5), expand = c(0, 0)) +
+    theme_void(base_size = 7, base_family = "Arial")
+
+
+kiaa1257_layout <- c(
+    area(t = 1, l = 1, b = 4, r = 10),
+    area(t = 5, l = 1, b = 14, r = 10),
+    area(t = 7, l = 5.5, b = 8, r = 10)
+)
+
+kiaa1257_patch <- kiaa1257_coef_plot + kiaa1257_box_plot + g12r_dnah5_line +
+    plot_layout(design = kiaa1257_layout)
+ggsave_wrapper(
+    kiaa1257_patch,
+    plot_path(GRAPHS_DIR, "PAAD_G12R_KIAA1257_patch.svg"),
+    "small"
+)
