@@ -2,7 +2,7 @@
 # using comutation interactions.
 
 GRAPHS_DIR <- "40_63_explore-synlet-comut"
-reset_graph_directory(GRAPHS_DIR)
+# reset_graph_directory(GRAPHS_DIR)
 
 ################################################################################
 ## REMOVE FOR O2 ##
@@ -40,7 +40,8 @@ synlet_comut_model_res %<>%
         (cancer == "COAD" & allele == "G12D" & hugo_symbol == "STARD9") |
             (cancer == "PAAD" & allele == "G12D" & hugo_symbol == "EEF1E1") |
             (cancer == "COAD" & allele == "G12D" & hugo_symbol == "SRSF5") |
-            (cancer == "PAAD" & allele == "G12R" & hugo_symbol == "KIAA1257")
+            (cancer == "PAAD" & allele == "G12R" & hugo_symbol == "KIAA1257") |
+            (cancer == "PAAD" & allele == "G12D" & hugo_symbol == "DMBX1")
     )
 
 
@@ -200,42 +201,18 @@ synlet_comut_model_res %>%
 # G12D has reduced comut with HECW1 and increased comut with APC.
 # When all three are mutated, there is less dep. on SRSF5.
 
-# group: interaction
+# group: linking
 
 
 srsf5_res <- synlet_comut_model_res %>%
     filter(cancer == "COAD" & allele == "G12D" & hugo_symbol == "SRSF5")
 
-
-srsf5_res$fit[[1]]$data %>%
-    mutate(mutation = case_when(
-        kras_allele + HECW1 + APC == 3 ~ "G12D & APC & HECW1",
-        kras_allele + HECW1  == 2 ~ "G12D & HECW1",
-        kras_allele + APC  == 2 ~ "G12D & APC",
-        kras_allele == 1 ~ "G12D",
-        HECW1 == 1 ~ "HECW1",
-        APC == 1 ~ "APC",
-        TRUE ~ "none"
-    )) %>%
-    ggplot(aes(x = gene_effect, y = mutation)) +
-    geom_jitter(height = 0.1, width = 0)
-
-srsf5_res$fit[[1]]$data %>%
-    mutate(
-        AMER1 = ifelse(AMER1 == 1, "AMER1", ""),
-        APC = ifelse(APC == 1, "APC", ""),
-        HECW1 = ifelse(HECW1 == 1, "HECW1", ""),
-        SORL1 = ifelse(SORL1 == 1, "SORL1", ""),
-        mutation = paste(AMER1, APC, HECW1, SORL1, sep = ", ")
-    ) %>%
-    ggplot(aes(x = gene_effect, y = mutation, shape = factor(kras_allele))) +
-    geom_jitter(height = 0.1, width = 0)
-
-
-srsf5_res$fit[[1]]$elastic_model %>%
-    broom::tidy() %>%
-    filter(term != "(Intercept)") %>%
-    mutate(term = ifelse(term == "kras_allele", srsf5_res$fit[[1]]$allele, term),
+srsf5_comuts <- c("SORL1", "APC", "HECW1")
+srsf5_terms <- c("kras_allele", srsf5_comuts)
+srsf5_coef_plot <- srsf5_res$fit[[1]]$elastic_model %>%
+    broom::tidy(return_zeros = TRUE) %>%
+    filter(term %in% srsf5_terms) %>%
+    mutate(term = ifelse(term == "kras_allele", !!srsf5_res$allele, term),
            term = fct_reorder(term, estimate)) %>%
     ggplot(aes(x = estimate, y = term)) +
     geom_vline(xintercept = 0, lty = 2, size = 0.5, color = "grey25") +
@@ -263,6 +240,103 @@ srsf5_res$fit[[1]]$elastic_model %>%
     ))
 
 
+srsf5_box_data <- tibble()
+for (gene in srsf5_comuts) {
+    srsf5_box_data <- bind_rows(
+        srsf5_res$fit[[1]]$data %>%
+            add_column(comut_gene = tidyselect::all_of(!!gene)) %>%
+            rename(highlight = gene) %>%
+            select(gene_effect, kras_allele, comut_gene, highlight),
+        srsf5_box_data
+    )
+}
+
+srsf5_rects <- tibble(
+    xmin = -Inf,
+    xmax = Inf,
+    ymin = c(0.2, 0),
+    ymax = c(0, -0.61),
+    fill = c("skyblue", "grey90")
+)
+
+srsf5_box_plot <- srsf5_box_data %>%
+    mutate(kras_allele = ifelse(kras_allele == 1, !!srsf5_res$allele, "other"),
+           highlight = ifelse(highlight == 1, "mutant", "WT")) %>%
+    ggplot() +
+    geom_rect(data = srsf5_rects,
+              aes(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax,
+                  fill = fill),
+              alpha = 0.2) +
+    geom_hline(yintercept = 0, size = 0.2, color = "grey30") +
+    geom_jitter(aes(x = comut_gene, y = gene_effect,
+                        color = highlight, shape = kras_allele), width = 0.2) +
+    scale_color_manual(values = c("grey20", "grey75")) +
+    scale_shape_manual(values = c(G12D = 17, other = 16)) +
+    scale_fill_identity() +
+    scale_y_continuous(limits = c(-0.61, 0.2), expand = c(0, 0)) +
+    theme_bw(base_size = 7, base_family = "Arial") +
+    theme(
+        axis.title.x = element_blank(),
+        axis.title.y = element_markdown(),
+        axis.ticks = element_blank(),
+        legend.title = element_markdown()
+    ) +
+    labs(y = glue("*{srsf5_res$hugo_symbol}* dependency score"),
+         color = "comutation",
+         shape = "*KRAS* allele")
+
+
+srsf5_comut_a <- tibble(
+    y = 1,
+    x = 2,
+    label = c("G12D")
+)
+srsf5_comut_b <- tibble(
+    x = c(2, 1, 1, 2, 2, 2, 2, 3, 3),
+    y = rep(c(1, 1.5, 3), 3),
+    group = rep(srsf5_comuts, each = 3),
+    interaction = rep(c("increased", "reduced", "reduced"), each = 3)
+)
+srsf5_comut_c <- tibble(
+    x = c(1, 3),
+    y = c(1.5, 1.5),
+    label = c("increased", "reduced")
+)
+
+srsf5_comut_plot <- ggplot() +
+    ggforce::geom_bezier(
+        aes(x = x, y = y, group = group, color = interaction),
+        data = srsf5_comut_b
+    ) +
+    geom_label(
+        aes(x = x, y = y, label = label),
+        data = srsf5_comut_a,
+        family = "Arial", size = 2.2,
+        label.padding = unit(0.8, "mm"),
+        label.r = unit(0.4, "mm"),
+        color = "black", label.size = 0
+    ) +
+    geom_text(
+        aes(x = x, y = y, label = label, color = label),
+        data = srsf5_comut_c,
+        family = "Arial", size = 2.2,
+    ) +
+    scale_x_continuous(limits = c(0.5, 3.5)) +
+    scale_y_continuous(expand = expansion(mult = c(0.2, 0))) +
+    scale_color_manual(values = comut_updown_pal,
+                       guide = FALSE) +
+    theme_void(base_size = 7, base_family = "Arial")
+
+
+srsf5_patch <- (srsf5_coef_plot / srsf5_box_plot / srsf5_comut_plot) +
+    plot_layout(heights = c(3, 9, 1))
+ggsave_wrapper(
+    srsf5_patch,
+    plot_path(GRAPHS_DIR, "COAD_G12D_SRSF5-patch.svg"),
+    "small"
+)
+
+
 
 
 
@@ -276,7 +350,7 @@ srsf5_res$fit[[1]]$elastic_model %>%
 # When one is mutated, dep. on KIAA1257 is increased.
 # When both are mutated, dep. on KIAA1257 is even stronger.
 
-# group: interaction
+# group: linking
 
 kiaa1257_res <- synlet_comut_model_res %>%
     filter(cancer == "PAAD" & allele == "G12R" & hugo_symbol == "KIAA1257")
@@ -310,11 +384,10 @@ kiaa1257_box_plot <- p_data %>%
                size = 3, shape = 18) +
     geom_jitter(aes(color = mutation), height = 0, width = 0.2, alpha = 0.8) +
     scale_color_manual(values = kiaa1257_pal) +
-    theme_bw(base_size = 10, base_family = "Arial") +
+    theme_bw(base_size = 7, base_family = "Arial") +
     theme(
         plot.title = element_blank(),
         legend.position = "none",
-        axis.text.y = element_blank(),
         axis.ticks = element_blank(),
         axis.title.x = element_blank(),
         axis.title.y = element_markdown()
@@ -394,3 +467,20 @@ ggsave_wrapper(
     plot_path(GRAPHS_DIR, "PAAD_G12R_KIAA1257_patch.svg"),
     "small"
 )
+
+
+
+
+
+#### ---- PAAD G12D: DMBX1 ---- ####
+
+# G12D has increased comut with GPR98 and RNF43.
+# When one is mutated, dep. on DMBX1 is increased.
+# When KRAS and one other are mutated, dep. on DMBX1 is even stronger.
+
+# group: linking
+
+dmbx1_res <- synlet_comut_model_res %>%
+    filter(cancer == "PAAD" & allele == "G12D" & hugo_symbol == "DMBX1")
+
+dmbx1_comuts <- c("GPR98", "RNF43")
