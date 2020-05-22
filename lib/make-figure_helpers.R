@@ -266,7 +266,7 @@ build_comutation_figures <- function() {
 
     for (f in figure_make_scripts) {
         fig_num <- str_extract(basename(f), "[:digit:]{3}")
-        msg <- glue("=> Making Figure {fig_num})")
+        msg <- glue("=> Making Figure {fig_num}")
         cat(str_rep("=", str_length(msg)), "\n")
         cat(msg, "\n")
 

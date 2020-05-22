@@ -254,13 +254,14 @@ panel_D_leg_df <- custom_label_legend_df(variants, colors = "white")
 panel_D_leg <- custom_label_legend_plot(panel_D_leg_df,
                                         family = "Arial",
                                         size = 1.8,
-                                        face = "bold",
+                                        fontface = "bold",
                                         label.padding = unit(1, "mm"),
                                         label.size = unit(0, "mm"),
                                         hjust = 0.5) +
     scale_fill_manual(values = mod_variant_pal, guide = FALSE) +
     theme(
-        plot.title = element_text(size = 6, hjust = 0, face = "bold"),
+        plot.title = element_text(size = 6, hjust = 0,
+                                  face = "bold", family = "Arial",),
         axis.title = element_blank(),
         axis.text = element_blank()
     ) +
@@ -315,6 +316,7 @@ panel_F[[2]] <- panel_F[[2]] +
         plot_annotation(
             title = "COAD",
             theme = theme(plot.title = element_text(size = 7,
+                                                    family = "Arial",
                                                     face = "bold",
                                                     hjust = 0.1,
                                                     vjust = 6))

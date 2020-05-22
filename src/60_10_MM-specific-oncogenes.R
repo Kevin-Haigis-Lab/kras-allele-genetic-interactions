@@ -85,7 +85,7 @@ make_mm_comut_heatmap <- function(df) {
             aes(label = label,
                 fontface = label_face),
             family = "Arial",
-            size = 2
+            size = 2.5
         ) +
         scale_fill_gradient2(
             low = "dodgerblue",

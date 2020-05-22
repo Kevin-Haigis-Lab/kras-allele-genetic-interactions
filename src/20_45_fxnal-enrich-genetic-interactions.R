@@ -170,7 +170,8 @@ dotplot_selected_functions <- function(cancer, data) {
 enrichr_significant_results %>%
     inner_join(selected_enrichments,
                by = c("cancer", "datasource", "term")) %>%
-    mutate(term = map2_chr(term, datasource, mod_term_for_datasource),
+    mutate(term = pretty_term,
+           term = map2_chr(term, datasource, mod_term_for_datasource),
            term = str_wrap(term, 40)) %>%
     group_by(cancer) %>%
     nest() %>%
@@ -180,7 +181,7 @@ enrichr_significant_results %>%
 
 
 
-#### ---- Plot: Dto-plot of select terms facet by cancer ---- ####
+#### ---- Plot: Dot-plot of select terms facet by cancer ---- ####
 
 dotplot_selected_functions_faceted <- function(data) {
     mod_data <- data %>%
@@ -196,6 +197,7 @@ dotplot_selected_functions_faceted <- function(data) {
 enrichr_significant_results %>%
     inner_join(selected_enrichments,
                by = c("cancer", "datasource", "term")) %>%
-    mutate(term = map2_chr(term, datasource, mod_term_for_datasource),
+    mutate(term = pretty_term,
+           term = map2_chr(term, datasource, mod_term_for_datasource),
            term = str_wrap(term, 30)) %>%
     dotplot_selected_functions_faceted()

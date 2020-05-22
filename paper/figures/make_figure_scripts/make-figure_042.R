@@ -139,10 +139,19 @@ signatures <- map(panel_D, pull_signatures_from_panel_D) %>%
     sort() %>%
     as.character()
 
+signatures_label_df <- tibble(
+    signatures,
+    etiology = c("clock", "", "", "tobacco\nsmoke", "clock", "", "Pol η",
+                 "", "oxidative\nstress", "ROS", "", "", "")
+
+)
+
+signatures_label_df <- bind_cols(signatures_label_df,
+                        custom_label_legend_df(signatures_label_df$signatures))
 
 
-panel_D_legend <- custom_label_legend(
-        signatures,
+panel_D_legend <- custom_label_legend_plot(
+        signatures_label_df,
         y_value = "signature",
         family = "Arial",
         size = 1.8,
@@ -153,7 +162,26 @@ panel_D_legend <- custom_label_legend(
     scale_fill_manual(values = mutsig_descrpt_pal) +
     theme(
         legend.position = "none",
-        plot.margin = margin(-10, 0, -10, 0, "mm"),
+        plot.margin = margin(-10, 0, 0, 0, "mm"),
+        axis.text.y = element_text(size = 6, face = "bold", family = "Arial")
+    )
+
+
+panel_D_legend_etiology <- signatures_label_df %>%
+    mutate(signatures = fct_inorder(signatures)) %>%
+    ggplot(aes(x = mid, y = "etiology")) +
+    geom_text(aes(label = etiology, color = signatures),
+              family = "Arial", size = 1.8, hjust = 0.5, fontface = "bold") +
+    scale_color_manual(values = mutsig_descrpt_pal) +
+    scale_x_continuous(
+        limits = c(min(signatures_label_df$start),
+                   max(signatures_label_df$end)),
+        expand = c(0, 0)
+    ) +
+    theme_void(base_size = ) +
+    theme(
+        legend.position = "none",
+        plot.margin = margin(0, 0, -5, 0, "mm"),
         axis.text.y = element_text(size = 6, face = "bold", family = "Arial")
     )
 
@@ -169,16 +197,20 @@ panel_D <- wrap_plots(panel_D, nrow = 1, widths = mutsig_barplot_widths)
     row_1 <- (panel_A | panel_B) +
         plot_layout(widths = c(10, 3))
 
-    panel_D_legend_sp <- (plot_spacer() | panel_D_legend | plot_spacer()) +
-        plot_layout(widths = c(1, 2, 1))
+    panel_D_legend_sp <- (
+        plot_spacer() |
+        (panel_D_legend / panel_D_legend_etiology) |
+        plot_spacer()
+    ) +
+        plot_layout(widths = c(1, 4, 1))
 
     row_2 <- (panel_C / panel_D / panel_D_legend_sp) +
-        plot_layout(heights = c(6, 6, 1))
+        plot_layout(heights = c(3, 3, 1))
 
     row_2 <- wrap_elements(full = row_2)
 
     full_figure <- (row_1 / row_2) +
-        plot_layout(heights = c(2, 5))
+        plot_layout(heights = c(3, 10))
 
     save_figure(
         full_figure,

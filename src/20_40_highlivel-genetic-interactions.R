@@ -64,19 +64,44 @@ ProjectTemplate::cache("genetic_interaction_gr",
 
 goi_genes <- unique(genes_of_interest_df$hugo_symbol)
 
-# Plots the genetic interaction networks.
-# A custom layout can be provided using `ggraph::create_layout()`.
-make_network_plot <- function(gr, layout = "nicely",
-                              custom_layout = NULL,
-                              fill_na_val = NA) {
 
-    if (is.null(custom_layout)) {
-        p <- ggraph(gr, layout = layout)
-    } else {
-        p <- ggraph(custom_layout)
+# Manual adjustments to some nodes in the plots for figures.
+adjust_layout_manually <- function(layout, CANCER, type_of_plot) {
+    layout_attrs <- attributes(layout)
+
+    msg <- glue("Manually adjust '{type_of_plot}' network plot for {CANCER}")
+
+
+    if (CANCER == "COAD" & type_of_plot == "high-unlabeled") {
+        message(msg)
+        layout <- layout %>%
+            mutate(x = case_when(
+                name %in% c("KRAS_Q61H", "LRP2", "CACNA1E") ~ x - 3,
+                TRUE ~ x))
+    } else if (CANCER == "MM" & type_of_plot == "high-labeled") {
+        message(msg)
+        layout <- layout %>%
+            mutate(x = ifelse(node_label == "DNAH10", x + 0.6, x))
     }
 
-    p <- p +
+    attributes(layout) <- layout_attrs
+    return(layout)
+}
+
+
+# Plots the genetic interaction networks.
+# A custom layout can be provided using `ggraph::create_layout()`.
+make_network_plot <- function(gr, cancer, gr_layout = "nicely",
+                              type_of_plot = "high-unlabeled",
+                              fill_na_val = NA) {
+
+    set.seed(0)
+    custom_layout <- create_layout(gr, layout = gr_layout)
+    custom_layout <- adjust_layout_manually(layout = custom_layout,
+                                            CANCER = cancer,
+                                            type_of_plot = type_of_plot)
+
+    p <- ggraph(custom_layout) +
         geom_edge_link(
             aes(color = genetic_interaction),
             width = 0.3
@@ -92,6 +117,10 @@ make_network_plot <- function(gr, layout = "nicely",
                 label.position = "top",
                 order = 2
             )
+        ) +
+        geom_node_point(
+            aes(size = node_point_size),
+            color = "grey65"
         ) +
         geom_node_label(
             aes(label = node_label,
@@ -140,6 +169,8 @@ prep_highlevel_unlabeled <- function(gr) {
                node_fill = node_label,
                node_color = ifelse(node_label %in% kras_dark_lbls,
                                    "white", "black"),
+               node_point_size = centrality_degree(mode = "all"),
+               node_point_size = ifelse(node_point_size > 1, 0.05, NA),
                label_size = 1.8)
     return(mod_gr)
 }
@@ -150,7 +181,7 @@ for (CANCER in sort(unique(genetic_interaction_df$cancer))) {
     set.seed(0)
     gr_plot <- get_plotting_graph(genetic_interaction_gr, CANCER) %>%
         prep_highlevel_unlabeled() %>%
-        make_network_plot() +
+        make_network_plot(cancer = CANCER) +
         labs(
             edge_color = "interaction"
         )
@@ -172,31 +203,21 @@ prep_highlevel_labeled <- function(gr, other_label_size = 1) {
                node_fill = ifelse(is_kras, node_label, NA),
                node_color = ifelse(node_fill %in% kras_dark_lbls,
                                    "white", "black"),
+               node_point_size = centrality_degree(mode = "all"),
+               node_point_size = ifelse(node_point_size > 1, 0.05, 0),
                label_size = ifelse(is_kras, 2, !!other_label_size))
     return(mod_gr)
 }
 
-
-ceate_mm_custom_layout <- function(gr) {
-    layout <- create_layout(gr, layout = "nicely")
-    layout_attrs <- attributes(layout)
-
-    layout <- layout %>%
-        mutate(x = ifelse(node_label == "DNAH10", x + 0.6, x))
-
-    attributes(layout) <- layout_attrs
-    return(layout)
-}
 
 
 # Make high-level network with all genes labeled for MM.
 set.seed(0)
 mm_gr_layout <- get_plotting_graph(genetic_interaction_gr, "MM") %>%
     prep_highlevel_labeled(other_label_size = 1.5) %>%
-    ceate_mm_custom_layout()
-
-mm_gr_plot <- make_network_plot(custom_layout = mm_gr_layout,
-                                fill_na_val = "grey85") +
+    make_network_plot(cancer = "MM",
+                      type_of_plot = "high-labeled",
+                      fill_na_val = "grey85") +
     labs(
         edge_color = "interaction"
     )

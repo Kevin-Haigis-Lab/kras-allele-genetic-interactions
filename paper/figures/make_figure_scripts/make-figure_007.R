@@ -48,20 +48,21 @@ panel_A <- read_fig_proto("signature-level-per-sample") +
     )
 
 
-pull_signatures_from_panel_A <- function(x) {
-    unique(ggplot_build(x)$plot$data$description)
-}
-
-signatures <- pull_signatures_from_panel_A(panel_A) %>%
-    unlist() %>%
-    unique() %>%
-    sort() %>%
-    as.character()
+signatures <- ggplot_build(panel_A)$plot$data %>%
+        filter(contribution > 0) %>%
+        mutate(description = factor(description,
+                                    levels = names(mutsig_descrpt_pal))) %>%
+        u_pull(description) %>%
+        unlist() %>%
+        unique() %>%
+        sort() %>%
+        as.character()
 
 panel_AB_legend <- custom_label_legend(
         signatures,
         y_value = "signature",
-        family = "Arial", size = 2.0,
+        family = "Arial",
+        size = 2.0,
         label.padding = unit(1, "mm"),
         label.size = unit(0, "mm"),
         hjust = 0.5
