@@ -7,46 +7,46 @@ GRAPHS_DIR <- "40_63_explore-synlet-comut"
 ################################################################################
 ## REMOVE FOR O2 ##
 
-library(stats)
-library(glue)
-library(conflicted)
-library(ggfortify)
-library(tidygraph)
-library(jhcutils)
-library(magrittr)
-library(ggpubr)
-library(ggraph)
-library(ggtext)
-library(patchwork)
-library(ggplot2)
-library(broom)
-library(tidyverse)
+# library(stats)
+# library(glue)
+# library(conflicted)
+# library(ggfortify)
+# library(tidygraph)
+# library(jhcutils)
+# library(magrittr)
+# library(ggpubr)
+# library(ggraph)
+# library(ggtext)
+# library(patchwork)
+# library(ggplot2)
+# library(broom)
+# library(tidyverse)
 
-conflict_prefer("select", "dplyr")
-conflict_prefer("filter", "dplyr")
-conflict_prefer("slice", "dplyr")
-conflict_prefer("setdiff", "dplyr")
-conflict_prefer("intersect", "dplyr")
-conflict_prefer("cache", "ProjectTemplate")
-conflict_prefer("rename", "dplyr")
-conflict_prefer("parLapply", "parallel")
-conflict_prefer("which", "Matrix")
-
-
-load("cache/synlet_comut_model_res.RData")
-
-synlet_comut_model_res %<>%
-    filter(
-        (cancer == "COAD" & allele == "G12D" & hugo_symbol == "STARD9") |
-            (cancer == "PAAD" & allele == "G12D" & hugo_symbol == "EEF1E1") |
-            (cancer == "COAD" & allele == "G12D" & hugo_symbol == "SRSF5") |
-            (cancer == "PAAD" & allele == "G12R" & hugo_symbol == "KIAA1257") |
-            (cancer == "PAAD" & allele == "G12D" & hugo_symbol == "DMBX1")
-    )
+# conflict_prefer("select", "dplyr")
+# conflict_prefer("filter", "dplyr")
+# conflict_prefer("slice", "dplyr")
+# conflict_prefer("setdiff", "dplyr")
+# conflict_prefer("intersect", "dplyr")
+# conflict_prefer("cache", "ProjectTemplate")
+# conflict_prefer("rename", "dplyr")
+# conflict_prefer("parLapply", "parallel")
+# conflict_prefer("which", "Matrix")
 
 
-source("lib/ggplot2_helpers.R")
-source("lib/helpers.R")
+# load("cache/synlet_comut_model_res.RData")
+
+# synlet_comut_model_res %<>%
+#     filter(
+#         (cancer == "COAD" & allele == "G12D" & hugo_symbol == "STARD9") |
+#             (cancer == "PAAD" & allele == "G12D" & hugo_symbol == "EEF1E1") |
+#             (cancer == "COAD" & allele == "G12D" & hugo_symbol == "SRSF5") |
+#             (cancer == "PAAD" & allele == "G12R" & hugo_symbol == "KIAA1257") |
+#             (cancer == "PAAD" & allele == "G12D" & hugo_symbol == "DMBX1")
+#     )
+
+
+# source("lib/ggplot2_helpers.R")
+# source("lib/helpers.R")
 
 ################################################################################
 
@@ -89,12 +89,14 @@ make_mask_coef_plot <- function(cancer, allele, hugo_symbol, fit, ...) {
         labs(x = glue(
             "estimated effect of mutation on dependency on *{hugo_symbol}*"
         ))
+    plt_name <- glue("{cancer}_{allele}_{hugo_symbol}_coef-plot.svg") %>%
+        as.character()
     ggsave_wrapper(
         p,
-        plot_path(GRAPHS_DIR,
-                  glue("{cancer}_{allele}_{hugo_symbol}_coef-plot.svg")),
+        plot_path(GRAPHS_DIR, plt_name),
         "small"
     )
+    saveFigRds(p, plt_name)
     return(p)
 }
 
@@ -145,12 +147,14 @@ make_mask_line_plot <- function(cancer, allele, hugo_symbol, fit, other_gene, ..
         labs(x = glue("*{hugo_symbol}* dependency score"),
              y = NULL)
 
+    plt_name <- glue("{cancer}_{allele}_{hugo_symbol}_line-plot.svg") %>%
+        as.character()
     ggsave_wrapper(
         p,
-        plot_path(GRAPHS_DIR,
-                  glue("{cancer}_{allele}_{hugo_symbol}_line-plot.svg")),
+        plot_path(GRAPHS_DIR, plt_name),
         "small"
     )
+    saveFigRds(p, plt_name)
     return(p)
 }
 
@@ -161,11 +165,13 @@ make_mask_patch_plot <- function(cancer, allele, hugo_symbol, fit, other_gene, .
     line_p <- make_mask_line_plot(cancer, allele, hugo_symbol, fit, other_gene)
     patch <- (coef_p / line_p) +
         plot_layout(heights = c(2, 1))
+    plt_name <- as.character(glue("{cancer}_{allele}_{hugo_symbol}_patch.svg"))
     ggsave_wrapper(
         patch,
-        plot_path(GRAPHS_DIR, glue("{cancer}_{allele}_{hugo_symbol}_patch.svg")),
+        plot_path(GRAPHS_DIR, plt_name),
         "small"
     )
+    saveFigRds(patch, plt_name)
 }
 
 
