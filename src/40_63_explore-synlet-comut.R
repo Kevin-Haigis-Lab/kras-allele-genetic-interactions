@@ -6,7 +6,7 @@ reset_graph_directory(GRAPHS_DIR)
 
 ################################################################################
 ## REMOVE FOR O2 ##
-#
+
 # library(stats)
 # library(glue)
 # library(conflicted)
@@ -21,7 +21,7 @@ reset_graph_directory(GRAPHS_DIR)
 # library(ggplot2)
 # library(broom)
 # library(tidyverse)
-#
+
 # conflict_prefer("select", "dplyr")
 # conflict_prefer("filter", "dplyr")
 # conflict_prefer("slice", "dplyr")
@@ -31,10 +31,10 @@ reset_graph_directory(GRAPHS_DIR)
 # conflict_prefer("rename", "dplyr")
 # conflict_prefer("parLapply", "parallel")
 # conflict_prefer("which", "Matrix")
-#
-#
+
+
 # load("cache/synlet_comut_model_res.RData")
-#
+
 # synlet_comut_model_res %<>%
 #     filter(
 #         (cancer == "COAD" & allele == "G12D" & hugo_symbol == "STARD9") |
@@ -43,10 +43,10 @@ reset_graph_directory(GRAPHS_DIR)
 #             (cancer == "PAAD" & allele == "G12R" & hugo_symbol == "KIAA1257") |
 #             (cancer == "PAAD" & allele == "G12D" & hugo_symbol == "FKBP1A")
 #     )
-#
-#
+
+
 # saveFigRds <- function(...) { invisible(NULL) }
-#
+
 # source("lib/ggplot2_helpers.R")
 # source("lib/helpers.R")
 
@@ -76,8 +76,12 @@ make_mask_coef_plot <- function(cancer, allele, hugo_symbol, fit, ...) {
                    label.padding = unit(0.8, "mm"),
                    label.r = unit(0.4, "mm"),
                    color = "black", label.size = 0) +
-        scale_color_gradient2(high = pastel_red, mid = "grey90", low = pastel_blue) +
-        scale_fill_gradient2(high = pastel_red, mid = "grey90", low = pastel_blue) +
+        scale_color_gradient2(high = pastel_red,
+                              mid = "grey90",
+                              low = pastel_blue) +
+        scale_fill_gradient2(high = pastel_red,
+                             mid = "grey90",
+                             low = pastel_blue) +
         scale_x_continuous(expand = expansion(mult = c(0.1, 0.1))) +
         theme_bw(base_size = 7, base_family = "Arial") +
         theme(
@@ -108,7 +112,8 @@ mask_pal <- c(short_allele_pal["G12D"],
               SMAD4 = "#AACC7C")
 
 # Make the line plot of gene effect for the masking group.
-make_mask_line_plot <- function(cancer, allele, hugo_symbol, fit, other_gene, ...) {
+make_mask_line_plot <- function(cancer, allele, hugo_symbol, fit, other_gene,
+                                ...) {
     p_data <- fit$data %>%
         rename(other_gene_col = !!other_gene) %>%
         filter(xor(kras_allele == 1, other_gene_col == 1)) %>%
@@ -163,7 +168,8 @@ make_mask_line_plot <- function(cancer, allele, hugo_symbol, fit, other_gene, ..
 
 
 # Make the patchwork for the masking group.
-make_mask_patch_plot <- function(cancer, allele, hugo_symbol, fit, other_gene, ...) {
+make_mask_patch_plot <- function(cancer, allele, hugo_symbol, fit, other_gene,
+                                 ...) {
     coef_p <- make_mask_coef_plot(cancer, allele, hugo_symbol, fit)
     line_p <- make_mask_line_plot(cancer, allele, hugo_symbol, fit, other_gene)
     patch <- (coef_p / line_p) +
@@ -193,16 +199,9 @@ synlet_comut_model_res %>%
 
 
 
-
-
-
-
-
-
-  ################################################################################
-
-
-
+################################################################################
+################################################################################
+################################################################################
 
 
 #### ---- COAD G12D: SRSF5 ---- ####
@@ -231,8 +230,12 @@ srsf5_coef_plot <- srsf5_res$fit[[1]]$elastic_model %>%
                label.padding = unit(0.8, "mm"),
                label.r = unit(0.4, "mm"),
                color = "black", label.size = 0) +
-    scale_color_gradient2(high = pastel_red, mid = "grey90", low = pastel_blue) +
-    scale_fill_gradient2(high = pastel_red, mid = "grey90", low = pastel_blue) +
+    scale_color_gradient2(high = pastel_red,
+                          mid = "grey90",
+                          low = pastel_blue) +
+    scale_fill_gradient2(high = pastel_red,
+                         mid = "grey90",
+                         low = pastel_blue) +
     scale_x_continuous(expand = expansion(mult = c(0.1, 0.1))) +
     theme_bw(base_size = 7, base_family = "Arial") +
     theme(
@@ -245,9 +248,9 @@ srsf5_coef_plot <- srsf5_res$fit[[1]]$elastic_model %>%
         panel.border = element_blank()
     ) +
     labs(x = glue(
-        "estimated effect of mutation on dependency on *{srsf5_res$hugo_symbol[[1]]}*"
+        "estimated effect of mutation on dependency on *SRSF5*"
     ))
-
+saveFigRds(srsf5_coef_plot, "COAD_G12D_SRSF5_coef-plot.rds")
 
 srsf5_box_data <- tibble()
 for (gene in srsf5_comuts) {
@@ -269,8 +272,11 @@ srsf5_rects <- tibble(
 )
 
 srsf5_box_plot <- srsf5_box_data %>%
-    mutate(kras_allele = ifelse(kras_allele == 1, !!srsf5_res$allele, "other"),
-           highlight = ifelse(highlight == 1, "mutant", "WT")) %>%
+    mutate(
+        kras_allele = ifelse(kras_allele == 1, !!srsf5_res$allele, "other"),
+        highlight = ifelse(highlight == 1, "mutant", "WT"),
+        comut_gene = factor(comut_gene, levels = c("SORL1", "APC", "HECW1"))
+    ) %>%
     ggplot() +
     geom_rect(data = srsf5_rects,
               aes(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax,
@@ -293,7 +299,7 @@ srsf5_box_plot <- srsf5_box_data %>%
     labs(y = glue("*{srsf5_res$hugo_symbol}* dependency score"),
          color = "comutation",
          shape = "*KRAS* allele")
-
+saveFigRds(srsf5_box_plot, "COAD_G12D_SRSF5_box-plot.rds")
 
 srsf5_comut_a <- tibble(
     y = 1,
@@ -308,7 +314,7 @@ srsf5_comut_b <- tibble(
 )
 srsf5_comut_c <- tibble(
     x = c(1, 3),
-    y = c(1.5, 1.5),
+    y = c(1.3, 1.3),
     label = c("increased", "reduced")
 )
 
@@ -331,11 +337,11 @@ srsf5_comut_plot <- ggplot() +
         family = "Arial", size = 2.2,
     ) +
     scale_x_continuous(limits = c(0.5, 3.5)) +
-    scale_y_continuous(expand = expansion(mult = c(0.2, 0))) +
+    scale_y_continuous(expand = expansion(mult = c(0.25, 0))) +
     scale_color_manual(values = comut_updown_pal,
                        guide = FALSE) +
     theme_void(base_size = 7, base_family = "Arial")
-
+saveFigRds(srsf5_comut_plot, "COAD_G12D_SRSF5_comut-graph-plot.rds")
 
 srsf5_patch <- (srsf5_coef_plot / srsf5_box_plot / srsf5_comut_plot) +
     plot_layout(heights = c(3, 9, 1))
@@ -344,12 +350,6 @@ ggsave_wrapper(
     plot_path(GRAPHS_DIR, "COAD_G12D_SRSF5-patch.svg"),
     "small"
 )
-
-
-
-
-
-
 
 
 
@@ -386,6 +386,7 @@ p_data_summary <- p_data %>%
 set.seed(123)
 kiaa1257_box_plot <- p_data %>%
     ggplot(aes(y = gene_effect, x = mutation)) +
+    geom_hline(yintercept = 0, size = 0.2, color = "grey30") +
     geom_line(data = p_data_summary,
               group = 1, color = "grey50", alpha = 0.5) +
     geom_point(data = p_data_summary,
@@ -404,6 +405,7 @@ kiaa1257_box_plot <- p_data %>%
     labs(y = glue(
         "dependency score of *{kiaa1257_res$hugo_symbol[[1]]}*"
     ))
+saveFigRds(kiaa1257_box_plot, "PAAD_G12R_KIAA1257_box-plot.rds")
 ggsave_wrapper(
     kiaa1257_box_plot,
     plot_path(GRAPHS_DIR, "PAAD_G12R_KIAA1257_box-plot.svg"),
@@ -414,7 +416,9 @@ ggsave_wrapper(
 kiaa1257_coef_plot <- kiaa1257_res$fit[[1]]$elastic_model %>%
     broom::tidy() %>%
     filter(term != "(Intercept)") %>%
-    mutate(term = ifelse(term == "kras_allele", kiaa1257_res$fit[[1]]$allele, term)) %>%
+    mutate(term = ifelse(term == "kras_allele",
+                         kiaa1257_res$fit[[1]]$allele,
+                         term)) %>%
     ggplot(aes(x = estimate, y = term)) +
     geom_vline(xintercept = 0, lty = 2, size = 0.5, color = "grey25") +
     geom_segment(aes(yend = term, color = estimate), xend = 0, size = 1) +
@@ -423,8 +427,12 @@ kiaa1257_coef_plot <- kiaa1257_res$fit[[1]]$elastic_model %>%
                label.padding = unit(0.8, "mm"),
                label.r = unit(0.4, "mm"),
                color = "black", label.size = 0) +
-    scale_color_gradient2(high = pastel_red, mid = "grey90", low = pastel_blue) +
-    scale_fill_gradient2(high = pastel_red, mid = "grey90", low = pastel_blue) +
+    scale_color_gradient2(high = pastel_red,
+                          mid = "grey90",
+                          low = pastel_blue) +
+    scale_fill_gradient2(high = pastel_red,
+                         mid = "grey90",
+                         low = pastel_blue) +
     scale_x_continuous(expand = expansion(mult = c(0.1, 0.1))) +
     theme_bw(base_size = 7, base_family = "Arial") +
     theme(
@@ -437,8 +445,9 @@ kiaa1257_coef_plot <- kiaa1257_res$fit[[1]]$elastic_model %>%
         panel.border = element_blank()
     ) +
     labs(x = glue(
-        "estimated effect of mutation on dependency on *{kiaa1257_res$hugo_symbol[[1]]}*"
+        "estimated effect of mutation on dependency on *KIAA1257*"
     ))
+saveFigRds(kiaa1257_coef_plot, "PAAD_G12R_KIAA1257_coef-plot.rds")
 ggsave_wrapper(
     kiaa1257_coef_plot,
     plot_path(GRAPHS_DIR, "PAAD_G12R_KIAA1257_coef-plot.svg"),
@@ -446,9 +455,11 @@ ggsave_wrapper(
 )
 
 
-g12r_dnah5_line <- tibble(name = c("DNAH5", "reduced comutation", "G12R"),
-                          color = c("white", comut_updown_pal[["reduced"]], "white"),
-                          y = c(1, 1.3, 1)) %>%
+g12r_dnah5_line <- tibble(
+    name = c("DNAH5", "reduced comutation", "G12R"),
+    color = c("white", comut_updown_pal[["reduced"]], "white"),
+    y = c(1, 1.7, 1)
+) %>%
     mutate(name = fct_inorder(name)) %>%
     ggplot(aes(x = name, y = y)) +
     geom_segment(x = "DNAH5", xend = "G12R", y = 1, yend = 1,
@@ -456,11 +467,13 @@ g12r_dnah5_line <- tibble(name = c("DNAH5", "reduced comutation", "G12R"),
                  size = 1.4) +
     geom_label(aes(label = name, fill = name, color = color),
                family = "Arial", size = 2.2,
+               label.r = unit(0.4, "mm"),
                label.size = 0) +
     scale_color_identity() +
     scale_fill_manual(values = kiaa1257_pal, guide = FALSE) +
-    scale_y_continuous(limits = c(0.5, 1.5), expand = c(0, 0)) +
+    scale_y_continuous(limits = c(0.5, 1.9), expand = c(0, 0)) +
     theme_void(base_size = 7, base_family = "Arial")
+saveFigRds(g12r_dnah5_line, "PAAD_G12R_KIAA1257_G12R-DNAH5_line-plot.rds")
 
 
 kiaa1257_layout <- c(
@@ -476,8 +489,6 @@ ggsave_wrapper(
     plot_path(GRAPHS_DIR, "PAAD_G12R_KIAA1257_patch.svg"),
     "small"
 )
-
-
 
 
 
@@ -511,8 +522,12 @@ fkbp1a_coef_plot <- fkbp1a_res$fit[[1]]$elastic_model %>%
                label.padding = unit(0.8, "mm"),
                label.r = unit(0.4, "mm"),
                color = "black", label.size = 0) +
-    scale_color_gradient2(high = pastel_red, mid = "grey90", low = pastel_blue) +
-    scale_fill_gradient2(high = pastel_red, mid = "grey90", low = pastel_blue) +
+    scale_color_gradient2(high = pastel_red,
+                          mid = "grey90",
+                          low = pastel_blue) +
+    scale_fill_gradient2(high = pastel_red,
+                         mid = "grey90",
+                         low = pastel_blue) +
     scale_x_continuous(expand = expansion(mult = c(0.15, 0.1))) +
     theme_bw(base_size = 7, base_family = "Arial") +
     theme(
@@ -525,9 +540,9 @@ fkbp1a_coef_plot <- fkbp1a_res$fit[[1]]$elastic_model %>%
         panel.border = element_blank()
     ) +
     labs(x = glue(
-        "estimated effect of mutation on dependency on *{fkbp1a_res$hugo_symbol[[1]]}*"
+        "estimated effect of mutation on dependency on *FKBP1A*"
     ))
-
+saveFigRds(fkbp1a_coef_plot, "PAAD_G12D_FKBP1A_coef-plot.rds")
 
 fkbp1a_box_pal <- c(
     short_allele_pal["G12D"],
@@ -558,13 +573,19 @@ fkbp1a_box_plot <- fkbp1a_res$fit[[1]]$data %>%
     ggforce::geom_mark_hull(
         aes(filter = gene_effect < -0.18,
             label = "comutations with strongest effects"),
-        color = NA, fill = "grey75",
+        fill = "grey75",
         expand = unit(3, "mm"),
-        size = 0.3, color = "grey30",
-        label.family = "Arial", label.fontsize = 6, label.fontface = "plain",
-        label.fill = NA, label.color = "black",
+        radius = unit(1, "mm"),
+        size = 0.3, colour = NA,
+        label.family = "Arial",
+        label.fontsize = 6,
+        label.fontface = "plain",
+        label.fill = NA,
+        label.colour = "black",
         label.margin = margin(1, 1, 1, 1, "mm"),
-        con.color = "grey50", con.size = 0.3
+        label.buffer = unit(5, "mm"),
+        con.colour = "grey50",
+        con.size = 0.3
     ) +
     scale_color_manual(
         values = fkbp1a_box_pal,
@@ -595,7 +616,7 @@ fkbp1a_box_plot <- fkbp1a_res$fit[[1]]$data %>%
     labs(y = glue("dependency score of *{fkbp1a_res$hugo_symbol[[1]]}*"),
          color = "mutations",
          shape = "*KRAS* allele")
-
+saveFigRds(fkbp1a_box_plot, "PAAD_G12D_FKBP1A_box-plot.rds")
 
 
 fkbp1a_genetic_graph <- tribble(
@@ -608,6 +629,7 @@ fkbp1a_genetic_graph <- tribble(
     "RNF43",  "FKBP1A",  "",          "dependency",       "more dep.",
     "GPR98",  "FKBP1A",  "",          "dependency",       "more dep.",
 ) %>%
+    mutate(interaction_spec = fct_inorder(interaction_spec)) %>%
     as_tbl_graph()
 
 
@@ -658,12 +680,12 @@ fkbp1a_graph_plot <- ggraph(fkbp1a_graph_layout) +
         legend.spacing.y = unit(1, "mm"),
         legend.key.height = unit(3, "mm")
     )
+saveFigRds(fkbp1a_graph_plot, "PAAD_G12D_FKBP1A_genetic-graph-plot.rds")
 ggsave_wrapper(
     fkbp1a_graph_plot,
     plot_path(GRAPHS_DIR, "PAAD_G12D_FKBP1A_genetic-graph.svg"),
     "small"
 )
-
 
 
 fkbp1a_patch <- (
@@ -675,4 +697,3 @@ ggsave_wrapper(
     plot_path(GRAPHS_DIR, "PAAD_G12D_FKBP1A_patch.svg"),
     "wide"
 )
-
