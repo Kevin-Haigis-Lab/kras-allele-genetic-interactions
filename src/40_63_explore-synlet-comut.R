@@ -364,11 +364,6 @@ ggsave_wrapper(
 kiaa1257_res <- synlet_comut_model_res %>%
     filter(cancer == "PAAD" & allele == "G12R" & hugo_symbol == "KIAA1257")
 
-kiaa1257_pal <- c("neither" = "grey50",
-                  "DNAH5" = "#F59237",
-                  "G12R" = short_allele_pal[["G12R"]],
-                  "G12R & DNAH5" = "#FF6B72")
-
 p_data <- kiaa1257_res$fit[[1]]$data %>%
     mutate(mutation = case_when(
         kras_allele + DNAH5 == 2 ~ "G12R & DNAH5",
@@ -544,14 +539,6 @@ fkbp1a_coef_plot <- fkbp1a_res$fit[[1]]$elastic_model %>%
     ))
 saveFigRds(fkbp1a_coef_plot, "PAAD_G12D_FKBP1A_coef-plot.rds")
 
-fkbp1a_box_pal <- c(
-    short_allele_pal["G12D"],
-    short_allele_pal["WT"],
-    GPR98 = "#C15953",
-    RNF43 = "#479461",
-    "GPR98 & RNF43" = "#C7A92E"
-)
-
 fkbp1a_box_plot <- fkbp1a_res$fit[[1]]$data %>%
     mutate(
         color = case_when(
@@ -566,10 +553,6 @@ fkbp1a_box_plot <- fkbp1a_res$fit[[1]]$data %>%
     ) %>%
     ggplot(aes(x = group, y = gene_effect)) +
     geom_hline(yintercept = 0, size = 0.2, color = "grey30") +
-    ggbeeswarm::geom_quasirandom(
-        aes(color = color, shape = shape),
-        size = 2
-    ) +
     ggforce::geom_mark_hull(
         aes(filter = gene_effect < -0.18,
             label = "comutations with strongest effects"),
@@ -586,6 +569,10 @@ fkbp1a_box_plot <- fkbp1a_res$fit[[1]]$data %>%
         label.buffer = unit(5, "mm"),
         con.colour = "grey50",
         con.size = 0.3
+    ) +
+    ggbeeswarm::geom_quasirandom(
+        aes(color = color, shape = shape),
+        size = 2
     ) +
     scale_color_manual(
         values = fkbp1a_box_pal,
@@ -625,27 +612,14 @@ fkbp1a_genetic_graph <- tribble(
     "G12D",   "RNF43",  "",           "comutation",       "increased comut.",
     "G12D",   "RYR1",   "",           "comutation",       "reduced comut.",
     "G12D",   "FKBP1A", "",           "dependency",       "more dep.",
-    "FKBP1A", "RYR1",   "regulation", "PPI",              "PPI regulation",
+    "FKBP1A", "RYR1",   "calcium\nregulation", "PPI",              "PPI regulation",
     "RNF43",  "FKBP1A",  "",          "dependency",       "more dep.",
     "GPR98",  "FKBP1A",  "",          "dependency",       "more dep.",
 ) %>%
-    mutate(interaction_spec = fct_inorder(interaction_spec)) %>%
-    as_tbl_graph()
+    as_tbl_graph() %E>%
+    mutate(interaction_spec = fct_inorder(interaction_spec))
 
 
-fkbp1a_edge_types <- c(
-    comutation = "dashed",
-    dependency = "dotted",
-    PPI = "solid"
-)
-
-MOD_comut_updown_pal <- comut_updown_pal
-names(MOD_comut_updown_pal) <- paste(names(MOD_comut_updown_pal), "comut.")
-fkbp1a_edge_pal <- c(
-    "PPI regulation" = "grey40",
-    "more dep." = synthetic_lethal_pal[["down"]],
-    MOD_comut_updown_pal
-)
 
 fkbp1a_graph_layout <- ggraph::create_layout(fkbp1a_genetic_graph, "nicely")
 fkbp1a_graph_layout_attrs <- attributes(fkbp1a_graph_layout)
@@ -657,13 +631,17 @@ fkbp1a_graph_plot <- ggraph(fkbp1a_graph_layout) +
     geom_edge_diagonal(
         aes(edge_color = interaction_spec),
         strength = 0.5,
-        width = 0.8,
-        start_cap = circle(3.5, "mm"),
-        end_cap = circle(3.5, "mm")
+        width = 0.8
+        # start_cap = circle(3.5, "mm"),
+        # end_cap = circle(3.5, "mm")
     ) +
-    geom_node_text(
+    geom_node_label(
         aes(label = name),
-        family = "Arial", size = 2.2
+        family = "Arial", size = 2.2,
+        label.padding = unit(0.8, "mm"),
+        label.r = unit(0.4, "mm"),
+        color = "black", label.size = 0,
+        fill = "grey90"
     ) +
     scale_edge_color_manual(
         values = fkbp1a_edge_pal,
@@ -677,6 +655,7 @@ fkbp1a_graph_plot <- ggraph(fkbp1a_graph_layout) +
     theme_graph(base_size = 7, base_family = "Arial") +
     theme(
         legend.position = "bottom",
+        legend.title = element_markdown(face = "bold"),
         legend.spacing.y = unit(1, "mm"),
         legend.key.height = unit(3, "mm")
     )

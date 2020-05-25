@@ -144,3 +144,36 @@ isolate_kras_subnetwork <- function(gr) {
         unmorph() %>%
         filter(has_kras)
 }
+
+
+
+#### ---- Color palettes ---- ####
+
+
+kiaa1257_pal <- c("neither" = "grey50",
+                  "DNAH5" = "#F59237",
+                  "G12R" = short_allele_pal[["G12R"]],
+                  "G12R & DNAH5" = "#FF6B72")
+
+
+fkbp1a_edge_types <- c(
+    comutation = "dashed",
+    dependency = "dotted",
+    PPI = "solid"
+)
+
+MOD_comut_updown_pal <- comut_updown_pal
+names(MOD_comut_updown_pal) <- paste(names(MOD_comut_updown_pal), "comut.")
+fkbp1a_edge_pal <- c(
+    "PPI regulation" = "grey40",
+    "more dep." = synthetic_lethal_pal[["down"]],
+    MOD_comut_updown_pal
+)
+
+fkbp1a_box_pal <- c(
+    short_allele_pal["G12D"],
+    short_allele_pal["WT"],
+    GPR98 = "#C15953",
+    RNF43 = "#479461",
+    "GPR98 & RNF43" = "#C7A92E"
+)
