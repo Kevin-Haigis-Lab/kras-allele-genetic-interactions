@@ -47,6 +47,17 @@ theme_lineplot <- function(tag_margin = margin(1, 1, 1, 1, "mm")) {
 }
 
 
+theme_sideline <- function(tag_margin = margin(-1, -1, -1, -1, "mm")) {
+    theme_void(base_size = 7, base_family = "Arial") %+replace%
+    theme(
+        axis.title.y = element_markdown(angle = 90),
+        plot.tag = element_text(size = 7,
+                                face = "bold",
+                                margin = tag_margin)
+    )
+}
+
+
 #### ---- A. TP53 explaining STARD9 ---- ####
 # TP53 explaining dep. of G12D on STARD9 in COAD.
 # original script: "src/40_63_explore-synlet-comut.R"
@@ -61,11 +72,9 @@ panel_A_sideline <- tibble(x = 1, y = c(1, 2)) %>%
     geom_line(aes(group = x), size = 0.7, color = "grey50",
               lineend = "round") +
     scale_y_continuous(limits = c(1, 2), expand = c(0.01, 0.01)) +
-    theme_void(base_size = 7, base_family = "Arial") +
-    theme(
-        axis.title.y = element_markdown(angle = 90)
-    ) +
-    labs(y = "Effect of *TP53* mutation on dependency on *STARD9* in COAD")
+    theme_sideline() +
+    labs(y = "Effect of *TP53* mutation on dependency on *STARD9* in COAD",
+         tag = "a")
 
 
 
@@ -83,11 +92,9 @@ panel_B_sideline <- tibble(x = 1, y = c(1, 2)) %>%
     geom_line(aes(group = x), size = 0.7, color = "grey50",
               lineend = "round") +
     scale_y_continuous(limits = c(1, 2), expand = c(0.01, 0.01)) +
-    theme_void(base_size = 7, base_family = "Arial") +
-    theme(
-        axis.title.y = element_markdown(angle = 90)
-    ) +
-    labs(y = "Effect of *SMAD4* mutation on dependency on *EEF1E1* in PAAD")
+    theme_sideline() +
+    labs(y = "Effect of *SMAD4* mutation on dependency on *EEF1E1* in PAAD",
+         tag = "b")
 
 
 #### ---- Figure assembly ---- ####

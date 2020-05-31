@@ -207,9 +207,9 @@ extract_core_modeling_data <- function(df, allele) {
 
 # Return a tibble of the results of the best elastic net model.
 get_best_glmnet_result <- function(caret_fit) {
-    best = which(rownames(caret_fit$results) == rownames(caret_fit$bestTune))
-    best_result = caret_fit$results[best, ]
-    rownames(best_result) = NULL
+    best <- which(rownames(caret_fit$results) == rownames(caret_fit$bestTune))
+    best_result <- caret_fit$results[best, ]
+    rownames(best_result) <- NULL
     as_tibble(best_result)
 }
 

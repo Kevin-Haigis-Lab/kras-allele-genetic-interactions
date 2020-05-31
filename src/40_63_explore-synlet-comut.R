@@ -66,8 +66,11 @@ make_mask_coef_plot <- function(cancer, allele, hugo_symbol, fit, ...) {
     p <- fit$elastic_model %>%
         broom::tidy() %>%
         filter(term != "(Intercept)") %>%
-        mutate(term = ifelse(term == "kras_allele", !!allele, term),
-               term = fct_reorder(term, estimate)) %>%
+        mutate(
+            term = str_replace(term, "kras_allele", !!allele),
+            term = str_replace(term, ":", " & "),
+            term = fct_reorder(term, estimate)
+        ) %>%
         ggplot(aes(x = estimate, y = term)) +
         geom_vline(xintercept = 0, lty = 2, size = 0.5, color = "grey25") +
         geom_segment(aes(yend = term, color = estimate), xend = 0, size = 1) +
@@ -310,11 +313,11 @@ srsf5_comut_b <- tibble(
     x = c(2, 1, 1, 2, 2, 2, 2, 3, 3),
     y = rep(c(1, 1.5, 3), 3),
     group = rep(srsf5_comuts, each = 3),
-    interaction = rep(c("increased", "reduced", "reduced"), each = 3)
+    interaction = rep(c("reduced", "increased", "reduced"), each = 3)
 )
 srsf5_comut_c <- tibble(
-    x = c(1, 3),
-    y = c(1.3, 1.3),
+    x = c(2.3, 3),
+    y = c(2.5, 1.3),
     label = c("increased", "reduced")
 )
 
