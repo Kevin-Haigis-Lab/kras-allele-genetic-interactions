@@ -21,7 +21,12 @@
 	},
 	{
 		"figure_num": 5,
-		"make_num": 35,
+		"make_num": 45,
+		"supp": false
+	},
+	{
+		"figure_num": 6,
+		"make_num": 46,
 		"supp": false
 	},
 	
@@ -61,6 +66,11 @@
 		"figure_num": 7,
 		"make_num": 34,
 		"supp": true
+	},
+	{
+		"figure_num": 8,
+		"make_num": 47,
+		"supp": false
 	}
   ]
   
