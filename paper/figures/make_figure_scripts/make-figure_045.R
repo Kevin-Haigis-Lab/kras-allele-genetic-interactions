@@ -78,7 +78,7 @@ panel_A_sideline <- tibble(x = 1, y = c(1, 2)) %>%
 
 
 
-#### ---- B. TP53 explaining STARD9 ---- ####
+#### ---- B. SMAD4 explaining EEF1E1 ---- ####
 # SMAD4 explaining dep. of G12D on EEF1E1 in PAAD.
 # original script: "src/40_63_explore-synlet-comut.R"
 
@@ -102,9 +102,11 @@ panel_B_sideline <- tibble(x = 1, y = c(1, 2)) %>%
 {
     # COMPLETE FIGURE
     full_figure <- (
-        ((panel_A_sideline | (panel_A_1 / panel_A_2)) + plot_layout(widths = c(1, 20))) /
+        ((panel_A_sideline | (panel_A_1 / panel_A_2)) +
+            plot_layout(widths = c(1, 20))) /
         plot_spacer() /
-        ((panel_B_sideline | (panel_B_1 / panel_B_2)) + plot_layout(widths = c(1, 20)))
+        ((panel_B_sideline | (panel_B_1 / panel_B_2)) +
+            plot_layout(widths = c(1, 20)))
     ) +
         plot_layout(heights = c(20, 1, 20))
 
