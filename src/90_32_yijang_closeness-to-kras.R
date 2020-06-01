@@ -214,3 +214,21 @@ string_gr %N>%
     pull(.orig_data) %>%
     bind_rows %>%
     glimpse()
+
+
+
+#### ---- G13D comutation for Yi-Jang ---- ####
+
+out_file <- "COAD_G13D_comutation-genes_all-mutations_annotated.tsv"
+
+coad_g13d_comut_genes <- genetic_interaction_df %>%
+    filter(kras_allele == "KRAS_G13D" & cancer == "COAD") %>%
+    select(hugo_symbol, genetic_interaction, interaction_p_value = p_val)
+
+coad_g13d_comut_annotated <- cancer_coding_av_muts_df %>%
+    select(-ras) %>%
+    filter(cancer == "COAD") %>%
+    right_join(coad_g13d_comut_genes, by = "hugo_symbol")
+
+write_tsv(coad_g13d_comut_annotated,
+          table_path(GRAPHS_DIR, out_file))

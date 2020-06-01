@@ -108,7 +108,7 @@ compile_supp_data <- function(verbose = TRUE) {
     clear_final_data_file()
 
     if (verbose) cat("Apportioning memory for java.\n")
-    options(java.parameters = "-Xmx8g")
+    set_java_memory_option()
     clear_java_memory()
 
     cat("Writing:\n")
@@ -131,6 +131,11 @@ compile_supp_data <- function(verbose = TRUE) {
         clear_java_memory()
     }
     if (verbose) cat("final file: \"", SUPP_DATA_FILE, "\"\n", sep = "")
+}
+
+
+set_java_memory_option <- function() {
+    options(java.parameters = "-Xmx8g")
 }
 
 
