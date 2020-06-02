@@ -4,60 +4,10 @@
 GRAPHS_DIR <- "40_63_explore-synlet-comut"
 reset_graph_directory(GRAPHS_DIR)
 
-################################################################################
-## REMOVE FOR O2 ##
-
-# library(stats)
-# library(glue)
-# library(conflicted)
-# library(ggfortify)
-# library(tidygraph)
-# library(jhcutils)
-# library(magrittr)
-# library(ggpubr)
-# library(ggraph)
-# library(ggtext)
-# library(patchwork)
-# library(ggplot2)
-# library(broom)
-# library(tidyverse)
-
-# conflict_prefer("select", "dplyr")
-# conflict_prefer("filter", "dplyr")
-# conflict_prefer("slice", "dplyr")
-# conflict_prefer("setdiff", "dplyr")
-# conflict_prefer("intersect", "dplyr")
-# conflict_prefer("cache", "ProjectTemplate")
-# conflict_prefer("rename", "dplyr")
-# conflict_prefer("parLapply", "parallel")
-# conflict_prefer("which", "Matrix")
-
-
-# load("cache/synlet_comut_model_res.RData")
-
-# synlet_comut_model_res %<>%
-#     filter(
-#         (cancer == "COAD" & allele == "G12D" & hugo_symbol == "STARD9") |
-#             (cancer == "PAAD" & allele == "G12D" & hugo_symbol == "EEF1E1") |
-#             (cancer == "COAD" & allele == "G12D" & hugo_symbol == "SRSF5") |
-#             (cancer == "PAAD" & allele == "G12R" & hugo_symbol == "KIAA1257") |
-#             (cancer == "PAAD" & allele == "G12D" & hugo_symbol == "FKBP1A")
-#     )
-
-
-# saveFigRds <- function(...) { invisible(NULL) }
-
-# source("lib/ggplot2_helpers.R")
-# source("lib/helpers.R")
-
-################################################################################
-
-
-
 pastel_red <- "#FF8FAC"
 pastel_blue <- "#4096B3"
 
-
+set.seed(0)
 
 #### ---- MASKING ---- ####
 
@@ -214,11 +164,10 @@ synlet_comut_model_res %>%
 
 # group: linking
 
-
 srsf5_res <- synlet_comut_model_res %>%
     filter(cancer == "COAD" & allele == "G12D" & hugo_symbol == "SRSF5")
 
-srsf5_comuts <- c("SORL1", "APC", "HECW1")
+srsf5_comuts <- c("APC", "HECW1")
 srsf5_terms <- c("kras_allele", srsf5_comuts)
 srsf5_coef_plot <- srsf5_res$fit[[1]]$elastic_model %>%
     broom::tidy(return_zeros = TRUE) %>%
@@ -259,7 +208,7 @@ srsf5_box_data <- tibble()
 for (gene in srsf5_comuts) {
     srsf5_box_data <- bind_rows(
         srsf5_res$fit[[1]]$data %>%
-            add_column(comut_gene = tidyselect::all_of(!!gene)) %>%
+            add_column(comut_gene = tidyselect::all_of(gene)) %>%
             rename(highlight = gene) %>%
             select(gene_effect, kras_allele, comut_gene, highlight),
         srsf5_box_data
@@ -278,7 +227,7 @@ srsf5_box_plot <- srsf5_box_data %>%
     mutate(
         kras_allele = ifelse(kras_allele == 1, !!srsf5_res$allele, "other"),
         highlight = ifelse(highlight == 1, "mutant", "WT"),
-        comut_gene = factor(comut_gene, levels = c("SORL1", "APC", "HECW1"))
+        comut_gene = factor(comut_gene, levels = c("APC", "HECW1"))
     ) %>%
     ggplot() +
     geom_rect(data = srsf5_rects,
@@ -287,11 +236,13 @@ srsf5_box_plot <- srsf5_box_data %>%
               alpha = 0.2) +
     geom_hline(yintercept = 0, size = 0.2, color = "grey30") +
     geom_jitter(aes(x = comut_gene, y = gene_effect,
-                        color = highlight, shape = kras_allele), width = 0.2) +
-    scale_color_manual(values = c("grey20", "grey75")) +
+                    color = highlight, shape = kras_allele),
+                width = 0.2, alpha = 0.7) +
+    scale_color_manual(values = c("grey15", "grey65")) +
     scale_shape_manual(values = c(G12D = 17, other = 16)) +
     scale_fill_identity() +
-    scale_y_continuous(limits = c(-0.61, 0.2), expand = c(0, 0)) +
+    scale_y_continuous(limits = c(-0.61, 0.2),
+                       expand = c(0, 0)) +
     theme_bw(base_size = 7, base_family = "Arial") +
     theme(
         axis.title.x = element_blank(),
@@ -306,18 +257,18 @@ saveFigRds(srsf5_box_plot, "COAD_G12D_SRSF5_box-plot.rds")
 
 srsf5_comut_a <- tibble(
     y = 1,
-    x = 2,
+    x = 1.5,
     label = c("G12D")
 )
 srsf5_comut_b <- tibble(
-    x = c(2, 1, 1, 2, 2, 2, 2, 3, 3),
-    y = rep(c(1, 1.5, 3), 3),
+    x = c(1.5, 1, 1, 1.5, 2, 2),
+    y = rep(c(1, 1.5, 2), length(srsf5_comuts)),
     group = rep(srsf5_comuts, each = 3),
-    interaction = rep(c("reduced", "increased", "reduced"), each = 3)
+    interaction = rep(c("increased", "reduced"), each = 3)
 )
 srsf5_comut_c <- tibble(
-    x = c(2.3, 3),
-    y = c(2.5, 1.3),
+    x = c(1, 2),
+    y = c(1.3, 1.3),
     label = c("increased", "reduced")
 )
 
@@ -339,7 +290,7 @@ srsf5_comut_plot <- ggplot() +
         data = srsf5_comut_c,
         family = "Arial", size = 2.2,
     ) +
-    scale_x_continuous(limits = c(0.5, 3.5)) +
+    scale_x_continuous(limits = c(0.5, 2.5)) +
     scale_y_continuous(expand = expansion(mult = c(0.25, 0))) +
     scale_color_manual(values = comut_updown_pal,
                        guide = FALSE) +
