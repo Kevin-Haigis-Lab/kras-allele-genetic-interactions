@@ -1,0 +1,77 @@
+
+Model Info:
+ function:     stan_glm
+ family:       binomial [logit]
+ formula:      is_mapk_spec_mut ~ 1 + grp
+ algorithm:    sampling
+ sample:       4000 (posterior sample size)
+ priors:       see help('prior_summary')
+ observations: 4853
+ predictors:   3
+
+Estimates:
+                 mean   sd   10%   50%   90%
+(Intercept)    -0.4    0.0 -0.5  -0.4  -0.4 
+grpKRAS_mutant -1.1    0.1 -1.2  -1.1  -1.0 
+grpA59_mutant   1.0    0.5  0.3   1.0   1.7 
+
+Fit Diagnostics:
+           mean   sd   10%   50%   90%
+mean_PPD 0.3    0.0  0.3   0.3   0.3  
+
+The mean_ppd is the sample average posterior predictive distribution of the outcome variable (for details see help('summary.stanreg')).
+
+MCMC diagnostics
+               mcse Rhat n_eff
+(Intercept)    0.0  1.0  3868 
+grpKRAS_mutant 0.0  1.0  3619 
+grpA59_mutant  0.0  1.0  3798 
+mean_PPD       0.0  1.0  3747 
+log-posterior  0.0  1.0  2103 
+
+For each parameter, mcse is Monte Carlo standard error, n_eff is a crude measure of effective sample size, and Rhat is the potential scale reduction factor on split chains (at convergence Rhat=1).
+
+
+-------------------------------------------------------------------------------- 
+
+
+# Description of Posterior Distributions
+
+Parameter      | Median | CI | CI_low | CI_high |    pd | ROPE_CI | ROPE_low | ROPE_high | ROPE_Percentage |  Rhat |  ESS
+-------------------------------------------------------------------------------------------------------------------------
+(Intercept)    | -0.405 | 89 | -0.463 |  -0.339 | 1.000 |      89 |   -0.181 |     0.181 |               0 | 1.001 | 3868
+grpKRAS_mutant | -1.076 | 89 | -1.182 |  -0.963 | 1.000 |      89 |   -0.181 |     0.181 |               0 | 1.000 | 3619
+grpA59_mutant  |  1.001 | 89 |  0.234 |   1.904 | 0.979 |      89 |   -0.181 |     0.181 |               0 | 1.000 | 3798
+
+
+
+-------------------------------------------------------------------------------- 
+
+
+# Highest Density Interval
+
+Parameter      |        89% HDI
+-------------------------------
+(Intercept)    | [-0.46, -0.34]
+grpKRAS_mutant | [-1.18, -0.96]
+grpA59_mutant  | [ 0.23,  1.90]
+
+
+
+-------------------------------------------------------------------------------- 
+
+
+# Bayes Factor (Savage-Dickey density ratio)
+
+Parameter      |       BF
+-------------------------
+(Intercept)    | 2.96e+09
+grpKRAS_mutant | 4.35e+13
+grpA59_mutant  |     1.42
+
+* Evidence Against The Null: [0]
+
+
+-------------------------------------------------------------------------------- 
+
+

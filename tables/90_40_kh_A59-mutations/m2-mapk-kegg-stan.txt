@@ -1,0 +1,82 @@
+
+Model Info:
+ function:     stan_glm
+ family:       binomial [logit]
+ formula:      is_mapk_kegg_mut ~ 1 + grp + is_hypermutant
+ algorithm:    sampling
+ sample:       4000 (posterior sample size)
+ priors:       see help('prior_summary')
+ observations: 4853
+ predictors:   4
+
+Estimates:
+                     mean   sd   10%   50%   90%
+(Intercept)         2.0    0.1  1.9   2.0   2.1 
+grpKRAS_mutant     -1.0    0.1 -1.1  -1.0  -0.9 
+grpA59_mutant      -0.3    0.8 -1.3  -0.4   0.8 
+is_hypermutantTRUE  1.5    0.2  1.2   1.5   1.7 
+
+Fit Diagnostics:
+           mean   sd   10%   50%   90%
+mean_PPD 0.8    0.0  0.8   0.8   0.8  
+
+The mean_ppd is the sample average posterior predictive distribution of the outcome variable (for details see help('summary.stanreg')).
+
+MCMC diagnostics
+                   mcse Rhat n_eff
+(Intercept)        0.0  1.0  3890 
+grpKRAS_mutant     0.0  1.0  4485 
+grpA59_mutant      0.0  1.0  3621 
+is_hypermutantTRUE 0.0  1.0  3742 
+mean_PPD           0.0  1.0  4180 
+log-posterior      0.0  1.0  1869 
+
+For each parameter, mcse is Monte Carlo standard error, n_eff is a crude measure of effective sample size, and Rhat is the potential scale reduction factor on split chains (at convergence Rhat=1).
+
+
+-------------------------------------------------------------------------------- 
+
+
+# Description of Posterior Distributions
+
+Parameter          | Median | CI | CI_low | CI_high |    pd | ROPE_CI | ROPE_low | ROPE_high | ROPE_Percentage |  Rhat |  ESS
+-----------------------------------------------------------------------------------------------------------------------------
+(Intercept)        |  1.973 | 89 |  1.878 |   2.074 | 1.000 |      89 |   -0.181 |     0.181 |           0.000 | 1.000 | 3890
+grpKRAS_mutant     | -0.967 | 89 | -1.095 |  -0.835 | 1.000 |      89 |   -0.181 |     0.181 |           0.000 | 1.000 | 4485
+grpA59_mutant      | -0.386 | 89 | -1.560 |   0.942 | 0.672 |      89 |   -0.181 |     0.181 |           0.170 | 1.001 | 3621
+is_hypermutantTRUE |  1.462 | 89 |  1.202 |   1.776 | 1.000 |      89 |   -0.181 |     0.181 |           0.000 | 0.999 | 3742
+
+
+
+-------------------------------------------------------------------------------- 
+
+
+# Highest Density Interval
+
+Parameter          |        89% HDI
+-----------------------------------
+(Intercept)        | [ 1.88,  2.07]
+grpKRAS_mutant     | [-1.10, -0.84]
+grpA59_mutant      | [-1.56,  0.94]
+is_hypermutantTRUE | [ 1.20,  1.78]
+
+
+
+-------------------------------------------------------------------------------- 
+
+
+# Bayes Factor (Savage-Dickey density ratio)
+
+Parameter          |       BF
+-----------------------------
+(Intercept)        | 8.11e+34
+grpKRAS_mutant     | 5.57e+09
+grpA59_mutant      |     0.31
+is_hypermutantTRUE | 2.53e+08
+
+* Evidence Against The Null: [0]
+
+
+-------------------------------------------------------------------------------- 
+
+
