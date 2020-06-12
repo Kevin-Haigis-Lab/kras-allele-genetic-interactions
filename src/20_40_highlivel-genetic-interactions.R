@@ -48,7 +48,7 @@ if (caps$X11) {
 
 #### ---- Make high-level network images ---- ####
 
-ProjectTemplate::cache("genetic_interaction_gr",
+cache("genetic_interaction_gr",
                        depends = "genetic_interaction_df",
 {
     genetic_interaction_gr <- genetic_interaction_df %>%

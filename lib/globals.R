@@ -21,3 +21,7 @@ conflict_prefer("cache", "ProjectTemplate")
 conflict_prefer("rename", "dplyr")
 conflict_prefer("parLapply", "parallel")
 conflict_prefer("which", "Matrix")
+
+
+#### ---- Options ---- ####
+options(dplyr.summarise.inform = FALSE)

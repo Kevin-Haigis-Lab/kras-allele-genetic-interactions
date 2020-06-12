@@ -26,15 +26,27 @@ a59_muts <- cancer_full_coding_muts_df %>%
 
 a59_muts %>%
     count(a59_mutation, seq_type) %>%
-    arrange(seq_type, -n)
+    arrange(seq_type, -n) %>%
+    knitr::kable(format = "pandoc")
+#> a59_mutation   seq_type     n
+#> -------------  ---------  ---
+#> A59T           exome        3
+#> A59E           exome        2
+#> A59T           targeted    11
+#> A59E           targeted     1
 
 mapk_kegg_gs <- kegg_geneset_df %>%
     filter(gene_set == "Mapk signaling pathway") %>%
     u_pull(hugo_symbol)
+n_distinct(mapk_kegg_gs)
+#> 267
 
 mapk_spec_gs <- c("KRAS", "NF1", "BRAF", "RAF1", "ARAF", "NRAS", "HRAS",
-                     "MAP2K1", "EGFR", "ERBB2", "ERBB3", "ERBB4", "RASAL1",
-                     "RASAL2")
+                  "MAP2K1", "EGFR", "ERBB2", "ERBB3", "ERBB4", "RASAL1",
+                  "RASAL2")
+n_distinct(mapk_spec_gs)
+#> 14
+
 # A specific data frame for this analysis (only in COAD).
 a59_cancer_data <- cancer_full_coding_muts_df %>%
     filter(cancer == "COAD") %>%
@@ -58,7 +70,7 @@ num_samples - num_samples_woKRAS
 #> [1] 38
 
 
-#### ---- A59 muts vs. rest freq. of MAPK muts without KRAS ---- ####
+#### ---- A59 muts vs. rest freq. of MAPK muts with KRAS ---- ####
 
 num_samples_df <- a59_cancer_data %>%
     distinct(tumor_sample_barcode, is_a59_mutation) %>%
@@ -320,12 +332,17 @@ a59_mapk_mut_counts <- a59_cancer_data %>%
 a59_mapk_mut_counts %>%
     group_by(grp) %>%
     summarise(frac_mapk_kegg_mut = sum(is_mapk_kegg_mut) / n(),
-              frac_mapk_spec_mut = sum(is_mapk_spec_mut) / n())
+              frac_mapk_spec_mut = sum(is_mapk_spec_mut) / n()) %>%
+    knitr::kable(format = "pandoc")
+#> grp            frac_mapk_kegg_mut   frac_mapk_spec_mut
+#> ------------  -------------------  -------------------
+#> rest                    0.8921946            0.4000700
+#> KRAS_mutant             0.7569480            0.1854472
+#> A59_mutant              0.8823529            0.6470588
 
 
 
-
-
+# Write out model information to a text file.
 writeout_model_information <- function(mdl, name) {
     sink(table_path(GRAPHS_DIR, paste0(name, ".txt")))
     for (f in c(summary, describe_posterior, bayestestR::hdi, bf_parameters)) {
@@ -338,6 +355,7 @@ writeout_model_information <- function(mdl, name) {
 }
 
 
+# Plot HDI plots for estimated coefficients.
 plot_post_distributions <- function(mdl, name) {
     p <- plot(bayestestR::hdi(mdl, ci = c(0.5, 0.75, 0.89, 0.95)),
               show_intercept = TRUE,

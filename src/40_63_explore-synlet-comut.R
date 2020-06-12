@@ -9,12 +9,64 @@ pastel_blue <- "#4096B3"
 
 set.seed(0)
 
+
+
+################################################################################
+## REMOVE FOR O2 ##
+
+library(stats)
+library(glue)
+library(conflicted)
+library(ggfortify)
+library(tidygraph)
+library(jhcutils)
+library(magrittr)
+library(ggpubr)
+library(ggraph)
+library(ggtext)
+library(patchwork)
+library(ggplot2)
+library(broom)
+library(tidyverse)
+
+conflict_prefer("select", "dplyr")
+conflict_prefer("filter", "dplyr")
+conflict_prefer("slice", "dplyr")
+conflict_prefer("setdiff", "dplyr")
+conflict_prefer("intersect", "dplyr")
+conflict_prefer("cache", "ProjectTemplate")
+conflict_prefer("rename", "dplyr")
+conflict_prefer("parLapply", "parallel")
+conflict_prefer("which", "Matrix")
+
+options(dplyr.summarise.inform = FALSE)
+
+load("cache/synlet_comut_model_res.RData")
+
+synlet_comut_model_res %<>%
+    filter(
+        (cancer == "COAD" & allele == "G12D" & hugo_symbol == "STARD9") |
+            (cancer == "PAAD" & allele == "G12D" & hugo_symbol == "EEF1E1") |
+            (cancer == "COAD" & allele == "G12D" & hugo_symbol == "SRSF5") |
+            (cancer == "PAAD" & allele == "G12R" & hugo_symbol == "KIAA1257") |
+            (cancer == "PAAD" & allele == "G12D" & hugo_symbol == "FKBP1A")
+    )
+
+
+saveFigRds <- function(...) { invisible(NULL) }
+
+source("lib/ggplot2_helpers.R")
+source("lib/helpers.R")
+
+################################################################################
+
+
+
 #### ---- MASKING ---- ####
 
 # Make the coefficient plot for the masking group.
 make_mask_coef_plot <- function(cancer, allele, hugo_symbol, fit, ...) {
-    p <- fit$elastic_model %>%
-        broom::tidy() %>%
+    p <- broom::tidy(fit$elastic_model) %>%
         filter(term != "(Intercept)") %>%
         mutate(
             term = str_replace(term, "kras_allele", !!allele),
@@ -36,16 +88,16 @@ make_mask_coef_plot <- function(cancer, allele, hugo_symbol, fit, ...) {
                              mid = "grey90",
                              low = pastel_blue) +
         scale_x_continuous(expand = expansion(mult = c(0.1, 0.1))) +
-        theme_bw(base_size = 7, base_family = "Arial") +
+        theme_minimal(base_size = 7, base_family = "Arial") +
         theme(
-            plot.title = element_blank(),
+            plot.title = element_markdown(hjust = 0.5),
             legend.position = "none",
             axis.text.y = element_blank(),
             axis.ticks.y = element_blank(),
             axis.title.y = element_blank(),
-            axis.title.x = element_markdown()
+            axis.title.x = element_blank()
         ) +
-        labs(x = glue(
+        labs(title = glue(
             "estimated effect of mutation on dependency on *{hugo_symbol}*"
         ))
     plt_name <- glue("{cancer}_{allele}_{hugo_symbol}_coef-plot.svg") %>%
@@ -76,37 +128,25 @@ make_mask_line_plot <- function(cancer, allele, hugo_symbol, fit, other_gene,
         )) %>%
         mutate(mutation = fct_rev(factor(mutation)))
 
-    label_data <- p_data %>%
-        group_by(mutation) %>%
-        summarise(x = mean(gene_effect)) %>%
-        ungroup() %>%
-        mutate(y = 1.7)
-
     p <- p_data %>%
-        mutate(y = ifelse(mutation == !!allele, 0.8, 1.2)) %>%
-        ggplot(aes(x = gene_effect, y = y, color = mutation)) +
-        geom_hline(yintercept = c(0.8, 1.2), size = 0.1, color = "grey70") +
-        # geom_point(size = 5, alpha = 0.7) +
-        ggbeeswarm::geom_quasirandom(size = 3, alpha = 0.7, groupOnX = FALSE) +
-        geom_richtext(data = label_data,
-                      aes(x = x, y = y, label = mutation),
-                      size = 3, family = "Arial", fontface = "bold",
-                      fill = NA, label.color = NA,
-                      label.padding = unit(rep(0, 4), "mm")) +
+        ggplot(aes(x = mutation, y = gene_effect, color = mutation))
+
+    if (0 < max(p_data$gene_effect) & 0 > min(p_data$gene_effect)) {
+        p <- p +
+            geom_hline(yintercept = 0, size = 0.2, color = "grey30")
+    }
+
+    p <- p +
+        ggbeeswarm::geom_quasirandom(size = 3, alpha = 0.7, groupOnX = TRUE) +
         scale_color_manual(values = mask_pal, drop = TRUE) +
-        scale_y_continuous(limits = c(0.5, 2.1),
-                           expand = expansion(mult = c(0, 0))) +
-        theme_minimal(base_size = 7, base_family = "Arial") +
+        scale_y_continuous(expand = expansion(mult = c(0.05, 0.05))) +
+        theme_bw(base_size = 7, base_family = "Arial") +
         theme(
             legend.position = "none",
-            panel.grid.major.y = element_blank(),
-            panel.grid.minor.y = element_blank(),
-            axis.text.y = element_blank(),
-            axis.title.y = element_blank(),
-            axis.title.x = element_markdown()
+            axis.title.y = element_markdown(),
+            axis.title.x = element_blank()
         ) +
-        labs(x = glue("*{hugo_symbol}* dependency score"),
-             y = NULL)
+        labs(y = glue("*{hugo_symbol}* dependency score"))
 
     plt_name <- glue("{cancer}_{allele}_{hugo_symbol}_line-plot.svg") %>%
         as.character()
@@ -126,7 +166,7 @@ make_mask_patch_plot <- function(cancer, allele, hugo_symbol, fit, other_gene,
     coef_p <- make_mask_coef_plot(cancer, allele, hugo_symbol, fit)
     line_p <- make_mask_line_plot(cancer, allele, hugo_symbol, fit, other_gene)
     patch <- (coef_p / line_p) +
-        plot_layout(heights = c(2, 1))
+        plot_layout(heights = c(1, 3))
     plt_name <- as.character(glue("{cancer}_{allele}_{hugo_symbol}_patch.svg"))
     ggsave_wrapper(
         patch,
@@ -168,11 +208,12 @@ srsf5_res <- synlet_comut_model_res %>%
     filter(cancer == "COAD" & allele == "G12D" & hugo_symbol == "SRSF5")
 
 srsf5_comuts <- c("APC", "HECW1")
-srsf5_terms <- c("kras_allele", srsf5_comuts)
+srsf5_terms <- c("kras_allele", srsf5_comuts, "kras_allele:APC")
 srsf5_coef_plot <- srsf5_res$fit[[1]]$elastic_model %>%
     broom::tidy(return_zeros = TRUE) %>%
     filter(term %in% srsf5_terms) %>%
-    mutate(term = ifelse(term == "kras_allele", !!srsf5_res$allele, term),
+    mutate(term = str_replace(term, "kras_allele", srsf5_res$fit[[1]]$allele),
+           term = str_replace(term, ":", " & "),
            term = fct_reorder(term, estimate)) %>%
     ggplot(aes(x = estimate, y = term)) +
     geom_vline(xintercept = 0, lty = 2, size = 0.5, color = "grey25") +
@@ -204,45 +245,24 @@ srsf5_coef_plot <- srsf5_res$fit[[1]]$elastic_model %>%
     ))
 saveFigRds(srsf5_coef_plot, "COAD_G12D_SRSF5_coef-plot.rds")
 
-srsf5_box_data <- tibble()
-for (gene in srsf5_comuts) {
-    srsf5_box_data <- bind_rows(
-        srsf5_res$fit[[1]]$data %>%
-            add_column(comut_gene = tidyselect::all_of(gene)) %>%
-            rename(highlight = gene) %>%
-            select(gene_effect, kras_allele, comut_gene, highlight),
-        srsf5_box_data
-    )
-}
 
-srsf5_rects <- tibble(
-    xmin = -Inf,
-    xmax = Inf,
-    ymin = c(0.2, 0),
-    ymax = c(0, -0.61),
-    fill = c("#CC9895", "grey97")
-)
+srsf_box_pal <- c(short_allele_pal, other = "grey50")
 
-srsf5_box_plot <- srsf5_box_data %>%
+srsf5_box_plot <- srsf5_res$fit[[1]]$data %>%
     mutate(
         kras_allele = ifelse(kras_allele == 1, !!srsf5_res$allele, "other"),
-        highlight = ifelse(highlight == 1, "mutant", "WT"),
-        comut_gene = factor(comut_gene, levels = c("APC", "HECW1"))
+        mutation = case_when(
+            APC + HECW1 == 2 ~ "APC & HECW1",
+            APC == 1 ~ "APC",
+            HECW1 == 1 ~ "HECW1",
+            TRUE ~ "WT"),
+        mutation = factor(mutation,
+                          levels = c("WT", "APC", "HECW1", "APC & HECW1"))
     ) %>%
-    ggplot() +
-    geom_rect(data = srsf5_rects,
-              aes(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax,
-                  fill = fill),
-              alpha = 0.2) +
+    ggplot(aes(mutation, gene_effect)) +
     geom_hline(yintercept = 0, size = 0.2, color = "grey30") +
-    geom_jitter(aes(x = comut_gene, y = gene_effect,
-                    color = highlight, shape = kras_allele),
-                width = 0.2, alpha = 0.7) +
-    scale_color_manual(values = c("grey15", "grey65")) +
-    scale_shape_manual(values = c(G12D = 17, other = 16)) +
-    scale_fill_identity() +
-    scale_y_continuous(limits = c(-0.61, 0.2),
-                       expand = c(0, 0)) +
+    geom_jitter(aes(color = kras_allele), width = 0.2, alpha = 0.7) +
+    scale_color_manual(values = srsf_box_pal, drop = TRUE) +
     theme_bw(base_size = 7, base_family = "Arial") +
     theme(
         axis.title.x = element_blank(),
@@ -251,50 +271,38 @@ srsf5_box_plot <- srsf5_box_data %>%
         legend.title = element_markdown()
     ) +
     labs(y = glue("*{srsf5_res$hugo_symbol}* dependency score"),
-         color = "comutation",
-         shape = "*KRAS* allele")
-saveFigRds(srsf5_box_plot, "COAD_G12D_SRSF5_box-plot.rds")
+         color = "*KRAS* allele")
+saveFigRds(srsf5_box_plot, "COAD_G12D_SRSF5_box-plot2.rds")
 
-srsf5_comut_a <- tibble(
-    y = 1,
-    x = 1.5,
-    label = c("G12D")
-)
-srsf5_comut_b <- tibble(
-    x = c(1.5, 1, 1, 1.5, 2, 2),
-    y = rep(c(1, 1.5, 2), length(srsf5_comuts)),
-    group = rep(srsf5_comuts, each = 3),
-    interaction = rep(c("increased", "reduced"), each = 3)
-)
-srsf5_comut_c <- tibble(
-    x = c(1, 2),
-    y = c(1.3, 1.3),
-    label = c("increased", "reduced")
-)
 
-srsf5_comut_plot <- ggplot() +
-    ggforce::geom_bezier(
-        aes(x = x, y = y, group = group, color = interaction),
-        data = srsf5_comut_b
-    ) +
-    geom_label(
-        aes(x = x, y = y, label = label),
-        data = srsf5_comut_a,
-        family = "Arial", size = 2.2,
-        label.padding = unit(0.8, "mm"),
-        label.r = unit(0.4, "mm"),
-        color = "black", label.size = 0
-    ) +
-    geom_text(
-        aes(x = x, y = y, label = label, color = label),
-        data = srsf5_comut_c,
-        family = "Arial", size = 2.2,
-    ) +
-    scale_x_continuous(limits = c(0.5, 2.5)) +
-    scale_y_continuous(expand = expansion(mult = c(0.25, 0))) +
-    scale_color_manual(values = comut_updown_pal,
-                       guide = FALSE) +
-    theme_void(base_size = 7, base_family = "Arial")
+load("cache/genetic_interaction_gr.RData")
+srsf5_comut_gr <- genetic_interaction_gr %E>%
+    filter(cancer == "COAD") %>%
+    mutate(genetic_interaction = switch_comut_terms(genetic_interaction),
+           edge_label = paste(genetic_interaction, " comutation")) %N>%
+    mutate(name = str_remove(name, "KRAS_")) %>%
+    filter(name %in% c("G12D", srsf5_comuts)) %>%
+    mutate(node_text_color = ifelse(name %in% kras_dark_lbls, "white", "black"))
+
+srsf5_comut_gr_layout <- create_layout(srsf5_comut_gr, layout = "nicely")
+srsf5_comut_gr_layout$x <- c(2, 3, 1)
+srsf5_comut_gr_layout$y <- rep(0, 3)
+srsf5_comut_plot <- ggraph(srsf5_comut_gr_layout) +
+    geom_edge_link(aes(color = genetic_interaction,
+                       label = edge_label),
+                   vjust = -1, label_size = 2.2, width = 1) +
+    geom_node_label(aes(label = name, fill = name, color = node_text_color),
+                    family = "Arial", size = 2.2,
+                    label.padding = unit(0.8, "mm"),
+                    label.r = unit(0.4, "mm"),
+                    label.size = 0) +
+    scale_edge_color_manual(values = comut_updown_pal, guide = FALSE) +
+    scale_color_identity(guide = FALSE) +
+    scale_fill_manual(values = short_allele_pal, na.value = "grey90", guide = FALSE) +
+    theme_graph() +
+    theme(
+        plot.margin = margin(3, 0, 0, 0, unit = "mm")
+    )
 saveFigRds(srsf5_comut_plot, "COAD_G12D_SRSF5_comut-graph-plot.rds")
 
 srsf5_patch <- (srsf5_coef_plot / srsf5_box_plot / srsf5_comut_plot) +
