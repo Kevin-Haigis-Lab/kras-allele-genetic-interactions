@@ -52,8 +52,11 @@ synlet_comut_model_res %<>%
             (cancer == "PAAD" & allele == "G12D" & hugo_symbol == "FKBP1A")
     )
 
+load("cache/genetic_interaction_gr.RData")
+
 
 saveFigRds <- function(...) { invisible(NULL) }
+reset_graph_directory <- saveFigRds
 
 source("lib/ggplot2_helpers.R")
 source("lib/helpers.R")
@@ -248,7 +251,7 @@ saveFigRds(srsf5_coef_plot, "COAD_G12D_SRSF5_coef-plot.rds")
 
 srsf_box_pal <- c(short_allele_pal, other = "grey50")
 
-srsf5_box_plot <- srsf5_res$fit[[1]]$data %>%
+srsf5_box_plot_data <- srsf5_res$fit[[1]]$data %>%
     mutate(
         kras_allele = ifelse(kras_allele == 1, !!srsf5_res$allele, "other"),
         mutation = case_when(
@@ -258,10 +261,23 @@ srsf5_box_plot <- srsf5_res$fit[[1]]$data %>%
             TRUE ~ "WT"),
         mutation = factor(mutation,
                           levels = c("WT", "APC", "HECW1", "APC & HECW1"))
-    ) %>%
+    )
+
+srsf5_box_plot_summary <- srsf5_box_plot_data %>%
+    group_by(mutation) %>%
+    summarise(gene_effect = mean(gene_effect)) %>%
+    ungroup()
+
+srsf5_box_plot <- srsf5_box_plot_data %>%
     ggplot(aes(mutation, gene_effect)) +
     geom_hline(yintercept = 0, size = 0.2, color = "grey30") +
-    geom_jitter(aes(color = kras_allele), width = 0.2, alpha = 0.7) +
+    geom_line(aes(group = "a"), data = srsf5_box_plot_summary,
+              size = 0.7, color = "grey80", lty = 1,
+              linejoin = "round", lineend = "round") +
+    geom_point(data = srsf5_box_plot_summary,
+               size = 0.7, color = "grey80") +
+    ggbeeswarm::geom_quasirandom(aes(color = kras_allele),
+                                 size = 3, alpha = 0.8) +
     scale_color_manual(values = srsf_box_pal, drop = TRUE) +
     theme_bw(base_size = 7, base_family = "Arial") +
     theme(
@@ -275,11 +291,10 @@ srsf5_box_plot <- srsf5_res$fit[[1]]$data %>%
 saveFigRds(srsf5_box_plot, "COAD_G12D_SRSF5_box-plot2.rds")
 
 
-load("cache/genetic_interaction_gr.RData")
 srsf5_comut_gr <- genetic_interaction_gr %E>%
     filter(cancer == "COAD") %>%
     mutate(genetic_interaction = switch_comut_terms(genetic_interaction),
-           edge_label = paste(genetic_interaction, " comutation")) %N>%
+           edge_label = paste(genetic_interaction, "comutation")) %N>%
     mutate(name = str_remove(name, "KRAS_")) %>%
     filter(name %in% c("G12D", srsf5_comuts)) %>%
     mutate(node_text_color = ifelse(name %in% kras_dark_lbls, "white", "black"))
@@ -298,12 +313,14 @@ srsf5_comut_plot <- ggraph(srsf5_comut_gr_layout) +
                     label.size = 0) +
     scale_edge_color_manual(values = comut_updown_pal, guide = FALSE) +
     scale_color_identity(guide = FALSE) +
+    scale_x_continuous(expand = expansion(mult = c(0.08, 0.08))) +
     scale_fill_manual(values = short_allele_pal, na.value = "grey90", guide = FALSE) +
     theme_graph() +
     theme(
         plot.margin = margin(3, 0, 0, 0, unit = "mm")
     )
 saveFigRds(srsf5_comut_plot, "COAD_G12D_SRSF5_comut-graph-plot.rds")
+
 
 srsf5_patch <- (srsf5_coef_plot / srsf5_box_plot / srsf5_comut_plot) +
     plot_layout(heights = c(3, 9, 1))
@@ -326,31 +343,44 @@ ggsave_wrapper(
 kiaa1257_res <- synlet_comut_model_res %>%
     filter(cancer == "PAAD" & allele == "G12R" & hugo_symbol == "KIAA1257")
 
-p_data <- kiaa1257_res$fit[[1]]$data %>%
-    mutate(mutation = case_when(
-        kras_allele + DNAH5 == 2 ~ "G12R & DNAH5",
-        kras_allele == 1 ~ "G12R",
-        DNAH5 == 1 ~ "DNAH5",
-        TRUE ~ "neither"
-    ),
-    mutation = factor(mutation, names(kiaa1257_pal)))
+kiaa1257_box_plot_data <- kiaa1257_res$fit[[1]]$data %>%
+    mutate(
+        mutation = case_when(
+            kras_allele + DNAH5 == 2 ~ "DNAH5 & G12R",
+            kras_allele == 1 ~ "G12R",
+            DNAH5 == 1 ~ "DNAH5",
+            TRUE ~ "neither"
+        ),
+        mutation = factor(
+            mutation,
+            levels = c("neither", "DNAH5", "G12R", "DNAH5 & G12R")
+        )
+    )
 
-p_data_summary <- p_data %>%
+kiaa1257_box_plot_summary <- kiaa1257_box_plot_data %>%
     group_by(mutation) %>%
     summarise(gene_effect = mean(gene_effect)) %>%
     ungroup()
 
-set.seed(123)
-kiaa1257_box_plot <- p_data %>%
-    ggplot(aes(y = gene_effect, x = mutation)) +
+kiaa1257_box_pal <- c(
+    "neither" = "grey70",
+    "DNAH5" = "grey30",
+    "G12R" = short_allele_pal[["G12R"]],
+    "DNAH5 & G12R" = "grey30"
+)
+
+kiaa1257_box_plot <- kiaa1257_box_plot_data %>%
+    ggplot(aes(mutation, gene_effect)) +
     geom_hline(yintercept = 0, size = 0.2, color = "grey30") +
-    geom_line(data = p_data_summary,
-              group = 1, color = "grey50", alpha = 0.5) +
-    geom_point(data = p_data_summary,
-               aes(color = mutation),
-               size = 3, shape = 18) +
-    geom_jitter(aes(color = mutation), height = 0, width = 0.2, alpha = 0.8) +
-    scale_color_manual(values = kiaa1257_pal) +
+    geom_line(aes(group = "a"),
+              data = kiaa1257_box_plot_summary,
+              size = 0.7, color = "grey80", lty = 1,
+              linejoin = "round", lineend = "round") +
+    geom_point(data = kiaa1257_box_plot_summary,
+               size = 0.7, color = "grey80") +
+    ggbeeswarm::geom_quasirandom(aes(color = mutation),
+                                 size = 3, alpha = 0.8) +
+    scale_color_manual(values = kiaa1257_box_pal, drop = TRUE, guide = FALSE) +
     theme_bw(base_size = 7, base_family = "Arial") +
     theme(
         plot.title = element_blank(),
@@ -412,35 +442,39 @@ ggsave_wrapper(
 )
 
 
-g12r_dnah5_line <- tibble(
-    name = c("DNAH5", "reduced comutation", "G12R"),
-    color = c("white", comut_updown_pal[["reduced"]], "white"),
-    y = c(1, 1.7, 1)
-) %>%
-    mutate(name = fct_inorder(name)) %>%
-    ggplot(aes(x = name, y = y)) +
-    geom_segment(x = "DNAH5", xend = "G12R", y = 1, yend = 1,
-                 color = comut_updown_pal[["reduced"]],
-                 size = 1.4) +
-    geom_label(aes(label = name, fill = name, color = color),
-               family = "Arial", size = 2.2,
-               label.r = unit(0.4, "mm"),
-               label.size = 0) +
-    scale_color_identity() +
-    scale_fill_manual(values = kiaa1257_pal, guide = FALSE) +
-    scale_y_continuous(limits = c(0.5, 1.9), expand = c(0, 0)) +
-    theme_void(base_size = 7, base_family = "Arial")
-saveFigRds(g12r_dnah5_line, "PAAD_G12R_KIAA1257_G12R-DNAH5_line-plot.rds")
+kiaa1257_comut_gr <- genetic_interaction_gr %E>%
+    filter(cancer == "PAAD") %>%
+    mutate(genetic_interaction = switch_comut_terms(genetic_interaction),
+           edge_label = paste(genetic_interaction, "comutation")) %N>%
+    mutate(name = str_remove(name, "KRAS_")) %>%
+    filter(name %in% c("G12R", "DNAH5")) %>%
+    mutate(node_text_color = ifelse(name %in% kras_dark_lbls, "white", "black"))
+
+kiaa1257_comut_gr_layout <- create_layout(kiaa1257_comut_gr, layout = "nicely")
+kiaa1257_comut_gr_layout$x <- c(2, 1)
+kiaa1257_comut_gr_layout$y <- rep(0, 2)
+kiaa1257_comut_plot <- ggraph(kiaa1257_comut_gr_layout) +
+    geom_edge_link(aes(color = genetic_interaction,
+                       label = edge_label),
+                   vjust = -1, label_size = 2.2, width = 1) +
+    geom_node_label(aes(label = name, fill = name, color = node_text_color),
+                    family = "Arial", size = 2.2,
+                    label.padding = unit(0.8, "mm"),
+                    label.r = unit(0.4, "mm"),
+                    label.size = 0) +
+    scale_edge_color_manual(values = comut_updown_pal, guide = FALSE) +
+    scale_color_identity(guide = FALSE) +
+    scale_x_continuous(expand = expansion(mult = c(0.4, 0.4))) +
+    scale_fill_manual(values = short_allele_pal, na.value = "grey90", guide = FALSE) +
+    theme_graph() +
+    theme(
+        plot.margin = margin(3, 0, 0, 0, unit = "mm")
+    )
+saveFigRds(kiaa1257_comut_plot, "PAAD_G12R_KIAA1257_comut-graph-plot.rds")
 
 
-kiaa1257_layout <- c(
-    area(t = 1, l = 1, b = 4, r = 10),
-    area(t = 5, l = 1, b = 14, r = 10),
-    area(t = 7, l = 5.5, b = 8, r = 10)
-)
-
-kiaa1257_patch <- kiaa1257_coef_plot + kiaa1257_box_plot + g12r_dnah5_line +
-    plot_layout(design = kiaa1257_layout)
+kiaa1257_patch <- (kiaa1257_coef_plot / kiaa1257_box_plot / kiaa1257_comut_plot) +
+    plot_layout(heights = c(3, 9, 1))
 ggsave_wrapper(
     kiaa1257_patch,
     plot_path(GRAPHS_DIR, "PAAD_G12R_KIAA1257_patch.svg"),
@@ -501,140 +535,102 @@ fkbp1a_coef_plot <- fkbp1a_res$fit[[1]]$elastic_model %>%
     ))
 saveFigRds(fkbp1a_coef_plot, "PAAD_G12D_FKBP1A_coef-plot.rds")
 
-fkbp1a_box_plot <- fkbp1a_res$fit[[1]]$data %>%
+fkbp1a_box_pal <- c(
+    "neither" = "grey70",
+    "G12D" = short_allele_pal[["G12D"]],
+    "GPR98/RNF43" = "grey30"
+)
+
+fkbp1a_box_plot_data <- fkbp1a_res$fit[[1]]$data %>%
     mutate(
-        color = case_when(
+        mutation = case_when(
             GPR98 + RNF43 == 2 ~ "GPR98 & RNF43",
             GPR98 == 1 ~ "GPR98",
             RNF43 == 1 ~ "RNF43",
+            TRUE ~ "neither"
+        ),
+        color = case_when(
             kras_allele == 1 ~ "G12D",
-            TRUE ~ "WT"),
-        shape = ifelse(kras_allele == 1, "G12D", "other"),
-        group = ifelse(color == "WT", "WT", "mutant"),
-        group = factor(group, levels = c("WT", "mutant"))
-    ) %>%
-    ggplot(aes(x = group, y = gene_effect)) +
+            GPR98 + RNF43 >= 1 ~ "GPR98/RNF43",
+            TRUE ~ "neither"
+        ),
+        mutation = factor(
+            mutation,
+            levels = c("neither", "GPR98", "RNF43", "GPR98 & RNF43")
+        ),
+        color = factor(
+            color,
+            levels = c("neither", "GPR98/RNF43", "G12D")
+        )
+    )
+
+fkbp1a_box_plot_summary <- fkbp1a_box_plot_data %>%
+    group_by(kras_allele, mutation) %>%
+    summarise(gene_effect = mean(gene_effect)) %>%
+    ungroup() %>%
+    arrange(mutation)
+
+
+fkbp1a_box_plot <- fkbp1a_box_plot_data %>%
+    ggplot(aes(x = mutation, y = gene_effect)) +
     geom_hline(yintercept = 0, size = 0.2, color = "grey30") +
-    ggforce::geom_mark_hull(
-        aes(filter = gene_effect < -0.18,
-            label = "comutations with strongest effects"),
-        fill = "grey75",
-        expand = unit(3, "mm"),
-        radius = unit(1, "mm"),
-        size = 0.3, colour = NA,
-        label.family = "Arial",
-        label.fontsize = 6,
-        label.fontface = "plain",
-        label.fill = NA,
-        label.colour = "black",
-        label.margin = margin(1, 1, 1, 1, "mm"),
-        label.buffer = unit(5, "mm"),
-        con.colour = "grey50",
-        con.size = 0.3
-    ) +
-    ggbeeswarm::geom_quasirandom(
-        aes(color = color, shape = shape),
-        size = 2
-    ) +
-    scale_color_manual(
-        values = fkbp1a_box_pal,
-        guide = guide_legend(
-            direction = "vertical",
-            nrow = 2,
-            order = 20
-        )
-    ) +
-    scale_shape_manual(
-        values = c(17, 16),
-        guide = guide_legend(
-            direction = "vertical",
-            nrow = 2,
-            order = 20
-        )
-    ) +
+    geom_line(data = filter(fkbp1a_box_plot_summary, kras_allele == 0),
+              group = "a", color = "grey85", size = 1) +
+    geom_line(data = filter(fkbp1a_box_plot_summary, kras_allele == 1),
+              group = "a", color = "#87a7ff", size = 1) +
+    geom_point(aes(color = color),
+               position = position_jitterdodge(dodge.width = 0.4),
+               size = 2) +
+    scale_color_manual(values = fkbp1a_box_pal, drop = TRUE) +
+    scale_x_discrete(drop = FALSE) +
     theme_bw(base_size = 7, base_family = "Arial") +
     theme(
         axis.title.x = element_blank(),
         axis.title.y = element_markdown(),
         axis.ticks = element_blank(),
-        legend.position = "bottom",
-        legend.title = element_markdown(),
-        legend.spacing.y = unit(1, "mm"),
-        legend.key.height = unit(3, "mm")
+        legend.position = "right",
+        legend.title = element_blank()
     ) +
     labs(y = glue("dependency score of *{fkbp1a_res$hugo_symbol[[1]]}*"),
-         color = "mutations",
-         shape = "*KRAS* allele")
+         color = "*KRAS* allele")
 saveFigRds(fkbp1a_box_plot, "PAAD_G12D_FKBP1A_box-plot.rds")
 
 
-fkbp1a_genetic_graph <- tribble(
-    ~ from,   ~ to,     ~ edge_name,  ~ interaction_type, ~ interaction_spec,
-    "G12D",   "GPR98",  "",           "comutation",       "increased comut.",
-    "G12D",   "RNF43",  "",           "comutation",       "increased comut.",
-    "G12D",   "RYR1",   "",           "comutation",       "reduced comut.",
-    "G12D",   "FKBP1A", "",           "dependency",       "more dep.",
-    "FKBP1A", "RYR1",   "calcium\nregulation", "PPI",              "PPI regulation",
-    "RNF43",  "FKBP1A",  "",          "dependency",       "more dep.",
-    "GPR98",  "FKBP1A",  "",          "dependency",       "more dep.",
-) %>%
-    as_tbl_graph() %E>%
-    mutate(interaction_spec = fct_inorder(interaction_spec))
+fkbp1a_comut_gr <- genetic_interaction_gr %E>%
+    filter(cancer == "PAAD") %>%
+    mutate(genetic_interaction = switch_comut_terms(genetic_interaction),
+           edge_label = paste(genetic_interaction, "comutation")) %N>%
+    mutate(name = str_remove(name, "KRAS_")) %>%
+    filter(name %in% c("G12D", fkbp1a_comuts)) %>%
+    mutate(node_text_color = ifelse(name %in% kras_dark_lbls, "white", "black"))
 
-
-
-fkbp1a_graph_layout <- ggraph::create_layout(fkbp1a_genetic_graph, "nicely")
-fkbp1a_graph_layout_attrs <- attributes(fkbp1a_graph_layout)
-
-fkbp1a_graph_layout$x <- c(1, 2, 3, 3, 3)
-fkbp1a_graph_layout$y <- c(2, 4, 2, 1, 3)
-
-fkbp1a_graph_plot <- ggraph(fkbp1a_graph_layout) +
-    geom_edge_diagonal(
-        aes(edge_color = interaction_spec),
-        strength = 0.5,
-        width = 0.8
-        # start_cap = circle(3.5, "mm"),
-        # end_cap = circle(3.5, "mm")
-    ) +
-    geom_node_label(
-        aes(label = name),
-        family = "Arial", size = 2.2,
-        label.padding = unit(0.8, "mm"),
-        label.r = unit(0.4, "mm"),
-        color = "black", label.size = 0,
-        fill = "grey90"
-    ) +
-    scale_edge_color_manual(
-        values = fkbp1a_edge_pal,
-        guide = guide_legend(
-            title = "interaction type",
-            title.position = "top",
-            nrow = 1,
-            order = 10
-        )
-    ) +
-    theme_graph(base_size = 7, base_family = "Arial") +
+fkbp1a_comut_gr_layout <- create_layout(fkbp1a_comut_gr, layout = "nicely")
+fkbp1a_comut_gr_layout$x <- c(2, 3, 1)
+fkbp1a_comut_gr_layout$y <- rep(0, 3)
+fkbp1a_comut_plot <- ggraph(fkbp1a_comut_gr_layout) +
+    geom_edge_link(aes(color = genetic_interaction,
+                       label = edge_label),
+                   vjust = -1, label_size = 2.2, width = 1) +
+    geom_node_label(aes(label = name, fill = name, color = node_text_color),
+                    family = "Arial", size = 2.2,
+                    label.padding = unit(0.8, "mm"),
+                    label.r = unit(0.4, "mm"),
+                    label.size = 0) +
+    scale_edge_color_manual(values = comut_updown_pal, guide = FALSE) +
+    scale_color_identity(guide = FALSE) +
+    scale_x_continuous(expand = expansion(mult = c(0.08, 0.08))) +
+    scale_fill_manual(values = short_allele_pal, na.value = "grey90", guide = FALSE) +
+    theme_graph() +
     theme(
-        legend.position = "bottom",
-        legend.title = element_markdown(face = "bold"),
-        legend.spacing.y = unit(1, "mm"),
-        legend.key.height = unit(3, "mm")
+        plot.margin = margin(3, 0, 0, 0, unit = "mm")
     )
-saveFigRds(fkbp1a_graph_plot, "PAAD_G12D_FKBP1A_genetic-graph-plot.rds")
-ggsave_wrapper(
-    fkbp1a_graph_plot,
-    plot_path(GRAPHS_DIR, "PAAD_G12D_FKBP1A_genetic-graph.svg"),
-    "small"
-)
+saveFigRds(fkbp1a_comut_plot, "PAAD_G12D_FKBP1A_comut-graph-plot.rds")
 
 
-fkbp1a_patch <- (
-    (fkbp1a_coef_plot / fkbp1a_box_plot) + plot_layout(heights = c(1, 2)) |
-    wrap_elements(full = fkbp1a_graph_plot)
-)
+fkbp1a_patch <- (fkbp1a_coef_plot / fkbp1a_box_plot / fkbp1a_comut_plot) +
+    plot_layout(heights = c(3, 9, 1))
 ggsave_wrapper(
     fkbp1a_patch,
-    plot_path(GRAPHS_DIR, "PAAD_G12D_FKBP1A_patch.svg"),
-    "wide"
+    plot_path(GRAPHS_DIR, "PAAD_G12D_FKBP1A-patch.svg"),
+    "small"
 )
