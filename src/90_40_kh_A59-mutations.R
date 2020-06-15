@@ -11,6 +11,7 @@ library(bayestestR)
 library(see)
 
 
+show_df <- function(df) { knitr::kable(df, format = "markdown", digits = 3) }
 
 a59_muts <- cancer_full_coding_muts_df %>%
     filter(cancer == "COAD") %>%
@@ -27,13 +28,13 @@ a59_muts <- cancer_full_coding_muts_df %>%
 a59_muts %>%
     count(a59_mutation, seq_type) %>%
     arrange(seq_type, -n) %>%
-    knitr::kable(format = "pandoc")
-#> a59_mutation   seq_type     n
-#> -------------  ---------  ---
-#> A59T           exome        3
-#> A59E           exome        2
-#> A59T           targeted    11
-#> A59E           targeted     1
+    show_df()
+#> |a59_mutation |seq_type |  n|
+#> |:------------|:--------|--:|
+#> |A59T         |exome    |  3|
+#> |A59E         |exome    |  2|
+#> |A59T         |targeted | 11|
+#> |A59E         |targeted |  1|
 
 mapk_kegg_gs <- kegg_geneset_df %>%
     filter(gene_set == "Mapk signaling pathway") %>%
@@ -47,6 +48,7 @@ mapk_spec_gs <- c("KRAS", "NF1", "BRAF", "RAF1", "ARAF", "NRAS", "HRAS",
 n_distinct(mapk_spec_gs)
 #> 14
 
+
 # A specific data frame for this analysis (only in COAD).
 a59_cancer_data <- cancer_full_coding_muts_df %>%
     filter(cancer == "COAD") %>%
@@ -57,6 +59,8 @@ a59_cancer_data <- cancer_full_coding_muts_df %>%
            in_mapk_kegg_gs = hugo_symbol %in% !!mapk_kegg_gs,
            in_mapk_spec_gs = hugo_symbol %in% !!mapk_spec_gs)
 
+
+n_distinct(a59_cancer_data$tumor_sample_barcode)  #> 4853
 
 # Any tumor samples lost by removing KRAS mutations?
 # These samples would only have a single mutation and it would be a KRAS mut.
@@ -93,11 +97,11 @@ a59_cancer_data %>%
         frac_in_mapk_kegg_gs = num_in_mapk_kegg_gs / n,
         frac_in_mapk_spec_gs = num_in_mapk_spec_gs / n
     ) %>%
-    knitr::kable(format = "pandoc")
-#> is_a59_mutation    frac_in_mapk_kegg_gs   frac_in_mapk_spec_gs
-#> ----------------  ---------------------  ---------------------
-#> FALSE                         0.9373449              0.6507444
-#> TRUE                          0.8823529              0.7058824
+    show_df()
+#> |is_a59_mutation | frac_in_mapk_kegg_gs| frac_in_mapk_spec_gs|
+#> |:---------------|--------------------:|--------------------:|
+#> |FALSE           |                0.937|                0.651|
+#> |TRUE            |                0.882|                0.706|
 
 
 #### ---- A59 muts vs. rest freq. of MAPK muts without KRAS ---- ####
@@ -121,11 +125,11 @@ a59_cancer_data %>%
         frac_in_mapk_kegg_gs = num_in_mapk_kegg_gs / n,
         frac_in_mapk_spec_gs = num_in_mapk_spec_gs / n
     ) %>%
-    knitr::kable(format = "pandoc")
-#> is_a59_mutation    frac_in_mapk_kegg_gs   frac_in_mapk_spec_gs
-#> ----------------  ---------------------  ---------------------
-#> FALSE                         0.8368486              0.3122415
-#> TRUE                          0.8823529              0.6470588
+    show_df()
+#> |is_a59_mutation | frac_in_mapk_kegg_gs| frac_in_mapk_spec_gs|
+#> |:---------------|--------------------:|--------------------:|
+#> |FALSE           |                0.837|                0.312|
+#> |TRUE            |                0.882|                0.647|
 
 
 #### ---- A59 muts vs. KRAS muts. vs. rest freq. of MAPK muts ---- ####
@@ -155,12 +159,12 @@ a59_cancer_data %>%
         frac_in_mapk_kegg_gs = num_in_mapk_kegg_gs / n,
         frac_in_mapk_spec_gs = num_in_mapk_spec_gs / n
     ) %>%
-    knitr::kable(format = "pandoc")
-#> grp            frac_in_mapk_kegg_gs   frac_in_mapk_spec_gs
-#> ------------  ---------------------  ---------------------
-#> A59_mutant                0.8823529              0.6470588
-#> KRAS_mutant               0.7569480              0.1854472
-#> rest                      0.8921946              0.4000700
+    show_df()
+#> |grp         | frac_in_mapk_kegg_gs| frac_in_mapk_spec_gs|
+#> |:-----------|--------------------:|--------------------:|
+#> |A59_mutant  |                0.882|                0.647|
+#> |KRAS_mutant |                0.757|                0.185|
+#> |rest        |                0.892|                0.400|
 
 
 #### ---- A59 muts vs. KRAS muts. vs. rest freq. of MAPK muts (WG/ES) ---- ####
@@ -192,12 +196,12 @@ a59_cancer_data %>%
         frac_in_mapk_kegg_gs = num_in_mapk_kegg_gs / n,
         frac_in_mapk_spec_gs = num_in_mapk_spec_gs / n
     ) %>%
-    knitr::kable(format = "pandoc")
-#> grp            frac_in_mapk_kegg_gs   frac_in_mapk_spec_gs
-#> ------------  ---------------------  ---------------------
-#> A59_mutant                0.8000000              0.6000000
-#> KRAS_mutant               0.8847656              0.2285156
-#> rest                      0.8767258              0.4201183
+    show_df()
+#> |grp         | frac_in_mapk_kegg_gs| frac_in_mapk_spec_gs|
+#> |:-----------|--------------------:|--------------------:|
+#> |A59_mutant  |                0.800|                0.600|
+#> |KRAS_mutant |                0.885|                0.229|
+#> |rest        |                0.877|                0.420|
 
 
 #### ---- A59 muts vs. KRAS muts. vs. rest freq. of MAPK muts (hypermuts) ---- ####
@@ -229,12 +233,12 @@ a59_cancer_data %>%
         frac_in_mapk_kegg_gs = num_in_mapk_kegg_gs / n,
         frac_in_mapk_spec_gs = num_in_mapk_spec_gs / n
     ) %>%
-    knitr::kable(format = "pandoc")
-#> grp            frac_in_mapk_kegg_gs   frac_in_mapk_spec_gs
-#> ------------  ---------------------  ---------------------
-#> A59_mutant                1.0000000              0.8888889
-#> KRAS_mutant               0.9011407              0.5247148
-#> rest                      0.9799107              0.8392857
+    show_df()
+#> |grp         | frac_in_mapk_kegg_gs| frac_in_mapk_spec_gs|
+#> |:-----------|--------------------:|--------------------:|
+#> |A59_mutant  |                1.000|                0.889|
+#> |KRAS_mutant |                0.901|                0.525|
+#> |rest        |                0.980|                0.839|
 
 
 #### ---- Fisher of MAPK mutation between A59 muts and KRAS muts ---- ####
@@ -281,7 +285,7 @@ fisher.test(d, alternative = "g")
 #> sample estimates:
 #> odds ratio
 #>   2.407507
-#>90
+#>
 
 # A59 mutants vs. KRAS mutants (KEGG gene set)
 d <- a59_mapk_mut_counts %>%
@@ -301,6 +305,50 @@ fisher.test(d, alternative = "g")
 #> sample estimates:
 #> odds ratio
 #>   8.041764
+#>
+
+
+#### ---- Fisher of MAPK mutation between A59 muts and rest ---- ####
+
+# A59 mutants vs. KRAS mutants (KEGG gene set)
+d <- a59_mapk_mut_counts %>%
+    filter(grp %in% c("A59_mutant", "rest")) %>%
+    select(grp, tidyselect::contains("kegg")) %>%
+    as.data.frame() %>%
+    column_to_rownames("grp")
+fisher.test(d, alternative = "g")
+#>
+#>     Fisher's Exact Test for Count Data
+#>
+#> data:  d
+#> p-value = 0.7248
+#> alternative hypothesis: true odds ratio is greater than 1
+#> 95 percent confidence interval:
+#>  0.2480431       Inf
+#> sample estimates:
+#> odds ratio
+#>  0.9062955
+#>
+
+
+# A59 mutants vs. KRAS mutants (KEGG gene set)
+d <- a59_mapk_mut_counts %>%
+    filter(grp %in% c("A59_mutant", "rest")) %>%
+    select(grp, tidyselect::contains("spec")) %>%
+    as.data.frame() %>%
+    column_to_rownames("grp")
+fisher.test(d, alternative = "g")
+#>
+#>     Fisher's Exact Test for Count Data
+#>
+#> data:  d
+#> p-value = 0.03542
+#> alternative hypothesis: true odds ratio is greater than 1
+#> 95 percent confidence interval:
+#>  1.081014      Inf
+#> sample estimates:
+#> odds ratio
+#>   2.748221
 #>
 
 
@@ -333,12 +381,12 @@ a59_mapk_mut_counts %>%
     group_by(grp) %>%
     summarise(frac_mapk_kegg_mut = sum(is_mapk_kegg_mut) / n(),
               frac_mapk_spec_mut = sum(is_mapk_spec_mut) / n()) %>%
-    knitr::kable(format = "pandoc")
-#> grp            frac_mapk_kegg_mut   frac_mapk_spec_mut
-#> ------------  -------------------  -------------------
-#> rest                    0.8921946            0.4000700
-#> KRAS_mutant             0.7569480            0.1854472
-#> A59_mutant              0.8823529            0.6470588
+    show_df()
+#> |grp         | frac_mapk_kegg_mut| frac_mapk_spec_mut|
+#> |:-----------|------------------:|------------------:|
+#> |rest        |              0.892|              0.400|
+#> |KRAS_mutant |              0.757|              0.185|
+#> |A59_mutant  |              0.882|              0.647|
 
 
 
@@ -358,7 +406,7 @@ writeout_model_information <- function(mdl, name) {
 # Plot HDI plots for estimated coefficients.
 plot_post_distributions <- function(mdl, name) {
     p <- plot(bayestestR::hdi(mdl, ci = c(0.5, 0.75, 0.89, 0.95)),
-              show_intercept = TRUE,
+              show_df_intercept = TRUE,
               data = mdl) +
         scale_fill_flat() +
         theme_minimal(base_size = 7, base_family = "Arial") +
@@ -380,12 +428,12 @@ grp_hypermutant_frac <- a59_mapk_mut_counts %>%
     ungroup()
 grp_hypermutant_frac %>%
     filter(is_hypermutant) %>%
-    knitr::kable(format = "pandoc")
-#> grp           is_hypermutant      n        frac
-#> ------------  ---------------  ----  ----------
-#> rest          TRUE              448   0.1568078
-#> KRAS_mutant   TRUE              263   0.1328954
-#> A59_mutant    TRUE                9   0.5294118
+    show_df()
+#> |grp         |is_hypermutant |   n|  frac|
+#> |:-----------|:--------------|---:|-----:|
+#> |rest        |TRUE           | 448| 0.157|
+#> |KRAS_mutant |TRUE           | 263| 0.133|
+#> |A59_mutant  |TRUE           |   9| 0.529|
 
 frac_hypermutant_plot <- grp_hypermutant_frac %>%
     ggplot(aes(x = grp, y = frac)) +
