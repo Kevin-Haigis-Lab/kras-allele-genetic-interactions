@@ -310,9 +310,9 @@ srsf5_box_plot_data <- srsf5_res$fit[[1]]$data %>%
             APC + HECW1 == 2 ~ "APC & HECW1",
             APC == 1 ~ "APC",
             HECW1 == 1 ~ "HECW1",
-            TRUE ~ "WT"),
+            TRUE ~ "neither"),
         mutation = factor(mutation,
-                          levels = c("WT", "APC", "HECW1", "APC & HECW1"))
+                          levels = c("neither", "APC", "HECW1", "APC & HECW1"))
     )
 
 srsf5_box_plot_summary <- srsf5_box_plot_data %>%
@@ -346,7 +346,7 @@ srsf5_box_plot <- srsf5_box_plot_data %>%
         axis.ticks = element_blank(),
         legend.title = element_markdown()
     ) +
-    labs(y = glue("dependency score of *{fkbp1a_res$hugo_symbol[[1]]}*"),
+    labs(y = glue("dependency score of *{srsf5_res$hugo_symbol[[1]]}*"),
          color = "mutation")
 saveFigRds(srsf5_box_plot, "COAD_G12D_SRSF5_box-plot.rds")
 
