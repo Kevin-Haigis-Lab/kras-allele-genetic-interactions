@@ -181,9 +181,9 @@ merge_identical_comutation_covariates <- function(mm) {
 
 # Make the model matrix for the comutation covariates.
 comutation_model_matrix <- function(df, cancer, allele) {
-    mm <- model.matrix( ~ -1 + kras_allele * ., data = df) %>%
+    mm <- model.matrix( ~ -1 + kras_allele + ., data = df) %>%
         remove_covariates_identical_to_allele() %>%
-        interaction_terms_only_for_increased_comuts(cancer, allele) %>%
+        # interaction_terms_only_for_increased_comuts(cancer, allele) %>%
         merge_identical_comutation_covariates()
 }
 
@@ -462,6 +462,7 @@ cache("synlet_comut_model_res",
         filter(adj_p_value < 0.05 & allele != "WT") %>%
         select(cancer, allele, hugo_symbol, data) %>%
         mutate(fit = pmap(., synlet_with_comutations),
+               num_coefs = map_dbl(fit, ~ nrow(coef(.x$elastic_model))),
                name = paste(cancer, allele, hugo_symbol, sep = "_"),
                plt = map2(name, fit, synlet_with_comutations_plots))
     return(synlet_comut_model_res)
