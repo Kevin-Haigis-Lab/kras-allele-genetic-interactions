@@ -10,7 +10,6 @@ pastel_blue <- "#4096B3"
 set.seed(0)
 
 
-
 ################################################################################
 ## REMOVE FOR O2 ##
 
@@ -43,14 +42,14 @@ set.seed(0)
 
 # load("cache/synlet_comut_model_res.RData")
 
-# synlet_comut_model_res %<>%
-#     filter(
-#         (cancer == "COAD" & allele == "G12D" & hugo_symbol == "STARD9") |
-#             (cancer == "PAAD" & allele == "G12D" & hugo_symbol == "EEF1E1") |
-#             (cancer == "COAD" & allele == "G12D" & hugo_symbol == "SRSF5") |
-#             (cancer == "PAAD" & allele == "G12R" & hugo_symbol == "KIAA1257") |
-#             (cancer == "PAAD" & allele == "G12D" & hugo_symbol == "FKBP1A")
-#     )
+# # synlet_comut_model_res %<>%
+# #     filter(
+# #         (cancer == "COAD" & allele == "G12D" & hugo_symbol == "STARD9") |
+# #             (cancer == "PAAD" & allele == "G12D" & hugo_symbol == "EEF1E1") |
+# #             (cancer == "COAD" & allele == "G12D" & hugo_symbol == "SRSF5") |
+# #             (cancer == "PAAD" & allele == "G12R" & hugo_symbol == "KIAA1257") |
+# #             (cancer == "PAAD" & allele == "G12D" & hugo_symbol == "FKBP1A")
+# #     )
 
 # load("cache/genetic_interaction_gr.RData")
 
@@ -87,7 +86,7 @@ make_mask_coef_plot <- function(cancer, allele, hugo_symbol, fit, ...) {
         geom_segment(aes(yend = term, color = estimate), xend = 0, size = 1) +
         geom_label(aes(label = term, fill = estimate),
                    family = "Arial", size = 2.2,
-                   label.padding = unit(0.8, "mm"),
+                   label.padding = unit(0.4, "mm"),
                    label.r = unit(0.4, "mm"),
                    color = "black", label.size = 0) +
         scale_color_gradient2(high = pastel_red,
@@ -144,7 +143,8 @@ make_mask_line_plot <- function(cancer, allele, hugo_symbol, fit, other_gene,
     }
 
     p <- p +
-        ggbeeswarm::geom_quasirandom(size = 3, alpha = 0.7, groupOnX = TRUE) +
+        geom_boxplot(fill = NA, outlier.shape = NA) +
+        ggbeeswarm::geom_quasirandom(size = 1, alpha = 0.9, groupOnX = TRUE) +
         scale_color_manual(values = mask_pal, drop = TRUE) +
         scale_y_continuous(expand = expansion(mult = c(0.05, 0.05))) +
         theme_bw(base_size = 7, base_family = "Arial") +
@@ -199,7 +199,7 @@ synlet_comut_model_res %>%
 
 
 
-################################################################################
+ ################################################################################
 ################################################################################
 ################################################################################
 

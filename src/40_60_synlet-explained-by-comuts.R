@@ -467,3 +467,23 @@ cache("synlet_comut_model_res",
                plt = map2(name, fit, synlet_with_comutations_plots))
     return(synlet_comut_model_res)
 })
+
+synlet_comut_model_res %>%
+    count(cancer, allele, num_coefs, name = "num_genes") %>%
+    arrange(cancer, allele, num_coefs) %>%
+    knitr::kable()
+#> |cancer |allele | num_coefs| num_genes|
+#> |:------|:------|---------:|---------:|
+#> |COAD   |G12D   |        37|         3|
+#> |COAD   |G12D   |        44|        27|
+#> |COAD   |G12D   |        45|         8|
+#> |COAD   |G12V   |        28|         7|
+#> |COAD   |G12V   |        29|         1|
+#> |COAD   |G13D   |        15|        12|
+#> |COAD   |G13D   |        16|         1|
+#> |PAAD   |G12D   |        12|         1|
+#> |PAAD   |G12D   |        14|         2|
+#> |PAAD   |G12D   |        15|        73|
+#> |PAAD   |G12R   |        13|         1|
+#> |PAAD   |G12R   |        14|        63|
+#> |PAAD   |G12V   |         8|        57|
