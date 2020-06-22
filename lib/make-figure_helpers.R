@@ -175,7 +175,8 @@ save_figure <- function(p,
     jpg_name <- get_figure_img_path(figure_num, file_fmt = "jpeg")
 
     for (f in c(svg_name, jpg_name)) {
-        ggsave(f, p, width = dim$width, height = dim$height, unit = "mm")
+        ggsave(f, p, width = dim$width, height = dim$height,
+               unit = "mm", dpi = 500)
     }
 
     # Copy the JPEG to "reports/content/home/gallery/gallery/"

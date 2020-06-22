@@ -173,7 +173,7 @@ panel_D <- (panel_D_1 / panel_D_2) +
             panel_A | panel_B | panel_C | panel_D
         ) + plot_layout(widths = c(1, 1, 1, 1))) /
         ((
-            panel_A_3 | panel_B_3
+            panel_A_3 | panel_BCD_3
         ) + plot_layout(widths = c(1, 3)))
     ) +
         plot_layout(heights = c(10, 2))
