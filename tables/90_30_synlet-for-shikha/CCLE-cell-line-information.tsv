@@ -1,0 +1,83 @@
+dep_map_id	ccle_name	stripped_cell_line_name	cancer	lineage	lineage_subtype	lineage_sub_subtype	lineage_molecular_subtype	disease	disease_subtype	primary_or_metastasis	sex	age	culture_medium	kras_allele	kras_codon	kras_cn	kras_copynumber
+ACH-000003	CACO2_LARGE_INTESTINE	CACO2	COAD	colorectal	colorectal_adenocarcinoma	NA	NA	colon/colorectal cancer	adenocarcinoma	NA	Male	NA	NA	WT	WT	NA	2
+ACH-000007	LS513_LARGE_INTESTINE	LS513	COAD	colorectal	colorectal_adenocarcinoma	NA	NA	colon/colorectal cancer	adenocarcinoma	Primary	Male	63	RPMI 1640 + 10% FBS	G12D	12	2	2
+ACH-000009	C2BBE1_LARGE_INTESTINE	C2BBE1	COAD	colorectal	colorectal_adenocarcinoma	NA	NA	colon/colorectal cancer	adenocarcinoma	Primary	Male	72	D10+ITS+Glu	WT	WT	NA	2
+ACH-000089	NCIH684_LARGE_INTESTINE	NCIH684	COAD	colorectal	colorectal_adenocarcinoma	NA	NA	colon/colorectal cancer	adenocarcinoma	Metastasis	Male	55	NA	G12D	12	2	2
+ACH-000202	COLO320_LARGE_INTESTINE	COLO320	COAD	colorectal	colorectal_adenocarcinoma	NA	NA	colon/colorectal cancer	adenocarcinoma	Primary	Female	55	RPMI-1640: 10%FBS	WT	WT	NA	2
+ACH-000236	SW1417_LARGE_INTESTINE	SW1417	COAD	colorectal	colorectal_adenocarcinoma	NA	NA	colon/colorectal cancer	adenocarcinoma	Primary	Female	53	NA	WT	WT	NA	2
+ACH-000249	CL11_LARGE_INTESTINE	CL11	COAD	colorectal	colorectal_adenocarcinoma	NA	NA	colon/colorectal cancer	adenocarcinoma	Primary	Male	NA	DMEM/F-12 (1:1): 80.0%	Q61H	61	2	2
+ACH-000249	CL11_LARGE_INTESTINE	CL11	COAD	colorectal	colorectal_adenocarcinoma	NA	NA	colon/colorectal cancer	adenocarcinoma	Primary	Male	NA	DMEM/F-12 (1:1): 80.0%	other	WT	2	2
+ACH-000252	LS1034_LARGE_INTESTINE	LS1034	COAD	colorectal	colorectal_adenocarcinoma	NA	NA	colon/colorectal cancer	adenocarcinoma	Primary	Male	54	RPMI; 10% FBS	A146T	146	2	2
+ACH-000253	COLO201_LARGE_INTESTINE	COLO201	COAD	colorectal	colorectal_adenocarcinoma	NA	NA	colon/colorectal cancer	adenocarcinoma	Metastasis	Male	70	RPMI-1640: 90.0%	WT	WT	NA	2
+ACH-000286	SNU1033_LARGE_INTESTINE	SNU1033	COAD	colorectal	colorectal_adenocarcinoma	NA	NA	colon/colorectal cancer	adenocarcinoma	Primary	Female	45	RPMI-1640: 90.0%	G12D	12	2	2
+ACH-000296	OUMS23_LARGE_INTESTINE	OUMS23	COAD	colorectal	colorectal_adenocarcinoma	NA	NA	colon/colorectal cancer	adenocarcinoma	Metastasis	Male	NA	DMEM; 10% FBS;	WT	WT	NA	2
+ACH-000342	CL14_LARGE_INTESTINE	CL14	COAD	colorectal	colorectal_adenocarcinoma	NA	NA	colon/colorectal cancer	adenocarcinoma	NA	Male	NA	NA	WT	WT	NA	2
+ACH-000350	COLO678_LARGE_INTESTINE	COLO678	COAD	colorectal	colorectal_adenocarcinoma	NA	NA	colon/colorectal cancer	adenocarcinoma	Metastasis	Male	69	RPMI-1640: 10%FBS	G12D	12	2	2
+ACH-000360	NCIH508_LARGE_INTESTINE	NCIH508	COAD	colorectal	caecum_adenocarcinoma	NA	NA	colon/colorectal cancer	caecum adenocarcinoma	Metastasis	Male	55	RPMI; 10% FBS	WT	WT	NA	2
+ACH-000381	T84_LARGE_INTESTINE	T84	COAD	colorectal	colorectal_adenocarcinoma	NA	NA	colon/colorectal cancer	adenocarcinoma	Metastasis	Male	72	DMEM:F12(1:1); 5%FBS; 2mMGlutamine	G13D	13	2	2
+ACH-000400	SKCO1_LARGE_INTESTINE	SKCO1	COAD	colorectal	colorectal_adenocarcinoma	NA	NA	colon/colorectal cancer	adenocarcinoma	Metastasis	Male	65	NA	G12V	12	2.596629179972775	2.596629179972775
+ACH-000403	NCIH747_LARGE_INTESTINE	NCIH747	COAD	colorectal	colorectal_adenocarcinoma	NA	NA	colon/colorectal cancer	adenocarcinoma	Metastasis	Male	69	RPMI; 10% FBS	G13D	13	2	2
+ACH-000412	SNU1197_LARGE_INTESTINE	SNU1197	COAD	colorectal	colorectal_adenocarcinoma	NA	NA	colon/colorectal cancer	adenocarcinoma	Primary	Male	70	NA	G12D	12	2	2
+ACH-000421	SW837_LARGE_INTESTINE	SW837	COAD	colorectal	colorectal_adenocarcinoma	NA	NA	colon/colorectal cancer	adenocarcinoma	Primary	Male	53	RPMI; 10% FBS	G12C	12	2	2
+ACH-000467	HCC56_LARGE_INTESTINE	HCC56	COAD	colorectal	colorectal_adenocarcinoma	NA	NA	colon/colorectal cancer	adenocarcinoma	NA	Unknown	NA	EMEM; 10% FBS	G12V	12	2	2
+ACH-000470	SW1463_LARGE_INTESTINE	SW1463	COAD	colorectal	colorectal_adenocarcinoma	NA	NA	colon/colorectal cancer	adenocarcinoma	Primary	Female	66	RPMI-1640: 10%FBS	G12C	12	2	2
+ACH-000489	SW1116_LARGE_INTESTINE	SW1116	COAD	colorectal	colorectal_adenocarcinoma	NA	NA	colon/colorectal cancer	adenocarcinoma	Primary	Male	73	NA	G12A	12	2	2
+ACH-000491	NCIH716_LARGE_INTESTINE	NCIH716	COAD	colorectal	colorectal_adenocarcinoma	NA	NA	colon/colorectal cancer	adenocarcinoma	Metastasis	Male	33	RPMI; 10% FBS	other	WT	2	2
+ACH-000501	LS123_LARGE_INTESTINE	LS123	COAD	colorectal	colorectal_adenocarcinoma	NA	NA	colon/colorectal cancer	adenocarcinoma	Primary	Female	65	NA	G12S	12	2	2
+ACH-000532	SNU61_LARGE_INTESTINE	SNU61	COAD	colorectal	colorectal_adenocarcinoma	NA	NA	colon/colorectal cancer	adenocarcinoma	Metastasis	Male	48	NA	G12D	12	2	2
+ACH-000552	HT29_LARGE_INTESTINE	HT29	COAD	colorectal	colorectal_adenocarcinoma	NA	NA	colon/colorectal cancer	adenocarcinoma	Primary	Female	44	McCoy's 5A; 10% FBS	WT	WT	NA	2
+ACH-000565	RCM1_LARGE_INTESTINE	RCM1	COAD	colorectal	colorectal_adenocarcinoma	NA	NA	colon/colorectal cancer	adenocarcinoma	Primary	Female	73	Ham F-12: 40.0%, RPMI-1640: 40.0%	G12V	12	2	2
+ACH-000651	SW620_LARGE_INTESTINE	SW620	COAD	colorectal	colorectal_adenocarcinoma	NA	NA	colon/colorectal cancer	adenocarcinoma	Metastasis	Male	51	Leibovitz's L-15; 10%FBS	G12V	12	3.067188855179383	3.067188855179383
+ACH-000680	SW948_LARGE_INTESTINE	SW948	COAD	colorectal	colorectal_adenocarcinoma	NA	NA	colon/colorectal cancer	adenocarcinoma	Primary	Female	81	RPMI-1640: 90.0%	Q61L	61	2	2
+ACH-000683	SNU503_LARGE_INTESTINE	SNU503	COAD	colorectal	colorectal_adenocarcinoma	NA	NA	colon/colorectal cancer	adenocarcinoma	Metastasis	Male	52	RPMI;10% FBS;	WT	WT	NA	2
+ACH-000708	SNU283_LARGE_INTESTINE	SNU283	COAD	colorectal	colorectal_adenocarcinoma	NA	NA	colon/colorectal cancer	adenocarcinoma	Metastasis	Female	62	NA	WT	WT	NA	2
+ACH-000722	SNUC1_LARGE_INTESTINE	SNUC1	COAD	colorectal	colorectal_adenocarcinoma	NA	NA	colon/colorectal cancer	adenocarcinoma	Metastasis	Male	71	NA	WT	WT	NA	2
+ACH-000798	CL40_LARGE_INTESTINE	CL40	COAD	NA	NA	NA	NA	colon/colorectal cancer	colorectal carcinoma	Primary	Female	NA	DMEM/F-12 (1:1): 80.0%	G12D	12	2	2
+ACH-000820	SW403_LARGE_INTESTINE	SW403	COAD	NA	NA	NA	NA	colon/colorectal cancer	colon adenocarcinoma	Primary	Female	51	Leibovitz's L-15; 10%FBS	G12V	12	2	2
+ACH-000842	SW480_LARGE_INTESTINE	SW480	COAD	NA	NA	NA	NA	colon/colorectal cancer	colon adenocarcinoma	Primary	Male	50	NA	G12V	12	2	2
+ACH-000895	CL34_LARGE_INTESTINE	CL34	COAD	NA	NA	NA	NA	colon/colorectal cancer	colon carcinoma	Primary	Female	NA	NA	WT	WT	NA	2
+ACH-000926	HT55_LARGE_INTESTINE	HT55	COAD	NA	NA	NA	NA	colon/colorectal cancer	colon carcinoma	Primary	Unknown	NA	E20+Glu+NEAA	WT	WT	NA	2
+ACH-000935	MDST8_LARGE_INTESTINE	MDST8	COAD	NA	NA	NA	NA	colon/colorectal cancer	colon carcinoma	NA	Unknown	NA	DMEM; 10% FBS;2mM Glutamine	WT	WT	NA	2
+ACH-000943	RKO_LARGE_INTESTINE	RKO	COAD	NA	NA	NA	NA	colon/colorectal cancer	colon carcinoma	Primary	Unknown	NA	MEM10	WT	WT	NA	2
+ACH-000950	LOVO_LARGE_INTESTINE	LOVO	COAD	NA	NA	NA	NA	colon/colorectal cancer	colon adenocarcinoma	Metastasis	Male	56	F12; 10% FBS; 2mMGlutamax-1; 1500mg/L NaHCO3 (2 vols of 100X)	G13D	13	2	2
+ACH-000955	SNU407_LARGE_INTESTINE	SNU407	COAD	NA	NA	NA	NA	colon/colorectal cancer	colon carcinoma	Metastasis	Male	37	NA	G12D	12	2	2
+ACH-000957	LS180_LARGE_INTESTINE	LS180	COAD	NA	NA	NA	NA	colon/colorectal cancer	colon adenocarcinoma	Primary	Female	58	EMEM, 10%FBS	G12D	12	2	2
+ACH-000958	SW48_LARGE_INTESTINE	SW48	COAD	NA	NA	NA	NA	colon/colorectal cancer	colon adenocarcinoma	Primary	Female	82	RPMI-1640: 90.0%	WT	WT	NA	2
+ACH-000959	SNUC4_LARGE_INTESTINE	SNUC4	COAD	NA	NA	NA	NA	colon/colorectal cancer	colon adenocarcinoma	NA	Male	35	RPMI; 10% heat inactive  fetal bovine serum (FBS); L-glutamine (300mg/L), 25mM HEPES and 25mM NaHCO3	WT	WT	NA	2
+ACH-000963	CCK81_LARGE_INTESTINE	CCK81	COAD	NA	NA	NA	NA	colon/colorectal cancer	colon adenocarcinoma	Metastasis	Female	NA	EMEM, 10%FBS	WT	WT	NA	2
+ACH-000967	SNUC2A_LARGE_INTESTINE	SNUC2A	COAD	NA	NA	NA	NA	colon/colorectal cancer	colon carcinoma	Primary	Female	43	NA	G12D	12	2	2
+ACH-000969	KM12_LARGE_INTESTINE	KM12	COAD	NA	NA	NA	NA	colon/colorectal cancer	colon adenocarcinoma	Primary	Unknown	NA	R10	WT	WT	NA	2
+ACH-000970	SNUC5_LARGE_INTESTINE	SNUC5	COAD	NA	NA	NA	NA	colon/colorectal cancer	colorectal adenocarcinoma	NA	Female	77	NA	WT	WT	NA	2
+ACH-000971	HCT116_LARGE_INTESTINE	HCT116	COAD	NA	NA	NA	NA	colon/colorectal cancer	colon carcinoma	Primary	Male	NA	NA	G13D	13	2	2
+ACH-000982	GP2D_LARGE_INTESTINE	GP2D	COAD	NA	NA	NA	NA	colon/colorectal cancer	colon adenocarcinoma	Primary	Female	71	NA	G12D	12	2	2
+ACH-000985	LS411N_LARGE_INTESTINE	LS411N	COAD	NA	NA	NA	NA	colon/colorectal cancer	colon carcinoma	Primary	Male	32	NA	WT	WT	NA	2
+ACH-000986	HT115_LARGE_INTESTINE	HT115	COAD	NA	NA	NA	NA	colon/colorectal cancer	colon carcinoma	NA	Unknown	NA	DMEM;15%FBS, 2mMGlutamax-1	WT	WT	NA	2
+ACH-000989	SNU175_LARGE_INTESTINE	SNU175	COAD	NA	NA	NA	NA	colon/colorectal cancer	colorectal carcinoma, mucinous	Metastasis	Female	56	RPMI; 10% FBS	other	WT	2	2
+ACH-000991	SNU81_LARGE_INTESTINE	SNU81	COAD	NA	NA	NA	NA	colon/colorectal cancer	colorectal adenocarcinoma	NA	Male	53	NA	A146T	146	2	2
+ACH-000997	HCT15_LARGE_INTESTINE	HCT15	COAD	NA	NA	NA	NA	colon/colorectal cancer	colon adenocarcinoma	Primary	Male	NA	NA	G13D	13	2	2
+ACH-000998	CW2_LARGE_INTESTINE	CW2	COAD	NA	NA	NA	NA	colon/colorectal cancer	colorectal carcinoma	Primary	Female	55	RPMI;10% FBS;	other	WT	2	2
+ACH-000999	SNU1040_LARGE_INTESTINE	SNU1040	COAD	NA	NA	NA	NA	colon/colorectal cancer	colorectal carcinoma	NA	Male	34	RPMI; 10% FBS	WT	WT	NA	2
+ACH-001039	COLO205_LARGE_INTESTINE	COLO205	COAD	NA	NA	NA	NA	colon/colorectal cancer	colon adenocarcinoma	Metastasis	Male	70	NA	WT	WT	NA	2
+ACH-001061	DLD1_LARGE_INTESTINE	DLD1	COAD	NA	NA	NA	NA	colon/colorectal cancer	colon adenocarcinoma	Primary	Male	NA	RPMI 1640 + 10% FBS	WT	WT	NA	2
+ACH-001081	HCC2998_LARGE_INTESTINE	HCC2998	COAD	colorectal	colorectal_adenocarcinoma	NA	NA	colon/colorectal cancer	NA	NA	Unknown	NA	NA	A146T	146	2	2
+ACH-001084	HCT8_LARGE_INTESTINE	HCT8	COAD	NA	NA	NA	NA	colon/colorectal cancer	colorectal adenocarcinoma	NA	Male	67	NA	WT	WT	NA	2
+ACH-001091	HRT18_LARGE_INTESTINE	HRT18	COAD	NA	NA	NA	NA	colon/colorectal cancer	colorectal adenocarcinoma	NA	Male	67	NA	other	WT	2	2
+ACH-001091	HRT18_LARGE_INTESTINE	HRT18	COAD	NA	NA	NA	NA	colon/colorectal cancer	colorectal adenocarcinoma	NA	Male	67	NA	G13D	13	2	2
+ACH-001199	SNUC2B_LARGE_INTESTINE	SNUC2B	COAD	NA	NA	NA	NA	colon/colorectal cancer	colon adenocarcinoma	NA	Female	43	NA	G12D	12	2	2
+ACH-001345	GP5D_LARGE_INTESTINE	GP5D	COAD	NA	NA	NA	NA	colon/colorectal cancer	colon adenocarcinoma	Primary	Female	71	DMEM + 10% FBS	G12D	12	2	2
+ACH-001399	SW626_LARGE_INTESTINE	SW626	COAD	colorectal	colorectal_adenocarcinoma	NA	NA	colon/colorectal cancer	NA	Metastasis	Female	46	NA	G12V	12	2	2
+ACH-001454	C10_LARGE_INTESTINE	C10	COAD	NA	NA	NA	NA	colon/colorectal cancer	colon adenocarcinoma	Primary	Male	71	scove_s Modified Dulbecco_s Medium, + 10% Fetal Bovine Serum (FBS) + 2 mM Glutamine	WT	WT	NA	2
+ACH-001456	C125PM_LARGE_INTESTINE	C125PM	COAD	NA	NA	NA	NA	colon/colorectal cancer	colon adenocarcinoma	Primary	Unknown	NA	NA	K117N	117	2	2
+ACH-001458	C75_LARGE_INTESTINE	C75	COAD	NA	NA	NA	NA	colon/colorectal cancer	colon adenocarcinoma	Primary	Male	56	Iscove_s Modified Dulbecco_s Medium, + 10% Foetal Bovine Serum (FBS) + 2 mM Glutamine	WT	WT	NA	2
+ACH-001459	C80_LARGE_INTESTINE	C80	COAD	NA	NA	NA	NA	colon/colorectal cancer	colon adenocarcinoma	Primary	Male	69	IMDM 10%FBS+ 2 mM Glutamine	A146V	146	2	2
+ACH-001460	C84_LARGE_INTESTINE	C84	COAD	NA	NA	NA	NA	colon/colorectal cancer	colon adenocarcinoma	Primary	Male	67	IMDM; 10% FBS; 1% Glutamax	G12A	12	2	2
+ACH-001461	C99_LARGE_INTESTINE	C99	COAD	NA	NA	NA	NA	colon/colorectal cancer	colon adenocarcinoma	Primary	Male	69	Iscove_s Modified Dulbecco_s Medium, + 10% Foetal Bovine Serum (FBS) + 2 mM Glutamine	WT	WT	NA	2
+ACH-001786	SNU1544_LARGE_INTESTINE	SNU1544	COAD	NA	NA	NA	NA	colon/colorectal cancer	colon adenocarcinoma	Primary	Female	38	RPMI 1640 + 10% FBS with L-glutamine (300mg/L), 25mM HEPES and 25mM NaHCO3; Penicillin-streptomycin were added to culture media (final concentration, 100 U/mL)	WT	WT	NA	2
+ACH-001825	SW527_LARGE_INTESTINE	SW527	COAD	NA	NA	NA	NA	colon/colorectal cancer	colon adenocarcinoma	NA	NA	NA	NA	WT	WT	NA	2
+ACH-002022	PMFKO14_LARGE_INTESTINE	PMFKO14	COAD	NA	NA	NA	NA	colon/colorectal cancer	colon carcinoma	Primary	Female	51	NA	WT	WT	NA	2
+ACH-002023	TGBC18TKB_LARGE_INTESTINE	TGBC18TKB	COAD	NA	NA	NA	NA	colon/colorectal cancer	adenocarcinoma, papillotubular	Primary	Female	79	NA	WT	WT	NA	2
+ACH-002219	COLO320HSR_LARGE_INTESTINE	COLO320HSR	COAD	NA	NA	NA	NA	colon/colorectal cancer	colon adenocarcinoma	NA	Female	55	NA	WT	WT	NA	2
+ACH-002233	DIFI_LARGE_INTESTINE	DIFI	COAD	NA	NA	NA	NA	colon/colorectal cancer	colorectal carcinoma	Metastasis	NA	NA	NA	WT	WT	NA	2
+ACH-002287	NCIH630_LARGE_INTESTINE	NCIH630	COAD	NA	NA	NA	NA	colon/colorectal cancer	colorectal carcinoma	NA	NA	NA	NA	WT	WT	22.533299999937693	22.533299999937693
+ACH-002345	CAR1_LARGE_INTESTINE	CAR1	COAD	colorectal	colorectal_adenocarcinoma	NA	NA	colon/colorectal cancer	adenocarcinoma	Metastasis	Unknown	NA	NA	WT	WT	NA	2
+ACH-002394	GEO_LARGE_INTESTINE	GEO	COAD	NA	NA	NA	NA	colon/colorectal cancer	colon carcinoma	NA	NA	NA	NA	G12A	12	2	2

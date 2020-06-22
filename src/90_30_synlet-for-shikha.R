@@ -40,6 +40,26 @@ coad_dep_map_ids <- synlet_data %>%
     unique()
 
 
+# Write out table of KRAS mutations in CCLE for Shikha.
+ccle_cell_lines %>%
+    filter(!is.na(cancer)) %>%
+    left_join(ccle_kras_muts, by = "dep_map_id") %>%
+    select(dep_map_id, ccle_name, stripped_cell_line_name,
+           cancer, lineage, lineage_subtype, lineage_sub_subtype,
+           lineage_molecular_subtype, disease, disease_subtype,
+           primary_or_metastasis,
+           sex, age, culture_medium,
+           kras_allele = allele,
+           kras_codon = codon,
+           kras_cn = copy_number) %>%
+    distinct() %>%
+    mutate(kras_allele = ifelse(is.na(kras_allele), "WT", kras_allele),
+           kras_codon = ifelse(is.na(kras_codon), "WT", kras_codon),
+           kras_copynumber = ifelse(is.na(kras_cn), 2, kras_cn)) %>%
+    filter(cancer == "COAD") %>%
+    write_tsv(table_path(TABLES_DIR, "CCLE-cell-line-information.tsv"))
+
+
 #### ---- Basic statistical testing ---- ####
 
 
