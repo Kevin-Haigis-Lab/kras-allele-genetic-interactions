@@ -620,3 +620,70 @@ ggsave_wrapper(
 
 
 sink()
+
+
+#### ---- A59 mutation from mutational signatures ---- ####
+
+A59T_trinuc <- "G[C>T]T"
+A59E_trinuc <- "G[C>A]A"
+
+all(c(A59T_trinuc, A59E_trinuc) %in% mutational_signature_spectra$tricontext)
+
+cancer_full_coding_muts_df %>%
+    filter(tumor_sample_barcode %in% a59_muts$tumor_sample_barcode) %>%
+    filter(hugo_symbol == "KRAS") %>%
+    filter(amino_acid_change %in% c("A59E", "A59T")) %>%
+    distinct(amino_acid_change, genomic_position)
+
+
+mut_sig_contributions_a59_muts <- mutational_signature_spectra %>%
+    left_join(signature_description_df, by = "signature") %>%
+    filter(tricontext %in% c(A59T_trinuc, A59E_trinuc)) %>%
+    mutate(A59_mut = ifelse(tricontext == A59T_trinuc, "A59T", "A59E")) %>%
+    group_by(tricontext, A59_mut, description) %>%
+    summarise(total_composition = sum(composition)) %>%
+    ungroup() %>%
+    mutate(description = factor(description,
+                                levels = names(mutsig_descrpt_pal))) %>%
+    ggplot(aes(x = description, y = total_composition)) +
+    facet_wrap(~ A59_mut, ncol = 1, scales = "free_y") +
+    geom_col(aes(fill = description)) +
+    scale_fill_manual(values = mutsig_descrpt_pal, drop = TRUE, guide = FALSE) +
+    scale_y_continuous(expand = expansion(mult = c(0, 0.02))) +
+    theme_minimal(base_size = 7, base_family = "arial") +
+    labs(x = "mutation signature",
+         y = "composition",
+         title = "The composition of A59 mutations in the spectrum of each mutational signature")
+ggsave_wrapper(
+    mut_sig_contributions_a59_muts,
+    plot_path(GRAPHS_DIR, "mut_sig_contributions_a59_muts.svg"),
+    "wide"
+)
+
+
+a59_mut_signatures <- mutsig_noartifact_df %>%
+    inner_join(a59_muts, by = "tumor_sample_barcode")
+
+mut_signature_contribution_a59muts <- a59_mut_signatures %>%
+    group_by(tumor_sample_barcode, is_hypermutant,
+             description, a59_mutation) %>%
+    summarise(total_contribution = sum(contribution)) %>%
+    ungroup() %>%
+    mutate(
+        description = factor(description, levels = names(mutsig_descrpt_pal)),
+        a59_mutation = fct_rev(factor(a59_mutation))
+    ) %>%
+    ggplot(aes(x = description, y = total_contribution)) +
+    facet_wrap(a59_mutation ~ tumor_sample_barcode) +
+    geom_col(aes(fill = description)) +
+    scale_fill_manual(values = mutsig_descrpt_pal, drop = TRUE, guide = FALSE) +
+    scale_y_continuous(expand = expansion(mult = c(0, 0.02))) +
+    theme_minimal(base_size = 7, base_family = "arial") +
+    labs(x = "mutational signature",
+         y = "contribution to mutations in tumor",
+         title = "The contribution of the mutational signatures to the mutations in A59 mutant samples")
+ggsave_wrapper(
+    mut_signature_contribution_a59muts,
+    plot_path(GRAPHS_DIR, "mut_signature_contribution_a59muts.svg"),
+    "wide"
+)

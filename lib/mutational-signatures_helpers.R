@@ -129,10 +129,6 @@ mutsig_context_group_pal <- c(
     "T>G" = "grey65"
 )
 
-
-
-
-
 ggsave_wrapper(
     show_palette(mutsig_context_group_pal, font_family = "Arial"),
     plot_path("00_miscellaneous", "mutsig-context-group_pal.svg"),
