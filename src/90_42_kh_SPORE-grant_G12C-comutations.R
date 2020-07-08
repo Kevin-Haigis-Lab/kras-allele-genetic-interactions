@@ -1,7 +1,4 @@
 
-GRAPHS_DIR <- "90_42_kh_SPORE-grant_G12C-comutations"
-reset_graph_directory(GRAPHS_DIR)
-
 coad_comutation_interactions <- genetic_interaction_df %>%
     filter(cancer == "COAD")
 
@@ -51,3 +48,24 @@ g12c_incr_comutation %>%
 #> |SCN1A       |G12C   | 0.0043776|   5.908361|   5| 0.0305882|
 #> |ZNF804B     |G12C   | 0.0081810|   4.943838|   5| 0.0269773|
 #> |MTOR        |G12C   | 0.0065102|   3.353245|   8| 0.0306574|
+
+
+#### ---- Top 5 most frequently comutated gene with KRAS G12C ---- ####
+
+blacklist_genes <- c("KRAS", "TTN", "NEB")
+
+num_g12c_mutants <- cancer_coding_muts_df %>%
+    filter(ras_allele == "KRAS_G12C" & cancer == "COAD") %>%
+    filter(target %in% c("exome", "genome")) %>%
+    pull(tumor_sample_barcode) %>%
+    n_distinct()
+
+cancer_coding_muts_df %>%
+    filter(ras_allele == "KRAS_G12C" & cancer == "COAD") %>%
+    filter(target %in% c("exome", "genome")) %>%
+    count(hugo_symbol, name = "num_comuts", sort = TRUE) %>%
+    filter(!hugo_symbol %in% blacklist_genes) %>%
+    filter(!str_detect(hugo_symbol, "^MUC|^HLA")) %>%
+    top_n(10, wt = num_comuts) %>%
+    mutate(percent_comut_with_g12c = round(num_comuts / !!num_g12c_mutants * 100)) %>%
+    knitr::kable(format = "pandoc")
