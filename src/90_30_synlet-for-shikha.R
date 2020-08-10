@@ -56,7 +56,7 @@ ccle_cell_lines %>%
 make_pretty_ci <- function(low, high) {
     low <- round(low, 2)
     high <- round(high, 2)
-    glue("[{low}, {high}]")
+    as.character(glue("[{low}, {high}]"))
 }
 
 calculate_allele_hedges_g <- function(allele, data) {
@@ -66,7 +66,9 @@ calculate_allele_hedges_g <- function(allele, data) {
         as_tibble() %>%
         janitor::clean_names() %>%
         mutate(hedges_g_ci = make_pretty_ci(ci_low, ci_high)) %>%
-        select(hedges_g, hedges_g_ci) %>%
+        select(-ci) %>%
+        rename(hadges_g_ci_low = ci_low,
+               hedges_g_ci_high = ci_high) %>%
         mutate(hedges_g_interpret = interpret_d(hedges_g))
 }
 
@@ -75,10 +77,11 @@ calculate_anova_omega_squared <- function(aov_mdl) {
         as_tibble() %>%
         janitor::clean_names() %>%
         mutate(omega_sq_ci = make_pretty_ci(ci_low, ci_high)) %>%
-        select(omega_sq_partial, omega_sq_ci) %>%
+        select(-ci) %>%
+        rename(omega_sq_ci_low = ci_low,
+               omega_sq_ci_high = ci_high) %>%
         mutate(omega_sq_interpret = interpret_omega_squared(omega_sq_partial))
 }
-
 
 get_elastic_net_coefficients <- function(fit) {
     fit$elastic_model %>%
@@ -91,7 +94,6 @@ get_elastic_net_coefficients <- function(fit) {
         filter(abs(coef_value) > 0)
 }
 
-
 get_allele_estimated_effect <- function(allele, data) {
     mod_data <- data %>% mutate(is_allele = kras_allele == !!allele)
     lm(gene_effect ~ is_allele, data = mod_data) %>%
@@ -101,6 +103,24 @@ get_allele_estimated_effect <- function(allele, data) {
         pivot_wider(names_from = term, values_from = estimate)
 }
 
+get_allele_gene_effect_summaries <- function(allele, data) {
+    tibble(
+        total_average = mean(data$gene_effect),
+        allele_average = data %>% filter(kras_allele == !!allele) %>%
+                            pull(gene_effect) %>% mean(),
+        rest_average = data %>% filter(kras_allele != !!allele) %>%
+                            pull(gene_effect) %>% mean()
+    ) %>%
+        mutate(allele_difference = rest_average - allele_average)
+}
+
+add_cell_line_info_to_fit_data <- function(fit, data) {
+    fit$data <- fit$data %>%
+        rename(kras_allele_binary = kras_allele) %>%
+        left_join(data %>% select(dep_map_id, kras_allele, gene_effect),
+                  by = "gene_effect")
+    return(fit)
+}
 
 
 data_for_shiny_app <- coad_slcomut_res %>%
@@ -112,14 +132,14 @@ data_for_shiny_app <- coad_slcomut_res %>%
         en_coefs = map(fit, get_elastic_net_coefficients),
         num_fit_coefs = map_dbl(en_coefs, ~ nrow(.x)),
         allele_in_final_model = map_lgl(en_coefs, ~ "kras_allele" %in% .x$name),
-        allele_effect = map2(allele, data, get_allele_estimated_effect)
+        allele_effect = map2(allele, data, get_allele_gene_effect_summaries),
+        fit = map2(fit, data, add_cell_line_info_to_fit_data)
     ) %>%
     unnest(allele_hedges_g) %>%
     unnest(anova_omega_squared) %>%
     unnest(allele_effect) %>%
-    mutate(intercept_allele_diff = abs(intercept_est - allele_est)) %>%
     select(hugo_symbol, allele, data, fit, num_coefs,
-           allele_aov:intercept_allele_diff)
+           allele_aov:allele_difference)
 
 saveRDS(
     data_for_shiny_app,
