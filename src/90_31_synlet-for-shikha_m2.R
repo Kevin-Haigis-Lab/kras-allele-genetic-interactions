@@ -24,23 +24,33 @@ modeling_data <- depmap_modelling_df %>%
     ungroup()
 
 modeling_data <- modeling_data %>%
-    group_by(cancer, hugo_symbol) %>%
+    filter(cancer == "COAD") %>%
+    group_by(hugo_symbol) %>%
     mutate(rna_expression_std = scale_numeric(rna_expression,
                                               na.rm = TRUE)) %>%
-    group_by(cancer, hugo_symbol) %>%
-    nest() %>%
     ungroup()
 
 
 #### ---- Model Experimentation ---- ####
 
 set.seed(0)
-eg_genes <- sample(unique(modeling_data$hugo_symbol), 20)
-eg_genes
+eg_genes <- sample(unique(modeling_data$hugo_symbol), 10)
+eg_genes <- c(
+    eg_genes,
+    "STARD9",
+    "PAX6",
+    "KNTC1",
+    "FAF2",
+    "THSD7A",
+    "SERPING1",
+    "LIN7C",
+    "DCHS1",
+    "ORC4",
+    "MTRF1L"
+)
+n_distinct(eg_genes)
 d <- modeling_data %>%
     filter(hugo_symbol %in% eg_genes)
 
-d %>% count(cancer)
 d %>%
-    unnest(data) %>%
     write_tsv(table_path(TABLES_DIR, "sample-modeling-data.tsv"))
