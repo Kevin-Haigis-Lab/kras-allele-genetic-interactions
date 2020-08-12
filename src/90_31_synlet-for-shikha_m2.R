@@ -1,6 +1,11 @@
 # A second method for obtaining KRAS allele-specific synthetic lethal targets
 # for Shikha.
 
+library(tidybayes)
+library(easystats)
+library(rstanarm)
+library(bayesplot)
+
 
 GRAPHS_DIR <- "90_31_synlet-for-shikha_m2"
 reset_graph_directory(GRAPHS_DIR)
@@ -31,7 +36,7 @@ modeling_data <- modeling_data %>%
     ungroup()
 
 
-#### ---- Model Experimentation ---- ####
+#### ---- Data for experimentation ---- ####
 
 set.seed(0)
 eg_genes <- sample(unique(modeling_data$hugo_symbol), 10)
@@ -54,3 +59,5 @@ d <- modeling_data %>%
 
 d %>%
     write_tsv(table_path(TABLES_DIR, "sample-modeling-data.tsv"))
+
+
