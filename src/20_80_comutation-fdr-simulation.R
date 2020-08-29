@@ -61,16 +61,17 @@ simulation_grid
 
 #### ---- Run simulation ---- ####
 
-RESET_SIMULATION <- TRUE
+
+source(file.path("src", "20_83_comutation-fdr-simulation-shared.R"))
+dir.create(temp_input_dir, showWarnings = FALSE, recursive = TRUE)
+dir.create(temp_output_dir, showWarnings = FALSE, recursive = TRUE)
+
+RESET_SIMULATION <- FALSE
 if (RESET_SIMULATION) {
     message("Resetting comutation FDR simulation intermediates.")
     unlink(temp_input_dir, recursive = TRUE)
     unlink(temp_output_dir, recursive = TRUE)
 }
-
-source(file.path("src", "20_83_comutation-fdr-simulation-shared.R"))
-dir.create(temp_input_dir, showWarnings = FALSE, recursive = TRUE)
-dir.create(temp_output_dir, showWarnings = FALSE, recursive = TRUE)
 
 submit_script <- file.path("src", "20_81_comutation-fdr-simulation-submit.sh")
 
@@ -91,7 +92,27 @@ submitted_jobs <- simulation_grid %>%
     mutate(job_array_idx = row_number() %% 9999) %>%
     group_by(job_array_idx) %>%
     nest() %>%
-    pmap(submit_simulation_job_arrays)
+    pmap(submit_simulation_job_arrays) %>%
+    unlist()
+
+submitted_jobs[!is.null(submitted_jobs)]
+
+
+#### ---- Read in simulation results ---- ####
+
+cache("comutation_fdr_simulation_results", {
+    simulation_results_files <- list.files(temp_output_dir,
+                                           full.names = TRUE,
+                                           pattern = "qs$")
+    comutation_fdr_simulation_results <- rep(list(NA),
+                                             length(simulation_results_files))
+    for (i in seq(1, length(simulation_results_files))) {
+        comutation_fdr_simulation_results[[i]] <- qs::qread(simulation_results_files[[i]]) %>%
+            select(-mutation_table)
+    }
+    comutation_fdr_simulation_results <- bind_rows(comutation_fdr_simulation_results)
+    return(comutation_fdr_simulation_results)
+})
 
 
 
