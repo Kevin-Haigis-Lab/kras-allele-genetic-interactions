@@ -176,6 +176,7 @@ pretty_rounding <- function(x) {
               TRUE ~ as.character(round(x, 2)))
 }
 
+
 # Density plot of the distribution of VAFs.
 vaf_distribution_density <- cancer_coding_muts_df %>%
     filter(cancer != "SKCM" & !is.na(VAF)) %>%
@@ -298,13 +299,130 @@ cancer_coding_muts_df %>%
     filter(cancer != "SKCM" & !is.na(VAF)) %>%
     group_by(cancer) %>%
     summarise(
-        min_vaf = r3(min(VAF)),
-        q25_vaf = r3(quantile(VAF, 0.25)),
-        avg_vaf = r3(mean(VAF)),
-        mid_vaf = r3(median(VAF)),
-        q75_vaf = r3(quantile(VAF, 0.75)),
-        max_vaf = r3(max(VAF)),
-        stddev_vaf = r3(sd(VAF))
+        min_vaf = min(VAF),
+        q25_vaf = quantile(VAF, 0.25),
+        avg_vaf = mean(VAF),
+        mid_vaf = median(VAF),
+        q75_vaf = quantile(VAF, 0.75),
+        max_vaf = max(VAF),
+        stddev_vaf = sd(VAF)
     ) %>%
     ungroup() %>%
-    knitr::kable()
+    knitr::kable(digits = 3)
+
+
+#### ---- VAF figures for resubmission ---- ####
+
+distribution_kras_vaf <- cancer_coding_muts_df %>%
+    filter(cancer != "SKCM" & !is.na(VAF)) %>%
+    inner_join(tcga_purity_ploidy, by = "tumor_sample_barcode") %>%
+    filter(!is.na(purity)) %>%
+    filter(ras_allele != "WT") %>%
+    filter(hugo_symbol == "KRAS") %>%
+    mutate(adjusted_vaf = VAF / cancer_dna_fraction,
+           adjusted_vaf = map_dbl(adjusted_vaf, ~ min(.x, 1))) %>%
+    filter(hugo_symbol == "KRAS") %>%
+    ggplot(aes(adjusted_vaf)) +
+    facet_wrap(~ cancer, nrow = 1, scales = "free_y") +
+    geom_histogram(aes(y = ..density.., color = cancer, fill = cancer),
+                   bins = 20, size = 0.8, alpha = 0.5) +
+    geom_density(color = "grey40", size = 0.7, lty = 2, fill = NA) +
+    scale_color_manual(values = cancer_palette, drop = TRUE) +
+    scale_fill_manual(values = cancer_palette, drop = TRUE) +
+    scale_x_continuous(limits = c(0, 1), expand = c(0, 0)) +
+    scale_y_continuous(expand = expansion(mult = c(0, 0.02))) +
+    theme_bw(base_family = "Arial", base_size = 7) +
+    theme(legend.position = "none",
+          strip.background = element_blank(),
+          strip.text = element_text(size = 9, face = "bold"),
+          panel.spacing.x = unit(3, "mm"),
+          axis.title.x = element_markdown()) +
+    labs(x = "*KRAS* mutation VAF (adjusted for tumor sample purity)",
+         y = "density")
+ggsave_wrapper(distribution_kras_vaf,
+               plot_path(GRAPHS_DIR, "kras-adj-vaf-distribution.svg"),
+               "wide")
+
+
+comut_genes_vaf_dist <- cancer_coding_muts_df %>%
+    filter(cancer != "SKCM" & !is.na(VAF)) %>%
+    inner_join(tcga_purity_ploidy, by = "tumor_sample_barcode") %>%
+    filter(!is.na(purity)) %>%
+    filter(hugo_symbol != "KRAS") %>%
+    mutate(adjusted_vaf = VAF / cancer_dna_fraction,
+           adjusted_vaf = map_dbl(adjusted_vaf, ~ min(.x, 1))) %>%
+    left_join(
+        genetic_interaction_df %>%
+            select(hugo_symbol, cancer) %>%
+            add_column(is_comut = TRUE) %>%
+            distinct(),
+        by = c("cancer", "hugo_symbol")
+    ) %>%
+    mutate(
+        is_comut = ifelse(is.na(is_comut), FALSE, is_comut),
+        is_comut = ifelse(is_comut, "comutating gene", "not comutating gene")
+    ) %>%
+    ggplot(aes(adjusted_vaf)) +
+    facet_wrap(~ cancer, nrow = 1, scales = "free_y") +
+    geom_density(aes(color = is_comut, fill = is_comut),
+                 size = 0.9, alpha = 0.2) +
+    scale_color_brewer(palette = "Set1") +
+    scale_fill_brewer(palette = "Set1") +
+    scale_x_continuous(limits = c(0, 1), expand = c(0, 0)) +
+    scale_y_continuous(expand = expansion(mult = c(0, 0.02))) +
+    theme_bw(base_family = "Arial", base_size = 7) +
+    theme(strip.background = element_blank(),
+          strip.text = element_text(size = 9, face = "bold"),
+          panel.spacing.x = unit(3, "mm"),
+          axis.title.x = element_markdown()) +
+    labs(x = "mutation VAF (adjusted for tumor sample purity)",
+         y = "density")
+ggsave_wrapper(comut_genes_vaf_dist,
+               plot_path(GRAPHS_DIR, "comutation-genes-vaf-dist.svg"),
+               "wide")
+
+
+cancer_muts_adjvaf <- cancer_coding_muts_df %>%
+    filter(cancer != "SKCM" & !is.na(VAF)) %>%
+    inner_join(tcga_purity_ploidy, by = "tumor_sample_barcode") %>%
+    filter(!is.na(purity)) %>%
+    mutate(adjusted_vaf = VAF / cancer_dna_fraction,
+           adjusted_vaf = map_dbl(adjusted_vaf, ~ min(.x, 1)))
+
+
+kras_mut_adjvaf <- cancer_muts_adjvaf %>%
+    filter(ras_allele != "WT") %>%
+    filter(hugo_symbol == "KRAS") %>%
+    select(tumor_sample_barcode, cancer, kras_adj_vaf = adjusted_vaf)
+
+
+diff_adjusted_vaf_dist <- cancer_muts_adjvaf %>%
+    filter(ras_allele != "WT") %>%
+    filter(hugo_symbol != "KRAS") %>%
+    inner_join(kras_mut_adjvaf, by = c("tumor_sample_barcode", "cancer")) %>%
+    inner_join(
+        genetic_interaction_df %>%
+            select(hugo_symbol, cancer) %>%
+            distinct(),
+        by = c("cancer", "hugo_symbol")
+    ) %>%
+    mutate(diff_adj_vaf = adjusted_vaf - kras_adj_vaf) %>%
+    ggplot(aes(diff_adj_vaf)) +
+    facet_wrap(~ cancer, nrow = 1, scales = "free_y") +
+    geom_density(aes(color = cancer, fill = cancer),
+                 size = 0.9, alpha = 0.2) +
+    scale_color_manual(values = cancer_palette, drop = TRUE) +
+    scale_fill_manual(values = cancer_palette, drop = TRUE) +
+    scale_x_continuous(expand = expansion(mult = c(0.02, 0.02))) +
+    scale_y_continuous(expand = expansion(mult = c(0, 0.02))) +
+    theme_bw(base_family = "Arial", base_size = 7) +
+    theme(legend.position = "none",
+          strip.background = element_blank(),
+          strip.text = element_text(size = 9, face = "bold"),
+          panel.spacing.x = unit(3, "mm"),
+          axis.title.x = element_markdown()) +
+    labs(x = "difference in VAF of *KRAS* and comutated gene mutations",
+         y = "density")
+ggsave_wrapper(diff_adjusted_vaf_dist,
+               plot_path(GRAPHS_DIR, "kras-comuts-vaf-difference.svg"),
+               "wide")
