@@ -35,7 +35,7 @@ tumor_sample_seq <- seq(100, 3000, 100)
 #                    length.out = 10)
 # g2_rate_seq <- seq(0.1, 0.6, 0.1)
 
-broad_mutation_rate_seq <- seq(0.01, 0.8, 0.01)
+broad_mutation_rate_seq <- seq(0.0, 0.8, 0.05)
 
 simulation_grid <- expand.grid(simulation_idx = seq(1, num_simulations),
                                num_tumor_samples = tumor_sample_seq,
@@ -43,35 +43,36 @@ simulation_grid <- expand.grid(simulation_idx = seq(1, num_simulations),
                                g2_rate = broad_mutation_rate_seq) %>%
     as_tibble()
 simulation_grid
-#> # A tibble: 192,000,000 x 4
+#> # A tibble: 8,670,000 x 4
 #>    simulation_idx num_tumor_samples g1_rate g2_rate
 #>             <int>             <dbl>   <dbl>   <dbl>
-#>  1              1               100    0.01    0.01
-#>  2              2               100    0.01    0.01
-#>  3              3               100    0.01    0.01
-#>  4              4               100    0.01    0.01
-#>  5              5               100    0.01    0.01
-#>  6              6               100    0.01    0.01
-#>  7              7               100    0.01    0.01
-#>  8              8               100    0.01    0.01
-#>  9              9               100    0.01    0.01
-#> 10             10               100    0.01    0.01
-#> # … with 191,999,990 more rows
+#>  1              1               100       0       0
+#>  2              2               100       0       0
+#>  3              3               100       0       0
+#>  4              4               100       0       0
+#>  5              5               100       0       0
+#>  6              6               100       0       0
+#>  7              7               100       0       0
+#>  8              8               100       0       0
+#>  9              9               100       0       0
+#> 10             10               100       0       0
+#> # … with 8,669,990 more rows
 
 
 #### ---- Run simulation ---- ####
 
-
 source(file.path("src", "20_83_comutation-fdr-simulation-shared.R"))
-dir.create(temp_input_dir, showWarnings = FALSE, recursive = TRUE)
-dir.create(temp_output_dir, showWarnings = FALSE, recursive = TRUE)
 
-RESET_SIMULATION <- FALSE
+RESET_SIMULATION <- TRUE
 if (RESET_SIMULATION) {
     message("Resetting comutation FDR simulation intermediates.")
     unlink(temp_input_dir, recursive = TRUE)
     unlink(temp_output_dir, recursive = TRUE)
 }
+
+
+dir.create(temp_input_dir, showWarnings = FALSE, recursive = TRUE)
+dir.create(temp_output_dir, showWarnings = FALSE, recursive = TRUE)
 
 submit_script <- file.path("src", "20_81_comutation-fdr-simulation-submit.sh")
 
@@ -89,7 +90,7 @@ submit_simulation_job_arrays <- function(job_array_idx, data) {
 }
 
 submitted_jobs <- simulation_grid %>%
-    mutate(job_array_idx = row_number() %% 9999) %>%
+    mutate(job_array_idx = row_number() %% 1000) %>%
     group_by(job_array_idx) %>%
     nest() %>%
     pmap(submit_simulation_job_arrays) %>%
@@ -107,12 +108,15 @@ cache("comutation_fdr_simulation_results", {
     comutation_fdr_simulation_results <- rep(list(NA),
                                              length(simulation_results_files))
     for (i in seq(1, length(simulation_results_files))) {
-        comutation_fdr_simulation_results[[i]] <- qs::qread(simulation_results_files[[i]]) %>%
-            select(-mutation_table)
+        f <- simulation_results_files[[i]]
+        comutation_fdr_simulation_results[[i]] <- qs::qread(f)
     }
     comutation_fdr_simulation_results <- bind_rows(comutation_fdr_simulation_results)
     return(comutation_fdr_simulation_results)
 })
+
+# Check that all simulations were completed and loaded.
+stopifnot(nrow(comutation_fdr_simulation_results) == nrow(simulation_grid))
 
 
 
@@ -153,9 +157,8 @@ project_significance_check <- function(mut_table, p_value) {
 
 }
 
-simulation_res_stats <- simulation_grid %>%
-    unnest(simulation_res) %>%
-    janitor::clean_names() %>%
+
+simulation_res_stats <- comutation_fdr_simulation_results %>%
     mutate(proj_sig = map2_lgl(mutation_table, p_value,
                                project_significance_check)) %>%
     group_by(g1_rate, g2_rate, num_tumor_samples) %>%
@@ -164,6 +167,7 @@ simulation_res_stats <- simulation_grid %>%
               mean_or = mean(estimate),
               median_of = median(estimate)) %>%
     ungroup()
+
 
 blue_col <- "#4b68d1"
 red_col <- "#d14b4b"
@@ -187,12 +191,14 @@ proj_cutoffs_plot <- simulation_res_stats %>%
     ggplot(aes(x = g1_rate, y = g2_rate)) +
     facet_wrap(~ num_tumor_samples) +
     geom_tile(aes(fill = freq_of_proj_sig), color = "white") +
-    scale_x_continuous(limits = c(min(broad_mutation_rate_seq),
-                                  max(broad_mutation_rate_seq)),
-                       expand = c(0, 0)) +
-    scale_fill_gradient2(low = blue_col, high = red_col,
-                         mid = yellow_col, midpoint = 0.2)
-ggsave_wrapper(pval_plot,
+    scale_x_continuous(expand = c(0, 0)) +
+    scale_y_continuous(expand = c(0, 0)) +
+    scale_fill_distiller(type = "seq", palette = "YlGnBu") +
+    theme_minimal(base_size=7, base_family = "Arial") +
+    labs(x = "gene 1 mutation rate",
+         y = "gene 2 mutation rate",
+         fill = "FDR")
+ggsave_wrapper(proj_cutoffs_plot,
                plot_path(GRAPHS_DIR, "proj-thresholds_grid.svg"),
                "large")
 
@@ -200,7 +206,7 @@ ggsave_wrapper(pval_plot,
 avg_OR_plot <- simulation_res_stats %>%
     ggplot(aes(x = g1_rate, y = g2_rate)) +
     facet_wrap(~ num_tumor_samples) +
-    geom_tile(aes(fill = mean_or), color = "white") +
+    geom_tile(aes(fill = log(mean_or)), color = "white") +
     scale_x_continuous(limits = c(min(broad_mutation_rate_seq),
                                   max(broad_mutation_rate_seq)),
                        expand = c(0, 0)) +
