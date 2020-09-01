@@ -776,3 +776,64 @@ alleles_df %>%
     arrange(-adj_codon_freq) %T>%
     write_tsv(table_path(GRAPHS_DIR, "fraction-kras-percodon-adjusted.tsv")) %>%
     knitr::kable(digits = 3)
+
+
+
+#### ---- Association of alleles with hypermutation status ---- ####
+# This analysis is only relevant in COAD.
+
+kras_hypermuts <- cancer_full_coding_muts_df %>%
+    filter(cancer == "COAD") %>%
+    distinct(tumor_sample_barcode, is_hypermutant, ras_allele)
+kras_hypermuts
+
+
+make_lgl_table <- function(x, y) {
+    f <- function(a) { factor(a, levels = c("FALSE", "TRUE")) }
+    table(f(x), f(y))
+}
+
+test_for_hypermutant_association <- function(allele, data) {
+    data %>%
+        mutate(is_allele = ras_allele == !!allele) %$%
+        make_lgl_table(is_allele, is_hypermutant) %>%
+        fisher.test(alternative = "g") %>%
+        broom::tidy()
+}
+
+
+kras_alleles_hypermut_association <- kras_hypermuts %>%
+    count(ras_allele) %>%
+    filter(n > 20) %>%
+    select(-n) %>%
+    mutate(hypermut_ass_res = map(ras_allele,
+                                  test_for_hypermutant_association,
+                                  data = kras_hypermuts))
+kras_alleles_hypermut_association %>%
+    unnest(hypermut_ass_res) %>%
+    janitor::clean_names() %>%
+    mutate(adj_p_value = p.adjust(p_value, method = "BH")) %>%
+    arrange(ras_allele) %>%
+    select(-method, -alternative) %>%
+    mutate(log_or = log(estimate),
+           sig = ifelse(estimate > 1 & adj_p_value < 0.05, "X", " ")) %>%
+    knitr::kable(digits = 3, format = "markdown")
+
+#> |ras_allele | estimate| p_value| conf_low| conf_high| adj_p_value| log_or|sig |
+#> |:----------|--------:|-------:|--------:|---------:|-----------:|------:|:---|
+#> |KRAS_A146T |    1.599|   0.024|    1.082|       Inf|       0.071|  0.469|    |
+#> |KRAS_A146V |    1.307|   0.372|    0.471|       Inf|       0.744|  0.267|    |
+#> |KRAS_G12A  |    0.944|   0.622|    0.535|       Inf|       0.933| -0.058|    |
+#> |KRAS_G12C  |    0.238|   1.000|    0.092|       Inf|       1.000| -1.436|    |
+#> |KRAS_G12D  |    1.009|   0.490|    0.816|       Inf|       0.840|  0.009|    |
+#> |KRAS_G12S  |    0.531|   0.970|    0.241|       Inf|       1.000| -0.633|    |
+#> |KRAS_G12V  |    0.319|   1.000|    0.215|       Inf|       1.000| -1.141|    |
+#> |KRAS_G13D  |    1.269|   0.059|    0.987|       Inf|       0.143|  0.238|    |
+#> |KRAS_K117N |    3.219|   0.005|    1.518|       Inf|       0.030|  1.169|X   |
+#> |KRAS_Q61H  |    0.178|   0.995|    0.009|       Inf|       1.000| -1.724|    |
+#> |KRAS_Q61K  |    6.347|   0.000|    2.922|       Inf|       0.000|  1.848|X   |
+#> |WT         |    1.219|   0.010|    1.059|       Inf|       0.038|  0.198|X   |
+
+kras_hypermuts %>%
+    count(ras_allele, sort = TRUE) %>%
+    mutate(freq = n / sum(n))
