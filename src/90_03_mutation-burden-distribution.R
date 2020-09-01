@@ -16,6 +16,7 @@ save_fig_proto_wrapper <- function(p, n) {
 
 # Plot the distribution of mutational burden per sample.
 # (Also saves to SVG and proto for figures.)
+
 plot_distribution_of_mutation_count <- function(cancer,
                                                 data,
                                                 save_name,
@@ -342,6 +343,8 @@ distribution_kras_vaf <- cancer_coding_muts_df %>%
 ggsave_wrapper(distribution_kras_vaf,
                plot_path(GRAPHS_DIR, "kras-adj-vaf-distribution.svg"),
                "wide")
+saveFigRds(distribution_kras_vaf, "kras-adj-vaf-distribution.svg")
+
 
 
 comut_genes_vaf_dist <- cancer_coding_muts_df %>%
@@ -360,7 +363,9 @@ comut_genes_vaf_dist <- cancer_coding_muts_df %>%
     ) %>%
     mutate(
         is_comut = ifelse(is.na(is_comut), FALSE, is_comut),
-        is_comut = ifelse(is_comut, "comutating gene", "not comutating gene")
+        is_comut = ifelse(is_comut,
+                          "of comutating gene",
+                          "of non-comutating gene")
     ) %>%
     ggplot(aes(adjusted_vaf)) +
     facet_wrap(~ cancer, nrow = 1, scales = "free_y") +
@@ -380,6 +385,7 @@ comut_genes_vaf_dist <- cancer_coding_muts_df %>%
 ggsave_wrapper(comut_genes_vaf_dist,
                plot_path(GRAPHS_DIR, "comutation-genes-vaf-dist.svg"),
                "wide")
+saveFigRds(comut_genes_vaf_dist, "comutation-genes-vaf-dist")
 
 
 cancer_muts_adjvaf <- cancer_coding_muts_df %>%
