@@ -10,60 +10,6 @@ pastel_blue <- "#4096B3"
 set.seed(0)
 
 
-################################################################################
-## REMOVE FOR O2 ##
-
-# library(stats)
-# library(glue)
-# library(conflicted)
-# library(ggfortify)
-# library(tidygraph)
-# library(jhcutils)
-# library(magrittr)
-# library(ggpubr)
-# library(ggraph)
-# library(ggtext)
-# library(patchwork)
-# library(ggplot2)
-# library(broom)
-# library(tidyverse)
-
-# conflict_prefer("select", "dplyr")
-# conflict_prefer("filter", "dplyr")
-# conflict_prefer("slice", "dplyr")
-# conflict_prefer("setdiff", "dplyr")
-# conflict_prefer("intersect", "dplyr")
-# conflict_prefer("cache", "ProjectTemplate")
-# conflict_prefer("rename", "dplyr")
-# conflict_prefer("parLapply", "parallel")
-# conflict_prefer("which", "Matrix")
-
-# options(dplyr.summarise.inform = FALSE)
-
-# load("cache/synlet_comut_model_res.RData")
-
-# # synlet_comut_model_res %<>%
-# #     filter(
-# #         (cancer == "COAD" & allele == "G12D" & hugo_symbol == "STARD9") |
-# #             (cancer == "PAAD" & allele == "G12D" & hugo_symbol == "EEF1E1") |
-# #             (cancer == "COAD" & allele == "G12D" & hugo_symbol == "SRSF5") |
-# #             (cancer == "PAAD" & allele == "G12R" & hugo_symbol == "KIAA1257") |
-# #             (cancer == "PAAD" & allele == "G12D" & hugo_symbol == "FKBP1A")
-# #     )
-
-# load("cache/genetic_interaction_gr.RData")
-
-
-# saveFigRds <- function(...) { invisible(NULL) }
-# reset_graph_directory <- saveFigRds
-
-# source("lib/ggplot2_helpers.R")
-# source("lib/helpers.R")
-
-################################################################################
-
-
-
 #### ---- MASKING ---- ####
 
 # Make the coefficient plot for the masking group.
