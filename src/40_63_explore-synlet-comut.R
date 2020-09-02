@@ -4,10 +4,9 @@
 GRAPHS_DIR <- "40_63_explore-synlet-comut"
 reset_graph_directory(GRAPHS_DIR)
 
-pastel_red <- "#FF8FAC"
-pastel_blue <- "#4096B3"
-
 set.seed(0)
+
+srouce(file.path("src", "40_62_genes-for-synlet-comut.R"))
 
 
 #### ---- MASKING ---- ####
@@ -63,10 +62,6 @@ make_mask_coef_plot <- function(cancer, allele, hugo_symbol, fit, ...) {
     return(p)
 }
 
-
-mask_pal <- c(short_allele_pal["G12D"],
-              TP53 = "#FF9945",
-              SMAD4 = "#AACC7C")
 
 # Make the line plot of gene effect for the masking group.
 make_mask_line_plot <- function(cancer, allele, hugo_symbol, fit, other_gene,
@@ -130,22 +125,13 @@ make_mask_patch_plot <- function(cancer, allele, hugo_symbol, fit, other_gene,
 }
 
 
-# All of the groups to make masking group plots for.
-masking_hits <- tribble(
-    ~ cancer, ~ allele, ~ hugo_symbol, ~ other_gene,
-    "COAD", "G12D", "STARD9", "TP53",
-    "PAAD", "G12D", "EEF1E1", "SMAD4",
-    "PAAD", "G12D", "MYBL2", "SMAD4",
-    "PAAD", "G12D", "ABI1", "SMAD4",
-)
-
 synlet_comut_model_res %>%
     right_join(masking_hits, by = c("cancer", "allele", "hugo_symbol")) %>%
     pwalk(make_mask_patch_plot)
 
 
 
- ################################################################################
+################################################################################
 ################################################################################
 ################################################################################
 
