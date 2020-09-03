@@ -1,4 +1,7 @@
 
+TABLES_DIR <- "90_42_kh_SPORE-grant_G12C-comutations"
+reset_table_directory(TABLES_DIR)
+
 coad_comutation_interactions <- genetic_interaction_df %>%
     filter(cancer == "COAD")
 
@@ -69,3 +72,25 @@ cancer_coding_muts_df %>%
     top_n(10, wt = num_comuts) %>%
     mutate(percent_comut_with_g12c = round(num_comuts / !!num_g12c_mutants * 100)) %>%
     knitr::kable(format = "pandoc")
+
+
+
+
+#### ---- G12C-specific comutants ---- ####
+
+genetic_interaction_df %>%
+    filter(cancer == "COAD" | cancer == "LUAD") %>%
+    filter(genetic_interaction == "comutation") %>%
+    group_by(cancer, hugo_symbol) %>%
+    filter(n_distinct(kras_allele) == 1) %>%
+    ungroup() %>%
+    filter(kras_allele == "KRAS_G12C") %>%
+    mutate(freq_in_g12c = n11 / (n11 + n01)) %>%
+    select(cancer,
+           gene = hugo_symbol,
+           p_value = p_val,
+           odds_ratio,
+           gene_mutational_freq = gene_freq,
+           freq_in_g12c_tumors = freq_in_g12c) %>%
+    write_tsv(table_path(TABLES_DIR,
+                         "g12c_sepcific_comutation_frequencies.tsv"))
