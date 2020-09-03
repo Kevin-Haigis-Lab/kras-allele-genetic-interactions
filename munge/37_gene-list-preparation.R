@@ -20,13 +20,13 @@ ProjectTemplate::cache("cosmic_cgc_df",
         u_pull(tumour_types_somatic)
 
     tumor_type_to_cancer <- list(
-        COAD = cosmic_cancers[str_detect(cosmic_cancers, "colon|colorec|crc")],
-        LUAD = cosmic_cancers[str_detect(cosmic_cancers, "lung|nsclc|luad")],
-        PAAD = cosmic_cancers[str_detect(cosmic_cancers, "pancre|pdac|paad")]
+        COAD = cosmic_cancers[str_detect(cosmic_cancers, "colon|colorec|^crc$")],
+        LUAD = cosmic_cancers[str_detect(cosmic_cancers, "lung|^nsclc$|^luad$")],
+        PAAD = cosmic_cancers[str_detect(cosmic_cancers, "^pancre|^pdac$|^paad$")],
+        MM = cosmic_cancers[str_detect(cosmic_cancers, "myeloma$|^mm$")]
     ) %>%
         enframe("cancer", "tumour_types_somatic") %>%
-        unnest(tumour_types_somatic) %>%
-        filter(tumour_types_somatic != "ccrcc")
+        unnest(tumour_types_somatic)
 
     cosmic_cgc_df <- cosmic_cgc_df %>%
         inner_join(tumor_type_to_cancer, by = "tumour_types_somatic") %>%
