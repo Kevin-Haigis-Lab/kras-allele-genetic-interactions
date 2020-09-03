@@ -53,16 +53,6 @@ allele_signature_associations <- mutsig_noartifact_df %>%
     ungroup()
 
 
-assign_stars <- function(pval) {
-    case_when(
-        pval < 0.001 ~ "***",
-        pval < 0.01 ~ "**",
-        pval < 0.05 ~ "*",
-        TRUE ~ NA_character_
-    )
-}
-
-
 modify_mutsig_names <- function(sig) {
     case_when(
         sig == "N3V2" ~ "N",
