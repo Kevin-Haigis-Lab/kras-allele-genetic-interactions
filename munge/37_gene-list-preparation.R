@@ -4,30 +4,33 @@
 
 ProjectTemplate::cache("cosmic_cgc_df",
 {
-    info(logger, "Beggining preparation of COSMIC CGC genes.")
+    info(logger, "Beginning preparation of COSMIC CGC genes.")
     cosmic_cgc_df <- file.path(
             "data", "gene-lists", "COSMIC-CGC-all_2019-10-10.tsv"
         ) %>%
         read_tsv(col_types = cols()) %>%
         janitor::clean_names() %>%
-        dplyr::rename(hugo_symbol = "gene_symbol")
+        rename(hugo_symbol = "gene_symbol") %>%
+        mutate(tumour_types_somatic = str_to_lower(tumour_types_somatic)) %>%
+        separate_rows(tumour_types_somatic, sep = ",") %>%
+        mutate(tumour_types_somatic = str_trim(tumour_types_somatic))
 
     cosmic_cancers <- cosmic_cgc_df %>%
-        pull(tumour_types_somatic) %>%
-        str_split(",") %>%
-        unlist() %>%
-        str_remove_all(" ") %>%
-        unique()
+        filter(!is.na(tumour_types_somatic)) %>%
+        u_pull(tumour_types_somatic)
 
-    relevant_cosmic_cancers <- cosmic_cancers[str_detect(cosmic_cancers, "colon|lung|NSCLC|pancreas|myeloma")]
-    relevant_cosmic_cancers <- relevant_cosmic_cancers[!is.na(relevant_cosmic_cancers)]
-    regex_cosmic_cancers <- paste0(relevant_cosmic_cancers, collapse = "|")
+    tumor_type_to_cancer <- list(
+        COAD = cosmic_cancers[str_detect(cosmic_cancers, "colon|colorec|crc")],
+        LUAD = cosmic_cancers[str_detect(cosmic_cancers, "lung|nsclc|luad")],
+        PAAD = cosmic_cancers[str_detect(cosmic_cancers, "pancre|pdac|paad")]
+    ) %>%
+        enframe("cancer", "tumour_types_somatic") %>%
+        unnest(tumour_types_somatic) %>%
+        filter(tumour_types_somatic != "ccrcc")
 
     cosmic_cgc_df <- cosmic_cgc_df %>%
-        filter(
-            str_detect(tumour_types_somatic, regex_cosmic_cancers) |
-            str_detect(tumour_types_germline, regex_cosmic_cancers)
-        )
+        inner_join(tumor_type_to_cancer, by = "tumour_types_somatic") %>%
+        distinct()
 
     log_rows(logger, cosmic_cgc_df, "cosmic_cgc_df")
     info(logger, "Caching COSMIC CGC data frame.")
