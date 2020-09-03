@@ -70,6 +70,7 @@ allele_to_allele_comutation_analysis <- function(cancer,
                                                  ...) {
     datasets_with_gene <- datasets_for_gene(cancer, hugo_symbol)
     comutation_df <- cancer_full_coding_muts_df %>%
+        filter(!is_hypermutant) %>%
         filter(dataset %in% !!datasets_with_gene) %>%
         group_by(tumor_sample_barcode) %>%
         summarise(
@@ -114,28 +115,23 @@ allele_to_allele_comutation_res %>%
 
 #> |cancer |hugo_symbol |role_in_cancer        |amino_acid_change | allele_ct|ras_allele | estimate| p_value| conf_low| conf_high| adj_p_value|
 #> |:------|:-----------|:---------------------|:-----------------|---------:|:----------|--------:|-------:|--------:|---------:|-----------:|
-#> |COAD   |BRAF        |oncogene, fusion      |V600E             |       473|KRAS_G12C  |    0.000|   0.000|    0.000|     0.279|       0.000|
-#> |COAD   |BRAF        |oncogene, fusion      |V600E             |       473|KRAS_G12D  |    0.028|   0.000|    0.003|     0.102|       0.000|
-#> |COAD   |BRAF        |oncogene, fusion      |V600E             |       473|KRAS_G12S  |    0.000|   0.000|    0.000|     0.426|       0.001|
-#> |COAD   |BRAF        |oncogene, fusion      |V600E             |       473|KRAS_G12V  |    0.000|   0.000|    0.000|     0.077|       0.000|
-#> |COAD   |BRAF        |oncogene, fusion      |V600E             |       473|KRAS_G13D  |    0.000|   0.000|    0.000|     0.089|       0.000|
-#> |COAD   |BRAF        |oncogene, fusion      |V600E             |       473|KRAS_A146T |    0.000|   0.000|    0.000|     0.263|       0.000|
-#> |COAD   |BRAF        |oncogene, fusion      |V600E             |       473|KRAS_G12A  |    0.000|   0.000|    0.000|     0.378|       0.000|
-#> |COAD   |BRAF        |oncogene, fusion      |V600E             |       473|KRAS_Q61H  |    0.000|   0.069|    0.000|     1.106|       0.087|
-#> |COAD   |BRAF        |oncogene, fusion      |V600E             |       473|KRAS_A146V |    0.000|   0.104|    0.000|     1.371|       0.116|
-#> |COAD   |CTNNB1      |oncogene, fusion      |S45F              |        39|KRAS_A146T |    4.423|   0.017|    1.123|    12.683|       0.174|
-#> |COAD   |PIK3CA      |oncogene              |E545G             |        21|KRAS_G12D  |    3.655|   0.009|    1.243|     9.726|       0.088|
-#> |COAD   |PIK3CA      |oncogene              |E545G             |        21|KRAS_A146T |    6.166|   0.018|    1.149|    21.515|       0.088|
-#> |COAD   |PIK3CA      |oncogene              |C420R             |        37|KRAS_G13D  |    4.250|   0.001|    1.744|     9.403|       0.009|
-#> |COAD   |PIK3CA      |oncogene              |Q546K             |        42|KRAS_G12D  |    3.688|   0.000|    1.783|     7.293|       0.003|
-#> |COAD   |PIK3CA      |oncogene              |Q546K             |        42|KRAS_G12V  |    2.579|   0.022|    1.024|     5.724|       0.111|
-#> |COAD   |PIK3CA      |oncogene              |E545K             |       244|KRAS_G12D  |    2.079|   0.000|    1.480|     2.881|       0.000|
-#> |COAD   |PIK3CA      |oncogene              |E545K             |       244|KRAS_G12V  |    2.049|   0.000|    1.381|     2.972|       0.002|
-#> |COAD   |PIK3CA      |oncogene              |E545K             |       244|KRAS_G13D  |    2.074|   0.001|    1.367|     3.064|       0.002|
-#> |COAD   |TCF7L2      |oncogene, fusion      |R488C             |        28|KRAS_G12V  |    3.339|   0.017|    1.094|     8.637|       0.173|
-#> |COAD   |TP53        |oncogene, TSG, fusion |C176Y             |        16|KRAS_G12V  |    4.941|   0.009|    1.339|    15.516|       0.086|
-#> |COAD   |TP53        |oncogene, TSG, fusion |X307_splice       |        21|KRAS_A146T |    6.133|   0.018|    1.143|    21.400|       0.178|
-#> |COAD   |TP53        |oncogene, TSG, fusion |R342*             |        57|KRAS_Q61L  |   10.534|   0.019|    1.152|    46.169|       0.193|
+#> |COAD   |BRAF        |oncogene, fusion      |V600E             |       473|KRAS_G12C  |    0.000|   0.001|    0.000|     0.429|       0.001|
+#> |COAD   |BRAF        |oncogene, fusion      |V600E             |       473|KRAS_G12D  |    0.000|   0.000|    0.000|     0.090|       0.000|
+#> |COAD   |BRAF        |oncogene, fusion      |V600E             |       473|KRAS_G12S  |    0.000|   0.009|    0.000|     0.689|       0.013|
+#> |COAD   |BRAF        |oncogene, fusion      |V600E             |       473|KRAS_G12V  |    0.000|   0.000|    0.000|     0.120|       0.000|
+#> |COAD   |BRAF        |oncogene, fusion      |V600E             |       473|KRAS_G13D  |    0.000|   0.000|    0.000|     0.162|       0.000|
+#> |COAD   |BRAF        |oncogene, fusion      |V600E             |       473|KRAS_A146T |    0.000|   0.002|    0.000|     0.500|       0.004|
+#> |COAD   |BRAF        |oncogene, fusion      |V600E             |       473|KRAS_G12A  |    0.000|   0.006|    0.000|     0.653|       0.010|
+#> |COAD   |PIK3CA      |oncogene              |E545G             |        21|KRAS_G12D  |    5.226|   0.010|    1.303|    19.210|       0.097|
+#> |COAD   |PIK3CA      |oncogene              |E545G             |        21|KRAS_A146T |    8.027|   0.034|    0.845|    38.379|       0.170|
+#> |COAD   |PIK3CA      |oncogene              |Q546K             |        42|KRAS_G12D  |    3.150|   0.007|    1.262|     7.223|       0.036|
+#> |COAD   |PIK3CA      |oncogene              |Q546K             |        42|KRAS_G12V  |    3.569|   0.005|    1.364|     8.395|       0.036|
+#> |COAD   |PIK3CA      |oncogene              |E545K             |       244|KRAS_G12D  |    2.227|   0.000|    1.544|     3.160|       0.000|
+#> |COAD   |PIK3CA      |oncogene              |E545K             |       244|KRAS_G12V  |    1.947|   0.002|    1.278|     2.892|       0.009|
+#> |COAD   |PIK3CA      |oncogene              |E545K             |       244|KRAS_G13D  |    1.986|   0.003|    1.239|     3.073|       0.010|
+#> |COAD   |TCF7L2      |oncogene, fusion      |R488C             |        28|KRAS_G12V  |    4.673|   0.011|    1.264|    14.713|       0.107|
+#> |COAD   |TP53        |oncogene, TSG, fusion |C176Y             |        16|KRAS_G12V  |    4.858|   0.010|    1.296|    15.699|       0.098|
+#> |COAD   |TP53        |oncogene, TSG, fusion |X307_splice       |        21|KRAS_A146T |    8.058|   0.009|    1.472|    29.146|       0.092|
 #> |LUAD   |BRAF        |oncogene, fusion      |V600E             |        76|KRAS_G12C  |    0.160|   0.001|    0.019|     0.600|       0.012|
 #> |LUAD   |BRAF        |oncogene, fusion      |V600E             |        76|KRAS_G12D  |    0.000|   0.033|    0.000|     0.910|       0.125|
 #> |LUAD   |BRAF        |oncogene, fusion      |V600E             |        76|KRAS_G12V  |    0.174|   0.042|    0.004|     1.007|       0.125|
@@ -163,13 +159,6 @@ allele_to_allele_comutation_res %>%
 #> |LUAD   |TP53        |oncogene, TSG, fusion |R249M             |        18|KRAS_G12V  |    5.087|   0.007|    1.412|    15.315|       0.062|
 
 
-##> COAD - CTNNB1
-allele_to_allele_comutation_res %>%
-    filter(cancer == "COAD" & hugo_symbol == "CTNNB1") %>%
-    unnest(comut_res) %>%
-    select(amino_acid_change, ras_allele, p_value, estimate) %>%
-    knitr::kable(format = "markdown", digits = 3)
-
 
 ##> COAD - TCF7L2
 genetic_interaction_df %>%
@@ -184,6 +173,87 @@ allele_to_allele_comutation_res %>%
     unnest(comut_res) %>%
     select(amino_acid_change, ras_allele, p_value, estimate) %>%
     knitr::kable(format = "markdown", digits = 3)
+
+
+##> MM - NRAS
+allele_to_allele_comutation_res %>%
+    filter(cancer == "MM" & hugo_symbol == "NRAS") %>%
+    unnest(comut_res) %>%
+    mutate(num_comut = map_dbl(cont_tbl, function(x) {
+        x %>% filter(kras == "TRUE" & gene == "TRUE") %>% pull(Freq)
+    })) %>%
+    filter(num_comut > 0) %>%
+    select(amino_acid_change, ras_allele,
+           allele_ct, num_comut, estimate, p_value) %>%
+    knitr::kable(format = "markdown", digits = 3)
+#> |amino_acid_change |ras_allele | allele_ct| num_comut| estimate| p_value|
+#> |:-----------------|:----------|---------:|---------:|--------:|-------:|
+#> |G13R              |KRAS_Q61H  |        33|         1|    0.420|   0.722|
+#> |G13R              |KRAS_G12V  |        33|         1|    1.792|   0.445|
+#> |G13R              |KRAS_G13D  |        33|         1|    1.130|   0.600|
+#> |Q61H              |KRAS_Q61H  |        23|         1|    0.616|   1.000|
+#> |Q61H              |KRAS_G12S  |        23|         1|    6.948|   0.153|
+#> |Q61H              |KRAS_G12V  |        23|         1|    2.627|   0.336|
+#> |Q61K              |KRAS_G12D  |        65|         1|    0.586|   1.000|
+#> |Q61K              |KRAS_Q61H  |        65|         2|    0.420|   0.312|
+#> |Q61K              |KRAS_G12V  |        65|         1|    0.873|   1.000|
+#> |Q61K              |KRAS_G13D  |        65|         2|    1.153|   0.694|
+#> |Q61L              |KRAS_Q61H  |        11|         1|    1.368|   0.542|
+#> |Q61R              |KRAS_Q61H  |        90|         8|    1.364|   0.387|
+#> |Q61R              |KRAS_G12S  |        90|         2|    3.766|   0.131|
+
+cancer_full_coding_muts_df %>%
+    filter(cancer == "MM" & hugo_symbol == "NRAS") %>%
+    distinct(tumor_sample_barcode, amino_acid_change, ras_allele) %>%
+    count(amino_acid_change, ras_allele, sort = TRUE) %>%
+    knitr::kable(format = "markdown")
+#> |amino_acid_change |ras_allele |  n|
+#> |:-----------------|:----------|--:|
+#> |Q61R              |WT         | 78|
+#> |Q61K              |WT         | 57|
+#> |G13R              |WT         | 30|
+#> |Q61H              |WT         | 18|
+#> |Q61L              |WT         | 10|
+#> |Y64D              |WT         |  9|
+#> |G12D              |WT         |  8|
+#> |G13D              |WT         |  8|
+#> |Q61R              |KRAS_Q61H  |  8|
+#> |G12S              |WT         |  6|
+#> |Y64N              |WT         |  3|
+#> |G12A              |KRAS_Q61H  |  2|
+#> |G12A              |WT         |  2|
+#> |Q61K              |KRAS_G12A  |  2|
+#> |Q61K              |KRAS_G13D  |  2|
+#> |Q61K              |KRAS_Q61H  |  2|
+#> |Q61R              |KRAS_G12S  |  2|
+#> |A59G              |WT         |  1|
+#> |A91V              |WT         |  1|
+#> |E62Q              |WT         |  1|
+#> |F82L              |WT         |  1|
+#> |G12C              |WT         |  1|
+#> |G12D              |KRAS_G13D  |  1|
+#> |G12D              |KRAS_Q61H  |  1|
+#> |G12R              |KRAS_G12V  |  1|
+#> |G12R              |WT         |  1|
+#> |G12V              |WT         |  1|
+#> |G13C              |WT         |  1|
+#> |G13D              |KRAS_G13D  |  1|
+#> |G13R              |KRAS_G12V  |  1|
+#> |G13R              |KRAS_G13D  |  1|
+#> |G13R              |KRAS_Q61H  |  1|
+#> |G13S              |WT         |  1|
+#> |N86K              |WT         |  1|
+#> |Q61H              |KRAS_G12A  |  1|
+#> |Q61H              |KRAS_G12R  |  1|
+#> |Q61H              |KRAS_G12S  |  1|
+#> |Q61H              |KRAS_G12V  |  1|
+#> |Q61H              |KRAS_Q61H  |  1|
+#> |Q61K              |KRAS_G12D  |  1|
+#> |Q61K              |KRAS_G12V  |  1|
+#> |Q61L              |KRAS_Q61H  |  1|
+#> |Q61P              |KRAS_G12A  |  1|
+#> |Q61R              |KRAS_A146V |  1|
+#> |Q61R              |KRAS_G12R  |  1|
 
 
 #### ---- Volcano plots of oncogene comutation results ---- ####
