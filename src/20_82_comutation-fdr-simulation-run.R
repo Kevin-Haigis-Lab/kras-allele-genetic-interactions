@@ -19,12 +19,6 @@ sample_gene_mutation <- function(n, mut_rate) {
     rpois(n, mut_rate) > 0
 }
 
-# Ensure there is always a 2x2 contingency table.
-my_table <- function(a, b) {
-    a <- factor(a, levels = c("FALSE", "TRUE"))
-    b <- factor(b, levels = c("FALSE", "TRUE"))
-    table(a, b)
-}
 
 comutation_simulation <- function(num_tumor_samples, g1_rate, g2_rate, ...) {
     mut_data <- tibble(tumor_sample = seq(1, num_tumor_samples)) %>%
