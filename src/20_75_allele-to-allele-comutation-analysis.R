@@ -85,24 +85,30 @@ allele_to_allele_comutation_analysis <- function(cancer,
 }
 
 
-allele_to_allele_comutation_res <- cancer_full_coding_muts_df %>%
-    filter(cancer != "SKCM") %>%
-    inner_join(oncogenes_to_test %>% distinct(cancer, hugo_symbol, role_in_cancer),
-               by = c("cancer", "hugo_symbol")) %>%
-    mutate(amino_acid_change = ifelse(amino_acid_change == "",
-                                      mutation_type,
-                                      amino_acid_change)) %>%
-    count(cancer, hugo_symbol, role_in_cancer, amino_acid_change,
-          name = "allele_ct") %>%
-    filter(allele_ct > 10)
+cache("allele_to_allele_comutation_res",
+      depends = c("cancer_full_coding_muts_df", "oncogenes_to_test"),
+{
+    allele_to_allele_comutation_res <- cancer_full_coding_muts_df %>%
+        filter(cancer != "SKCM") %>%
+        inner_join(oncogenes_to_test %>%
+                        distinct(cancer, hugo_symbol, role_in_cancer),
+                   by = c("cancer", "hugo_symbol")) %>%
+        mutate(amino_acid_change = ifelse(amino_acid_change == "",
+                                          mutation_type,
+                                          amino_acid_change)) %>%
+        count(cancer, hugo_symbol, role_in_cancer, amino_acid_change,
+              name = "allele_ct") %>%
+        filter(allele_ct > 10)
 
-nrow(allele_to_allele_comutation_res)
+    nrow(allele_to_allele_comutation_res)
 
+    allele_to_allele_comutation_res$comut_res <- pmap(
+        allele_to_allele_comutation_res,
+        allele_to_allele_comutation_analysis
+    )
 
-allele_to_allele_comutation_res$comut_res <- pmap(
-    allele_to_allele_comutation_res,
-    allele_to_allele_comutation_analysis
-)
+    return(allele_to_allele_comutation_res)
+})
 
 
 allele_to_allele_comutation_res %>%
@@ -396,3 +402,66 @@ pik3ca_comut_heatmap <- allele_to_allele_comutation_res %>%
 ggsave_wrapper(pik3ca_comut_heatmap,
                plot_path(GRAPHS_DIR, "COAD_PIK3CA_comutation-heatmap.svg"),
                "medium")
+
+
+
+#### ---- Protein domain enrichments in TSG ---- ####
+
+unnested_pfam_data <- pfam_data %>%
+    unnest(data) %>%
+    select(hugo_symbol, name, misc, codon)
+
+cancer_full_coding_muts_df %>%
+    filter(cancer != "SKCM") %>%
+    inner_join(oncogenes_to_test %>%
+                    distinct(cancer, hugo_symbol, role_in_cancer),
+               by = c("cancer", "hugo_symbol")) %>%
+    filter(str_detect(role_in_cancer, "TSG")) %>%
+    mutate(amino_acid_change = ifelse(amino_acid_change == "",
+                                      mutation_type,
+                                      amino_acid_change),
+           amino_position = as.numeric(amino_position)) %>%
+    select(cancer, hugo_symbol, role_in_cancer, amino_position) %>%
+    inner_join(unnested_pfam_data,
+               by = c("hugo_symbol", "amino_position" = "codon")) %>%
+    count(cancer, hugo_symbol, role_in_cancer, name, misc, name = "mut_ct")
+
+# TODO: allow for use of domains instead of alleles in comutation analysis
+
+#> use a different function than `allele_to_allele_comutation_analysis()`
+
+
+domain_to_allele_comutation_analysis <- function(cancer,
+                                                 hugo_symbol,
+                                                 amino_acid_change,
+                                                 ...) {
+    datasets_with_gene <- datasets_for_gene(cancer, hugo_symbol)
+    comutation_df <- cancer_full_coding_muts_df %>%
+        filter(!is_hypermutant) %>%
+        filter(dataset %in% !!datasets_with_gene) %>%
+        group_by(tumor_sample_barcode) %>%
+        summarise(
+            ras_allele = unique(ras_allele),
+            is_allele_mutant = any(hugo_symbol == !!hugo_symbol &
+                                   amino_acid_change == !!amino_acid_change)
+        ) %>%
+        test_for_allele_comutation_per_kras_allele(cancer = cancer) %>%
+        mutate(adj_p_value = p.adjust(p_value, method = "BH")) %>%
+        select(-method, -alternative)
+
+}
+
+# TODO: target
+#> # A tibble: 265 x 5
+#>    cancer hugo_symbol role_in_cancer amino_acid_change allele_ct
+#>    <chr>  <chr>       <chr>          <chr>                 <int>
+#>  1 COAD   AKT1        oncogene       E17K                     37
+#>  2 COAD   APC         TSG            A1492Cfs*22              14
+#>  3 COAD   APC         TSG            E1286*                   11
+#>  4 COAD   APC         TSG            E1295*                   13
+#>  5 COAD   APC         TSG            E1306*                   27
+#>  6 COAD   APC         TSG            E1309*                   32
+#>  7 COAD   APC         TSG            E1309Dfs*4               98
+#>  8 COAD   APC         TSG            E1322*                   29
+#>  9 COAD   APC         TSG            E1345*                   15
+#> 10 COAD   APC         TSG            E1353*                   41

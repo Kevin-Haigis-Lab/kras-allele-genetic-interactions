@@ -1,5 +1,5 @@
 
-.libPaths(c(.libPaths(), "/home/jc604/R-4.0/library"))
+.libPaths(c(.libPaths(), "/home/jc604/R-3.5.1/library"))
 
 library(tictoc)
 library(tidygraph)
@@ -48,7 +48,6 @@ mod_rc_test <- function(bipartite_gr,
 # WRAPPER: run the RC test with the real and permuted bipartite graphs
 run_rc_test <- function(real_gr,
                         which_test,
-                        seed_genes,
                         min_times_mut,
                         output_name) {
 
@@ -75,9 +74,8 @@ convert_rasallele <- function(rasallele) {
 
 # run by Snakemake
 run_rc_test(
-    snakemake@input[["real_gr"]],
-    snakemake@wildcards[["which_test"]],
-    convert_rasallele(snakemake@wildcards[["rasallele"]]),
-    as.numeric(snakemake@params[["min_times_mut"]]),
-    snakemake@output[["output_name"]]
+    real_gr = snakemake@input[["real_gr"]],
+    which_test = snakemake@wildcards[["which_test"]],
+    min_times_mut = as.numeric(snakemake@params[["min_times_mut"]]),
+    output_name = snakemake@output[["output_name"]]
 )

@@ -1,33 +1,33 @@
 
-library(tidyverse)
-
-libs <- "stats, glue, conflicted, assertr, testthat,
-glmnet, parallel, caret, ggfortify, tidygraph, jhcutils,
-magrittr, ggpubr, ggraph, ggtext, patchwork, ggplot2, broom, tibble, magrittr,
-tidyverse"
-libs %>% str_split(",") %>% unlist() %>% str_squish() %>% walk(function(l) {
-    library(l, character.only = T)
-})
-
-conflict_prefer("select", "dplyr")
-conflict_prefer("filter", "dplyr")
-conflict_prefer("slice", "dplyr")
-conflict_prefer("setdiff", "dplyr")
-conflict_prefer("intersect", "dplyr")
-conflict_prefer("cache", "ProjectTemplate")
-conflict_prefer("rename", "dplyr")
-conflict_prefer("parLapply", "parallel")
-conflict_prefer("which", "Matrix")
-
-
-for (f in list.files("lib", full.names = TRUE, pattern = "R$")) {
-    tryCatch({
-        source(f)
-    }, error = function(e) {
-        message(glue("error in {f}: {e}"))
-    })
-
-}
+# library(tidyverse)
+#
+# libs <- "stats, glue, conflicted, assertr, testthat,
+# glmnet, parallel, caret, ggfortify, tidygraph, jhcutils,
+# magrittr, ggpubr, ggraph, ggtext, patchwork, ggplot2, broom, tibble, magrittr,
+# tidyverse"
+# libs %>% str_split(",") %>% unlist() %>% str_squish() %>% walk(function(l) {
+#     library(l, character.only = T)
+# })
+#
+# conflict_prefer("select", "dplyr")
+# conflict_prefer("filter", "dplyr")
+# conflict_prefer("slice", "dplyr")
+# conflict_prefer("setdiff", "dplyr")
+# conflict_prefer("intersect", "dplyr")
+# conflict_prefer("cache", "ProjectTemplate")
+# conflict_prefer("rename", "dplyr")
+# conflict_prefer("parLapply", "parallel")
+# conflict_prefer("which", "Matrix")
+#
+#
+# for (f in list.files("lib", full.names = TRUE, pattern = "R$")) {
+#     tryCatch({
+#         source(f)
+#     }, error = function(e) {
+#         message(glue("error in {f}: {e}"))
+#     })
+#
+# }
 
 
 GRAPHS_DIR <- "20_84_comutation-fdr-simulation-demo"

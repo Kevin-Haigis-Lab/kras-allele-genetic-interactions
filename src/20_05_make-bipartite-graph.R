@@ -1,7 +1,7 @@
 
 message("Begninning script.")
 
-.libPaths(c(.libPaths(), "/home/jc604/R-3.5.1/library"))
+.libPaths(c(.libPaths(), "/home/jc604/R-4.0/library"))
 
 message("Loading libraries.")
 
