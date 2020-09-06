@@ -30,7 +30,7 @@
 		"mem"       : "{params.mem}",
 		"time"      : "{params.time}",
 		"J"	        : "3_{wildcards.cancer}_{params.which_test_short}",
-		"out"       : "logs/rc-test_slurm_logs/%j_{rule}_{wildcards.cancer}_{wildcards.which_test}.log",
+		"out"       : "logs/rc-test_slurm_logs/%j_{rule}_{wildcards.cancer}_{params.which_test_short}.log",
 		"err"       : "logs/rc-test_slurm_logs/%j_{rule}_{wildcards.cancer}_{params.which_test_short}.log"
 	},
 	"process_permuted_graph" :
@@ -40,7 +40,7 @@
 		"mem"       : "{params.mem}",
 		"time"      : "{params.time}",
 		"J"	        : "4_{wildcards.cancer}_{params.which_test_short}",
-		"out"       : "logs/rc-test_slurm_logs/%j_{rule}_{wildcards.cancer}_{wildcards.which_test}.log",
-		"err"       : "logs/rc-test_slurm_logs/%j_{rule}_{wildcards.cancer}_{wildcards.which_test}.log"
+		"out"       : "logs/rc-test_slurm_logs/%j_{rule}_{wildcards.cancer}_{params.which_test_short}.log",
+		"err"       : "logs/rc-test_slurm_logs/%j_{rule}_{wildcards.cancer}_{params.which_test_short}.log"
 	}
 }

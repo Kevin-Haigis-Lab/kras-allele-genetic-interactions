@@ -1,10 +1,11 @@
 
-.libPaths(c(.libPaths(), "/home/jc604/R-3.5.1/library"))
+.libPaths(c(.libPaths(), "/home/jc604/R-4.0/library"))
 
 library(tictoc)
 library(tidygraph)
 library(dplyr)
 library(wext)
+
 
 # A modified RC-test from the 'wext' package optimized for this analysis.
 mod_rc_test <- function(bipartite_gr,
@@ -51,24 +52,14 @@ run_rc_test <- function(real_gr,
                         min_times_mut,
                         output_name) {
 
-    if (seed_genes == "NULL") seed_genes <- c()
-    stopifnot(length(seed_genes) > 0)
-
     results <- mod_rc_test(bipartite_gr = real_gr,
                            which_test = which_test,
                            k = 2,
-                           seed_genes = c(seed_genes),
+                           seed_genes = "KRAS",
                            min_mut_events = 2,
                            min_times_mut = min_times_mut)
 
     saveRDS(results, output_name)
-}
-
-# adds an underscore between the RAS and allele
-convert_rasallele <- function(rasallele) {
-    ras <- stringr::str_extract(rasallele, "KRAS|NRAS")
-    allele <- stringr::str_extract(rasallele, "(?<=RAS)[:alnum:]+")
-    return(paste0(ras, "_", allele))
 }
 
 
@@ -79,3 +70,11 @@ run_rc_test(
     min_times_mut = as.numeric(snakemake@params[["min_times_mut"]]),
     output_name = snakemake@output[["output_name"]]
 )
+
+
+# run_rc_test(
+#     real_gr = "data/rc-test-nonallelespec/intermediate/PAAD_bgr.rds",
+#     which_test = "exclusivity",
+#     min_times_mut = 3,
+#     output_name = "data/rc-test-nonallelespec/intermediate/PAAD_exclusivity_results_df.rds"
+# )
