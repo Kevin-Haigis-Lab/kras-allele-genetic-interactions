@@ -17,17 +17,6 @@ demo_params_results <- comutation_fdr_simulation_results %>%
 num_sims <- max(demo_params_results$simulation_idx)
 
 
-make_rows_cols_idx <- function(df, arrange_col, num_cols) {
-    df %>%
-        arrange(-{{ arrange_col }}) %>%
-        mutate(row_idx = ceiling(row_number() / num_cols)) %>%
-        group_by(row_idx) %>%
-        arrange({{ arrange_col }}) %>%
-        mutate(col_idx = row_number()) %>%
-        ungroup()
-}
-
-
 simulation_grid_plot <- function(df, fill_col) {
     df %>%
         ggplot(aes(col_idx, row_idx)) +

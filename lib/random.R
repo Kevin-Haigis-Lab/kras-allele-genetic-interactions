@@ -24,13 +24,3 @@ comutation_proj_lines_of_code <- function() {
         unlist() %>%
         sum()
 }
-
-
-assign_stars <- function(pval) {
-    case_when(
-        pval < 0.001 ~ "***",
-        pval < 0.01 ~ "**",
-        pval < 0.05 ~ "*",
-        TRUE ~ NA_character_
-    )
-}
