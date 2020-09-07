@@ -1,48 +1,4 @@
 
-# library(tidyverse)
-
-# libs <- "stats, glue, conflicted, assertr, testthat,
-# glmnet, parallel, caret, ggfortify, tidygraph, jhcutils,
-# magrittr, ggpubr, ggraph, ggtext, patchwork, ggplot2, broom, tibble, magrittr,
-# tidyverse"
-# libs %>% str_split(",") %>% unlist() %>% str_squish() %>% walk(function(l) {
-#     library(l, character.only = T)
-# })
-
-# library(mustashe)
-
-# conflict_prefer("select", "dplyr")
-# conflict_prefer("filter", "dplyr")
-# conflict_prefer("slice", "dplyr")
-# conflict_prefer("setdiff", "dplyr")
-# conflict_prefer("intersect", "dplyr")
-# conflict_prefer("cache", "ProjectTemplate")
-# conflict_prefer("rename", "dplyr")
-# conflict_prefer("parLapply", "parallel")
-# conflict_prefer("which", "Matrix")
-
-
-# for (f in list.files("lib", full.names = TRUE, pattern = "R$")) {
-#     if (f == "lib/globals.R") { next }
-#     tryCatch({
-#         source(f)
-#     }, error = function(e) {
-#         message(glue("error in {f}: {e}"))
-#     })
-
-# }
-
-
-# stash("comutation_fdr_simulation_results", {
-#     load("cache/comutation_fdr_simulation_results.RData")
-
-#     comutation_fdr_simulation_results <- comutation_fdr_simulation_results %>%
-#         filter(num_tumor_samples %in% c(100, 500, 1000, 3000))
-# })
-
-
-
-
 GRAPHS_DIR <- "20_85_comutation-fdr-simulation-results-more-plots"
 reset_graph_directory(GRAPHS_DIR)
 
@@ -86,8 +42,8 @@ simulation_grid_plot <- function(df, fill_col) {
              y = NULL)
 }
 
-demo_colorbar = guide_colorbar(barwidth = unit(3, "mm"),
-                               barheight = unit(20, "mm"))
+demo_colorbar <- guide_colorbar(barwidth = unit(3, "mm"),
+                                barheight = unit(20, "mm"))
 
 p_title <- glue("Results of {num_sims} simulations with lambdas: {demo_g1_rate} & {demo_g2_rate}")
 p_subtitle <- glue("Each cell represents the odds ratio from an individual simulation
@@ -231,23 +187,6 @@ ggsave_wrapper(oddsratio_patch,
                "small")
 
 
-# comutation_fdr_simulation_results %>%
-#     filter(near(g1_rate, demo_g1_rate) & near(g2_rate, demo_g2_rate)) %>%
-#     mutate(is_proj_sig = map2_lgl(mutation_table, p_value,
-#                                   project_significance_check)) %>%
-#     group_by(num_tumor_samples) %>%
-#     summarise(fdr = mean(is_proj_sig)) %>%
-#     ungroup() %>%
-#     ggplot(aes(x = num_tumor_samples, y = fdr)) +
-#     geom_line(group = "a") +
-#     geom_point(aes(color = fdr)) +
-#     scale_color_gradient(low = "skyblue", high = "blue") +
-#     labs(x = "number of tumor samples in simulation",
-#          y = "FDR",
-#          color = "FDR",
-#          title = "False discovery rate as the number of tumor samples increases")
-
-
 comutation_fdr_summary <- comutation_fdr_simulation_results %>%
     mutate(is_proj_sig = map2_lgl(mutation_table, p_value,
                                   project_significance_check),
@@ -282,4 +221,56 @@ comutation_fdr_lineplt <- comutation_fdr_summary %>%
          subtitle = "Each line is a simulation using different rates of mutation for the genes.")
 ggsave_wrapper(comutation_fdr_lineplt,
                plot_path(GRAPHS_DIR, "comutation-fdr-lineplt.svg"),
+               "wide")
+
+
+
+diff_rate_fdrs <- comutation_fdr_simulation_results %>%
+    mutate(rate_diff = abs(round(g1_rate - g2_rate, 2))) %>%
+    mutate(is_proj_sig = map2_lgl(mutation_table, p_value,
+                                  project_significance_check)) %>%
+    group_by(num_tumor_samples, rate_diff) %>%
+    summarise(fdr = mean(is_proj_sig)) %>%
+    ungroup()
+
+diff_rate_fdrs_plot <- diff_rate_fdrs %>%
+    ggplot(aes(x = rate_diff, y = fdr)) +
+    geom_line(aes(group = num_tumor_samples, color = num_tumor_samples),
+              alpha = 0.7) +
+    scale_color_gradient(low = "#3db85d", high = "#b83db4") +
+    scale_x_continuous(expand = c(0, 0)) +
+    scale_y_continuous(expand = expansion(mult = c(0, 0.02))) +
+    theme(plot.title = element_text(hjust = 0.5)) +
+    labs(x = "difference in rates of mutation of simulated genes",
+         y = "average simulation FDR",
+         color = "number of\ntumor samples\nin simulation",
+         title = "FDR of simulations per difference\nin mutation rate of the simulated genes")
+ggsave_wrapper(diff_rate_fdrs_plot,
+               plot_path(GRAPHS_DIR, "diff-rates-fdr.svg"),
+               "small")
+
+
+
+obs_vs_known_mutation_rates <- comutation_fdr_simulation_results %>%
+    mutate(g1_obs_rate = map_dbl(mutation_table, ~ sum(.x[2, ]) / sum(.x)),
+           g2_obs_rate = map_dbl(mutation_table, ~ sum(.x[, 2]) / sum(.x))) %>%
+    mutate(g1_diff = (g1_rate - g1_obs_rate) / g1_rate,
+           g2_diff = (g2_rate - g2_obs_rate) / g1_rate)
+
+obs_vs_known_mutation_rates_plot <- obs_vs_known_mutation_rates %>%
+    select(num_tumor_samples, g1_diff, g2_diff) %>%
+    pivot_longer(-num_tumor_samples) %>%
+    group_by(num_tumor_samples) %>%
+    sample_frac(0.2) %>%
+    filter(!is.na(value)) %>%
+    ggplot(aes(x = num_tumor_samples, y = value, group = num_tumor_samples)) +
+    geom_boxplot(aes(fill = num_tumor_samples), outlier.shape = NA) +
+    scale_fill_gradient(low = "aquamarine2", high = "forestgreen") +
+    scale_x_continuous(expand = expansion(mult = 0.02, 0.02)) +
+    scale_y_continuous(limits = c(-0.4, 0.7)) +
+    theme(legend.position = "none") +
+    labs(x = "number of tumor samples",
+         y = "standardized difference in observed and simulated mutation rate")
+ggsave_wrapper(obs_vs_known_mutation_rates_plot,
+               plot_path(GRAPHS_DIR, "obs-vs-known-diff-rates.svg"),
                "wide")
