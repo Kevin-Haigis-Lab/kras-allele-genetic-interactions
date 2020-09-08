@@ -3,14 +3,6 @@ GRAPHS_DIR <- "90_03_mutation-burden-distribution"
 reset_graph_directory(GRAPHS_DIR)
 
 
-# A simple wrapper to save figure protos from this script.
-save_fig_proto_wrapper <- function(p, n) {
-    proto_name <- basename(n)
-    proto_name <- file_sans_ext(proto_name)
-    saveFigRds(p, proto_name)
-}
-
-
 #### ---- Mut. burden distribution ---- ####
 # Plots showing the distribution of the mutations per sample.
 
@@ -69,7 +61,7 @@ plot_distribution_of_mutation_count <- function(cancer,
     ggsave_wrapper(p, save_path, width = 8, height = 2.5)
 
     # Save for use in a figure.
-    save_fig_proto_wrapper(p, save_path)
+    saveFigRds(p, save_path)
 }
 
 # Distribution of all mutations per sample.
@@ -149,7 +141,7 @@ plot_distribution_of_mutation_type <- function(cancer, data, save_name) {
     ggsave_wrapper(p, save_path, width = 6, height = 4)
 
     # Save the ggplot objects for figures.
-    save_fig_proto_wrapper(p, save_path)
+    saveFigRds(p, save_path)
 
     return(p)
 }
@@ -292,9 +284,6 @@ ggsave_wrapper(
 )
 
 
-# Simple rounding alias.
-r3 <- function(x) round(x, 3)
-
 # Summary statistics on VAF values per cancer type.
 cancer_coding_muts_df %>%
     filter(cancer != "SKCM" & !is.na(VAF)) %>%
@@ -432,3 +421,18 @@ diff_adjusted_vaf_dist <- cancer_muts_adjvaf %>%
 ggsave_wrapper(diff_adjusted_vaf_dist,
                plot_path(GRAPHS_DIR, "kras-comuts-vaf-difference.svg"),
                "wide")
+
+
+
+# cancer_muts_adjvaf %>%
+#     filter(!is_hypermutant) %>%
+#     filter(cancer == "COAD") %>%
+#     saveRDS("cancer_muts_adjvaf.rds")
+
+
+# cancer_full_muts_df %>%
+#     filter(!is_hypermutant) %>%
+#     filter(str_detect(mutation_type, "synon|silent")) %>%
+#     filter(!is.na(VAF)) %>%
+#     filter(cancer == "COAD") %>%
+#     saveRDS("cancer_silent_muts_df.rds")
