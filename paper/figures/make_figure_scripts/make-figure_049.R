@@ -47,7 +47,7 @@ theme_msig_boxplot <- function() {
 # Associations between KRAS alleles and mutational sigs. in COAD
 # original script: "src/50_35_mutational-signature-allele-associations.R"
 
-panel_A1 <- read_fig_proto("COAD_allele-sig-associate") +
+panel_A1 <- read_fig_proto("COAD_median_allele-sig-associate.svg") +
     theme_msig_heatmap() +
     labs(tag = "a")
 
@@ -60,7 +60,7 @@ panel_A2 <- read_fig_proto("COAD_allele-sig-boxplots") +
 # Associations between KRAS alleles and mutational sigs. in LUAD
 # original script: "src/50_35_mutational-signature-allele-associations.R"
 
-panel_B1 <- read_fig_proto("LUAD_allele-sig-associate") +
+panel_B1 <- read_fig_proto("LUAD_median_allele-sig-associate.svg") +
     theme_msig_heatmap() +
     labs(tag = "b")
 
@@ -73,7 +73,7 @@ panel_B2 <- read_fig_proto("LUAD_allele-sig-boxplots") +
 # Associations between KRAS alleles and mutational sigs. in MM
 # original script: "src/50_35_mutational-signature-allele-associations.R"
 
-panel_C1 <- read_fig_proto("MM_allele-sig-associate") +
+panel_C1 <- read_fig_proto("MM_median_allele-sig-associate.svg") +
     theme_msig_heatmap() +
     theme(legend.box = "horizontal") +
     labs(tag = "c")
@@ -86,7 +86,7 @@ panel_C2 <- read_fig_proto("MM_allele-sig-boxplots") +
 # Associations between KRAS alleles and mutational sigs. in PAAD
 # original script: "src/50_35_mutational-signature-allele-associations.R"
 
-panel_D1 <- read_fig_proto("PAAD_allele-sig-associate") +
+panel_D1 <- read_fig_proto("PAAD_median_allele-sig-associate.svg") +
     theme_msig_heatmap() +
     labs(tag = "d")
 
