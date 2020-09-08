@@ -793,6 +793,7 @@ make_lgl_table <- function(x, y) {
     table(f(x), f(y))
 }
 
+
 test_for_hypermutant_association <- function(allele, data) {
     data %>%
         mutate(is_allele = ras_allele == !!allele) %$%

@@ -277,6 +277,7 @@ plt_data <- allele_to_allele_comutation_res %>%
            label = glue("{hugo_symbol} {amino_acid_change} - {allele}"),
            label = ifelse(sig, label, NA_character_))
 
+
 comutation_volcano_plot <- function(df, xlims) {
     p <- df %>% ggplot(aes(x = log_or, y = log_adj_p_value))
 
@@ -308,6 +309,7 @@ comutation_volcano_plot <- function(df, xlims) {
              y = "adj. p-value (-log10)",
              color = NULL)
 }
+
 
 stacked_comutation_volcano_plot <- function(df, cancer, ycut) {
     xlims <- c(min(df$log_or), max(df$log_or)) + c(-1, 1)
@@ -409,9 +411,9 @@ ggsave_wrapper(pik3ca_comut_heatmap,
 
 unnested_pfam_data <- pfam_data %>%
     unnest(data) %>%
-    select(hugo_symbol, name, misc, codon)
+    select(hugo_symbol, domain_name = name, codon)
 
-cancer_full_coding_muts_df %>%
+tsg_domain_mutations <- cancer_full_coding_muts_df %>%
     filter(cancer != "SKCM") %>%
     inner_join(oncogenes_to_test %>%
                     distinct(cancer, hugo_symbol, role_in_cancer),
@@ -421,47 +423,253 @@ cancer_full_coding_muts_df %>%
                                       mutation_type,
                                       amino_acid_change),
            amino_position = as.numeric(amino_position)) %>%
-    select(cancer, hugo_symbol, role_in_cancer, amino_position) %>%
+    select(cancer, tumor_sample_barcode,
+           hugo_symbol, role_in_cancer, amino_position) %>%
     inner_join(unnested_pfam_data,
                by = c("hugo_symbol", "amino_position" = "codon")) %>%
-    count(cancer, hugo_symbol, role_in_cancer, name, misc, name = "mut_ct")
+    distinct(cancer, tumor_sample_barcode,
+             hugo_symbol, role_in_cancer, domain_name) %>%
+    count(cancer, hugo_symbol, role_in_cancer, domain_name, name = "mut_ct") %>%
+    filter(mut_ct > 20)
+tsg_domain_mutations
 
-# TODO: allow for use of domains instead of alleles in comutation analysis
 
-#> use a different function than `allele_to_allele_comutation_analysis()`
+cancer_full_coding_domain_muts_df <- cancer_full_coding_muts_df %>%
+    filter(cancer != "SKCM") %>%
+    filter(!is_hypermutant) %>%
+    mutate(amino_position = as.numeric(amino_position)) %>%
+    left_join(unnested_pfam_data,
+              by = c("hugo_symbol", "amino_position" = "codon"))
+
 
 
 domain_to_allele_comutation_analysis <- function(cancer,
                                                  hugo_symbol,
-                                                 amino_acid_change,
+                                                 domain_name,
                                                  ...) {
     datasets_with_gene <- datasets_for_gene(cancer, hugo_symbol)
-    comutation_df <- cancer_full_coding_muts_df %>%
-        filter(!is_hypermutant) %>%
+    comutation_df <- cancer_full_coding_domain_muts_df %>%
         filter(dataset %in% !!datasets_with_gene) %>%
         group_by(tumor_sample_barcode) %>%
         summarise(
             ras_allele = unique(ras_allele),
             is_allele_mutant = any(hugo_symbol == !!hugo_symbol &
-                                   amino_acid_change == !!amino_acid_change)
+                                   domain_name == !!domain_name)
         ) %>%
         test_for_allele_comutation_per_kras_allele(cancer = cancer) %>%
         mutate(adj_p_value = p.adjust(p_value, method = "BH")) %>%
         select(-method, -alternative)
-
 }
 
-# TODO: target
-#> # A tibble: 265 x 5
-#>    cancer hugo_symbol role_in_cancer amino_acid_change allele_ct
-#>    <chr>  <chr>       <chr>          <chr>                 <int>
-#>  1 COAD   AKT1        oncogene       E17K                     37
-#>  2 COAD   APC         TSG            A1492Cfs*22              14
-#>  3 COAD   APC         TSG            E1286*                   11
-#>  4 COAD   APC         TSG            E1295*                   13
-#>  5 COAD   APC         TSG            E1306*                   27
-#>  6 COAD   APC         TSG            E1309*                   32
-#>  7 COAD   APC         TSG            E1309Dfs*4               98
-#>  8 COAD   APC         TSG            E1322*                   29
-#>  9 COAD   APC         TSG            E1345*                   15
-#> 10 COAD   APC         TSG            E1353*                   41
+
+tsg_domain_mutations$comut_res <- pmap(
+    tsg_domain_mutations,
+    domain_to_allele_comutation_analysis
+)
+
+tsg_domain_mutations %>%
+    unnest(comut_res) %>%
+    filter(adj_p_value < 0.2) %>%
+    select(cancer, hugo_symbol, domain_name, ras_allele, estimate, adj_p_value) %>%
+    filter(!domain_name %in% c("disorder", "low_complexity")) %>%
+    knitr::kable(format = "markdown", digits = 3)
+
+#> |cancer |hugo_symbol |domain_name                |ras_allele | estimate| adj_p_value|
+#> |:------|:-----------|:--------------------------|:----------|--------:|-----------:|
+#> |COAD   |APC         |APC_r                      |KRAS_G12D  |    1.520|       0.075|
+#> |COAD   |APC         |APC_r                      |KRAS_G13D  |    1.562|       0.117|
+#> |COAD   |APC         |APC_u9                     |KRAS_G13D  |    0.537|       0.005|
+#> |COAD   |APC         |Arm_APC_u3                 |KRAS_G12D  |    1.460|       0.037|
+#> |COAD   |APC         |Arm_APC_u3                 |KRAS_G12V  |    1.432|       0.074|
+#> |COAD   |APC         |Arm_APC_u3                 |KRAS_G13D  |    1.595|       0.037|
+#> |COAD   |APC         |EB1_binding                |KRAS_G12A  |   26.968|       0.005|
+#> |COAD   |FBXW7       |WD40                       |KRAS_G12S  |    2.372|       0.116|
+#> |COAD   |FBXW7       |WD40                       |KRAS_Q61H  |    2.754|       0.116|
+#> |COAD   |FBXW7       |WD40                       |KRAS_A146V |    3.507|       0.116|
+#> |COAD   |MSH6        |MutS_III                   |KRAS_Q61L  |      Inf|       0.035|
+#> |COAD   |SMAD4       |MH1                        |KRAS_G12V  |    2.249|       0.126|
+#> |COAD   |SMAD4       |MH2                        |KRAS_G12V  |    1.983|       0.000|
+#> |COAD   |TP53        |P53                        |KRAS_G12D  |    0.744|       0.023|
+#> |COAD   |TP53        |P53                        |KRAS_G12V  |    0.763|       0.064|
+#> |COAD   |TP53        |P53                        |KRAS_G13D  |    0.769|       0.107|
+
+#> |LUAD   |CSMD3       |Sushi                      |KRAS_G12D  |    0.166|       0.196|
+#> |LUAD   |CSMD3       |Sushi                      |KRAS_G12V  |    2.963|       0.009|
+#> |LUAD   |NOTCH1      |EGF                        |KRAS_G12C  |    2.255|       0.131|
+#> |LUAD   |NOTCH1      |EGF                        |KRAS_G12S  |    6.585|       0.193|
+#> |LUAD   |STK11       |Pfam predicted active site |KRAS_G12C  |    4.261|       0.010|
+#> |LUAD   |STK11       |Pkinase                    |KRAS_G12C  |    2.204|       0.000|
+#> |LUAD   |STK11       |Pkinase                    |KRAS_G12V  |    1.426|       0.074|
+#> |LUAD   |STK11       |Pkinase                    |KRAS_G13D  |    2.240|       0.074|
+#> |LUAD   |TP53        |Metal ion binding          |KRAS_G12D  |    0.144|       0.196|
+#> |LUAD   |TP53        |P53                        |KRAS_G12A  |    0.557|       0.003|
+#> |LUAD   |TP53        |P53                        |KRAS_G12C  |    0.592|       0.000|
+#> |LUAD   |TP53        |P53                        |KRAS_G12D  |    0.403|       0.000|
+#> |LUAD   |TP53        |P53                        |KRAS_G12V  |    0.591|       0.000|
+
+#> |PAAD   |SMAD4       |MH2                        |KRAS_G12R  |    1.590|       0.056|
+
+pfam_data %>%
+    unnest(data) %>%
+    filter(hugo_symbol == "SMAD4") %>%
+    distinct(hugo_symbol, name, misc)
+
+genetic_interaction_df %>%
+    filter(cancer == "LUAD" & hugo_symbol == "CSMD3") %>%
+    select(allele, p_val, genetic_interaction)
+
+
+
+#### ---- Specific genes comutating in PAAD ---- ####
+
+paad_allele_ct <- cancer_full_coding_muts_df %>%
+    distinct(tumor_sample_barcode, ras_allele) %>%
+    count(ras_allele, name = "num_ras_allele")
+
+
+count_mutation_types <- function(df, gene, cancer = "PAAD") {
+    df %>%
+        filter(hugo_symbol == !!gene & cancer == !!cancer) %>%
+        count(mutation_type) %>%
+        mutate(freq = n / sum(n)) %>%
+        arrange(-freq)
+}
+
+count_missense_muts <- function(df, gene, cancer = "PAAD") {
+    df  %>%
+        filter(cancer == !!cancer & mutation_type == "missense_mutation") %>%
+        filter(hugo_symbol == !!gene) %>%
+        count(amino_acid_change, sort = TRUE)
+}
+
+
+#> TP53
+
+cancer_full_coding_muts_df %>%
+    filter(hugo_symbol == "TP53" & cancer == "PAAD") %>%
+    count(ras_allele, mutation_type) %>%
+    left_join(paad_allele_ct, by = "ras_allele") %>%
+    mutate(freq = n / num_ras_allele)
+
+cancer_full_coding_muts_df %>%
+    count_mutation_types("TP53")
+
+cancer_full_coding_muts_df %>%
+    count_missense_muts("TP53")
+
+
+
+#> RNF43
+
+cancer_full_coding_muts_df %>%
+    count_mutation_types("RNF43")
+cancer_full_coding_muts_df %>%
+    count_missense_muts("RNF43")
+
+cancer_coding_av_muts_df %>%
+    filter(cancer == "PAAD" &
+           hugo_symbol == "RNF43" &
+           mutation_type == "missense_mutation") %>%
+    distinct(amino_acid_change, sift_pred, fathmm_pred,
+             polyphen2_hvar_pred, polyphen2_hdiv_pred) %>%
+    rename(mutation = amino_acid_change,
+           SIFT = sift_pred,
+           FATHMM = fathmm_pred,
+           PP2_HVAR = polyphen2_hvar_pred,
+           PP2_HDIV = polyphen2_hdiv_pred) %>%
+    arrange(SIFT, FATHMM, PP2_HVAR, PP2_HDIV) %>%
+    knitr::kable(format = "markdown")
+#> |mutation |SIFT |PP2_HDIV |PP2_HVAR |FATHMM |
+#> |:--------|:----|:--------|:--------|:------|
+#> |C182F    |D    |D        |D        |D      |
+#> |C309F    |D    |D        |D        |D      |
+#> |R270W    |D    |B        |B        |T      |
+#> |R755S    |D    |B        |B        |T      |
+#> |A11S     |D    |B        |B        |T      |
+#> |R159W    |D    |D        |D        |T      |
+#> |G39V     |D    |D        |D        |T      |
+#> |S347P    |D    |D        |D        |T      |
+#> |A46V     |D    |D        |D        |T      |
+#> |C91S     |D    |D        |D        |T      |
+#> |P33R     |D    |D        |D        |T      |
+#> |G6R      |D    |D        |D        |T      |
+#> |L149P    |D    |D        |D        |T      |
+#> |R286W    |D    |D        |D        |T      |
+#> |G166V    |D    |D        |D        |T      |
+#> |S486I    |D    |D        |D        |T      |
+#> |I186T    |D    |D        |D        |T      |
+#> |V162M    |D    |D        |D        |T      |
+#> |P27L     |D    |D        |P        |T      |
+#> |D300G    |D    |D        |P        |T      |
+#> |P154L    |D    |D        |P        |T      |
+#> |S720L    |D    |P        |P        |T      |
+#> |V90M     |T    |D        |D        |T      |
+#> |A42T     |T    |D        |D        |T      |
+#> |A70G     |T    |D        |D        |T      |
+#> |V217M    |T    |D        |D        |T      |
+#> |L17M     |T    |D        |D        |T      |
+#> |S94I     |T    |D        |P        |T      |
+#> |E191D    |T    |P        |P        |T      |
+
+
+
+#> MAP2K4
+
+cancer_full_coding_muts_df %>%
+    group_by(ras_allele) %>%
+    count_mutation_types("MAP2K4") %>%
+    filter(ras_allele %in% c("KRAS_G12D", "KRAS_Q61R"))
+cancer_full_coding_muts_df %>%
+    filter(ras_allele %in% c("KRAS_G12D", "KRAS_Q61R")) %>%
+    group_by(ras_allele) %>%
+    count_missense_muts("MAP2K4")
+
+
+
+
+
+#> RBM10
+
+cancer_full_coding_muts_df %>%
+    filter(str_detect(ras_allele, "G12D|G12R|G12V|Q61H")) %>%
+    group_by(ras_allele) %>%
+    count_mutation_types("RBM10")
+cancer_full_coding_muts_df %>%
+    filter(str_detect(ras_allele, "G12D|G12R|G12V|Q61H")) %>%
+    group_by(ras_allele) %>%
+    count_missense_muts("RBM10")
+
+p <- cancer_full_coding_muts_df %>%
+    filter(str_detect(ras_allele, "G12D|G12R|G12V|Q61H")) %>%
+    mutate(mutation_type = case_when(
+        mutation_type == "frame_shift_ins" ~ "frameshift_insertion",
+        mutation_type == "frame_shift_del" ~ "frameshift_deletion",
+        TRUE ~ mutation_type
+    )) %>%
+    group_by(ras_allele) %>%
+    count_mutation_types("RBM10") %>%
+    ungroup() %>%
+    complete(ras_allele, mutation_type, fill = list(n = 0, freq = 0)) %>%
+    mutate(ras_allele = str_remove(ras_allele, "KRAS_"),
+           ras_allele = factor_alleles(ras_allele),
+           mutation_type = str_replace_all(mutation_type, "_", " "),
+           mutation_type = fct_reorder(mutation_type, freq, .fun = sum)) %>%
+    ggplot(aes(y = mutation_type, x = freq)) +
+    geom_col(aes(fill = ras_allele), position = "dodge", width = 0.8) +
+    scale_x_continuous(expand = expansion(mult = c(0, 0.02))) +
+    scale_fill_manual(values = short_allele_pal, drop = TRUE) +
+    theme_bw(base_size = 7, base_family = "Arial") +
+    theme(plot.title = element_markdown(hjust = 0.5),
+          legend.key.size = unit(3, "mm"),
+          legend.position = "bottom",
+          legend.title = element_markdown(),
+          panel.grid.major.y = element_blank(),
+          axis.ticks = element_blank(),
+          axis.title.x = element_markdown()) +
+    labs(y = NULL,
+         x = "fraction of *RBM10* - *KRAS* allele comutation events",
+         fill = "*KRAS* allele",
+         title = "Types of mutations in *RBM10* in PAAD")
+ggsave_wrapper(p,
+               plot_path(GRAPHS_DIR, "RBM10-PAAD-mutation-types-bar.svg"),
+               "small")
