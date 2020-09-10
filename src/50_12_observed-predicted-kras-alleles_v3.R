@@ -224,6 +224,11 @@ all_kras_allele_predictions <- count_tricontext_allele_mutations(
 )
 all_kras_allele_predictions
 
+trinucleotide_mutations_df %>%
+    distinct(cancer, tumor_sample_barcode, kras_allele) %>%
+    saveRDS("real_kras_mutations.rds")
+saveRDS(kras_allele_predictions, "kras_allele_predictions.rds")
+saveRDS(all_kras_allele_predictions, "all_kras_allele_predictions.rds")
 
 
 #### ---- Statistics: boostrapping 95% CI ---- ####
@@ -426,7 +431,6 @@ all_correlations <- all_expect_frequencies %>%
 
 
 #### ---- Statistics: Chi-Squared ---- ####
-
 
 # Chi-squared test to nest null hypothesis that observed and predicted
 # frequency of an allele are the same.
