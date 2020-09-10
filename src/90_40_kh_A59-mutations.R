@@ -287,7 +287,7 @@ fisher.test(d, alternative = "g")
 #>   2.407507
 #>
 
-# A59 mutants vs. KRAS mutants (KEGG gene set)
+# A59 mutants vs. KRAS mutants (specified gene set)
 d <- a59_mapk_mut_counts %>%
     filter(grp %in% c("A59_mutant", "KRAS_mutant")) %>%
     select(grp, tidyselect::contains("spec")) %>%
@@ -331,7 +331,7 @@ fisher.test(d, alternative = "g")
 #>
 
 
-# A59 mutants vs. KRAS mutants (KEGG gene set)
+# A59 mutants vs. KRAS mutants (specified gene set)
 d <- a59_mapk_mut_counts %>%
     filter(grp %in% c("A59_mutant", "rest")) %>%
     select(grp, tidyselect::contains("spec")) %>%
@@ -572,6 +572,10 @@ loo_model_weights(model_list)
 #> m1_mapk_spec_stan 0.000
 #> m2_mapk_spec_stan 0.421
 #> m3_mapk_spec_stan 0.579
+
+saveRDS(m3_mapk_spec_stan, "m3_mapk_spec_stan.rds")
+saveRDS(a59_mapk_mut_counts, "a59_mapk_mut_counts.rds")
+
 
 #### ---- Posterior-Predictive plots ---- ####
 
