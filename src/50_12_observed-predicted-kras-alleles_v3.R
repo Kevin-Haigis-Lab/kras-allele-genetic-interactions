@@ -196,12 +196,21 @@ alleles_for_each_cancer %>%
     group_by(cancer) %>%
     summarise(alleles = paste0(kras_allele, collapse = ", "))
 
-kras_allele_predictions <- count_tricontext_allele_mutations(
-    tricontext_mut_data = trinucleotide_mutations_df,
-    allele_df = alleles_for_each_cancer,
-    remove_samples = REMOVE_TSB,
-    remove_cancers = c("SKCM")
-)
+
+cache("kras_allele_predictions",
+      depends = c(trinucleotide_mutations_df,
+                  alleles_for_each_cancer,
+                  REMOVE_TSB),
+{
+    kras_allele_predictions <- count_tricontext_allele_mutations(
+        tricontext_mut_data = trinucleotide_mutations_df,
+        allele_df = alleles_for_each_cancer,
+        remove_samples = REMOVE_TSB,
+        remove_cancers = c("SKCM")
+    )
+    return(kras_allele_predictions)
+})
+
 kras_allele_predictions
 
 
@@ -216,19 +225,22 @@ all_observed_alleles <- expand.grid(
     filter(!str_detect(kras_allele, "117")) %>%
     as_tibble()
 
-all_kras_allele_predictions <- count_tricontext_allele_mutations(
-    tricontext_mut_data = trinucleotide_mutations_df,
-    allele_df = all_observed_alleles,
-    remove_samples = REMOVE_TSB,
-    remove_cancers = c("SKCM")
-)
+
+cache("all_kras_allele_predictions",
+      depends = c(trinucleotide_mutations_df,
+                  all_observed_alleles,
+                  REMOVE_TSB),
+{
+    all_kras_allele_predictions <- count_tricontext_allele_mutations(
+        tricontext_mut_data = trinucleotide_mutations_df,
+        allele_df = all_observed_alleles,
+        remove_samples = REMOVE_TSB,
+        remove_cancers = c("SKCM")
+    )
+    return(all_kras_allele_predictions)
+})
 all_kras_allele_predictions
 
-trinucleotide_mutations_df %>%
-    distinct(cancer, tumor_sample_barcode, kras_allele) %>%
-    saveRDS("real_kras_mutations.rds")
-saveRDS(kras_allele_predictions, "kras_allele_predictions.rds")
-saveRDS(all_kras_allele_predictions, "all_kras_allele_predictions.rds")
 
 
 #### ---- Statistics: boostrapping 95% CI ---- ####
