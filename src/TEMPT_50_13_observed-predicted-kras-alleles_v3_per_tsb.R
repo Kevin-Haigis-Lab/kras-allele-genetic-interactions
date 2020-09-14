@@ -41,7 +41,7 @@ ranked_allele_predictions <- kras_allele_predictions %>%
   ungroup() %>%
   arrange(cancer, tumor_sample_barcode, allele_idx)
 
-theme_set(theme_bw(base_size = 7, base_family = "Arial"))
+theme_set(theme_bw(base_size = 11, base_family = "Arial"))
 
 GRAPHS_DIR <- "50_13_observed-predicted-kras-alleles_v3_per_tsb"
 
@@ -191,17 +191,23 @@ ggsave_wrapper(
 )
 
 
-
+# Find the fraction of `non_mut_df$allele_prob` less than `prob`.
 calculate_frac_with_lower_prob <- function(prob, non_mut_df) {
   mean(non_mut_df$allele_prob < prob)
 }
 
 
+# Plot the distribution of allele probabilities for one allele in tumors with
+# the allele vs. those without.
 allele_prob_dist_plot1 <- function(df, allele) {
-  pal <- c("TRUE" = short_allele_pal[[allele]],
-           "FALSE" = "grey50")
-  lbls <- c("TRUE" = glue("{allele} mutant"),
-            "FALSE" = glue("non-{allele} mutant"))
+  pal <- c(
+    "TRUE" = short_allele_pal[[allele]],
+    "FALSE" = "grey50"
+  )
+  lbls <- c(
+    "TRUE" = glue("{allele} mutant"),
+    "FALSE" = glue("non-{allele} mutant")
+  )
   xlbl <- glue("probability of {allele} allele")
 
   df %>%
@@ -215,16 +221,22 @@ allele_prob_dist_plot1 <- function(df, allele) {
     scale_y_continuous(expand = expansion(mult = c(0, 0.02))) +
     scale_color_manual(values = pal, labels = lbls) +
     scale_fill_manual(values = pal, labels = lbls) +
-    theme(axis.ticks = element_blank(),
-          legend.position = c(0.75, 0.8),
-          legend.key.size = unit(3, "mm")) +
-    labs(x = xlbl,
-         y = "density",
-         color = NULL,
-         fill = NULL)
+    theme(
+      axis.ticks = element_blank(),
+      legend.position = c(0.75, 0.8),
+      legend.key.size = unit(3, "mm")
+    ) +
+    labs(
+      x = xlbl,
+      y = "density",
+      color = NULL,
+      fill = NULL
+    )
 }
 
 
+# Plot the distribution of the fraction of probabilities with lower allele_prob
+# without the allele.
 allele_prob_frac_dist_plot2 <- function(df, allele) {
   xlbl <- glue("fraction of non-{allele} mutant samples\nwith a lower probability of {allele} mutation")
   df %>%
@@ -233,15 +245,15 @@ allele_prob_frac_dist_plot2 <- function(df, allele) {
     geom_density(fill = "#8491a1", alpha = 0.5, size = 1, color = "#8491a1") +
     scale_x_continuous(expand = c(0, 0), limits = c(0, 1)) +
     scale_y_continuous(expand = expansion(mult = c(0, 0.02))) +
-    labs(x = xlbl,
-         y = "density")
+    labs(
+      x = xlbl,
+      y = "density"
+    )
 }
 
 
-fraction_of_allele_prob_plot <- function(cancer,
-                                         allele,
-                                         prob_data,
-                                         ignore_alleles = NULL) {
+get_allele_prob_lesser_frac <- function(cancer, allele, prob_data,
+                                        ignore_alleles = NULL) {
   prob_allele <- prob_data %>%
     filter(cancer == !!cancer) %>%
     filter(kras_allele == !!allele & real_kras_allele == !!allele)
@@ -251,21 +263,38 @@ fraction_of_allele_prob_plot <- function(cancer,
     filter(kras_allele == !!allele & real_kras_allele != !!allele) %>%
     filter(!(kras_allele %in% !!ignore_alleles))
 
+  prob_allele %>%
+    mutate(frac_less_prob = map_dbl(allele_prob,
+      calculate_frac_with_lower_prob,
+      non_mut_df = prob_not_allele
+    ))
+}
+
+
+fraction_of_allele_prob_plot <- function(cancer,
+                                         allele,
+                                         prob_data,
+                                         ignore_alleles = NULL) {
   p1 <- prob_data %>%
     filter(cancer == !!cancer & kras_allele == !!allele) %>%
     mutate(is_allele = real_kras_allele == !!allele) %>%
     allele_prob_dist_plot1(allele = allele)
 
-  p2 <- prob_allele %>%
-    mutate(frac_less_prob = map_dbl(allele_prob,
-                                    calculate_frac_with_lower_prob,
-                                    non_mut_df = prob_not_allele)) %>%
+
+  p2 <- get_allele_prob_lesser_frac(
+    cancer = cancer,
+    allele = allele,
+    prob_data = prob_data,
+    ignore_alleles = ignore_alleles
+  ) %>%
     allele_prob_frac_dist_plot2(allele = allele)
 
   patch_title <- glue("The probability of {allele} mutations in {cancer} tumors with and without a {allele} allele")
   patch <- (p1 | p2) +
-    plot_annotation(title = patch_title,
-                    theme = theme(plot.title = element_text(hjust = 0.5)))
+    plot_annotation(
+      title = patch_title,
+      theme = theme(plot.title = element_text(hjust = 0.5))
+    )
 
   fn <- glue("allele-prob-fraction-greater_{cancer}_{allele}.svg")
   ggsave_wrapper(
@@ -282,8 +311,109 @@ ranked_allele_predictions %>%
   ungroup() %>%
   distinct(cancer, real_kras_allele) %>%
   rename(allele = real_kras_allele) %>%
-  left_join(tibble(cancer = "LUAD",
-                   allele = c("G12C", "G13C"),
-                   ignore_alleles = c("G13C", "G12C")),
-            by = c("cancer", "allele")) %>%
+  left_join(tibble(
+    cancer = "LUAD",
+    allele = c("G12C", "G13C"),
+    ignore_alleles = c("G13C", "G12C")
+  ),
+  by = c("cancer", "allele")
+  ) %>%
   pwalk(fraction_of_allele_prob_plot, prob_data = ranked_allele_predictions)
+
+
+
+
+
+d <- ranked_allele_predictions %>%
+  group_by(cancer) %>%
+  filter(real_kras_allele %in% kras_allele) %>%
+  ungroup() %>%
+  distinct(cancer, real_kras_allele) %>%
+  rename(allele = real_kras_allele) %>%
+  left_join(tibble(
+    cancer = "LUAD",
+    allele = c("G12C", "G13C"),
+    ignore_alleles = c("G13C", "G12C")
+  ),
+  by = c("cancer", "allele")
+  ) %>%
+  pmap(get_allele_prob_lesser_frac,
+    prob_data = ranked_allele_predictions
+  ) %>%
+  bind_rows()
+
+
+d %>%
+  ggplot(aes(frac_less_prob)) +
+  facet_grid(kras_allele ~ cancer, scales = "free_y") +
+  geom_vline(
+    xintercept = 0.5,
+    lty = 2,
+    size = 0.6,
+    color = "grey25"
+  ) +
+  geom_density(
+    aes(color = kras_allele, fill = kras_allele),
+    alpha = 0.6
+  ) +
+  scale_x_continuous(
+    limits = c(0, 1),
+    expand = c(0, 0)
+  ) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.02))) +
+  scale_color_manual(
+    values = short_allele_pal,
+    drop = TRUE
+  ) +
+  scale_fill_manual(
+    values = short_allele_pal,
+    drop = TRUE
+  ) +
+  theme(
+    strip.background = element_blank(),
+    strip.text = element_text(face = "bold"),
+    legend.key.size = unit(3, "mm")
+  ) +
+  labs(
+    x = "fraction of tumors samples without the allele mutant with a lower probability of the allele",
+    y = "density",
+    color = "KRAS allele",
+    fill = "KRAS allele"
+  )
+
+
+
+
+#### ---- All KRAS alleles ---- ####
+
+all_kras_allele_predictions %>%
+  inner_join(
+    real_kras_mutations %>% rename(real_kras_allele = kras_allele),
+    by = c("tumor_sample_barcode", "cancer")
+  ) %>%
+  group_by(cancer, real_kras_allele) %>%
+  mutate(num_samples = n_distinct(tumor_sample_barcode)) %>%
+  filter(num_samples > 10) %>%
+  group_by(cancer, real_kras_allele, kras_allele) %>%
+  summarise(cum_allele_prob = sum(allele_prob) / unique(num_samples)) %>%
+  ungroup() %>%
+  ggplot(aes(real_kras_allele, cum_allele_prob)) +
+  facet_wrap(~cancer, nrow = 2, scales = "free_x") +
+  geom_col(aes(fill = kras_allele)) +
+  scale_fill_manual(
+    values = short_allele_pal,
+    drop = TRUE
+  ) +
+  scale_x_discrete(expand = c(0, 0)) +
+  scale_y_continuous(expand = c(0, 0)) +
+  theme(
+    strip.background = element_blank(),
+    strip.text = element_text(face = "bold"),
+    axis.ticks = element_blank(),
+    legend.key.size = unit(3, "mm")
+  ) +
+  labs(
+    x = "observed KRAS allele",
+    y = "average probability of the alternative KRAS allele",
+    fill = "alternative\nKRAS allele"
+  )
