@@ -198,9 +198,9 @@ alleles_for_each_cancer %>%
 
 
 cache("kras_allele_predictions",
-      depends = c(trinucleotide_mutations_df,
-                  alleles_for_each_cancer,
-                  REMOVE_TSB),
+      depends = c("trinucleotide_mutations_df",
+                  "alleles_for_each_cancer",
+                  "REMOVE_TSB"),
 {
     kras_allele_predictions <- count_tricontext_allele_mutations(
         tricontext_mut_data = trinucleotide_mutations_df,
@@ -227,9 +227,9 @@ all_observed_alleles <- expand.grid(
 
 
 cache("all_kras_allele_predictions",
-      depends = c(trinucleotide_mutations_df,
-                  all_observed_alleles,
-                  REMOVE_TSB),
+      depends = c("trinucleotide_mutations_df",
+                  "all_observed_alleles",
+                  "REMOVE_TSB"),
 {
     all_kras_allele_predictions <- count_tricontext_allele_mutations(
         tricontext_mut_data = trinucleotide_mutations_df,
