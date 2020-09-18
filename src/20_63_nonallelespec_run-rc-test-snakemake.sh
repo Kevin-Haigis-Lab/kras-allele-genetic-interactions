@@ -21,8 +21,3 @@ snakemake \
   --drmaa " -c {cluster.cores} -p {cluster.partition} --mem={cluster.mem} -t {cluster.time} -o {cluster.out} -e {cluster.err} -J {cluster.J}"
 
 conda deactivate
-# to make a dag
-# snakemake \
-#   --snakefile src/20_20_rc-test-Snakefile \
-#   --dag |  \
-#   dot -Tpdf > graphs/20_20_rc-test-Snakefile/dag.pdf
