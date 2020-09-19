@@ -59,7 +59,8 @@ ranked_allele_predictions <- kras_allele_predictions %>%
 all_ranked_allele_predictions <- all_kras_allele_predictions %>%
   prepare_ranked_allele_prediction_df()
 
-
+saveRDS(ranked_allele_predictions, "ranked_allele_predictions.rds")
+saveRDS(all_ranked_allele_predictions, "all_ranked_allele_predictions.rds")
 
 #### ---- Bar-plots of ranking of predictions ---- ####
 
