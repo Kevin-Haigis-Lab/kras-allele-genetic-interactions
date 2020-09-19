@@ -3,14 +3,31 @@
 GRAPHS_DIR <- "50_13_observed-predicted-kras-alleles_v3_per_tsb"
 reset_graph_directory(GRAPHS_DIR)
 
+library(ggridges)
+
 theme_set(theme_bw(base_size = 7, base_family = "Arial"))
 
 # Minumum number of tumor samples to include the KRAS allele in the analysis.
-MIN_ALLELE_TSB <- 20
+MIN_ALLELE_TSB <- 15
 
 filter_kras_allele_ct <- function(df) {
   df %>%
     filter(num_allele_tsb >= MIN_ALLELE_TSB)
+}
+
+filter_kras_allele_tested <- function(df) {
+  df %>%
+    filter(is_tested | real_kras_allele == "WT")
+}
+
+add_kras_allele_tested <- function(df) {
+  df %>%
+    left_join(
+      alleles_for_each_cancer_obs_vs_pred %>%
+        add_column(is_tested = TRUE),
+      by = c("cancer", "real_kras_allele" = "kras_allele")
+    ) %>%
+    mutate(is_tested = ifelse(is.na(is_tested), FALSE, is_tested))
 }
 
 
@@ -21,7 +38,8 @@ real_kras_mutations <- trinucleotide_mutations_df %>%
 prepare_ranked_allele_prediction_df <- function(df) {
   df %>%
     inner_join(
-      real_kras_mutations %>% rename(real_kras_allele = kras_allele),
+      real_kras_mutations %>%
+        rename(real_kras_allele = kras_allele),
       by = c("tumor_sample_barcode", "cancer")
     ) %>%
     group_by(cancer, tumor_sample_barcode) %>%
@@ -30,7 +48,8 @@ prepare_ranked_allele_prediction_df <- function(df) {
     group_by(cancer, real_kras_allele) %>%
     mutate(num_allele_tsb = n_distinct(tumor_sample_barcode)) %>%
     ungroup() %>%
-    arrange(cancer, tumor_sample_barcode, allele_idx)
+    arrange(cancer, tumor_sample_barcode, allele_idx) %>%
+    add_kras_allele_tested()
 }
 
 
@@ -48,27 +67,22 @@ all_ranked_allele_predictions <- all_kras_allele_predictions %>%
 plot_allele_probability_barplot <- function(df,
                                             geombar_position = "stack",
                                             max_pred_idx = 11) {
-
   if (max(df$allele_idx) > max_pred_idx) {
     fill_idx_lbls <- rev(c(
       as.character(seq(1, max_pred_idx - 1)),
       glue("≥{max_pred_idx}")
     ))
   } else {
-    fill_idx_lbls <- as.character(seq(1, max(df$allele_idx)))
+    fill_idx_lbls <- rev(as.character(seq(1, max(df$allele_idx))))
   }
 
   df %>%
     filter(real_kras_allele == kras_allele) %>%
-    count(cancer, real_kras_allele, allele_idx) %>%
+    mutate(allele_idx = minmax(allele_idx, 0, max_pred_idx)) %>%
+    count(cancer, real_kras_allele, num_allele_tsb, allele_idx) %>%
     mutate(
-      top_2 = allele_idx < 3,
       correct_allele = allele_idx == 1,
-      real_kras_allele = fct_reorder(real_kras_allele,
-        -correct_allele,
-        .fun = mean
-      ),
-      allele_idx = minmax(allele_idx, 0, 11)
+      real_kras_allele = factor_alleles(real_kras_allele)
     ) %>%
     ggplot(aes(real_kras_allele, n)) +
     facet_wrap(~cancer, nrow = 2, scales = "free") +
@@ -94,13 +108,12 @@ plot_allele_probability_barplot <- function(df,
       x = NULL,
       y = "number of tumor samples",
       fill = "rank",
-      subtitle = "For each cancer, the alleles are ordered by the accuracy of the mutational signature prediction",
       title = "The rank of the observed allele when ordered by probability using mutational signatures"
     )
 }
 
 ranked_allele_predictions %>%
-  filter_kras_allele_ct() %>%
+  filter_kras_allele_tested() %>%
   plot_allele_probability_barplot() %>%
   ggsave_wrapper(
     plot_path(GRAPHS_DIR, "allele-prob-ranking_stack_barplot.svg"),
@@ -108,7 +121,7 @@ ranked_allele_predictions %>%
   )
 
 p <- ranked_allele_predictions %>%
-  filter_kras_allele_ct() %>%
+  filter_kras_allele_tested() %>%
   plot_allele_probability_barplot(geombar_position = "fill")
 p <- p +
   scale_y_continuous(expand = c(0, 0))
@@ -120,7 +133,7 @@ ggsave_wrapper(
 
 
 all_ranked_allele_predictions %>%
-  filter_kras_allele_ct() %>%
+  filter_kras_allele_tested() %>%
   plot_allele_probability_barplot(max_pred_idx = 7) %>%
   ggsave_wrapper(
     plot_path(GRAPHS_DIR, "all-allele-prob-ranking_stack_barplot.svg"),
@@ -128,7 +141,7 @@ all_ranked_allele_predictions %>%
   )
 
 p <- all_ranked_allele_predictions %>%
-  filter_kras_allele_ct() %>%
+  filter_kras_allele_tested() %>%
   plot_allele_probability_barplot(geombar_position = "fill", max_pred_idx = 7)
 p <- p +
   scale_y_continuous(expand = c(0, 0))
@@ -173,7 +186,7 @@ ranked_probability_plot <- function(df, allele, cancer, ignore_alleles = c()) {
 
 
 save_ranked_probability_plot <- function(cancer, allele, plt, ...) {
-  fname <- glue("ranked-probabilit-lines_{cancer}_{allele}.svg")
+  fname <- glue("ranked-probability-lines_{cancer}_{allele}.svg")
   ggsave_wrapper(
     plt,
     plot_path(GRAPHS_DIR, fname),
@@ -182,14 +195,14 @@ save_ranked_probability_plot <- function(cancer, allele, plt, ...) {
 }
 
 ranked_prob_plot_data <- ranked_allele_predictions %>%
-  filter_kras_allele_ct() %>%
+  filter_kras_allele_tested() %>%
   distinct(cancer, real_kras_allele) %>%
   left_join(
-      tibble(
-          real_kras_allele = c("G12C"),
-          ignore_alleles = c("G13C")
-      ),
-      by = "real_kras_allele"
+    tibble(
+      real_kras_allele = c("G12C"),
+      ignore_alleles = c("G13C")
+    ),
+    by = "real_kras_allele"
   ) %>%
   rename(allele = real_kras_allele)
 
@@ -244,8 +257,7 @@ allele_predictions_graph_plot <- function(gr, cancer) {
 
 
 ranked_allele_predictions_gr <- ranked_allele_predictions %>%
-  group_by(cancer) %>%
-  filter(real_kras_allele %in% c("WT", kras_allele)) %>%
+  filter_kras_allele_tested() %>%
   group_by(cancer, kras_allele, real_kras_allele) %>%
   summarise(total_prob = mean(allele_prob)) %>%
   ungroup() %>%
@@ -272,77 +284,97 @@ for (cancer in unique(ranked_allele_predictions$cancer)) {
 
 #### ---- Bar-plots of probability of other alleles ---- ####
 
+allele_prediction_barplot <- function(df,
+                                      y_values,
+                                      y_lbl = NULL,
+                                      fill_lbl = NULL,
+                                      bar_position = "fill") {
+  df %>%
+    ggplot(aes(x = real_kras_allele, y = {{ y_values }})) +
+    facet_wrap(
+      ~cancer,
+      scales = "free",
+      nrow = 2
+    ) +
+    geom_col(
+      aes(fill = kras_allele),
+      position = "fill",
+      width = 0.8
+    ) +
+    scale_y_continuous(expand = c(0, 0)) +
+    scale_x_discrete(expand = c(0, 0)) +
+    scale_fill_manual(values = short_allele_pal) +
+    theme(
+      legend.key.size = unit(3, "mm"),
+      plot.title = element_text(hjust = 0.5),
+      strip.background = element_blank(),
+      axis.ticks = element_blank()
+    ) +
+    labs(
+      x = "observed KRAS allele",
+      y = y_lbl,
+      fill = fill_lbl
+    )
+}
 
-most_likely_other_allele <- ranked_allele_predictions %>%
-  filter_kras_allele_ct() %>%
-  filter(allele_idx == 1) %>%
-  count(cancer, real_kras_allele, kras_allele) %>%
-  mutate(
-    real_kras_allele = factor_alleles(real_kras_allele),
-    kras_allele = factor_alleles(kras_allele)
-  ) %>%
-  ggplot(aes(x = real_kras_allele, y = n)) +
-  facet_wrap(~cancer, scales = "free", nrow = 2) +
-  geom_col(aes(fill = kras_allele), position = "fill", width = 0.8) +
-  scale_y_continuous(expand = c(0, 0)) +
-  scale_x_discrete(expand = c(0, 0)) +
-  scale_fill_manual(values = short_allele_pal) +
-  theme(
-    plot.title = element_text(hjust = 0.5),
-    strip.background = element_blank(),
-    axis.ticks = element_blank()
-  ) +
-  labs(
-    x = "observed KRAS allele",
-    y = "fraction of tumor samples most most likely to be another allele",
-    fill = "most likely\nKRAS allele",
-    legend.key.size = unit(3, "mm")
-  )
-ggsave_wrapper(
-  most_likely_other_allele,
-  plot_path(GRAPHS_DIR, "most-likely-other-allele.svg"),
-  "wide"
+walk2(
+  list(ranked_allele_predictions, all_ranked_allele_predictions),
+  c("most-likely-other-allele.svg", "most-likely-other-allele_all-alleles.svg"),
+  function(df, fn) {
+    p <- df %>%
+      filter_kras_allele_tested() %>%
+      filter(allele_idx == 1) %>%
+      count(cancer, real_kras_allele, kras_allele) %>%
+      mutate(
+        real_kras_allele = factor_alleles(real_kras_allele),
+        kras_allele = factor_alleles(kras_allele)
+      ) %>%
+      allele_prediction_barplot(
+        y_values = n,
+        y_lbl = "fraction of tumor samples most most likely to be another allele",
+        fill_lbl = "most likely\nKRAS allele"
+      )
+    ggsave_wrapper(
+      p,
+      plot_path(GRAPHS_DIR, fn),
+      "wide"
+    )
+  }
 )
 
-
-prob_of_other_alleles <- ranked_allele_predictions %>%
-  filter_kras_allele_ct() %>%
-  group_by(cancer, real_kras_allele, kras_allele) %>%
-  summarise(total_prob = sum(allele_prob)) %>%
-  ungroup() %>%
-  mutate(
-    real_kras_allele = factor_alleles(real_kras_allele),
-    kras_allele = factor_alleles(kras_allele)
-  ) %>%
-  ggplot(aes(x = real_kras_allele, y = total_prob)) +
-  facet_wrap(~cancer, scales = "free", nrow = 2) +
-  geom_col(aes(fill = kras_allele), position = "fill", width = 0.8) +
-  scale_y_continuous(expand = c(0, 0)) +
-  scale_x_discrete(expand = c(0, 0)) +
-  scale_fill_manual(values = short_allele_pal) +
-  theme(
-    plot.title = element_text(hjust = 0.5),
-    strip.background = element_blank(),
-    axis.ticks = element_blank()
-  ) +
-  labs(
-    x = "observed KRAS allele",
-    y = "fraction of tumor samples most most likely to be another allele",
-    fill = "alternative\nKRAS allele",
-    legend.key.size = unit(3, "mm")
-  )
-ggsave_wrapper(
-  prob_of_other_alleles,
-  plot_path(GRAPHS_DIR, "cum-prob-of-other-allele.svg"),
-  "wide"
+walk2(
+  list(ranked_allele_predictions, all_ranked_allele_predictions),
+  c("cum-prob-of-other-allele.svg", "cum-prob-of-other-allele_all-alleles.svg"),
+  function(df, fn) {
+    p <- df %>%
+      filter_kras_allele_tested() %>%
+      group_by(cancer, real_kras_allele, kras_allele) %>%
+      summarise(total_prob = sum(allele_prob)) %>%
+      ungroup() %>%
+      mutate(
+        real_kras_allele = factor_alleles(real_kras_allele),
+        kras_allele = factor_alleles(kras_allele)
+      ) %>%
+      allele_prediction_barplot(
+        y_values = total_prob,
+        y_lbl = "fraction of tumor samples most most likely to be another allele",
+        fill_lbl = "alternative\nKRAS allele"
+      )
+    ggsave_wrapper(
+      p,
+      plot_path(GRAPHS_DIR, fn),
+      "wide"
+    )
+  }
 )
 
 
 
 #### ---- Distributions of allele probabilities ---- ####
 
+# All in one large, faceted plot.
 distribution_of_allele_probs <- ranked_allele_predictions %>%
-  filter_kras_allele_ct() %>%
+  filter_kras_allele_tested() %>%
   mutate(correct_allele = kras_allele == real_kras_allele) %>%
   ggplot(aes(x = allele_prob)) +
   facet_grid(real_kras_allele ~ cancer, scales = "free") +
@@ -376,71 +408,43 @@ ggsave_wrapper(
 )
 
 
-
-allele_prob_per_allele_bars <- ranked_allele_predictions %>%
-  filter_kras_allele_ct(min_n = 10) %>%
-  group_by(cancer) %>%
-  filter(kras_allele %in% real_kras_allele) %>%
-  group_by(cancer, real_kras_allele) %>%
-  mutate(num_tsb = n_distinct(tumor_sample_barcode)) %>%
-  group_by(cancer, real_kras_allele, kras_allele) %>%
-  summarise(total_prob = sum(allele_prob) / unique(num_tsb)) %>%
-  ungroup() %>%
-  mutate(
-    correct_allele = real_kras_allele == kras_allele,
-    real_kras_allele = factor_alleles(real_kras_allele),
-    kras_allele = factor_alleles(kras_allele)
-  ) %>%
-  ggplot(aes(x = real_kras_allele, y = total_prob)) +
-  facet_wrap(~cancer, scales = "free", nrow = 2) +
-  geom_col(
-    aes(fill = kras_allele, alpha = correct_allele),
-    position = "dodge", width = 0.8
-  ) +
-  scale_y_continuous(expand = expansion(mult = c(0, 0.02))) +
-  scale_x_discrete(expand = c(0, 0)) +
-  scale_fill_manual(values = short_allele_pal) +
-  scale_alpha_manual(values = c(0.5, 1), guide = FALSE) +
-  theme(
-    plot.title = element_text(hjust = 0.5),
-    strip.background = element_blank(),
-    axis.ticks = element_blank()
-  ) +
-  labs(
-    x = "observed KRAS allele",
-    y = "average probability of KRAS allele",
-    fill = "alternative\nKRAS allele",
-    legend.key.size = unit(3, "mm")
-  )
-ggsave_wrapper(
-  allele_prob_per_allele_bars,
-  plot_path(GRAPHS_DIR, "allele-prob-per-allele-bars.svg"),
-  "medium"
-)
-
+# Individual ggridge plots per allele per cancer.
 
 allele_prob_distribution_per_kras_mutation <- function(df, cancer, allele) {
   xlbl <- glue("probability of {allele} allele")
   title <- glue("Probability of a {allele} allele in {cancer} tumors\nwith various KRAS alleles")
 
   df %>%
+    filter_kras_allele_tested() %>%
     filter(cancer == !!cancer & kras_allele == !!allele) %>%
-    mutate(real_kras_allele = fct_lump_min(real_kras_allele, min = 20)) %>%
-    ggplot(aes(allele_prob)) +
-    geom_density(
-      aes(color = real_kras_allele, fill = real_kras_allele),
-      alpha = 0.2,
+    mutate(is_allele = real_kras_allele == !!allele) %>%
+    ggplot(aes(x = allele_prob, y = real_kras_allele)) +
+    geom_density_ridges(
+      aes(
+        color = real_kras_allele,
+        fill = real_kras_allele,
+        alpha = is_allele
+      ),
       adjust = 1.5
     ) +
-    scale_color_manual(values = short_allele_pal, drop = TRUE) +
-    scale_fill_manual(values = short_allele_pal, drop = TRUE) +
+    scale_color_manual(
+      values = short_allele_pal,
+      drop = TRUE,
+      guide = FALSE
+    ) +
+    scale_fill_manual(
+      values = short_allele_pal,
+      drop = TRUE,
+      guide = FALSE
+    ) +
+    scale_alpha_manual(
+      values = c("TRUE" = 0.9, "FALSE" = 0.3),
+      guide = FALSE
+    ) +
     scale_x_continuous(expand = c(0, 0), limits = c(0, 1)) +
-    scale_y_continuous(expand = expansion(mult = c(0, 0.02))) +
+    scale_y_discrete(expand = expansion(mult = c(0, 0.02))) +
     theme(
-      axis.ticks = element_blank(),
-      legend.position = c(0.7, 0.8),
-      legend.background = element_rect(fill = "white", color = "grey50"),
-      legend.key.size = unit(3, "mm")
+      axis.ticks = element_blank()
     ) +
     labs(
       x = xlbl,
@@ -453,6 +457,7 @@ allele_prob_distribution_per_kras_mutation <- function(df, cancer, allele) {
 
 
 allele_prob_dist_data <- ranked_allele_predictions %>%
+  filter_kras_allele_tested() %>%
   distinct(cancer, kras_allele) %>%
   arrange(cancer, kras_allele) %>%
   rename(allele = kras_allele)
@@ -475,7 +480,7 @@ pwalk(allele_prob_dist_data, function(cancer, allele, plt, ...) {
 })
 
 
-
+#### ---- Ratio of allele prob to average ---- ####
 
 average_allele_prob_incorrect_alleles <- ranked_allele_predictions %>%
   filter(kras_allele != real_kras_allele) %>%
@@ -484,7 +489,7 @@ average_allele_prob_incorrect_alleles <- ranked_allele_predictions %>%
   ungroup()
 
 diff_between_obs_and_other_plt <- ranked_allele_predictions %>%
-  filter_kras_allele_ct() %>%
+  filter_kras_allele_tested() %>%
   filter(kras_allele == real_kras_allele) %>%
   select(-kras_allele) %>%
   left_join(average_allele_prob_incorrect_alleles,
@@ -518,6 +523,9 @@ ggsave_wrapper(
   plot_path(GRAPHS_DIR, "diff-between-obs-and-other-density.svg"),
   "medium"
 )
+
+
+#### ---- Fraction with lower probability in tumors with other alleles ---- ####
 
 
 # Find the fraction of `non_mut_df$allele_prob` less than `prob`.
@@ -712,248 +720,3 @@ ggsave_wrapper(
   plot_path(GRAPHS_DIR, "all-dist-frac-lower-prob.svg"),
   "medium"
 )
-
-
-
-#### ---- All KRAS alleles ---- ####
-
-
-
-
-
-max_pred_idx <- 7
-fill_idx_lbls <- rev(c(
-  as.character(seq(1, max_pred_idx - 1)),
-  glue("≥{max_pred_idx}")
-))
-
-all_ranked_allele_predictions %>%
-  filter(num_allele_tsb > 10) %>%
-  filter(real_kras_allele == kras_allele) %>%
-  count(cancer, real_kras_allele, allele_idx) %>%
-  mutate(
-    top_2 = allele_idx < 3,
-    correct_allele = allele_idx == 1,
-    real_kras_allele = fct_reorder(real_kras_allele,
-      -correct_allele,
-      .fun = mean
-    ),
-    allele_idx = minmax(allele_idx, 0, 7)
-  ) %>%
-  ggplot(aes(real_kras_allele, n)) +
-  facet_wrap(~cancer, nrow = 2, scales = "free") +
-  geom_col(aes(fill = fct_rev(factor(allele_idx))), position = "stack") +
-  scale_y_continuous(expand = expansion(mult = c(0, 0.02))) +
-  scale_fill_brewer(type = "div", palette = "RdYlBu", labels = fill_idx_lbls) +
-  theme(
-    plot.title = element_text(hjust = 0.5),
-    plot.subtitle = element_text(hjust = 0.5),
-    strip.background = element_blank(),
-    panel.grid.major.x = element_blank(),
-    axis.ticks = element_blank(),
-    legend.key.size = unit(3, "mm")
-  ) +
-  labs(
-    x = NULL,
-    y = "number of tumor samples",
-    fill = "rank",
-    subtitle = "For each cancer, the alleles are ordered by the accuracy of the mutational signature prediction",
-    title = "The rank of the observed allele when ordered by probability using mutational signatures"
-  )
-
-
-
-prob_all_alleles <- all_ranked_allele_predictions %>%
-  group_by(cancer, real_kras_allele, kras_allele, num_allele_tsb) %>%
-  summarise(cum_allele_prob = sum(allele_prob) / unique(num_allele_tsb)) %>%
-  ungroup() %>%
-  filter(num_allele_tsb > 10) %>%
-  ggplot(aes(real_kras_allele, cum_allele_prob)) +
-  facet_wrap(~cancer, nrow = 2, scales = "free_x") +
-  geom_col(aes(fill = kras_allele)) +
-  scale_fill_manual(
-    values = short_allele_pal,
-    drop = TRUE
-  ) +
-  scale_x_discrete(expand = c(0, 0)) +
-  scale_y_continuous(expand = c(0, 0)) +
-  theme(
-    strip.background = element_blank(),
-    strip.text = element_text(face = "bold"),
-    axis.ticks = element_blank(),
-    legend.key.size = unit(3, "mm")
-  ) +
-  labs(
-    x = "observed KRAS allele",
-    y = "average probability of the alternative KRAS allele",
-    fill = "alternative\nKRAS allele"
-  )
-ggsave_wrapper(
-  prob_all_alleles,
-  plot_path(GRAPHS_DIR, "prob-all-alleles.svg"),
-  "medium"
-)
-
-
-
-all_ranked_allele_predictions %>%
-  filter(cancer == "COAD" & real_kras_allele == "G12D") %>%
-  mutate(
-    correct_allele = real_kras_allele == kras_allele,
-    kras_allele = fct_reorder(kras_allele, allele_prob)
-  ) %>%
-  ggplot(aes(x = allele_prob)) +
-  geom_density_ridges(
-    aes(
-      y = kras_allele,
-      color = kras_allele,
-      fill = kras_allele,
-      alpha = correct_allele
-    )
-  ) +
-  scale_x_continuous(
-    limits = c(0, 1),
-    expand = c(0, 0)
-  ) +
-  scale_y_discrete(
-    expand = expansion(mult = c(0, 0.02))
-  ) +
-  scale_color_manual(
-    values = short_allele_pal,
-    drop = TRUE,
-    guide = FALSE
-  ) +
-  scale_fill_manual(
-    values = short_allele_pal,
-    drop = TRUE,
-    guide = FALSE
-  ) +
-  scale_alpha_manual(
-    values = c("TRUE" = 0.6, "FALSE" = 0.2),
-    guide = FALSE
-  ) +
-  theme(
-    legend.key.size = unit(3, "mm")
-  ) +
-  labs(
-    x = "probability of allele from mutational signatures",
-    y = "possible KRAS allele",
-    title = "Probabilities of common KRAS mutations in COAD tumors samples with G12D"
-  )
-
-
-all_ranked_allele_predictions %>%
-  filter(cancer == "COAD") %>%
-  filter(kras_allele == "G12D") %>%
-  mutate(
-    correct_allele = real_kras_allele == kras_allele,
-    real_kras_allele = fct_reorder(real_kras_allele, allele_prob)
-  ) %>%
-  filter(num_allele_tsb > 10) %>%
-  ggplot(aes(x = allele_prob)) +
-  geom_density_ridges(
-    aes(
-      y = real_kras_allele,
-      color = real_kras_allele,
-      fill = real_kras_allele,
-      alpha = correct_allele
-    )
-  ) +
-  scale_x_continuous(
-    limits = c(0, 1),
-    expand = c(0, 0)
-  ) +
-  scale_y_discrete(
-    expand = expansion(mult = c(0, 0.02))
-  ) +
-  scale_color_manual(
-    values = short_allele_pal,
-    drop = TRUE,
-    guide = FALSE
-  ) +
-  scale_fill_manual(
-    values = short_allele_pal,
-    drop = TRUE,
-    guide = FALSE
-  ) +
-  scale_alpha_manual(
-    values = c("TRUE" = 0.6, "FALSE" = 0.2),
-    guide = FALSE
-  ) +
-  theme(
-    legend.key.size = unit(3, "mm")
-  ) +
-  labs(
-    x = "probability of G12D from mutational signatures",
-    y = "observed KRAS allele",
-    title = "Probabilities of KRAS G12D mutations in COAD tumors samples with various observed KRAS alleles"
-  )
-
-
-
-
-
-not_allele_probs <- all_ranked_allele_predictions %>%
-  filter(kras_allele != real_kras_allele) %>%
-  group_by(cancer, kras_allele) %>%
-  summarise(
-    avg_not_allele_prob = mean(allele_prob),
-    sd_not_allele_prob = sd(allele_prob)
-  ) %>%
-  ungroup() %>%
-  mutate(
-    avg_not_allele_prob_up = avg_not_allele_prob + sd_not_allele_prob,
-    avg_not_allele_prob_dn = avg_not_allele_prob - sd_not_allele_prob
-  )
-
-
-is_allele_probs <- all_ranked_allele_predictions %>%
-  filter(num_allele_tsb > 10) %>%
-  filter(kras_allele == real_kras_allele) %>%
-  select(-real_kras_allele) %>%
-  group_by(cancer, kras_allele) %>%
-  summarise(
-    avg_allele_prob = mean(allele_prob),
-    sd_allele_prob = sd(allele_prob),
-    q25 = quantile(allele_prob, 0.25),
-    q75 = quantile(allele_prob, 0.75)
-  ) %>%
-  ungroup() %>%
-  mutate(
-    avg_allele_prob_up = avg_allele_prob + sd_allele_prob,
-    avg_allele_prob_dn = avg_allele_prob - sd_allele_prob
-  )
-
-left_join(is_allele_probs, not_allele_probs,
-  by = c("cancer", "kras_allele")
-) %>%
-  ggplot(aes(x = avg_allele_prob, y = avg_not_allele_prob, color = kras_allele)) +
-  facet_wrap(~cancer, nrow = 2) +
-  geom_abline(slope = 1, intercept = 0, lty = 2, color = "grey20", size = 0.6) +
-  geom_linerange(
-    aes(ymin = avg_not_allele_prob_dn, ymax = avg_not_allele_prob_up),
-    alpha = 0.3
-  ) +
-  geom_linerange(
-    aes(xmin = avg_allele_prob_dn, xmax = avg_allele_prob_up),
-    alpha = 0.3
-  ) +
-  geom_point() +
-  scale_color_manual(values = short_allele_pal, drop = TRUE) +
-  scale_x_continuous(
-    limits = c(0, NA),
-    expand = expansion(mult = c(0, 0.02))
-  ) +
-  scale_y_continuous(
-    limits = c(0, NA),
-    expand = expansion(mult = c(0, 0.02))
-  ) +
-  theme(
-    strip.background = element_blank()
-  ) +
-  labs(
-    x = "average probability of the allele in tumor samples with the allele",
-    y = "average probability of the allele in tumor samples without the allele",
-    color = "KRAS allele",
-    title = "Probability of each KRAS allele in tumor samples with and without the allele"
-  )
