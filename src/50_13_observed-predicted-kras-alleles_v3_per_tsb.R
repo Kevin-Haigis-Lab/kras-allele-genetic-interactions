@@ -59,8 +59,7 @@ ranked_allele_predictions <- kras_allele_predictions %>%
 all_ranked_allele_predictions <- all_kras_allele_predictions %>%
   prepare_ranked_allele_prediction_df()
 
-saveRDS(ranked_allele_predictions, "ranked_allele_predictions.rds")
-saveRDS(all_ranked_allele_predictions, "all_ranked_allele_predictions.rds")
+
 
 #### ---- Bar-plots of ranking of predictions ---- ####
 
@@ -721,3 +720,182 @@ ggsave_wrapper(
   plot_path(GRAPHS_DIR, "all-dist-frac-lower-prob.svg"),
   "medium"
 )
+
+
+
+#### ---- Plots for figures ---- ####
+
+
+
+allele_predictions_acc <- ranked_allele_predictions %>%
+  filter_kras_allele_tested() %>%
+  filter(real_kras_allele != "WT") %>%
+  filter(allele_idx == 1) %>%
+  mutate(is_correct = kras_allele == real_kras_allele) %>%
+  group_by(cancer, real_kras_allele) %>%
+  summarise(accuracy = mean(as.numeric(is_correct))) %>%
+  ungroup()
+
+allele_accuracy_barplots <- allele_predictions_acc %>%
+  mutate(
+    x_val = make_axis_label(real_kras_allele, cancer),
+    x_val = fct_reorder(x_val, accuracy),
+    codon = str_extract(real_kras_allele, "[:digit:]+"),
+    codon = fct_reorder(codon, as.numeric(codon), .fun = unique)
+  ) %>%
+  ggplot(aes(x = x_val, y = accuracy)) +
+  facet_wrap(~cancer, nrow = 1, scales = "free_x") +
+  geom_linerange(
+    aes(ymin = 0, ymax = accuracy),
+    size = 1,
+    color = "grey75"
+  ) +
+  geom_point(
+    aes(color = codon),
+    size = 2
+  ) +
+  scale_x_discrete(
+    labels = fix_axis_label
+  ) +
+  scale_y_continuous(
+    limits = c(0, 0.7),
+    breaks = seq(0, 0.7, 0.1),
+    expand = expansion(mult = c(0, 0.03))
+  ) +
+  scale_color_manual(
+    values = codon_pal,
+    guide = guide_legend(order = 10,
+                         override.aes = list(size = 1.3, alpha = 1))
+  ) +
+  theme(
+    panel.grid.major.x = element_blank(),
+    axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1),
+    strip.background = element_blank(),
+    panel.border = element_blank(),
+    panel.background = element_blank(),
+    axis.line = element_line(color = "grey30")
+  ) +
+  labs(
+    x = "observed KRAS allele",
+    y = "fraction of tumor samples\nwith correctly predicted allele"
+  )
+ggsave_wrapper(
+  allele_accuracy_barplots,
+  plot_path(GRAPHS_DIR, "allele-accuracy-barplots.svg"),
+  "wide"
+)
+saveFigRds(allele_accuracy_barplots, "allele_accuracy_barplots")
+
+
+
+average_allele_probs <- ranked_allele_predictions %>%
+  filter_kras_allele_tested() %>%
+  group_by(cancer, kras_allele, real_kras_allele) %>%
+  summarise(
+    avg_allele_prob = median(allele_prob),
+    sd_allele_prob = sd(allele_prob),
+    allele_prob_q25 = quantile(allele_prob, 0.25),
+    allele_prob_q75 = quantile(allele_prob, 0.75)
+  ) %>%
+  ungroup()
+
+average_allele_lines <- ranked_allele_predictions %>%
+  mutate(
+    is_allele = real_kras_allele == kras_allele,
+    is_allele = fct_rev(factor(is_allele)),
+    kras_allele = factor_alleles(kras_allele)
+  ) %>%
+  group_by(cancer, kras_allele, is_allele) %>%
+  summarise(avg_allele_prob = median(allele_prob)) %>%
+  ungroup()
+
+wide_average_allele_lines <- average_allele_lines %>%
+  mutate(is_allele = ifelse(is_allele == "TRUE", "ymax", "ymin")) %>%
+  pivot_wider(
+    c(cancer, kras_allele),
+    names_from = is_allele,
+    values_from = avg_allele_prob
+  )
+
+pos <- position_dodge(width = 0.7)
+
+allele_prob_barplot_arrows <- average_allele_probs %>%
+  mutate(
+    carrot_lbl = "↓",
+    carrot_alpha = as.numeric(kras_allele == real_kras_allele),
+    y_up = avg_allele_prob + sd_allele_prob,
+    y_dn = avg_allele_prob - sd_allele_prob,
+    y_dn = minmax(y_dn, 0, 100),
+    real_kras_allele = factor_alleles(real_kras_allele),
+    kras_allele = factor_alleles(kras_allele)
+  ) %>%
+  group_by(cancer) %>%
+  mutate(carrot_y = avg_allele_prob + (max(avg_allele_prob) * 0.1)) %>%
+  ungroup() %>%
+  ggplot(
+    aes(
+      x = kras_allele,
+      y = avg_allele_prob,
+      color = real_kras_allele
+    )
+  ) +
+  facet_wrap(~cancer, nrow = 2, scales = "free") +
+  geom_crossbar(
+    aes(ymin = ymin, ymax = ymax, y = ymin),
+    fill = "grey50",
+    color = NA,
+    alpha = 0.2,
+    data = wide_average_allele_lines
+  ) +
+  geom_errorbar(
+    aes(ymin = avg_allele_prob, ymax = avg_allele_prob, linetype = is_allele),
+    data = average_allele_lines,
+    color = "grey30",
+    alpha = 0.5
+  ) +
+  geom_linerange(
+    aes(
+      ymin = allele_prob_q25,
+      ymax = allele_prob_q75
+    ),
+    alpha = 0.6,
+    position = pos
+  ) +
+  geom_point(
+    position = pos,
+    alpha = 1,
+    size = 0.8
+  ) +
+  scale_color_manual(
+    values = short_allele_pal,
+    drop = TRUE,
+    guide = guide_legend(order = 10,
+                         override.aes = list(size = 1.3, lty = 0, alpha = 1))
+  ) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.05))) +
+  scale_linetype_manual(
+    values = c("TRUE" = 1, "FALSE" = 6),
+    labels = c("TRUE" = "with the\nKRAS allele",
+               "FALSE" = "with another\nKRAS allele"),
+    guide = guide_legend(override.aes = list(lty = c("TRUE" = 1, "FALSE" = 3),
+                                             alpha = 1),
+                         keyheight = unit(6, "mm"),
+                         order = 20)
+  ) +
+  theme(
+    legend.key.size = unit(3, "mm"),
+    strip.background = element_blank(),
+    axis.ticks = element_blank()
+  ) +
+  labs(
+    x = "possible KRAS allele",
+    y = "probability of KRAS allele",
+    color = "observed\nKRAS allele",
+    linetype = "average of\ntumor samples"
+  )
+ggsave_wrapper(
+  allele_prob_barplot_arrows,
+  plot_path(GRAPHS_DIR, "allele-prob-barplot_arrows.svg"),
+  "wide"
+)
+saveFigRds(allele_prob_barplot_arrows, "allele_prob_barplot_arrows")

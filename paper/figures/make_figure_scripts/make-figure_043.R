@@ -1,4 +1,4 @@
-# Figure 043. #> BRIEF DESCRIPTION OF THE FIGURE.
+# Figure 043. #> Observed vs. predicted of cancer-specific KRAS alleles
 
 FIGNUM <- 43
 
