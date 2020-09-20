@@ -91,6 +91,24 @@ nonzero_trans_log10 <- scales::trans_new(
 )
 
 
+#' Make new axis labels so can control order and then fix to reflect actual
+#' desired label.
+#' Use `make_axis_label()` to create a new column with unique labels.
+#' `final_lbl` is the true desired final label and send any other vectors to
+#' `...` to create unique labels.
+make_axis_label <- function(final_lbl, ..., sep = "___") {
+  addons <- list(...)
+  names(addons) <- as.character(seq(1, length(addons)))
+  addons <- as_tibble(addons) %>%
+    pmap_chr(paste, sep = "-")
+  paste(final_lbl, addons, sep = sep)
+}
+
+#' Set `labels = fix_axis_label` to remove the un-desired label parts.
+fix_axis_label <- function(x, pattern = "___") {
+  unlist(str_split_fixed(x, pattern = pattern, 2)[, 1])
+}
+
 
 
 
