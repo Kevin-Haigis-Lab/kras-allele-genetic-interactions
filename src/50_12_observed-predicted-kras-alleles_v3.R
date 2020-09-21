@@ -8,6 +8,8 @@
 
 set.seed(0)
 
+library(ggrepel)
+
 GRAPHS_DIR <- "50_12_observed-predicted-kras-alleles_v3"
 reset_graph_directory(GRAPHS_DIR)
 reset_table_directory(GRAPHS_DIR)
@@ -323,7 +325,7 @@ calc_expected_frequency <- function(df) {
   df %>%
     group_by(kras_allele) %>%
     summarise(
-      expected_allele_frequency = mean(allele_prob),
+      expected_allele_frequency = median(allele_prob),
       expected_allele_frequency_lower25 = quantile(allele_prob, 0.25),
       expected_allele_frequency_lower75 = quantile(allele_prob, 0.75),
       observed_allele_frequency = unique(real_allele_freq)
@@ -720,11 +722,12 @@ plot_kras_allele_predictions <- function(cancer, data,
         xmin = expected_allele_frequency_lower25,
         xmax = expected_allele_frequency_lower75
       ),
-      color = "grey50",
-      alpha = 0.5,
-      size = 0.6
+      color = "grey30",
+      alpha = 0.2,
+      size = 0.4
     ) +
-    ggrepel::geom_text_repel(aes(label = kras_allele),
+    geom_text_repel(
+      aes(label = kras_allele),
       size = 2.2,
       family = "Arial",
       seed = 0,
@@ -735,7 +738,8 @@ plot_kras_allele_predictions <- function(cancer, data,
       segment.size = 0.3,
       min.segment.length = unit(5, "mm")
     ) +
-    geom_point(aes(shape = is_significant, color = codon),
+    geom_point(
+      aes(shape = is_significant, color = codon),
       size = 1.3
     ) +
     scale_color_manual(

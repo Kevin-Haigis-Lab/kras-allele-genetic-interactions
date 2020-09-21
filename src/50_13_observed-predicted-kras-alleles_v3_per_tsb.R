@@ -851,14 +851,16 @@ allele_prob_barplot_arrows <- average_allele_probs %>%
     aes(ymin = avg_allele_prob, ymax = avg_allele_prob, linetype = is_allele),
     data = average_allele_lines,
     color = "grey30",
-    alpha = 0.5
+    alpha = 0.5,
+    size = 0.3
   ) +
   geom_linerange(
     aes(
       ymin = allele_prob_q25,
       ymax = allele_prob_q75
     ),
-    alpha = 0.6,
+    alpha = 0.4,
+    size = 0.3,
     position = pos
   ) +
   geom_point(
@@ -878,7 +880,8 @@ allele_prob_barplot_arrows <- average_allele_probs %>%
     labels = c("TRUE" = "with the\nKRAS allele",
                "FALSE" = "with another\nKRAS allele"),
     guide = guide_legend(override.aes = list(lty = c("TRUE" = 1, "FALSE" = 3),
-                                             alpha = 1),
+                                             alpha = 1,
+                                             size = 0.6),
                          keyheight = unit(6, "mm"),
                          order = 20)
   ) +

@@ -6,6 +6,14 @@ FIGNUM <- 51
 # > SET THE FIGURE DIMENSIONS
 FIG_DIMENSIONS <- get_figure_dimensions(2, "short")
 
+fig51_tag_element <- function(tag_margin = margin(-1, -1, -1, -1, "mm")) {
+  element_text(
+    size = 7,
+    family = "arial",
+    face = "bold",
+    margin = tag_margin
+  )
+}
 
 theme_fig51 <- function(tag_margin = margin(-1, -1, -1, -1, "mm")) {
   theme_comutation() %+replace%
@@ -13,11 +21,7 @@ theme_fig51 <- function(tag_margin = margin(-1, -1, -1, -1, "mm")) {
       legend.title = element_text(face = "bold"),
       legend.text = element_text(size = 6),
       strip.text = element_text(size = 7, face = "bold"),
-      plot.tag = element_text(
-        size = 7,
-        face = "bold",
-        margin = tag_margin
-      )
+      plot.tag = fig51_tag_element(tag_margin)
     )
 }
 
@@ -60,7 +64,9 @@ panel_A_proto_list <- map(panel_A_plots, function(x) {
       values = c(17, 16),
       drop = FALSE,
       guide = panel_A_guide_legend(20)
-    )
+    ) +
+    labs(x = "predicted frequency",
+         y = "observed frequency")
   return(p)
 })
 
@@ -68,7 +74,7 @@ panel_A <- wrap_plots(panel_A_proto_list, nrow = 1, guides = "collect") &
   theme_fig51() %+replace%
     theme(
       plot.title = element_text(size = 7, vjust = 1, face = "bold"),
-      plot.subtitle = element_markdown(hjust = 0, vjust = 0.3),
+      plot.subtitle = element_markdown(hjust = 0, vjust = 0),
       plot.margin = margin(0, 1, 0, 1, "mm"),
       legend.position = "right",
       legend.background = element_blank()
@@ -80,7 +86,11 @@ for (i in seq(2, 4)) {
 
 panel_A <- (panel_A | guide_area()) +
   plot_layout(widths = c(3, 3, 3, 3, 1))
-panel_A <- wrap_elements(full = panel_A)
+panel_A <- wrap_elements(full = panel_A) +
+  labs(tag = "a") +
+  theme(
+    plot.tag = fig51_tag_element()
+  )
 
 
 
@@ -100,7 +110,8 @@ panel_B <- read_fig_proto("allele_accuracy_barplots") +
     legend.spacing.y = unit(2, "mm"),
     legend.key.height = unit(3, "mm"),
     legend.title = element_text(face = "bold")
-  )
+  ) +
+  labs(tag = "b")
 
 
 
@@ -111,9 +122,11 @@ panel_B <- read_fig_proto("allele_accuracy_barplots") +
 panel_C <- read_fig_proto("allele_prob_barplot_arrows") +
   theme_fig51() +
   theme(
+    panel.grid.major.x = element_blank(),
     legend.key.size = unit(3, "mm"),
     legend.title = element_text(face = "bold")
-  )
+  ) +
+  labs(tag = "c")
 
 
 
@@ -126,7 +139,7 @@ panel_C <- read_fig_proto("allele_prob_barplot_arrows") +
     panel_B /
     panel_C
   ) +
-    plot_layout(heights = c(5, 3, 8))
+    plot_layout(heights = c(6, 4, 10))
 
   save_figure(
     full_figure,
