@@ -17,7 +17,8 @@ prepare_rc_comutation_results <- function(rc_df) {
       hugo_symbol, kras_allele, allele, cancer,
       p_val, t_AM,
       num_samples_per_cancer, num_samples_per_cancer_allele,
-      num_mut_per_cancer, num_mut_per_cancer_allele
+      num_mut_per_cancer, num_mut_per_cancer_allele,
+      any_of("is_sig")
     ) %>%
     add_column(
       test_name = "RC",
@@ -32,7 +33,8 @@ prepare_fisher_comutation_results <- function(fish_df) {
       hugo_symbol, kras_allele, cancer,
       p_value_great, odds_ratio,
       n00, n10, n01, n11,
-      allele_freq, gene_freq
+      allele_freq, gene_freq,
+      any_of("is_sig")
     ) %>%
     mutate(
       test_name = "Fisher",
