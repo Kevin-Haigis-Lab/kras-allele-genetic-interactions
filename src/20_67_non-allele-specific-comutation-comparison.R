@@ -60,14 +60,16 @@ stash(
 )
 
 
-#### ---- Comparison with allele-specific comutation analysis ---- ####
+#### ---- Venn diagrams ---- ####
 
-
-get_allelespecific_genes <- function(cancer, genetic_interaction) {
+get_allelespecific_genes <- function(cancer,
+                                     genetic_interaction,
+                                     allele = "all") {
   genetic_interaction_df %>%
     filter(
       cancer == !!cancer & genetic_interaction == !!genetic_interaction
     ) %>%
+    filter(allele %in% !!allele | !!allele == "all") %>%
     u_pull(hugo_symbol)
 }
 
@@ -152,3 +154,57 @@ walk(unique(nonallele_rc_res$cancer), function(cancer) {
 
 
 
+#### ---- Bar-plots for number of new and lost genes per KRAS allele ---- ####
+
+
+
+genetic_interaction_sets <- genetic_interaction_df %>%
+  distinct(cancer, allele, genetic_interaction)
+
+genetic_interaction_sets$allele_sets <- pmap(
+  genetic_interaction_sets,
+  get_allelespecific_genes
+)
+
+genetic_interaction_sets %<>%
+  mutate(
+    cancer_sets = map2(
+      cancer,
+      genetic_interaction,
+      get_nonallelespecific_genes),
+    new_genes = map2_dbl(allele_sets, cancer_sets, ~ length(setdiff(.x, .y)))
+  )
+
+
+comutation_comp_bar <- genetic_interaction_sets %>%
+  mutate(
+    allele = factor_alleles(allele),
+    comutation = switch_comut_terms(genetic_interaction)
+  ) %>%
+  complete(
+    nesting(cancer, allele),
+    comutation,
+    fill = list(new_genes = 0)
+  ) %>%
+  ggplot(aes(x = allele, y = new_genes)) +
+  facet_wrap(~ cancer, nrow = 2, scales = "free") +
+  geom_col(aes(fill = comutation), position = "dodge") +
+  scale_fill_manual(values = comut_updown_pal) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.02))) +
+  theme(
+    panel.grid.major.x = element_blank(),
+    axis.ticks = element_blank(),
+    strip.background = element_blank(),
+    legend.key.size = unit(3, "mm")
+  ) +
+  labs(
+    x = "KRAS allele",
+    y = "number of genes",
+    fill = "comutation\ninteraction"
+  )
+
+ggsave_wrapper(
+  comutation_comp_bar,
+  plot_path(GRAPHS_DIR, "comutation-comparison-bar.svg"),
+  "medium"
+)
