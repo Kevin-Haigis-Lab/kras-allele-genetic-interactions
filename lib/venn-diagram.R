@@ -1,17 +1,17 @@
-library(mustashe)
-library(jhcutils)
-library(glue)
-library(ggtext)
-library(tidyverse)
+# library(mustashe)
+# library(jhcutils)
+# library(glue)
+# library(ggtext)
+# library(tidyverse)
 
-for (f in list.files("lib", full.names = TRUE, pattern = "R$")) {
-  if (str_detect(f, "global|enrich|venn")) {
-    next
-  }
-  source(f)
-}
+# for (f in list.files("lib", full.names = TRUE, pattern = "R$")) {
+#   if (str_detect(f, "global|enrich|venn")) {
+#     next
+#   }
+#   source(f)
+# }
 
-options(dplyr.summarise.inform = FALSE)
+# options(dplyr.summarise.inform = FALSE)
 
 ################################################################################
 ################################################################################
@@ -82,13 +82,22 @@ radius_from_area <- function(A) {
 }
 
 
-make_circle_dataframe <- function(r1, r2, x2) {
-  tibble(
+make_circle_dataframe <- function(r1, r2, x2, circle_fill) {
+  df <- tibble(
     x0 = c(0, x2),
     y0 = c(0, 0),
     r = c(r1, r2)
   )
+
+  if (!is.null(circle_fill)) {
+    df$fill <- circle_fill
+  } else {
+    df$fill <- "white"
+  }
+
+  return(df)
 }
+
 
 make_count_labels_dataframe <- function(r1, r2, x2, n1, n2, n_intersect) {
   count_labels_df <- tibble(
@@ -106,13 +115,13 @@ ggvenndiagram <- function(s1, s2,
                           cat_size = NA,
                           cat_family = NA,
                           cat_fontface = "plain",
-                          circle_fill = NA,
-                          circle_alpha = 1,
+                          circle_fill = NULL,
+                          circle_alpha = 0,
                           circle_color = "black",
                           circle_size = 0.6,
                           count_color = "black",
                           count_size = NA,
-                          count_family = NA,
+                          count_family = cat_family,
                           count_fontface = "plain",
                           count_labels_df = NULL) {
   n1 <- n_distinct(s1)
@@ -133,7 +142,7 @@ ggvenndiagram <- function(s1, s2,
     r2 = r2
   )
 
-  circle_df <- make_circle_dataframe(r1, r2, x2)
+  circle_df <- make_circle_dataframe(r1, r2, x2, circle_fill)
 
   if (is.null(count_labels_df)) {
     count_labels_df <- make_count_labels_dataframe(
@@ -148,9 +157,9 @@ ggvenndiagram <- function(s1, s2,
       aes(
         x0 = x0,
         y0 = y0,
-        r = r
+        r = r,
+        fill = fill
       ),
-      fill = circle_fill,
       color = circle_color,
       alpha = circle_alpha,
       size = circle_size
@@ -162,7 +171,8 @@ ggvenndiagram <- function(s1, s2,
       size = count_size,
       family = count_family,
       fontface = count_fontface
-    )
+    ) +
+    scale_fill_identity()
 
   if (!is.null(cat_label)) {
     p <- p +
@@ -215,7 +225,7 @@ if (FALSE) {
     cat_size = 10,
     cat_family = "Times",
     cat_fontface = "bold",
-    circle_fill = "magenta",
+    circle_fill = c("A", "B"),
     circle_alpha = 0.2,
     circle_color = "green",
     circle_size = 2,
@@ -225,6 +235,7 @@ if (FALSE) {
     count_fontface = "italic",
     count_labels_df = NULL
   ) +
+    scale_fill_discrete() +
     coord_fixed() +
     theme_void()
   ggsave_wrapper(
