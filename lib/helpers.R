@@ -357,8 +357,10 @@ list_all_packages <- function() {
 
 #' Write a file with all citations for R packages.
 make_citations_bib <- function(dest = CITATIONS_FILE) {
-    suppressWarnings(
-        knitr::write_bib(list_all_packages(), file = CITATIONS_FILE)
+    suppressMessages(
+        suppressWarnings(
+            knitr::write_bib(list_all_packages(), file = CITATIONS_FILE)
+        )
     )
 }
 make_citations_bib()
