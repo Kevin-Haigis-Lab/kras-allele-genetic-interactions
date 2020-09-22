@@ -54,37 +54,15 @@ merge_rc_and_fisher_comutation_results <- function(rc_df, fish_df) {
 
 #### ---- Significant results from each test ---- ####
 
-# p-value thresholds for mutual exclusivity and comutation
-p_val_cut_mutex <- 0.01
-p_val_cut_comut <- 0.01
+source(file.path("src", "20_34_rc-fisher-assessment-processes.R"))
 
-# Thresholds for the mutation frequency of other gene for mut. ex. and comut.
-mutfreq_mutex <- 0.02
-mutfreq_comut <- 0.01
-
-# Threshold for the frequency of comutation between the allele and other gene.
-comutfreq_comut <- 0.10
-
-# Filter RC-test results using the above thresholds.
+# Assign significance to RC-test results.
 rc_sig <- rc_test_results %>%
-  mutate(
-    is_sig =
-      t_AM >= 10 &
-      num_mut_per_cancer / num_samples_per_cancer > !!mutfreq_mutex &
-      p_val < !!p_val_cut_mutex
-  )
+  assess_rc_test_significance()
 
 fisher_sig <- fisher_comut_df %>%
   filter(str_replace_us(kras_allele) %in% names(allele_palette)) %>%
-  mutate(
-    is_sig =
-      (p_value_great < p_val_cut_comut | p_value_less < p_val_cut_mutex) &
-      n11 >= 3 &
-      (
-        ((n10 + n11) / (n00 + n10 + n01 + n11) > !!mutfreq_comut) |
-          (n11 / (n01 + n11) > !!comutfreq_comut)
-      )
-  ) %>%
+  assess_fisher_test_significance() %>%
   mutate(test_type = ifelse(
     p_value_great < !!p_val_cut_comut, "comutation", "exclusivity"
   ))
