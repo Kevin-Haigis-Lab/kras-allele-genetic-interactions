@@ -1,17 +1,17 @@
-# library(mustashe)
-# library(jhcutils)
-# library(glue)
-# library(ggtext)
-# library(tidyverse)
+library(mustashe)
+library(jhcutils)
+library(glue)
+library(ggtext)
+library(tidyverse)
 
-# for (f in list.files("lib", full.names = TRUE, pattern = "R$")) {
-#   if (str_detect(f, "global|enrich|venn")) {
-#     next
-#   }
-#   source(f)
-# }
+for (f in list.files("lib", full.names = TRUE, pattern = "R$")) {
+  if (str_detect(f, "global|enrich|venn")) {
+    next
+  }
+  source(f)
+}
 
-# options(dplyr.summarise.inform = FALSE)
+options(dplyr.summarise.inform = FALSE)
 
 ################################################################################
 ################################################################################
@@ -28,31 +28,53 @@ library(tidyverse)
 #### ---- Area of intersection ---- ####
 
 # source:
-#   https://www.xarg.org/2016/07/calculate-the-intersection-area-of-two-circles/
-
-area_intersection_x <- function(d, r1, r2) {
-  (r1^2 - r2^2 + d^2) / (2*d)
-}
-
-area_intersection_y <- function(r1, x) {
-  sqrt(r1^2 - x^2)
-}
+#   https://diego.assencio.com/?index=8d6ca3d82151bad815f78addf9b5c1c6
 
 # Calculate the area of the intersection of 2 circles with radii `r1` and `r2`
 # that are `d` far away from each other.
 area_intersection_circles <- function(d, r1, r2) {
+  if (r1 < r2) {
+    HOLD_r2 <- r2
+    r2 <- r1
+    r1 <- HOLD_r2
+  }
 
   if (d >= r1 + r2) { return(0) }
-  if (d == 0) { return(pi * min(c(r1^2, r2^2))) }
+  if (d <= r1 - r2) { return(pi * r2^2) }
 
-  x <- area_intersection_x(d = d, r1 = r1, r2 = r2)
-  y <- area_intersection_y(r1 = r1, x = x)
+  d1 <- (r1^2 - r2^2 + d^2) / (2*d)
+  d2 <- d - d1
+  A <- r1^2 * acos(d1/r1) - d1 * sqrt(r1^2 - d1^2)
+  A <- A + r2^2 * acos(d2/r2) - d2 * sqrt(r2^2 - d2^2)
+  return(A)
+}
 
-  p1 <- r1^2 * asin(y / r1)
-  p2 <- r2^2 * asin(y / r2)
-  p3 <- y * (x + sqrt(r2^2 - r1^2 + x^2))
 
-  p1 + p2 - p3
+# A plot to show plot the area of intersection over different values.
+# (Currently not used, but useful for diagnostics.)
+optimization_diagnositic_plot <- function(target_area, r1, r2, x, y) {
+  pal <- c("red", "green", "blue")
+  x_lbl <- c(r1, r2, abs(r1 - r2))
+
+  min_area <- min(c(r1, r2))^2 * pi * 0.5
+
+  tibble(x, y) %>%
+    ggplot(aes(x, y)) +
+    geom_vline(xintercept = x_lbl, color = pal) +
+    geom_hline(yintercept = c(target_area, min_area), color = c("purple", "orange")) +
+    annotate("text", x = x_lbl + 0.01, y = mean(y),
+             label = c("r1", "r2", "r1 - r2"),
+             color = pal,
+             hjust = 0) +
+    geom_point(size = 0.5) +
+    scale_x_continuous(expand = expansion(mult = c(0, 0.02))) +
+    scale_y_continuous(expand = expansion(mult = c(0, 0.02))) +
+    theme_minimal() +
+    theme(
+      axis.line = element_line(color = "grey25")
+    ) +
+    labs(x = "distance between centers",
+         y = "intersection area")
 }
 
 
@@ -65,13 +87,19 @@ distance_for_area_intersection <- function(target_area, r1, r2,
     abs(target_area - area_intersection_circles(x, r1 = r1, r2 = r2))
   }
 
+  lower <- abs(r1 - r2) - 0.001
+  upper <- r1 + r2 + 0.001
+
+  # x <- seq(0, upper, 0.001)
+  # y <- map_dbl(x, area_intersection_circles, r1 = r1, r2 = r2)
+  # p <- optimization_diagnositic_plot(target_area, r1, r2, x, y)
+
   optimize(
     f = f,
-    interval = c(0, r1 + r2 + 0.001),
+    interval = c(lower, upper),
     tol = tol
   )$minimum
 }
-
 
 
 #### ---- Plotting functions ---- ####
@@ -99,11 +127,14 @@ make_circle_dataframe <- function(r1, r2, x2, circle_fill) {
 }
 
 
-make_count_labels_dataframe <- function(r1, r2, x2, n1, n2, n_intersect) {
+make_count_labels_dataframe <- function(r1, r2,
+                                        x2,
+                                        n1_diff, n2_diff,
+                                        n_intersect) {
   count_labels_df <- tibble(
     x = c((-r1 + x2 - r2) / 2, (x2 - r2 + r1) / 2, (r1 + x2 + r2) / 2),
     y = 0,
-    label = c(n1, n_intersect, n2)
+    label = c(n1_diff, n_intersect, n2_diff)
   )
 }
 
@@ -127,8 +158,10 @@ ggvenndiagram <- function(s1, s2,
   n1 <- n_distinct(s1)
   n2 <- n_distinct(s2)
   n_intersect <- length(intersect(s1, s2))
+  n1_diff <- length(setdiff(s1, s2))
+  n2_diff <- length(setdiff(s2, s1))
 
-  norm_fct <- max(c(n1, n2))
+  norm_fct <- length(union(s1, s2))
   a1 <- n1 / norm_fct
   a2 <- n2 / norm_fct
   a_intersect <- n_intersect / norm_fct
@@ -146,7 +179,7 @@ ggvenndiagram <- function(s1, s2,
 
   if (is.null(count_labels_df)) {
     count_labels_df <- make_count_labels_dataframe(
-      r1, r2, x2, n1, n2, n_intersect
+      r1, r2, x2, n1_diff, n2_diff, n_intersect
     )
   }
 
@@ -194,7 +227,6 @@ ggvenndiagram <- function(s1, s2,
 
   return(p)
 }
-
 
 
 #### ---- Examples ---- ####
