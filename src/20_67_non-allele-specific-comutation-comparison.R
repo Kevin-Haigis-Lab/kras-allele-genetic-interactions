@@ -146,9 +146,15 @@ walk(unique(nonallele_rc_res$cancer), function(cancer) {
 
   ggsave_wrapper(
     patch_venn,
-    plot_path(GRAPHS_DIR, glue("comutation-venn-patch_{cancer}.svg")),
+    plot_path(
+      GRAPHS_DIR,
+      as.character(glue("comutation-venn-patch_{cancer}.svg"))
+    ),
     "wide"
   )
+
+  saveFigRds(rc_venn, as.character(glue("rc-venn-diagram_{cancer}")))
+  saveFigRds(fish_venn, as.character(glue("fish-venn-diagram_{cancer}")))
 })
 
 
@@ -176,35 +182,57 @@ genetic_interaction_sets %<>%
   )
 
 
+
+comutation_comparison_barplot <- function(cancer, data) {
+
+  pos <- position_dodge(width = 0.8)
+
+  p <- data %>%
+    ggplot(aes(x = allele, y = new_genes, fill = comutation)) +
+    geom_col(position = pos) +
+    geom_text(
+      aes(y = is_tested_label_y, label = is_tested_label),
+      position = pos,
+      color = "grey20",
+      size = 1.8,
+      family = "Arial"
+    ) +
+    scale_fill_manual(values = comut_updown_pal) +
+    scale_y_continuous(expand = expansion(mult = c(0, 0.02))) +
+    theme(
+      panel.grid.major.x = element_blank(),
+      axis.ticks = element_blank(),
+      strip.background = element_blank(),
+      legend.key.size = unit(3, "mm")
+    ) +
+    labs(
+      x = "KRAS allele",
+      y = "number of genes",
+      fill = "comutation\ninteraction"
+    )
+
+  fn <- as.character(glue("comutation-comparison-bar_{cancer}.svg"))
+  ggsave_wrapper(
+    p,
+    plot_path(GRAPHS_DIR, fn),
+    "small"
+  )
+  saveFigRds(p, fn)
+}
+
 comutation_comp_bar <- genetic_interaction_sets %>%
   mutate(
     allele = factor_alleles(allele),
-    comutation = switch_comut_terms(genetic_interaction)
+    comutation = switch_comut_terms(genetic_interaction),
+    is_tested_label = ""
   ) %>%
+  filter(!(cancer == "MM" & allele == "Q61L")) %>%
   complete(
     nesting(cancer, allele),
     comutation,
-    fill = list(new_genes = 0)
+    fill = list(new_genes = 0, is_tested_label = "NA")
   ) %>%
-  ggplot(aes(x = allele, y = new_genes)) +
-  facet_wrap(~ cancer, nrow = 2, scales = "free") +
-  geom_col(aes(fill = comutation), position = "dodge") +
-  scale_fill_manual(values = comut_updown_pal) +
-  scale_y_continuous(expand = expansion(mult = c(0, 0.02))) +
-  theme(
-    panel.grid.major.x = element_blank(),
-    axis.ticks = element_blank(),
-    strip.background = element_blank(),
-    legend.key.size = unit(3, "mm")
-  ) +
-  labs(
-    x = "KRAS allele",
-    y = "number of genes",
-    fill = "comutation\ninteraction"
-  )
-
-ggsave_wrapper(
-  comutation_comp_bar,
-  plot_path(GRAPHS_DIR, "comutation-comparison-bar.svg"),
-  "medium"
-)
+  group_by(cancer) %>%
+  mutate(is_tested_label_y = new_genes + (0.04 * max(new_genes))) %>%
+  nest() %>%
+  pwalk(comutation_comparison_barplot)
