@@ -97,16 +97,35 @@ adjust_layout_manually <- function(layout, CANCER, SUFFIX) {
 
   if (CANCER == "COAD" & SUFFIX == "_allLists") {
     message(msg)
+
+    shift_down <- c(
+      "SMAD3", "G12S", "CACNA1E", "Q61H", "LRP2", "Q61L", "BRCA2", "TTN",
+      "A146V", "MCM4", "G12C", "MTOR"
+    )
+
+    shift_left <- c(
+      c("TTN", "A146V", "MCM4", "G12C", "MTOR")
+    )
+
     layout <- layout %>%
-      mutate(x = ifelse(node_label == "G12S", x - 0.5, x))
+      mutate(
+        x = ifelse(node_label == "RICTOR", x[node_label == "G13D"], x),
+        x = ifelse(node_label %in% shift_left, x - 0.6, x),
+        y = ifelse(node_label %in% shift_down, y - 1.3, y)
+      )
   }
 
   if (CANCER == "LUAD" & SUFFIX == "_kegg") {
     message(msg)
     layout <- layout %>%
       mutate(
-        x = ifelse(node_label == "EGFR", x - 0.2, x),
-        y = ifelse(node_label == "EGFR", y + 0.1, y)
+        x = ifelse(node_label == "G13C", x + 1, x),
+        x = ifelse(node_label == "PLCB3", x[node_label == "G13C"], x),
+        y = ifelse(node_label == "PLCB3", y + 0.8, y),
+        x = ifelse(node_label == "EGFR", x - 0.7, x),
+        y = ifelse(node_label == "EGFR", y + 0.5, y),
+        x = ifelse(node_label == "TP53", x - 0.3, x),
+        y = ifelse(node_label == "TP53", y + 0.3, y)
       )
   }
 
@@ -125,7 +144,8 @@ plot_genetic_interaction_graph <- function(gr_to_plot, CANCER, SUFFIX = "",
     layout = "fr",
     start.temp = igraph::vcount(gr_to_plot)^(1/4)
   )
-  # layout <- adjust_layout_manually(layout, CANCER, SUFFIX)
+
+  layout <- adjust_layout_manually(layout, CANCER, SUFFIX)
 
   gr_plot <- ggraph(layout) +
     geom_edge_link(
