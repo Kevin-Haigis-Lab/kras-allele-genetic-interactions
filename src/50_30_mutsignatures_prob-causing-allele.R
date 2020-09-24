@@ -34,23 +34,36 @@ mutsig_noartifact_df_select <- mutsig_noartifact_df %>%
 #   composition: the level of the context in the signature
 #   casuation_prob: the likelihood of the mutation coming from the
 #                   signature's mutagen
-kras_allele_mutsig_df <- trinucleotide_mutations_df %>%
-  filter(hugo_symbol == "KRAS" &
-    kras_allele != "WT" &
-    cancer != "SKCM" &
-    !is_hypermutant) %>%
-  left_join(mutational_signature_spectra, by = "tricontext") %>%
-  left_join(mutsig_noartifact_df_select,
-    by = c("tumor_sample_barcode", "signature")
-  ) %>%
-  filter(!is.na(description)) %>%
-  mutate(causation_prob = composition * contribution)
+cache(
+  "kras_allele_causation_mutsig_df",
+  depends = c(
+    "trinucleotide_mutations_df",
+    "mutational_signature_spectra",
+    "mutsig_noartifact_df_select"
+  ),
+  {
+    kras_allele_causation_mutsig_df <- trinucleotide_mutations_df %>%
+      filter(hugo_symbol == "KRAS" &
+        kras_allele != "WT" &
+        cancer != "SKCM" &
+        !is_hypermutant) %>%
+      left_join(mutational_signature_spectra, by = "tricontext") %>%
+      left_join(mutsig_noartifact_df_select,
+        by = c("tumor_sample_barcode", "signature")
+      ) %>%
+      filter(!is.na(description)) %>%
+      mutate(causation_prob = composition * contribution)
+    return(kras_allele_causation_mutsig_df)
+  }
+)
 
 
 # Creates a column bar plot with position "fill" of the probability that
 # the KRAS mutation was from a specific mutational signature.
-plot_probability_of_causation <- function(cancer, data,
-                                          min_allele_num = 15, ...) {
+plot_probability_of_causation <- function(cancer,
+                                          data,
+                                          min_allele_num = 15,
+                                          ...) {
   # Alleles to include in the plots.
   alleles <- alleles_to_plot(cancer, min_allele_num)
 
@@ -110,7 +123,7 @@ plot_probability_of_causation <- function(cancer, data,
   return(p)
 }
 
-barplots <- kras_allele_mutsig_df %>%
+barplots <- kras_allele_causation_mutsig_df %>%
   group_by(cancer) %>%
   nest() %>%
   arrange(cancer) %>%
@@ -133,7 +146,7 @@ plot_signature_probability <- function(cancer, signature, min_allele_num = 15) {
   alleles <- alleles_to_plot(cancer, min_allele_num)
 
   # Prepare the data for plotting.
-  plot_data <- kras_allele_mutsig_df %>%
+  plot_data <- kras_allele_causation_mutsig_df %>%
     filter(
       !is_hypermutant &
         cancer == !!cancer &
