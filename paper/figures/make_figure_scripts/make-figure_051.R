@@ -65,8 +65,10 @@ panel_A_proto_list <- map(panel_A_plots, function(x) {
       drop = FALSE,
       guide = panel_A_guide_legend(20)
     ) +
-    labs(x = "predicted frequency",
-         y = "observed frequency")
+    labs(
+      x = "predicted frequency",
+      y = "observed frequency"
+    )
   return(p)
 })
 
@@ -136,8 +138,8 @@ panel_C <- read_fig_proto("allele_prob_barplot_arrows") +
   # COMPLETE FIGURE
   full_figure <- (
     panel_A /
-    panel_B /
-    panel_C
+      panel_B /
+      panel_C
   ) +
     plot_layout(heights = c(6, 4, 10))
 

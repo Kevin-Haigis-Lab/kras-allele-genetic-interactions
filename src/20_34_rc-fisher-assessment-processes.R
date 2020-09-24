@@ -17,8 +17,8 @@ assess_rc_test_significance <- function(rc_df) {
     mutate(
       is_sig =
         t_AM >= comut_cutoffs$mutex_params$t_AM_min &
-        num_mut_per_cancer / num_samples_per_cancer > !!comut_cutoffs$mutfreq$mutex &
-        p_val < !!comut_cutoffs$p_value$mutex
+          num_mut_per_cancer / num_samples_per_cancer > !!comut_cutoffs$mutfreq$mutex &
+          p_val < !!comut_cutoffs$p_value$mutex
     )
 }
 
@@ -29,12 +29,12 @@ assess_fisher_test_significance <- function(fish_df) {
       is_sig =
         (
           p_value_great < comut_cutoffs$p_value$mutex |
-          p_value_less < comut_cutoffs$p_value$comut
+            p_value_less < comut_cutoffs$p_value$comut
         ) &
-        n11 >= comut_cutoffs$comut_params$min_events &
-        (
-          ((n10 + n11) / (n00 + n10 + n01 + n11) > !!comut_cutoffs$mutfreq$comut) |
-            (n11 / (n01 + n11) > !!comut_cutoffs$comut_params$comutfreq)
-        )
+          n11 >= comut_cutoffs$comut_params$min_events &
+          (
+            ((n10 + n11) / (n00 + n10 + n01 + n11) > !!comut_cutoffs$mutfreq$comut) |
+              (n11 / (n01 + n11) > !!comut_cutoffs$comut_params$comutfreq)
+          )
     )
 }

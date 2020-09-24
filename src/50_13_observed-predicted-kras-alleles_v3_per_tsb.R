@@ -764,8 +764,10 @@ allele_accuracy_barplots <- allele_predictions_acc %>%
   ) +
   scale_color_manual(
     values = codon_pal,
-    guide = guide_legend(order = 10,
-                         override.aes = list(size = 1.3, alpha = 1))
+    guide = guide_legend(
+      order = 10,
+      override.aes = list(size = 1.3, alpha = 1)
+    )
   ) +
   theme(
     panel.grid.major.x = element_blank(),
@@ -871,19 +873,27 @@ allele_prob_barplot_arrows <- average_allele_probs %>%
   scale_color_manual(
     values = short_allele_pal,
     drop = TRUE,
-    guide = guide_legend(order = 10,
-                         override.aes = list(size = 1.3, lty = 0, alpha = 1))
+    guide = guide_legend(
+      order = 10,
+      override.aes = list(size = 1.3, lty = 0, alpha = 1)
+    )
   ) +
   scale_y_continuous(expand = expansion(mult = c(0, 0.05))) +
   scale_linetype_manual(
     values = c("TRUE" = 1, "FALSE" = 6),
-    labels = c("TRUE" = "with the\nKRAS allele",
-               "FALSE" = "with another\nKRAS allele"),
-    guide = guide_legend(override.aes = list(lty = c("TRUE" = 1, "FALSE" = 3),
-                                             alpha = 1,
-                                             size = 0.6),
-                         keyheight = unit(6, "mm"),
-                         order = 20)
+    labels = c(
+      "TRUE" = "with the\nKRAS allele",
+      "FALSE" = "with another\nKRAS allele"
+    ),
+    guide = guide_legend(
+      override.aes = list(
+        lty = c("TRUE" = 1, "FALSE" = 3),
+        alpha = 1,
+        size = 0.6
+      ),
+      keyheight = unit(6, "mm"),
+      order = 20
+    )
   ) +
   theme(
     legend.key.size = unit(3, "mm"),

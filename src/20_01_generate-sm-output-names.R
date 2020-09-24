@@ -6,30 +6,30 @@ library(dplyr)
 
 # cancer data
 cancer_data <- cancer_coding_muts_df %>%
-    filter(!is_hypermutant)
+  filter(!is_hypermutant)
 
 make_output_filename <- function(cancer, ras_allele, ...) {
-    rasallele <- stringr::str_remove_all(ras_allele, "_")
-    fnames <- c()
-    for (mut_test in c("exclusivity", "comutation")) {
-        fbasename <- paste0(cancer, "_", rasallele, "_", mut_test, "_results.rds")
-        fnames <- c(fnames, file.path("output", mut_test, fbasename))
-    }
-    return(fnames)
+  rasallele <- stringr::str_remove_all(ras_allele, "_")
+  fnames <- c()
+  for (mut_test in c("exclusivity", "comutation")) {
+    fbasename <- paste0(cancer, "_", rasallele, "_", mut_test, "_results.rds")
+    fnames <- c(fnames, file.path("output", mut_test, fbasename))
+  }
+  return(fnames)
 }
 
 fnames <- cancer_data %>%
-    filter(cancer != "SKCM") %>%
-    group_by(cancer, ras_allele) %>%
-    summarise(num_samples = n_distinct(case_id)) %>%
-    ungroup() %>%
-    filter(num_samples >= 10 & ras_allele != "WT") %>%
-    filter(!stringr::str_detect(ras_allele, "nonfssub")) %>%
-    purrr::pmap(make_output_filename) %>%
-    unlist()
+  filter(cancer != "SKCM") %>%
+  group_by(cancer, ras_allele) %>%
+  summarise(num_samples = n_distinct(case_id)) %>%
+  ungroup() %>%
+  filter(num_samples >= 10 & ras_allele != "WT") %>%
+  filter(!stringr::str_detect(ras_allele, "nonfssub")) %>%
+  purrr::pmap(make_output_filename) %>%
+  unlist()
 
 for (fname in fnames) {
-    cat("\"", fname, "\"", ",\n", sep = "")
+  cat("\"", fname, "\"", ",\n", sep = "")
 }
 
 # "output/exclusivity/COAD_KRASA146T_exclusivity_results.rds",

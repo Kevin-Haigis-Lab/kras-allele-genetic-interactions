@@ -90,7 +90,6 @@ get_nonallelespecific_genes <- function(cancer, genetic_interaction) {
 
 
 make_comutation_venn <- function(cancer, genetic_interaction, title = NULL) {
-
   fill_pal <- c(
     "allele-specific" = "orange",
     "non-allele-specific" = "blue"
@@ -117,8 +116,10 @@ make_comutation_venn <- function(cancer, genetic_interaction, title = NULL) {
       legend.title = element_text(size = 7, face = "bold"),
       legend.text = element_text(size = 7)
     ) +
-    labs(fill = "comutation analysis",
-         title = title)
+    labs(
+      fill = "comutation analysis",
+      title = title
+    )
 }
 
 
@@ -177,14 +178,14 @@ genetic_interaction_sets %<>%
     cancer_sets = map2(
       cancer,
       genetic_interaction,
-      get_nonallelespecific_genes),
+      get_nonallelespecific_genes
+    ),
     new_genes = map2_dbl(allele_sets, cancer_sets, ~ length(setdiff(.x, .y)))
   )
 
 
 
 comutation_comparison_barplot <- function(cancer, data) {
-
   pos <- position_dodge(width = 0.8)
 
   p <- data %>%

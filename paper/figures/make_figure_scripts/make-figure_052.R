@@ -3,40 +3,44 @@
 
 FIGNUM <- 52
 
-#> SET THE FIGURE DIMENSIONS
+# > SET THE FIGURE DIMENSIONS
 FIG_DIMENSIONS <- get_figure_dimensions(2, "tall")
 
 
 theme_fig52 <- function(tag_margin = margin(-1, -1, -1, -1, "mm")) {
   theme_comutation() %+replace%
-  theme(
-    legend.title = element_text(size = 7, face = "bold"),
-    legend.text = element_text(size = 7),
-    plot.tag = element_text(size = 7,
-                            face = "bold",
-                            margin = tag_margin)
-  )
+    theme(
+      legend.title = element_text(size = 7, face = "bold"),
+      legend.text = element_text(size = 7),
+      plot.tag = element_text(
+        size = 7,
+        face = "bold",
+        margin = tag_margin
+      )
+    )
 }
 
 theme_fig52_venn <- function(tag_margin = margin(-1, -1, -1, -1, "mm")) {
   theme_void(base_size = 7, base_family = "Arial") %+replace%
-  theme(
-    plot.tag = element_text(size = 7,
-                            face = "bold",
-                            margin = tag_margin),
-    plot.title = element_text(hjust = 0.5),
-    legend.key.size = unit(3, "mm"),
-    legend.position = "bottom"
-  )
+    theme(
+      plot.tag = element_text(
+        size = 7,
+        face = "bold",
+        margin = tag_margin
+      ),
+      plot.title = element_text(hjust = 0.5),
+      legend.key.size = unit(3, "mm"),
+      legend.position = "bottom"
+    )
 }
 
 theme_fig52_bar <- function(tag_margin = margin(-1, -1, -1, -1, "mm")) {
   theme_fig52(tag_margin) %+replace%
-  theme(
-    panel.grid.major.x = element_blank(),
-    strip.background = element_blank(),
-    legend.key.size = unit(3, "mm")
-  )
+    theme(
+      panel.grid.major.x = element_blank(),
+      strip.background = element_blank(),
+      legend.key.size = unit(3, "mm")
+    )
 }
 
 
@@ -181,7 +185,7 @@ make_cancer_label <- function(cancer) {
 assemble_cancer_row <- function(venn_panel, bar_panel, cancer, heights = NULL) {
   row_panels <- (
     make_cancer_label(cancer) /
-    ((venn_panel | bar_panel) + plot_layout(widths = c(3, 2)))
+      ((venn_panel | bar_panel) + plot_layout(widths = c(3, 2)))
   ) +
     plot_layout(heights = heights)
   return(row_panels)
@@ -192,13 +196,13 @@ assemble_cancer_row <- function(venn_panel, bar_panel, cancer, heights = NULL) {
   # COMPLETE FIGURE
   full_figure <- (
     assemble_cancer_row(panel_A, panel_B, "COAD") /
-    assemble_cancer_row(panel_C, panel_D, "LUAD", heights = c(1, 10)) /
-    assemble_cancer_row(panel_E, panel_F, "MM", heights = c(1, 10)) /
-    assemble_cancer_row(panel_G, panel_H, "PAAD", heights = c(1, 10))
+      assemble_cancer_row(panel_C, panel_D, "LUAD", heights = c(1, 10)) /
+      assemble_cancer_row(panel_E, panel_F, "MM", heights = c(1, 10)) /
+      assemble_cancer_row(panel_G, panel_H, "PAAD", heights = c(1, 10))
   ) +
-  plot_layout(
-    heights = c(1, 9, 11, 11, 11)
-  )
+    plot_layout(
+      heights = c(1, 9, 11, 11, 11)
+    )
 
   save_figure(
     full_figure,

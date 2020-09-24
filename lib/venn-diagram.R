@@ -39,13 +39,17 @@ area_intersection_circles <- function(d, r1, r2) {
     r1 <- HOLD_r2
   }
 
-  if (d >= r1 + r2) { return(0) }
-  if (d <= r1 - r2) { return(pi * r2^2) }
+  if (d >= r1 + r2) {
+    return(0)
+  }
+  if (d <= r1 - r2) {
+    return(pi * r2^2)
+  }
 
-  d1 <- (r1^2 - r2^2 + d^2) / (2*d)
+  d1 <- (r1^2 - r2^2 + d^2) / (2 * d)
   d2 <- d - d1
-  A <- r1^2 * acos(d1/r1) - d1 * sqrt(r1^2 - d1^2)
-  A <- A + r2^2 * acos(d2/r2) - d2 * sqrt(r2^2 - d2^2)
+  A <- r1^2 * acos(d1 / r1) - d1 * sqrt(r1^2 - d1^2)
+  A <- A + r2^2 * acos(d2 / r2) - d2 * sqrt(r2^2 - d2^2)
   return(A)
 }
 
@@ -62,10 +66,12 @@ optimization_diagnositic_plot <- function(target_area, r1, r2, x, y) {
     ggplot(aes(x, y)) +
     geom_vline(xintercept = x_lbl, color = pal) +
     geom_hline(yintercept = c(target_area, min_area), color = c("purple", "orange")) +
-    annotate("text", x = x_lbl + 0.01, y = mean(y),
-             label = c("r1", "r2", "r1 - r2"),
-             color = pal,
-             hjust = 0) +
+    annotate("text",
+      x = x_lbl + 0.01, y = mean(y),
+      label = c("r1", "r2", "r1 - r2"),
+      color = pal,
+      hjust = 0
+    ) +
     geom_point(size = 0.5) +
     scale_x_continuous(expand = expansion(mult = c(0, 0.02))) +
     scale_y_continuous(expand = expansion(mult = c(0, 0.02))) +
@@ -73,8 +79,10 @@ optimization_diagnositic_plot <- function(target_area, r1, r2, x, y) {
     theme(
       axis.line = element_line(color = "grey25")
     ) +
-    labs(x = "distance between centers",
-         y = "intersection area")
+    labs(
+      x = "distance between centers",
+      y = "intersection area"
+    )
 }
 
 
@@ -82,7 +90,6 @@ optimization_diagnositic_plot <- function(target_area, r1, r2, x, y) {
 # their overlap has area `target_area`
 distance_for_area_intersection <- function(target_area, r1, r2,
                                            tol = .Machine$double.eps^0.25) {
-
   f <- function(x) {
     abs(target_area - area_intersection_circles(x, r1 = r1, r2 = r2))
   }
@@ -222,8 +229,10 @@ ggvenndiagram <- function(s1, s2,
   }
 
   p <- p +
-    labs(x = NULL,
-         y = NULL)
+    labs(
+      x = NULL,
+      y = NULL
+    )
 
   return(p)
 }

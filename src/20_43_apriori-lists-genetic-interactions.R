@@ -71,7 +71,9 @@ filter_for_adjusted_p_values <- function(gr,
                                          adj_val_cutoff = 0.25) {
   nodes <- as_tibble(gr, active = "nodes")
 
-  cancer <- as_tibble(gr, active = "edges") %>% pull(cancer) %>% unique()
+  cancer <- as_tibble(gr, active = "edges") %>%
+    pull(cancer) %>%
+    unique()
 
   sig_interactions <- apriori_genes_fdr_adjusted_comutations %>%
     filter(bh_adj_p_val < !!adj_val_cutoff & is_sig) %>%
@@ -142,7 +144,7 @@ plot_genetic_interaction_graph <- function(gr_to_plot, CANCER, SUFFIX = "",
   layout <- create_layout(
     gr_to_plot,
     layout = "fr",
-    start.temp = igraph::vcount(gr_to_plot)^(1/4)
+    start.temp = igraph::vcount(gr_to_plot)^(1 / 4)
   )
 
   layout <- adjust_layout_manually(layout, CANCER, SUFFIX)

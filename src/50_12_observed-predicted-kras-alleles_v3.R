@@ -243,7 +243,8 @@ cache(
       ungroup() %>%
       filter(
         real_allele_freq >= MINIMUM_ALLELE_FREQ |
-        cancer_rank <= TOP_ALLELES_PER_CANCER) %>%
+          cancer_rank <= TOP_ALLELES_PER_CANCER
+      ) %>%
       filter(num_allele_tsb >= 10) %>%
       select(cancer, kras_allele)
     return(alleles_for_each_cancer_obs_vs_pred)
@@ -285,10 +286,10 @@ cache(
   ),
   {
     all_observed_alleles_obs_vs_pred <- expand.grid(
-        kras_allele = sort(unique(kras_trinucleotide_contexts$kras_allele)),
-        cancer = sort(unique(alleles_for_each_cancer_obs_vs_pred$cancer)),
-        stringsAsFactors = FALSE
-      ) %>%
+      kras_allele = sort(unique(kras_trinucleotide_contexts$kras_allele)),
+      cancer = sort(unique(alleles_for_each_cancer_obs_vs_pred$cancer)),
+      stringsAsFactors = FALSE
+    ) %>%
       filter(!str_detect(kras_allele, "117")) %>%
       as_tibble()
     return(all_observed_alleles_obs_vs_pred)

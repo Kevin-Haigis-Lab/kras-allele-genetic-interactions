@@ -22,10 +22,10 @@ get_panels_with_gene <- function(cancer, hugo_symbol) {
 
 # Make a 2x2 table from logical vectors.
 make_lgl_table <- function(x, y) {
-    f <- function(a) {
-      factor(a, levels = c("FALSE", "TRUE"))
-    }
-    table(f(x), f(y))
+  f <- function(a) {
+    factor(a, levels = c("FALSE", "TRUE"))
+  }
+  table(f(x), f(y))
 }
 
 
