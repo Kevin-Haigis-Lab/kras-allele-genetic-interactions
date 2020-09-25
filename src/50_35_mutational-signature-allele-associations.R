@@ -68,13 +68,36 @@ pairwise_test_cancer_msigs <- function(data, min_num_samples = 10) {
 
 
 
+run_pariwise_tests_on_dataframe <- function(df) {
+  df %>%
+    filter(!is_hypermutant) %>%
+    group_by(cancer, signature) %>%
+    nest() %>%
+    mutate(test_res = map(data, pairwise_test_cancer_msigs)) %>%
+    unnest(test_res) %>%
+    ungroup()
+}
+
+
 allele_signature_associations <- mutsig_noartifact_df %>%
-  filter(!is_hypermutant) %>%
-  group_by(cancer, signature) %>%
-  nest() %>%
-  mutate(test_res = map(data, pairwise_test_cancer_msigs)) %>%
-  unnest(test_res) %>%
-  ungroup()
+  run_pariwise_tests_on_dataframe()
+
+
+MOD_kras_allele_causation_mutsig_df <- function() {
+  kras_allele_causation_mutsig_df %>%
+    select(-contribution) %>%
+    rename(contribution = causation_prob,
+           ras_allele = kras_allele) %>%
+    group_by(cancer, tumor_sample_barcode) %>%
+    mutate(contribution = contribution / sum(contribution)) %>%
+    filter(!any(is.na(contribution))) %>%
+    ungroup()
+}
+
+allele_signature_causation_stats <- MOD_kras_allele_causation_mutsig_df() %>%
+  run_pariwise_tests_on_dataframe() %>%
+  mutate(data = map(data, ~ .x %>% rename(causation_prob = contribution)))
+
 
 
 modify_mutsig_names <- function(sig) {
@@ -572,7 +595,7 @@ sampled_signature_testres <- sampled_signature_levels %>%
     ras_allele = grp,
     contribution = mut_sig_level
   ) %>%
-  pairwise_ttest_msigs()
+  pairwise_test_msigs()
 
 
 artifical_sig_testres <- sampled_signature_testres %>%
@@ -718,20 +741,24 @@ ggridge_plot_signatures_pstats <- function(stats_df,
 
   y_lims <- c(
     1,
-    max(c(plot_df$g1, plot_df$g2)) + added_height
+    length(alleles) + added_height
   )
 
   plot_df %>%
     select(x, g1, g2, id) %>%
     pivot_longer(-c(id, x), names_to = NULL, values_to = "group_value") %>%
     ggplot(aes(x = x, y = group_value)) +
-    geom_line(aes(group = id)) +
+    geom_line(
+      aes(group = id),
+      size = 0.2
+    ) +
     geom_text(
       aes(x = star_x, y = star_y, label = p_value_star),
       data = plot_df,
+      size = 2,
       angle = 90,
       hjust = 0.5,
-      vjust = 0,
+      vjust = 0.2,
     ) +
     scale_x_continuous(
       limits = x_lims,
@@ -742,7 +769,8 @@ ggridge_plot_signatures_pstats <- function(stats_df,
       expand = expansion(mult = c(0, 0.02)),
       breaks = seq(0, y_lims[[2]])
     ) +
-    theme_void(base_size = 7, base_family = "Arial")
+    # theme_void(base_size = 7, base_family = "Arial")
+    theme_bw(base_size = 7, base_family = "Arial")
 }
 
 
@@ -751,16 +779,19 @@ ggridge_plot_signatures <- function(signature,
                                     cancer,
                                     stats_df,
                                     ms_df,
+                                    fn_glue,
                                     alleles_tested = NULL,
                                     stats_plot_add_height = 1.5,
                                     patch_widths = c(1, 10)) {
   mod_ms_df <- ms_df %>%
+    mutate(signature = modify_mutsig_names(signature)) %>%
     filter(cancer == !!cancer & signature == !!signature) %>%
     mutate(
       allele = ifelse(ras_allele %in% alleles_tested, ras_allele, "Other"),
       allele = str_remove(allele, "KRAS_"),
       allele = factor_alleles(allele)
     )
+
   mod_stats_df <- stats_df %>%
     mutate(
       group1 = str_remove(group1, "KRAS_"),
@@ -771,7 +802,7 @@ ggridge_plot_signatures <- function(signature,
     mod_ms_df,
     signature = signature
   )
-
+  # browser()
   stats_plot <- ggridge_plot_signatures_pstats(
     mod_stats_df,
     alleles = as.character(sort(unique(mod_ms_df$allele))),
@@ -782,12 +813,14 @@ ggridge_plot_signatures <- function(signature,
     plot_layout(widths = patch_widths)
 
 
-  fn <- as.character(glue("ggrdige-stats_{cancer}_sig{signature}.svg"))
+  fn <- as.character(glue(fn_glue))
   ggsave_wrapper(
     patch,
     plot_path(GRAPHS_DIR, fn),
     "wide"
   )
+  saveFigRds(patch, fn)
+  patch
 }
 
 
@@ -811,7 +844,7 @@ plot_vars <- tribble(
 )
 
 
-allele_signature_associations %>%
+all_plots <- allele_signature_associations %>%
   filter(p_value < 0.05) %>%
   distinct(signature, cancer, group1, group2, p_value) %>%
   group_by(cancer, signature) %>%
@@ -820,4 +853,54 @@ allele_signature_associations %>%
   left_join(alleles_tested_per_cancer, by = "cancer") %>%
   rename(stats_df = data) %>%
   left_join(plot_vars, by = c("cancer", "signature")) %>%
-  pwalk(ggridge_plot_signatures, ms_df = mutsig_noartifact_df)
+  mutate(signature = modify_mutsig_names(signature)) %>%
+  pmap(
+    ggridge_plot_signatures,
+    ms_df = mutsig_noartifact_df,
+    fn_glue = "ggridge_sig-levels_stats_{cancer}_sig{signature}.svg"
+  )
+
+saveFigRds(
+  all_plots,
+  "ggrdige-stats_all-plots"
+)
+
+
+plot_vars <- tribble(
+  ~signature, ~cancer, ~patch_widths,
+  "1", "COAD", c(1, 10),
+  "8", "COAD", c(1, 10),
+  "18", "COAD", c(1, 10),
+  "1", "LUAD", c(1, 10),
+  "4", "LUAD", c(1, 10),
+  "5", "LUAD", c(1, 10),
+  "18", "LUAD", c(1, 10),
+  "1", "PAAD", c(1, 10),
+  "5", "PAAD", c(1, 10),
+  "6", "PAAD", c(1, 10),
+  "8", "PAAD", c(1, 10),
+  "17", "PAAD", c(1, 10),
+  "2", "MM", c(1, 10),
+  "5", "MM", c(1, 10),
+  "9", "MM", c(1, 10),
+) %>%
+  add_column(stats_plot_add_height = 1)
+
+all_plots <- allele_signature_causation_stats %>%
+  filter(p_value < 0.05) %>%
+  distinct(signature, cancer, group1, group2, p_value) %>%
+  group_by(cancer, signature) %>%
+  nest() %>%
+  ungroup() %>%
+  left_join(alleles_tested_per_cancer, by = "cancer") %>%
+  mutate(
+    alleles_tested = map(alleles_tested, ~ str_remove(.x, "KRAS_"))
+  ) %>%
+  rename(stats_df = data) %>%
+  left_join(plot_vars, by = c("cancer", "signature")) %>%
+  mutate(signature = modify_mutsig_names(signature)) %>%
+  pmap(
+    ggridge_plot_signatures,
+    ms_df = MOD_kras_allele_causation_mutsig_df(),
+    fn_glue = "ggridge_sig-causation_stats_{cancer}_sig{signature}.svg"
+  )
