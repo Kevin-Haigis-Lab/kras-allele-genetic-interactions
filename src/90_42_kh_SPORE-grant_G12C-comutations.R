@@ -97,3 +97,30 @@ genetic_interaction_df %>%
     TABLES_DIR,
     "g12c_sepcific_comutation_frequencies.tsv"
   ))
+
+
+#### ---- G12C comutants in COAD and LUAD for Shikha ---- ####
+
+genetic_interaction_df %>%
+  filter(genetic_interaction == "comutation") %>%
+  filter(cancer %in% c("COAD", "LUAD")) %>%
+  group_by(cancer, hugo_symbol) %>%
+  mutate(
+    is_g12c_specific = n_distinct(allele) == 1 & all(allele == "G12C")
+  ) %>%
+  ungroup() %>%
+  filter(allele == "G12C") %>%
+  select(
+    cancer, allele, hugo_symbol,
+    p_val, odds_ratio, is_g12c_specific, n00:n11
+  ) %>%
+  arrange(cancer, p_val, -odds_ratio) %>%
+  rename(
+    kras_allele = allele,
+    p_value = p_val,
+  ) %>%
+  xlsx::write.xlsx(
+    table_path(TABLES_DIR, "g12c-comutants_COAD-LUAD.xlsx"),
+    sheetName = "Sheet1",
+    append = FALSE
+  )
