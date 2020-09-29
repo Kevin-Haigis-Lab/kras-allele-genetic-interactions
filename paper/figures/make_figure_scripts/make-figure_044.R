@@ -37,7 +37,7 @@ get_max_val <- function(gg) {
   return(max(c(data$upper_ci, data$observed_allele_frequency)))
 }
 
-panel_A_proto_list <- map(panel_A_plots, function(x) {
+panel_A_proto_list <- imap(panel_A_plots, function(x, idx) {
   max_val <- get_max_val(x)
   min_val <- (-0.1 / 0.45) * max_val
 
@@ -84,6 +84,15 @@ panel_A_proto_list <- map(panel_A_plots, function(x) {
         keyheight = unit(3, "mm")
       )
     )
+
+  if (idx %in% c(1, 3)) {
+    p <- p + labs(y = "observed frequency")
+  }
+
+  if (idx %in% c(3, 4)) {
+    p <- p + labs(x = "predicted frequency")
+  }
+
   return(p)
 })
 
@@ -99,10 +108,6 @@ panel_A <- wrap_plots(panel_A_proto_list, nrow = 2, guides = "collect") &
       legend.spacing.y = unit(3, "mm"),
       plot.margin = margin(3, 3, 3, 3, "mm")
     )
-
-for (i in seq(2, 4)) {
-  panel_A[[i]] <- panel_A[[i]] + labs(y = NULL)
-}
 
 panel_A <- (panel_A | guide_area()) +
   plot_layout(widths = c(20, 1))
