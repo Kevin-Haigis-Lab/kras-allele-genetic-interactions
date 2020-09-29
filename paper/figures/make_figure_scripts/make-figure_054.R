@@ -1,13 +1,13 @@
-# Figure 053. #> Distributions and statistics for levels of mutational
-#  signatures in tumor samples of various KRAS alleles.
+# Figure 054. #> Distributions and statistics for probability of mutational
+#  signatures to have caused the various KRAS alleles.
 
-FIGNUM <- 53
+FIGNUM <- 54
 
 #> SET THE FIGURE DIMENSIONS
 FIG_DIMENSIONS <- get_figure_dimensions(2, "tall")
 
 
-theme_fig53 <- function(tag_margin = margin(-1, -1, -1, -1, "mm")) {
+theme_fig54 <- function(tag_margin = margin(-1, -1, -1, -1, "mm")) {
   theme_comutation() %+replace%
   theme(
     legend.title = element_blank(),
@@ -17,15 +17,36 @@ theme_fig53 <- function(tag_margin = margin(-1, -1, -1, -1, "mm")) {
   )
 }
 
+patch_sizes <- list(
+  c(1, 3),
+  c(1, 10),
+  c(1, 4),
 
+  c(1, 10),
+  c(1, 10),
+  c(1, 9),
+  c(1, 10),
+  c(1, 10),
 
-prepare_ridge_patch <- function(p) {
-  p
+  c(1, 10),
+  c(1, 10),
+  c(1, 10),
+  c(1, 10),
+
+  c(1, 4),
+  c(1, 10),
+  c(1, 8),
+  c(1, 10),
+  c(1, 10)
+)
+
+prepare_ridge_patch <- function(p, idx) {
+  p + plot_layout(widths = patch_sizes[[idx]])
 }
 
 
-all_panels <- read_fig_proto("ggridge-stats_all-plots") %>%
-  map(prepare_ridge_patch)
+all_panels <- read_fig_proto("ggridge-stats-causation_all-plots") %>%
+  imap(prepare_ridge_patch)
 
 
 #### ---- Figure assembly ---- ####
@@ -58,12 +79,17 @@ make_cancer_label <- function(cancer) {
 {
   # COMPLETE FIGURE
   coad_design <- "
-  AABB
-  CCDD
+  ABC
+  "
+
+  luad_design <- "
+  AABBCC
+  DDDEEE
   "
 
   mm_design <- "
-  AABBCC
+  AB
+  CD
   "
 
   paad_design <- "
@@ -71,10 +97,10 @@ make_cancer_label <- function(cancer) {
   DDDEEE
   "
 
-  coad_panels <- wrap_plots(all_panels[1:4], design = coad_design)
-  luad_panels <- wrap_plots(all_panels[5:8], design = coad_design)
-  mm_panels <- wrap_plots(all_panels[9:11], design = mm_design)
-  paad_panels <- wrap_plots(all_panels[12:16], design = paad_design)
+  coad_panels <- wrap_plots(all_panels[1:3], design = coad_design)
+  luad_panels <- wrap_plots(all_panels[4:8], design = luad_design)
+  mm_panels <- wrap_plots(all_panels[9:12], design = mm_design)
+  paad_panels <- wrap_plots(all_panels[13:17], design = paad_design)
 
   full_figure <- (
     ((make_cancer_label("COAD") | coad_panels) + plot_layout(widths = c(1, 30))) /
@@ -82,7 +108,7 @@ make_cancer_label <- function(cancer) {
     ((make_cancer_label("MM") | mm_panels) + plot_layout(widths = c(1, 30))) /
     ((make_cancer_label("PAAD") | paad_panels) + plot_layout(widths = c(1, 30)))
   ) +
-  plot_layout(heights = c(2, 2, 1, 2))
+  plot_layout(heights = c(1, 2, 2, 2))
 
   save_figure(
     full_figure,

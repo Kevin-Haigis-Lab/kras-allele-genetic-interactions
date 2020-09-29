@@ -144,7 +144,8 @@ p <- all_ranked_allele_predictions %>%
   filter_kras_allele_tested() %>%
   plot_allele_probability_barplot(geombar_position = "fill", max_pred_idx = 7)
 p <- p +
-  scale_y_continuous(expand = c(0, 0))
+  scale_y_continuous(expand = c(0, 0)) +
+  labs(y = "fraction of tumor samples")
 ggsave_wrapper(
   p,
   plot_path(GRAPHS_DIR, "all-allele-prob-ranking_fill_barplot.svg"),
