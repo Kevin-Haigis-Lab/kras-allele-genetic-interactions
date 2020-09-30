@@ -18,7 +18,7 @@ theme_fig54 <- function(tag_margin = margin(-1, -1, -1, -1, "mm")) {
 }
 
 patch_sizes <- list(
-  c(1, 3),
+  c(2, 5),
   c(1, 10),
   c(1, 4),
 

@@ -637,7 +637,12 @@ alleles_tested_per_cancer <- allele_signature_associations %>%
   ungroup()
 
 
-ggridge_plot_signatures_pgridge <- function(ms_df, signature) {
+ggridge_plot_signatures_pgridge <- function(ms_df,
+                                            signature,
+                                            x_title = NULL) {
+
+  if (is.null(x_title)) { x_title <- "mutational signature {signature}" }
+
   ms_df %>%
     ggplot(aes(x = contribution, y = allele)) +
     geom_density_ridges(
@@ -667,7 +672,7 @@ ggridge_plot_signatures_pgridge <- function(ms_df, signature) {
       axis.ticks.x = element_blank()
     ) +
     labs(
-      x = glue("mutational signature {signature} level"),
+      x = glue(x_title),
       y = NULL
     )
 }
@@ -796,6 +801,7 @@ ggridge_plot_signatures <- function(signature,
                                     ms_df,
                                     fn_glue,
                                     alleles_tested = NULL,
+                                    ggridge_x_title = NULL,
                                     stats_plot_add_height = 1.5,
                                     patch_widths = c(1, 10)) {
   mod_ms_df <- ms_df %>%
@@ -811,7 +817,8 @@ ggridge_plot_signatures <- function(signature,
 
   ridge_plots <- ggridge_plot_signatures_pgridge(
     mod_ms_df,
-    signature = signature
+    signature = signature,
+    x_title = ggridge_x_title
   )
 
   stats_plot <- ggridge_plot_signatures_pstats(
@@ -876,7 +883,8 @@ all_plots <- allele_signature_associations %>%
   pmap(
     ggridge_plot_signatures,
     ms_df = mutsig_noartifact_df,
-    fn_glue = "ggridge_sig-levels_stats_{cancer}_sig{signature}.svg"
+    fn_glue = "ggridge_sig-levels_stats_{cancer}_sig{signature}.svg",
+    ggridge_x_title = "mutational signature {signature} level"
   )
 
 saveFigRds(
@@ -922,7 +930,8 @@ all_plots <- allele_signature_causation_stats %>%
   pmap(
     ggridge_plot_signatures,
     ms_df = MOD_kras_allele_causation_mutsig_df(),
-    fn_glue = "ggridge_sig-causation_stats_{cancer}_sig{signature}.svg"
+    fn_glue = "ggridge_sig-causation_stats_{cancer}_sig{signature}.svg",
+    ggridge_x_title = "probability of causation by signature {signature}"
   )
 
 saveFigRds(
