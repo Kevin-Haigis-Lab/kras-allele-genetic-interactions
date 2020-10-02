@@ -17,15 +17,29 @@ theme_fig53 <- function(tag_margin = margin(-1, -1, -1, -1, "mm")) {
   )
 }
 
+patch_sizes <- list(
+  c(1, 10),
+  c(1, 10),
 
+  c(1, 10),
+  c(1, 6),
 
-prepare_ridge_patch <- function(p) {
-  p
+  c(1, 6),
+  c(1, 8),
+  c(1, 10),
+
+  c(1, 8),
+  c(1, 6),
+  c(1, 6)
+)
+
+prepare_ridge_patch <- function(p, idx) {
+  p + plot_layout(widths = patch_sizes[[idx]])
 }
 
 
 all_panels <- read_fig_proto("ggridge-stats_all-plots") %>%
-  map(prepare_ridge_patch)
+  imap(prepare_ridge_patch)
 
 
 #### ---- Figure assembly ---- ####
@@ -60,7 +74,10 @@ make_cancer_label <- function(cancer) {
   # COMPLETE FIGURE
   coad_design <- "
   AABB
-  CCDD
+  "
+
+  luad_design <- "
+  AABB
   "
 
   mm_design <- "
@@ -69,13 +86,12 @@ make_cancer_label <- function(cancer) {
 
   paad_design <- "
   AABBCC
-  DDDEEE
   "
 
-  coad_panels <- wrap_plots(all_panels[1:4], design = coad_design)
-  luad_panels <- wrap_plots(all_panels[5:8], design = coad_design)
-  mm_panels <- wrap_plots(all_panels[9:11], design = mm_design)
-  paad_panels <- wrap_plots(all_panels[12:16], design = paad_design)
+  coad_panels <- wrap_plots(all_panels[1:2], design = coad_design)
+  luad_panels <- wrap_plots(all_panels[3:4], design = luad_design)
+  mm_panels <- wrap_plots(all_panels[5:7], design = mm_design)
+  paad_panels <- wrap_plots(all_panels[8:10], design = paad_design)
 
   full_figure <- (
     ((make_cancer_label("COAD") | coad_panels) + plot_layout(widths = c(1, 30))) /
@@ -83,7 +99,7 @@ make_cancer_label <- function(cancer) {
     ((make_cancer_label("MM") | mm_panels) + plot_layout(widths = c(1, 30))) /
     ((make_cancer_label("PAAD") | paad_panels) + plot_layout(widths = c(1, 30)))
   ) +
-  plot_layout(heights = c(2, 2, 1, 2))
+  plot_layout(heights = c(2, 2, 2, 2))
 
   save_figure(
     full_figure,

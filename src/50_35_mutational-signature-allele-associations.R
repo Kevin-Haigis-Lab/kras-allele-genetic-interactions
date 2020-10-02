@@ -846,21 +846,21 @@ ggridge_plot_signatures <- function(signature,
 plot_vars <- tribble(
   ~signature, ~cancer, ~stats_plot_add_height, ~patch_widths,
   "8", "COAD", 1.1, c(1, 10),
-  "17", "COAD", 1.1, c(1, 10),
+  # "17", "COAD", 1.1, c(1, 10),
   "18", "COAD", 1.15, c(1, 10),
-  "N3V2", "COAD", 1.15, c(1, 10),
+  # "N3V2", "COAD", 1.15, c(1, 10),
   "2", "LUAD", 0.9, c(1, 10),
   "4", "LUAD", 1.0, c(1, 6),
-  "15", "LUAD", 1.2, c(1, 10),
-  "18", "LUAD", 1.15, c(1, 10),
+  # "15", "LUAD", 1.2, c(1, 10),
+  # "18", "LUAD", 1.15, c(1, 10),
   "2", "MM", 1.05, c(1, 10),
   "5", "MM", 0.8, c(1, 10),
   "9", "MM", 1.2, c(1, 10),
   "1", "PAAD", 1.15, c(1, 10),
   "5", "PAAD", 1.2, c(1, 10),
-  "6", "PAAD", 1.2, c(1, 10),
+  # "6", "PAAD", 1.2, c(1, 10),
   "8", "PAAD", 1.1, c(1, 10),
-  "17", "PAAD", 1.1, c(1, 10),
+  # "17", "PAAD", 1.1, c(1, 10),
 )
 
 order_by_mutsig_then_modify <- function(df) {
@@ -878,7 +878,7 @@ all_plots <- allele_signature_associations %>%
   ungroup() %>%
   left_join(alleles_tested_per_cancer, by = "cancer") %>%
   rename(stats_df = data) %>%
-  left_join(plot_vars, by = c("cancer", "signature")) %>%
+  inner_join(plot_vars, by = c("cancer", "signature")) %>%
   order_by_mutsig_then_modify() %>%
   pmap(
     ggridge_plot_signatures,
@@ -893,39 +893,39 @@ saveFigRds(
 )
 
 
-plot_vars <- tribble(
+plot_vars_2 <- tribble(
   ~signature, ~cancer, ~patch_widths, ~ stats_plot_add_height,
   "1", "COAD", c(1, 10), 0.7,
   "8", "COAD", c(1, 10), 1.0,
   "18", "COAD", c(1, 10), 1.0,
   "1", "LUAD", c(1, 10), 1.1,
-  "2", "LUAD", c(1, 10), 1.0,
+  # "2", "LUAD", c(1, 10), 1.0,
   "4", "LUAD", c(1, 10), 0.9,
   "5", "LUAD", c(1, 10), 0.7,
   "18", "LUAD", c(1, 10), 1.15,
-  "1", "MM", c(1, 10), 1.0,
-  "2", "MM", c(1, 10), 1.0,
+  # "1", "MM", c(1, 10), 1.0,
+  # "2", "MM", c(1, 10), 1.0,
   "5", "MM", c(1, 10), 0.9,
   "9", "MM", c(1, 10), 0.9,
   "1", "PAAD", c(1, 10), 0.65,
   "5", "PAAD", c(1, 10), 0.6,
-  "6", "PAAD", c(1, 10), 1.2,
+  # "6", "PAAD", c(1, 10), 1.2,
   "8", "PAAD", c(1, 10), 1.0,
   "17", "PAAD", c(1, 10), 1.2,
 )
 
-all_plots <- allele_signature_causation_stats %>%
+all_plots_2 <- allele_signature_causation_stats %>%
   filter(p_value < 0.05) %>%
   distinct(signature, cancer, group1, group2, p_value) %>%
   group_by(cancer, signature) %>%
   nest() %>%
   ungroup() %>%
-  left_join(alleles_tested_per_cancer, by = "cancer") %>%
+  inner_join(alleles_tested_per_cancer, by = "cancer") %>%
   mutate(
     alleles_tested = map(alleles_tested, ~ str_remove(.x, "KRAS_"))
   ) %>%
   rename(stats_df = data) %>%
-  left_join(plot_vars, by = c("cancer", "signature")) %>%
+  inner_join(plot_vars_2, by = c("cancer", "signature")) %>%
   order_by_mutsig_then_modify() %>%
   pmap(
     ggridge_plot_signatures,
@@ -935,6 +935,6 @@ all_plots <- allele_signature_causation_stats %>%
   )
 
 saveFigRds(
-  all_plots,
+  all_plots_2,
   "ggridge-stats-causation_all-plots"
 )

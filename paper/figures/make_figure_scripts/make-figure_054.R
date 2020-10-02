@@ -23,19 +23,15 @@ patch_sizes <- list(
   c(1, 4),
 
   c(1, 10),
-  c(1, 10),
   c(1, 9),
   c(1, 10),
   c(1, 10),
 
   c(1, 10),
   c(1, 10),
-  c(1, 10),
-  c(1, 10),
 
-  c(1, 4),
+  c(1, 6),
   c(1, 10),
-  c(1, 8),
   c(1, 10),
   c(1, 10)
 )
@@ -83,24 +79,23 @@ make_cancer_label <- function(cancer) {
   "
 
   luad_design <- "
-  AABBCC
-  DDDEEE
-  "
-
-  mm_design <- "
   AB
   CD
   "
 
+  mm_design <- "
+  AB
+  "
+
   paad_design <- "
-  AABBCC
-  DDDEEE
+  AB
+  CD
   "
 
   coad_panels <- wrap_plots(all_panels[1:3], design = coad_design)
-  luad_panels <- wrap_plots(all_panels[4:8], design = luad_design)
-  mm_panels <- wrap_plots(all_panels[9:12], design = mm_design)
-  paad_panels <- wrap_plots(all_panels[13:17], design = paad_design)
+  luad_panels <- wrap_plots(all_panels[4:7], design = luad_design)
+  mm_panels <- wrap_plots(all_panels[8:9], design = mm_design)
+  paad_panels <- wrap_plots(all_panels[10:13], design = paad_design)
 
   full_figure <- (
     ((make_cancer_label("COAD") | coad_panels) + plot_layout(widths = c(1, 30))) /
@@ -108,7 +103,7 @@ make_cancer_label <- function(cancer) {
     ((make_cancer_label("MM") | mm_panels) + plot_layout(widths = c(1, 30))) /
     ((make_cancer_label("PAAD") | paad_panels) + plot_layout(widths = c(1, 30)))
   ) +
-  plot_layout(heights = c(1, 2, 2, 2))
+  plot_layout(heights = c(1, 2, 1, 2))
 
   save_figure(
     full_figure,
