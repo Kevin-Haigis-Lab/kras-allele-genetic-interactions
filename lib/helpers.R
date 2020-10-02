@@ -227,11 +227,13 @@ names(mutation_pal) <- unique(unname(unlist(
   mapping_mutation_types_to_human_readable
 )))
 
-ggsave_wrapper(
-  show_palette(mutation_pal, "square", label_size = 4, font_family = "Arial"),
-  plot_path("00_miscellaneous", "mutation_pal.svg"),
-  width = 12, height = 4
-)
+if (str_detect(sessionInfo()$running, "CentOS")) {
+  ggsave_wrapper(
+    show_palette(mutation_pal, "square", label_size = 4, font_family = "Arial"),
+    plot_path("00_miscellaneous", "mutation_pal.svg"),
+    width = 12, height = 4
+  )
+}
 
 
 # colors for KRAS alleles
@@ -275,11 +277,13 @@ kras_dark_lbls <- c(
   "WT"
 )
 
-ggsave_wrapper(
-  show_palette(short_allele_pal, "square", font_family = "Arial"),
-  plot_path("00_miscellaneous", "short_alleles_pal.svg"),
-  "small"
-)
+if (str_detect(sessionInfo()$running, "CentOS")) {
+  ggsave_wrapper(
+    show_palette(short_allele_pal, "square", font_family = "Arial"),
+    plot_path("00_miscellaneous", "short_alleles_pal.svg"),
+    "small"
+  )
+}
 
 
 codon_palette <- c(
@@ -291,11 +295,13 @@ codon_palette <- c(
   "WT" = "#A0A3AF"
 )
 
-ggsave_wrapper(
-  show_palette(codon_palette, "square", font_family = "Arial"),
-  plot_path("00_miscellaneous", "codon_palette.svg"),
-  "small"
-)
+if (str_detect(sessionInfo()$running, "CentOS")) {
+  ggsave_wrapper(
+    show_palette(codon_palette, "square", font_family = "Arial"),
+    plot_path("00_miscellaneous", "codon_palette.svg"),
+    "small"
+  )
+}
 
 
 # colors for cancers
@@ -307,11 +313,13 @@ cancer_palette <- c(
   SKCM = "grey80"
 )
 
-ggsave_wrapper(
-  show_palette(cancer_palette, num_rows = 1, font_family = "Arial"),
-  plot_path("00_miscellaneous", "cancer_palette.svg"),
-  width = 6, height = 0.3
-)
+if (str_detect(sessionInfo()$running, "CentOS")) {
+  ggsave_wrapper(
+    show_palette(cancer_palette, num_rows = 1, font_family = "Arial"),
+    plot_path("00_miscellaneous", "cancer_palette.svg"),
+    width = 6, height = 0.3
+  )
+}
 
 
 
@@ -338,13 +346,15 @@ synthetic_lethal_pal <- c(
   down = "#A33BD5" # purple
 )
 
-ggsave_wrapper(
-  show_palette(c(comut_mutex_pal, synthetic_lethal_pal),
-    font_family = "Arial"
-  ),
-  plot_path("00_miscellaneous", "genetic_interaction_pal.svg"),
-  width = 3.5, height = 2
-)
+if (str_detect(sessionInfo()$running, "CentOS")) {
+  ggsave_wrapper(
+    show_palette(c(comut_mutex_pal, synthetic_lethal_pal),
+      font_family = "Arial"
+    ),
+    plot_path("00_miscellaneous", "genetic_interaction_pal.svg"),
+    width = 3.5, height = 2
+  )
+}
 
 
 
@@ -370,7 +380,10 @@ make_citations_bib <- function(dest = CITATIONS_FILE) {
     )
   )
 }
-make_citations_bib()
+
+if (str_detect(sessionInfo()$running, "CentOS")) {
+  make_citations_bib()
+}
 
 
 
