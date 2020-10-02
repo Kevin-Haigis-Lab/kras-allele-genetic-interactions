@@ -884,7 +884,7 @@ all_plots <- allele_signature_associations %>%
     ggridge_plot_signatures,
     ms_df = mutsig_noartifact_df,
     fn_glue = "ggridge_sig-levels_stats_{cancer}_sig{signature}.svg",
-    ggridge_x_title = "mutational signature {signature} level"
+    ggridge_x_title = "mutational signature {signature} composition"
   )
 
 saveFigRds(

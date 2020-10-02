@@ -29,6 +29,7 @@ all_panels <- read_fig_proto("ggridge-stats_all-plots") %>%
 
 
 #### ---- Figure assembly ---- ####
+# Rscript: "src/50_35_mutational-signature-allele-associations.R"
 
 make_cancer_label <- function(cancer) {
   tibble(x = 0, y = 0, label = cancer) %>%

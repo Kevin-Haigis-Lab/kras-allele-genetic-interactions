@@ -54,5 +54,3 @@ comutation_proj_lines_of_code <- function() {
   num_lines <- sum(d$num_lines)
   message(glue("#> There are {num_lines} lines of code in {num_files} files."))
 }
-
-comutation_proj_lines_of_code()

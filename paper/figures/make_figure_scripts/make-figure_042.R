@@ -120,7 +120,11 @@ panel_C_plots <- paste0(
 )
 
 panel_C <- lapply(panel_C_plots, read_fig_proto) %>%
-  imap(style_mutsig_prob_barplots, tag = "c", y = "signature composition") %>%
+  imap(
+    style_mutsig_prob_barplots,
+    tag = "c",
+    y = "avg. signature composition"
+  ) %>%
   wrap_plots(nrow = 1, widths = mutsig_barplot_widths)
 
 
