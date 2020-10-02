@@ -649,19 +649,21 @@ ggridge_plot_signatures_pgridge <- function(ms_df,
   ms_df %>%
     ggplot(aes(x = contribution, y = allele)) +
     geom_density_ridges(
-      aes(color = allele, fill = allele),
+      # aes(color = allele, fill = allele),
+      color = "grey25",
+      fill = "grey50",
       scale = 1.2,
       rel_min_height = 0.01,
       alpha = 0.4
     ) +
-    scale_color_manual(
-      values = short_allele_pal,
-      guide = FALSE
-    ) +
-    scale_fill_manual(
-      values = short_allele_pal,
-      guide = FALSE
-    ) +
+    # scale_color_manual(
+    #   values = short_allele_pal,
+    #   guide = FALSE
+    # ) +
+    # scale_fill_manual(
+    #   values = short_allele_pal,
+    #   guide = FALSE
+    # ) +
     scale_x_continuous(
       limits = c(0, max(ms_df$contribution)),
       expand = c(0, 0)
