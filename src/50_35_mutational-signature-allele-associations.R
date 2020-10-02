@@ -878,8 +878,8 @@ boxplot_plot_signatures_pboxes <- function(df, signature, y_title = NULL) {
       outlier.shape = NA
     ) +
     geom_jitter(
-      alpha = 0.3,
-      size = 0.3,
+      alpha = 0.1,
+      size = 0.2,
       width = 0.2,
       height = 0
     ) +
@@ -965,7 +965,9 @@ optimize_box_stats_bar_placement <- function(df, raise_by) {
 }
 
 
-create_boxplot_stats_plotting_dataframe <- function(ms_df, stats_df, fct_dist = 0.05) {
+create_boxplot_stats_plotting_dataframe <- function(ms_df,
+                                                    stats_df,
+                                                    fct_dist = 0.05) {
   raise_by <- fct_dist * (max(ms_df$contribution) - min(ms_df$contribution))
 
   calc_sort_value <- function(g1, g2) {
@@ -1010,12 +1012,12 @@ annotate_boxplot_with_statbars <- function(bp, bars_df) {
     geom_line(
       aes(x = x, y = y, group = idx),
       data = long_bars_df,
-      size = 0.5,
+      size = 0.3,
       color = "grey15"
     ) +
     geom_text(
       aes(x = stars_x, y = y, label = stars_lbl),
-      vjust = 0.3,
+      vjust = 0.4,
       size = 3.5,
       family = "Arial",
       color = "grey15",
@@ -1037,7 +1039,7 @@ boxplot_plot_signatures <- function(signature,
                                     fn_glue,
                                     alleles_tested = NULL,
                                     box_y_title = NULL,
-                                    y_expand_up = 0.04,
+                                    y_expand_up = 0.05,
                                     ...) {
   mod_ms_df <- prep_mutsig_dataframe_for_plotting(
     ms_df,
