@@ -807,7 +807,8 @@ prep_mutsig_dataframe_for_plotting <- function(ms_df,
     filter(cancer == !!cancer & signature == !!signature) %>%
     mutate(
       allele = ifelse(ras_allele %in% !!alleles_tested, ras_allele, "Other"),
-      allele = factor_alleles(allele)
+      allele = factor_alleles(allele),
+      allele = fct_drop(allele)
     )
 }
 
@@ -855,7 +856,230 @@ ggridge_plot_signatures <- function(signature,
 }
 
 
-plot_vars <- tribble(
+#### ---- Box-plots of signature levels and prob. of cause ---- ####
+
+
+boxplot_plot_signatures_pboxes <- function(df, signature, y_title = NULL) {
+  if (is.null(y_title)) {
+    y_title <- "mutational signature {signature}"
+  }
+
+  set.seed(0)
+
+  df %>%
+    ggplot(aes(x = allele, y = contribution)) +
+    geom_boxplot(
+      color = "grey25",
+      fill = "grey50",
+      alpha = 0.5,
+      width = 0.5,
+      outlier.shape = NA
+    ) +
+    geom_jitter(
+      alpha = 0.3,
+      size = 0.3,
+      width = 0.2,
+      height = 0
+    ) +
+    theme_bw(base_size = 7, base_family = "Arial") +
+    theme(
+      panel.grid.major.x = element_blank(),
+      axis.ticks = element_blank()
+    ) +
+    labs(
+      x = NULL,
+      y = glue(y_title),
+      title = NULL
+    )
+}
+
+
+get_max_value_between <- function(g1, g2, df) {
+  n1 <- as.numeric(g1)
+  n2 <- as.numeric(g2)
+  df %>%
+    filter(between(as.numeric(allele), min(n1, n2), max(n1, n2))) %>%
+    pull(contribution) %>%
+    unlist() %>%
+    max()
+}
+
+
+optimize_box_stats_bar_placement <- function(df, raise_by) {
+  for (i in sort(df$idx)) {
+    if (i == 1) {
+      next
+    }
+
+    g1_i <- as.numeric(df$group1[[i]])
+    g2_i <- as.numeric(df$group2[[i]])
+    n1_i <- min(g1_i, g2_i)
+    n2_i <- max(g1_i, g2_i)
+
+    is_overlaping <- TRUE
+    k <- 0
+
+    while (is_overlaping) {
+      k <- k + 1
+      if (k > 20) {
+        stop("Loop has continued for 10 iterations!")
+      }
+
+      y_i <- df$y[[i]]
+
+      other_df <- df %>%
+        filter(idx < i & near(y, y_i, tol = 0.01))
+
+      if (nrow(other_df) == 0) {
+        is_overlaping <- FALSE
+        break
+      }
+
+      # styler: off
+      other_df <- other_df %>%
+        filter(
+          between(as.numeric(group1), n1_i, n2_i) |
+          between(as.numeric(group2), n1_i, n2_i) |
+          (
+            as.numeric(group1) <= n1_i & as.numeric(group1) <= n2_i &
+            as.numeric(group2) >= n1_i & as.numeric(group2) >= n2_i
+          ) |
+          (
+            as.numeric(group2) <= n1_i & as.numeric(group2) <= n2_i &
+            as.numeric(group1) >= n1_i & as.numeric(group1) >= n2_i
+          )
+        )
+      # styler: on
+
+      if (nrow(other_df) == 0) {
+        is_overlaping <- FALSE
+        break
+      }
+
+      df$y[i] <- df$y[i] + raise_by
+    }
+  }
+  return(df)
+}
+
+
+create_boxplot_stats_plotting_dataframe <- function(ms_df, stats_df, fct_dist = 0.05) {
+  raise_by <- fct_dist * (max(ms_df$contribution) - min(ms_df$contribution))
+
+  calc_sort_value <- function(g1, g2) {
+    g1 <- as.numeric(g1)
+    g2 <- as.numeric(g2)
+    n1 <- min(g1, g2)
+    n2 <- max(g1, g2)
+    return(n1 * n2 * n2)
+  }
+
+  stats_df %>%
+    mutate(sort_value = map2_dbl(group1, group2, calc_sort_value)) %>%
+    arrange(sort_value) %>%
+    mutate(
+      idx = row_number(),
+      y = map2_dbl(group1, group2, get_max_value_between, df = ms_df),
+      y = y + raise_by
+    ) %>%
+    optimize_box_stats_bar_placement(raise_by = raise_by)
+}
+
+
+add_star_label_data <- function(stats_df) {
+  stats_df %>%
+    mutate(
+      stars_lbl = assign_stars(p_value),
+      stars_x = map2_dbl(
+        as.numeric(group1),
+        as.numeric(group2),
+        ~ mean(c(.x, .y))
+      )
+    )
+}
+
+
+annotate_boxplot_with_statbars <- function(bp, bars_df) {
+  long_bars_df <- bars_df %>%
+    select(idx, group1, group2, y) %>%
+    pivot_longer(-c(idx, y), names_to = NULL, values_to = "x")
+
+  bp +
+    geom_line(
+      aes(x = x, y = y, group = idx),
+      data = long_bars_df,
+      size = 0.5,
+      color = "grey15"
+    ) +
+    geom_text(
+      aes(x = stars_x, y = y, label = stars_lbl),
+      vjust = 0.3,
+      size = 3.5,
+      family = "Arial",
+      color = "grey15",
+      data = bars_df
+    )
+}
+
+mutsig_boxplot_breaks <- function(ms_df) {
+  min_y <- 0
+  max_y <- round(max(ms_df$contribution), 1)
+  pretty(c(min_y, max_y), 4)
+}
+
+
+boxplot_plot_signatures <- function(signature,
+                                    cancer,
+                                    ms_df,
+                                    stats_df,
+                                    fn_glue,
+                                    alleles_tested = NULL,
+                                    box_y_title = NULL,
+                                    y_expand_up = 0.04,
+                                    ...) {
+  mod_ms_df <- prep_mutsig_dataframe_for_plotting(
+    ms_df,
+    cancer = cancer,
+    signature = signature,
+    alleles_tested = alleles_tested
+  )
+
+  box_plot <- boxplot_plot_signatures_pboxes(
+    mod_ms_df,
+    signature = signature,
+    y_title = box_y_title
+  ) + scale_y_continuous(
+    breaks = mutsig_boxplot_breaks(mod_ms_df),
+    expand = expansion(mult = c(0, y_expand_up))
+  )
+
+  ras_levels <- as.character(unique(sort(mod_ms_df$allele)))
+
+  mod_stats_df <- stats_df %>%
+    mutate(
+      group1 = factor(group1, levels = ras_levels),
+      group2 = factor(group2, levels = ras_levels)
+    )
+
+  stats_bars_df <- create_boxplot_stats_plotting_dataframe(
+    mod_ms_df,
+    mod_stats_df
+  ) %>%
+    add_star_label_data()
+  box_plot <- annotate_boxplot_with_statbars(box_plot, stats_bars_df)
+  ggsave_wrapper(
+    box_plot,
+    plot_path(GRAPHS_DIR, glue(fn_glue)),
+    "small"
+  )
+  return(box_plot)
+}
+
+
+#### ---- Make ggridges and boxplots ---- ####
+
+
+plot_vars_levels <- tribble(
   ~signature, ~cancer, ~stats_plot_add_height, ~patch_widths,
   "8", "COAD", 1.1, c(1, 10),
   # "17", "COAD", 1.1, c(1, 10),
@@ -882,7 +1106,7 @@ order_by_mutsig_then_modify <- function(df) {
     mutate(signature = modify_mutsig_names(as.character(signature)))
 }
 
-all_plots <- allele_signature_associations %>%
+allele_signature_associations_TOPLOT <- allele_signature_associations %>%
   filter(p_value < 0.05) %>%
   distinct(signature, cancer, group1, group2, p_value) %>%
   group_by(cancer, signature) %>%
@@ -890,23 +1114,11 @@ all_plots <- allele_signature_associations %>%
   ungroup() %>%
   left_join(alleles_tested_per_cancer, by = "cancer") %>%
   rename(stats_df = data) %>%
-  inner_join(plot_vars, by = c("cancer", "signature")) %>%
-  order_by_mutsig_then_modify() %T>%
-  saveRDS("allele_signature_associations.RDS") %>%
-  pmap(
-    ggridge_plot_signatures,
-    ms_df = mutsig_noartifact_df,
-    fn_glue = "ggridge_sig-levels_stats_{cancer}_sig{signature}.svg",
-    ggridge_x_title = "mutational signature {signature} composition"
-  )
-
-saveFigRds(
-  all_plots,
-  "ggridge-stats_all-plots"
-)
+  inner_join(plot_vars_levels, by = c("cancer", "signature")) %>%
+  order_by_mutsig_then_modify()
 
 
-plot_vars_2 <- tribble(
+plot_vars_cause <- tribble(
   ~signature, ~cancer, ~patch_widths, ~stats_plot_add_height,
   "1", "COAD", c(1, 10), 0.7,
   "8", "COAD", c(1, 10), 1.0,
@@ -927,7 +1139,7 @@ plot_vars_2 <- tribble(
   "17", "PAAD", c(1, 10), 1.2,
 )
 
-all_plots_2 <- allele_signature_causation_stats %>%
+allele_signature_causation_stats_TOPLOT <- allele_signature_causation_stats %>%
   filter(p_value < 0.05) %>%
   distinct(signature, cancer, group1, group2, p_value) %>%
   group_by(cancer, signature) %>%
@@ -938,17 +1150,44 @@ all_plots_2 <- allele_signature_causation_stats %>%
     alleles_tested = map(alleles_tested, ~ str_remove(.x, "KRAS_"))
   ) %>%
   rename(stats_df = data) %>%
-  inner_join(plot_vars_2, by = c("cancer", "signature")) %>%
-  order_by_mutsig_then_modify() %T>%
-  saveRDS("allele_signature_causation_stats.RDS") %>%
+  inner_join(plot_vars_cause, by = c("cancer", "signature")) %>%
+  order_by_mutsig_then_modify()
+
+
+ggridge_levels_plots <- allele_signature_associations_TOPLOT %>%
+  pmap(
+    ggridge_plot_signatures,
+    ms_df = mutsig_noartifact_df,
+    fn_glue = "ggridge_sig-levels_stats_{cancer}_sig{signature}.svg",
+    ggridge_x_title = "mutational signature {signature} composition"
+  )
+saveFigRds(ggridge_levels_plots, "ggridge-stats_all-plots")
+
+ggridge_cause_plots <- allele_signature_causation_stats_TOPLOT %>%
   pmap(
     ggridge_plot_signatures,
     ms_df = MOD_kras_allele_causation_mutsig_df(),
     fn_glue = "ggridge_sig-causation_stats_{cancer}_sig{signature}.svg",
     ggridge_x_title = "probability of causation by signature {signature}"
   )
+saveFigRds(ggridge_cause_plots, "ggridge-stats-causation_all-plots")
 
-saveFigRds(
-  all_plots_2,
-  "ggridge-stats-causation_all-plots"
-)
+
+
+box_plots_levels <- allele_signature_associations_TOPLOT %>%
+  pmap(
+    boxplot_plot_signatures,
+    ms_df = mutsig_noartifact_df,
+    fn_glue = "boxplot_sig-levels_stats_{cancer}_sig{signature}.svg",
+    box_y_title = "mutational signature {signature} composition"
+  )
+saveFigRds(box_plots_levels, "box_plots_sig_levels")
+
+box_plots_cause <- allele_signature_causation_stats_TOPLOT %>%
+  pmap(
+    boxplot_plot_signatures,
+    ms_df = MOD_kras_allele_causation_mutsig_df(),
+    fn_glue = "boxplot_sig-causation_stats_{cancer}_sig{signature}.svg",
+    box_y_title = "prob. of causation by signature {signature}"
+  )
+saveFigRds(box_plots_cause, "box_plots_sig_cause")
