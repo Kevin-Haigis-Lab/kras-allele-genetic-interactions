@@ -47,7 +47,7 @@ all_panels <- read_fig_proto("ggridge-stats-causation_all-plots") %>%
 
 #### ---- Figure assembly ---- ####
 
-make_cancer_label <- function(cancer) {
+make_cancer_label <- function(cancer, tag) {
   tibble(x = 0, y = 0, label = cancer) %>%
     ggplot(aes(x, y)) +
     geom_text(
@@ -69,7 +69,13 @@ make_cancer_label <- function(cancer) {
       expand = c(0, 0)
     ) +
     scale_y_continuous(expand = expansion(mult = c(0.03, 0.03))) +
-    theme_void(base_size = 7, base_family = "Arial")
+    theme_void(base_size = 7, base_family = "Arial") +
+    theme(
+      plot.tag = element_text(size = 7,
+                              face = "bold",
+                              margin = margin(-1, -1, -1, -1, "mm"))
+    ) +
+    labs(tag = tag)
 }
 
 {
@@ -98,10 +104,22 @@ make_cancer_label <- function(cancer) {
   paad_panels <- wrap_plots(all_panels[10:13], design = paad_design)
 
   full_figure <- (
-    ((make_cancer_label("COAD") | coad_panels) + plot_layout(widths = c(1, 30))) /
-    ((make_cancer_label("LUAD") | luad_panels) + plot_layout(widths = c(1, 30))) /
-    ((make_cancer_label("MM") | mm_panels) + plot_layout(widths = c(1, 30))) /
-    ((make_cancer_label("PAAD") | paad_panels) + plot_layout(widths = c(1, 30)))
+    (
+      (make_cancer_label("COAD", tag = "a") | coad_panels) +
+      plot_layout(widths = c(1, 30))
+    ) /
+    (
+      (make_cancer_label("LUAD", tag = "b") | luad_panels) +
+      plot_layout(widths = c(1, 30))
+    ) /
+    (
+      (make_cancer_label("MM", tag = "c") | mm_panels) +
+      plot_layout(widths = c(1, 30))
+    ) /
+    (
+      (make_cancer_label("PAAD", tag = "d") | paad_panels) +
+      plot_layout(widths = c(1, 30))
+    )
   ) +
   plot_layout(heights = c(1, 2, 1, 2))
 
