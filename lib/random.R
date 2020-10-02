@@ -17,14 +17,13 @@ list_files_in_dir <- function(dir) {
 
 # The number of lines of code in this project
 comutation_proj_lines_of_code <- function() {
-
   proj_dirs <- c(
-      "src",
-      "munge",
-      "lib",
-      "tests",
-      file.path("paper", "figures", "make_figure_scripts")
-    )
+    "src",
+    "munge",
+    "lib",
+    "tests",
+    file.path("paper", "figures", "make_figure_scripts")
+  )
 
   d <- tibble(dir = proj_dirs) %>%
     mutate(file = map(dir, list_files_in_dir)) %>%

@@ -125,8 +125,9 @@ get_max_value_between <- function(g1, g2, df) {
 
 optimize_box_stats_bar_placement <- function(df, raise_by) {
   for (i in sort(df$idx)) {
-
-    if (i == 1) { next }
+    if (i == 1) {
+      next
+    }
 
     g1_i <- as.numeric(df$group1[[i]])
     g2_i <- as.numeric(df$group2[[i]])
@@ -136,16 +137,18 @@ optimize_box_stats_bar_placement <- function(df, raise_by) {
     is_overlaping <- TRUE
     k <- 0
 
-    while(is_overlaping) {
+    while (is_overlaping) {
       k <- k + 1
-      if (k > 20) { stop("Loop has continued for 10 iterations!") }
+      if (k > 20) {
+        stop("Loop has continued for 10 iterations!")
+      }
 
       y_i <- df$y[[i]]
 
       other_df <- df %>%
         filter(idx < i & near(y, y_i, tol = 0.01))
 
-      if(nrow(other_df) == 0) {
+      if (nrow(other_df) == 0) {
         is_overlaping <- FALSE
         break
       }
@@ -153,18 +156,18 @@ optimize_box_stats_bar_placement <- function(df, raise_by) {
       other_df <- other_df %>%
         filter(
           between(as.numeric(group1), n1_i, n2_i) |
-          between(as.numeric(group2), n1_i, n2_i) |
-          (
-            as.numeric(group1) <= n1_i & as.numeric(group1) <= n2_i &
-            as.numeric(group2) >= n1_i & as.numeric(group2) >= n2_i
-          ) |
-          (
-            as.numeric(group2) <= n1_i & as.numeric(group2) <= n2_i &
-            as.numeric(group1) >= n1_i & as.numeric(group1) >= n2_i
-          )
+            between(as.numeric(group2), n1_i, n2_i) |
+            (
+              as.numeric(group1) <= n1_i & as.numeric(group1) <= n2_i &
+                as.numeric(group2) >= n1_i & as.numeric(group2) >= n2_i
+            ) |
+            (
+              as.numeric(group2) <= n1_i & as.numeric(group2) <= n2_i &
+                as.numeric(group1) >= n1_i & as.numeric(group1) >= n2_i
+            )
         )
 
-      if(nrow(other_df) == 0) {
+      if (nrow(other_df) == 0) {
         is_overlaping <- FALSE
         break
       }
@@ -276,8 +279,10 @@ boxplot_plot_signatures <- function(signature,
       group2 = factor(group2, levels = ras_levels)
     )
 
-  stats_bars_df <- create_boxplot_stats_plotting_dataframe(mod_ms_df,
-                                                           mod_stats_df) %>%
+  stats_bars_df <- create_boxplot_stats_plotting_dataframe(
+    mod_ms_df,
+    mod_stats_df
+  ) %>%
     add_star_label_data()
   box_plot <- annotate_boxplot_with_statbars(box_plot, stats_bars_df)
   # ggsave_wrapper(

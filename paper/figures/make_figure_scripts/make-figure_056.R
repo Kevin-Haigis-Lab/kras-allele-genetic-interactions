@@ -3,33 +3,33 @@
 
 FIGNUM <- 56
 
-#> SET THE FIGURE DIMENSIONS
+# > SET THE FIGURE DIMENSIONS
 FIG_DIMENSIONS <- get_figure_dimensions(2, "tall")
 
 
 theme_fig56 <- function(tag_margin = margin(-1, -1, -1, -1, "mm")) {
   theme_comutation() %+replace%
-  theme(
-    legend.title = element_blank(),
-    plot.tag = element_text(size = 7,
-                            face = "bold",
-                            margin = tag_margin)
-  )
+    theme(
+      legend.title = element_blank(),
+      plot.tag = element_text(
+        size = 7,
+        face = "bold",
+        margin = tag_margin
+      )
+    )
 }
 
 
 prepare_ridge_patch <- function(p, idx) {
-
   i_to_turn_xaxis_text <- c(1:3, 10:13)
   if (idx %in% i_to_turn_xaxis_text) {
     p <- p +
-    theme_bw(base_size = 7, base_family = "Arial") +
-    theme(
-      panel.grid.major.x = element_blank(),
-      axis.ticks = element_blank(),
-      axis.text.x = element_text(angle = 35, hjust = 1)
-    )
-
+      theme_bw(base_size = 7, base_family = "Arial") +
+      theme(
+        panel.grid.major.x = element_blank(),
+        axis.ticks = element_blank(),
+        axis.text.x = element_text(angle = 35, hjust = 1)
+      )
   }
   return(p)
 }
@@ -65,13 +65,16 @@ make_cancer_label <- function(cancer, tag) {
     scale_y_continuous(expand = expansion(mult = c(0.03, 0.03))) +
     theme_void(base_size = 7, base_family = "Arial") +
     theme(
-      plot.tag = element_text(size = 7,
-                              face = "bold",
-                              margin = margin(-1, -1, -1, -1, "mm"))
+      plot.tag = element_text(
+        size = 7,
+        face = "bold",
+        margin = margin(-1, -1, -1, -1, "mm")
+      )
     ) +
     labs(tag = tag)
 }
 
+# styler: off
 {
   # COMPLETE FIGURE
   coad_design <- "
@@ -98,22 +101,22 @@ make_cancer_label <- function(cancer, tag) {
   full_figure <- (
     (
       (make_cancer_label("COAD", "a") | coad_panels) +
-      plot_layout(widths = c(1, 30))
+        plot_layout(widths = c(1, 30))
     ) /
     (
       (make_cancer_label("LUAD", "b") | luad_panels) +
-      plot_layout(widths = c(1, 30))
+        plot_layout(widths = c(1, 30))
     ) /
     (
       (make_cancer_label("MM", "c") | mm_panels) +
-      plot_layout(widths = c(1, 30))
+        plot_layout(widths = c(1, 30))
     ) /
     (
       (make_cancer_label("PAAD", "d") | paad_panels) +
-      plot_layout(widths = c(1, 30))
+        plot_layout(widths = c(1, 30))
     )
   ) +
-  plot_layout(heights = c(2, 2, 2, 2))
+    plot_layout(heights = c(2, 2, 2, 2))
 
   save_figure(
     full_figure,
@@ -121,3 +124,4 @@ make_cancer_label <- function(cancer, tag) {
     dim = FIG_DIMENSIONS
   )
 }
+# styler: on

@@ -3,18 +3,20 @@
 
 FIGNUM <- 54
 
-#> SET THE FIGURE DIMENSIONS
+# > SET THE FIGURE DIMENSIONS
 FIG_DIMENSIONS <- get_figure_dimensions(2, "tall")
 
 
 theme_fig54 <- function(tag_margin = margin(-1, -1, -1, -1, "mm")) {
   theme_comutation() %+replace%
-  theme(
-    legend.title = element_blank(),
-    plot.tag = element_text(size = 7,
-                            face = "bold",
-                            margin = tag_margin)
-  )
+    theme(
+      legend.title = element_blank(),
+      plot.tag = element_text(
+        size = 7,
+        face = "bold",
+        margin = tag_margin
+      )
+    )
 }
 
 patch_sizes <- list(
@@ -71,13 +73,16 @@ make_cancer_label <- function(cancer, tag) {
     scale_y_continuous(expand = expansion(mult = c(0.03, 0.03))) +
     theme_void(base_size = 7, base_family = "Arial") +
     theme(
-      plot.tag = element_text(size = 7,
-                              face = "bold",
-                              margin = margin(-1, -1, -1, -1, "mm"))
+      plot.tag = element_text(
+        size = 7,
+        face = "bold",
+        margin = margin(-1, -1, -1, -1, "mm")
+      )
     ) +
     labs(tag = tag)
 }
 
+# styler: off
 {
   # COMPLETE FIGURE
   coad_design <- "
@@ -106,22 +111,22 @@ make_cancer_label <- function(cancer, tag) {
   full_figure <- (
     (
       (make_cancer_label("COAD", tag = "a") | coad_panels) +
-      plot_layout(widths = c(1, 30))
+        plot_layout(widths = c(1, 30))
     ) /
     (
       (make_cancer_label("LUAD", tag = "b") | luad_panels) +
-      plot_layout(widths = c(1, 30))
+        plot_layout(widths = c(1, 30))
     ) /
     (
       (make_cancer_label("MM", tag = "c") | mm_panels) +
-      plot_layout(widths = c(1, 30))
+        plot_layout(widths = c(1, 30))
     ) /
     (
       (make_cancer_label("PAAD", tag = "d") | paad_panels) +
-      plot_layout(widths = c(1, 30))
+        plot_layout(widths = c(1, 30))
     )
   ) +
-  plot_layout(heights = c(1, 2, 1, 2))
+    plot_layout(heights = c(1, 2, 1, 2))
 
   save_figure(
     full_figure,
@@ -129,3 +134,4 @@ make_cancer_label <- function(cancer, tag) {
     dim = FIG_DIMENSIONS
   )
 }
+# styler: on
