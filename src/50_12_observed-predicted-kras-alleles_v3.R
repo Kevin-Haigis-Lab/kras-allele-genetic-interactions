@@ -348,7 +348,8 @@ calc_expected_frequency_boot <- function(data,
     left_join(exp_freqs, by = "kras_allele") %>%
     mutate(expected_allele_frequency = ifelse(
       is.na(expected_allele_frequency), 0, expected_allele_frequency
-    ))
+    )) %>%
+    select(kras_allele, expected_allele_frequency)
 
   return(deframe(allele_results))
 }
@@ -359,7 +360,8 @@ boot_cancer_expect_frequncies <- function(cancer, df, R = 1e3) {
   nested_df <- df %>%
     group_by(tumor_sample_barcode) %>%
     nest()
-  boot_res <- boot::boot(nested_df,
+  boot_res <- boot::boot(
+    nested_df,
     calc_expected_frequency_boot,
     R = R,
     all_alleles = unique(df$kras_allele)
@@ -373,7 +375,8 @@ boot_cancer_expect_frequncies <- function(cancer, df, R = 1e3) {
 
 # Extract the CIs from a boot object at an index.
 get_conf_intervals <- function(boot_obj, conf, index) {
-  boot::boot.ci(boot_obj,
+  boot::boot.ci(
+    boot_obj,
     index = index,
     conf = conf,
     type = "perc"
@@ -390,6 +393,7 @@ extract_boot_results <- function(boot_res, conf = 0.95) {
     bind_rows()
 }
 
+
 ## For KRAS alleles found in each cancer as a high frequency.
 
 # Results from bootstrapping the samples used for the calculation of the
@@ -397,13 +401,15 @@ extract_boot_results <- function(boot_res, conf = 0.95) {
 cache("kras_allele_predictions_boot_results",
   depends = c("kras_allele_predictions"),
   {
-    set.seed(0)
-
+    set.seed(123)
     kras_allele_predictions_boot_results <- kras_allele_predictions %>%
       group_by(cancer) %>%
       nest() %>%
       mutate(
-        boot_res = map2(cancer, data, boot_cancer_expect_frequncies,
+        boot_res = map2(
+          cancer,
+          data,
+          boot_cancer_expect_frequncies,
           R = 1e3
         ),
         boot_ci = map(boot_res, extract_boot_results)
@@ -437,13 +443,15 @@ save_supp_data(cancer_expect_frequencies, 6, "pred vs obs KRAS alleles")
 cache("all_kras_allele_predictions_boot_results",
   depends = c("all_kras_allele_predictions"),
   {
-    set.seed(0)
-
+    set.seed(123)
     all_kras_allele_predictions_boot_results <- all_kras_allele_predictions %>%
       group_by(cancer) %>%
       nest() %>%
       mutate(
-        boot_res = map2(cancer, data, boot_cancer_expect_frequncies,
+        boot_res = map2(
+          cancer,
+          data,
+          boot_cancer_expect_frequncies,
           R = 1e3
         ),
         boot_ci = map(boot_res, extract_boot_results)
@@ -548,7 +556,10 @@ allele_pred_obs_chisquared <- function(num_mut, num_tot, pred_freq) {
     nrow = 2,
     byrow = TRUE
   )
-  janitor::clean_names(broom::glance(chisq.test(mat)))
+
+  chisq.test(mat) %>%
+    broom::glance() %>%
+    janitor::clean_names()
 }
 
 
@@ -579,7 +590,9 @@ calc_chisquared_test <- function(allele_df, expected_freq_df) {
     ) %>%
     ungroup() %>%
     select(cancer, kras_allele, chi_squared_test) %>%
-    unnest(chi_squared_test)
+    unnest(chi_squared_test) %>%
+    group_by(cancer) %>%
+    mutate(adj_p_value = p.adjust(p_value, method = "BH"))
 }
 
 cancer_chisquared_res <- calc_chisquared_test(
@@ -587,21 +600,18 @@ cancer_chisquared_res <- calc_chisquared_test(
   expected_freq_df = cancer_expect_frequencies
 )
 cancer_chisquared_res %>%
-  filter(p_value > 0.05) %>%
-  select(cancer, kras_allele, p_value) %>%
-  knitr::kable(digits = 3)
-# > |cancer |kras_allele | p_value|
-# > |:------|:-----------|-------:|
-# > |COAD   |G12A        |   0.637|
-# > |LUAD   |G12D        |   0.182|
-# > |LUAD   |G12V        |   0.109|
-# > |MM     |G12A        |   0.563|
-# > |MM     |G12D        |   0.156|
-# > |MM     |G12R        |   0.616|
-# > |MM     |G12V        |   0.367|
-# > |MM     |G13D        |   0.054|
-# > |MM     |Q61L        |   1.000|
-# > |MM     |Q61R        |   0.287|
+  filter(adj_p_value > 0.05) %>%
+  select(cancer, kras_allele, p_value, adj_p_value) %>%
+  knitr::kable(digits = 2)
+# > |cancer |kras_allele | p_value| adj_p_value|
+# > |:------|:-----------|-------:|-----------:|
+# > |COAD   |G12C        |    0.81|        0.81|
+# > |LUAD   |G12V        |    0.31|        0.31|
+# > |MM     |G12A        |    1.00|        1.00|
+# > |MM     |G12D        |    0.20|        0.32|
+# > |MM     |G12V        |    0.77|        1.00|
+# > |MM     |G13D        |    0.10|        0.20|
+# > |MM     |Q61R        |    0.91|        1.00|
 
 
 all_chisquared_res <- calc_chisquared_test(
@@ -609,23 +619,21 @@ all_chisquared_res <- calc_chisquared_test(
   expected_freq_df = all_expect_frequencies
 )
 all_chisquared_res %>%
-  filter(p_value > 0.05) %>%
-  select(cancer, kras_allele, p_value) %>%
+  filter(adj_p_value > 0.05) %>%
+  select(cancer, kras_allele, p_value, adj_p_value) %>%
   knitr::kable(digits = 3)
-# > |cancer |kras_allele | p_value|
-# > |:------|:-----------|-------:|
-# > |COAD   |G12C        |   0.118|
-# > |COAD   |G12R        |   0.147|
-# > |COAD   |G13D        |   0.536|
-# > |COAD   |Q61L        |   0.436|
-# > |MM     |G12A        |   0.555|
-# > |MM     |G12C        |   0.867|
-# > |MM     |G12D        |   0.572|
-# > |MM     |G12R        |   0.126|
-# > |MM     |G12V        |   0.607|
-# > |MM     |G13D        |   0.761|
-# > |MM     |Q61L        |   0.396|
-# > |MM     |Q61R        |   0.929|
+# > |cancer |kras_allele | p_value| adj_p_value|
+# > |:------|:-----------|-------:|-----------:|
+# > |COAD   |G12S        |   0.056|       0.056|
+# > |LUAD   |Q61H        |   0.167|       0.167|
+# > |LUAD   |Q61L        |   0.061|       0.066|
+# > |MM     |G12A        |   0.222|       0.345|
+# > |MM     |G12C        |   1.000|       1.000|
+# > |MM     |G12D        |   0.427|       0.498|
+# > |MM     |G12V        |   0.282|       0.395|
+# > |MM     |G13C        |   0.141|       0.246|
+# > |MM     |G13D        |   0.554|       0.597|
+# > |MM     |Q61R        |   0.403|       0.498|
 
 
 
@@ -677,7 +685,8 @@ ggsave_wrapper(
 
 #### ---- Plot: Predicted vs. Observed ---- ####
 
-plot_kras_allele_predictions <- function(cancer, data,
+plot_kras_allele_predictions <- function(cancer,
+                                         data,
                                          p_val_cut = 0.05,
                                          zero_axis_lines = FALSE) {
   pval_labels <- c(
@@ -701,7 +710,7 @@ plot_kras_allele_predictions <- function(cancer, data,
 
   max_val <- max(c(
     mod_data$observed_allele_frequency,
-    mod_data$expected_allele_frequency_lower75
+    mod_data$upper_ci
   ))
 
   p <- mod_data %>%
@@ -720,11 +729,11 @@ plot_kras_allele_predictions <- function(cancer, data,
     geom_abline(lty = 2, size = 0.6, color = "grey60") +
     geom_linerange(
       aes(
-        xmin = expected_allele_frequency_lower25,
-        xmax = expected_allele_frequency_lower75
+        xmin = lower_ci,
+        xmax = upper_ci
       ),
       color = "grey30",
-      alpha = 0.2,
+      alpha = 0.4,
       size = 0.4
     ) +
     geom_text_repel(
@@ -860,7 +869,7 @@ cancer_expect_frequencies %>%
   knitr::kable(digits = 3)
 # > |cancer | cor_estimate| cor_p_value| cor_conf_low| cor_conf_high|cor_method                           |
 # > |:------|------------:|-----------:|------------:|-------------:|:------------------------------------|
-# > |COAD   |        0.822|       0.088|       -0.221|         0.988|Pearson's product-moment correlation |
-# > |LUAD   |        0.810|       0.190|       -0.682|         0.996|Pearson's product-moment correlation |
-# > |MM     |        0.985|       0.015|        0.436|         1.000|Pearson's product-moment correlation |
-# > |PAAD   |        0.839|       0.161|       -0.630|         0.997|Pearson's product-moment correlation |
+# > |COAD   |        0.759|       0.137|       -0.374|         0.983|Pearson's product-moment correlation |
+# > |LUAD   |        0.870|       0.130|       -0.556|         0.997|Pearson's product-moment correlation |
+# > |MM     |        0.972|       0.028|        0.167|         0.999|Pearson's product-moment correlation |
+# > |PAAD   |        0.677|       0.323|       -0.813|         0.992|Pearson's product-moment correlation |
