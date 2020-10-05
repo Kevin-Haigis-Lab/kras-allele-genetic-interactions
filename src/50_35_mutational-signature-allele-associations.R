@@ -53,7 +53,6 @@ calc_diff_medians <- function(g1, g2, data) {
 
 
 
-
 alleles_frequency_per_cancer_df <- mutational_signatures_df %>%
   filter(!is_hypermutant) %>%
   strip_ras(ras_allele) %>%
@@ -645,25 +644,16 @@ ggridge_plot_signatures_pgridge <- function(ms_df,
   if (is.null(x_title)) {
     x_title <- "mutational signature {signature}"
   }
-
+  print(sort(unique(ms_df$allele)))
   ms_df %>%
     ggplot(aes(x = contribution, y = allele)) +
     geom_density_ridges(
-      # aes(color = allele, fill = allele),
       color = "grey25",
       fill = "grey50",
       scale = 1.2,
       rel_min_height = 0.01,
       alpha = 0.4
     ) +
-    # scale_color_manual(
-    #   values = short_allele_pal,
-    #   guide = FALSE
-    # ) +
-    # scale_fill_manual(
-    #   values = short_allele_pal,
-    #   guide = FALSE
-    # ) +
     scale_x_continuous(
       limits = c(0, max(ms_df$contribution)),
       expand = c(0, 0)
@@ -795,7 +785,6 @@ ggridge_plot_signatures_pstats <- function(stats_df,
       breaks = seq(0, y_lims[[2]])
     ) +
     theme_void(base_size = 7, base_family = "Arial")
-  # theme_bw(base_size = 7, base_family = "Arial")
 }
 
 
@@ -807,9 +796,9 @@ prep_mutsig_dataframe_for_plotting <- function(ms_df,
     strip_ras(ras_allele) %>%
     mutate(signature = modify_mutsig_names(signature)) %>%
     filter(cancer == !!cancer & signature == !!signature) %>%
+    filter(ras_allele %in% !!alleles_tested) %>%
     mutate(
-      allele = ifelse(ras_allele %in% !!alleles_tested, ras_allele, "Other"),
-      allele = factor_alleles(allele),
+      allele = factor_alleles(ras_allele),
       allele = fct_drop(allele)
     )
 }
@@ -1025,6 +1014,7 @@ annotate_boxplot_with_statbars <- function(bp, bars_df) {
     )
 }
 
+
 mutsig_boxplot_breaks <- function(ms_df) {
   min_y <- 0
   max_y <- round(max(ms_df$contribution), 1)
@@ -1083,6 +1073,14 @@ boxplot_plot_signatures <- function(signature,
 #### ---- Make ggridges and boxplots ---- ####
 
 
+order_by_mutsig_then_modify <- function(df) {
+  df %>%
+    mutate(signature = factor(signature, levels = names(mutsig_pal))) %>%
+    arrange(cancer, signature) %>%
+    mutate(signature = modify_mutsig_names(as.character(signature)))
+}
+
+
 plot_vars_levels <- tribble(
   ~signature, ~cancer, ~stats_plot_add_height, ~patch_widths,
   "8", "COAD", 1.1, c(1, 10),
@@ -1102,13 +1100,6 @@ plot_vars_levels <- tribble(
   "8", "PAAD", 1.1, c(1, 10),
   # "17", "PAAD", 1.1, c(1, 10),
 )
-
-order_by_mutsig_then_modify <- function(df) {
-  df %>%
-    mutate(signature = factor(signature, levels = names(mutsig_pal))) %>%
-    arrange(cancer, signature) %>%
-    mutate(signature = modify_mutsig_names(as.character(signature)))
-}
 
 allele_signature_associations_TOPLOT <- allele_signature_associations %>%
   filter(p_value < 0.05) %>%
