@@ -727,6 +727,7 @@ ggsave_wrapper(
 #### ---- Plots for figures ---- ####
 
 
+codon_pal <- codon_palette[names(codon_palette) != "Other"]
 
 allele_predictions_acc <- ranked_allele_predictions %>%
   filter_kras_allele_tested() %>%
@@ -739,13 +740,14 @@ allele_predictions_acc <- ranked_allele_predictions %>%
 
 allele_accuracy_barplots <- allele_predictions_acc %>%
   mutate(
-    x_val = make_axis_label(real_kras_allele, cancer),
-    x_val = fct_reorder(x_val, accuracy),
+    # x_val = make_axis_label(real_kras_allele, cancer),
+    # x_val = fct_reorder(x_val, accuracy),
+    x_val = factor_alleles(real_kras_allele),
     codon = str_extract(real_kras_allele, "[:digit:]+"),
     codon = fct_reorder(codon, as.numeric(codon), .fun = unique)
   ) %>%
   ggplot(aes(x = x_val, y = accuracy)) +
-  facet_wrap(~cancer, nrow = 1, scales = "free_x") +
+  facet_grid(. ~ cancer, space = "free_x", scales = "free_x") +
   geom_linerange(
     aes(ymin = 0, ymax = accuracy),
     size = 1,
@@ -755,9 +757,9 @@ allele_accuracy_barplots <- allele_predictions_acc %>%
     aes(color = codon),
     size = 2
   ) +
-  scale_x_discrete(
-    labels = fix_axis_label
-  ) +
+  # scale_x_discrete(
+  #   labels = fix_axis_label
+  # ) +
   scale_y_continuous(
     limits = c(0, 0.7),
     breaks = seq(0, 0.7, 0.1),
@@ -773,10 +775,7 @@ allele_accuracy_barplots <- allele_predictions_acc %>%
   theme(
     panel.grid.major.x = element_blank(),
     axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1),
-    strip.background = element_blank(),
-    panel.border = element_blank(),
-    panel.background = element_blank(),
-    axis.line = element_line(color = "grey30")
+    strip.background = element_blank()
   ) +
   labs(
     x = "observed KRAS allele",
@@ -913,3 +912,104 @@ ggsave_wrapper(
   "wide"
 )
 saveFigRds(allele_prob_barplot_arrows, "allele_prob_barplot_arrows")
+
+
+
+
+is_real_above_other <- function(is_allele, val) {
+  stopifnot(length(is_allele) == 2 & length(val) == 2)
+  y <- val[order(is_allele)]
+  return(y[[1]] < y[[2]])
+}
+
+
+ifelse_pal <- function(x, options) {
+  ifelse(x, names(options)[[1]], names(options)[[2]])
+}
+
+
+boot_wrapper <- function(x, fxn, indices) {
+  fxn(x[indices])
+}
+
+boot_median <- function(x, indices) {
+  boot_wrapper(x, median, indices)
+}
+
+boot_mean <- function(x, indices) {
+  boot_wrapper(x, mean, indices)
+}
+
+point_pal <- c("the KRAS allele" = "grey15", "another KRAS allele" = "grey60")
+
+allele_prob_per_allele_df <- ranked_allele_predictions %.% {
+  filter_kras_allele_tested()
+  mutate(
+    is_correct_allele = kras_allele == real_kras_allele,
+    kras_allele = factor_alleles(kras_allele)
+  )
+  group_by(cancer, is_correct_allele, kras_allele)
+  summarise(
+    mean_prob = mean(allele_prob),
+    median_prob = median(allele_prob),
+    mean_prob_boot = list(boot::boot(allele_prob, boot_mean, R = 1000)),
+    q25_prob = quantile(allele_prob, 0.25),
+    q75_prob = quantile(allele_prob, 0.75)
+  )
+  ungroup()
+  mutate(
+    mean_ci = map(
+      mean_prob_boot,
+      boot::boot.ci,
+      conf = 0.95,
+      type = "perc"
+    ),
+    mean_ci_lower = map_dbl(mean_ci, ~ .x$perc[[4]]),
+    mean_ci_upper = map_dbl(mean_ci, ~ .x$perc[[5]]),
+    point_color = ifelse(is_correct_allele, kras_allele, "not-allele")
+  )
+  mutate(
+    point_color = ifelse_pal(is_correct_allele, point_pal),
+    point_color = factor(point_color, levels = names(point_pal))
+  )
+}
+
+pos <- position_dodge(width = 0.6)
+
+allele_prob_per_allele_plot <- allele_prob_per_allele_df %>%
+  ggplot(aes(x = kras_allele, y = mean_prob)) +
+  facet_grid(. ~ cancer, scales = "free", space = "free_x") +
+  geom_linerange(
+    aes(ymin = mean_ci_lower, ymax = mean_ci_upper, color = point_color),
+    position = pos,
+    size = 0.2,
+    alpha = 0.75
+  ) +
+  geom_point(
+    aes(color = point_color),
+    size = 1.6,
+    position = pos
+  ) +
+  scale_color_manual(values = point_pal) +
+  scale_y_continuous(
+    limits = c(0, NA),
+    expand = expansion(mult = c(0, 0.02))
+  ) +
+  theme_bw(base_size = 7, base_family = "Arial") +
+  theme(
+    axis.ticks = element_blank(),
+    strip.background = element_blank(),
+    axis.title.x = element_blank(),
+    axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1)
+  ) +
+  labs(
+    x = NULL,
+    y = "average probability",
+    color = "tumor samples with"
+  )
+ggsave_wrapper(
+  allele_prob_per_allele_plot,
+  plot_path(GRAPHS_DIR, "allele-prob-per-allele_scatter.svg"),
+  "wide"
+)
+saveFigRds(allele_prob_per_allele_plot, "allele_prob_per_allele_plot")

@@ -173,6 +173,7 @@ count_tricontext_allele_mutations <- function(tricontext_mut_data,
   tricontext_mut_data %>%
     filter(!(cancer %in% !!remove_cancers)) %>%
     filter(!(tumor_sample_barcode %in% !!remove_samples)) %>%
+    filter(hugo_symbol != "KRAS") %>%
     count(
       cancer, tumor_sample_barcode, target, context, tricontext,
       name = "tumor_count"
@@ -326,7 +327,7 @@ calc_expected_frequency <- function(df) {
   df %>%
     group_by(kras_allele) %>%
     summarise(
-      expected_allele_frequency = median(allele_prob),
+      expected_allele_frequency = mean(allele_prob),
       expected_allele_frequency_lower25 = quantile(allele_prob, 0.25),
       expected_allele_frequency_lower75 = quantile(allele_prob, 0.75),
       observed_allele_frequency = unique(real_allele_freq)

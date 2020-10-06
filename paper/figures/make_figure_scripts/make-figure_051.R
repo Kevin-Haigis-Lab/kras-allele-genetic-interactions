@@ -5,6 +5,7 @@ FIGNUM <- 51
 
 # > SET THE FIGURE DIMENSIONS
 FIG_DIMENSIONS <- get_figure_dimensions(2, "short")
+FIG_DIMENSIONS$height <- 140
 
 fig51_tag_element <- function(tag_margin = margin(-1, -1, -1, -1, "mm")) {
   element_text(
@@ -105,13 +106,11 @@ panel_B <- read_fig_proto("allele_accuracy_barplots") +
   theme(
     panel.grid.major.x = element_blank(),
     axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1),
-    panel.border = element_blank(),
-    panel.background = element_blank(),
-    axis.line = element_line(color = "grey30"),
     legend.spacing = unit(2, "mm"),
     legend.spacing.y = unit(2, "mm"),
     legend.key.height = unit(3, "mm"),
-    legend.title = element_text(face = "bold")
+    legend.title = element_text(face = "bold"),
+    legend.justification = "left"
   ) +
   labs(tag = "b")
 
@@ -121,12 +120,15 @@ panel_B <- read_fig_proto("allele_accuracy_barplots") +
 # Average probability of the KRAS alleles in all tumor samples.
 # original script: "src/50_13_observed-predicted-kras-alleles_v3_per_tsb.R"
 
-panel_C <- read_fig_proto("allele_prob_barplot_arrows") +
+panel_C <- read_fig_proto("allele_prob_per_allele_plot") +
   theme_fig51() +
   theme(
-    panel.grid.major.x = element_blank(),
-    legend.key.size = unit(3, "mm"),
-    legend.title = element_text(face = "bold")
+    axis.ticks = element_blank(),
+    strip.background = element_blank(),
+    axis.title.x = element_blank(),
+    axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1),
+    legend.key.height = unit(3, "mm"),
+    legend.justification = "left"
   ) +
   labs(tag = "c")
 
@@ -141,7 +143,7 @@ panel_C <- read_fig_proto("allele_prob_barplot_arrows") +
       panel_B /
       panel_C
   ) +
-    plot_layout(heights = c(6, 4, 10))
+    plot_layout(heights = c(6, 4, 4))
 
   save_figure(
     full_figure,
