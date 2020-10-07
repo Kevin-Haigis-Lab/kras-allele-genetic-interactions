@@ -317,6 +317,7 @@ get_conversion_df <- function() {
 
 
 get_final_figure_path <- function(num, supp, fmt = "svg") {
+  num <- str_pad(num, width = 2, side = "left", pad = "0")
   prefix <- ifelse(supp, "Supp_Fig", "Fig")
   file.path(FIGURE_DIR, glue("{prefix}_{as.character(num)}.{fmt}"))
 }
