@@ -80,7 +80,8 @@ panel_A <- wrap_plots(panel_A_proto_list, nrow = 1, guides = "collect") &
       plot.subtitle = element_markdown(hjust = 0, vjust = 0),
       plot.margin = margin(0, 1, 0, 1, "mm"),
       legend.position = "right",
-      legend.background = element_blank()
+      legend.background = element_blank(),
+      legend.key.width = unit(2, "mm"),
     )
 
 for (i in seq(2, 4)) {
@@ -96,31 +97,11 @@ panel_A <- wrap_elements(full = panel_A) +
   )
 
 
-
-#### ---- B. Accuracy to predict allele ---- ####
-# Accuracy of the mutational signatures to predict observed allele.
-# original script: "src/50_13_observed-predicted-kras-alleles_v3_per_tsb.R"
-
-panel_B <- read_fig_proto("allele_accuracy_barplots") +
-  theme_fig51() +
-  theme(
-    panel.grid.major.x = element_blank(),
-    axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1),
-    legend.spacing = unit(2, "mm"),
-    legend.spacing.y = unit(2, "mm"),
-    legend.key.height = unit(3, "mm"),
-    legend.title = element_text(face = "bold"),
-    legend.justification = "left"
-  ) +
-  labs(tag = "b")
-
-
-
-#### ---- C. Probability of alleles ---- ####
+#### ---- B. Probability of alleles ---- ####
 # Average probability of the KRAS alleles in all tumor samples.
 # original script: "src/50_13_observed-predicted-kras-alleles_v3_per_tsb.R"
 
-panel_C <- read_fig_proto("allele_prob_per_allele_plot") +
+panel_B <- read_fig_proto("allele_prob_per_allele_plot") +
   theme_fig51() +
   theme(
     axis.ticks = element_blank(),
@@ -128,6 +109,27 @@ panel_C <- read_fig_proto("allele_prob_per_allele_plot") +
     axis.title.x = element_blank(),
     axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1),
     legend.key.height = unit(3, "mm"),
+    legend.key.width = unit(2, "mm"),
+    legend.justification = "left",
+    legend.box.margin = margin(0, -3, 0, -2, "mm")
+  ) +
+  labs(tag = "b")
+
+
+#### ---- C. Accuracy to predict allele ---- ####
+# Accuracy of the mutational signatures to predict observed allele.
+# original script: "src/50_13_observed-predicted-kras-alleles_v3_per_tsb.R"
+
+panel_C <- read_fig_proto("allele_accuracy_barplots") +
+  theme_fig51() +
+  theme(
+    panel.grid.major.x = element_blank(),
+    axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1),
+    legend.spacing = unit(2, "mm"),
+    legend.spacing.y = unit(2, "mm"),
+    legend.key.height = unit(3, "mm"),
+    legend.key.width = unit(2, "mm"),
+    legend.title = element_text(face = "bold"),
     legend.justification = "left"
   ) +
   labs(tag = "c")
