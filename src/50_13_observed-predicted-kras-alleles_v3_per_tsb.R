@@ -5,6 +5,8 @@ reset_graph_directory(GRAPHS_DIR)
 
 library(ggridges)
 
+set.seed(0)
+
 theme_set(theme_bw(base_size = 7, base_family = "Arial"))
 
 # Minumum number of tumor samples to include the KRAS allele in the analysis.
@@ -729,19 +731,33 @@ ggsave_wrapper(
 
 codon_pal <- codon_palette[names(codon_palette) != "Other"]
 
-allele_predictions_acc <- ranked_allele_predictions %>%
+ranked_allele_predictions_top <- ranked_allele_predictions %>%
   filter_kras_allele_tested() %>%
-  filter(real_kras_allele != "WT") %>%
   filter(allele_idx == 1) %>%
-  mutate(is_correct = kras_allele == real_kras_allele) %>%
-  group_by(cancer, real_kras_allele) %>%
+  mutate(is_correct = kras_allele == real_kras_allele)
+
+allele_predictions_acc <- ranked_allele_predictions_top %>%
+  filter(real_kras_allele != "WT") %>%
+  group_by(cancer, real_kras_allele)  %>%
   summarise(accuracy = mean(as.numeric(is_correct))) %>%
-  ungroup()
+  ungroup() %>%
+  mutate(
+    false_pos = map2_dbl(
+      cancer,
+      real_kras_allele,
+      function(C, A) {
+        ranked_allele_predictions_top %>%
+          filter(cancer == C & real_kras_allele != A) %>%
+          mutate(is_wrong = kras_allele == A) %>%
+          pull(is_wrong) %>%
+          unlist() %>%
+          mean()
+      }
+    )
+  )
 
 allele_accuracy_barplots <- allele_predictions_acc %>%
   mutate(
-    # x_val = make_axis_label(real_kras_allele, cancer),
-    # x_val = fct_reorder(x_val, accuracy),
     x_val = factor_alleles(real_kras_allele),
     codon = str_extract(real_kras_allele, "[:digit:]+"),
     codon = fct_reorder(codon, as.numeric(codon), .fun = unique)
@@ -757,9 +773,12 @@ allele_accuracy_barplots <- allele_predictions_acc %>%
     aes(color = codon),
     size = 2
   ) +
-  # scale_x_discrete(
-  #   labels = fix_axis_label
-  # ) +
+  geom_point(
+    aes(y = false_pos, alpha = cancer),
+    size = 1.3,
+    shape = 4,
+    color = "grey35"
+  ) +
   scale_y_continuous(
     limits = c(0, 0.7),
     breaks = seq(0, 0.7, 0.1),
@@ -772,10 +791,25 @@ allele_accuracy_barplots <- allele_predictions_acc %>%
       override.aes = list(size = 1.3, alpha = 1)
     )
   ) +
+  scale_alpha_manual(
+    values = c(1, 1, 1, 1),
+    breaks = c("COAD", "LUAD"),
+    labels = c("the KRAS allele", "another KRAS allele"),
+    guide = guide_legend(
+      title = "tumor samples with",
+      override.aes = list(
+        shape = c(16, 4),
+        size = 1.3,
+        alpha = 1,
+        color = "grey20"
+      )
+    )
+  ) +
   theme(
     panel.grid.major.x = element_blank(),
     axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1),
-    strip.background = element_blank()
+    strip.background = element_blank(),
+    axis.ticks = element_blank()
   ) +
   labs(
     x = "observed KRAS allele",
@@ -942,6 +976,7 @@ boot_mean <- function(x, indices) {
 
 point_pal <- c("the KRAS allele" = "grey15", "another KRAS allele" = "grey60")
 
+
 allele_prob_per_allele_df <- ranked_allele_predictions %.% {
   filter_kras_allele_tested()
   mutate(
@@ -952,7 +987,7 @@ allele_prob_per_allele_df <- ranked_allele_predictions %.% {
   summarise(
     mean_prob = mean(allele_prob),
     median_prob = median(allele_prob),
-    mean_prob_boot = list(boot::boot(allele_prob, boot_mean, R = 1000)),
+    mean_prob_boot = list(boot::boot(allele_prob, boot_mean, R = 1e4)),
     q25_prob = quantile(allele_prob, 0.25),
     q75_prob = quantile(allele_prob, 0.75)
   )
