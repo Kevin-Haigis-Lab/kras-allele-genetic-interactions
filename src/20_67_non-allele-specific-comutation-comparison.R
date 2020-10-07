@@ -101,7 +101,7 @@ make_comutation_venn <- function(cancer, genetic_interaction, title = NULL) {
     circle_fill = c("allele-specific", "non-allele-specific"),
     circle_alpha = 0.2,
     cat_family = "Arial",
-    count_size = 3
+    count_size = 2.7
   ) +
     scale_fill_manual(
       values = fill_pal,
@@ -180,16 +180,24 @@ genetic_interaction_sets %<>%
       genetic_interaction,
       get_nonallelespecific_genes
     ),
-    new_genes = map2_dbl(allele_sets, cancer_sets, ~ length(setdiff(.x, .y)))
+    new_genes = map2_dbl(
+      allele_sets, cancer_sets, ~ length(setdiff(.x, .y))
+    ),
+    old_genes = map2_dbl(
+      allele_sets, cancer_sets, ~ length(intersect(.x, .y))
+    )
   )
 
 
-
-comutation_comparison_barplot <- function(cancer, data) {
-  pos <- position_dodge(width = 0.8)
-
+comutation_comparison_barplot <- function(cancer,
+                                          data,
+                                          y,
+                                          title = NULL,
+                                          fn_glue = NA) {
+  pos <- position_dodge(width = 0.9)
   p <- data %>%
-    ggplot(aes(x = allele, y = new_genes, fill = comutation)) +
+    ggplot(aes(x = allele, y = {{ y }}, fill = comutation)) +
+    facet_wrap(~ which_genes_label, scales = "free_y", nrow = 1) +
     geom_col(position = pos) +
     geom_text(
       aes(y = is_tested_label_y, label = is_tested_label),
@@ -209,19 +217,30 @@ comutation_comparison_barplot <- function(cancer, data) {
     labs(
       x = "KRAS allele",
       y = "number of genes",
-      fill = "comutation\ninteraction"
+      fill = "comutation\ninteraction",
+      title = title
     )
 
-  fn <- as.character(glue("comutation-comparison-bar_{cancer}.svg"))
-  ggsave_wrapper(
-    p,
-    plot_path(GRAPHS_DIR, fn),
-    "small"
-  )
-  saveFigRds(p, fn)
+  if (!is.na(fn_glue)) {
+    fn <- as.character(glue(fn_glue))
+    ggsave_wrapper(
+      p,
+      plot_path(GRAPHS_DIR, fn),
+      "wide"
+    )
+    saveFigRds(p, fn)
+  }
+  invisible(p)
 }
 
-comutation_comp_bar <- genetic_interaction_sets %>%
+
+gene_comparison_names <- tribble(
+  ~ which_genes, ~ which_genes_label,
+  "new_genes", "Only found in the allele-specific analysis",
+  "old_genes", "Found in the non-allele-specific analysis"
+)
+
+genetic_interaction_sets %>%
   mutate(
     allele = factor_alleles(allele),
     comutation = switch_comut_terms(genetic_interaction),
@@ -231,9 +250,23 @@ comutation_comp_bar <- genetic_interaction_sets %>%
   complete(
     nesting(cancer, allele),
     comutation,
-    fill = list(new_genes = 0, is_tested_label = "NA")
+    fill = list(new_genes = 0, old_genes = 0, is_tested_label = "NA")
   ) %>%
+  select(-allele_sets, -cancer_sets) %>%
+  pivot_longer(
+    c(new_genes, old_genes),
+    names_to = "which_genes",
+    values_to = "n_genes"
+  ) %>%
+  group_by(cancer, which_genes) %>%
+  mutate(is_tested_label_y = n_genes + (0.04 * max(n_genes))) %>%
+  ungroup() %>%
+  left_join(gene_comparison_names, by = "which_genes") %>%
   group_by(cancer) %>%
-  mutate(is_tested_label_y = new_genes + (0.04 * max(new_genes))) %>%
   nest() %>%
-  pwalk(comutation_comparison_barplot)
+  ungroup() %>%
+  pwalk(
+    comutation_comparison_barplot,
+    y = n_genes,
+    fn_glue = "comutation-comparison_bar_{cancer}.svg"
+  )

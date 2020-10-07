@@ -10,8 +10,8 @@ FIG_DIMENSIONS <- get_figure_dimensions(2, "tall")
 theme_fig52 <- function(tag_margin = margin(-1, -1, -1, -1, "mm")) {
   theme_comutation() %+replace%
     theme(
-      legend.title = element_text(size = 7, face = "bold"),
-      legend.text = element_text(size = 7),
+      legend.title = element_text(size = 7, face = "plain"),
+      legend.text = element_text(size = 6),
       plot.tag = element_text(
         size = 7,
         face = "bold",
@@ -29,7 +29,7 @@ theme_fig52_venn <- function(tag_margin = margin(-1, -1, -1, -1, "mm")) {
         margin = tag_margin
       ),
       plot.title = element_text(hjust = 0.5),
-      legend.key.size = unit(3, "mm"),
+      legend.key.size = unit(2, "mm"),
       legend.position = "bottom"
     )
 }
@@ -39,7 +39,19 @@ theme_fig52_bar <- function(tag_margin = margin(-1, -1, -1, -1, "mm")) {
     theme(
       panel.grid.major.x = element_blank(),
       strip.background = element_blank(),
-      legend.key.size = unit(3, "mm")
+      strip.text = element_text(
+        size = 6,
+        family = "Arial",
+        hjust = 0.5,
+        vjust = 1
+      ),
+      legend.key.size = unit(2, "mm"),
+      axis.text.x = element_text(
+        angle = 30,
+        hjust = 1,
+        vjust = 1
+      ),
+      legend.box.margin = margin(0, -3, 0, -2, "mm")
     )
 }
 
@@ -70,15 +82,9 @@ assemble_venn_diagram_patch <- function(cancer,
 
 assemble_barplot <- function(cancer, tag, x_label_angle = 0) {
   read_fig_proto(
-    as.character(glue("comutation-comparison-bar_{cancer}"))
+    as.character(glue("comutation-comparison_bar_{cancer}"))
   ) +
     theme_fig52_bar() +
-    theme(
-      axis.text.x = element_text(
-        angle = 30,
-        hjust = 1
-      )
-    ) +
     labs(tag = tag)
 }
 
@@ -91,7 +97,7 @@ assemble_barplot <- function(cancer, tag, x_label_angle = 0) {
 panel_A <- assemble_venn_diagram_patch(
   "COAD",
   tag = "a",
-  tag_margin = margin(-1, -1, -1, -6, "mm")
+  tag_margin = margin(-1, -1, -1, -1, "mm")
 )
 
 
@@ -131,7 +137,7 @@ panel_D <- assemble_barplot("LUAD", "d")
 panel_E <- assemble_venn_diagram_patch(
   "MM",
   tag = "e",
-  tag_margin = margin(-1, -1, -1, -10, "mm")
+  tag_margin = margin(-1, -1, -1, -1, "mm")
 )
 
 
@@ -151,7 +157,7 @@ panel_F <- assemble_barplot("MM", "f")
 panel_G <- assemble_venn_diagram_patch(
   "PAAD",
   tag = "g",
-  tag_margin = margin(-1, -1, -1, -14.5, "mm")
+  tag_margin = margin(-1, -1, -1, -1, "mm")
 )
 
 
@@ -185,7 +191,7 @@ make_cancer_label <- function(cancer) {
 assemble_cancer_row <- function(venn_panel, bar_panel, cancer, heights = NULL) {
   row_panels <- (
     make_cancer_label(cancer) /
-      ((venn_panel | bar_panel) + plot_layout(widths = c(3, 2)))
+      ((venn_panel | bar_panel) + plot_layout(widths = c(2, 3)))
   ) +
     plot_layout(heights = heights)
   return(row_panels)
