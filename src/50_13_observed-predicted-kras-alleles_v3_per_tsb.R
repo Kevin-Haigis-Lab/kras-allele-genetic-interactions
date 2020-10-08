@@ -55,11 +55,28 @@ prepare_ranked_allele_prediction_df <- function(df) {
 }
 
 
-ranked_allele_predictions <- kras_allele_predictions %>%
-  prepare_ranked_allele_prediction_df()
+cache(
+  "ranked_allele_predictions",
+  depends = "kras_allele_predictions",
+  {
+    ranked_allele_predictions <- prepare_ranked_allele_prediction_df(
+      kras_allele_predictions
+    )
+    return(ranked_allele_predictions)
+  }
+)
 
-all_ranked_allele_predictions <- all_kras_allele_predictions %>%
-  prepare_ranked_allele_prediction_df()
+
+cache(
+  "all_ranked_allele_predictions",
+  depends = "all_kras_allele_predictions",
+  {
+    all_ranked_allele_predictions <- prepare_ranked_allele_prediction_df(
+      all_kras_allele_predictions
+    )
+    return(all_ranked_allele_predictions)
+  }
+)
 
 
 
@@ -738,7 +755,7 @@ ranked_allele_predictions_top <- ranked_allele_predictions %>%
 
 allele_predictions_acc <- ranked_allele_predictions_top %>%
   filter(real_kras_allele != "WT") %>%
-  group_by(cancer, real_kras_allele)  %>%
+  group_by(cancer, real_kras_allele) %>%
   summarise(accuracy = mean(as.numeric(is_correct))) %>%
   ungroup() %>%
   mutate(
