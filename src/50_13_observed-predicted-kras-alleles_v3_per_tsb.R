@@ -849,7 +849,7 @@ allele_accuracy_barplots <- allele_predictions_acc %>%
     axis.ticks = element_blank()
   ) +
   labs(
-    x = "observed KRAS allele",
+    x = NULL,
     y = "fraction of tumor samples\npredicted to have allele"
   )
 ggsave_wrapper(
@@ -1028,8 +1028,38 @@ allele_prob_per_allele_df <- ranked_allele_predictions %.% {
       real_kras_allele == "WT" ~ "KRAS WT",
       TRUE ~ "another KRAS mutation"
     ),
+    allele_group = factor(allele_group, levels = names(point_pal)),
     kras_allele = factor_alleles(kras_allele)
   )
+}
+
+allele_prob_stats <- function(df) {
+  pairwise.wilcox.test(
+    x = df$allele_prob,
+    g = df$allele_group,
+    p.adjust.method = "BH"
+  ) %>%
+    broom::tidy() %>%
+    rename(adj_p_value = p.value)
+}
+
+allele_prob_per_allele_stats <- allele_prob_per_allele_df %.%
+{
+  group_by(cancer, kras_allele)
+  nest()
+  ungroup()
+  mutate(stats_res = map(data, allele_prob_stats))
+  select(-data)
+  unnest(stats_res)
+  filter(group1 == "the KRAS allele" | group2 == "the KRAS allele")
+  mutate(
+    comparison = ifelse(group1 == "the KRAS allele", group2, group1),
+    comparison = factor(comparison, levels = names(point_pal))
+  )
+}
+
+allele_prob_per_allele_summary <- allele_prob_per_allele_df %.%
+{
   group_by(cancer, allele_group, kras_allele)
   summarise(
     mean_prob = mean(allele_prob),
@@ -1049,14 +1079,17 @@ allele_prob_per_allele_df <- ranked_allele_predictions %.% {
     mean_ci_lower = map_dbl(mean_ci, ~ .x$perc[[4]]),
     mean_ci_upper = map_dbl(mean_ci, ~ .x$perc[[5]])
   )
-  mutate(
-    allele_group = factor(allele_group, levels = names(point_pal))
+  left_join(
+    allele_prob_per_allele_stats %>% filter(adj_p_value < 0.05),
+    by = c("cancer", "kras_allele", "allele_group" = "comparison")
   )
+  mutate(star_point_size = !is.na(adj_p_value))
 }
+
 
 pos <- position_dodge(width = 0.7)
 
-allele_prob_per_allele_plot <- allele_prob_per_allele_df %>%
+allele_prob_per_allele_plot <- allele_prob_per_allele_summary %>%
   ggplot(aes(x = kras_allele, y = mean_prob)) +
   facet_grid(. ~ cancer, scales = "free", space = "free_x") +
   geom_linerange(
@@ -1071,13 +1104,33 @@ allele_prob_per_allele_plot <- allele_prob_per_allele_df %>%
     position = pos,
     fill = "white"
   ) +
+  geom_point(
+    aes(size = star_point_size, group = allele_group),
+    color = "red",
+    position = pos,
+    shape = 16
+  ) +
   scale_color_manual(
     values = point_pal,
     guide = guide_legend(
-      override.aes = list(shape = shape_pal)
+      override.aes = list(shape = shape_pal),
+      order = 10
     )
   ) +
-  scale_shape_manual(values = shape_pal, guide = FALSE) +
+  scale_shape_manual(
+    values = shape_pal,
+    guide = FALSE
+   ) +
+  scale_size_manual(
+    values = c("TRUE" = 0.5, "FALSE" = -1),
+    breaks = c("TRUE"),
+    label = c("significantly different\nthan tumors with\nthe KRAS allele"),
+    guide = guide_legend(
+      title = NULL,
+      override.aes = list(size = 1.3),
+      order = 20
+    )
+  ) +
   scale_y_continuous(
     limits = c(0, NA),
     expand = expansion(mult = c(0, 0.02))
@@ -1100,3 +1153,52 @@ ggsave_wrapper(
   "wide"
 )
 saveFigRds(allele_prob_per_allele_plot, "allele_prob_per_allele_plot")
+
+
+
+stats_stars_plot <- allele_prob_per_allele_stats %.% {
+  mutate(
+    star_lbl = assign_stars(adj_p_value),
+    comparison = ifelse(group1 == "the KRAS allele", group2, group1),
+    comparison = ifelse(comparison == "another KRAS mutation", "other KRAS mutants", comparison),
+    comparison = glue("vs. {comparison}")
+  )
+} %>%
+  ggplot(aes(kras_allele, comparison)) +
+  facet_grid(. ~ cancer, scales = "free", space = "free_x") +
+  geom_tile(fill = "white", color = NA) +
+  geom_text(
+    aes(label = star_lbl),
+    family = "Arial",
+    size = 2,
+    hjust = 0.5,
+    vjust = 0.75
+  ) +
+  scale_x_discrete(expand = c(0, 0)) +
+  scale_y_discrete(expand = c(0, 0)) +
+  theme(
+    axis.ticks = element_blank(),
+    axis.title = element_blank(),
+    axis.text.x = element_blank(),
+    strip.background = element_blank(),
+    strip.text = element_text(size = 7, face = "bold"),
+    axis.line = element_blank(),
+    panel.border = element_blank(),
+    panel.background = element_rect(fill = "white", color = NA),
+    panel.grid = element_blank()
+  )
+
+
+allele_prob_per_allele_plot_MOD <- allele_prob_per_allele_plot +
+  theme(strip.text = element_blank())
+
+allele_prob_per_allele_patch <- (
+  stats_stars_plot / allele_prob_per_allele_plot_MOD
+) +
+  plot_layout(heights = c(1, 15))
+
+ggsave_wrapper(
+  allele_prob_per_allele_patch,
+  plot_path(GRAPHS_DIR, "allele-prob-per-allele_with-stats.svg"),
+  "wide"
+)

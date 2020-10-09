@@ -36,7 +36,7 @@ panel_A_plots <- paste0(
   "_predict-allele-freq_scatter.svg"
 )
 
-codon_pal <- codon_palette[names(codon_palette) != "Other"]
+codon_pal <- codon_palette[!names(codon_palette) %in% c("Other")]
 
 panel_A_guide_legend <- function(order) {
   guide_legend(
@@ -59,6 +59,7 @@ panel_A_proto_list <- map(panel_A_plots, function(x) {
     scale_color_manual(
       values = codon_pal,
       drop = FALSE,
+      breaks = kras_hotspot_codons$char,
       guide = panel_A_guide_legend(10)
     ) +
     scale_shape_manual(
