@@ -759,12 +759,25 @@ allele_predictions_acc <- ranked_allele_predictions_top %>%
   summarise(accuracy = mean(as.numeric(is_correct))) %>%
   ungroup() %>%
   mutate(
-    false_pos = map2_dbl(
+    false_pos_mut = map2_dbl(
       cancer,
       real_kras_allele,
       function(C, A) {
         ranked_allele_predictions_top %>%
           filter(cancer == C & real_kras_allele != A) %>%
+          filter(real_kras_allele != "WT") %>%
+          mutate(is_wrong = kras_allele == A) %>%
+          pull(is_wrong) %>%
+          unlist() %>%
+          mean()
+      }
+    ),
+    false_pos_wt = map2_dbl(
+      cancer,
+      real_kras_allele,
+      function(C, A) {
+        ranked_allele_predictions_top %>%
+          filter(cancer == C & real_kras_allele == "WT") %>%
           mutate(is_wrong = kras_allele == A) %>%
           pull(is_wrong) %>%
           unlist() %>%
@@ -791,9 +804,15 @@ allele_accuracy_barplots <- allele_predictions_acc %>%
     size = 2
   ) +
   geom_point(
-    aes(y = false_pos, alpha = cancer),
+    aes(y = false_pos_mut, alpha = cancer),
     size = 1.3,
-    shape = 4,
+    shape = 21,
+    color = "grey35"
+  ) +
+  geom_point(
+    aes(y = false_pos_wt),
+    size = 1.3,
+    shape = 25,
     color = "grey35"
   ) +
   scale_y_continuous(
@@ -810,15 +829,16 @@ allele_accuracy_barplots <- allele_predictions_acc %>%
   ) +
   scale_alpha_manual(
     values = c(1, 1, 1, 1),
-    breaks = c("COAD", "LUAD"),
-    labels = c("the KRAS allele", "another KRAS allele"),
+    breaks = c("COAD", "LUAD", "MM"),
+    labels = c("the KRAS allele", "another KRAS mutation", "KRAS WT"),
     guide = guide_legend(
       title = "tumor samples with",
       override.aes = list(
-        shape = c(16, 4),
-        size = 1.3,
+        shape = c(21, 21, 25),
+        size = c(2, 1.3, 1.3),
         alpha = 1,
-        color = "grey20"
+        color = "grey20",
+        fill = c("grey20", "white", "white")
       )
     )
   ) +
@@ -830,7 +850,7 @@ allele_accuracy_barplots <- allele_predictions_acc %>%
   ) +
   labs(
     x = "observed KRAS allele",
-    y = "fraction of tumor samples\nwith correctly predicted allele"
+    y = "fraction of tumor samples\npredicted to have allele"
   )
 ggsave_wrapper(
   allele_accuracy_barplots,
@@ -838,7 +858,6 @@ ggsave_wrapper(
   "wide"
 )
 saveFigRds(allele_accuracy_barplots, "allele_accuracy_barplots")
-
 
 
 average_allele_probs <- ranked_allele_predictions %>%
@@ -991,16 +1010,27 @@ boot_mean <- function(x, indices) {
   boot_wrapper(x, mean, indices)
 }
 
-point_pal <- c("the KRAS allele" = "grey15", "another KRAS allele" = "grey60")
+point_pal <- c(
+  "the KRAS allele" = "darkslateblue",
+  "another KRAS mutation" = "grey20",
+  "KRAS WT" = "grey50"
+)
+
+shape_pal <- c(19, 21, 25)
+names(shape_pal) <- names(point_pal)
 
 
 allele_prob_per_allele_df <- ranked_allele_predictions %.% {
   filter_kras_allele_tested()
   mutate(
-    is_correct_allele = kras_allele == real_kras_allele,
+    allele_group = case_when(
+      kras_allele == real_kras_allele ~ "the KRAS allele",
+      real_kras_allele == "WT" ~ "KRAS WT",
+      TRUE ~ "another KRAS mutation"
+    ),
     kras_allele = factor_alleles(kras_allele)
   )
-  group_by(cancer, is_correct_allele, kras_allele)
+  group_by(cancer, allele_group, kras_allele)
   summarise(
     mean_prob = mean(allele_prob),
     median_prob = median(allele_prob),
@@ -1017,32 +1047,37 @@ allele_prob_per_allele_df <- ranked_allele_predictions %.% {
       type = "perc"
     ),
     mean_ci_lower = map_dbl(mean_ci, ~ .x$perc[[4]]),
-    mean_ci_upper = map_dbl(mean_ci, ~ .x$perc[[5]]),
-    point_color = ifelse(is_correct_allele, kras_allele, "not-allele")
+    mean_ci_upper = map_dbl(mean_ci, ~ .x$perc[[5]])
   )
   mutate(
-    point_color = ifelse_pal(is_correct_allele, point_pal),
-    point_color = factor(point_color, levels = names(point_pal))
+    allele_group = factor(allele_group, levels = names(point_pal))
   )
 }
 
-pos <- position_dodge(width = 0.6)
+pos <- position_dodge(width = 0.7)
 
 allele_prob_per_allele_plot <- allele_prob_per_allele_df %>%
   ggplot(aes(x = kras_allele, y = mean_prob)) +
   facet_grid(. ~ cancer, scales = "free", space = "free_x") +
   geom_linerange(
-    aes(ymin = mean_ci_lower, ymax = mean_ci_upper, color = point_color),
+    aes(ymin = mean_ci_lower, ymax = mean_ci_upper, color = allele_group),
     position = pos,
-    size = 0.2,
+    size = 0.3,
     alpha = 0.75
   ) +
   geom_point(
-    aes(color = point_color),
-    size = 1.6,
-    position = pos
+    aes(color = allele_group, shape = allele_group),
+    size = 1.3,
+    position = pos,
+    fill = "white"
   ) +
-  scale_color_manual(values = point_pal) +
+  scale_color_manual(
+    values = point_pal,
+    guide = guide_legend(
+      override.aes = list(shape = shape_pal)
+    )
+  ) +
+  scale_shape_manual(values = shape_pal, guide = FALSE) +
   scale_y_continuous(
     limits = c(0, NA),
     expand = expansion(mult = c(0, 0.02))
