@@ -59,11 +59,6 @@ panel_A <- read_fig_proto("genetic_interaction_network_PAAD") +
       order = 1
     )
   ) +
-  # scale_color_manual(
-  #     values = short_allele_pal,
-  #     na.value = NA,
-  #     guide = FALSE
-  # ) +
   theme_graph_fig25() +
   theme(
     legend.spacing.x = unit(1, "mm"),
@@ -94,7 +89,7 @@ panel_B <- read_fig_proto(
     legend.title = element_markdown()
   ) +
   labs(
-    edge_width = "-*log*(p-value)",
+    edge_width = "-log<sub>10</sub>(p-value)",
     tag = "b"
   )
 
@@ -118,7 +113,7 @@ panel_C <- read_fig_proto(
   ) +
   labs(
     tag = "c",
-    y = "*log*(OR)"
+    y = "log(OR)"
   )
 
 

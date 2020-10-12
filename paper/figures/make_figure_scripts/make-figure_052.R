@@ -37,10 +37,11 @@ theme_fig52_venn <- function(tag_margin = margin(-1, -1, -1, -1, "mm")) {
 theme_fig52_bar <- function(tag_margin = margin(-1, -1, -1, -1, "mm")) {
   theme_fig52(tag_margin) %+replace%
     theme(
+      axis.title.x = element_markdown(),
       panel.grid.major.x = element_blank(),
       strip.background = element_blank(),
       strip.text = element_text(
-        size = 6,
+        size = 7,
         family = "Arial",
         hjust = 0.5,
         vjust = 1
@@ -69,7 +70,8 @@ assemble_venn_diagram_patch <- function(cancer,
   fish_panel <- read_fig_proto(
     as.character(glue("fish-venn-diagram_{cancer}"))
   ) +
-    theme_fig52_venn()
+    theme_fig52_venn() %+replace%
+    theme(legend.position = "none")
 
   panel <- ((rc_panel | fish_panel) / guide_area()) +
     plot_layout(
@@ -85,7 +87,7 @@ assemble_barplot <- function(cancer, tag, x_label_angle = 0) {
     as.character(glue("comutation-comparison_bar_{cancer}"))
   ) +
     theme_fig52_bar() +
-    labs(tag = tag)
+    labs(tag = tag, x = "*KRAS* alleles")
 }
 
 

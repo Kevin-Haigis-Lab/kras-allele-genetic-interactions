@@ -39,7 +39,7 @@ panel_A <- read_fig_proto("gsea-results-PAAD-select") +
   scale_size_continuous(
     range = c(0.5, 3),
     guide = guide_legend(
-      title = "-*log*<sub>10</sub>(adj. p-value)",
+      title = "-log<sub>10</sub>(adj. p-value)",
       title.position = "left",
       label.position = "right",
       label.hjust = 0,

@@ -54,18 +54,25 @@ panel_A_guide_legend <- function(order) {
 }
 
 
-panel_A_proto_list <- map(panel_A_plots, function(x) {
+panel_A_proto_list <- imap(panel_A_plots, function(x, idx) {
+  if (idx == 1) {
+    color_guide <- panel_A_guide_legend(10)
+    shape_guide <- panel_A_guide_legend(20)
+  } else {
+    color_guide <- FALSE
+    shape_guide <- FALSE
+  }
   p <- read_fig_proto(x) +
     scale_color_manual(
       values = codon_pal,
       drop = FALSE,
       breaks = kras_hotspot_codons$char,
-      guide = panel_A_guide_legend(10)
+      guide = color_guide
     ) +
     scale_shape_manual(
       values = c(17, 16),
       drop = FALSE,
-      guide = panel_A_guide_legend(20)
+      guide = shape_guide
     ) +
     labs(
       x = "predicted frequency",
@@ -112,7 +119,8 @@ panel_B <- read_fig_proto("allele_prob_per_allele_plot") +
     legend.key.height = unit(3, "mm"),
     legend.key.width = unit(2, "mm"),
     legend.justification = "left",
-    legend.box.margin = margin(0, -3, 0, -2, "mm")
+    legend.box.margin = margin(0, -3, 0, -2, "mm"),
+    legend.text = element_markdown()
   ) +
   labs(tag = "b")
 
@@ -131,7 +139,8 @@ panel_C <- read_fig_proto("allele_accuracy_barplots") +
     legend.key.height = unit(3, "mm"),
     legend.key.width = unit(2, "mm"),
     legend.title = element_text(face = "bold"),
-    legend.justification = "left"
+    legend.justification = "left",
+    legend.text = element_markdown()
   ) +
   labs(tag = "c")
 

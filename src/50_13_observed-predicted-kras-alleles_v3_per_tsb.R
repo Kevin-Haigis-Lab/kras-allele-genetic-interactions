@@ -830,7 +830,7 @@ allele_accuracy_barplots <- allele_predictions_acc %>%
   scale_alpha_manual(
     values = c(1, 1, 1, 1),
     breaks = c("COAD", "LUAD", "MM"),
-    labels = c("the KRAS allele", "another KRAS mutation", "KRAS WT"),
+    labels = c("the *KRAS* allele", "another *KRAS* mutation", "*KRAS* WT"),
     guide = guide_legend(
       title = "tumor samples with",
       override.aes = list(
@@ -846,7 +846,8 @@ allele_accuracy_barplots <- allele_predictions_acc %>%
     panel.grid.major.x = element_blank(),
     axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1),
     strip.background = element_blank(),
-    axis.ticks = element_blank()
+    axis.ticks = element_blank(),
+    legend.text = element_markdown()
   ) +
   labs(
     x = NULL,
@@ -858,6 +859,8 @@ ggsave_wrapper(
   "wide"
 )
 saveFigRds(allele_accuracy_barplots, "allele_accuracy_barplots")
+
+
 
 
 average_allele_probs <- ranked_allele_predictions %>%
@@ -1011,9 +1014,9 @@ boot_mean <- function(x, indices) {
 }
 
 point_pal <- c(
-  "the KRAS allele" = "darkslateblue",
-  "another KRAS mutation" = "grey20",
-  "KRAS WT" = "grey50"
+  "the *KRAS* allele" = "darkslateblue",
+  "another *KRAS* mutation" = "grey20",
+  "*KRAS* WT" = "grey50"
 )
 
 shape_pal <- c(19, 21, 25)
@@ -1024,9 +1027,9 @@ allele_prob_per_allele_df <- ranked_allele_predictions %.% {
   filter_kras_allele_tested()
   mutate(
     allele_group = case_when(
-      kras_allele == real_kras_allele ~ "the KRAS allele",
-      real_kras_allele == "WT" ~ "KRAS WT",
-      TRUE ~ "another KRAS mutation"
+      kras_allele == real_kras_allele ~ "the *KRAS* allele",
+      real_kras_allele == "WT" ~ "*KRAS* WT",
+      TRUE ~ "another *KRAS* mutation"
     ),
     allele_group = factor(allele_group, levels = names(point_pal)),
     kras_allele = factor_alleles(kras_allele)
@@ -1051,9 +1054,9 @@ allele_prob_per_allele_stats <- allele_prob_per_allele_df %.%
   mutate(stats_res = map(data, allele_prob_stats))
   select(-data)
   unnest(stats_res)
-  filter(group1 == "the KRAS allele" | group2 == "the KRAS allele")
+  filter(group1 == "the *KRAS* allele" | group2 == "the *KRAS* allele")
   mutate(
-    comparison = ifelse(group1 == "the KRAS allele", group2, group1),
+    comparison = ifelse(group1 == "the *KRAS* allele", group2, group1),
     comparison = factor(comparison, levels = names(point_pal))
   )
 }
@@ -1124,7 +1127,7 @@ allele_prob_per_allele_plot <- allele_prob_per_allele_summary %>%
   scale_size_manual(
     values = c("TRUE" = 0.5, "FALSE" = -1),
     breaks = c("TRUE"),
-    label = c("significantly different\nthan tumors with\nthe KRAS allele"),
+    label = c("significantly different<br>than tumors with<br>the *KRAS* allele"),
     guide = guide_legend(
       title = NULL,
       override.aes = list(size = 1.3),
@@ -1140,7 +1143,8 @@ allele_prob_per_allele_plot <- allele_prob_per_allele_summary %>%
     axis.ticks = element_blank(),
     strip.background = element_blank(),
     axis.title.x = element_blank(),
-    axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1)
+    axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1),
+    legend.text = element_markdown()
   ) +
   labs(
     x = NULL,
@@ -1180,6 +1184,7 @@ stats_stars_plot <- allele_prob_per_allele_stats %.% {
     axis.ticks = element_blank(),
     axis.title = element_blank(),
     axis.text.x = element_blank(),
+    axis.text.y = element_markdown(),
     strip.background = element_blank(),
     strip.text = element_text(size = 7, face = "bold"),
     axis.line = element_blank(),

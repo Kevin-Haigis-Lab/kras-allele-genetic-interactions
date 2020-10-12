@@ -29,8 +29,22 @@ panel_A_plots <- paste0(
   "_predict-ALL-allele-freq_scatter"
 )
 
-codon_pal <- codon_palette[names(codon_palette) != "Other"]
+codon_pal <- codon_palette[!names(codon_palette) %in% c("Other")]
 
+panel_A_guide_legend <- function(order) {
+  guide_legend(
+    order = order,
+    title.position = "top",
+    title.theme = element_markdown(
+      hjust = 0.5,
+      face = "bold",
+      size = 6,
+      family = "Arial"
+    ),
+    keyheight = unit(3, "mm"),
+    label.position = "right"
+  )
+}
 
 get_max_val <- function(gg) {
   data <- ggplot_build(read_fig_proto(gg))$plot$data
@@ -40,6 +54,14 @@ get_max_val <- function(gg) {
 panel_A_proto_list <- imap(panel_A_plots, function(x, idx) {
   max_val <- get_max_val(x)
   min_val <- (-0.1 / 0.45) * max_val
+
+  if (idx == 1) {
+    color_guide <- panel_A_guide_legend(10)
+    shape_guide <- panel_A_guide_legend(20)
+  } else {
+    color_guide <- FALSE
+    shape_guide <- FALSE
+  }
 
   p <- read_fig_proto(x) +
     scale_x_continuous(
@@ -52,37 +74,21 @@ panel_A_proto_list <- imap(panel_A_plots, function(x, idx) {
       labels = function(x) {
         ifelse(x == 0, "", x)
       }
-    ) +
+    )  +
     scale_color_manual(
       values = codon_pal,
       drop = FALSE,
-      guide = guide_legend(
-        order = 10,
-        title.theme = element_markdown(
-          hjust = 0.5, vjust = 0,
-          face = "bold", size = 6,
-          family = "Arial"
-        ),
-        label.vjust = 0.5,
-        keyheight = unit(4, "mm"),
-        label.position = "right"
-      )
+      breaks = kras_hotspot_codons$char,
+      guide = color_guide
     ) +
     scale_shape_manual(
       values = c(17, 16),
       drop = FALSE,
-      guide = guide_legend(
-        order = 20,
-        title.position = "top",
-        title.theme = element_markdown(
-          hjust = 0.5, vjust = 0,
-          face = "bold", size = 6,
-          family = "Arial"
-        ),
-        label.position = "right",
-        label.vjust = 0.5,
-        keyheight = unit(3, "mm")
-      )
+      guide = shape_guide
+    ) +
+    labs(
+      x = "predicted frequency",
+      y = "observed frequency"
     )
 
   if (idx %in% c(1, 3)) {

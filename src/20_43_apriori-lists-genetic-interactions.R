@@ -153,7 +153,7 @@ plot_genetic_interaction_graph <- function(gr_to_plot, CANCER, SUFFIX = "",
     geom_edge_link(
       aes(
         color = genetic_interaction,
-        width = -log(p_val + 0.0000001)
+        width = -log10(p_val + 0.0000001)
       )
     ) +
     scale_edge_color_manual(
@@ -195,7 +195,7 @@ plot_genetic_interaction_graph <- function(gr_to_plot, CANCER, SUFFIX = "",
       text = element_text(family = "Arial")
     ) +
     labs(
-      edge_width = "-log( p-value )"
+      edge_width = "-log10(p-value)"
     )
   save_path <- plot_path(
     GRAPHS_DIR,

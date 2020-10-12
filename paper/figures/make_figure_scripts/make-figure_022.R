@@ -20,7 +20,8 @@ theme_fig22 <- function(tag_margin = margin(-1, -1, -1, -1, "mm")) {
 
 
 # Special theme for graphs from 'ggraph'.
-theme_graph_fig22 <- function(plot_margin = margin(0, 0, 0, 0, "mm")) {
+theme_graph_fig22 <- function(plot_margin = margin(0, 0, 0, 0, "mm"),
+                              tag_margin = margin(0, 0, 0, 0, "mm")) {
   theme_graph(base_size = 7, base_family = "Arial") %+replace%
     theme(
       plot.title = element_text(
@@ -30,7 +31,7 @@ theme_graph_fig22 <- function(plot_margin = margin(0, 0, 0, 0, "mm")) {
       plot.tag = element_text(
         size = 7,
         face = "bold",
-        margin = margin(0, 0, 0, 0, "mm")
+        margin = tag_margin
       ),
       legend.margin = margin(0, 0, 0, 0, "mm"),
       legend.position = "bottom",
@@ -46,7 +47,7 @@ theme_graph_fig22 <- function(plot_margin = margin(0, 0, 0, 0, "mm")) {
 # The high-level network plot for the comutation graph for COAD.
 # original script: "src/20_40_highlivel-genetic-interactions.R"
 panel_A <- read_fig_proto("genetic_interaction_network_COAD") +
-  theme_graph_fig22() %+replace%
+  theme_graph_fig22(tag_margin = margin(0, 0, 0, -0.5, "mm")) %+replace%
   theme(
     legend.spacing.x = unit(1, "mm"),
     legend.position = c(0.05, 0.05),
@@ -76,7 +77,7 @@ panel_B <- read_fig_proto(
   ) +
   labs(
     tag = "b",
-    edge_width = "-*log*(p-value)",
+    edge_width = "-log<sub>10</sub>(p-value)",
     title = "COAD"
   )
 
@@ -107,7 +108,7 @@ prepare_enrichr_dotplot <- function(plt) {
         label.position = "top"
       )
     ) +
-    theme_fig22() +
+    theme_fig22(tag_margin = margin(-1, -1, -1, -0.9, "mm")) +
     theme(
       plot.title = element_blank(),
       axis.title = element_blank(),
@@ -124,7 +125,7 @@ prepare_enrichr_dotplot <- function(plt) {
     ) +
     labs(
       tag = "c",
-      alpha = "-*log*<sub>10</sub>(adj. p-value)",
+      alpha = "-log<sub>10</sub>(adj. p-value)",
       size = "num. of genes"
     )
 }
@@ -169,6 +170,9 @@ adjust_oncoplot_theme <- function(
 
   # Middle main tile plot
   pw[[2]] <- pw[[2]] +
+    scale_y_discrete(
+      labels = function(x) { str_replace(x, "KRAS", "*KRAS*") }
+    ) +
     scale_fill_manual(
       values = mod_variant_pal,
       guide = guide_legend(
@@ -179,7 +183,7 @@ adjust_oncoplot_theme <- function(
       )
     ) +
     theme(
-      axis.text.y = element_text(size = 6, hjust = 1),
+      axis.text.y = element_markdown(size = 6, hjust = 1),
       plot.margin = margin(0, 0, 0, 0, "mm"),
       legend.background = element_rect(fill = NULL, color = NULL),
       legend.margin = margin(-5, 0, -5, 0, "mm"),

@@ -73,7 +73,7 @@ panel_B <- read_fig_proto(
   ) +
   labs(
     tag = "b",
-    edge_width = "-*log*(p-value)"
+    edge_width = "-log<sub>10</sub>(p-value)"
   )
 
 
