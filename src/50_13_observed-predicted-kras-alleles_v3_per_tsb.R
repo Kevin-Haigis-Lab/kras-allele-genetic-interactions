@@ -786,6 +786,35 @@ allele_predictions_acc <- ranked_allele_predictions_top %>%
     )
   )
 
+knitr::kable(allele_predictions_acc, format = "markdown", digits = 2)
+# > |cancer |real_kras_allele | accuracy| false_pos_mut| false_pos_wt|
+# > |:------|:----------------|--------:|-------------:|------------:|
+# > |COAD   |A146T            |     0.17|          0.20|         0.16|
+# > |COAD   |G12A             |     0.05|          0.04|         0.03|
+# > |COAD   |G12C             |     0.08|          0.05|         0.03|
+# > |COAD   |G12D             |     0.17|          0.22|         0.19|
+# > |COAD   |G12S             |     0.00|          0.08|         0.08|
+# > |COAD   |G12V             |     0.14|          0.07|         0.07|
+# > |COAD   |G13D             |     0.33|          0.34|         0.43|
+# > |LUAD   |G12A             |     0.00|          0.01|         0.04|
+# > |LUAD   |G12C             |     0.62|          0.61|         0.47|
+# > |LUAD   |G12D             |     0.04|          0.05|         0.19|
+# > |LUAD   |G12V             |     0.26|          0.35|         0.30|
+# > |LUAD   |G13C             |     0.00|          0.00|         0.00|
+# > |MM     |G12A             |     0.00|          0.05|         0.08|
+# > |MM     |G12D             |     0.38|          0.24|         0.26|
+# > |MM     |G12R             |     0.00|          0.00|         0.01|
+# > |MM     |G12V             |     0.16|          0.08|         0.09|
+# > |MM     |G13D             |     0.38|          0.34|         0.33|
+# > |MM     |Q61H             |     0.20|          0.21|         0.18|
+# > |MM     |Q61L             |     0.17|          0.02|         0.01|
+# > |MM     |Q61R             |     0.00|          0.02|         0.04|
+# > |PAAD   |G12C             |     0.15|          0.08|         0.07|
+# > |PAAD   |G12D             |     0.32|          0.28|         0.30|
+# > |PAAD   |G12R             |     0.00|          0.01|         0.03|
+# > |PAAD   |G12V             |     0.39|          0.40|         0.32|
+# > |PAAD   |Q61H             |     0.20|          0.22|         0.28|
+
 allele_accuracy_barplots <- allele_predictions_acc %>%
   mutate(
     x_val = factor_alleles(real_kras_allele),
