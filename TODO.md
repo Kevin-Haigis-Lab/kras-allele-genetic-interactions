@@ -14,9 +14,9 @@
 
 ### Figures
 
-- revisit panel spacing after 'ggplot2' changes
-- tighten-up the spacing of figure legends and text
-- manual modifications for Figures 2, 4, S4, S10
+#### Fixes
+
+- Supp Fig 1. "signature level" --> "signature composition"
 
 ## Misc.
 
