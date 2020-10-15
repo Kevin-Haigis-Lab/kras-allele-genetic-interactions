@@ -38,7 +38,7 @@ panel_A <- read_fig_proto("signature-level-per-sample") +
     expand = c(0, 0)
   ) +
   labs(
-    y = "signature level",
+    y = "signature composition",
     fill = "signature",
     tag = "a"
   ) +
@@ -90,7 +90,7 @@ panel_B <- read_fig_proto("signature-level-boxplots_with0") +
   ) +
   labs(
     tag = "b",
-    y = "signature level"
+    y = "signature composition"
   ) +
   theme_fig7() +
   theme(
