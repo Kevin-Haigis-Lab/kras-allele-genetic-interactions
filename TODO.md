@@ -6,17 +6,13 @@
 - tests for "lib/" functions
 - 
 
+
 ## Paper
 
-### Written
+- Manuscript is ready for review by GM.
+- Need to re-build Supp Data
+- Fill in other forms for Nat. Comm.
 
-- add a written portion to the 'paper/' directory with the submissions and resubmission response
-
-### Figures
-
-#### Fixes
-
-- Supp Fig 1. "signature level" --> "signature composition"
 
 ## Misc.
 
