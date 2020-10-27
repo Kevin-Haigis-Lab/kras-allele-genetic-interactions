@@ -41,43 +41,49 @@ stats_boxplot <- function(df, stats_df = NULL,
                           bar_size = 0.7, label_color = "black",
                           label_alpha = 1.0,
                           label_size = 8, fontface = "plain",
-                          family = "Arial"
-                      ) {
-    check_data(df)
+                          family = "Arial") {
+  check_data(df)
 
-    if (!is.null(stats_df)) {
-        check_stats(stats_df)
-    } else {
-        stats_df <- make_stats_dataframe(df, auto_filter = TRUE,
-                                         method = "t.test",
-                                         p.adjust.method = "BH")
-    }
+  if (!is.null(stats_df)) {
+    check_stats(stats_df)
+  } else {
+    stats_df <- make_stats_dataframe(df,
+      auto_filter = TRUE,
+      method = "t.test",
+      p.adjust.method = "BH"
+    )
+  }
 
-    bp <- ggplot(df, aes(x = x, y = y)) +
-        geom_boxplot(
-            aes(color = !!rlang::enquo(box_color),
-                fill = !!rlang::enquo(box_fill)),
-            alpha = box_alpha, outlier.shape = NA
-        ) +
-        geom_jitter(
-            aes(color = !!rlang::enquo(box_color),
-                fill = !!rlang::enquo(box_fill)),
-            alpha = point_alpha, size = point_size,
-            width = jitter_width, height = jitter_height
-        )
+  bp <- ggplot(df, aes(x = x, y = y)) +
+    geom_boxplot(
+      aes(
+        color = !!rlang::enquo(box_color),
+        fill = !!rlang::enquo(box_fill)
+      ),
+      alpha = box_alpha, outlier.shape = NA
+    ) +
+    geom_jitter(
+      aes(
+        color = !!rlang::enquo(box_color),
+        fill = !!rlang::enquo(box_fill)
+      ),
+      alpha = point_alpha, size = point_size,
+      width = jitter_width, height = jitter_height
+    )
 
-    bp <- add_stats_comparisons(bp, df, stats_df,
-                                up_spacing = up_spacing,
-                                dn_spacing = dn_spacing,
-                                bar_color = bar_color,
-                                bar_alpha = bar_alpha,
-                                bar_size = bar_size,
-                                label_color = label_color,
-                                label_alpha = label_alpha,
-                                label_size = label_size,
-                                fontface = fontface,
-                                family = family)
-    return(bp)
+  bp <- add_stats_comparisons(bp, df, stats_df,
+    up_spacing = up_spacing,
+    dn_spacing = dn_spacing,
+    bar_color = bar_color,
+    bar_alpha = bar_alpha,
+    bar_size = bar_size,
+    label_color = label_color,
+    label_alpha = label_alpha,
+    label_size = label_size,
+    fontface = fontface,
+    family = family
+  )
+  return(bp)
 }
 
 
@@ -92,16 +98,16 @@ stats_boxplot <- function(df, stats_df = NULL,
 #   `label != "ns"`?
 # ...: Passed to `ggpubr::compare_means()`.
 make_stats_dataframe <- function(df, auto_filter = FALSE, ...) {
-    check_data(df)
+  check_data(df)
 
-    stats_df <- compare_means(y ~ x, data = df, ...) %>%
-        dplyr::rename(x1 = group1, x2 = group2, label = p.signif)
+  stats_df <- compare_means(y ~ x, data = df, ...) %>%
+    dplyr::rename(x1 = group1, x2 = group2, label = p.signif)
 
-    if (auto_filter) {
-        stats_df %<>% filter(label != "ns")
-    }
+  if (auto_filter) {
+    stats_df %<>% filter(label != "ns")
+  }
 
-    return(stats_df)
+  return(stats_df)
 }
 
 
@@ -135,75 +141,79 @@ make_stats_dataframe <- function(df, auto_filter = FALSE, ...) {
 
 # Check that the data frame `df` has the necessary columns.
 check_data <- function(df) {
-    assertr::verify(df, has_all_names("x", "y"))
+  assertr::verify(df, has_all_names("x", "y"))
 }
 
 
 # Check that the statistics data frame has the necessary columns.
 check_stats <- function(df) {
-    assertr::verify(df, has_all_names("x1", "x2", "label"))
+  assertr::verify(df, has_all_names("x1", "x2", "label"))
 }
 
 
 # Create a new bar object.
 make_new_bar <- function(x1, x2, y, up_space = 0, dn_space = up_space) {
-    return(list(x1 = x1,
-                x2 = x2,
-                y = y,
-                up_space = up_space,
-                dn_space = dn_space,
-                y_up = y + up_space,
-                y_dn = y - dn_space))
+  return(list(
+    x1 = x1,
+    x2 = x2,
+    y = y,
+    up_space = up_space,
+    dn_space = dn_space,
+    y_up = y + up_space,
+    y_dn = y - dn_space
+  ))
 }
 
 
 # Updeate the range of the bar.
 update_bar <- function(bar) {
-    bar$y_up <- bar$y + bar$up_space
-    bar$y_dn <- bar$y - bar$dn_space
-    return(bar)
+  bar$y_up <- bar$y + bar$up_space
+  bar$y_dn <- bar$y - bar$dn_space
+  return(bar)
 }
 
 
 # Is `x` between `left` and `right? Set inclusive to use greater/less than *or
 # equal to*. `x` can be a vector, but `left` and `right` must be atomic values.
 is_between <- function(x, left, right, inclusive = FALSE) {
-    between_non_inclusive <- function(i) {
-        return(left < i & i < right)
-    }
+  between_non_inclusive <- function(i) {
+    return(left < i & i < right)
+  }
 
-    between_inclusive <- function(i) {
-        return(left <= i & i <= right)
-    }
+  between_inclusive <- function(i) {
+    return(left <= i & i <= right)
+  }
 
-    if (inclusive) {
-        return(purrr::map_lgl(x, between_inclusive))
-    } else {
-        return(purrr::map_lgl(x, between_non_inclusive))
-    }
+  if (inclusive) {
+    return(purrr::map_lgl(x, between_inclusive))
+  } else {
+    return(purrr::map_lgl(x, between_non_inclusive))
+  }
 }
 
 
 # Do two bar objects overlap?
 bars_overlap <- function(b1, b2) {
-    # Check x-values first.
-    x_cond1 <- is_between(b1$x1, b2$x1, b2$x2, inclusive = TRUE)
-    x_cond2 <- is_between(b1$x2, b2$x1, b2$x2, inclusive = TRUE)
-    if (!x_cond1 & !x_cond2) return(FALSE)
+  # Check x-values first.
+  x_cond1 <- is_between(b1$x1, b2$x1, b2$x2, inclusive = TRUE)
+  x_cond2 <- is_between(b1$x2, b2$x1, b2$x2, inclusive = TRUE)
+  if (!x_cond1 & !x_cond2) {
+    return(FALSE)
+  }
 
-    # Check y-values if x-values overlap
-    y_cond1 <- is_between(b1$y_dn, b2$y_dn, b2$y_up)
-    y_cond2 <- is_between(b1$y_up, b2$y_dn, b2$y_up)
-    y_cond3 <- is_between(b1$y, b2$y_dn, b2$y_up)
-    return(any(c(y_cond1, y_cond2, y_cond3)))
+  # Check y-values if x-values overlap
+  y_cond1 <- is_between(b1$y_dn, b2$y_dn, b2$y_up)
+  y_cond2 <- is_between(b1$y_up, b2$y_dn, b2$y_up)
+  y_cond3 <- is_between(b1$y, b2$y_dn, b2$y_up)
+  return(any(c(y_cond1, y_cond2, y_cond3)))
 }
 
 
 # Move `b1` above `b2`.
 move_b1_above_b2 <- function(b1, b2, buffer = 1e-4) {
-    b1$y <- b2$y + b2$up_space + b1$dn_space + buffer
-    b1 <- update_bar(b1)
-    return(b1)
+  b1$y <- b2$y + b2$up_space + b1$dn_space + buffer
+  b1 <- update_bar(b1)
+  return(b1)
 }
 
 
@@ -217,30 +227,36 @@ add_stats_comparisons <- function(bp, df, stats_df,
                                   label_alpha = 1.0,
                                   label_size = 8, fontface = "plain",
                                   family = "Arial") {
-    stats_df %<>% arrange(x1, x2, label) %>%
-        add_column(bar = NA) %>%
-        mutate(x1_num = reassign_x(x1, list(x1, x2)),
-               x2_num = reassign_x(x2, list(x1, x2)))
+  stats_df %<>% arrange(x1, x2, label) %>%
+    add_column(bar = NA) %>%
+    mutate(
+      x1_num = reassign_x(x1, list(x1, x2)),
+      x2_num = reassign_x(x2, list(x1, x2))
+    )
 
-    df$x_num <- reassign_x(df$x, df$x)
+  df$x_num <- reassign_x(df$x, df$x)
 
-    stats_df <- get_bars(df, stats_df, up_spacing, dn_spacing)
+  stats_df <- get_bars(df, stats_df, up_spacing, dn_spacing)
 
-    for (i in seq(1, nrow(stats_df))) {
-        bp <- add_bar_to_plot(bp, stats_df, row = i,
-                              color = bar_color, alpha = bar_alpha,
-                              size = bar_size)
-        bp <- add_labels_to_plot(bp, stats_df, row = i,
-                                 color = label_color, alpha = label_alpha,
-                                 size = label_size, fontface = fontface,
-                                 family = family)
-    }
+  for (i in seq(1, nrow(stats_df))) {
+    bp <- add_bar_to_plot(bp, stats_df,
+      row = i,
+      color = bar_color, alpha = bar_alpha,
+      size = bar_size
+    )
+    bp <- add_labels_to_plot(bp, stats_df,
+      row = i,
+      color = label_color, alpha = label_alpha,
+      size = label_size, fontface = fontface,
+      family = family
+    )
+  }
 
-    max_y_val <- max(purrr::map_dbl(stats_df$bar, ~ unlist(.x)["y_up"]))
-    bp <- bp +
-        scale_y_continuous(limits = c(NA, max_y_val))
+  max_y_val <- max(purrr::map_dbl(stats_df$bar, ~ unlist(.x)["y_up"]))
+  bp <- bp +
+    scale_y_continuous(limits = c(NA, max_y_val))
 
-    return(bp)
+  return(bp)
 }
 
 
@@ -249,14 +265,14 @@ add_stats_comparisons <- function(bp, df, stats_df,
 # levels determined by `sort(unique(x_vals))` and the level of `x` is returned.
 # The `...` is passed to `sort()`.
 reassign_x <- function(x, all_xs, ...) {
-    if (is.factor(x)) {
-        x <- forcats::fct_drop(x)
-        return(as.integer(x))
-    }
-    if (!is.factor(x)) {
-        fx <- factor(x, levels = sort(unique(unlist(all_xs)), ...))
-        return(as.integer(fx))
-    }
+  if (is.factor(x)) {
+    x <- forcats::fct_drop(x)
+    return(as.integer(x))
+  }
+  if (!is.factor(x)) {
+    fx <- factor(x, levels = sort(unique(unlist(all_xs)), ...))
+    return(as.integer(fx))
+  }
 }
 
 
@@ -265,14 +281,16 @@ reassign_x <- function(x, all_xs, ...) {
 # `ggplot2::geom_segment()`.
 add_bar_to_plot <- function(p, stats_df, row,
                             color = "black", alpha = 1.0, size = 0.7) {
-    from <- stats_df$x1_num[[row]]
-    to <- stats_df$x2_num[[row]]
-    bar <- unlist(stats_df$bar[[row]], recursive = FALSE)
-    p <- p +
-        geom_segment(x = from, xend = to,
-                     y = bar$y, yend = bar$y,
-                     color = color, alpha = alpha, size = size)
-    return(p)
+  from <- stats_df$x1_num[[row]]
+  to <- stats_df$x2_num[[row]]
+  bar <- unlist(stats_df$bar[[row]], recursive = FALSE)
+  p <- p +
+    geom_segment(
+      x = from, xend = to,
+      y = bar$y, yend = bar$y,
+      color = color, alpha = alpha, size = size
+    )
+  return(p)
 }
 
 
@@ -282,19 +300,23 @@ add_bar_to_plot <- function(p, stats_df, row,
 add_labels_to_plot <- function(p, stats_df, row,
                                color = "black", alpha = 1.0, size = 8,
                                fontface = "plain", family = "Arial") {
-    from <- stats_df$x1_num[[row]]
-    to <- stats_df$x2_num[[row]]
-    mid <- mean(c(from, to))
-    bar <- unlist(stats_df$bar[[row]], recursive = FALSE)
+  from <- stats_df$x1_num[[row]]
+  to <- stats_df$x2_num[[row]]
+  mid <- mean(c(from, to))
+  bar <- unlist(stats_df$bar[[row]], recursive = FALSE)
 
-    lbl <- stats_df$label[[row]]
-    if (is.na(lbl)) return(p)
-
-    p <- p +
-        annotate("text", x = mid, y = bar$y, label = lbl,
-                 colour = color, alpha = alpha, size = size,
-                 fontface = fontface, family = family)
+  lbl <- stats_df$label[[row]]
+  if (is.na(lbl)) {
     return(p)
+  }
+
+  p <- p +
+    annotate("text",
+      x = mid, y = bar$y, label = lbl,
+      colour = color, alpha = alpha, size = size,
+      fontface = fontface, family = family
+    )
+  return(p)
 }
 
 
@@ -309,62 +331,65 @@ add_labels_to_plot <- function(p, stats_df, row,
 #  5. Repeat steps 3 and 4 until the new bar does not overlap with any others.
 #  6. Repeat steps 2-5 until all bars have been placed.
 get_bars <- function(df, stats_df, up_spacing, dn_spacing) {
-    for (i in seq(1, nrow(stats_df))) {
-        y_min <- lowest_y(stats_df$x1_num[[i]], stats_df$x2_num[[i]], df)
-        b <- make_new_bar(x1 = stats_df$x1_num[[i]],
-                          x2 = stats_df$x2_num[[i]],
-                          y = y_min + dn_spacing,
-                          up_space = up_spacing,
-                          dn_space = dn_spacing)
-        current_bars <- unlist(stats_df$bar, recursive = FALSE)
-        b <- find_optimal_bar_position(b, current_bars)
-        stats_df$bar[[i]] <- list(b)
-    }
-    return(stats_df)
+  for (i in seq(1, nrow(stats_df))) {
+    y_min <- lowest_y(stats_df$x1_num[[i]], stats_df$x2_num[[i]], df)
+    b <- make_new_bar(
+      x1 = stats_df$x1_num[[i]],
+      x2 = stats_df$x2_num[[i]],
+      y = y_min + dn_spacing,
+      up_space = up_spacing,
+      dn_space = dn_spacing
+    )
+    current_bars <- unlist(stats_df$bar, recursive = FALSE)
+    b <- find_optimal_bar_position(b, current_bars)
+    stats_df$bar[[i]] <- list(b)
+  }
+  return(stats_df)
 }
 
 
 # Find the lowest y-value for a bar.
 lowest_y <- function(x1, x2, df) {
-    xmin <- min(c(x1, x2))
-    xmax <- max(c(x1, x2))
+  xmin <- min(c(x1, x2))
+  xmax <- max(c(x1, x2))
 
-    min_vals <- df %>%
-        filter(is_between(x_num, !!xmin, !!xmax, inclusive = TRUE)) %>%
-        pull(y) %>%
-        max()
-    return(min_vals[[1]])
+  min_vals <- df %>%
+    filter(is_between(x_num, !!xmin, !!xmax, inclusive = TRUE)) %>%
+    pull(y) %>%
+    max()
+  return(min_vals[[1]])
 }
 
 
 # Find the lowest bar in a list of bars.
 find_lowest_bar <- function(bars) {
-    ys <- purrr::map_dbl(bars, ~.x$y)
-    return(bars[[which.min(ys)]])
+  ys <- purrr::map_dbl(bars, ~ .x$y)
+  return(bars[[which.min(ys)]])
 }
 
 
 # Find the optimial location for a bar `b` amongst a list of bars `current_bs`.
 # See `get_bars()` for the complete algorithm used.
 find_optimal_bar_position <- function(b, current_bs) {
-    current_bs <- current_bs[!is.na(current_bs)]
+  current_bs <- current_bs[!is.na(current_bs)]
 
-    if (length(current_bs) == 0) return(b)
+  if (length(current_bs) == 0) {
+    return(b)
+  }
 
-    conflicts <- rep(TRUE, length(current_bs))
+  conflicts <- rep(TRUE, length(current_bs))
 
-    while (any(conflicts)) {
-
-        for (j in seq(1, length(conflicts))) {
-            b2 <- current_bs[[j]]
-            conflicts[[j]] <- bars_overlap(b, b2)
-        }
-
-        if (!any(conflicts)) break
-
-        lowest_other_b <- find_lowest_bar(current_bs[conflicts])
-        b <- move_b1_above_b2(b, lowest_other_b)
+  while (any(conflicts)) {
+    for (j in seq(1, length(conflicts))) {
+      b2 <- current_bs[[j]]
+      conflicts[[j]] <- bars_overlap(b, b2)
     }
 
-    return(b)
+    if (!any(conflicts)) break
+
+    lowest_other_b <- find_lowest_bar(current_bs[conflicts])
+    b <- move_b1_above_b2(b, lowest_other_b)
+  }
+
+  return(b)
 }

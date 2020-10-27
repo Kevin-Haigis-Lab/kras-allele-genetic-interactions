@@ -10,7 +10,7 @@ logging_level: INFO
 load_libraries: TRUE
 libraries: stats, org.Hs.eg.db, glue, conflicted, assertr, testthat,
         glmnet, parallel, caret, ggfortify, tidygraph, jhcutils,
-        magrittr, ggpubr, ggraph, ggtext, patchwork, ggplot2, broom,
+        magrittr, nakedpipe, ggpubr, ggraph, ggtext, patchwork, ggplot2, broom,
         tidyverse
 as_factors: FALSE
 tables_type: tibble
