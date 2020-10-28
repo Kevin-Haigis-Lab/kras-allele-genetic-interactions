@@ -32,6 +32,7 @@ panel_A <- read_fig_proto("allele_dist_dotplot") +
     axis.ticks = element_blank(),
     axis.title.x = element_markdown(),
     axis.title.y = element_blank(),
+    axis.text.x = element_text(hjust = 0.5, vjust = 1, angle = 0),
     legend.position = "left",
     legend.text = element_text(size = 6),
     legend.title = element_markdown(size = 6),
@@ -60,7 +61,7 @@ panel_B <- read_fig_proto("cancer_freq_kras_mut_column") +
   theme_fig42() +
   theme(
     axis.title.x = element_markdown(),
-    axis.text.x = element_text(hjust = 0.5, vjust = 0.5, angle = 0),
+    axis.text.x = element_text(hjust = 0.5, vjust = 1, angle = 0),
     axis.title.y = element_blank(),
     axis.text.y = element_blank(),
     legend.position = "none",
@@ -164,6 +165,9 @@ signatures_label_df <- bind_cols(
   signatures_label_df,
   custom_label_legend_df(signatures_label_df$signatures)
 )
+
+white_lbls <- c("5", "9", "18", "MSI")
+signatures_label_df$color[signatures_label_df$lbl %in% white_lbls] <- "white"
 
 
 panel_D_legend <- custom_label_legend_plot(

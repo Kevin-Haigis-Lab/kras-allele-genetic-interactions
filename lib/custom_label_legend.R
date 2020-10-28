@@ -15,11 +15,13 @@ custom_label_legend <- function(lbl,
 
 custom_label_legend_df <- function(lbl,
                                    gap = 0,
-                                   colors = rep("black", length(lbl))) {
+                                   colors = rep("black", length(lbl)),
+                                   mod_length = TRUE) {
+  mod_length <- rep(mod_length, length(lbl))
   tibble(lbl = lbl) %>%
     mutate(
       len = get_string_length(lbl),
-      len = (len / 2) + 1,
+      len = ifelse(mod_length, (len / 2) + 1, len),
       start = calc_starts(len, gap = gap),
       end = len + start,
       mid = (start + end) / 2

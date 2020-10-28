@@ -171,7 +171,9 @@ adjust_oncoplot_theme <- function(
   # Middle main tile plot
   pw[[2]] <- pw[[2]] +
     scale_y_discrete(
-      labels = function(x) { str_replace(x, "KRAS", "*KRAS*") }
+      labels = function(x) {
+        str_replace(x, "KRAS", "*KRAS*")
+      }
     ) +
     scale_fill_manual(
       values = mod_variant_pal,
@@ -268,7 +270,16 @@ variants <- unique(c(
   extract_variants_from_oncoplots(panel_E)
 ))
 
-panel_D_leg_df <- custom_label_legend_df(variants, colors = "white")
+panel_D_leg_df <- custom_label_legend_df(variants, colors = "white", mod_length = FALSE)
+# panel_D_leg_df <- tribble(
+#   ~lbl,              ~len, ~start, ~end, ~mid, ~color,
+#   "missense",         1.5,    0,  1.5,  0.75, "white",
+#   "frame shift del.", 1.78,  1.5, 3.28, 2.39, "white",
+#   "frame shift ins.", 1.77, 3.28, 5.05, 4.16, "white",
+#   "nonsense",         1.51, 5.05, 6.56, 5.80, "white",
+#   "in-frame ins.",    1.65, 6.56, 8.21, 7.39, "white",
+#   "splice site",      1.52, 8.21, 9.73, 8.97, "white",
+# )
 
 panel_D_leg <- custom_label_legend_plot(panel_D_leg_df,
   family = "Arial",
@@ -361,9 +372,10 @@ panel_F[[2]] <- panel_F[[2]] +
   full_figure <- (
     row_1 /
       panel_C /
+      plot_spacer() /
       ((panels_DE | wrap_elements(full = panel_F)) + plot_layout(widths = c(2, 3)))
   ) +
-    plot_layout(heights = c(3, 3, 3))
+    plot_layout(heights = c(1000, 1000, 1, 1000))
 
   save_figure(
     full_figure,
