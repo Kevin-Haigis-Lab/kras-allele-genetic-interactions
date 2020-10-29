@@ -1,0 +1,277 @@
+---
+title: "Temporary analysis R Markdown"
+output: 
+  html_document:
+    toc: true
+    toc_depth: 2
+    toc_float: false
+    df_print: kable
+    code_folding: hide
+    keep_md: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, comment = "#>", dpi = 400)
+
+library(mustashe)
+library(jhcutils)
+library(glue)
+library(ggridges)
+library(patchwork)
+library(ggtext)
+library(nakedpipe)
+library(magrittr)
+library(rstanarm)
+library(easystats)
+library(tidybayes)
+library(bayesplot)
+library(tidyverse)
+
+for (f in list.files(here::here("lib"), full.names = TRUE, pattern = "R$")) {
+  if (str_detect(f, "global|enrich|supp-data")) {
+    next
+  }
+  source(f)
+}
+
+options(dplyr.summarise.inform = FALSE)
+
+theme_set(
+  theme_bw(base_size = 11, base_family = "Arial") %+replace%
+    theme(
+      strip.background = element_blank(),
+      axis.ticks = element_blank()
+    )
+)
+
+set.seed(0)
+```
+
+## Data preparation
+
+```{r}
+main_alleles <- c("WT", "KRAS_G12A", "KRAS_G12C", "KRAS_G12D", "KRAS_G12V", "KRAS_G13D")
+
+dusp_rna_data <- readRDS("~/Downloads/coad-dusp-rna_expression.rds") %.% {
+  filter(!is_hypermutant)
+  select(-is_hypermutant)
+  mutate(
+    allele = ifelse(ras_allele %in% !!main_alleles, ras_allele, "Other"),
+    allele = str_remove(allele, "KRAS_"),
+    allele = factor_alleles(allele)
+  )
+}
+
+# Put DUSP genes in order.
+dusp_order <- unique(dusp_rna_data$hugo_symbol)
+dusp_num <- as.numeric(str_remove_all(dusp_order, "[:alpha:]"))
+dusp_order <- dusp_order[order(dusp_num)]
+dusp_rna_data$hugo_symbol <- factor(dusp_rna_data$hugo_symbol, levels = dusp_order)
+```
+
+```{r}
+dusp_rna_data %>%
+  filter(is.na(rna_expr)) %>%
+  count(hugo_symbol, sort = TRUE)
+```
+
+```{r}
+dusp_rna_data %>%
+  filter(rna_expr <= 0) %>%
+  count(hugo_symbol)
+```
+
+Set negative values to 0.
+
+```{r}
+dusp_rna_data %<>% mutate(rna_expr = map_dbl(rna_expr, ~ max(0, .x)))
+```
+
+### Inspect the distribution of RNA expression values
+
+```{r}
+dusp_rna_data %>%
+  filter(!is.na(rna_expr)) %>%
+  mutate(rna_expr = rna_expr + 1) %>%
+  ggplot(aes(x = allele, y = rna_expr)) +
+  facet_wrap(~hugo_symbol, scales = "free_y") +
+  geom_boxplot(outlier.shape = NA) +
+  scale_y_continuous(trans = "log10") +
+  theme(
+    panel.grid.major.x = element_blank(),
+    axis.text = element_text(size = 8),
+    axis.text.x = element_text(angle = 45, hjust = 1)
+  ) +
+  labs(x = NULL, y = "RNA expression (log10 + 1)")
+```
+
+Remove *DUSP13* and *DUSP21* because they are missing data and have very low expression levels.
+
+```{r}
+IGNORE_DUSPS <- c("DUSP13", "DUSP21")
+dusp_rna_data %<>% filter(!hugo_symbol %in% IGNORE_DUSPS)
+```
+
+```{r}
+plot_dusp_distribtions <- function(df, x) {
+  df %>%
+    ggplot(aes(x = {{ x }})) +
+    facet_wrap(~hugo_symbol, scales = "free") +
+    scale_y_continuous(expand = expansion(c(0, 0.02))) +
+    geom_density() +
+    theme(
+      axis.text = element_text(size = 7),
+      axis.text.x = element_text(angle = 30, hjust = 1),
+      strip.text = element_text(size = 7),
+      panel.spacing = unit(1, "mm")
+    ) +
+    labs(x = "RNA expression")
+}
+
+plot_dusp_distribtions(dusp_rna_data, rna_expr)
+```
+
+```{r}
+dusp_rna_data %>%
+  mutate(rna_expr = log10(rna_expr + 1)) %>%
+  plot_dusp_distribtions(rna_expr)
+```
+
+```{r}
+dusp_rna_data %>%
+  mutate(rna_expr = sqrt(rna_expr)) %>%
+  plot_dusp_distribtions(rna_expr)
+```
+
+
+```{r}
+dusp_rna_data %>%
+  group_by(hugo_symbol) %>%
+  mutate(rna_expr = scale_numeric(rna_expr)) %>%
+  ungroup() %>%
+  plot_dusp_distribtions(rna_expr)
+```
+
+```{r}
+dusp_rna_data %>%
+  mutate(rna_expr = sqrt(rna_expr)) %>%
+  group_by(hugo_symbol) %>%
+  mutate(rna_expr = scale_numeric(rna_expr)) %>%
+  ungroup() %>%
+  plot_dusp_distribtions(rna_expr)
+```
+
+Use $\log_10(\text{RNA} + 1)$, centralized, and scaled values for the analysis.
+
+```{r}
+dusp_rna_data %<>%
+  mutate(log10_rna_expr = log10(rna_expr + 1)) %>%
+  group_by(hugo_symbol) %>%
+  mutate(log10_z_rna = scale_numeric(log10_rna_expr)) %>%
+  ungroup()
+```
+
+## Check for correlations in *DUSP* expression
+
+```{r}
+dusp_corr <- dusp_rna_data %>%
+  pivot_wider(id = tumor_sample_barcode, names_from = hugo_symbol, values_from = log10_z_rna) %>%
+  select(-tumor_sample_barcode) %>%
+  corrr::correlate() 
+
+dusp_corr_pheat <- dusp_corr %>%
+  as.data.frame() %>%
+  column_to_rownames("rowname")
+colnames(dusp_corr_pheat) <- str_remove(colnames(dusp_corr_pheat), "DUSP")
+rownames(dusp_corr_pheat) <- str_remove(rownames(dusp_corr_pheat), "DUSP")
+pheatmap::pheatmap(
+  dusp_corr_pheat,
+  border_color = NA,
+  na_col = "white",
+  main = "Correlation of DUSP gene expression",
+)
+
+corrr::network_plot(dusp_corr, min_cor = 0.3) +
+  theme(plot.title = element_text(hjust = 0.5, face="bold")) +
+  labs(title = "DUSP gene expression correlation network")
+```
+
+
+## Modeling
+
+```{r}
+new_allele_order <- as.character(sort(unique(dusp_rna_data$allele)))
+new_allele_order <- c("WT", new_allele_order[new_allele_order != "WT"])
+
+data <- dusp_rna_data %>%
+  mutate(
+    grp_allele = case_when(
+      allele == "G13D" ~ "G13D",
+      allele == "WT" ~ "WT",
+      TRUE ~ "KRAS"
+    ),
+    grp_allele = factor(grp_allele, levels = c("WT", "G13D", "KRAS")),
+    allele = factor(as.character(allele), levels = new_allele_order)
+  )
+
+# FOR TESTING
+set.seed(0)
+TESTING_DUSPS <- paste0("DUSP", 1:6)
+TESTING_TSBS <- sample(unique(data$tumor_sample_barcode), 50)
+data <- data %.%{
+  filter(hugo_symbol %in% TESTING_DUSPS)
+  filter(tumor_sample_barcode %in% TESTING_TSBS)
+}
+```
+
+```{r}
+stash("m1", depends_on = "data", {
+  m1 <- stan_glmer(log10_z_rna ~ (1 + allele|hugo_symbol), data = data)
+})
+```
+
+```{r}
+mcmc_trace(m1, pars = "(Intercept)") / mcmc_trace(m1, pars = "sigma")
+mcmc_trace(m1, regex_pars = "DUSP1")
+```
+
+```{r}
+pp_check(m1, plotfun = "stat", stat = "mean")
+```
+
+
+```{r}
+pp_check(m1, plotfun = "stat_2d", stat = c("mean", "sd"))
+```
+
+```{r}
+as.data.frame(m1) %.% {
+  mutate(draw = row_number())
+  select(draw, `(Intercept)`, tidyselect::contains("DUSP"))
+  pivot_longer(
+    -c(draw, `(Intercept)`), 
+    names_to = "parameter", 
+    values_to = "value"
+  )
+  mutate(
+    parameter = str_remove_all(parameter, "[:punct:]"), 
+    parameter = str_remove_all(parameter, "b|allele|hugosymbol|")
+  )
+  separate(parameter, c("allele", "dusp"), sep=" ")
+  mutate(allele = str_replace(allele, "Intercept", "WT"))
+} %>%
+  ggplot(aes(value)) +
+  facet_wrap(~ dusp, scales = "free") +
+  geom_vline(xintercept = 0, lty = 2, color = "grey50", size = 0.9) +
+  geom_density(aes(color = allele), size = 1) +
+  scale_color_manual(values = short_allele_pal) +
+  scale_x_continuous(expand = c(0, 0)) +
+  scale_y_continuous(expand = expansion(c(0, 0.02))) +
+  labs(x = "posterior distribution", y = "probability density", color = "KRAS allele")
+```
+
+```{r}
+bayestestR::describe_posterior(m1, effects = "all") %>%
+  knitr::kable()
+```
+
