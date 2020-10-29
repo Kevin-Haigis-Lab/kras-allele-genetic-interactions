@@ -99,7 +99,7 @@ join_cancerdf_and_krasdf <- function(cancer_df, kras_df) {
 }
 
 
-ProjectTemplate::cache("cancer_muts_df", {
+cache("cancer_muts_df", {
   info(logger, "Preparing cancer data from GM.")
 
   # Read in and prepare the nested structure from GM.
@@ -128,7 +128,7 @@ ProjectTemplate::cache("cancer_muts_df", {
 })
 
 
-ProjectTemplate::cache("cancer_coding_muts_df",
+cache("cancer_coding_muts_df",
   depends = "cancer_muts_df",
   {
     # save only non-silent mutations
@@ -144,7 +144,7 @@ ProjectTemplate::cache("cancer_coding_muts_df",
 #### ---- Full cancer data set from GM ---- ####
 
 
-ProjectTemplate::cache("cancer_full_muts_df", {
+cache("cancer_full_muts_df", {
   info(logger, "Preparing cancer data from GM.")
 
   # Read in and prepare the nested structure from GM.
@@ -159,7 +159,7 @@ ProjectTemplate::cache("cancer_full_muts_df", {
   double_kras_mutants <- get_kras_double_mutants(ras_mutant_tib)
 
   assign("double_kras_mutants", double_kras_mutants, envir = .GlobalEnv)
-  ProjectTemplate::cache("double_kras_mutants")
+  cache("double_kras_mutants")
 
   ras_mutant_tib %<>%
     filter(!(tumor_sample_barcode %in% !!double_kras_mutants))
@@ -171,7 +171,7 @@ ProjectTemplate::cache("cancer_full_muts_df", {
 
   info(logger, "Caching RAS mutant table for cancer data.")
   assign("ras_mutant_tib", ras_mutant_tib, envir = .GlobalEnv)
-  ProjectTemplate::cache("ras_mutant_tib")
+  cache("ras_mutant_tib")
 
   # trim to only required cells for join to `cancer_full_muts_df`
   cancer_full_muts_df <- join_cancerdf_and_krasdf(cancer_full_muts_df, ras_mutant_tib)
@@ -181,7 +181,7 @@ ProjectTemplate::cache("cancer_full_muts_df", {
 
 
 
-ProjectTemplate::cache("cancer_full_coding_muts_df",
+cache("cancer_full_coding_muts_df",
   depends = "cancer_full_muts_df",
   {
     # save only non-silent mutations
