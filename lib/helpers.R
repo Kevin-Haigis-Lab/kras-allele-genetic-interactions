@@ -1,6 +1,11 @@
 
 #### ---- Globally relevant functions ---- ####
 
+#' Is the current R session being run on O2?
+is_O2 <- function() {
+  stringr::str_detect(sessionInfo()$running, "CentOS")
+}
+
 #' Get Hugo identifiers from the DepMap combined name format
 #'
 #' Extracts the Hugo gene identifiers from a vector of values with the format:
@@ -227,7 +232,7 @@ names(mutation_pal) <- unique(unname(unlist(
   mapping_mutation_types_to_human_readable
 )))
 
-if (str_detect(sessionInfo()$running, "CentOS")) {
+if (is_O2()) {
   ggsave_wrapper(
     show_palette(mutation_pal, "square", label_size = 4, font_family = "Arial"),
     plot_path("00_miscellaneous", "mutation_pal.svg"),
@@ -277,7 +282,7 @@ kras_dark_lbls <- c(
   "WT"
 )
 
-if (str_detect(sessionInfo()$running, "CentOS")) {
+if (is_O2()) {
   ggsave_wrapper(
     show_palette(short_allele_pal, "square", font_family = "Arial"),
     plot_path("00_miscellaneous", "short_alleles_pal.svg"),
@@ -295,7 +300,7 @@ codon_palette <- c(
   "WT" = "#A0A3AF"
 )
 
-if (str_detect(sessionInfo()$running, "CentOS")) {
+if (is_O2()) {
   ggsave_wrapper(
     show_palette(codon_palette, "square", font_family = "Arial"),
     plot_path("00_miscellaneous", "codon_palette.svg"),
@@ -313,7 +318,7 @@ cancer_palette <- c(
   SKCM = "grey80"
 )
 
-if (str_detect(sessionInfo()$running, "CentOS")) {
+if (is_O2()) {
   ggsave_wrapper(
     show_palette(cancer_palette, num_rows = 1, font_family = "Arial"),
     plot_path("00_miscellaneous", "cancer_palette.svg"),
@@ -346,7 +351,7 @@ synthetic_lethal_pal <- c(
   down = "#A33BD5" # purple
 )
 
-if (str_detect(sessionInfo()$running, "CentOS")) {
+if (is_O2()) {
   ggsave_wrapper(
     show_palette(c(comut_mutex_pal, synthetic_lethal_pal),
       font_family = "Arial"
@@ -381,7 +386,7 @@ make_citations_bib <- function(dest = CITATIONS_FILE) {
   )
 }
 
-if (str_detect(sessionInfo()$running, "CentOS")) {
+if (is_O2()) {
   make_citations_bib()
 }
 

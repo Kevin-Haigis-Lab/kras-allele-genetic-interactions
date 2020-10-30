@@ -70,7 +70,7 @@ mutsig_pal <- c(
   "AR2" = "#953CE6",
   "N3V2" = "#9A9C59"
 )
-if (str_detect(sessionInfo()$running, "CentOS")) {
+if (is_O2()) {
   ggsave_wrapper(
     show_palette(mutsig_pal, font_family = "Arial"),
     plot_path("00_miscellaneous", "mutational-signatures_pal.svg"),
@@ -100,7 +100,7 @@ mutsig_descrpt_pal <- c(
   "MSI" = "#C3768A",
   "artifact" = "gray50"
 )
-if (str_detect(sessionInfo()$running, "CentOS")) {
+if (is_O2()) {
   ggsave_wrapper(
     show_palette(mutsig_descrpt_pal, font_family = "Arial"),
     plot_path("00_miscellaneous", "mutational-signature-descriptions_pal.svg"),
@@ -131,7 +131,7 @@ mutsig_context_group_pal <- c(
   "T>C" = "grey75",
   "T>G" = "grey65"
 )
-if (str_detect(sessionInfo()$running, "CentOS")) {
+if (is_O2()) {
   ggsave_wrapper(
     show_palette(mutsig_context_group_pal, font_family = "Arial"),
     plot_path("00_miscellaneous", "mutsig-context-group_pal.svg"),
