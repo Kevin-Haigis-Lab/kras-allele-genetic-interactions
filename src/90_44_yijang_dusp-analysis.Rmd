@@ -83,6 +83,8 @@ nonallele_specific_increased_comutation_df %.% {
   filter(p_value < 0.01)
   arrange(p_value)
   mutate(
+    p_value = scales::scientific(p_value, digits = 3),
+    odds_ratio = round(odds_ratio, digits = 3),
     geneWT_krasWT = map_dbl(comut_ct_tbl, ~ .x[1, 1]),
     geneMut_krasWT = map_dbl(comut_ct_tbl, ~ .x[2, 1]),
     geneWT_krasMut = map_dbl(comut_ct_tbl, ~ .x[1, 2]),
@@ -151,7 +153,7 @@ The number of tumor samples with missing data for each *DUSP* gene.
 dusp_rna_data %>%
   filter(is.na(rna_expr)) %>%
   count(hugo_symbol, sort = TRUE) %>%
-  rename(DUSP = hugo_symbol, num = n) %>%
+  pivot_wider(names_from = hugo_symbol, values_from = n) %>%
   kbl() %>%
   kable_styling(
     bootstrap_options = c("striped", "hover"),
@@ -165,8 +167,8 @@ The number of tumor samples with 0 RNA expression values for each *DUSP* gene.
 ```{r}
 dusp_rna_data %>%
   filter(rna_expr <= 0) %>%
-  count(hugo_symbol) %>%
-  rename(DUSP = hugo_symbol, num = n) %>%
+  count(hugo_symbol, sort = TRUE) %>%
+  pivot_wider(names_from = hugo_symbol, values_from = n) %>%
   kbl() %>%
   kable_styling(
     bootstrap_options = c("striped", "hover"),
@@ -175,7 +177,7 @@ dusp_rna_data %>%
   )
 ```
 
-All negative RNA expressionvalues were set to 0.
+All negative RNA expression values were set to 0.
 
 ```{r}
 dusp_rna_data %<>% mutate(rna_expr = map_dbl(rna_expr, ~ max(0, .x)))
@@ -193,7 +195,7 @@ dusp_rna_data %>%
   scale_y_continuous(trans = "log10") +
   theme(
     panel.grid.major.x = element_blank(),
-    axis.text = element_text(size = 8),
+    axis.text = element_text(size = 7),
     axis.text.x = element_text(angle = 45, hjust = 1)
   ) +
   labs(x = NULL, y = "RNA expression (log10 + 1)")
@@ -215,7 +217,7 @@ plot_dusp_distribtions <- function(df, x) {
     geom_density() +
     theme(
       plot.title = element_text(hjust = 0.5, face = "bold"),
-      axis.text = element_text(size = 7),
+      axis.text = element_text(size = 6),
       axis.text.x = element_text(angle = 30, hjust = 1),
       strip.text = element_text(size = 7),
       panel.spacing = unit(1, "mm")
@@ -261,7 +263,7 @@ dusp_rna_data %>%
   ggtitle("sqrt(RNA) & z-scaled data")
 ```
 
-The $\log_10(\text{RNA} + 1)$, centralized, and scaled values will be used for the analysis.
+The $\log_{10}(\text{RNA} + 1)$, centralized, and scaled values will be used for the analysis.
 
 ```{r}
 dusp_rna_data %<>%
@@ -273,7 +275,7 @@ dusp_rna_data %<>%
 
 ## Check for correlations in *DUSP* expression
 
-```{r}
+```{r, message=FALSE}
 dusp_corr <- dusp_rna_data %>%
   pivot_wider(id = tumor_sample_barcode, names_from = hugo_symbol, values_from = log10_z_rna) %>%
   select(-tumor_sample_barcode) %>%
@@ -339,21 +341,32 @@ stash("lm_stan_hier", depends_on = "data", {
 })
 ```
 
+Trace plots for the global intercept and standard deviation $\sigma$.
+
 ```{r}
 mcmc_trace(lm_stan_hier, pars = "(Intercept)") /
   mcmc_trace(lm_stan_hier, pars = "sigma")
-mcmc_trace(lm_stan_hier, regex_pars = "DUSP1\\]")
 ```
 
+Trace plots for parameters for *DUSP1*.
+
+```{r, fig.height=6, fig.width=9}
+mcmc_trace(lm_stan_hier, regex_pars = "DUSP1\\]") +
+  scale_x_continuous(expand = c(0, 0))
+```
+
+
 ```{r, message=FALSE, warning=FALSE}
-pp_check(lm_stan_hier, plotfun = "stat", stat = "mean")
+pp_check(lm_stan_hier, plotfun = "stat", stat = "mean") + 
+  ggtitle("Distrbition of error of the posterior predictions")
 ```
 
 ```{r}
-pp_check(lm_stan_hier, plotfun = "stat_2d", stat = c("mean", "sd"))
+pp_check(lm_stan_hier, plotfun = "stat_2d", stat = c("mean", "sd")) +
+  ggtitle("Standard deviation and mean of the error of the posterior predictions")
 ```
 
-```{r, fig.height=7, fig.width=6}
+```{r, fig.height=13, fig.width=8}
 lm_dusp_post <- as.data.frame(lm_stan_hier) %.% {
   mutate(draw = row_number())
   select(draw, `(Intercept)`, tidyselect::contains("DUSP"))
@@ -372,7 +385,7 @@ lm_dusp_post <- as.data.frame(lm_stan_hier) %.% {
 
 lm_dusp_post %>%
   ggplot(aes(x = value)) +
-  facet_wrap(~dusp, scales = "free") +
+  facet_wrap(~dusp, ncol = 4, scales = "free") +
   geom_vline(
     xintercept = 0,
     lty = 2,
@@ -390,7 +403,7 @@ lm_dusp_post %>%
   )
 ```
 
-```{r, fig.height=5, fig.width=5}
+```{r, fig.height=8, fig.width=8}
 lm_dusp_post %.%
   {
     group_by(dusp, allele)
