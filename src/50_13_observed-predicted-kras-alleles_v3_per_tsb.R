@@ -1136,12 +1136,6 @@ allele_prob_per_allele_plot <- allele_prob_per_allele_summary %>%
     position = pos,
     fill = "white"
   ) +
-  geom_point(
-    aes(size = star_point_size, group = allele_group),
-    color = "red",
-    position = pos,
-    shape = 16
-  ) +
   scale_color_manual(
     values = point_pal,
     guide = guide_legend(
@@ -1152,16 +1146,6 @@ allele_prob_per_allele_plot <- allele_prob_per_allele_summary %>%
   scale_shape_manual(
     values = shape_pal,
     guide = FALSE
-   ) +
-  scale_size_manual(
-    values = c("TRUE" = 0.5, "FALSE" = -1),
-    breaks = c("TRUE"),
-    label = c("significantly different<br>than tumors with<br>the *KRAS* allele"),
-    guide = guide_legend(
-      title = NULL,
-      override.aes = list(size = 1.3),
-      order = 20
-    )
   ) +
   scale_y_continuous(
     limits = c(0, NA),
