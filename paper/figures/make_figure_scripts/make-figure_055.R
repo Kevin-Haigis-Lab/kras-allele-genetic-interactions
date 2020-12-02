@@ -24,7 +24,7 @@ prepare_ridge_patch <- function(p, idx) {
   p
 }
 
-
+# source: "src/50_35_mutational-signature-allele-associations.R"
 all_panels <- read_fig_proto("box_plots_sig_levels") %>%
   imap(prepare_ridge_patch)
 
@@ -76,7 +76,7 @@ make_cancer_label <- function(cancer, tag) {
   "
 
   mm_design <- "
-  AABBCC
+  AABB
   "
 
   paad_design <- "
@@ -85,8 +85,8 @@ make_cancer_label <- function(cancer, tag) {
 
   coad_panels <- wrap_plots(all_panels[1:2], design = coad_design)
   luad_panels <- wrap_plots(all_panels[3:4], design = luad_design)
-  mm_panels <- wrap_plots(all_panels[5:7], design = mm_design)
-  paad_panels <- wrap_plots(all_panels[8:10], design = paad_design)
+  mm_panels <- wrap_plots(all_panels[5:6], design = mm_design)
+  paad_panels <- wrap_plots(all_panels[7:9], design = paad_design)
 
   full_figure <- (
     (

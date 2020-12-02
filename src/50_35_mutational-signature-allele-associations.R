@@ -72,7 +72,7 @@ pairwise_test_msigs <- function(data) {
   res <- pairwise.wilcox.test(
     x = data$contribution,
     g = data$ras_allele,
-    p.adjust.method = "BH",
+    p.adjust.method = "bonferroni",
     paired = FALSE
   ) %>%
     broom::tidy() %>%
