@@ -31,6 +31,8 @@ nonallele_specific_increased_comutation_df %.% {
   filter(p_value < 0.01)
   arrange(p_value)
   mutate(
+    p_value = scales::scientific(p_value, digits = 3),
+    odds_ratio = round(odds_ratio, digits = 3),
     geneWT_krasWT = map_dbl(comut_ct_tbl, ~ .x[1, 1]),
     geneMut_krasWT = map_dbl(comut_ct_tbl, ~ .x[2, 1]),
     geneWT_krasMut = map_dbl(comut_ct_tbl, ~ .x[1, 2]),
@@ -51,7 +53,7 @@ nonallele_specific_increased_comutation_df %.% {
 
 <div data-pagedtable="false">
   <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["gene"],"name":[1],"type":["chr"],"align":["left"]},{"label":["p-value"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["odds ratio"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["G WT & K WT"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["G mut & K WT"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["G WT & K mut"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["G mut & K mut"],"name":[7],"type":["dbl"],"align":["right"]}],"data":[{"1":"APC","2":"4.462017e-22","3":"1.795918","4":"1274","5":"1591","6":"609","7":"1366"},{"1":"PIK3CA","2":"2.311118e-16","3":"1.773818","4":"2353","5":"506","6":"1426","7":"544"},{"1":"SMAD4","2":"7.084248e-07","3":"1.515079","4":"2544","5":"321","6":"1658","7":"317"},{"1":"AMER1","2":"8.736821e-07","3":"2.015004","4":"1519","5":"98","6":"869","7":"113"},{"1":"TCF7L2","2":"5.145988e-05","3":"1.572205","4":"1996","5":"176","6":"1190","7":"165"},{"1":"PCBP1","2":"1.097463e-04","3":"2.884763","4":"996","5":"23","6":"480","7":"32"},{"1":"FBXW7","2":"2.753828e-04","3":"1.345844","4":"2501","5":"342","6":"1668","7":"307"},{"1":"SMAD2","2":"3.721377e-04","3":"1.732878","4":"2204","5":"80","6":"1367","7":"86"},{"1":"SOX9","2":"2.344095e-03","3":"1.358768","4":"2060","5":"223","6":"1244","7":"183"},{"1":"RUBCN","2":"2.585369e-03","3":"14.089495","4":"1018","5":"1","6":"505","7":"7"},{"1":"ANKRD45","2":"3.995355e-03","3":"5.048915","4":"1015","5":"4","6":"502","7":"10"},{"1":"ALS2","2":"4.191443e-03","3":"2.123943","4":"991","5":"28","6":"483","7":"29"},{"1":"SMAD3","2":"5.730521e-03","3":"1.704087","4":"1621","5":"51","6":"951","7":"51"},{"1":"MBLAC1","2":"6.871098e-03","3":"12.054352","4":"1018","5":"1","6":"506","7":"6"},{"1":"TMPRSS15","2":"7.866403e-03","3":"1.978472","4":"989","5":"30","6":"483","7":"29"},{"1":"CAPG","2":"7.918916e-03","3":"3.703318","4":"1013","5":"6","6":"501","7":"11"},{"1":"RNF146","2":"8.780211e-03","3":"4.535240","4":"1015","5":"4","6":"503","7":"9"},{"1":"MBD3","2":"8.803147e-03","3":"5.369274","4":"1016","5":"3","6":"504","7":"8"},{"1":"HAAO","2":"8.803147e-03","3":"5.369274","4":"1016","5":"3","6":"504","7":"8"},{"1":"IGHG2","2":"8.803147e-03","3":"5.369274","4":"1016","5":"3","6":"504","7":"8"},{"1":"P3H1","2":"8.803147e-03","3":"5.369274","4":"1016","5":"3","6":"504","7":"8"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["gene"],"name":[1],"type":["chr"],"align":["left"]},{"label":["p-value"],"name":[2],"type":["chr"],"align":["left"]},{"label":["odds ratio"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["G WT & K WT"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["G mut & K WT"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["G WT & K mut"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["G mut & K mut"],"name":[7],"type":["dbl"],"align":["right"]}],"data":[{"1":"APC","2":"4.46e-22","3":"1.796","4":"1274","5":"1591","6":"609","7":"1366"},{"1":"PIK3CA","2":"2.31e-16","3":"1.774","4":"2353","5":"506","6":"1426","7":"544"},{"1":"SMAD4","2":"7.08e-07","3":"1.515","4":"2544","5":"321","6":"1658","7":"317"},{"1":"AMER1","2":"8.74e-07","3":"2.015","4":"1519","5":"98","6":"869","7":"113"},{"1":"TCF7L2","2":"5.15e-05","3":"1.572","4":"1996","5":"176","6":"1190","7":"165"},{"1":"PCBP1","2":"1.10e-04","3":"2.885","4":"996","5":"23","6":"480","7":"32"},{"1":"FBXW7","2":"2.75e-04","3":"1.346","4":"2501","5":"342","6":"1668","7":"307"},{"1":"SMAD2","2":"3.72e-04","3":"1.733","4":"2204","5":"80","6":"1367","7":"86"},{"1":"SOX9","2":"2.34e-03","3":"1.359","4":"2060","5":"223","6":"1244","7":"183"},{"1":"RUBCN","2":"2.59e-03","3":"14.089","4":"1018","5":"1","6":"505","7":"7"},{"1":"ANKRD45","2":"4.00e-03","3":"5.049","4":"1015","5":"4","6":"502","7":"10"},{"1":"ALS2","2":"4.19e-03","3":"2.124","4":"991","5":"28","6":"483","7":"29"},{"1":"SMAD3","2":"5.73e-03","3":"1.704","4":"1621","5":"51","6":"951","7":"51"},{"1":"MBLAC1","2":"6.87e-03","3":"12.054","4":"1018","5":"1","6":"506","7":"6"},{"1":"TMPRSS15","2":"7.87e-03","3":"1.978","4":"989","5":"30","6":"483","7":"29"},{"1":"CAPG","2":"7.92e-03","3":"3.703","4":"1013","5":"6","6":"501","7":"11"},{"1":"RNF146","2":"8.78e-03","3":"4.535","4":"1015","5":"4","6":"503","7":"9"},{"1":"MBD3","2":"8.80e-03","3":"5.369","4":"1016","5":"3","6":"504","7":"8"},{"1":"HAAO","2":"8.80e-03","3":"5.369","4":"1016","5":"3","6":"504","7":"8"},{"1":"IGHG2","2":"8.80e-03","3":"5.369","4":"1016","5":"3","6":"504","7":"8"},{"1":"P3H1","2":"8.80e-03","3":"5.369","4":"1016","5":"3","6":"504","7":"8"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 
@@ -157,7 +159,7 @@ The number of tumor samples with missing data for each *DUSP* gene.
 dusp_rna_data %>%
   filter(is.na(rna_expr)) %>%
   count(hugo_symbol, sort = TRUE) %>%
-  rename(DUSP = hugo_symbol, num = n) %>%
+  pivot_wider(names_from = hugo_symbol, values_from = n) %>%
   kbl() %>%
   kable_styling(
     bootstrap_options = c("striped", "hover"),
@@ -169,17 +171,13 @@ dusp_rna_data %>%
 <table class="table table-striped table-hover" style="width: auto !important; ">
  <thead>
   <tr>
-   <th style="text-align:left;"> DUSP </th>
-   <th style="text-align:right;"> num </th>
+   <th style="text-align:right;"> DUSP13 </th>
+   <th style="text-align:right;"> DUSP21 </th>
   </tr>
  </thead>
 <tbody>
   <tr>
-   <td style="text-align:left;"> DUSP13 </td>
    <td style="text-align:right;"> 149 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> DUSP21 </td>
    <td style="text-align:right;"> 149 </td>
   </tr>
 </tbody>
@@ -191,8 +189,8 @@ The number of tumor samples with 0 RNA expression values for each *DUSP* gene.
 ```r
 dusp_rna_data %>%
   filter(rna_expr <= 0) %>%
-  count(hugo_symbol) %>%
-  rename(DUSP = hugo_symbol, num = n) %>%
+  count(hugo_symbol, sort = TRUE) %>%
+  pivot_wider(names_from = hugo_symbol, values_from = n) %>%
   kbl() %>%
   kable_styling(
     bootstrap_options = c("striped", "hover"),
@@ -204,43 +202,29 @@ dusp_rna_data %>%
 <table class="table table-striped table-hover" style="width: auto !important; ">
  <thead>
   <tr>
-   <th style="text-align:left;"> DUSP </th>
-   <th style="text-align:right;"> num </th>
+   <th style="text-align:right;"> DUSP21 </th>
+   <th style="text-align:right;"> DUSP13 </th>
+   <th style="text-align:right;"> DUSP5P </th>
+   <th style="text-align:right;"> DUSP26 </th>
+   <th style="text-align:right;"> DUSP9 </th>
+   <th style="text-align:right;"> DUSP27 </th>
+   <th style="text-align:right;"> DUSP15 </th>
   </tr>
  </thead>
 <tbody>
   <tr>
-   <td style="text-align:left;"> DUSP5P </td>
-   <td style="text-align:right;"> 73 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> DUSP9 </td>
-   <td style="text-align:right;"> 34 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> DUSP13 </td>
-   <td style="text-align:right;"> 217 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> DUSP15 </td>
-   <td style="text-align:right;"> 2 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> DUSP21 </td>
    <td style="text-align:right;"> 284 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> DUSP26 </td>
+   <td style="text-align:right;"> 217 </td>
+   <td style="text-align:right;"> 73 </td>
    <td style="text-align:right;"> 58 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> DUSP27 </td>
+   <td style="text-align:right;"> 34 </td>
    <td style="text-align:right;"> 11 </td>
+   <td style="text-align:right;"> 2 </td>
   </tr>
 </tbody>
 </table>
 
-All negative RNA expressionvalues were set to 0.
+All negative RNA expression values were set to 0.
 
 
 ```r
@@ -260,7 +244,7 @@ dusp_rna_data %>%
   scale_y_continuous(trans = "log10") +
   theme(
     panel.grid.major.x = element_blank(),
-    axis.text = element_text(size = 8),
+    axis.text = element_text(size = 7),
     axis.text.x = element_text(angle = 45, hjust = 1)
   ) +
   labs(x = NULL, y = "RNA expression (log10 + 1)")
@@ -286,7 +270,7 @@ plot_dusp_distribtions <- function(df, x) {
     geom_density() +
     theme(
       plot.title = element_text(hjust = 0.5, face = "bold"),
-      axis.text = element_text(size = 7),
+      axis.text = element_text(size = 6),
       axis.text.x = element_text(angle = 30, hjust = 1),
       strip.text = element_text(size = 7),
       panel.spacing = unit(1, "mm")
@@ -346,7 +330,7 @@ dusp_rna_data %>%
 
 ![](90_44_yijang_dusp-analysis_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
 
-The $\log_10(\text{RNA} + 1)$, centralized, and scaled values will be used for the analysis.
+The $\log_{10}(\text{RNA} + 1)$, centralized, and scaled values will be used for the analysis.
 
 
 ```r
@@ -365,15 +349,7 @@ dusp_corr <- dusp_rna_data %>%
   pivot_wider(id = tumor_sample_barcode, names_from = hugo_symbol, values_from = log10_z_rna) %>%
   select(-tumor_sample_barcode) %>%
   corrr::correlate()
-```
 
-```
-#> 
-#> Correlation method: 'pearson'
-#> Missing treated using: 'pairwise.complete.obs'
-```
-
-```r
 dusp_corr_pheat <- dusp_corr %>%
   as.data.frame() %>%
   column_to_rownames("rowname")
@@ -417,23 +393,25 @@ data <- dusp_rna_data %>%
   )
 
 # FOR TESTING
-# set.seed(0)
-# TESTING_DUSPS <- paste0("DUSP", 1:6)
-# TESTING_TSBS <- sample(unique(data$tumor_sample_barcode), 100)
-# data <- data %.% {
-#   filter(hugo_symbol %in% TESTING_DUSPS)
-#   filter(tumor_sample_barcode %in% TESTING_TSBS)
-# }
+if (FALSE) {
+  set.seed(0)
+  TESTING_DUSPS <- paste0("DUSP", 1:6)
+  TESTING_TSBS <- sample(unique(data$tumor_sample_barcode), 100)
+  data <- data %.% {
+    filter(hugo_symbol %in% TESTING_DUSPS)
+    filter(tumor_sample_barcode %in% TESTING_TSBS)
+  }
+}
 ```
 
 
 ```r
 stash("lm_stan_hier", depends_on = "data", {
   lm_stan_hier <- stan_glmer(
-    log10_z_rna ~ 1 + (1 + allele | hugo_symbol), 
+    log10_z_rna ~ 1 + (1 + allele | hugo_symbol),
     data = data,
     prior = normal(location = 0, scale = 5),
-    prior_intercept = normal(location =0, scale = 2),
+    prior_intercept = normal(location = 0, scale = 2),
     prior_aux = exponential(rate = 1),
     prior_covariance = decov(regularization = 1, concentration = 1, shape = 1, scale = 1)
   )
@@ -441,172 +419,72 @@ stash("lm_stan_hier", depends_on = "data", {
 ```
 
 ```
-#> Updating stash.
+#> Loading stashed object.
 ```
 
-```
-#> 
-#> SAMPLING FOR MODEL 'continuous' NOW (CHAIN 1).
-#> Chain 1: 
-#> Chain 1: Gradient evaluation took 0.01 seconds
-#> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 100 seconds.
-#> Chain 1: Adjust your expectations accordingly!
-#> Chain 1: 
-#> Chain 1: 
-#> Chain 1: Iteration:    1 / 2000 [  0%]  (Warmup)
-#> Chain 1: Iteration:  200 / 2000 [ 10%]  (Warmup)
-#> Chain 1: Iteration:  400 / 2000 [ 20%]  (Warmup)
-#> Chain 1: Iteration:  600 / 2000 [ 30%]  (Warmup)
-#> Chain 1: Iteration:  800 / 2000 [ 40%]  (Warmup)
-#> Chain 1: Iteration: 1000 / 2000 [ 50%]  (Warmup)
-#> Chain 1: Iteration: 1001 / 2000 [ 50%]  (Sampling)
-#> Chain 1: Iteration: 1200 / 2000 [ 60%]  (Sampling)
-#> Chain 1: Iteration: 1400 / 2000 [ 70%]  (Sampling)
-#> Chain 1: Iteration: 1600 / 2000 [ 80%]  (Sampling)
-#> Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
-#> Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
-#> Chain 1: 
-#> Chain 1:  Elapsed Time: 224.27 seconds (Warm-up)
-#> Chain 1:                92.83 seconds (Sampling)
-#> Chain 1:                317.1 seconds (Total)
-#> Chain 1: 
-#> 
-#> SAMPLING FOR MODEL 'continuous' NOW (CHAIN 2).
-#> Chain 2: 
-#> Chain 2: Gradient evaluation took 0 seconds
-#> Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.
-#> Chain 2: Adjust your expectations accordingly!
-#> Chain 2: 
-#> Chain 2: 
-#> Chain 2: Iteration:    1 / 2000 [  0%]  (Warmup)
-#> Chain 2: Iteration:  200 / 2000 [ 10%]  (Warmup)
-#> Chain 2: Iteration:  400 / 2000 [ 20%]  (Warmup)
-#> Chain 2: Iteration:  600 / 2000 [ 30%]  (Warmup)
-#> Chain 2: Iteration:  800 / 2000 [ 40%]  (Warmup)
-#> Chain 2: Iteration: 1000 / 2000 [ 50%]  (Warmup)
-#> Chain 2: Iteration: 1001 / 2000 [ 50%]  (Sampling)
-#> Chain 2: Iteration: 1200 / 2000 [ 60%]  (Sampling)
-#> Chain 2: Iteration: 1400 / 2000 [ 70%]  (Sampling)
-#> Chain 2: Iteration: 1600 / 2000 [ 80%]  (Sampling)
-#> Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
-#> Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
-#> Chain 2: 
-#> Chain 2:  Elapsed Time: 222.87 seconds (Warm-up)
-#> Chain 2:                52.78 seconds (Sampling)
-#> Chain 2:                275.65 seconds (Total)
-#> Chain 2: 
-#> 
-#> SAMPLING FOR MODEL 'continuous' NOW (CHAIN 3).
-#> Chain 3: 
-#> Chain 3: Gradient evaluation took 0 seconds
-#> Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.
-#> Chain 3: Adjust your expectations accordingly!
-#> Chain 3: 
-#> Chain 3: 
-#> Chain 3: Iteration:    1 / 2000 [  0%]  (Warmup)
-#> Chain 3: Iteration:  200 / 2000 [ 10%]  (Warmup)
-#> Chain 3: Iteration:  400 / 2000 [ 20%]  (Warmup)
-#> Chain 3: Iteration:  600 / 2000 [ 30%]  (Warmup)
-#> Chain 3: Iteration:  800 / 2000 [ 40%]  (Warmup)
-#> Chain 3: Iteration: 1000 / 2000 [ 50%]  (Warmup)
-#> Chain 3: Iteration: 1001 / 2000 [ 50%]  (Sampling)
-#> Chain 3: Iteration: 1200 / 2000 [ 60%]  (Sampling)
-#> Chain 3: Iteration: 1400 / 2000 [ 70%]  (Sampling)
-#> Chain 3: Iteration: 1600 / 2000 [ 80%]  (Sampling)
-#> Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
-#> Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
-#> Chain 3: 
-#> Chain 3:  Elapsed Time: 174.51 seconds (Warm-up)
-#> Chain 3:                92.81 seconds (Sampling)
-#> Chain 3:                267.32 seconds (Total)
-#> Chain 3: 
-#> 
-#> SAMPLING FOR MODEL 'continuous' NOW (CHAIN 4).
-#> Chain 4: 
-#> Chain 4: Gradient evaluation took 0 seconds
-#> Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.
-#> Chain 4: Adjust your expectations accordingly!
-#> Chain 4: 
-#> Chain 4: 
-#> Chain 4: Iteration:    1 / 2000 [  0%]  (Warmup)
-#> Chain 4: Iteration:  200 / 2000 [ 10%]  (Warmup)
-#> Chain 4: Iteration:  400 / 2000 [ 20%]  (Warmup)
-#> Chain 4: Iteration:  600 / 2000 [ 30%]  (Warmup)
-#> Chain 4: Iteration:  800 / 2000 [ 40%]  (Warmup)
-#> Chain 4: Iteration: 1000 / 2000 [ 50%]  (Warmup)
-#> Chain 4: Iteration: 1001 / 2000 [ 50%]  (Sampling)
-#> Chain 4: Iteration: 1200 / 2000 [ 60%]  (Sampling)
-#> Chain 4: Iteration: 1400 / 2000 [ 70%]  (Sampling)
-#> Chain 4: Iteration: 1600 / 2000 [ 80%]  (Sampling)
-#> Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)
-#> Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
-#> Chain 4: 
-#> Chain 4:  Elapsed Time: 206.03 seconds (Warm-up)
-#> Chain 4:                92.84 seconds (Sampling)
-#> Chain 4:                298.87 seconds (Total)
-#> Chain 4:
-```
-
-```
-#> Warning: There were 3 divergent transitions after warmup. See
-#> http://mc-stan.org/misc/warnings.html#divergent-transitions-after-warmup
-#> to find out why this is a problem and how to eliminate them.
-```
-
-```
-#> Warning: Examine the pairs() plot to diagnose sampling problems
-```
+Trace plots for the global intercept and standard deviation $\sigma$.
 
 
 ```r
-mcmc_trace(lm_stan_hier, pars = "(Intercept)") / 
+mcmc_trace(lm_stan_hier, pars = "(Intercept)") /
   mcmc_trace(lm_stan_hier, pars = "sigma")
 ```
 
 ![](90_44_yijang_dusp-analysis_files/figure-html/unnamed-chunk-18-1.png)<!-- -->
 
+Trace plots for parameters for *DUSP1*.
+
+
 ```r
-mcmc_trace(lm_stan_hier, regex_pars = "DUSP1")
+mcmc_trace(lm_stan_hier, regex_pars = "DUSP1\\]") +
+  scale_x_continuous(expand = c(0, 0))
 ```
 
-![](90_44_yijang_dusp-analysis_files/figure-html/unnamed-chunk-18-2.png)<!-- -->
-
-
-```r
-pp_check(lm_stan_hier, plotfun = "stat", stat = "mean")
+```
+#> Scale for 'x' is already present. Adding another scale for 'x', which will
+#> replace the existing scale.
 ```
 
 ![](90_44_yijang_dusp-analysis_files/figure-html/unnamed-chunk-19-1.png)<!-- -->
 
 
+
 ```r
-pp_check(lm_stan_hier, plotfun = "stat_2d", stat = c("mean", "sd"))
+pp_check(lm_stan_hier, plotfun = "stat", stat = "mean") + 
+  ggtitle("Distrbition of error of the posterior predictions")
 ```
 
 ![](90_44_yijang_dusp-analysis_files/figure-html/unnamed-chunk-20-1.png)<!-- -->
 
 
 ```r
-lm_dusp_post <- as.data.frame(lm_stan_hier) %.%
-  {
-    mutate(draw = row_number())
-    select(draw, `(Intercept)`, tidyselect::contains("DUSP"))
-    pivot_longer(
-      -c(draw, `(Intercept)`),
-      names_to = "parameter",
-      values_to = "value"
-    )
-    mutate(
-      parameter = str_remove_all(parameter, "[:punct:]"),
-      parameter = str_remove_all(parameter, "b|allele|hugosymbol|")
-    )
-    separate(parameter, c("allele", "dusp"), sep = " ")
-    mutate(allele = str_replace(allele, "Intercept", "WT"))
-  } 
+pp_check(lm_stan_hier, plotfun = "stat_2d", stat = c("mean", "sd")) +
+  ggtitle("Standard deviation and mean of the error of the posterior predictions")
+```
+
+![](90_44_yijang_dusp-analysis_files/figure-html/unnamed-chunk-21-1.png)<!-- -->
+
+
+```r
+lm_dusp_post <- as.data.frame(lm_stan_hier) %.% {
+  mutate(draw = row_number())
+  select(draw, `(Intercept)`, tidyselect::contains("DUSP"))
+  pivot_longer(
+    -c(draw, `(Intercept)`),
+    names_to = "parameter",
+    values_to = "value"
+  )
+  mutate(
+    parameter = str_remove_all(parameter, "[:punct:]"),
+    parameter = str_remove_all(parameter, "b|allele|hugosymbol|")
+  )
+  separate(parameter, c("allele", "dusp"), sep = " ")
+  mutate(allele = str_replace(allele, "Intercept", "WT"))
+}
 
 lm_dusp_post %>%
   ggplot(aes(x = value)) +
-  facet_wrap(~dusp, scales = "free") +
+  facet_wrap(~dusp, ncol = 4, scales = "free") +
   geom_vline(
     xintercept = 0,
     lty = 2,
@@ -624,7 +502,7 @@ lm_dusp_post %>%
   )
 ```
 
-![](90_44_yijang_dusp-analysis_files/figure-html/unnamed-chunk-21-1.png)<!-- -->
+![](90_44_yijang_dusp-analysis_files/figure-html/unnamed-chunk-22-1.png)<!-- -->
 
 
 ```r
@@ -646,34 +524,34 @@ lm_dusp_post %.%
     select(-hdi_50, -hdi_89)
   } %>%
   ggplot(aes(x = avg, y = allele, color = allele)) +
-  facet_wrap(~ dusp) +
+  facet_wrap(~dusp, scales = "free_x") +
   geom_rect(
-    xmin = -0.1, xmax = 0.1, ymin = Inf, ymax = -Inf, 
-    fill = "grey80", 
-    color = NA, 
+    xmin = -0.1, xmax = 0.1, ymin = Inf, ymax = -Inf,
+    fill = "grey80",
+    color = NA,
     alpha = 0.1
   ) +
-  geom_vline(xintercept = 0, color= "grey50") +
+  geom_vline(xintercept = 0, color = "grey50") +
   geom_point(size = 2) +
   geom_linerange(
-    aes(xmin = hdi_50_lower, xmax = hdi_50_upper), 
-    size = 1.2, 
+    aes(xmin = hdi_50_lower, xmax = hdi_50_upper),
+    size = 1.2,
     alpha = 0.8
   ) +
   geom_linerange(
-    aes(xmin = hdi_89_lower, xmax = hdi_89_upper), 
-    size = 0.9, 
+    aes(xmin = hdi_89_lower, xmax = hdi_89_upper),
+    size = 0.9,
     alpha = 0.5
   ) +
   scale_color_manual(values = short_allele_pal, drop = TRUE) +
   theme(legend.position = "none") +
   labs(
-    x = "posterior distributions", 
+    x = "posterior distributions",
     y = NULL
   )
 ```
 
-![](90_44_yijang_dusp-analysis_files/figure-html/unnamed-chunk-22-1.png)<!-- -->
+![](90_44_yijang_dusp-analysis_files/figure-html/unnamed-chunk-23-1.png)<!-- -->
 
 
 ```r
