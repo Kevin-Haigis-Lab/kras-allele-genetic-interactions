@@ -21,36 +21,11 @@ theme_fig42 <- function(tag_margin = margin(-1, -1, -1, -1, "mm")) {
 
 
 
-#### ---- A. Distribution of KRAS alleles ---- ####
-# The distribution of KRAS alleles across cancers and codon.
-# original script: "src/90_05_kras-allele-distribution.R"
-
-panel_A <- read_fig_proto("allele_dist_dotplot") +
-  scale_size_continuous(labels = scales::label_percent(accuracy = 1)) +
-  theme_fig42(tag_margin = margin(-1, -1, -1, -5.5, "mm")) +
-  theme(
-    axis.ticks = element_blank(),
-    axis.title.x = element_markdown(),
-    axis.title.y = element_blank(),
-    axis.text.x = element_text(hjust = 0.5, vjust = 1, angle = 0),
-    legend.position = "left",
-    legend.text = element_text(size = 6),
-    legend.title = element_markdown(size = 6),
-    legend.margin = margin(0, 0, 0, 0, "mm"),
-    strip.background = element_blank(),
-    strip.text = element_text(size = 7, face = "bold", vjust = -1)
-  ) +
-  labs(
-    tag = "a",
-    size = "percent of<br>*KRAS* mutations"
-  )
-
-
-#### ---- B. Percent of samples with KRAS mutation ---- ####
+#### ---- A. Percent of samples with KRAS mutation ---- ####
 # Percent of samples with a KRAS mutation per cancer.
 # original script: "src/90_05_kras-allele-distribution.R"
 
-panel_B <- read_fig_proto("cancer_freq_kras_mut_column") +
+panel_A <- read_fig_proto("cancer_freq_kras_mut_column") +
   scale_x_continuous(
     expand = expansion(add = c(0, 0.02)),
     breaks = c(0.2, 0.4, 0.6, 0.8),
@@ -58,17 +33,41 @@ panel_B <- read_fig_proto("cancer_freq_kras_mut_column") +
       paste0(round(x * 100), "%")
     }
   ) +
-  theme_fig42() +
+  theme_fig42(tag_margin = margin(-1, -1, -1, -5.3, "mm")) +
   theme(
     axis.title.x = element_markdown(),
-    axis.text.x = element_text(hjust = 0.5, vjust = 1, angle = 0),
     axis.title.y = element_blank(),
-    axis.text.y = element_blank(),
+    axis.text.x = element_text(hjust = 0.5, vjust = 1, angle = 0),
     legend.position = "none",
     panel.grid.major.y = element_blank()
   ) +
-  labs(tag = "b")
+  labs(tag = "a")
 
+
+#### ---- B. Distribution of KRAS alleles ---- ####
+# The distribution of KRAS alleles across cancers and codon.
+# original script: "src/90_05_kras-allele-distribution.R"
+
+panel_B <- read_fig_proto("allele_dist_dotplot") +
+  scale_size_continuous(labels = scales::label_percent(accuracy = 1)) +
+  theme_fig42() +
+  theme(
+    axis.ticks = element_blank(),
+    axis.title.x = element_markdown(),
+    axis.title.y = element_blank(),
+    axis.text.x = element_text(hjust = 0.5, vjust = 1, angle = 0),
+    axis.text.y = element_blank(),
+    legend.position = "right",
+    legend.text = element_text(size = 6),
+    legend.title = element_markdown(size = 6),
+    legend.margin = margin(0, 0, 0, 0, "mm"),
+    strip.background = element_blank(),
+    strip.text = element_text(size = 7, face = "bold", vjust = -1)
+  ) +
+  labs(
+    tag = "b",
+    size = "percent of<br>*KRAS* mutations"
+  )
 
 
 #### ---- C. Distirubiton of mutational signatures by allele ---- ####
@@ -218,7 +217,7 @@ panel_D <- wrap_plots(panel_D, nrow = 1, widths = mutsig_barplot_widths)
 
   # COMPLETE FIGURE
   row_1 <- (panel_A | panel_B) +
-    plot_layout(widths = c(10, 3))
+    plot_layout(widths = c(3, 10))
 
   panel_D_legend_sp <- (
     plot_spacer() |
