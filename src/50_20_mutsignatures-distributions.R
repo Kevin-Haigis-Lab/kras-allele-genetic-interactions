@@ -289,10 +289,10 @@ mutsig_per_sample_plots <- mutsig_noartifact_df %>%
 saveFigRds(mutsig_per_sample_plots, "mutsig_per_sample_plots")
 
 
-cancer_samples_count_df <- mutsig_noartifact_df %>%
-  group_by(cancer) %>%
-  summarise(n_samples = n_distinct(tumor_sample_barcode)) %>%
-  ungroup() %>%
+cancer_samples_count_df <- cancer_full_muts_df %>%
+  filter(target %in% c("genome", "exome")) %>%
+  distinct(cancer, tumor_sample_barcode) %>%
+  count(cancer, name = "n_samples") %>%
   mutate(
     n_samples = scales::comma(n_samples),
     cancer_label = as.character(glue("{cancer} (n={n_samples})"))
