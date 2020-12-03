@@ -74,7 +74,7 @@ panel_A_proto_list <- imap(panel_A_plots, function(x, idx) {
       labels = function(x) {
         ifelse(x == 0, "", x)
       }
-    )  +
+    ) +
     scale_color_manual(
       values = codon_pal,
       drop = FALSE,

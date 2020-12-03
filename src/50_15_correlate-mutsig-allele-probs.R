@@ -18,30 +18,28 @@ mutsig_df_compact <- mutsig_noartifact_df %.% {
 }
 
 
-allele_signature_corr_data <- ranked_allele_predictions %.%
-  {
-    filter(is_tested)
-    group_by(cancer, tumor_sample_barcode)
-    nest()
-    ungroup()
-    rename(alleleprob_data = data)
-    left_join(mutsig_df_compact, by = c("cancer", "tumor_sample_barcode"))
-    unnest(alleleprob_data)
-    unnest(mutsig_data)
-    group_by(cancer, kras_allele, description)
-    nest()
-    ungroup()
-  }
+allele_signature_corr_data <- ranked_allele_predictions %.% {
+  filter(is_tested)
+  group_by(cancer, tumor_sample_barcode)
+  nest()
+  ungroup()
+  rename(alleleprob_data = data)
+  left_join(mutsig_df_compact, by = c("cancer", "tumor_sample_barcode"))
+  unnest(alleleprob_data)
+  unnest(mutsig_data)
+  group_by(cancer, kras_allele, description)
+  nest()
+  ungroup()
+}
 
-d <- allele_signature_corr_data %.%
-  {
-    filter(kras_allele == "G12C" & description == "4" & cancer == "LUAD")
-    select(data)
-    unnest(data)
-    mutate(
-      real_kras_allele = factor_alleles(real_kras_allele),
-    )
-  }
+d <- allele_signature_corr_data %.% {
+  filter(kras_allele == "G12C" & description == "4" & cancer == "LUAD")
+  select(data)
+  unnest(data)
+  mutate(
+    real_kras_allele = factor_alleles(real_kras_allele),
+  )
+}
 
 
 fit_me <- lme4::lmer(
@@ -178,5 +176,3 @@ logisitc_spline_signature_allele <- function(cancer,
 
 allele_signature_corr_data %>%
   pwalk(logisitc_spline_signature_allele)
-
-

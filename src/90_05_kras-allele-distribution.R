@@ -348,7 +348,7 @@ cancer_freq_kras_mut <- cancer_full_muts_df %>%
   summarise(freq_kras_mut = sum(ras_allele != "WT") / n()) %>%
   ungroup() %>%
   mutate(cancer = factor(cancer, levels = rev(names(cancer_palette))))
-knitr::kable(cancer_freq_kras_mut, digits = 3, format="simple")
+knitr::kable(cancer_freq_kras_mut, digits = 3, format = "simple")
 # > cancer    freq_kras_mut
 # > -------  --------------
 # > COAD              0.414

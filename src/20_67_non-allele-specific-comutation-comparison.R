@@ -197,7 +197,7 @@ comutation_comparison_barplot <- function(cancer,
   pos <- position_dodge(width = 0.9)
   p <- data %>%
     ggplot(aes(x = allele, y = {{ y }}, fill = comutation)) +
-    facet_wrap(~ which_genes_label, scales = "free_y", nrow = 1) +
+    facet_wrap(~which_genes_label, scales = "free_y", nrow = 1) +
     geom_col(position = pos) +
     geom_text(
       aes(y = is_tested_label_y, label = is_tested_label),
@@ -235,7 +235,7 @@ comutation_comparison_barplot <- function(cancer,
 
 
 gene_comparison_names <- tribble(
-  ~ which_genes, ~ which_genes_label,
+  ~which_genes, ~which_genes_label,
   "new_genes", "Only found in the allele-specific analysis",
   "old_genes", "Found in the non-allele-specific analysis"
 )

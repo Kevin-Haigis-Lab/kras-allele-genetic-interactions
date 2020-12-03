@@ -32,7 +32,6 @@ write_package_list <- function(out_file) {
 # Install all packages from a file.
 # The file should be a TSV with two columns: 'package' and 'version'.
 install_pacakges <- function(package_df_file) {
-
   get_all_installed_packages <- function() {
     as.data.frame(installed.packages())$Package
   }
@@ -71,8 +70,8 @@ install_pacakges <- function(package_df_file) {
       installed_pkgs <- get_all_installed_packages()
     })
 
-    if (length(err_packages) > 0) {
-      message("The following packages could not be installed.")
-      cat(err_packages, sep = "\n")
-    }
+  if (length(err_packages) > 0) {
+    message("The following packages could not be installed.")
+    cat(err_packages, sep = "\n")
+  }
 }
