@@ -11,8 +11,12 @@ reset_table_directory(TABLES_DIR)
 
 mutational_signatures_df %>%
   select(cancer, tumor_sample_barcode, signature, contribution) %>%
-  mutate(signature = paste0("sig_", signature)) %>%
-  pivot_wider(c(cancer, tumor_sample_barcode),
+  mutate(
+    signature = paste0("sig_", signature),
+    contribution = scales::label_number(0.001)(contribution)
+  ) %>%
+  pivot_wider(
+    c(cancer, tumor_sample_barcode),
     names_from = signature,
     values_from = contribution
   ) %>%
@@ -20,8 +24,12 @@ mutational_signatures_df %>%
 
 
 mutational_signature_spectra %>%
-  mutate(signature = paste0("sig_", signature)) %>%
-  pivot_wider(tricontext,
+  mutate(
+    signature = paste0("sig_", signature),
+    composition = scales::label_number(0.001)(composition)
+  ) %>%
+  pivot_wider(
+    tricontext,
     names_from = signature,
     values_from = composition
   ) %>%

@@ -619,6 +619,7 @@ calc_frequency_of_alleles_by_cancer <- function(df) {
 alleles_df %>%
   calc_frequency_of_alleles_by_cancer() %T>%
   write_tsv(table_path(GRAPHS_DIR, "kras-allele-distribution.tsv")) %>%
+  mutate(allele_frequency = scales::label_number(0.001)(allele_frequency)) %>%
   save_supp_data(3, "KRAS allele frequencies")
 
 # Frequency of each allele across cancers without WT.

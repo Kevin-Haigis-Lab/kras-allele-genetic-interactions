@@ -438,7 +438,9 @@ cancer_expect_frequencies <- kras_allele_predictions_boot_results %>%
   right_join(cancer_expect_frequencies, by = c("cancer", "kras_allele"))
 
 knitr::kable(cancer_expect_frequencies, digits = 3)
-save_supp_data(cancer_expect_frequencies, 6, "pred vs obs KRAS alleles")
+cancer_expect_frequencies %>%
+  mutate_if(is.numeric, scales::label_number(0.001)) %>%
+  save_supp_data(6, "pred vs obs KRAS alleles")
 
 
 
@@ -478,7 +480,9 @@ all_expect_frequencies <- all_kras_allele_predictions_boot_results %>%
   unnest(boot_ci) %>%
   right_join(all_expect_frequencies, by = c("cancer", "kras_allele"))
 knitr::kable(all_expect_frequencies, digits = 3)
-save_supp_data(all_expect_frequencies, 10, "pred vs obs all KRAS alleles")
+all_expect_frequencies %>%
+  mutate_if(is.numeric, scales::label_number(0.001)) %>%
+  save_supp_data(10, "pred vs obs all KRAS alleles")
 
 
 #### ---- Check calculations ---- ####
