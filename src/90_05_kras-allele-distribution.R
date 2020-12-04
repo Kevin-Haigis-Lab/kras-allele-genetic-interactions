@@ -4,6 +4,19 @@ GRAPHS_DIR <- "90_05_kras-allele-distribution"
 reset_graph_directory(GRAPHS_DIR)
 reset_table_directory(GRAPHS_DIR)
 
+# Number of WES/WGS tumor samples per cancer.
+cancer_full_muts_df %>%
+  filter(target %in% c("genome", "exome")) %>%
+  distinct(cancer, tumor_sample_barcode) %>%
+  count(cancer) %>%
+  knitr::kable(format = "simple")
+# > cancer       n
+# > -------  -----
+# > COAD      1536
+# > LUAD       891
+# > MM        1201
+# > PAAD      1395
+# > SKCM      1042
 
 # A data frame of the KRAS allele for each `tumor_sample_barcode`.
 alleles_df <- cancer_full_muts_df %>%
@@ -348,10 +361,17 @@ cancer_freq_kras_mut <- cancer_full_muts_df %>%
   summarise(freq_kras_mut = sum(ras_allele != "WT") / n()) %>%
   ungroup() %>%
   mutate(cancer = factor(cancer, levels = rev(names(cancer_palette))))
-knitr::kable(cancer_freq_kras_mut, digits = 3)
+knitr::kable(cancer_freq_kras_mut, digits = 3, format = "simple")
+# > cancer    freq_kras_mut
+# > -------  --------------
+# > COAD              0.414
+# > LUAD              0.353
+# > MM                0.219
+# > PAAD              0.863
 
 cancer_freq_kras_mut_column <- cancer_freq_kras_mut %>%
-  ggplot(aes(x = freq_kras_mut, y = cancer)) +
+  left_join(cancer_to_longname, by = "cancer") %>%
+  ggplot(aes(x = freq_kras_mut, y = long_cancer)) +
   geom_col(aes(fill = cancer), width = 0.6) +
   scale_x_continuous(expand = expansion(add = c(0, 0.02))) +
   scale_fill_manual(values = cancer_palette) +
@@ -599,6 +619,7 @@ calc_frequency_of_alleles_by_cancer <- function(df) {
 alleles_df %>%
   calc_frequency_of_alleles_by_cancer() %T>%
   write_tsv(table_path(GRAPHS_DIR, "kras-allele-distribution.tsv")) %>%
+  mutate(allele_frequency = scales::label_number(0.001)(allele_frequency)) %>%
   save_supp_data(3, "KRAS allele frequencies")
 
 # Frequency of each allele across cancers without WT.
@@ -622,9 +643,7 @@ alleles_df %>%
   write_tsv(table_path(GRAPHS_DIR, "kras-allele-distribution-all-noWT.tsv"))
 
 
-
-
-#' Calculate the frequency of mutations of KRAS codons by cancer.
+# Calculate the frequency of mutations of KRAS codons by cancer.
 calc_frequency_of_codons_by_cancer <- function(df) {
   df %>%
     group_by(cancer) %>%
@@ -815,7 +834,12 @@ alleles_df %>%
   arrange(-adj_codon_freq) %T>%
   write_tsv(table_path(GRAPHS_DIR, "fraction-kras-percodon-adjusted.tsv")) %>%
   knitr::kable(digits = 3)
-
+# > |codon | avg_codon_freq| adj_codon_freq|
+# > |:-----|--------------:|--------------:|
+# > |12    |          0.722|          0.768|
+# > |13    |          0.098|          0.114|
+# > |61    |          0.148|          0.081|
+# > |146   |          0.032|          0.037|
 
 
 #### ---- Association of alleles with hypermutation status ---- ####
@@ -862,23 +886,49 @@ kras_alleles_hypermut_association %>%
     log_or = log(estimate),
     sig = ifelse(estimate > 1 & adj_p_value < 0.05, "X", " ")
   ) %>%
-  knitr::kable(digits = 3, format = "markdown")
-
-# > |ras_allele | estimate| p_value| conf_low| conf_high| adj_p_value| log_or|sig |
-# > |:----------|--------:|-------:|--------:|---------:|-----------:|------:|:---|
-# > |KRAS_A146T |    1.599|   0.024|    1.082|       Inf|       0.071|  0.469|    |
-# > |KRAS_A146V |    1.307|   0.372|    0.471|       Inf|       0.744|  0.267|    |
-# > |KRAS_G12A  |    0.944|   0.622|    0.535|       Inf|       0.933| -0.058|    |
-# > |KRAS_G12C  |    0.238|   1.000|    0.092|       Inf|       1.000| -1.436|    |
-# > |KRAS_G12D  |    1.009|   0.490|    0.816|       Inf|       0.840|  0.009|    |
-# > |KRAS_G12S  |    0.531|   0.970|    0.241|       Inf|       1.000| -0.633|    |
-# > |KRAS_G12V  |    0.319|   1.000|    0.215|       Inf|       1.000| -1.141|    |
-# > |KRAS_G13D  |    1.269|   0.059|    0.987|       Inf|       0.143|  0.238|    |
-# > |KRAS_K117N |    3.219|   0.005|    1.518|       Inf|       0.030|  1.169|X   |
-# > |KRAS_Q61H  |    0.178|   0.995|    0.009|       Inf|       1.000| -1.724|    |
-# > |KRAS_Q61K  |    6.347|   0.000|    2.922|       Inf|       0.000|  1.848|X   |
-# > |WT         |    1.219|   0.010|    1.059|       Inf|       0.038|  0.198|X   |
+  knitr::kable(digits = 3, format = "simple")
+# > ras_allele    estimate   p_value   conf_low   conf_high   adj_p_value   log_or  sig
+# > -----------  ---------  --------  ---------  ----------  ------------  -------  ----
+# > KRAS_A146T       1.599     0.024      1.082         Inf         0.071    0.469
+# > KRAS_A146V       1.307     0.372      0.471         Inf         0.744    0.267
+# > KRAS_G12A        0.944     0.622      0.535         Inf         0.933   -0.058
+# > KRAS_G12C        0.238     1.000      0.092         Inf         1.000   -1.436
+# > KRAS_G12D        1.009     0.490      0.816         Inf         0.840    0.009
+# > KRAS_G12S        0.531     0.970      0.241         Inf         1.000   -0.633
+# > KRAS_G12V        0.319     1.000      0.215         Inf         1.000   -1.141
+# > KRAS_G13D        1.269     0.059      0.987         Inf         0.143    0.238
+# > KRAS_K117N       3.219     0.005      1.518         Inf         0.030    1.169  X
+# > KRAS_Q61H        0.178     0.995      0.009         Inf         1.000   -1.724
+# > KRAS_Q61K        6.347     0.000      2.922         Inf         0.000    1.848  X
+# > WT               1.219     0.010      1.059         Inf         0.038    0.198  X
 
 kras_hypermuts %>%
   count(ras_allele, sort = TRUE) %>%
-  mutate(freq = n / sum(n))
+  mutate(freq = n / sum(n)) %>%
+  knitr::kable(digits = 3, format = "simple")
+# > ras_allele        n    freq
+# > ------------  -----  ------
+# > WT             2872   0.592
+# > KRAS_G12D       589   0.121
+# > KRAS_G12V       410   0.084
+# > KRAS_G13D       359   0.074
+# > KRAS_A146T      130   0.027
+# > KRAS_G12C       123   0.025
+# > KRAS_G12A        92   0.019
+# > KRAS_G12S        82   0.017
+# > KRAS_Q61H        33   0.007
+# > KRAS_K117N       28   0.006
+# > KRAS_A146V       27   0.006
+# > KRAS_Q61K        23   0.005
+# > KRAS_G12R        20   0.004
+# > KRAS_Q61L        19   0.004
+# > KRAS_G13C        17   0.004
+# > KRAS_Q61R        17   0.004
+# > KRAS_G13R         2   0.000
+# > KRAS_K117R        2   0.000
+# > KRAS_Q61E         2   0.000
+# > KRAS_Q61P         2   0.000
+# > KRAS_A146P        1   0.000
+# > KRAS_G12F         1   0.000
+# > KRAS_G13dup       1   0.000
+# > KRAS_GV13CG       1   0.000

@@ -2,14 +2,11 @@
 
 ## Project
 
-- tests for "lib/" functions
+- Tests for "lib/" functions.
 
 
 ## Paper
 
-- Make changes based on KH edits/comments.
-- Sent to DG.
-- Need to re-build Supp Data
 - Fill in other forms for Nat. Comm.
 
 

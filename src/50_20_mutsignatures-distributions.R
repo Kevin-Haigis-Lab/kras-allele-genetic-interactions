@@ -11,8 +11,12 @@ reset_table_directory(TABLES_DIR)
 
 mutational_signatures_df %>%
   select(cancer, tumor_sample_barcode, signature, contribution) %>%
-  mutate(signature = paste0("sig_", signature)) %>%
-  pivot_wider(c(cancer, tumor_sample_barcode),
+  mutate(
+    signature = paste0("sig_", signature),
+    contribution = scales::label_number(0.001)(contribution)
+  ) %>%
+  pivot_wider(
+    c(cancer, tumor_sample_barcode),
     names_from = signature,
     values_from = contribution
   ) %>%
@@ -20,8 +24,12 @@ mutational_signatures_df %>%
 
 
 mutational_signature_spectra %>%
-  mutate(signature = paste0("sig_", signature)) %>%
-  pivot_wider(tricontext,
+  mutate(
+    signature = paste0("sig_", signature),
+    composition = scales::label_number(0.001)(composition)
+  ) %>%
+  pivot_wider(
+    tricontext,
     names_from = signature,
     values_from = composition
   ) %>%
@@ -289,6 +297,15 @@ mutsig_per_sample_plots <- mutsig_noartifact_df %>%
 saveFigRds(mutsig_per_sample_plots, "mutsig_per_sample_plots")
 
 
+cancer_samples_count_df <- cancer_full_muts_df %>%
+  filter(target %in% c("genome", "exome")) %>%
+  distinct(cancer, tumor_sample_barcode) %>%
+  count(cancer, name = "n_samples") %>%
+  mutate(
+    n_samples = scales::comma(n_samples),
+    cancer_label = as.character(glue("{cancer} (n={n_samples})"))
+  ) %>%
+  select(-n_samples)
 
 # Stacked bar-plot of mutational signatures per tumor sample barcode.
 # Facet by cancer.
@@ -308,8 +325,9 @@ mutsig_per_sample_plot <- mutsig_noartifact_df %>%
     )
   ) %>%
   unnest(data) %>%
+  left_join(cancer_samples_count_df, by = "cancer") %>%
   barplot_distribution_per_sample(title = NULL) +
-  facet_wrap(~cancer, scales = "free", ncol = 1)
+  facet_wrap(~cancer_label, scales = "free", ncol = 1)
 
 # Save faceted plot as JPEG.
 ggsave_wrapper(

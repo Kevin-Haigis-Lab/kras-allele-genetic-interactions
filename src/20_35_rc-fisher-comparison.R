@@ -64,7 +64,7 @@ fisher_sig <- fisher_comut_df %>%
   filter(str_replace_us(kras_allele) %in% names(allele_palette)) %>%
   assess_fisher_test_significance() %>%
   mutate(test_type = ifelse(
-    p_value_great < !!p_val_cut_comut, "comutation", "exclusivity"
+    odds_ratio > 1, "comutation", "exclusivity"
   ))
 
 cache(
@@ -263,7 +263,6 @@ ggsave_wrapper(rc_fisher_comparison_barplot, save_path, width = 6, height = 8)
 
 
 
-
 #### ---- Combined data frame ---- ####
 
 cache(
@@ -278,12 +277,13 @@ cache(
   }
 )
 
-
+# Save for Supp. Data.
 genetic_interaction_df %>%
   select(
     cancer, allele, hugo_symbol,
     genetic_interaction, test_name, p_val
   ) %>%
+  mutate(p_val = scales::label_scientific(digits = 3)(p_val)) %>%
   save_supp_data(7, "comutation interactions")
 
 

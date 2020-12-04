@@ -5,7 +5,7 @@ FIGNUM <- 51
 
 # > SET THE FIGURE DIMENSIONS
 FIG_DIMENSIONS <- get_figure_dimensions(2, "short")
-FIG_DIMENSIONS$height <- 140
+FIG_DIMENSIONS$height <- 100
 
 fig51_tag_element <- function(tag_margin = margin(-1, -1, -1, -1, "mm")) {
   element_text(
@@ -84,8 +84,8 @@ panel_A_proto_list <- imap(panel_A_plots, function(x, idx) {
 panel_A <- wrap_plots(panel_A_proto_list, nrow = 1, guides = "collect") &
   theme_fig51() %+replace%
     theme(
-      plot.title = element_text(size = 7, vjust = 1, face = "bold"),
-      plot.subtitle = element_markdown(hjust = 0, vjust = 0),
+      plot.title = element_text(size = 7, vjust = -1, face = "bold"),
+      plot.subtitle = element_text(hjust = 0, vjust = -3),
       plot.margin = margin(0, 1, 0, 1, "mm"),
       legend.position = "right",
       legend.background = element_blank(),
@@ -124,38 +124,15 @@ panel_B <- read_fig_proto("allele_prob_per_allele_plot") +
   ) +
   labs(tag = "b")
 
-
-#### ---- C. Accuracy to predict allele ---- ####
-# Accuracy of the mutational signatures to predict observed allele.
-# original script: "src/50_13_observed-predicted-kras-alleles_v3_per_tsb.R"
-
-panel_C <- read_fig_proto("allele_accuracy_barplots") +
-  theme_fig51() +
-  theme(
-    panel.grid.major.x = element_blank(),
-    axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1),
-    legend.spacing = unit(2, "mm"),
-    legend.spacing.y = unit(2, "mm"),
-    legend.key.height = unit(3, "mm"),
-    legend.key.width = unit(2, "mm"),
-    legend.title = element_text(face = "bold"),
-    legend.justification = "left",
-    legend.text = element_markdown()
-  ) +
-  labs(tag = "c")
-
-
-
 #### ---- Figure assembly ---- ####
 
 {
   # COMPLETE FIGURE
   full_figure <- (
     panel_A /
-      panel_B /
-      panel_C
+      panel_B
   ) +
-    plot_layout(heights = c(6, 4, 4))
+    plot_layout(heights = c(3, 2))
 
   save_figure(
     full_figure,

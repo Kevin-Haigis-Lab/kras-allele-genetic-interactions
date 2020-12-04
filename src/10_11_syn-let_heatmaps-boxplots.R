@@ -1,6 +1,7 @@
 # Box-plots and heatmaps of results from linear modeling of allele-specific
 # synthetic lethality.
 
+set.seed(0)
 
 #### ---- Box-plots ---- ####
 
@@ -141,7 +142,7 @@ select_gene_boxplots <- tibble::tribble(
 
 depmap_model_workflow_res %>%
   filter_depmap_model_workflow_res() %>%
-  # pwalk(plot_pairwise_test_results) %>%
+  pwalk(plot_pairwise_test_results) %>%
   inner_join(select_gene_boxplots, by = c("cancer", "hugo_symbol")) %>%
   pwalk(plot_pairwise_test_results2, save_proto = TRUE)
 
@@ -454,6 +455,7 @@ depmap_gene_clusters %>%
 # > |PAAD   |       130|
 
 #### ---- Supp. Data: heatmaps as numeric matrices ---- ####
+# 3 decimal points
 
 depmap_supp_data_df <- depmap_model_workflow_res %>%
   select(hugo_symbol, cancer, data) %>%
@@ -468,6 +470,7 @@ for (cancer in names(supp_data_nums)) {
   depmap_supp_data_df %>%
     filter(cancer == !!cancer) %>%
     unnest(data) %>%
+    mutate(gene_effect = scales::label_number(0.001)(gene_effect)) %>%
     mutate(cell_line_id = paste(kras_allele, dep_map_id, sep = " - ")) %>%
     select(cancer, hugo_symbol, gene_cls, cell_line_id, gene_effect) %>%
     pivot_wider(c(cancer, hugo_symbol, gene_cls),

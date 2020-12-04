@@ -213,7 +213,7 @@ read_fig_proto <- function(name) {
 #### ---- Start a new figure ---- ####
 
 
-TEMPLATE_PATH <- file.path(FIGURE_PROTOS_DIR, "_make-figure-template.R")
+TEMPLATE_PATH <- file.path(FIGURE_PROTOS_DIR, "_make-figure-template.R.template")
 
 glue_figure_template <- function(figure_num) {
   figure_num_pad <- pad_fig_number(figure_num)

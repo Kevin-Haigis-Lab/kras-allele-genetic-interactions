@@ -1,10 +1,9 @@
 # Observed vs. predicted KRAS allele frequency using the trinucleotide context.
-# This is a new version for "src/50_10_observed-predicted-kras-alleles.R" because
-# I am not confident that it is bug-free.
+# This is a new version for "src/50_10_observed-predicted-kras-alleles.R"
+# because I am not confident that it is bug-free.
 #
-# Also, GM and I discussed the statsitical testing and decided to calculate and
+# Also, GM and I discussed the statistical testing and decided to calculate and
 # R-squared value and use the Chi squared test instead of a binomial.
-#
 
 set.seed(0)
 
@@ -254,8 +253,14 @@ cache(
 
 alleles_for_each_cancer_obs_vs_pred %>%
   group_by(cancer) %>%
-  summarise(alleles = paste0(kras_allele, collapse = ", "))
-
+  summarise(alleles = paste0(kras_allele, collapse = ", ")) %>%
+  knitr::kable(format = "simple")
+# > cancer   alleles
+# > -------  -----------------------------------------------
+# > COAD     G12D, G12V, G13D, A146T, G12C, G12A, G12S
+# > LUAD     G12C, G12V, G12D, G12A, G13C
+# > MM       Q61H, G13D, G12D, G12V, G12A, Q61R, G12R, Q61L
+# > PAAD     G12D, G12V, G12R, Q61H, G12C
 
 cache(
   "kras_allele_predictions",
@@ -433,7 +438,9 @@ cancer_expect_frequencies <- kras_allele_predictions_boot_results %>%
   right_join(cancer_expect_frequencies, by = c("cancer", "kras_allele"))
 
 knitr::kable(cancer_expect_frequencies, digits = 3)
-save_supp_data(cancer_expect_frequencies, 6, "pred vs obs KRAS alleles")
+cancer_expect_frequencies %>%
+  mutate_if(is.numeric, scales::label_number(0.001)) %>%
+  save_supp_data(6, "pred vs obs KRAS alleles")
 
 
 
@@ -473,7 +480,40 @@ all_expect_frequencies <- all_kras_allele_predictions_boot_results %>%
   unnest(boot_ci) %>%
   right_join(all_expect_frequencies, by = c("cancer", "kras_allele"))
 knitr::kable(all_expect_frequencies, digits = 3)
-save_supp_data(all_expect_frequencies, 10, "pred vs obs all KRAS alleles")
+all_expect_frequencies %>%
+  mutate_if(is.numeric, scales::label_number(0.001)) %>%
+  save_supp_data(10, "pred vs obs all KRAS alleles")
+
+
+#### ---- Check calculations ---- ####
+
+# Check that the sum of probabilities for each TSB is 1.
+check_sum_of_probabilities <- function(d, prob_col, value = 1) {
+  sum_probs <- d %>%
+    summarise(sum_prob = sum({{ prob_col }})) %>%
+    pull(sum_prob)
+  return(all(near(sum_probs, value)))
+}
+
+# Check that each TSB sums to 1.
+kras_allele_predictions %>%
+  group_by(cancer, tumor_sample_barcode) %>%
+  check_sum_of_probabilities(prob_col = allele_prob) %>%
+  stopifnot()
+all_kras_allele_predictions %>%
+  group_by(cancer, tumor_sample_barcode) %>%
+  check_sum_of_probabilities(prob_col = allele_prob) %>%
+  stopifnot()
+
+# Check that each cancer sums to 1.
+cancer_expect_frequencies %>%
+  group_by(cancer) %>%
+  check_sum_of_probabilities(prob_col = expected_allele_frequency) %>%
+  stopifnot()
+all_expect_frequencies %>%
+  group_by(cancer) %>%
+  check_sum_of_probabilities(prob_col = expected_allele_frequency) %>%
+  stopifnot()
 
 
 
@@ -606,13 +646,17 @@ cancer_chisquared_res %>%
   knitr::kable(digits = 2)
 # > |cancer |kras_allele | p_value| adj_p_value|
 # > |:------|:-----------|-------:|-----------:|
-# > |COAD   |G12C        |    0.81|        0.81|
-# > |LUAD   |G12V        |    0.31|        0.31|
-# > |MM     |G12A        |    1.00|        1.00|
-# > |MM     |G12D        |    0.20|        0.32|
-# > |MM     |G12V        |    0.77|        1.00|
-# > |MM     |G13D        |    0.10|        0.20|
-# > |MM     |Q61R        |    0.91|        1.00|
+# > |COAD   |G12A        |    0.69|        0.69|
+# > |LUAD   |G12A        |    0.04|        0.06|
+# > |LUAD   |G12D        |    0.16|        0.16|
+# > |LUAD   |G12V        |    0.09|        0.12|
+# > |MM     |G12A        |    0.58|        0.70|
+# > |MM     |G12D        |    0.15|        0.41|
+# > |MM     |G12R        |    0.61|        0.70|
+# > |MM     |G12V        |    0.34|        0.55|
+# > |MM     |G13D        |    0.05|        0.19|
+# > |MM     |Q61L        |    1.00|        1.00|
+# > |MM     |Q61R        |    0.29|        0.55|
 
 
 all_chisquared_res <- calc_chisquared_test(
@@ -622,19 +666,22 @@ all_chisquared_res <- calc_chisquared_test(
 all_chisquared_res %>%
   filter(adj_p_value > 0.05) %>%
   select(cancer, kras_allele, p_value, adj_p_value) %>%
-  knitr::kable(digits = 3)
+  knitr::kable(digits = 2)
 # > |cancer |kras_allele | p_value| adj_p_value|
 # > |:------|:-----------|-------:|-----------:|
-# > |COAD   |G12S        |   0.056|       0.056|
-# > |LUAD   |Q61H        |   0.167|       0.167|
-# > |LUAD   |Q61L        |   0.061|       0.066|
-# > |MM     |G12A        |   0.222|       0.345|
-# > |MM     |G12C        |   1.000|       1.000|
-# > |MM     |G12D        |   0.427|       0.498|
-# > |MM     |G12V        |   0.282|       0.395|
-# > |MM     |G13C        |   0.141|       0.246|
-# > |MM     |G13D        |   0.554|       0.597|
-# > |MM     |Q61R        |   0.403|       0.498|
+# > |COAD   |G12C        |    0.11|        0.15|
+# > |COAD   |G12R        |    0.14|        0.17|
+# > |COAD   |G13D        |    0.50|        0.50|
+# > |COAD   |Q61L        |    0.43|        0.46|
+# > |MM     |G12A        |    0.53|        0.78|
+# > |MM     |G12C        |    0.86|        0.92|
+# > |MM     |G12D        |    0.56|        0.78|
+# > |MM     |G12R        |    0.12|        0.24|
+# > |MM     |G12V        |    0.61|        0.78|
+# > |MM     |G13C        |    0.05|        0.11|
+# > |MM     |G13D        |    0.76|        0.88|
+# > |MM     |Q61L        |    0.38|        0.67|
+# > |MM     |Q61R        |    0.92|        0.92|
 
 
 
