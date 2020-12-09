@@ -17,32 +17,33 @@ test_that("The sheet names are properly cleaned.", {
 
 test_that("The file name conforms to the correct template.", {
   expect_equal(
-    supp_data_filename(1, 1, "some name here"),
-    "01_001_some-name-here.txt"
+    supp_data_filename(1, "some name here"),
+    "001_some-name-here.txt"
   )
   expect_equal(
-    supp_data_filename("1", "1", "some name here"),
-    "01_001_some-name-here.txt"
+    supp_data_filename("1", "some name here"),
+    "001_some-name-here.txt"
   )
   expect_equal(
-    supp_data_filename("20", "101", "some name here"),
-    "20_101_some-name-here.txt"
+    supp_data_filename("101", "some name here"),
+    "101_some-name-here.txt"
   )
 
-  expect_error(supp_data_filename(200, 1, "some name here"))
-  expect_error(supp_data_filename(1, 1000, "some name here"))
-  expect_error(supp_data_filename(1, 1, "s"))
+  expect_error(supp_data_filename(1000, "some name here"), "too long")
+  expect_error(supp_data_filename(1, "s"), "too short")
 })
 
 
 test_that("A test data frame is correctly written.", {
   df <- data.frame(a = c(1, 2, 3, 4), b = letters[1:4])
-  expected_path <- file.path(
+
+  expected_path <- here::here(
     SUPP_DATA_SHEETS_DIR,
-    "99_999_test-data-frame.txt"
+    "999_test-data-frame.txt"
   )
+
   out_df <- expect_invisible(
-    save_supp_data(df, 99, 999, "test data frame")
+    save_supp_data(df, 999, "test data frame")
   )
   expect_equal(df, out_df)
 
@@ -53,13 +54,13 @@ test_that("A test data frame is correctly written.", {
 
 test_that("The sheet path is turned into a sheet name.", {
   expect_error(prep_sheet_name("some name here"))
-  expect_equal(prep_sheet_name("20_101_some-name-here.txt"), "some name here")
+  expect_equal(prep_sheet_name("101_some-name-here.txt"), "some name here")
   expect_equal(
-    prep_sheet_name("some/file/path/20_101_some-name-here.txt"),
+    prep_sheet_name("some/file/path/101_some-name-here.txt"),
     "some name here"
   )
   expect_equal(
-    prep_sheet_name("20_101_some-!@@!,.-here.txt"),
+    prep_sheet_name("101_some-!@@!,.-here.txt"),
     "some !@@!,. here"
   )
 })

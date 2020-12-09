@@ -14,13 +14,13 @@ for (a in c(SUPP_DATA_DIR, SUPP_DATA_SHEETS_DIR)) {
 
 # Append the path the the "supplemental_data" directory to `...`.
 suppdata_path <- function(...) {
-  file.path(SUPP_DATA_DIR, ...)
+  here::here(SUPP_DATA_DIR, ...)
 }
 
 
 # Append the path the the "sheets" subdirectory to `...`.
 sheets_path <- function(...) {
-  file.path(SUPP_DATA_SHEETS_DIR, ...)
+  here::here(SUPP_DATA_SHEETS_DIR, ...)
 }
 
 
@@ -216,7 +216,9 @@ replace_specific_terms <- function(s) {
 # Prepare the sheet name from the file path.
 prep_sheet_name <- function(sheet_path) {
   sheet_name <- file_sans_ext(basename(sheet_path))
-  sheet_name <- unlist(str_split_fixed(sheet_name, "_", 2)[, 2])
-  str_replace_all(sheet_name, "-", " ") %>%
+  sheet_name <- unlist(str_split_fixed(sheet_name, "_", 2))
+  sheet_name <- sheet_name[sheet_name != ""]
+  stopifnot(length(sheet_name) == 2)
+  str_replace_all(sheet_name[[2]], "-", " ") %>%
     replace_specific_terms()
 }
