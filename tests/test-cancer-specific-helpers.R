@@ -1,70 +1,24 @@
 
+cancer_names <- c("COAD", "LUAD", "PAAD", "MM", "SKCM")
+
 # test `get_hugo_from_depmap_ids()`
-test_that("Hugo symbols are extracted.", {
-  test_genes <- c(
-    "ABCG8 (64241)",
-    "ACCSL (390110)",
-    "ACTL7A (10881)",
-    "ACTL7B (10880)",
-    "ACTL9 (284382)",
-    "ADAD1 (132612)",
-    "ADAM18 (8749)",
-    "ADAM2 (2515)",
-    "ADAM20 (8748)",
-    "ADAM30 (11085)"
-  )
+test_that("Cancer specific named vectors contain valid cancers.", {
 
-  expected_output <- c(
-    "ABCG8",
-    "ACCSL",
-    "ACTL7A",
-    "ACTL7B",
-    "ACTL9",
-    "ADAD1",
-    "ADAM18",
-    "ADAM2",
-    "ADAM20",
-    "ADAM30"
-  )
+  compare_against_cancer_names <- function(x) {
+    expect_true(all(names(x) %in% cancer_names))
+  }
 
-  expect_length(get_hugo_from_depmap_ids(test_genes), length(test_genes))
-  expect_equal(get_hugo_from_depmap_ids(test_genes), expected_output)
-  expect_length(get_hugo_from_depmap_ids(NULL), 0)
+  compare_against_cancer_names(cancer_oncogenes)
+  compare_against_cancer_names(FRACTION_OF_TISSUE_THAT_ARE_CANCER)
+  compare_against_cancer_names(cgc_cancer_regex)
 })
 
-# test `get_entrez_from_depmap_ids()`
-test_that("Entrez IDs are extracted.", {
-  test_genes <- c(
-    "ABCG8 (64241)",
-    "ACCSL (390110)",
-    "ACTL7A (10881)",
-    "ACTL7B (10880)",
-    "ACTL9 (284382)",
-    "ADAD1 (132612)",
-    "ADAM18 (8749)",
-    "ADAM2 (2515)",
-    "ADAM20 (8748)",
-    "ADAM30 (11085)"
-  )
 
-  expected_output <- c(
-    "64241",
-    "390110",
-    "10881",
-    "10880",
-    "284382",
-    "132612",
-    "8749",
-    "2515",
-    "8748",
-    "11085"
-  )
-
-  expect_length(get_entrez_from_depmap_ids(test_genes), length(test_genes))
-  expect_equal(get_entrez_from_depmap_ids(test_genes), expected_output)
-  expect_equal(
-    get_entrez_from_depmap_ids(test_genes, convert_to_num = TRUE),
-    as.numeric(expected_output)
-  )
-  expect_length(get_entrez_from_depmap_ids(NULL), 0)
+test_that("The COSMIC CGC genes can be retrieved.", {
+  expect_error(get_cgc_genes("NOTCANCER"))
+  for (cancer in cancer_names[cancer_names != "SKCM"]) {
+    genes <- get_cgc_genes(cancer)
+    expect_true(all(is.character(genes)))
+    expect_true(!any(is.na(genes)))
+  }
 })
