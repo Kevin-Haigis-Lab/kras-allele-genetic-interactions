@@ -1,5 +1,5 @@
 ---
-title: "KRAS comutation list and differential *DUSP* expression"
+title: "*KRAS* comutation list and differential *DUSP* expression"
 output: 
   html_document:
     toc: true
@@ -45,7 +45,7 @@ if (!is_O2) {
 
   load(here::here("cache/tcga_coad_rna.RData"))
   tcga_coad_rna %<>% filter(str_detect(hugo_symbol, "DUSP"))
-  
+
   coad_apc_mutations <- readRDS("/Users/admin/Downloads/coad-apc-mutations.rds")
 } else {
   coad_apc_mutations <- cancer_full_coding_muts_df %>%
@@ -56,7 +56,7 @@ if (!is_O2) {
 
 # Set global ggplot2 theme.
 theme_set(
-  theme_bw(base_size = 11, base_family = "Arial") %+replace%
+  theme_minimal(base_size = 11, base_family = "Arial") %+replace%
     theme(
       strip.background = element_blank(),
       axis.ticks = element_blank()
@@ -333,10 +333,14 @@ if (FALSE) {
 }
 ```
 
+The follow model was constructed and fit on the $log_{10}$ and z-scaled RNA expression.
+The model has a single global intercept and an additional varying intercept and slope for each *DUSP*.
+The model also contains a covariate for the correlation between varying intercepts and slopes, but I left this out of the model, for simplicity.
+
 $$
 RNA_z \sim \mathcal{N}(\mu, \sigma) \\
 \mu = \alpha + \alpha_{DUSP} + \beta K_{DUSP} \\
-\alpha \sim \mathcal{N}(0, 2) \quad \alpha_{DUSP} \sim \mathcal{N}(0, 5) \quad K_{DUSP} \sim \mathcal{N}(0, 2) \\
+\alpha \sim \mathcal{N}(0, 2) \quad \alpha_{DUSP} \sim \mathcal{N}(0, 2) \quad K_{DUSP} \sim \mathcal{N}(0, 2) \\
 \sigma \sim \text{Exp}(1)
 $$
 
@@ -377,6 +381,8 @@ pp_check(lm_stan_hier, plotfun = "stat_2d", stat = c("mean", "sd")) +
   ggtitle("Standard deviation and mean of the error of the posterior predictions")
 ```
 
+The posterior distribution of the parameters of varying effects in the model.
+
 ```{r, fig.height=13, fig.width=8}
 lm_dusp_post <- as.data.frame(lm_stan_hier) %.% {
   mutate(draw = row_number())
@@ -414,6 +420,11 @@ lm_dusp_post %>%
   )
 ```
 
+The following plot presents a summary of the distributions (the curves shown above).
+Each plot shows each *KRAS* allele's parameter for its association with *DUSP* expression.
+The point represents the median of the posterior and the bars represent the 50% and 89% highest density intervals (credible intervals).
+If all of these are outside of the region of practical equivalence (ROPE; the shaded region), we can say that we are confident that the real parameter value is non-zero and is of meaningful size (assuming the model design).
+
 ```{r, fig.height=8, fig.width=8}
 summarise_to_hdi <- function(df, value_col) {
   df %.% {
@@ -434,7 +445,7 @@ summarise_to_hdi <- function(df, value_col) {
 }
 
 linerange_plots_parameter_values <- function(p) {
-  p + 
+  p +
     geom_rect(
       xmin = -0.1, xmax = 0.1, ymin = Inf, ymax = -Inf,
       fill = "grey80",
@@ -472,6 +483,14 @@ p <- lm_dusp_post %.%
 linerange_plots_parameter_values(p)
 ```
 
+The following table contains all of the data presented in the above plot:
+
+- *Median*: median of the posterior
+- [*CI*](https://easystats.github.io/bayestestR/articles/credible_interval.html): the percent range for the credible interval; the range of the interval is *CI_low* and *CI_high*
+- [*pd*](https://easystats.github.io/bayestestR/articles/probability_of_direction.html): (probability of direction); the probability that the parameter is positive *or* negative, exclusively
+- [*ROPE*](https://easystats.github.io/bayestestR/articles/region_of_practical_equivalence.html): (region of practical equivalence); indicates how likely the parameter is of a meaningful size (magnitude)
+- *Rhat*, *ESS*: indicators of autocorrelation and effective sampling size by the MCMC
+
 ```{r, warning="hide"}
 bayestestR::describe_posterior(lm_stan_hier, effects = "all") %>%
   arrange(Effects) %>%
@@ -482,6 +501,10 @@ bayestestR::describe_posterior(lm_stan_hier, effects = "all") %>%
   ) %>%
   mutate_if(is.numeric, round, digits = 2)
 ```
+
+A useful check to make sure the model fit well is to have it make predictions for the RNA expression of each *DUSP* for each *KRAS* allele by sampling from the posterior distributions of the parameters and feeding them through the model's equation.
+The predicted distributions should resemble the real distributions.
+These look good to me.
 
 ```{r}
 pred_data <- data %>% distinct(hugo_symbol, allele)
@@ -512,10 +535,7 @@ lm_dusp_postpred <- lm_dusp_ppc_hpi %>%
     ppc_ci_low = 10**((ppc_ci_low_z * original_sd) + original_avg),
     ppc_ci_high = 10**((ppc_ci_high_z * original_sd) + original_avg)
   ) %>%
-  ungroup() # %T>%
-# saveRDS("lm_dusp_postpred.rds")
-
-# lm_dusp_postpred <- readRDS("/Users/admin/Downloads/lm_dusp_postpred.rds")
+  ungroup()
 ```
 
 ```{r, fig.height=10, fig.width=8}
@@ -545,36 +565,106 @@ lm_dusp_postpred %>%
 
 ## Differential expression of *DUSP* genes
 
-### Data preparation
+The following analysis tries to identify an association between *DUSP* gene expression and whether or not a tumor sample has an *APC* mutation.
 
-- data frame of APC mutant and RNA expression of DUSPs
-- show basic descriptive plots
+### Data preparation
 
 ```{r, fig.height=11, fig.width=8}
 apc_dusp_rna_data <- coad_apc_mutations %>%
   group_by(tumor_sample_barcode) %>%
-  summarise(apc_mutations = list(mutation_type),
-            apc_aa_changes = list(amino_acid_change)) %>%
+  summarise(
+    apc_mutations = list(mutation_type),
+    apc_aa_changes = list(amino_acid_change)
+  ) %>%
   ungroup() %>%
   add_column(is_apc_mut = TRUE) %>%
   right_join(dusp_rna_data, by = "tumor_sample_barcode") %>%
   mutate(is_apc_mut = ifelse(is.na(is_apc_mut), FALSE, is_apc_mut))
+```
 
+```{r}
+plot_count <- function(df, x, x_lbl, title, nudge_y = 0) {
+  ggplot(df, aes(x = {{ x }}, y = n)) +
+    geom_col() +
+    geom_text(
+      aes(label = scales::comma(n, accuracy = 1)),
+      nudge_y = nudge_y,
+      size = 3.5,
+      vjust = 0
+    ) +
+    scale_x_discrete(labels = function(x) {
+      str_replace_all(x, "_", " ")
+    }) +
+    scale_y_continuous(
+      expand = expansion(mult = c(0, 0.02), add = c(0, nudge_y))
+    ) +
+    theme(
+      plot.title = element_markdown()
+    ) +
+    labs(x = x_lbl, y = "count", title = title)
+}
 
-apc_mut_pal <- c("TRUE" = "#267BD5", "FALSE" = "#FBA53D")
+apc_dusp_rna_data %.%
+  {
+    mutate(
+      apc_mutation = map_chr(apc_mutations, function(x) {
+        if (is.null(x)) {
+          return("WT")
+        } else if (length(x) == 1) {
+          return(x)
+        } else {
+          return("multiple")
+        }
+      })
+    )
+    count(apc_mutation)
+    mutate(apc_mutation = fct_reorder(apc_mutation, -n))
+  } %>%
+  plot_count(
+    apc_mutation,
+    x_lbl = "APC mutations",
+    title = "Frequency of types of mutations to *APC*",
+    nudge_y = 40
+  )
+```
+
+```{r}
+apc_dusp_rna_data %.%
+  {
+    unnest(apc_mutations)
+    rename(apc_mutation = apc_mutations)
+    count(apc_mutation)
+    mutate(apc_mutation = fct_reorder(apc_mutation, -n))
+  } %>%
+  plot_count(
+    apc_mutation,
+    x_lbl = "APC mutations",
+    title = "Frequency of types of mutations to *APC*",
+    nudge_y = 40
+  )
+```
+
+```{r}
+apc_mut_pal <- c("TRUE" = "#1D71C9", "FALSE" = "#ED1442")
 apc_mut_lbl <- c("TRUE" = "APC mut.", "FALSE" = "WT")
 
-apc_dusp_rna_data %.% {
-  mutate(rna_expr = rna_expr + 1)
-} %>%
+apc_dusp_rna_data %.%
+  {
+    mutate(rna_expr = rna_expr + 1)
+  } %>%
   ggplot(aes(x = is_apc_mut, y = rna_expr)) +
   facet_wrap(~hugo_symbol, scales = "free_y") +
-  geom_boxplot(outlier.shape = NA) +
   geom_jitter(aes(color = is_apc_mut), size = 0.1, alpha = 0.5) +
+  geom_boxplot(
+    aes(color = is_apc_mut),
+    size = 0.7, outlier.shape = NA, fill = "white", alpha = 0.4
+  ) +
+  scale_x_discrete(labels = apc_mut_lbl) +
   scale_y_continuous(trans = "log10") +
   scale_color_manual(
-    values = apc_mut_pal, 
-    labels = apc_mut_lbl
+    values = apc_mut_pal,
+    labels = apc_mut_lbl,
+    guide = guide_legend(override.aes = list(size = 1, alpha = 1))
   ) +
   theme(
     panel.grid.major.x = element_blank(),
@@ -585,21 +675,22 @@ apc_dusp_rna_data %.% {
   labs(x = NULL, y = "RNA expression (log10 + 1)")
 ```
 
-```{r, fig.width=10, fig.height=5}
+```{r, fig.width=8, fig.height=5}
 pos <- position_jitterdodge(
-  jitter.width = 0.2, jitter.height = 0, 
+  jitter.width = 0.2, jitter.height = 0,
   dodge.width = 0.8
 )
 
-apc_dusp_rna_data %.% {
-  mutate(rna_expr = rna_expr + 1)
-} %>%
+apc_dusp_rna_data %.%
+  {
+    mutate(rna_expr = rna_expr + 1)
+  } %>%
   ggplot(aes(x = hugo_symbol, y = rna_expr)) +
-  geom_boxplot(aes(color = is_apc_mut), outlier.shape = NA) +
   geom_jitter(aes(color = is_apc_mut), position = pos, size = 0.1, alpha = 0.5) +
+  geom_boxplot(aes(color = is_apc_mut), outlier.shape = NA, fill = "white", alpha = 0.4) +
   scale_y_continuous(trans = "log10") +
   scale_color_manual(
-    values = apc_mut_pal, 
+    values = apc_mut_pal,
     labels = apc_mut_lbl
   ) +
   theme(
@@ -612,35 +703,33 @@ apc_dusp_rna_data %.% {
 ```
 
 ```{r, fig.height=13, fig.width=8}
-apc_dusp_rna_data %.% {
-  mutate(rna_expr = rna_expr + 1)
-} %>%
+apc_dusp_rna_data %.%
+  {
+    mutate(rna_expr = rna_expr + 1)
+  } %>%
   ggplot(aes(x = rna_expr)) +
   facet_wrap(~hugo_symbol, scales = "free", ncol = 4) +
-  geom_density(aes(color = is_apc_mut, fill = is_apc_mut), size = 1.2, alpha = 0.2) +
+  geom_density(aes(color = is_apc_mut, fill = is_apc_mut), size = 1, alpha = 0.2) +
   scale_x_log10() +
   scale_y_continuous(expand = expansion(mult = c(0, 0.02))) +
   scale_color_manual(
-    values = apc_mut_pal, 
+    values = apc_mut_pal,
     labels = apc_mut_lbl
   ) +
   scale_fill_manual(
-    values = apc_mut_pal, 
+    values = apc_mut_pal,
     labels = apc_mut_lbl
   ) +
   theme(
     legend.title = element_blank()
   ) +
-    labs(x = "RNA expression (log10 + 1)")
+  labs(x = "RNA expression (log10 + 1)")
 ```
 
 ### Modeling
 
-- fit model
-- check fitting process was fine
-
 From the above density plots, I think it would be best to only model a selection of the *DUSP*s.
-At the very least, the *DUSP*s with clear bi-modal distributions should be removed as they will not be modeled by a Gaussian distribution.
+At the very least, the *DUSP*s with clear bi-modal distributions should be removed as they cannot be modeled as a Gaussian distribution.
 The following analysis will be conducted with only *DUSP4*, *DUSP6*, *DUSP9*, *DUSP15*, *DUSP19*, and *DUSP28*.
 
 ```{r}
@@ -695,7 +784,7 @@ mcmc_trace(apc_lm_stan_hier, pars = "(Intercept)") /
   mcmc_trace(apc_lm_stan_hier, pars = "sigma")
 ```
 
-Trace plots for parameters for *DUSP1*.
+Trace plots for parameters.
 
 ```{r, fig.height=6, fig.width=9, warning="hide"}
 mcmc_trace(apc_lm_stan_hier) +
@@ -715,6 +804,8 @@ pp_check(apc_lm_stan_hier, plotfun = "stat_2d", stat = c("mean", "sd")) +
 
 ### Analysis of results
 
+Like above for the *KRAS* alleles, the posterior distributions of the parameters for *APC* mutation status are summarized below.
+
 ```{r}
 apc_lm_post <- as.data.frame(apc_lm_stan_hier) %.% {
   mutate(sample_idx = row_number())
@@ -724,20 +815,24 @@ apc_lm_post <- as.data.frame(apc_lm_stan_hier) %.% {
   separate(name, into = c("variable", "dusp"), sep = " ")
   mutate(
     variable = ifelse(variable == "(Intercept)", "apc_wt", "apc_mut"),
-    dusp = str_remove(dusp, "^hugo_symbol:")
+    dusp = str_remove(dusp, "^hugo_symbol:"),
+    dusp_num = as.numeric(str_remove(dusp, "DUSP")),
+    dusp = fct_reorder(dusp, dusp_num)
   )
+  select(-dusp_num)
 }
 
-p <- apc_lm_post %.% {
-  group_by(variable, dusp)
-  summarise_to_hdi(value)
-  ungroup()
-  mutate(is_apc_mut = variable == "apc_mut")
-} %>%
+p <- apc_lm_post %.%
+  {
+    group_by(variable, dusp)
+    summarise_to_hdi(value)
+    ungroup()
+    mutate(is_apc_mut = variable == "apc_mut")
+  } %>%
   ggplot(aes(x = avg, y = is_apc_mut, color = is_apc_mut)) +
   facet_wrap(~dusp, scales = "free_x") +
   scale_color_manual(
-    values = apc_mut_pal, 
+    values = apc_mut_pal,
     labels = apc_mut_lbl
   ) +
   scale_y_discrete(labels = apc_mut_lbl) +
@@ -749,3 +844,55 @@ p <- apc_lm_post %.% {
 linerange_plots_parameter_values(p)
 ```
 
+The strongest associations seems to be the reduced *DUSP4* expression and increased *DUSP15* expression are associated with *APC* mutation.
+Recall that the expression of these two genes are [negatively correlated](#check-for-correlations-in-dusp-expression).
+The transformed expression of these genes for each tumor sample (each point) is plotted below and the tumors are colored by whether or not they have an *APC* mutation.
+There may be a trend here, but it appears to be slight.
+
+```{r}
+plot_data <- apc_dusp_rna_data %.% {
+  filter(hugo_symbol %in% paste0("DUSP", c(4, 15)))
+  select(tumor_sample_barcode, hugo_symbol, is_apc_mut, log10_z_rna)
+  pivot_wider(id_cols = c(tumor_sample_barcode, is_apc_mut), names_from = hugo_symbol, values_from = log10_z_rna)
+}
+
+plot_data_summary <- plot_data %.% {
+  group_by(is_apc_mut)
+  summarise_if(is.numeric, mean)
+  ungroup()
+}
+
+plot_data %>%
+  ggplot(aes(x = DUSP4, y = DUSP15, color = is_apc_mut)) +
+  geom_hline(yintercept = 0, color = "grey70", size = 0.6) +
+  geom_vline(xintercept = 0, color = "grey70", size = 0.6) +
+  geom_point(
+    aes(fill = is_apc_mut),
+    data = plot_data_summary,
+    size = 8, shape = 23, show.legend = FALSE
+  ) +
+  geom_point(
+    size = 2,
+    alpha = 0.6
+  ) +
+  scale_color_manual(
+    values = apc_mut_pal,
+    labels = apc_mut_lbl
+  ) +
+  scale_fill_manual(
+    values = apc_mut_pal,
+    labels = apc_mut_lbl,
+    guide = NULL
+  ) +
+  theme(
+    plot.title = element_markdown(),
+    axis.title.x = element_markdown(),
+    axis.title.y = element_markdown()
+  ) +
+  labs(
+    x = "DUSP4 (log<sub>10</sub> and z-scaled)",
+    y = "DUSP15 (log<sub>10</sub> and z-scaled)",
+    color = NULL, fill = NULL,
+    title = "Clustering of APC mutants with lower *DUSP4* and higher *DUSP15* expression"
+  )
+```
