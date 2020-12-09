@@ -43,7 +43,10 @@ get_enrichr_overlap_int <- function(overlap) {
 
 # Get genes as a list.
 enrichr_genes <- function(genes) {
-  unlist(str_split(genes, ";"))
+  a <- str_split(genes, ";") %>%
+    unlist() %>%
+    str_squish()
+  return(a[a != ""])
 }
 
 
