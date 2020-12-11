@@ -10,11 +10,18 @@ test_that("Cancer specific named vectors contain valid cancers.", {
 
 
 test_that("The COSMIC CGC genes can be retrieved.", {
+  testthat::local_edition(3)
+
   expect_error(get_cgc_genes("NOTCANCER"))
   for (cancer in cancer_names[cancer_names != "SKCM"]) {
     genes <- get_cgc_genes(cancer)
     expect_true(all(is.character(genes)))
     expect_true(!any(is.na(genes)))
-    # expect_snapshot_value(get_cgc_genes(cancer))
   }
+
+  # Snapshots
+  expect_snapshot_value(as.list(get_cgc_genes("COAD")))
+  expect_snapshot_value(as.list(get_cgc_genes("LUAD")))
+  expect_snapshot_value(as.list(get_cgc_genes("MM")))
+  expect_snapshot_value(as.list(get_cgc_genes("PAAD")))
 })
