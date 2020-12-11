@@ -55,7 +55,7 @@ replace_numeric_NAs <- function(df) {
 #' This is useful to call at the top of an analysis to remove the old graphs
 #' such that there are no phantom results from old analyses.
 reset_graph_directory <- function(dir_name) {
-  dir_path <- file.path("graphs", dir_name)
+  dir_path <- plot_path(dir_name)
   reset_directory(dir_path, "graph")
 }
 
@@ -65,7 +65,7 @@ reset_graph_directory <- function(dir_name) {
 #' This is useful to call at the top of an analysis to remove the old tables
 #' such that there are no phantom results from old analyses.
 reset_table_directory <- function(dir_name) {
-  dir_path <- file.path("tables", dir_name)
+  dir_path <- table_path(dir_name)
   reset_directory(dir_path, "table")
 }
 
@@ -86,19 +86,19 @@ reset_directory <- function(dir_path, location) {
 
 #' Source the files in the 'lib' directory.
 source_lib <- function() {
-  for (f in list.files("lib", full.name = TRUE)) source(f)
+  purrr::walk(list.files("lib", full.name = TRUE, pattern = "R$"))
 }
 
 
 #' Get the full path for a plot name.
 plot_path <- function(...) {
-  file.path("graphs", ...)
+  here::here("graphs", ...)
 }
 
 
 #' Get the full path for a plot name.
 table_path <- function(...) {
-  file.path("tables", ...)
+  here::here("tables", ...)
 }
 
 
