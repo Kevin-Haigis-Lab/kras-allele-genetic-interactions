@@ -144,6 +144,9 @@ save_pheatmap_pdf <- function(x, save_path, size = NA, width = NA, height = NA) 
 
 #### ---- Adjust colors ---- ####
 
+# Can probably replace these with functions from the 'colorizer' package
+# if more work is done on the figures.
+
 darken <- function(color, factor = 1.4) {
   (col2rgb(color) / factor) %>%
     t() %>%
