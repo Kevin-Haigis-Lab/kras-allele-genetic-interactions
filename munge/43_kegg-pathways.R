@@ -1,8 +1,8 @@
 # Prepare KEGG pathways into tidygraphs
 
 ProjectTemplate::cache("kegg_pathway_grs", {
-  kegg_pathway_data_dir <- file.path("data", "kegg-pathways")
-  kegg_pathway_paths <- list.files(kegg_pathway_data_dir,
+  kegg_pathway_data_dir <- here::here("data", "kegg-pathways")
+  kegg_pathway_paths <- file.path(kegg_pathway_data_dir,
     pattern = "^hsa",
     full.names = TRUE
   )

@@ -13,8 +13,8 @@ git clone https://github.com/jhrcook/comutation.git
 # Download as a zip.
 wget https://github.com/jhrcook/comutation/archive/master.zip
 unzip -q master.zip
-
 ```
+
 
 ### 2. Acquire the raw data
 
@@ -56,4 +56,14 @@ The complete analysis is now ready to run using the following command.
 
 ```bash
 ./run-all-analyses.R
+```
+
+---
+
+## Testing
+
+To run the tests in the the "test" directory,  run the following command from the terminal.
+
+```bash
+Rscript -e 'testthat::test_dir("tests")'
 ```

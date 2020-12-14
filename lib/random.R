@@ -46,10 +46,12 @@ comutation_proj_lines_of_code <- function() {
     mutate(dir = basename(dir))
 
   summ_d %>%
-    knitr::kable(digits = 0) %>%
+    knitr::kable(digits = 0, format = "simple") %>%
     print()
   cat("\n")
-  num_files <- nrow(d)
-  num_lines <- sum(d$num_lines)
-  message(glue("#> There are {num_lines} lines of code in {num_files} files."))
+  num_files <- scales::comma(nrow(d), accuracy = 1)
+  num_lines <- scales::comma(sum(d$num_lines), accuracy = 1)
+  message(glue(
+    "#> There are {num_lines} lines of code in {num_files} files."
+  ))
 }
