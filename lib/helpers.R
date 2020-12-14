@@ -86,7 +86,7 @@ reset_directory <- function(dir_path, location) {
 
 #' Source the files in the 'lib' directory.
 source_lib <- function() {
-  purrr::walk(list.files("lib", full.name = TRUE, pattern = "R$"))
+  purrr::walk(list.files("lib", full.name = TRUE, pattern = "R$"), source)
 }
 
 

@@ -43,7 +43,7 @@ theme_fig30_densityplots <- function(tag_margin_l = -3) {
 # Two heatmaps showing the ranks of genes in the enriched genesets.
 # original script: "src/10_37_gsea-depmap-analysis.R"
 
-x_label <- expression("" %<-% "greater dep. - ranked gene effect - less dep." %->% "")
+x_label <- "← greater dep. - ranked by dep. score - less dep. →"
 
 
 panel_A_density <- read_fig_proto(

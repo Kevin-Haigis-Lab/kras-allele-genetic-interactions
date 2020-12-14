@@ -186,18 +186,13 @@ save_figure <- function(p,
   jpg_name <- get_figure_img_path(figure_num, file_fmt = "jpeg")
 
   for (f in c(svg_name, jpg_name)) {
-    ggsave(f, p,
+    ggsave(
+      filename = f,
+      plot = p,
       width = dim$width, height = dim$height,
       unit = "mm", dpi = 500
     )
   }
-
-  # Copy the JPEG to "reports/content/home/gallery/gallery/"
-  gallery_path <- file.path(
-    "reports", "content", "home", "gallery", "gallery",
-    basename(jpg_name)
-  )
-  x <- file.copy(jpg_name, gallery_path)
   invisible(NULL)
 }
 
@@ -336,7 +331,8 @@ copy_final_figure <- function(figure_num, make_num, supp) {
 
 
 make_final_pdfs <- function(...) {
-  system("paper/figures_to_pdf.sh")
+  # system("paper/figures_to_pdf.sh")
+  message("Note that PDFs must be made locally due to font issues.")
 }
 
 

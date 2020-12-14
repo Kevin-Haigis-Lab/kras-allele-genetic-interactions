@@ -85,7 +85,7 @@ theme_fig29_densityplots <- function(tag_margin_l = -3) {
     )
 }
 
-x_label <- expression("" %<-% "greater dep. - ranked by dep. score - less dep." %->% "")
+x_label <- "← greater dep. - ranked by dep. score - less dep. →"
 
 panel_B_density <- read_fig_proto(
   "rankline_COAD_G12V_PID_ERBB4_PATHWAY.svg"
