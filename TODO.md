@@ -4,11 +4,7 @@
 
 - Tests for "lib/" functions.
 
-
 ## Paper
-
-- Fill in other forms for Nat. Comm.
-
 
 ## Misc.
 
