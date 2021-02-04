@@ -86,7 +86,9 @@ panel_AB_legend <- custom_label_legend(
 
 panel_B <- read_fig_proto("signature-level-boxplots_with0") +
   scale_y_continuous(
-    breaks = seq(0, 1, 0.25)
+    breaks = seq(0, 1, 0.25),
+    limits = c(0, 1),
+    expand = expansion(mult = c(0.01, 0.01))
   ) +
   labs(
     tag = "b",
