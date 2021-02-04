@@ -1,9 +1,10 @@
 # Functions shared by Figures 53-56
 
-cancer_labels <- mutsig_number_of_samples_labels %>%
-  deframe()
-
 make_cancer_label <- function(cancer, tag) {
+
+  cancer_labels <- mutsig_number_of_samples_labels %>%
+    deframe()
+
   tibble(x = 0, y = 0, label = cancer_labels[[cancer]]) %>%
     ggplot(aes(x, y)) +
     geom_text(

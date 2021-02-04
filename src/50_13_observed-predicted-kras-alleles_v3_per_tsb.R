@@ -1130,7 +1130,7 @@ allele_prob_per_allele_plot_annotations <- allele_prob_per_allele_stats %.% {
   )
   arrange(cancer, kras_allele, group1)
   mutate(
-    p_value_label = format_pvalue_label(adj_p_value, with_p = FALSE),
+    p_value_label = format_pvalue_label(adj_p_value, prefix = ""),
     p_x = c(5, 5, 2),
     p_y = mean_ci_upper + c(0.05, 0.02, 0.02),
     seg_x1 = p_x - 0.3 * pos_width,
