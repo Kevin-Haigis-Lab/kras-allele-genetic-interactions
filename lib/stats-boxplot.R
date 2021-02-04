@@ -393,3 +393,8 @@ find_optimal_bar_position <- function(b, current_bs) {
 
   return(b)
 }
+
+
+format_pvalue_label <- function(x, digits = 3, with_p = TRUE) {
+  scales::scientific(x, digits = digits, prefix = ifelse(with_p, "p=", ""))
+}
