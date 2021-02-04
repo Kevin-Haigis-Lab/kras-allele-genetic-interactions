@@ -297,15 +297,18 @@ mutsig_per_sample_plots <- mutsig_noartifact_df %>%
 saveFigRds(mutsig_per_sample_plots, "mutsig_per_sample_plots")
 
 
-cancer_samples_count_df <- cancer_full_muts_df %>%
-  filter(target %in% c("genome", "exome")) %>%
-  distinct(cancer, tumor_sample_barcode) %>%
-  count(cancer, name = "n_samples") %>%
-  mutate(
-    n_samples = scales::comma(n_samples),
-    cancer_label = as.character(glue("{cancer} (n={n_samples})"))
-  ) %>%
-  select(-n_samples)
+cache("mutsig_number_of_samples_labels", depends = c("mutsig_noartifact_df"), {
+  mutsig_number_of_samples_labels <- mutsig_noartifact_df %>%
+    distinct(cancer, tumor_sample_barcode) %>%
+    count(cancer, name = "n_samples") %>%
+    mutate(
+      n_samples = scales::comma(n_samples),
+      cancer_label = as.character(glue("{cancer} (n={n_samples})"))
+    ) %>%
+    select(-n_samples)
+  return(mutsig_number_of_samples_labels)
+})
+
 
 # Stacked bar-plot of mutational signatures per tumor sample barcode.
 # Facet by cancer.
@@ -325,7 +328,7 @@ mutsig_per_sample_plot <- mutsig_noartifact_df %>%
     )
   ) %>%
   unnest(data) %>%
-  left_join(cancer_samples_count_df, by = "cancer") %>%
+  left_join(mutsig_number_of_samples_labels, by = "cancer") %>%
   barplot_distribution_per_sample(title = NULL) +
   facet_wrap(~cancer_label, scales = "free", ncol = 1)
 
@@ -382,7 +385,7 @@ sig_boxes_with0s <- mutsig_noartifact_df %>%
   summarise(contribution = sum(contribution)) %>%
   ungroup() %>%
   filter(contribution > 0) %>%
-  left_join(cancer_samples_count_df, by = "cancer") %>%
+  left_join(mutsig_number_of_samples_labels, by = "cancer") %>%
   signature_distribution_boxplots(facet_col = cancer_label)
 ggsave_wrapper(
   sig_boxes_with0s,
@@ -396,7 +399,7 @@ sig_boxes <- mutsig_noartifact_df %>%
   group_by(tumor_sample_barcode, cancer, description) %>%
   summarise(contribution = sum(contribution)) %>%
   ungroup() %>%
-  left_join(cancer_samples_count_df, by = "cancer") %>%
+  left_join(mutsig_number_of_samples_labels, by = "cancer") %>%
   signature_distribution_boxplots(facet_col = cancer_label)
 ggsave_wrapper(
   sig_boxes,
