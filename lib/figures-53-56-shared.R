@@ -1,7 +1,6 @@
 # Functions shared by Figures 53-56
 
 make_cancer_label <- function(cancer, tag) {
-
   cancer_labels <- mutsig_number_of_samples_labels %>%
     deframe()
 

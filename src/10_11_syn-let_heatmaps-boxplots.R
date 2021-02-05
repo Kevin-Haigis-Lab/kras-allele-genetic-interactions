@@ -89,10 +89,10 @@ plot_pairwise_test_results2 <- function(hugo_symbol,
     filter(adj_p_value < 0.05) %>%
     left_join(
       data %>%
-         group_by(kras_allele) %>%
-         filter(y == max(y)) %>%
-         ungroup() %>%
-         select(kras_allele, y, x),
+        group_by(kras_allele) %>%
+        filter(y == max(y)) %>%
+        ungroup() %>%
+        select(kras_allele, y, x),
       by = c("allele" = "kras_allele")
     ) %>%
     mutate(

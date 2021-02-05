@@ -1126,7 +1126,7 @@ allele_prob_per_allele_plot_annotations <- allele_prob_per_allele_stats %.% {
     allele_prob_per_allele_summary %>%
       filter(allele_group == "the *KRAS* allele") %>%
       select(cancer, kras_allele, mean_ci_upper),
-      by = c("cancer", "kras_allele")
+    by = c("cancer", "kras_allele")
   )
   arrange(cancer, kras_allele, group1)
   mutate(
