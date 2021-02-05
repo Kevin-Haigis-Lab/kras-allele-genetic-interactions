@@ -67,6 +67,19 @@ panel_A <- read_fig_proto("gsea-results-COAD-select.rds") +
 # Two heatmaps showing the ranks of genes in the enriched genesets.
 # original script: "src/10_37_gsea-depmap-analysis.R"
 
+theme_fig29_rankplot <- function() {
+  theme_fig29() %+replace%
+    theme(
+      plot.title = element_blank(),
+      axis.title.y = element_blank(),
+      legend.position = "none",
+      panel.grid = element_blank(),
+      axis.text.x = element_blank(),
+      axis.text.y = element_text(face = "italic", size = 6, hjust = 1),
+      plot.background = element_rect(fill = NA, color = NA)
+    )
+}
+
 theme_fig29_densityplots <- function(tag_margin_l = -3) {
   theme_classic_comutation() %+replace%
     theme(
@@ -100,32 +113,11 @@ panel_B_density <- read_fig_proto(
 panel_B <- read_fig_proto(
   "rankplot_COAD_G12V_PID_ERBB4_PATHWAY.svg"
 ) +
-  theme_fig29() +
-  theme(
-    plot.title = element_blank(),
-    axis.title.y = element_blank(),
-    legend.position = "none",
-    panel.grid = element_blank(),
-    axis.text.x = element_blank(),
-    plot.background = element_rect(fill = NA, color = NA)
-  ) +
+  theme_fig29_rankplot() +
   labs(
-    x = x_label
+    x = x_label,
+    fill = "*KRAS* allele"
   )
-
-
-panel_C <- read_fig_proto(
-  "rankplot_COAD_G13D_KEGG_OXIDATIVE_PHOSPHORYLATION"
-) +
-  theme_fig29() +
-  theme(
-    plot.title = element_text(size = 7, family = "Arial"),
-    axis.title.y = element_blank(),
-    axis.text.x = element_blank(),
-    legend.direction = "none",
-    panel.grid = element_blank()
-  ) +
-  labs(fill = "*KRAS* allele")
 
 
 panel_C_density <- read_fig_proto(
@@ -138,20 +130,14 @@ panel_C_density <- read_fig_proto(
     tag = "c"
   )
 
-panel_C <- panel_C +
-  theme_fig29() +
-  theme(
-    plot.title = element_blank(),
-    axis.title.y = element_blank(),
-    legend.position = "none",
-    panel.grid = element_blank(),
-    axis.text.x = element_blank(),
-    plot.background = element_rect(fill = NA, color = NA)
-  ) +
+panel_C <- read_fig_proto(
+  "rankplot_COAD_G13D_KEGG_OXIDATIVE_PHOSPHORYLATION"
+) +
+  theme_fig29_rankplot() +
   labs(
-    x = x_label
+    x = x_label,
+    fill = "*KRAS* allele"
   )
-
 
 lbl_alleles <- ggplot_build(panel_C)$plot$data$kras_allele %>%
   unique() %>%
@@ -251,7 +237,7 @@ for (f in panel_E_files) {
   panel_E_plots[[f]] <- read_fig_proto(f) +
     theme_fig29(tag_margin = margin(0, 0, 0, -2, "mm")) %+replace%
     theme(
-      plot.title = element_text(size = 6, face = "bold"),
+      plot.title = element_text(size = 6, face = "bold.italic"),
       axis.title.x = element_blank(),
       axis.text.x = x_axis_text,
       legend.position = "none",

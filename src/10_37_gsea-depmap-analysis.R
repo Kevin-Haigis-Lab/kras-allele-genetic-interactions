@@ -402,7 +402,8 @@ plot_ranked_data <- function(df, cancer, allele, geneset,
       legend.position = "bottom",
       panel.grid = element_blank(),
       plot.title = element_text(hjust = 0.5, size = 10),
-      legend.key.size = unit(2, "mm")
+      legend.key.size = unit(2, "mm"),
+      axis.text.y = element_text(face = "italic")
     ) +
     labs(
       title = glue("{cancer} - {allele}\n{plot_title}")

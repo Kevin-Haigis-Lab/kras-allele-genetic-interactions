@@ -167,7 +167,7 @@ depmap_model_workflow_res %>%
   # pwalk(plot_pairwise_test_results) %>%
   inner_join(select_gene_boxplots, by = c("cancer", "hugo_symbol")) %>%
   pwalk(plot_pairwise_test_results2, save_proto = TRUE)
-  
+
 
 #### ---- Heatmaps ---- ####
 
@@ -380,8 +380,11 @@ plot_cancer_heatmaps <- function(cancer, data, screen,
     fontsize = 5,
     silent = TRUE,
     border_color = NA,
-    fontfamily = "Arial"
+    fontfamily = "Arial",
+    fontface = 1
   )
+
+  ph <- italicize_pheatmap_rownames(ph)
 
   save_path <- plot_path(
     GRAPHS_DIR_HEAT,
@@ -459,7 +462,7 @@ depmap_gene_clusters <- depmap_model_workflow_res %>%
   ungroup() %>%
   update_clusters()
 
-ProjectTemplate::cache("depmap_gene_clusters",
+cache("depmap_gene_clusters",
   depends = "depmap_model_workflow_res"
 )
 
