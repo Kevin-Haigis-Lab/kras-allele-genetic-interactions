@@ -109,7 +109,7 @@ panel_C <- read_fig_proto(
     axis.title.x = element_blank(),
     axis.title.y = element_markdown(),
     axis.text.x = element_text(angle = 60, hjust = 1),
-    strip.text = element_text(face = "bold")
+    strip.text = element_text(face = "bold.italic")
   ) +
   labs(
     tag = "c",
