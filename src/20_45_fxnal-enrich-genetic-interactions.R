@@ -7,7 +7,7 @@ reset_graph_directory(GRAPHS_DIR)
 reset_table_directory(GRAPHS_DIR)
 
 
-ProjectTemplate::cache("enrichr_tib",
+cache("enrichr_tib",
   depends = "genetic_interaction_df",
   {
     enrichr_tib <- genetic_interaction_df %>%

@@ -172,7 +172,11 @@ adjust_oncoplot_theme <- function(
   pw[[2]] <- pw[[2]] +
     scale_y_discrete(
       labels = function(x) {
-        str_replace(x, "KRAS", "*KRAS*")
+        ifelse(
+          str_detect(x, "KRAS"),
+          str_replace(x, "KRAS", "*KRAS*"),
+          paste0("*", x, "*")
+        )
       }
     ) +
     scale_fill_manual(
@@ -318,7 +322,7 @@ panel_F[[1]] <- panel_F[[1]] +
     plot.margin = margin(2, 0, 0, 0, "mm"),
     axis.title = element_blank(),
     axis.text.x = element_blank(),
-    axis.text.y = element_text(size = 7, hjust = 1.0),
+    axis.text.y = element_text(size = 7, hjust = 1.0, face = "italic"),
     legend.position = "none"
   ) +
   labs(
@@ -330,13 +334,13 @@ panel_F[[2]] <- panel_F[[2]] +
   theme_fig22() %+replace%
   theme(
     axis.title.x = element_blank(),
-    axis.text.x = element_text(angle = 35, hjust = 1, vjust = 1, size = 7),
+    axis.text.x = element_text(angle = 35, hjust = 1, vjust = 1, size = 7, face = "italic"),
     axis.text.y = element_text(size = 6),
     axis.ticks.y = element_line(size = 0.1),
     legend.key.size = unit(4, "mm"),
     legend.title = element_markdown(size = 6),
     legend.text = element_text(size = 6),
-    legend.margin = margin(0, -3, 0, -1, "mm")
+    legend.margin = margin(0, -3, 0, -1, "mm"),
   ) +
   labs(
     y = "distribution of comutation events",
