@@ -37,6 +37,7 @@ panel_A_1 <- read_fig_proto("mm_comut_heatmap_TRUNCATED") +
   theme(
     legend.position = "none",
     axis.title = element_blank(),
+    axis.text.y = element_text(face = "italic"),
     plot.margin = margin(0, 0, 0, 1, "mm")
   )
 panel_A_2 <- read_fig_proto("allele_freq_barplot_TRUNCATED") +
