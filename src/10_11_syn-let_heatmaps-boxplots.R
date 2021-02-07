@@ -384,6 +384,7 @@ plot_cancer_heatmaps <- function(cancer, data, screen,
     fontface = 1
   )
 
+  ph <- remove_bold_in_pheatmap(ph)
   ph <- italicize_pheatmap_rownames(ph)
 
   save_path <- plot_path(

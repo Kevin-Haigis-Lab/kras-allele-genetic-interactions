@@ -29,3 +29,14 @@ italicize_pheatmap_rownames <- function(ph) {
   ph$gtable$grobs[[5]]$gp <- mod_gpar
   return(ph)
 }
+
+remove_bold_in_pheatmap <- function(ph) {
+  one <- integer(1)
+  for (i in c(7, 9)) {
+    mod_gpar <- ph$gtable$grobs[[i]]$gp
+    mod_gpar$fontface <- one
+    mod_gpar$font <- one
+    ph$gtable$grobs[[i]]$gp <- mod_gpar
+  }
+  return(ph)
+}
