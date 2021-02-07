@@ -13,7 +13,7 @@ make_cancer_label <- function(cancer, tag) {
       hjust = 0.5,
       family = "Arial",
       size = 2.5,
-      fontface = "bold"
+      fontface = "plain"
     ) +
     geom_line(
       data = tibble(x = 1, y = c(-1, 1)),
