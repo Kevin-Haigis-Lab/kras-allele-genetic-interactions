@@ -183,7 +183,7 @@ make_cancer_label <- function(cancer) {
       label = cancer,
       family = "Arial",
       size = 3,
-      fontface = "bold"
+      fontface = "plain"
     ) +
     theme_void(base_family = "Arial", base_size = 7)
   return(cancer_lbl)
