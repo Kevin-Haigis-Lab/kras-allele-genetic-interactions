@@ -19,9 +19,8 @@ fig51_tag_element <- function(tag_margin = margin(-1, -1, -1, -1, "mm")) {
 theme_fig51 <- function(tag_margin = margin(-1, -1, -1, -1, "mm")) {
   theme_comutation() %+replace%
     theme(
-      legend.title = element_text(face = "bold"),
       legend.text = element_text(size = 6),
-      strip.text = element_text(size = 7, face = "bold"),
+      strip.text = element_text(size = 7),
       plot.tag = fig51_tag_element(tag_margin)
     )
 }
@@ -44,7 +43,7 @@ panel_A_guide_legend <- function(order) {
     title.position = "top",
     title.theme = element_markdown(
       hjust = 0.5,
-      face = "bold",
+      face = "plain",
       size = 6,
       family = "Arial"
     ),
@@ -84,7 +83,7 @@ panel_A_proto_list <- imap(panel_A_plots, function(x, idx) {
 panel_A <- wrap_plots(panel_A_proto_list, nrow = 1, guides = "collect") &
   theme_fig51() %+replace%
     theme(
-      plot.title = element_text(size = 7, vjust = -1, face = "bold"),
+      plot.title = element_text(size = 7, vjust = -1),
       plot.subtitle = element_text(hjust = 0, vjust = -3),
       plot.margin = margin(0, 1, 0, 1, "mm"),
       legend.position = "right",
@@ -128,10 +127,7 @@ panel_B <- read_fig_proto("allele_prob_per_allele_plot") +
 
 {
   # COMPLETE FIGURE
-  full_figure <- (
-    panel_A /
-      panel_B
-  ) +
+  full_figure <- (panel_A / panel_B) +
     plot_layout(heights = c(3, 2))
 
   save_figure(
