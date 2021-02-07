@@ -25,12 +25,12 @@ theme_graph_fig22 <- function(plot_margin = margin(0, 0, 0, 0, "mm"),
   theme_graph(base_size = 7, base_family = "Arial") %+replace%
     theme(
       plot.title = element_text(
-        size = 7, face = "bold",
-        hjust = 0.1, vjust = 5
+        size = 7,
+        hjust = 0.1,
+        vjust = 5
       ),
       plot.tag = element_text(
         size = 7,
-        face = "bold",
         margin = tag_margin
       ),
       legend.margin = margin(0, 0, 0, 0, "mm"),
@@ -51,7 +51,7 @@ panel_A <- read_fig_proto("genetic_interaction_network_COAD") +
   theme(
     legend.spacing.x = unit(1, "mm"),
     legend.position = c(0.05, 0.05),
-    legend.title = element_text(size = 6, face = "bold"),
+    legend.title = element_text(size = 6),
     legend.text = element_text(size = 6)
   ) +
   labs(
@@ -121,7 +121,7 @@ prepare_enrichr_dotplot <- function(plt) {
       legend.margin = margin(-1, 3, -1, 3, "mm"),
       legend.box.background = element_rect(fill = NA, color = NA),
       plot.margin = margin(0, 0, 0, 0, "mm"),
-      strip.text = element_text(size = 7, hjust = 0.5, face = "bold")
+      strip.text = element_text(size = 7, hjust = 0.5)
     ) +
     labs(
       tag = "c",
@@ -139,8 +139,7 @@ panel_C <- read_fig_proto("enrichr_all-cancers-faceted") %>%
 # original script: "src/20_50_rainfall-plots.R"
 
 # Adjust the oncoplots.
-adjust_oncoplot_theme <- function(
-                                  pw,
+adjust_oncoplot_theme <- function(pw,
                                   top_bar_limits = NULL,
                                   top_bar_breaks = integer_breaks(rm_vals = c(0)),
                                   top_bar_labels = waiver(),
@@ -160,7 +159,6 @@ adjust_oncoplot_theme <- function(
       axis.text.y = element_text(size = 6, hjust = 1),
       plot.tag = element_text(
         size = 7,
-        face = "bold",
         margin = tag_margin
       ),
       axis.ticks = element_blank(),
@@ -274,7 +272,9 @@ variants <- unique(c(
   extract_variants_from_oncoplots(panel_E)
 ))
 
-panel_D_leg_df <- custom_label_legend_df(variants, colors = "white", mod_length = FALSE)
+panel_D_leg_df <- custom_label_legend_df(variants,
+                                         colors = "white",
+                                         mod_length = FALSE)
 # panel_D_leg_df <- tribble(
 #   ~lbl,              ~len, ~start, ~end, ~mid, ~color,
 #   "missense",         1.5,    0,  1.5,  0.75, "white",
@@ -288,7 +288,6 @@ panel_D_leg_df <- custom_label_legend_df(variants, colors = "white", mod_length 
 panel_D_leg <- custom_label_legend_plot(panel_D_leg_df,
   family = "Arial",
   size = 1.8,
-  fontface = "bold",
   label.padding = unit(1, "mm"),
   label.size = unit(0, "mm"),
   hjust = 0.5
@@ -296,8 +295,9 @@ panel_D_leg <- custom_label_legend_plot(panel_D_leg_df,
   scale_fill_manual(values = mod_variant_pal, guide = FALSE) +
   theme(
     plot.title = element_text(
-      size = 6, hjust = 0,
-      face = "bold", family = "Arial",
+      size = 6,
+      hjust = 0,
+      family = "Arial",
     ),
     axis.title = element_blank(),
     axis.text = element_blank()
@@ -316,8 +316,9 @@ panel_F[[1]] <- panel_F[[1]] +
   theme_fig22(tag_margin = margin(-3.7, -1, -1, -1, "mm")) %+replace%
   theme(
     plot.title = element_text(
-      size = 7, hjust = 0,
-      vjust = 5, face = "bold"
+      size = 7,
+      hjust = 0,
+      vjust = 5,
     ),
     plot.margin = margin(2, 0, 0, 0, "mm"),
     axis.title = element_blank(),
@@ -334,7 +335,13 @@ panel_F[[2]] <- panel_F[[2]] +
   theme_fig22() %+replace%
   theme(
     axis.title.x = element_blank(),
-    axis.text.x = element_text(angle = 35, hjust = 1, vjust = 1, size = 7, face = "italic"),
+    axis.text.x = element_text(
+      angle = 35,
+      hjust = 1,
+      vjust = 1,
+      size = 7,
+      face = "italic"
+    ),
     axis.text.y = element_text(size = 6),
     axis.ticks.y = element_line(size = 0.1),
     legend.key.size = unit(4, "mm"),
@@ -362,7 +369,6 @@ panel_F[[2]] <- panel_F[[2]] +
         plot.title = element_text(
           size = 7,
           family = "Arial",
-          face = "bold",
           hjust = 0.1,
           vjust = 6
         )
