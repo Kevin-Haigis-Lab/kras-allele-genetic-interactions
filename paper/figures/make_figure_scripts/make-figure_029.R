@@ -88,7 +88,7 @@ theme_fig29_densityplots <- function(tag_margin_l = -3) {
         face = "bold",
         margin = margin(0, -2, -1, tag_margin_l, "mm")
       ),
-      plot.title = element_text(size = 7, family = "Arial", face = "bold"),
+      plot.title = element_text(size = 7, family = "Arial"),
       plot.margin = margin(0.4, 0, -1.5, 0, "mm"),
       axis.title = element_blank(),
       axis.text.x = element_blank(),
@@ -150,8 +150,10 @@ panel_BC_legend <- custom_label_legend(
   gap = 0,
   colors = ifelse(lbl_alleles %in% kras_dark_lbls, "white", "black"),
   y_value = "*KRAS* allele",
-  size = 2, fontface = "bold", family = "Arial",
-  label.padding = unit(1, "mm"), label.size = unit(0, "mm")
+  size = 2,
+  family = "Arial",
+  label.padding = unit(1, "mm"),
+  label.size = unit(0, "mm")
 ) +
   scale_fill_manual(values = short_allele_pal) +
   theme(
@@ -159,8 +161,9 @@ panel_BC_legend <- custom_label_legend(
     plot.margin = margin(0, 10, 0, 20, "mm"),
     plot.title = element_blank(),
     axis.text.y = element_markdown(
-      hjust = 0.5, face = "bold",
-      size = 6, family = "Arial"
+      hjust = 0.5,
+      size = 6,
+      family = "Arial"
     )
   )
 
@@ -237,7 +240,7 @@ for (f in panel_E_files) {
   panel_E_plots[[f]] <- read_fig_proto(f) +
     theme_fig29(tag_margin = margin(0, 0, 0, -2, "mm")) %+replace%
     theme(
-      plot.title = element_text(size = 6, face = "bold.italic"),
+      plot.title = element_text(size = 6, face = "italic"),
       axis.title.x = element_blank(),
       axis.text.x = x_axis_text,
       legend.position = "none",
