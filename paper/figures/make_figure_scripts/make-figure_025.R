@@ -24,8 +24,9 @@ theme_graph_fig25 <- function() {
   theme_graph(base_size = 7, base_family = "Arial") %+replace%
     theme(
       plot.title = element_text(
-        size = 7, face = "bold",
-        hjust = 0.1, vjust = 5
+        size = 7,
+        hjust = 0.1,
+        vjust = 5
       ),
       plot.tag = element_text(
         size = 7,
@@ -34,8 +35,8 @@ theme_graph_fig25 <- function() {
       ),
       legend.margin = margin(0, 0, 0, 0, "mm"),
       legend.position = "bottom",
-      legend.title = element_text(size = 5, hjust = 0.5),
-      legend.text = element_text(size = 5, hjust = 0.5),
+      legend.title = element_text(size = 6, hjust = 0.5),
+      legend.text = element_text(size = 6, hjust = 0.5),
       plot.margin = margin(0, 0, 0, 0, "mm")
     )
 }
@@ -64,7 +65,6 @@ panel_A <- read_fig_proto("genetic_interaction_network_PAAD") +
     legend.spacing.x = unit(1, "mm"),
     legend.position = c(0.05, 0.05),
     legend.box = "horizontal",
-    legend.title = element_text(face = "bold", size = 7),
     legend.margin = margin(-6, 0, 0, 0, "mm")
   ) +
   labs(tag = "a")
@@ -86,7 +86,7 @@ panel_B <- read_fig_proto(
   theme(
     legend.position = "bottom",
     legend.margin = margin(-2, 0, 2, 0, "mm"),
-    legend.title = element_markdown()
+    legend.title = element_markdown(size = 6)
   ) +
   labs(
     edge_width = "-log<sub>10</sub>(p-value)",
@@ -109,7 +109,7 @@ panel_C <- read_fig_proto(
     axis.title.x = element_blank(),
     axis.title.y = element_markdown(),
     axis.text.x = element_text(angle = 60, hjust = 1),
-    strip.text = element_text(face = "bold.italic")
+    strip.text = element_text(face = "italic")
   ) +
   labs(
     tag = "c",
