@@ -76,7 +76,7 @@ panel_AB_legend <- custom_label_legend(
   theme(
     legend.position = "none",
     plot.margin = margin(0, 0, -5, 0, "mm"),
-    axis.text.y = element_text(size = 6, face = "bold")
+    axis.text.y = element_text(size = 6)
   )
 
 
