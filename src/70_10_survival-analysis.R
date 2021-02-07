@@ -110,7 +110,7 @@ cancer_survival_df <- bind_rows(
   }
 )
 
-ProjectTemplate::cache(
+cache(
   "cancer_survival_df",
   depends = c(
     "mmrf_survival_data",

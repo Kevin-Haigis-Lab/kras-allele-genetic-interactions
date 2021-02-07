@@ -19,3 +19,20 @@ assign_stars <- function(pval) {
     TRUE ~ NA_character_
   )
 }
+
+# Modify terms from a linear model to add italics to gene names.
+italicize_genes_in_terms <- function(terms, not_gene_terms = c("kras_allele")) {
+  italicize_interaction_term <- function(s) {
+    str_split_fixed(s, ":", 2) %>%
+      apply(1, function(x) {
+        paste0("*", x, "*", collapse = ":")
+      }) %>%
+      unlist()
+  }
+
+  case_when(
+    terms %in% !!not_gene_terms ~ terms,
+    str_detect(terms, ":") ~ italicize_interaction_term(terms),
+    TRUE ~ paste0("*", terms, "*")
+  )
+}

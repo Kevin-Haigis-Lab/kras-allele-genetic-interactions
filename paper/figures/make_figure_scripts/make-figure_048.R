@@ -38,14 +38,12 @@ theme_coefplot_fig48 <- function(tag_margin = margin(-1, -1, -2, -1, "mm")) {
     theme(
       plot.title = element_markdown(
         size = 7,
-        face = "bold",
         family = "Arial",
         hjust = 0,
         halign = 0
       ),
       plot.subtitle = element_markdown(
         size = 6,
-        face = "bold",
         family = "Arial",
         hjust = 0,
         halign = 0
@@ -57,8 +55,8 @@ theme_coefplot_fig48 <- function(tag_margin = margin(-1, -1, -2, -1, "mm")) {
       ),
       legend.position = "none",
       axis.text.y = element_blank(),
+      axis.title.x = element_markdown(),
       axis.title.y = element_blank(),
-      axis.title.x = element_markdown()
     )
 }
 
@@ -67,8 +65,9 @@ theme_boxplot_fig48 <- function(tag_margin = margin(-1, -1, -1, -1, "mm")) {
   theme_fig48(tag_margin = tag_margin) %+replace%
     theme(
       legend.position = "none",
+      axis.title.x = element_blank(),
       axis.title.y = element_markdown(angle = 90, hjust = 0.5, vjust = 0.5),
-      axis.title.x = element_blank()
+      axis.text.x = element_markdown(size = 6)
     )
 }
 
