@@ -49,7 +49,7 @@ panel_A <- read_fig_proto("genetic_interaction_network_LUAD") +
   theme(
     legend.spacing.x = unit(1, "mm"),
     legend.position = c(0.05, 0.00),
-    legend.title = element_text(size = 6, face = "bold"),
+    legend.title = element_text(size = 6),
     legend.text = element_text(size = 6)
   ) +
   labs(tag = "a")
