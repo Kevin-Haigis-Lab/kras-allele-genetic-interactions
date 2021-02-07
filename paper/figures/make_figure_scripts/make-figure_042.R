@@ -62,7 +62,7 @@ panel_B <- read_fig_proto("allele_dist_dotplot") +
     legend.title = element_markdown(size = 6),
     legend.margin = margin(0, 0, 0, 0, "mm"),
     strip.background = element_blank(),
-    strip.text = element_text(size = 7, face = "bold", vjust = -1)
+    strip.text = element_text(size = 7, vjust = -1)
   ) +
   labs(
     tag = "b",
@@ -91,12 +91,12 @@ style_mutsig_prob_barplots <- function(plt, i, tag = NULL, y = NULL) {
     ) +
     theme_fig42(tag_margin = margin(-1, -1, -1, -9, "mm")) +
     theme(
-      plot.title = element_text(vjust = 0.5, size = 7, face = "bold"),
+      plot.title = element_text(vjust = 0.5, size = 7),
       plot.margin = margin(1, 1, 1, 1, "mm"),
       axis.title.x = element_blank(),
       axis.text.x = element_text(size = 6),
       legend.position = "none",
-      legend.title = element_text(size = 6, face = "bold"),
+      legend.title = element_text(size = 6),
       legend.text = element_text(size = 6),
       legend.key.size = unit(3, "mm"),
       legend.spacing.x = unit(1, "mm"),
@@ -182,7 +182,7 @@ panel_D_legend <- custom_label_legend_plot(
   theme(
     legend.position = "none",
     plot.margin = margin(-10, 0, 0, 0, "mm"),
-    axis.text.y = element_text(size = 6, face = "bold", family = "Arial")
+    axis.text.y = element_text(size = 6, family = "Arial")
   )
 
 
@@ -204,7 +204,7 @@ panel_D_legend_etiology <- signatures_label_df %>%
   theme(
     legend.position = "none",
     plot.margin = margin(0, 0, -5, 0, "mm"),
-    axis.text.y = element_text(size = 6, face = "bold", family = "Arial")
+    axis.text.y = element_text(size = 6, family = "Arial")
   )
 
 panel_D <- wrap_plots(panel_D, nrow = 1, widths = mutsig_barplot_widths)
