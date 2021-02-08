@@ -87,6 +87,7 @@ plot_pairwise_test_results2 <- function(hugo_symbol,
 
   stats_df <- ova_pairs %>%
     filter(adj_p_value < 0.05) %>%
+    filter(allele != "WT") %>%
     left_join(
       data %>%
         group_by(kras_allele) %>%
@@ -97,7 +98,7 @@ plot_pairwise_test_results2 <- function(hugo_symbol,
     ) %>%
     mutate(
       label = format_pvalue_label(adj_p_value, add_p = FALSE),
-      label = paste0("p=<br>", label)
+      label = paste0("p=", label)
     )
 
   p <- stats_boxplot_boxplot(
@@ -110,16 +111,16 @@ plot_pairwise_test_results2 <- function(hugo_symbol,
     ggtext::geom_richtext(
       aes(x = x, y = y, label = label),
       data = stats_df,
-      size = 2,
+      size = 1.8,
       color = "black",
       hjust = 0.5,
-      vjust = -0.3,
+      vjust = -0.8,
       family = "Arial",
       fill = NA,
       label.color = NA,
       label.padding = grid::unit(rep(0, 4), "pt")
     ) +
-    scale_y_continuous(expand = expansion(mult = c(0.02, 0.25))) +
+    scale_y_continuous(expand = expansion(mult = c(0.02, 0.15))) +
     scale_color_manual(values = short_allele_pal) +
     theme_bw(base_size = 7, base_family = "Arial") +
     theme(

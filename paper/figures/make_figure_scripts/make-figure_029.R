@@ -238,6 +238,7 @@ for (f in panel_E_files) {
   }
 
   panel_E_plots[[f]] <- read_fig_proto(f) +
+    scale_x_discrete(expand = expansion(mult = c(0.21, 0.21))) +
     theme_fig29(tag_margin = margin(0, 0, 0, -2, "mm")) %+replace%
     theme(
       plot.title = element_text(size = 6, face = "italic"),
