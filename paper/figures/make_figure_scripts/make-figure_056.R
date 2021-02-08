@@ -6,7 +6,6 @@ FIGNUM <- 56
 # > SET THE FIGURE DIMENSIONS
 FIG_DIMENSIONS <- get_figure_dimensions(2, "tall")
 
-
 theme_fig56 <- function(tag_margin = margin(-1, -1, -1, -1, "mm")) {
   theme_comutation() %+replace%
     theme(
@@ -67,19 +66,19 @@ all_panels <- read_fig_proto("box_plots_sig_cause") %>%
 
   full_figure <- (
     (
-      (make_cancer_label("COAD", "a") | coad_panels) +
+      (fig_53_56_make_cancer_label("COAD", "a") | coad_panels) +
         plot_layout(widths = c(1, 30))
     ) /
     (
-      (make_cancer_label("LUAD", "b") | luad_panels) +
+      (fig_53_56_make_cancer_label("LUAD", "b") | luad_panels) +
         plot_layout(widths = c(1, 30))
     ) /
     (
-      (make_cancer_label("MM", "c") | mm_panels) +
+      (fig_53_56_make_cancer_label("MM", "c") | mm_panels) +
         plot_layout(widths = c(1, 30))
     ) /
     (
-      (make_cancer_label("PAAD", "d") | paad_panels) +
+      (fig_53_56_make_cancer_label("PAAD", "d") | paad_panels) +
         plot_layout(widths = c(1, 30))
     )
   ) +
