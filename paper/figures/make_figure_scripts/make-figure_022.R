@@ -273,8 +273,9 @@ variants <- unique(c(
 ))
 
 panel_D_leg_df <- custom_label_legend_df(variants,
-                                         colors = "white",
-                                         mod_length = FALSE)
+  colors = "white",
+  mod_length = FALSE
+)
 # panel_D_leg_df <- tribble(
 #   ~lbl,              ~len, ~start, ~end, ~mid, ~color,
 #   "missense",         1.5,    0,  1.5,  0.75, "white",
