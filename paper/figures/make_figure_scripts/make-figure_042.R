@@ -69,6 +69,10 @@ panel_B <- read_fig_proto("allele_dist_dotplot") +
     size = "percent of<br>*KRAS* mutations"
   )
 
+pull_original_plot_data(panel_B) %>%
+  select(-long_cancer) %>%
+  save_figure_source_data(figure = FIGNUM, panel = "b")
+
 
 #### ---- C. Distirubiton of mutational signatures by allele ---- ####
 # The distribution of mutational signature levels in samples with each allele.
@@ -114,8 +118,9 @@ style_mutsig_prob_barplots <- function(plt, i, tag = NULL, y = NULL) {
   return(themed_plt)
 }
 
+cancers <- c("COAD", "LUAD", "MM", "PAAD")
 panel_C_plots <- paste0(
-  c("COAD", "LUAD", "MM", "PAAD"),
+  cancers,
   "_mutational-signatures-distribution-by-allele"
 )
 
@@ -126,6 +131,10 @@ panel_C <- lapply(panel_C_plots, read_fig_proto) %>%
     y = "avg. signature composition"
   ) %>%
   wrap_plots(nrow = 1, widths = mutsig_barplot_widths)
+
+pull_wrapped_plot_data(panel_C, cancer, cancers) %>%
+  relocate(cancer, everything()) %>%
+  save_figure_source_data(figure = FIGNUM, panel = "c")
 
 
 #### ---- D. Mutational signatures probability of causing KRAS allele ---- ####
@@ -208,6 +217,10 @@ panel_D_legend_etiology <- signatures_label_df %>%
   )
 
 panel_D <- wrap_plots(panel_D, nrow = 1, widths = mutsig_barplot_widths)
+
+pull_wrapped_plot_data(panel_D, cancer, cancers) %>%
+  relocate(cancer, everything()) %>%
+  save_figure_source_data(figure = FIGNUM, panel = "d")
 
 
 #### ---- Figure assembly ---- ####

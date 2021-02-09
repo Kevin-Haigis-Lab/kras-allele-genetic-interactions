@@ -92,4 +92,8 @@ archive_source_data <- function() {
 
 clear_source_data <- function() {
   message(glue("{symbol$warning} Clearing cached Source Data directory."))
+  if (dir.exists(SOURCE_DATA_BASE_DIR)) {
+    unlink(SOURCE_DATA_BASE_DIR, recursive = TRUE)
+  }
+  dir.create(SOURCE_DATA_BASE_DIR)
 }
