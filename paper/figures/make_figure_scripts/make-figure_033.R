@@ -61,6 +61,10 @@ panel_A <- read_fig_proto("gsea-results-PAAD-select") +
   ) +
   labs(tag = "a")
 
+pull_original_plot_data(panel_A) %>%
+  select(-(dir:file_path)) %>%
+  relocate(cancer, everything()) %>%
+  save_figure_source_data(FIGNUM, panel = "a")
 
 #### ---- B. GSEA ranked-heatmap (1) ---- ####
 # A heatmap of an enriched gene set with the cell lines ranked by their
