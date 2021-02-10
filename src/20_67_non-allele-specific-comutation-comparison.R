@@ -122,6 +122,15 @@ make_comutation_venn <- function(cancer, genetic_interaction, title = NULL) {
     )
 }
 
+# Save for Supp. Data.
+nonallele_rc_res %>%
+  filter(is_sig) %>%
+  select(-is_sig) %>%
+  save_supp_data(
+    num = 11,
+    sheet_name = "Non-allele-specific comutation"
+  )
+
 
 walk(unique(nonallele_rc_res$cancer), function(cancer) {
   rc_venn <- make_comutation_venn(
