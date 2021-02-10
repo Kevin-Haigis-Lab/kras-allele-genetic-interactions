@@ -92,6 +92,14 @@ get_coef_plot_subtitle <- function(gene) {
   glue("Effect of mutation on *{gene}* dep.")
 }
 
+save_coefplot_boxplot_source_data <- function(coef_panel, box_panel, panel) {
+  pull_original_plot_data(coef_panel) %>%
+    save_figure_source_data(FIGNUM, panel = glue("{panel}-top"))
+  pull_original_plot_data(box_panel) %>%
+    select(-mutation, -label) %>%
+    save_figure_source_data(FIGNUM, panel = glue("{panel}-bottom"))
+}
+
 
 #### ---- A. TP53 explaining STARD9 ---- ####
 # TP53 explaining dep. of G12D on STARD9 in COAD.
@@ -115,6 +123,7 @@ panel_A_3 <- read_fig_proto("COAD_G12D_TP53_comut-graph-plot.rds") +
 panel_A <- (panel_A_1 / panel_A_2) +
   plot_layout(height = c(3, 7))
 
+save_coefplot_boxplot_source_data(panel_A_1, panel_A_2, "a")
 
 
 #### ---- B. SMAD4 explaining EEF1E1 ---- ####
@@ -139,6 +148,8 @@ panel_BCD_3 <- read_fig_proto("PAAD_G12D_SMAD4_comut-graph-plot.rds") +
 panel_B <- (panel_B_1 / panel_B_2) +
   plot_layout(height = c(3, 7))
 
+save_coefplot_boxplot_source_data(panel_B_1, panel_B_2, "b")
+
 
 #### ---- C. SMAD4 explaining ABI1 ---- ####
 # SMAD4 explaining dep. of G12D on ABI1 in PAAD.
@@ -160,6 +171,8 @@ panel_C_2 <- read_fig_proto("PAAD_G12D_ABI1_line-plot") +
 panel_C <- (panel_C_1 / panel_C_2) +
   plot_layout(height = c(3, 7))
 
+save_coefplot_boxplot_source_data(panel_C_1, panel_C_2, "c")
+
 
 
 #### ---- D. SMAD4 explaining MYBL2 ---- ####
@@ -180,6 +193,8 @@ panel_D_2 <- read_fig_proto("PAAD_G12D_MYBL2_line-plot") +
 
 panel_D <- (panel_D_1 / panel_D_2) +
   plot_layout(height = c(3, 7))
+
+save_coefplot_boxplot_source_data(panel_D_1, panel_D_2, "d")
 
 
 
