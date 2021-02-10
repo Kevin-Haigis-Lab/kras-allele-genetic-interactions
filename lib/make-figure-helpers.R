@@ -283,6 +283,7 @@ build_comutation_figure <- function(nums) {
 
 # Build all of the figures.
 build_comutation_figures <- function() {
+  clear_source_data()
   figure_make_scripts <- get_all_figure_files()
 
   for (f in figure_make_scripts) {

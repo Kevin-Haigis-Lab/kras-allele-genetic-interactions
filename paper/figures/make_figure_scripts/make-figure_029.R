@@ -62,6 +62,11 @@ panel_A <- read_fig_proto("gsea-results-COAD-select.rds") +
   ) +
   labs(tag = "a")
 
+pull_original_plot_data(panel_A) %>%
+  select(-(dir:file_path)) %>%
+  relocate(cancer, everything()) %>%
+  save_figure_source_data(FIGNUM, panel = "a")
+
 
 #### ---- B, C. Ranked heatmaps of GSEA ---- ####
 # Two heatmaps showing the ranks of genes in the enriched genesets.
