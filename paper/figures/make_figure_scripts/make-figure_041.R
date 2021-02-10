@@ -91,6 +91,15 @@ panel_A <- panel_A_2 + panel_A_1 + panel_A_3 +
   plot_layout(design = panel_A_design)
 
 
+pull_original_plot_data(panel_A_1) %>%
+  select(-label, -label_face) %>%
+  save_figure_source_data(FIGNUM, "heatmap")
+
+pull_original_plot_data(panel_A_2) %>%
+  save_figure_source_data(FIGNUM, "KRAS-counts")
+
+pull_original_plot_data(panel_A_3) %>%
+  save_figure_source_data(FIGNUM, "mutation-counts")
 
 
 #### ---- Figure assembly ---- ####

@@ -35,15 +35,24 @@ remove_ggraph_columns <- function(df) {
 
 
 get_source_data_filename <- function(figure, panel = NULL) {
-  final_num <- get_conversion_df() %>%
-    filter(make_num == !!figure) %>%
-    pull(figure_num) %>%
-    unlist()
-  if (length(final_num) != 1) {
+  final_info <- get_conversion_df() %>%
+    filter(make_num == !!figure)
+
+  if (nrow(final_info) != 1) {
     return(NULL)
+  } else if (nrow(final_info) > 1) {
+    stop(glue("Multiple final numbers found for make figure {figure}."))
   }
 
+  final_num <- final_info$figure_num[[1]]
+  is_supp <- final_info$supp[[1]]
+
   figure_dir <- glue("figure-{str_pad(final_num, 2, pad=\"0\")}")
+  
+  if (is_supp) {
+    figure_dir <- paste0("supplementary-", figure_dir)
+  }
+
   if (is.null(panel)) {
     filename <- glue("data.tsv")
   } else {

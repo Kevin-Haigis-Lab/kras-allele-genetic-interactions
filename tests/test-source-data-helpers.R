@@ -37,6 +37,11 @@ test_that("The correct source data file path is created", {
     get_source_data_filename(42),
     file.path(SOURCE_DATA_BASE_DIR, "figure-01", "data.tsv")
   )
+
+  expect_equal(
+    get_source_data_filename(41),
+    file.path(SOURCE_DATA_BASE_DIR, "supplementary-figure-06", "data.tsv")
+  )
 })
 
 
