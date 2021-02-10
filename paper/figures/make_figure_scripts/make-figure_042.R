@@ -43,6 +43,11 @@ panel_A <- read_fig_proto("cancer_freq_kras_mut_column") +
   ) +
   labs(tag = "a")
 
+pull_original_plot_data(panel_A) %>%
+  select(-long_cancer) %>%
+  save_figure_source_data(figure = FIGNUM, panel = "a")
+
+
 
 #### ---- B. Distribution of KRAS alleles ---- ####
 # The distribution of KRAS alleles across cancers and codon.
