@@ -48,7 +48,7 @@ get_source_data_filename <- function(figure, panel = NULL) {
   is_supp <- final_info$supp[[1]]
 
   figure_dir <- glue("figure-{str_pad(final_num, 2, pad=\"0\")}")
-  
+
   if (is_supp) {
     figure_dir <- paste0("supplementary-", figure_dir)
   }
@@ -99,10 +99,10 @@ save_figure_source_data <- function(x, figure, panel = NULL) {
 
 
 archive_source_data <- function() {
+  message(glue("{symbol$tick} Archiving Source Data"))
   archive_name <- ""
   archive_path <- here::here("paper", archive_name)
   cmd <- glue("cd paper && tar -czvf source-data.tar.gz source-data && cd ..")
-  print(cmd)
   system(cmd)
 }
 
