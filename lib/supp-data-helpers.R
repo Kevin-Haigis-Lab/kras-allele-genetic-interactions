@@ -115,7 +115,7 @@ compile_supp_data <- function(verbose = TRUE) {
     sheet_path <- all_sheet_paths[[i]]
     df <- read_tsv(sheet_path, col_types = cols(.default = "c"))
 
-    sheet_name <- glue("ST{i}. {prep_sheet_name(sheet_path)}")
+    sheet_name <- glue("SD{i}. {prep_sheet_name(sheet_path)}")
     sheet_name <- as.character(sheet_name)
     if (verbose) {
       cat("  -->", sheet_name, "\n")
