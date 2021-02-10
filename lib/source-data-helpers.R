@@ -8,7 +8,7 @@ if (!dir.exists(SOURCE_DATA_BASE_DIR)) {
 
 
 pull_original_plot_data <- function(p) {
-  p$data
+  as_tibble(p$data)
 }
 
 
@@ -16,14 +16,21 @@ pull_wrapped_plot_data <- function(wp, annotation_col_name, annotations) {
   df <- map_dfr(seq(1, length(wp$patches$plots)), function(i) {
     a <- annotations[[i]]
     wp$patches$plots[[i]]$data %>%
+      as_tibble() %>%
       mutate({{ annotation_col_name }} := !!a)
   })
 
   a <- annotations[[length(annotations)]]
   last_df <- pull_original_plot_data(wp) %>%
+    as_tibble() %>%
     mutate({{ annotation_col_name }} := !!a)
 
   bind_rows(df, last_df)
+}
+
+
+remove_ggraph_columns <- function(df) {
+  df %>% select(-circular, -contains("ggraph"))
 }
 
 

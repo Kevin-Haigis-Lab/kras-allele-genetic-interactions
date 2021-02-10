@@ -42,7 +42,6 @@ theme_graph_fig22 <- function(plot_margin = margin(0, 0, 0, 0, "mm"),
 }
 
 
-
 #### ---- A. High-level comutation network for COAD ---- ####
 # The high-level network plot for the comutation graph for COAD.
 # original script: "src/20_40_highlivel-genetic-interactions.R"
@@ -132,6 +131,14 @@ prepare_enrichr_dotplot <- function(plt) {
 
 panel_C <- read_fig_proto("enrichr_all-cancers-faceted") %>%
   prepare_enrichr_dotplot()
+
+pull_original_plot_data(panel_C) %>%
+  select(-old_p_value) %>%
+  mutate(across(
+    c(overlap_genes, term_genes),
+    function(a) { map_chr(a, ~ paste(.x, collapse = ",")) }
+  )) %>%
+  save_figure_source_data(figure = FIGNUM, panel = "c")
 
 
 #### ---- D. Oncoplot ---- ####
@@ -244,6 +251,11 @@ panel_D[[1]] <- panel_D[[1]] + labs(tag = "d")
 panel_D <- remove_oncoplot_legend(panel_D)
 
 
+pull_original_plot_data(panel_D[[2]]) %>%
+  janitor::clean_names() %>%
+  save_figure_source_data(FIGNUM, "d")
+
+
 #### ---- E. Oncoplot ---- ####
 # A rainfall plot of select reduced comutation interactions with G12D in COAD.
 # original script: "src/20_50_rainfall-plots.R"
@@ -259,6 +271,10 @@ panel_E <- adjust_oncoplot_theme(panel_E,
 )
 panel_E[[1]] <- panel_E[[1]] + labs(tag = "e")
 panel_E <- remove_oncoplot_legend(panel_E)
+
+pull_original_plot_data(panel_E[[2]]) %>%
+  janitor::clean_names() %>%
+  save_figure_source_data(FIGNUM, "e")
 
 
 #### ---- Oncoplot mutation legend ---- ####
@@ -355,6 +371,8 @@ panel_F[[2]] <- panel_F[[2]] +
     fill = "*KRAS* allele"
   )
 
+pull_original_plot_data(panel_F[[2]]) %>%
+  save_figure_source_data(FIGNUM, "f")
 
 
 #### ---- Figure assembly ---- ####
