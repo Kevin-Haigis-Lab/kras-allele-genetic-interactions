@@ -107,7 +107,7 @@ get_overlapped_df <- function(cancer, allele) {
 
 
 # Get a PPI annotated with comutation and genetic dependency data.
-get_overlapped_gr <- function(cancer, 
+get_overlapped_gr <- function(cancer,
                               allele,
                               min_comp_size = 0,
                               ignore_genes = NULL) {
