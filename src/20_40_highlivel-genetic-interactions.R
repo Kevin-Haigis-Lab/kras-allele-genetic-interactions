@@ -43,8 +43,6 @@ if (caps$X11) {
 
 
 
-
-
 #### ---- Make high-level network images ---- ####
 
 cache("genetic_interaction_gr",
@@ -220,10 +218,9 @@ prep_highlevel_labeled <- function(gr, other_label_size = 1) {
 }
 
 
-
 # Make high-level network with all genes labeled for MM.
 set.seed(0)
-mm_gr_layout <- get_plotting_graph(genetic_interaction_gr, "MM") %>%
+mm_gr_plot <- get_plotting_graph(genetic_interaction_gr, "MM") %>%
   prep_highlevel_labeled(other_label_size = 1.5) %>%
   make_network_plot(
     cancer = "MM",
