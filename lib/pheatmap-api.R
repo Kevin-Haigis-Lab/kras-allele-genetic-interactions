@@ -40,3 +40,14 @@ remove_bold_in_pheatmap <- function(ph) {
   }
   return(ph)
 }
+
+
+reduce_height_of_column_anno <- function(ph,
+                                         new_height = grid::unit(1.5, "bigpts"),
+                                         new_y = grid::unit(7.75, "bigpts")) {
+  mod_gpar <- ph$gtable$grobs[[6]]
+  mod_gpar$height <- new_height
+  mod_gpar$y <- rep(new_y, length(mod_gpar$y))
+  ph$gtable$grobs[[6]] <- mod_gpar
+  return(ph)
+}

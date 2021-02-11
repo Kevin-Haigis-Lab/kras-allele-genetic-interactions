@@ -22,7 +22,6 @@ theme_fig29 <- function(tag_margin = margin(0, 0, 0, 0, "mm")) {
 }
 
 
-
 #### ---- A. GSEA ---- ####
 # GSEA of the dependencies.
 # original script: "src/10_37_gsea-depmap-analysis.R"
@@ -193,6 +192,10 @@ panel_D <- wrap_elements(plot = pre_panel_D_main) *
     ) +
   labs(tag = "d")
 
+# panel_D <- cowplot::ggdraw(panel_D)
+panel_D <- panel_D +
+  geom_text(label = "HI", x = 0.5, y = 0.5)
+
 
 panel_D_legend1 <- read_fig_proto(
   "COAD_CRISPR_euclidean_ward.D2_pheatmap_heatpal.rds"
@@ -219,7 +222,6 @@ panel_D_legend <- ggplot_build(panel_D_legend1)$plot$data %>%
     panel.grid = element_blank()
   ) +
   labs(title = "scaled dep. score")
-
 
 
 #### ---- E. Box plots of select genes ---- ####
@@ -260,7 +262,6 @@ for (f in panel_E_files) {
 
 panel_E <- wrap_plots(panel_E_plots, ncol = 1)
 panel_E[[1]] <- panel_E[[1]] + labs(tag = "e")
-
 
 
 #### ---- Figure assembly ---- ####

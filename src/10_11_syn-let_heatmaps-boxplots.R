@@ -387,6 +387,8 @@ plot_cancer_heatmaps <- function(cancer, data, screen,
 
   ph <- remove_bold_in_pheatmap(ph)
   ph <- italicize_pheatmap_rownames(ph)
+  ph <- reduce_height_of_column_anno(ph)
+  # browser()
 
   save_path <- plot_path(
     GRAPHS_DIR_HEAT,

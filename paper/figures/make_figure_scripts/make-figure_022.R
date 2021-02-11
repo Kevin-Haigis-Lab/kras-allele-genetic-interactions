@@ -31,7 +31,8 @@ theme_graph_fig22 <- function(plot_margin = margin(0, 0, 0, 0, "mm"),
       ),
       plot.tag = element_text(
         size = 7,
-        margin = tag_margin
+        margin = tag_margin,
+        face = "bold"
       ),
       legend.margin = margin(0, 0, 0, 0, "mm"),
       legend.position = "bottom",

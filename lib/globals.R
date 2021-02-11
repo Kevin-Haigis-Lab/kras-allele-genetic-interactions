@@ -40,4 +40,8 @@ conflict_prefer("which", "Matrix")
 
 #### ---- Options ---- ####
 
+# dplyr
 options(dplyr.summarise.inform = FALSE)
+
+## ggrepel
+options(ggrepel.max.overlaps = Inf)
