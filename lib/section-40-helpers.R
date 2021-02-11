@@ -69,7 +69,7 @@ get_synthetic_lethal_data <- function(cancer, allele, adj_p_value = 0.05) {
   depmap_gene_clusters_pairwise_df %>%
     filter(cancer == !!cancer) %>%
     filter(adj_p_value < !!adj_p_value) %>%
-    filter(group1 == !!allele | group2 == !!allele) %>%
+    filter(allele == !!allele) %>%
     select(-cancer)
 }
 
@@ -90,16 +90,7 @@ get_genetic_interaction_data <- function(cancer, allele) {
 # data for a cancer and allele.
 get_overlapped_df <- function(cancer, allele) {
   dependency_df <- get_synthetic_lethal_data(cancer, allele) %>%
-    mutate(
-      allele = !!allele,
-      other_allele = ifelse(group1 == !!allele, group2, group1),
-      comparison = paste(allele, "-", other_allele),
-      allele_diff = ifelse(
-        group1 == !!allele,
-        g1_avg - g1_other_avg,
-        g2_avg - g2_other_avg
-      )
-    ) %>%
+    mutate(allele = !!allele) %>%
     group_by(hugo_symbol) %>%
     slice(1) %>%
     ungroup()
@@ -116,7 +107,10 @@ get_overlapped_df <- function(cancer, allele) {
 
 
 # Get a PPI annotated with comutation and genetic dependency data.
-get_overlapped_gr <- function(cancer, allele, min_comp_size, ignore_genes) {
+get_overlapped_gr <- function(cancer, 
+                              allele,
+                              min_comp_size = 0,
+                              ignore_genes = NULL) {
   merged_df <- get_overlapped_df(cancer, allele)
   gr <- simple_combined_ppi_gr %N>%
     filter(!(name %in% !!ignore_genes)) %>%
@@ -143,7 +137,6 @@ print_functional_groups <- function(gr, file_name, ignore_genes = NULL) {
     write_tsv(file_name)
   invisible(gr)
 }
-
 
 
 isolate_kras_subnetwork <- function(gr) {
