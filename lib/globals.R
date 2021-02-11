@@ -8,6 +8,21 @@ ProjectTemplate::add.config(
   apply.override = TRUE
 )
 
+default_libraries <- c(
+  "stats", "org.Hs.eg.db", "glue", "conflicted", "assertr", "testthat",
+  "glmnet", "parallel", "caret", "ggfortify", "tidygraph", "jhcutils",
+  "clisymbols", "magrittr", "nakedpipe", "ggpubr", "ggraph", "ggtext",
+  "patchwork", "ggplot2", "broom", "tidyverse"
+)
+
+for (lib in default_libraries) {
+  a <- require(lib, character.only = TRUE, quietly = TRUE)
+  if (!a) {
+    renv::install(lib)
+    library(lib, character.only = TRUE)
+  }
+}
+
 
 #### ---- Conflicts ---- ####
 # Declare which namespaces to use for conflicting functions.
@@ -24,4 +39,5 @@ conflict_prefer("which", "Matrix")
 
 
 #### ---- Options ---- ####
+
 options(dplyr.summarise.inform = FALSE)

@@ -274,7 +274,7 @@ build_comutation_figure <- function(nums) {
       if (file.exists(f)) {
         source_comutation_figure(f)
       } else {
-        cat(glue("(Skipping {basename(f)} - does not exist)"))
+        cat(glue("(Skipping {basename(f)} - does not exist)"), "\n")
       }
     }
   }
@@ -349,7 +349,6 @@ remove_old_final_figures <- function() {
 
 copy_final_figures <- function() {
   remove_old_final_figures()
-
   get_conversion_df() %>%
     pwalk(copy_final_figure) %>%
     make_final_pdfs()
