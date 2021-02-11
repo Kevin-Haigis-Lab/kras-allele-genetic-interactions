@@ -1,0 +1,17 @@
+.mustashe/
+cache/
+data/
+docs/
+graphs/
+logs/
+
+paper/all_images/
+paper/ggproto_objects
+paper/misc
+paper/source-data
+paper/submission
+paper/supplemental_data
+
+presentations/
+tables/
+temp/
