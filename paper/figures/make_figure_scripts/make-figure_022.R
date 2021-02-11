@@ -136,7 +136,9 @@ pull_original_plot_data(panel_C) %>%
   select(-old_p_value) %>%
   mutate(across(
     c(overlap_genes, term_genes),
-    function(a) { map_chr(a, ~ paste(.x, collapse = ",")) }
+    function(a) {
+      map_chr(a, ~ paste(.x, collapse = ","))
+    }
   )) %>%
   save_figure_source_data(figure = FIGNUM, panel = "c")
 

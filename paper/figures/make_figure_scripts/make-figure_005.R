@@ -62,62 +62,7 @@ panel_A <- read_fig_proto("comut_dep_overlap_tbl.rds") %>%
     p_val = scales::scientific(p_val, digits = 3)
   )
 
-colnames(panel_A) <- c(
-  "Cancer", "Allele", "Gene",
-  "Dependency\ncomparison", "Adj. p-value",
-  "Comutation\ninteraction", "P-value"
-)
-
-core_fontface <- matrix("plain", nrow(panel_A), ncol(panel_A))
-core_fontface[, 1:2] <- "bold"
-core_fontface[, 3] <- "italic"
-
-ttheme_panel_A <- gridExtra::ttheme_default(
-  colhead = list(
-    fg_params = list(
-      fontsize = 5,
-      fontface = "plain",
-      fontfamily = "Arial"
-    ),
-    bg_params = list(fill = "white"),
-    padding = unit(c(1, 1), "mm")
-  ),
-  core = list(
-    fg_params = list(
-      fontsize = 5,
-      fontface = core_fontface,
-      fontfamily = "Arial"
-    ),
-    bg_params = list(fill = "white"),
-    padding = unit(c(1, 3), "mm")
-  )
-)
-
-# Make into a table grob
-panel_A <- gridExtra::tableGrob(panel_A, rows = NULL, theme = ttheme_panel_A)
-
-# Add lines
-panel_A <- gtable::gtable_add_grob(
-  panel_A,
-  grobs = grid::segmentsGrob(
-    x0 = unit(0, "npc"), x1 = unit(1, "npc"),
-    y0 = unit(0, "npc"), y1 = unit(0, "npc")
-  ),
-  t = 1, b = 1, l = 1, r = ncol(panel_A)
-)
-panel_A <- gtable::gtable_add_grob(
-  panel_A,
-  grobs = grid::segmentsGrob(
-    x0 = unit(0, "npc"), x1 = unit(1, "npc"),
-    y0 = unit(0, "npc"), y1 = unit(0, "npc")
-  ),
-  t = nrow(panel_A), b = nrow(panel_A), l = 1, r = ncol(panel_A)
-)
-
-# Wrap for patchwork
-panel_A <- wrap_elements(plot = panel_A) +
-  labs(tag = "a") +
-  theme_fig5()
+panel_A <- patchwork::plot_spacer()
 
 
 
@@ -196,6 +141,8 @@ panel_D <- read_fig_proto("coad_overlap_comparison_plot.rds") +
     color = "allele",
     tag = "d"
   )
+
+panel_D <- plot_spacer()
 
 
 #### ---- Figure assembly ---- ####
