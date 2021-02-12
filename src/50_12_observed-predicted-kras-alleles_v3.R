@@ -795,6 +795,8 @@ plot_kras_allele_predictions <- function(cancer,
       segment.color = "grey30",
       segment.size = 0.3,
       min.segment.length = unit(5, "mm"),
+      max.time = 1,
+      max.iter = 100000,
       max.overlaps = Inf
     ) +
     geom_point(
