@@ -16,7 +16,6 @@ Mutational activation of *KRAS* promotes the initiation and progression of cance
 
 Details of the software required for this study are available [here](analysis-software.md).
 
-
 ## Reproduce the results
 
 A [guide](reproduction-guide.md) has been created to aid in reproducing the results of this paper.

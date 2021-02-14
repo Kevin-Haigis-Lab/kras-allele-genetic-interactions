@@ -1,4 +1,4 @@
-COAD survival model by tumor stage & KRAS mutation 
+COAD survival model by tumor stage & KRAS mutation
                            records n.max n.start events   *rmean *se(rmean)
 kras_mut=0, path_t_stage=1      14    14      14      2 70.73098   8.559172
 kras_mut=0, path_t_stage=2      57    57      57      4 67.40762   9.065463
@@ -17,19 +17,19 @@ kras_mut=1, path_t_stage=1       NA       NA      NA
 kras_mut=1, path_t_stage=2       NA       NA      NA
 kras_mut=1, path_t_stage=3       NA 61.84042      NA
 kras_mut=1, path_t_stage=4       NA 11.73686      NA
-================================================================================ 
+================================================================================
 
-COAD survival model by tumor stage & KRAS mutation 
+COAD survival model by tumor stage & KRAS mutation
 Call:
-coxph(formula = Surv(time = time, event = status) ~ kras_mut + 
+coxph(formula = Surv(time = time, event = status) ~ kras_mut +
     path_t_stage, data = data)
 
-  n= 522, number of events= 110 
+  n= 522, number of events= 110
 
-                 coef exp(coef) se(coef)      z Pr(>|z|)  
-kras_mut      -0.1874    0.8291   0.1971 -0.951   0.3416  
-path_t_stage2 -0.3735    0.6883   0.8025 -0.465   0.6416  
-path_t_stage3  0.5203    1.6826   0.7168  0.726   0.4679  
+                 coef exp(coef) se(coef)      z Pr(>|z|)
+kras_mut      -0.1874    0.8291   0.1971 -0.951   0.3416
+path_t_stage2 -0.3735    0.6883   0.8025 -0.465   0.6416
+path_t_stage3  0.5203    1.6826   0.7168  0.726   0.4679
 path_t_stage4  1.6935    5.4384   0.7420  2.282   0.0225 *
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
@@ -46,11 +46,11 @@ Wald test            = 31.69  on 4 df,   p=2e-06
 Score (logrank) test = 36.86  on 4 df,   p=2e-07
 
 
-Likelihood ratio test p-value: 7.402439e-06 
-Wald test p-value: 2.216387e-06 
-================================================================================ 
+Likelihood ratio test p-value: 7.402439e-06
+Wald test p-value: 2.216387e-06
+================================================================================
 
-LUAD survival model by tumor stage & KRAS mutation 
+LUAD survival model by tumor stage & KRAS mutation
                            records n.max n.start events   *rmean *se(rmean)
 kras_mut=0, path_t_stage=1     127   127     127     35 70.57368   6.734650
 kras_mut=0, path_t_stage=2     181   181     181     69 62.00248   4.705659
@@ -69,20 +69,20 @@ kras_mut=1, path_t_stage=1       NA        NA       NA
 kras_mut=1, path_t_stage=2 49.34740 32.843476       NA
 kras_mut=1, path_t_stage=3 24.22987 14.597100       NA
 kras_mut=1, path_t_stage=4 22.91482  2.038334       NA
-================================================================================ 
+================================================================================
 
-LUAD survival model by tumor stage & KRAS mutation 
+LUAD survival model by tumor stage & KRAS mutation
 Call:
-coxph(formula = Surv(time = time, event = status) ~ kras_mut + 
+coxph(formula = Surv(time = time, event = status) ~ kras_mut +
     path_t_stage, data = data)
 
-  n= 496, number of events= 177 
+  n= 496, number of events= 177
 
-                coef exp(coef) se(coef)     z Pr(>|z|)    
-kras_mut      0.1289    1.1376   0.1650 0.781   0.4347    
-path_t_stage2 0.3329    1.3950   0.1812 1.838   0.0661 .  
+                coef exp(coef) se(coef)     z Pr(>|z|)
+kras_mut      0.1289    1.1376   0.1650 0.781   0.4347
+path_t_stage2 0.3329    1.3950   0.1812 1.838   0.0661 .
 path_t_stage3 1.0753    2.9310   0.2689 3.999 6.36e-05 ***
-path_t_stage4 1.0951    2.9894   0.3382 3.238   0.0012 ** 
+path_t_stage4 1.0951    2.9894   0.3382 3.238   0.0012 **
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
@@ -98,11 +98,11 @@ Wald test            = 22.98  on 4 df,   p=1e-04
 Score (logrank) test = 24.44  on 4 df,   p=7e-05
 
 
-Likelihood ratio test p-value: 0.0004122225 
-Wald test p-value: 0.0001280389 
-================================================================================ 
+Likelihood ratio test p-value: 0.0004122225
+Wald test p-value: 0.0001280389
+================================================================================
 
-MM survival model by tumor stage & KRAS mutation 
+MM survival model by tumor stage & KRAS mutation
                            records n.max n.start events   *rmean *se(rmean)
 kras_mut=0, path_t_stage=1     256   256     256     24 1927.791   40.74888
 kras_mut=0, path_t_stage=2     250   250     250     49 1737.634   50.38182
@@ -117,20 +117,20 @@ kras_mut=0, path_t_stage=3     NA    1278      NA
 kras_mut=1, path_t_stage=1     NA      NA      NA
 kras_mut=1, path_t_stage=2     NA    1554      NA
 kras_mut=1, path_t_stage=3   1616     934      NA
-================================================================================ 
+================================================================================
 
-MM survival model by tumor stage & KRAS mutation 
+MM survival model by tumor stage & KRAS mutation
 Call:
-coxph(formula = Surv(time = time, event = status) ~ kras_mut + 
+coxph(formula = Surv(time = time, event = status) ~ kras_mut +
     path_t_stage, data = data)
 
-  n= 903, number of events= 197 
+  n= 903, number of events= 197
 
-                coef exp(coef) se(coef)     z Pr(>|z|)    
-kras_mut      0.2380    1.2687   0.1568 1.517    0.129    
+                coef exp(coef) se(coef)     z Pr(>|z|)
+kras_mut      0.2380    1.2687   0.1568 1.517    0.129
 path_t_stage2 0.9782    2.6597   0.2228 4.391 1.13e-05 ***
 path_t_stage3 1.6951    5.4472   0.2152 7.878 3.32e-15 ***
-path_t_stage4     NA        NA   0.0000    NA       NA    
+path_t_stage4     NA        NA   0.0000    NA       NA
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
@@ -146,11 +146,11 @@ Wald test            = 70.43  on 3 df,   p=3e-15
 Score (logrank) test = 82.58  on 3 df,   p=<2e-16
 
 
-Likelihood ratio test p-value: 2.476554e-17 
-Wald test p-value: 3.454893e-15 
-================================================================================ 
+Likelihood ratio test p-value: 2.476554e-17
+Wald test p-value: 3.454893e-15
+================================================================================
 
-PAAD survival model by tumor stage & KRAS mutation 
+PAAD survival model by tumor stage & KRAS mutation
                            records n.max n.start events   *rmean *se(rmean)
 kras_mut=0, path_t_stage=1       4     4       4      1 39.98997  10.111032
 kras_mut=0, path_t_stage=2       9     9       9      2 41.14919   6.530861
@@ -169,20 +169,20 @@ kras_mut=1, path_t_stage=1  8.02183  8.021830       NA
 kras_mut=1, path_t_stage=2 27.23806 16.372423       NA
 kras_mut=1, path_t_stage=3 16.99707 15.320380 21.89565
 kras_mut=1, path_t_stage=4 16.65187 12.953283       NA
-================================================================================ 
+================================================================================
 
-PAAD survival model by tumor stage & KRAS mutation 
+PAAD survival model by tumor stage & KRAS mutation
 Call:
-coxph(formula = Surv(time = time, event = status) ~ kras_mut + 
+coxph(formula = Surv(time = time, event = status) ~ kras_mut +
     path_t_stage, data = data)
 
-  n= 173, number of events= 95 
+  n= 173, number of events= 95
 
-                 coef exp(coef) se(coef)     z Pr(>|z|)   
+                 coef exp(coef) se(coef)     z Pr(>|z|)
 kras_mut      0.74196   2.10005  0.24759 2.997  0.00273 **
-path_t_stage2 0.09348   1.09798  0.79602 0.117  0.90652   
-path_t_stage3 0.69780   2.00933  0.72522 0.962  0.33595   
-path_t_stage4 0.55466   1.74134  1.00721 0.551  0.58185   
+path_t_stage2 0.09348   1.09798  0.79602 0.117  0.90652
+path_t_stage3 0.69780   2.00933  0.72522 0.962  0.33595
+path_t_stage4 0.55466   1.74134  1.00721 0.551  0.58185
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
@@ -198,7 +198,6 @@ Wald test            = 14.4  on 4 df,   p=0.006
 Score (logrank) test = 15.28  on 4 df,   p=0.004
 
 
-Likelihood ratio test p-value: 0.002070376 
-Wald test p-value: 0.006124215 
-================================================================================ 
-
+Likelihood ratio test p-value: 0.002070376
+Wald test p-value: 0.006124215
+================================================================================

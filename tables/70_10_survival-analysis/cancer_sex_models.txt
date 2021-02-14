@@ -1,17 +1,17 @@
-COAD survival model by sex 
+COAD survival model by sex
       records n.max n.start events   *rmean *se(rmean)   median  0.95LCL
 sex=F     253   253     253     53 91.45185   6.214695       NA 65.85133
 sex=M     270   270     270     57 79.14645   7.070368 62.79383 56.25144
       0.95UCL
 sex=F      NA
 sex=M      NA
-================================================================================ 
+================================================================================
 
-COAD survival model by sex 
+COAD survival model by sex
 Call:
 coxph(formula = Surv(time = time, event = status) ~ sex, data = data)
 
-  n= 523, number of events= 110 
+  n= 523, number of events= 110
 
         coef exp(coef) se(coef)     z Pr(>|z|)
 sexM 0.00987   1.00992  0.19161 0.052    0.959
@@ -25,24 +25,24 @@ Wald test            = 0  on 1 df,   p=1
 Score (logrank) test = 0  on 1 df,   p=1
 
 
-Likelihood ratio test p-value: 0.958915 
-Wald test p-value: 0.9589174 
-================================================================================ 
+Likelihood ratio test p-value: 0.958915
+Wald test p-value: 0.9589174
+================================================================================
 
-LUAD survival model by sex 
+LUAD survival model by sex
       records n.max n.start events   *rmean *se(rmean)   median  0.95LCL
 sex=F     265   265     265     93 86.70569   10.93359 49.05152 40.40504
 sex=M     234   234     234     86 92.34642   10.77578 50.23507 39.94477
        0.95UCL
 sex=F 59.11168
 sex=M 86.13604
-================================================================================ 
+================================================================================
 
-LUAD survival model by sex 
+LUAD survival model by sex
 Call:
 coxph(formula = Surv(time = time, event = status) ~ sex, data = data)
 
-  n= 499, number of events= 179 
+  n= 499, number of events= 179
 
         coef exp(coef) se(coef)     z Pr(>|z|)
 sexM 0.05299   1.05442  0.15002 0.353    0.724
@@ -56,23 +56,23 @@ Wald test            = 0.12  on 1 df,   p=0.7
 Score (logrank) test = 0.12  on 1 df,   p=0.7
 
 
-Likelihood ratio test p-value: 0.724016 
-Wald test p-value: 0.7239081 
-================================================================================ 
+Likelihood ratio test p-value: 0.724016
+Wald test p-value: 0.7239081
+================================================================================
 
-MM survival model by sex 
+MM survival model by sex
       records n.max n.start events   *rmean *se(rmean) median 0.95LCL 0.95UCL
 sex=F     365   365     365     58 1897.499   46.52206     NA      NA      NA
 sex=M     566   566     566    145 1644.117   40.24051   2207    1944      NA
-================================================================================ 
+================================================================================
 
-MM survival model by sex 
+MM survival model by sex
 Call:
 coxph(formula = Surv(time = time, event = status) ~ sex, data = data)
 
-  n= 931, number of events= 203 
+  n= 931, number of events= 203
 
-       coef exp(coef) se(coef)     z Pr(>|z|)    
+       coef exp(coef) se(coef)     z Pr(>|z|)
 sexM 0.5214    1.6844   0.1556 3.352 0.000803 ***
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
@@ -86,24 +86,24 @@ Wald test            = 11.23  on 1 df,   p=8e-04
 Score (logrank) test = 11.49  on 1 df,   p=7e-04
 
 
-Likelihood ratio test p-value: 0.0005329974 
-Wald test p-value: 0.0008027346 
-================================================================================ 
+Likelihood ratio test p-value: 0.0005329974
+Wald test p-value: 0.0008027346
+================================================================================
 
-PAAD survival model by sex 
+PAAD survival model by sex
       records n.max n.start events   *rmean *se(rmean)   median  0.95LCL
 sex=F      79    79      79     46 30.54473   3.785501 19.49568 15.97791
 sex=M      96    96      96     49 35.89941   4.047293 21.43538 19.46280
        0.95UCL
 sex=F 24.26275
 sex=M 37.15028
-================================================================================ 
+================================================================================
 
-PAAD survival model by sex 
+PAAD survival model by sex
 Call:
 coxph(formula = Surv(time = time, event = status) ~ sex, data = data)
 
-  n= 175, number of events= 95 
+  n= 175, number of events= 95
 
         coef exp(coef) se(coef)      z Pr(>|z|)
 sexM -0.1515    0.8594   0.2059 -0.736    0.462
@@ -117,7 +117,6 @@ Wald test            = 0.54  on 1 df,   p=0.5
 Score (logrank) test = 0.54  on 1 df,   p=0.5
 
 
-Likelihood ratio test p-value: 0.4623213 
-Wald test p-value: 0.461757 
-================================================================================ 
-
+Likelihood ratio test p-value: 0.4623213
+Wald test p-value: 0.461757
+================================================================================

@@ -1,23 +1,22 @@
-MM - G12A vs. the rest 
+MM - G12A vs. the rest
                      records n.max n.start events   *rmean *se(rmean) median
 kras_allele_grp=G12A      11    11      11      6 1092.500  236.81751    934
 kras_allele_grp=rest     920   920     920    197 1553.118   22.64757   2207
                      0.95LCL 0.95UCL
 kras_allele_grp=G12A     520      NA
 kras_allele_grp=rest    2207      NA
-================================================================================ 
+================================================================================
 
-MM - G12A vs. the rest 
+MM - G12A vs. the rest
 Call:
-survdiff(formula = Surv(time = time, event = status) ~ kras_allele_grp, 
+survdiff(formula = Surv(time = time, event = status) ~ kras_allele_grp,
     data = data)
 
                        N Observed Expected (O-E)^2/E (O-E)^2/V
 kras_allele_grp=G12A  11        6     2.07    7.4401      7.53
 kras_allele_grp=rest 920      197   200.93    0.0768      7.53
 
- Chisq= 7.5  on 1 degrees of freedom, p= 0.006 
+ Chisq= 7.5  on 1 degrees of freedom, p= 0.006
 
-p-value: 0.006080801 
-================================================================================ 
-
+p-value: 0.006080801
+================================================================================

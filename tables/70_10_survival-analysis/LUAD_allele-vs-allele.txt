@@ -1,230 +1,229 @@
-LUAD - G12C vs. WT 
+LUAD - G12C vs. WT
                      records n.max n.start events   *rmean *se(rmean)   median
 kras_allele_grp=G12C      63    63      63     24 78.01450  14.399914 40.60229
 kras_allele_grp=WT       350   350     350    125 72.79818   5.485936 49.05152
                       0.95LCL  0.95UCL
 kras_allele_grp=G12C 20.64635       NA
 kras_allele_grp=WT   41.58859 58.84867
-================================================================================ 
+================================================================================
 
-LUAD - G12C vs. WT 
+LUAD - G12C vs. WT
 Call:
-survdiff(formula = Surv(time = time, event = status) ~ kras_allele_grp, 
+survdiff(formula = Surv(time = time, event = status) ~ kras_allele_grp,
     data = data)
 
                        N Observed Expected (O-E)^2/E (O-E)^2/V
 kras_allele_grp=G12C  63       24     16.6     3.324      3.76
 kras_allele_grp=WT   350      125    132.4     0.416      3.76
 
- Chisq= 3.8  on 1 degrees of freedom, p= 0.05 
+ Chisq= 3.8  on 1 degrees of freedom, p= 0.05
 
-p-value: 0.0523813 
-================================================================================ 
+p-value: 0.0523813
+================================================================================
 
-LUAD - G12C vs. G12V 
+LUAD - G12C vs. G12V
                      records n.max n.start events   *rmean *se(rmean)   median
 kras_allele_grp=G12C      63    63      63     24 74.92272   13.38402 40.60229
 kras_allele_grp=G12V      35    35      35     13 75.20592   15.16163 86.03741
                       0.95LCL 0.95UCL
 kras_allele_grp=G12C 20.64635      NA
 kras_allele_grp=G12V 24.22987      NA
-================================================================================ 
+================================================================================
 
-LUAD - G12C vs. G12V 
+LUAD - G12C vs. G12V
 Call:
-survdiff(formula = Surv(time = time, event = status) ~ kras_allele_grp, 
+survdiff(formula = Surv(time = time, event = status) ~ kras_allele_grp,
     data = data)
 
                       N Observed Expected (O-E)^2/E (O-E)^2/V
 kras_allele_grp=G12C 63       24     21.2     0.381     0.911
 kras_allele_grp=G12V 35       13     15.8     0.509     0.911
 
- Chisq= 0.9  on 1 degrees of freedom, p= 0.3 
+ Chisq= 0.9  on 1 degrees of freedom, p= 0.3
 
-p-value: 0.3398354 
-================================================================================ 
+p-value: 0.3398354
+================================================================================
 
-LUAD - G12C vs. G12D 
+LUAD - G12C vs. G12D
                      records n.max n.start events   *rmean *se(rmean)   median
 kras_allele_grp=G12C      63    63      63     24 50.26041    6.01661 40.60229
 kras_allele_grp=G12D      17    17      17      7 49.13146   10.40685 49.34740
                       0.95LCL 0.95UCL
 kras_allele_grp=G12C 20.64635      NA
 kras_allele_grp=G12D 22.91482      NA
-================================================================================ 
+================================================================================
 
-LUAD - G12C vs. G12D 
+LUAD - G12C vs. G12D
 Call:
-survdiff(formula = Surv(time = time, event = status) ~ kras_allele_grp, 
+survdiff(formula = Surv(time = time, event = status) ~ kras_allele_grp,
     data = data)
 
                       N Observed Expected (O-E)^2/E (O-E)^2/V
 kras_allele_grp=G12C 63       24    23.46    0.0124    0.0516
 kras_allele_grp=G12D 17        7     7.54    0.0386    0.0516
 
- Chisq= 0.1  on 1 degrees of freedom, p= 0.8 
+ Chisq= 0.1  on 1 degrees of freedom, p= 0.8
 
-p-value: 0.8202235 
-================================================================================ 
+p-value: 0.8202235
+================================================================================
 
-LUAD - G12C vs. G12A 
+LUAD - G12C vs. G12A
                      records n.max n.start events   *rmean *se(rmean)   median
 kras_allele_grp=G12A      16    16      16      4 69.99127  14.795832 56.71171
 kras_allele_grp=G12C      63    63      63     24 57.10906   7.825456 40.60229
                       0.95LCL 0.95UCL
 kras_allele_grp=G12A 24.98603      NA
 kras_allele_grp=G12C 20.64635      NA
-================================================================================ 
+================================================================================
 
-LUAD - G12C vs. G12A 
+LUAD - G12C vs. G12A
 Call:
-survdiff(formula = Surv(time = time, event = status) ~ kras_allele_grp, 
+survdiff(formula = Surv(time = time, event = status) ~ kras_allele_grp,
     data = data)
 
                       N Observed Expected (O-E)^2/E (O-E)^2/V
 kras_allele_grp=G12A 16        4     7.03     1.306      1.76
 kras_allele_grp=G12C 63       24    20.97     0.438      1.76
 
- Chisq= 1.8  on 1 degrees of freedom, p= 0.2 
+ Chisq= 1.8  on 1 degrees of freedom, p= 0.2
 
-p-value: 0.1841739 
-================================================================================ 
+p-value: 0.1841739
+================================================================================
 
-LUAD - WT vs. G12V 
+LUAD - WT vs. G12V
                      records n.max n.start events   *rmean *se(rmean)   median
 kras_allele_grp=G12V      35    35      35     13 94.75083  25.251664 86.03741
 kras_allele_grp=WT       350   350     350    125 88.76728   8.834614 49.05152
                       0.95LCL  0.95UCL
 kras_allele_grp=G12V 24.22987       NA
 kras_allele_grp=WT   41.58859 58.84867
-================================================================================ 
+================================================================================
 
-LUAD - WT vs. G12V 
+LUAD - WT vs. G12V
 Call:
-survdiff(formula = Surv(time = time, event = status) ~ kras_allele_grp, 
+survdiff(formula = Surv(time = time, event = status) ~ kras_allele_grp,
     data = data)
 
                        N Observed Expected (O-E)^2/E (O-E)^2/V
 kras_allele_grp=G12V  35       13     12.1   0.06406    0.0708
 kras_allele_grp=WT   350      125    125.9   0.00617    0.0708
 
- Chisq= 0.1  on 1 degrees of freedom, p= 0.8 
+ Chisq= 0.1  on 1 degrees of freedom, p= 0.8
 
-p-value: 0.7901773 
-================================================================================ 
+p-value: 0.7901773
+================================================================================
 
-LUAD - WT vs. G12D 
+LUAD - WT vs. G12D
                      records n.max n.start events   *rmean *se(rmean)   median
 kras_allele_grp=G12D      17    17      17      7 76.10062  22.879206 49.34740
 kras_allele_grp=WT       350   350     350    125 71.95254   5.316505 49.05152
                       0.95LCL  0.95UCL
 kras_allele_grp=G12D 22.91482       NA
 kras_allele_grp=WT   41.58859 58.84867
-================================================================================ 
+================================================================================
 
-LUAD - WT vs. G12D 
+LUAD - WT vs. G12D
 Call:
-survdiff(formula = Surv(time = time, event = status) ~ kras_allele_grp, 
+survdiff(formula = Surv(time = time, event = status) ~ kras_allele_grp,
     data = data)
 
                        N Observed Expected (O-E)^2/E (O-E)^2/V
 kras_allele_grp=G12D  17        7     5.42    0.4601     0.481
 kras_allele_grp=WT   350      125   126.58    0.0197     0.481
 
- Chisq= 0.5  on 1 degrees of freedom, p= 0.5 
+ Chisq= 0.5  on 1 degrees of freedom, p= 0.5
 
-p-value: 0.4879571 
-================================================================================ 
+p-value: 0.4879571
+================================================================================
 
-LUAD - WT vs. G12A 
+LUAD - WT vs. G12A
                      records n.max n.start events    *rmean *se(rmean)   median
 kras_allele_grp=G12A      16    16      16      4 104.71906  30.295381 56.71171
 kras_allele_grp=WT       350   350     350    125  76.62194   6.265938 49.05152
                       0.95LCL  0.95UCL
 kras_allele_grp=G12A 24.98603       NA
 kras_allele_grp=WT   41.58859 58.84867
-================================================================================ 
+================================================================================
 
-LUAD - WT vs. G12A 
+LUAD - WT vs. G12A
 Call:
-survdiff(formula = Surv(time = time, event = status) ~ kras_allele_grp, 
+survdiff(formula = Surv(time = time, event = status) ~ kras_allele_grp,
     data = data)
 
                        N Observed Expected (O-E)^2/E (O-E)^2/V
 kras_allele_grp=G12A  16        4     5.88    0.6023     0.634
 kras_allele_grp=WT   350      125   123.12    0.0288     0.634
 
- Chisq= 0.6  on 1 degrees of freedom, p= 0.4 
+ Chisq= 0.6  on 1 degrees of freedom, p= 0.4
 
-p-value: 0.4259396 
-================================================================================ 
+p-value: 0.4259396
+================================================================================
 
-LUAD - G12V vs. G12D 
+LUAD - G12V vs. G12D
                      records n.max n.start events   *rmean *se(rmean)   median
 kras_allele_grp=G12D      17    17      17      7 72.95574   21.39421 49.34740
 kras_allele_grp=G12V      35    35      35     13 74.29162   14.71402 86.03741
                       0.95LCL 0.95UCL
 kras_allele_grp=G12D 22.91482      NA
 kras_allele_grp=G12V 24.22987      NA
-================================================================================ 
+================================================================================
 
-LUAD - G12V vs. G12D 
+LUAD - G12V vs. G12D
 Call:
-survdiff(formula = Surv(time = time, event = status) ~ kras_allele_grp, 
+survdiff(formula = Surv(time = time, event = status) ~ kras_allele_grp,
     data = data)
 
                       N Observed Expected (O-E)^2/E (O-E)^2/V
 kras_allele_grp=G12D 17        7     5.67     0.313     0.461
 kras_allele_grp=G12V 35       13    14.33     0.124     0.461
 
- Chisq= 0.5  on 1 degrees of freedom, p= 0.5 
+ Chisq= 0.5  on 1 degrees of freedom, p= 0.5
 
-p-value: 0.4972674 
-================================================================================ 
+p-value: 0.4972674
+================================================================================
 
-LUAD - G12V vs. G12A 
+LUAD - G12V vs. G12A
                      records n.max n.start events    *rmean *se(rmean)   median
 kras_allele_grp=G12A      16    16      16      4 100.66944   28.46061 56.71171
 kras_allele_grp=G12V      35    35      35     13  79.34017   17.22516 86.03741
                       0.95LCL 0.95UCL
 kras_allele_grp=G12A 24.98603      NA
 kras_allele_grp=G12V 24.22987      NA
-================================================================================ 
+================================================================================
 
-LUAD - G12V vs. G12A 
+LUAD - G12V vs. G12A
 Call:
-survdiff(formula = Surv(time = time, event = status) ~ kras_allele_grp, 
+survdiff(formula = Surv(time = time, event = status) ~ kras_allele_grp,
     data = data)
 
                       N Observed Expected (O-E)^2/E (O-E)^2/V
 kras_allele_grp=G12A 16        4      5.4     0.364     0.538
 kras_allele_grp=G12V 35       13     11.6     0.170     0.538
 
- Chisq= 0.5  on 1 degrees of freedom, p= 0.5 
+ Chisq= 0.5  on 1 degrees of freedom, p= 0.5
 
-p-value: 0.4631454 
-================================================================================ 
+p-value: 0.4631454
+================================================================================
 
-LUAD - G12D vs. G12A 
+LUAD - G12D vs. G12A
                      records n.max n.start events   *rmean *se(rmean)   median
 kras_allele_grp=G12A      16    16      16      4 68.36672   14.09707 56.71171
 kras_allele_grp=G12D      17    17      17      7 54.83613   12.96354 49.34740
                       0.95LCL 0.95UCL
 kras_allele_grp=G12A 24.98603      NA
 kras_allele_grp=G12D 22.91482      NA
-================================================================================ 
+================================================================================
 
-LUAD - G12D vs. G12A 
+LUAD - G12D vs. G12A
 Call:
-survdiff(formula = Surv(time = time, event = status) ~ kras_allele_grp, 
+survdiff(formula = Surv(time = time, event = status) ~ kras_allele_grp,
     data = data)
 
                       N Observed Expected (O-E)^2/E (O-E)^2/V
 kras_allele_grp=G12A 16        4     5.44     0.380     0.767
 kras_allele_grp=G12D 17        7     5.56     0.371     0.767
 
- Chisq= 0.8  on 1 degrees of freedom, p= 0.4 
+ Chisq= 0.8  on 1 degrees of freedom, p= 0.4
 
-p-value: 0.3812224 
-================================================================================ 
-
+p-value: 0.3812224
+================================================================================

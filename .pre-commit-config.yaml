@@ -1,8 +1,27 @@
 # See https://pre-commit.com for more information
 # See https://pre-commit.com/hooks.html for more hooks
 repos:
+-   repo: https://github.com/igorshubovych/markdownlint-cli
+    rev: v0.26.0
+    hooks:
+    -   id: markdownlint
+        args: [--fix]
+        exclude: "^tests/_snaps"
 -   repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v3.2.0
+    rev: v3.4.0
     hooks:
     -   id: check-added-large-files
         args: ["--maxkb=80000"]
+    -   id: trailing-whitespace
+        types: ["file", "text"]
+        exclude: "^graphs|^presentations|^renv|^data|^tests/_snaps"
+    -   id: end-of-file-fixer
+        exclude: "^graphs|^presentations|^renv|^data|^tests/_snaps"
+    -   id: check-yaml
+-   repo: https://github.com/lorenzwalthert/precommit
+    rev: v0.1.3
+    hooks:
+    -   id: style-files
+        args: [--style_pkg=styler, --style_fun=tidyverse_style]
+    -   id: parsable-R
+    -   id: no-browser-statement

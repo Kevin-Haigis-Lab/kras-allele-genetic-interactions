@@ -1,6 +1,6 @@
 ---
 title: "*KRAS* comutation list and differential *DUSP* expression"
-output: 
+output:
   html_document:
     toc: true
     toc_depth: 3
@@ -751,7 +751,7 @@ if (FALSE) {
 ```
 
 Below is the model that is fit to analyze the association of *APC* mutation with differential *DUSP* expression.
-It is a hierarchical model with a varying intercept and slope for each *DUSP*. 
+It is a hierarchical model with a varying intercept and slope for each *DUSP*.
 There is also a correlation term that is left out of the formula for simplicity.
 It measures the correlation between the varying intercepts and slopes.
 

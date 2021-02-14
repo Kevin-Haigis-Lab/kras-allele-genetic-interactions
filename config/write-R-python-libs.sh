@@ -16,4 +16,4 @@ Rscript -e "renv::snapshot()"
 # Export conda environment.
 source activate rctest
 conda env export > $PY_LIB_FILE
-conda deactivate 
+conda deactivate

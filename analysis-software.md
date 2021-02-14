@@ -72,7 +72,6 @@ A description of all commercial, open source, and custom code used to analyze th
 - 'mustashe' (v0.1.3)
 - 'rmarkdown' (v2.6)
 
-
 ### Mutational signatures
 
 - MATLAB (R2017b)

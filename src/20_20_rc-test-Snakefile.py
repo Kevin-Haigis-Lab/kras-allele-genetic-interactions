@@ -127,7 +127,7 @@ results_df_mem_dict = {
 	'SKCM': {'comutation': 20000, 'exclusivity': 20000},
 }
 rule make_results_df:
-	input: 
+	input:
 		real_gr = 'data/rc-test/intermediate/{cancer}_bgr.rds'
 	output:
 		output_name = 'data/rc-test/intermediate/{cancer}_{which_test}_{rasallele}_results_df.rds'

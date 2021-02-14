@@ -77,10 +77,10 @@ get_directory <- function(fp) {
 
 round_source_data <- function(x, num_decimals) {
   x %>%
-      mutate(across(
-        where(is.double),
-        scales::label_number(10^-num_decimals)
-      ))
+    mutate(across(
+      where(is.double),
+      scales::label_number(10^-num_decimals)
+    ))
 }
 
 
@@ -105,7 +105,7 @@ save_figure_source_data <- function(x, figure, panel = NULL, num_decimals = 3) {
       paste(class(x), collapse = ", ")
     ))
   }
-  
+
   if (!is.na(num_decimals)) {
     x <- round_source_data(x, num_decimals)
   }

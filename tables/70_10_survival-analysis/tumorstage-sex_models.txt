@@ -1,4 +1,4 @@
-COAD survival model by tumor stage & sex 
+COAD survival model by tumor stage & sex
                       records n.max n.start events   *rmean *se(rmean)   median
 path_t_stage=1, sex=F      11    11      11      2 66.88793  10.723552       NA
 path_t_stage=1, sex=M       6     6       6      0 83.94976   0.000000       NA
@@ -17,20 +17,20 @@ path_t_stage=3, sex=F 57.23773      NA
 path_t_stage=3, sex=M 56.25144      NA
 path_t_stage=4, sex=F 16.56968      NA
 path_t_stage=4, sex=M 11.73686      NA
-================================================================================ 
+================================================================================
 
-COAD survival model by tumor stage & sex 
+COAD survival model by tumor stage & sex
 Call:
-coxph(formula = Surv(time = time, event = status) ~ path_t_stage + 
+coxph(formula = Surv(time = time, event = status) ~ path_t_stage +
     sex, data = data)
 
-  n= 522, number of events= 110 
+  n= 522, number of events= 110
 
-                  coef exp(coef) se(coef)      z Pr(>|z|)  
-path_t_stage2 -0.40933   0.66410  0.80341 -0.509   0.6104  
-path_t_stage3  0.49325   1.63763  0.71739  0.688   0.4917  
+                  coef exp(coef) se(coef)      z Pr(>|z|)
+path_t_stage2 -0.40933   0.66410  0.80341 -0.509   0.6104
+path_t_stage3  0.49325   1.63763  0.71739  0.688   0.4917
 path_t_stage4  1.63081   5.10801  0.74037  2.203   0.0276 *
-sexM           0.04557   1.04662  0.19211  0.237   0.8125  
+sexM           0.04557   1.04662  0.19211  0.237   0.8125
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
@@ -46,11 +46,11 @@ Wald test            = 30.83  on 4 df,   p=3e-06
 Score (logrank) test = 36.01  on 4 df,   p=3e-07
 
 
-Likelihood ratio test p-value: 1.104998e-05 
-Wald test p-value: 3.308618e-06 
-================================================================================ 
+Likelihood ratio test p-value: 1.104998e-05
+Wald test p-value: 3.308618e-06
+================================================================================
 
-LUAD survival model by tumor stage & sex 
+LUAD survival model by tumor stage & sex
                       records n.max n.start events   *rmean *se(rmean)
 path_t_stage=1, sex=F     108   108     108     30 74.32515   7.294082
 path_t_stage=1, sex=M      61    61      61     14 82.04439   9.694417
@@ -69,20 +69,20 @@ path_t_stage=3, sex=F  39.74751 12.657396       NA
 path_t_stage=3, sex=M  24.22987 14.597100       NA
 path_t_stage=4, sex=F  20.51484  5.884867       NA
 path_t_stage=4, sex=M  22.91482  2.991748       NA
-================================================================================ 
+================================================================================
 
-LUAD survival model by tumor stage & sex 
+LUAD survival model by tumor stage & sex
 Call:
-coxph(formula = Surv(time = time, event = status) ~ path_t_stage + 
+coxph(formula = Surv(time = time, event = status) ~ path_t_stage +
     sex, data = data)
 
-  n= 496, number of events= 177 
+  n= 496, number of events= 177
 
-                  coef exp(coef) se(coef)      z Pr(>|z|)    
-path_t_stage2  0.34312   1.40934  0.18256  1.879  0.06018 .  
+                  coef exp(coef) se(coef)      z Pr(>|z|)
+path_t_stage2  0.34312   1.40934  0.18256  1.879  0.06018 .
 path_t_stage3  1.08586   2.96200  0.26954  4.029 5.61e-05 ***
-path_t_stage4  1.10826   3.02909  0.34152  3.245  0.00117 ** 
-sexM          -0.01003   0.99002  0.15314 -0.065  0.94779    
+path_t_stage4  1.10826   3.02909  0.34152  3.245  0.00117 **
+sexM          -0.01003   0.99002  0.15314 -0.065  0.94779
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
@@ -98,11 +98,11 @@ Wald test            = 22.36  on 4 df,   p=2e-04
 Score (logrank) test = 23.82  on 4 df,   p=9e-05
 
 
-Likelihood ratio test p-value: 0.0005404169 
-Wald test p-value: 0.0001699664 
-================================================================================ 
+Likelihood ratio test p-value: 0.0005404169
+Wald test p-value: 0.0001699664
+================================================================================
 
-MM survival model by tumor stage & sex 
+MM survival model by tumor stage & sex
                       records n.max n.start events   *rmean *se(rmean) median
 path_t_stage=1, sex=F     127   127     127      7 2048.042   48.24976     NA
 path_t_stage=1, sex=M     201   201     201     22 1931.818   50.20246   2207
@@ -117,19 +117,19 @@ path_t_stage=2, sex=F      NA      NA
 path_t_stage=2, sex=M    1944      NA
 path_t_stage=3, sex=F    1574      NA
 path_t_stage=3, sex=M     936      NA
-================================================================================ 
+================================================================================
 
-MM survival model by tumor stage & sex 
+MM survival model by tumor stage & sex
 Call:
-coxph(formula = Surv(time = time, event = status) ~ path_t_stage + 
+coxph(formula = Surv(time = time, event = status) ~ path_t_stage +
     sex, data = data)
 
-  n= 903, number of events= 197 
+  n= 903, number of events= 197
 
-                coef exp(coef) se(coef)     z Pr(>|z|)    
+                coef exp(coef) se(coef)     z Pr(>|z|)
 path_t_stage2 0.9915    2.6954   0.2228 4.451 8.56e-06 ***
 path_t_stage3 1.7086    5.5211   0.2150 7.946 1.93e-15 ***
-path_t_stage4     NA        NA   0.0000    NA       NA    
+path_t_stage4     NA        NA   0.0000    NA       NA
 sexM          0.5177    1.6782   0.1573 3.291    0.001 ***
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
@@ -146,11 +146,11 @@ Wald test            = 78.92  on 3 df,   p=<2e-16
 Score (logrank) test = 91.31  on 3 df,   p=<2e-16
 
 
-Likelihood ratio test p-value: 2.478364e-19 
-Wald test p-value: 5.219933e-17 
-================================================================================ 
+Likelihood ratio test p-value: 2.478364e-19
+Wald test p-value: 5.219933e-17
+================================================================================
 
-PAAD survival model by tumor stage & sex 
+PAAD survival model by tumor stage & sex
                       records n.max n.start events   *rmean *se(rmean)   median
 path_t_stage=1, sex=F       3     3       3      1 44.28445  16.052371       NA
 path_t_stage=1, sex=M       3     3       3      1 45.30361  15.220224       NA
@@ -169,14 +169,14 @@ path_t_stage=3, sex=F 15.813525 24.06549
 path_t_stage=3, sex=M 15.780649 36.19686
 path_t_stage=4, sex=F 12.953283       NA
 path_t_stage=4, sex=M 20.350462       NA
-================================================================================ 
+================================================================================
 
-PAAD survival model by tumor stage & sex 
+PAAD survival model by tumor stage & sex
 Call:
-coxph(formula = Surv(time = time, event = status) ~ path_t_stage + 
+coxph(formula = Surv(time = time, event = status) ~ path_t_stage +
     sex, data = data)
 
-  n= 173, number of events= 95 
+  n= 173, number of events= 95
 
                  coef exp(coef) se(coef)      z Pr(>|z|)
 path_t_stage2  0.2574    1.2935   0.7981  0.322    0.747
@@ -196,7 +196,6 @@ Wald test            = 5.95  on 4 df,   p=0.2
 Score (logrank) test = 6.24  on 4 df,   p=0.2
 
 
-Likelihood ratio test p-value: 0.1269875 
-Wald test p-value: 0.2027998 
-================================================================================ 
-
+Likelihood ratio test p-value: 0.1269875
+Wald test p-value: 0.2027998
+================================================================================
