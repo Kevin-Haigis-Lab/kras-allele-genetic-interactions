@@ -8,20 +8,30 @@ ProjectTemplate::add.config(
   apply.override = TRUE
 )
 
-default_libraries <- c(
-  "stats", "org.Hs.eg.db", "glue", "conflicted", "assertr", "testthat",
-  "glmnet", "parallel", "caret", "ggfortify", "tidygraph", "jhcutils",
-  "clisymbols", "magrittr", "nakedpipe", "ggpubr", "ggraph", "ggtext",
-  "patchwork", "ggplot2", "broom", "tidyverse"
-)
+#### ---- Packages used frequently ---- ####
 
-for (lib in default_libraries) {
-  a <- require(lib, character.only = TRUE, quietly = TRUE)
-  if (!a) {
-    renv::install(lib)
-    library(lib, character.only = TRUE)
-  }
-}
+library(stats)
+library(org.Hs.eg.db)
+library(glue)
+library(conflicted)
+library(assertr)
+library(testthat)
+library(glmnet)
+library(parallel)
+library(caret)
+library(ggfortify)
+library(tidygraph)
+library(jhcutils)
+library(clisymbols)
+library(magrittr)
+library(nakedpipe)
+library(ggpubr)
+library(ggraph)
+library(ggtext)
+library(patchwork)
+library(ggplot2)
+library(broom)
+library(tidyverse)
 
 
 #### ---- Conflicts ---- ####
