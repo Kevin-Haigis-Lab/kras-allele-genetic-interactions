@@ -76,6 +76,7 @@ panel_B <- read_fig_proto("allele_dist_dotplot") +
 
 pull_original_plot_data(panel_B) %>%
   select(-long_cancer) %>%
+  mutate(codon = as.factor(codon)) %>%
   save_figure_source_data(figure = FIGNUM, panel = "b")
 
 

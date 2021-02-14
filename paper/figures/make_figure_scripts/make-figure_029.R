@@ -64,6 +64,7 @@ panel_A <- read_fig_proto("gsea-results-COAD-select.rds") +
 pull_original_plot_data(panel_A) %>%
   select(-(dir:file_path)) %>%
   relocate(cancer, everything()) %>%
+  mutate(across(c(size, rank_at_max), as.integer)) %>%
   save_figure_source_data(FIGNUM, panel = "a")
 
 

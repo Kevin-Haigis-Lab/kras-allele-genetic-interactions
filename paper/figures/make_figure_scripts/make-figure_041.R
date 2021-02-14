@@ -93,6 +93,7 @@ panel_A <- panel_A_2 + panel_A_1 + panel_A_3 +
 
 pull_original_plot_data(panel_A_1) %>%
   select(-label, -label_face) %>%
+  mutate(num_allele_comuts = as.integer(num_allele_comuts)) %>%
   save_figure_source_data(FIGNUM, "heatmap")
 
 pull_original_plot_data(panel_A_2) %>%

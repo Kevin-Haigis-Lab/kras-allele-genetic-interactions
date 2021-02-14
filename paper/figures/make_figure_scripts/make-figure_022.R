@@ -256,6 +256,7 @@ panel_D <- remove_oncoplot_legend(panel_D)
 
 pull_original_plot_data(panel_D[[2]]) %>%
   janitor::clean_names() %>%
+  mutate(across(contains("position"), as.integer)) %>%
   save_figure_source_data(FIGNUM, "d")
 
 
@@ -277,6 +278,7 @@ panel_E <- remove_oncoplot_legend(panel_E)
 
 pull_original_plot_data(panel_E[[2]]) %>%
   janitor::clean_names() %>%
+  mutate(across(contains("position"), as.integer)) %>%
   save_figure_source_data(FIGNUM, "e")
 
 
@@ -375,6 +377,7 @@ panel_F[[2]] <- panel_F[[2]] +
   )
 
 pull_original_plot_data(panel_F[[2]]) %>%
+  mutate(across(tidyselect::starts_with("n"), as.integer)) %>%
   save_figure_source_data(FIGNUM, "f")
 
 

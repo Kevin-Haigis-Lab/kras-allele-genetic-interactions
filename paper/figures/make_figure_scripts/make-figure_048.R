@@ -94,9 +94,17 @@ get_coef_plot_subtitle <- function(gene) {
 
 save_coefplot_boxplot_source_data <- function(coef_panel, box_panel, panel) {
   pull_original_plot_data(coef_panel) %>%
+    select(-step) %>%
     save_figure_source_data(FIGNUM, panel = glue("{panel}-top"))
   pull_original_plot_data(box_panel) %>%
     select(-mutation, -label) %>%
+    mutate(
+      across(
+        kras_allele:tidyselect::last_col(),
+        as.integer
+      ),
+      is_mutated = as.logical(is_mutated)
+    ) %>%
     save_figure_source_data(FIGNUM, panel = glue("{panel}-bottom"))
 }
 
