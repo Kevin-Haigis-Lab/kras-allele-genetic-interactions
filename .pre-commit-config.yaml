@@ -22,6 +22,7 @@ repos:
     rev: v0.1.3
     hooks:
     -   id: style-files
+        exclude: "^renv"
         args: [--style_pkg=styler, --style_fun=tidyverse_style]
     -   id: parsable-R
     -   id: no-browser-statement
