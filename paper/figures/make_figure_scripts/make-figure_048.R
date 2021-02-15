@@ -38,14 +38,12 @@ theme_coefplot_fig48 <- function(tag_margin = margin(-1, -1, -2, -1, "mm")) {
     theme(
       plot.title = element_markdown(
         size = 7,
-        face = "bold",
         family = "Arial",
         hjust = 0,
         halign = 0
       ),
       plot.subtitle = element_markdown(
         size = 6,
-        face = "bold",
         family = "Arial",
         hjust = 0,
         halign = 0
@@ -57,8 +55,8 @@ theme_coefplot_fig48 <- function(tag_margin = margin(-1, -1, -2, -1, "mm")) {
       ),
       legend.position = "none",
       axis.text.y = element_blank(),
+      axis.title.x = element_markdown(),
       axis.title.y = element_blank(),
-      axis.title.x = element_markdown()
     )
 }
 
@@ -67,8 +65,9 @@ theme_boxplot_fig48 <- function(tag_margin = margin(-1, -1, -1, -1, "mm")) {
   theme_fig48(tag_margin = tag_margin) %+replace%
     theme(
       legend.position = "none",
+      axis.title.x = element_blank(),
       axis.title.y = element_markdown(angle = 90, hjust = 0.5, vjust = 0.5),
-      axis.title.x = element_blank()
+      axis.text.x = element_markdown(size = 6)
     )
 }
 
@@ -91,6 +90,22 @@ get_coef_plot_title <- function(cancer, gene) {
 
 get_coef_plot_subtitle <- function(gene) {
   glue("Effect of mutation on *{gene}* dep.")
+}
+
+save_coefplot_boxplot_source_data <- function(coef_panel, box_panel, panel) {
+  pull_original_plot_data(coef_panel) %>%
+    select(-step) %>%
+    save_figure_source_data(FIGNUM, panel = glue("{panel}-top"))
+  pull_original_plot_data(box_panel) %>%
+    select(-mutation, -label) %>%
+    mutate(
+      across(
+        kras_allele:tidyselect::last_col(),
+        as.integer
+      ),
+      is_mutated = as.logical(is_mutated)
+    ) %>%
+    save_figure_source_data(FIGNUM, panel = glue("{panel}-bottom"))
 }
 
 
@@ -116,6 +131,7 @@ panel_A_3 <- read_fig_proto("COAD_G12D_TP53_comut-graph-plot.rds") +
 panel_A <- (panel_A_1 / panel_A_2) +
   plot_layout(height = c(3, 7))
 
+save_coefplot_boxplot_source_data(panel_A_1, panel_A_2, "a")
 
 
 #### ---- B. SMAD4 explaining EEF1E1 ---- ####
@@ -140,6 +156,8 @@ panel_BCD_3 <- read_fig_proto("PAAD_G12D_SMAD4_comut-graph-plot.rds") +
 panel_B <- (panel_B_1 / panel_B_2) +
   plot_layout(height = c(3, 7))
 
+save_coefplot_boxplot_source_data(panel_B_1, panel_B_2, "b")
+
 
 #### ---- C. SMAD4 explaining ABI1 ---- ####
 # SMAD4 explaining dep. of G12D on ABI1 in PAAD.
@@ -161,6 +179,8 @@ panel_C_2 <- read_fig_proto("PAAD_G12D_ABI1_line-plot") +
 panel_C <- (panel_C_1 / panel_C_2) +
   plot_layout(height = c(3, 7))
 
+save_coefplot_boxplot_source_data(panel_C_1, panel_C_2, "c")
+
 
 
 #### ---- D. SMAD4 explaining MYBL2 ---- ####
@@ -181,6 +201,8 @@ panel_D_2 <- read_fig_proto("PAAD_G12D_MYBL2_line-plot") +
 
 panel_D <- (panel_D_1 / panel_D_2) +
   plot_layout(height = c(3, 7))
+
+save_coefplot_boxplot_source_data(panel_D_1, panel_D_2, "d")
 
 
 

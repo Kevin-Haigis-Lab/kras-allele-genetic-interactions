@@ -61,6 +61,11 @@ panel_A <- read_fig_proto("gsea-results-PAAD-select") +
   ) +
   labs(tag = "a")
 
+pull_original_plot_data(panel_A) %>%
+  select(-(dir:file_path)) %>%
+  relocate(cancer, everything()) %>%
+  mutate(across(c(size, rank_at_max), as.integer)) %>%
+  save_figure_source_data(FIGNUM, panel = "a")
 
 #### ---- B. GSEA ranked-heatmap (1) ---- ####
 # A heatmap of an enriched gene set with the cell lines ranked by their
@@ -68,16 +73,29 @@ panel_A <- read_fig_proto("gsea-results-PAAD-select") +
 # highlight the trend.
 # original script: "src/10_37_gsea-depmap-analysis.R"
 
+theme_fig33_rankplot <- function() {
+  theme_fig33() %+replace%
+    theme(
+      plot.title = element_blank(),
+      axis.title.y = element_blank(),
+      legend.position = "none",
+      panel.grid = element_blank(),
+      axis.text.x = element_blank(),
+      axis.text.y = element_text(face = "italic", size = 6, hjust = 1),
+      plot.background = element_rect(fill = NA, color = NA)
+    )
+}
+
 
 theme_fig33_densityplots <- function(tag_margin_l = -3) {
-  theme_classic_comutation() +
+  theme_classic_comutation() %+replace%
     theme(
       plot.tag = element_text(
         size = 7,
         face = "bold",
         margin = margin(0, -2, -1, tag_margin_l, "mm")
       ),
-      plot.title = element_text(size = 7, family = "Arial", face = "bold"),
+      plot.title = element_text(size = 7, family = "Arial"),
       plot.margin = margin(0.4, 0, -1.5, 0, "mm"),
       axis.title = element_blank(),
       axis.text.x = element_blank(),
@@ -102,15 +120,7 @@ panel_B_density <- read_fig_proto(
 panel_B <- read_fig_proto(
   "rankplot_PAAD_G12D_REACTOME_G2_M_DNA_DAMAGE_CHECKPOINT"
 ) +
-  theme_fig33() +
-  theme(
-    plot.title = element_blank(),
-    axis.title.y = element_blank(),
-    legend.position = "none",
-    panel.grid = element_blank(),
-    axis.text.x = element_blank(),
-    plot.background = element_rect(fill = NA, color = NA)
-  ) +
+  theme_fig33_rankplot() +
   labs(
     x = x_label
   )
@@ -136,15 +146,7 @@ panel_C <- panel_C_density <- read_fig_proto(
 panel_C <- read_fig_proto(
   "rankplot_PAAD_G12R_REACTOME_PI_3K_CASCADE:FGFR1"
 ) +
-  theme_fig33() +
-  theme(
-    plot.title = element_blank(),
-    axis.title.y = element_blank(),
-    legend.position = "none",
-    panel.grid = element_blank(),
-    axis.text.x = element_blank(),
-    plot.background = element_rect(fill = NA, color = NA)
-  ) +
+  theme_fig33_rankplot() +
   labs(
     x = x_label
   )
@@ -169,15 +171,7 @@ panel_D_density <- read_fig_proto(
 panel_D <- read_fig_proto(
   "rankplot_PAAD_G12V_REACTOME_CELLULAR_SENESCENCE"
 ) +
-  theme_fig33() +
-  theme(
-    plot.title = element_blank(),
-    axis.title.y = element_blank(),
-    legend.position = "none",
-    panel.grid = element_blank(),
-    axis.text.x = element_blank(),
-    plot.background = element_rect(fill = NA, color = NA)
-  ) +
+  theme_fig33_rankplot() +
   labs(
     x = x_label
   )
@@ -194,7 +188,7 @@ panel_BCD_legend <- custom_label_legend(
   gap = 0,
   colors = ifelse(lbl_alleles %in% kras_dark_lbls, "white", "black"),
   y_value = "*KRAS* allele",
-  size = 2, fontface = "bold", family = "Arial",
+  size = 2, fontface = "plain", family = "Arial",
   label.padding = unit(1, "mm"), label.size = unit(0, "mm")
 ) +
   scale_fill_manual(values = short_allele_pal) +
@@ -202,8 +196,10 @@ panel_BCD_legend <- custom_label_legend(
     legend.position = "none",
     plot.title = element_blank(),
     axis.text.y = element_markdown(
-      hjust = 0.5, face = "bold",
-      size = 6, family = "Arial"
+      hjust = 0.5,
+      face = "plain",
+      size = 6,
+      family = "Arial"
     )
   )
 

@@ -1,23 +1,22 @@
-COAD - G12C vs. the rest 
+COAD - G12C vs. the rest
                      records n.max n.start events   *rmean *se(rmean)   median
 kras_allele_grp=G12C      14    14      14      6 67.80076  15.808412 61.84042
 kras_allele_grp=rest     509   509     509    104 87.28239   4.755206 81.36897
                       0.95LCL 0.95UCL
 kras_allele_grp=G12C 49.90630      NA
 kras_allele_grp=rest 62.79383      NA
-================================================================================ 
+================================================================================
 
-COAD - G12C vs. the rest 
+COAD - G12C vs. the rest
 Call:
-survdiff(formula = Surv(time = time, event = status) ~ kras_allele_grp, 
+survdiff(formula = Surv(time = time, event = status) ~ kras_allele_grp,
     data = data)
 
                        N Observed Expected (O-E)^2/E (O-E)^2/V
 kras_allele_grp=G12C  14        6      4.3    0.6710     0.704
 kras_allele_grp=rest 509      104    105.7    0.0273     0.704
 
- Chisq= 0.7  on 1 degrees of freedom, p= 0.4 
+ Chisq= 0.7  on 1 degrees of freedom, p= 0.4
 
-p-value: 0.4014599 
-================================================================================ 
-
+p-value: 0.4014599
+================================================================================

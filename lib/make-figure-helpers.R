@@ -274,7 +274,7 @@ build_comutation_figure <- function(nums) {
       if (file.exists(f)) {
         source_comutation_figure(f)
       } else {
-        cat(glue("(Skipping {basename(f)} - does not exist)"))
+        cat(glue("(Skipping {basename(f)} - does not exist)"), "\n")
       }
     }
   }
@@ -283,6 +283,7 @@ build_comutation_figure <- function(nums) {
 
 # Build all of the figures.
 build_comutation_figures <- function() {
+  clear_source_data()
   figure_make_scripts <- get_all_figure_files()
 
   for (f in figure_make_scripts) {
@@ -322,8 +323,11 @@ copy_final_figure <- function(figure_num, make_num, supp) {
   for (fmt in c("svg", "jpeg")) {
     base_img_path <- get_figure_img_path(make_num, fmt)
     output_path <- get_final_figure_path(figure_num, supp, fmt)
-    file.copy(base_img_path, output_path,
-      overwrite = TRUE, recursive = FALSE
+    file.copy(
+      base_img_path,
+      output_path,
+      overwrite = TRUE,
+      recursive = FALSE
     )
   }
   invisible(NULL)
@@ -348,8 +352,6 @@ remove_old_final_figures <- function() {
 
 copy_final_figures <- function() {
   remove_old_final_figures()
-
-  get_conversion_df() %>%
-    pwalk(copy_final_figure) %>%
-    make_final_pdfs()
+  pwalk(get_conversion_df(), copy_final_figure)
+  make_final_pdfs()
 }

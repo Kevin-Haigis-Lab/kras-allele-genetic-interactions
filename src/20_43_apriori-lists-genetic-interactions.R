@@ -7,7 +7,7 @@ reset_graph_directory(GRAPHS_DIR)
 
 #### ---- FDR analysis of comuts. in a priori gene sets ---- ####
 
-ProjectTemplate::cache("wide_genetic_interaction_df",
+cache("wide_genetic_interaction_df",
   depends = "genetic_interaction_gr",
   {
     wide_genetic_interaction_df <- kegg_geneset_df %>%
@@ -178,7 +178,7 @@ plot_genetic_interaction_graph <- function(gr_to_plot, CANCER, SUFFIX = "",
       family = "Arial",
       label.padding = unit(0.07, "lines"),
       label.r = unit(0.1, "lines"),
-      label.size = 0
+      label.size = 0,
     ) +
     scale_color_identity() +
     scale_fill_manual(
@@ -221,7 +221,7 @@ for (CANCER in unique(genetic_interaction_df$cancer)) {
     filter_for_adjusted_p_values() %N>%
     filter(centrality_degree(mode = "all") > 0) %>%
     mutate(
-      label_face = ifelse(is_kras, "bold", "plain"),
+      label_face = ifelse(is_kras, "bold", "italic"),
       node_label = str_remove_all(name, "KRAS_"),
       node_fill = ifelse(is_kras, node_label, NA),
       node_color = ifelse(node_label %in% kras_dark_lbls,

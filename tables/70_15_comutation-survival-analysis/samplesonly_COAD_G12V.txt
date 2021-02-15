@@ -1,207 +1,206 @@
-COAD - KRAS G12V - comutation with AMER1 
+COAD - KRAS G12V - comutation with AMER1
                  records n.max n.start events   *rmean *se(rmean)   median
 comutation=FALSE      42    42      42      3 79.25659   5.046409       NA
 comutation=TRUE        6     6       6      3 49.77754  15.752786 16.79982
                   0.95LCL 0.95UCL
 comutation=FALSE       NA      NA
 comutation=TRUE  14.53135      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-survdiff(formula = Surv(time = time, event = status) ~ comutation, 
+survdiff(formula = Surv(time = time, event = status) ~ comutation,
     data = surv_data)
 
                   N Observed Expected (O-E)^2/E (O-E)^2/V
 comutation=FALSE 42        3    5.336      1.02      9.49
 comutation=TRUE   6        3    0.664      8.21      9.49
 
- Chisq= 9.5  on 1 degrees of freedom, p= 0.002 
+ Chisq= 9.5  on 1 degrees of freedom, p= 0.002
 
-p-value: 0.002068947 
-================================================================================ 
+p-value: 0.002068947
+================================================================================
 
-COAD - KRAS G12V - comutation with APC 
+COAD - KRAS G12V - comutation with APC
                  records n.max n.start events   *rmean *se(rmean) median
 comutation=FALSE      12    12      12      1 78.55640   7.861249     NA
 comutation=TRUE       36    36      36      5 73.12763   5.652295     NA
                  0.95LCL 0.95UCL
 comutation=FALSE      NA      NA
 comutation=TRUE       NA      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-survdiff(formula = Surv(time = time, event = status) ~ comutation, 
+survdiff(formula = Surv(time = time, event = status) ~ comutation,
     data = surv_data)
 
                   N Observed Expected (O-E)^2/E (O-E)^2/V
 comutation=FALSE 12        1    0.969  0.000968   0.00121
 comutation=TRUE  36        5    5.031  0.000187   0.00121
 
- Chisq= 0  on 1 degrees of freedom, p= 1 
+ Chisq= 0  on 1 degrees of freedom, p= 1
 
-p-value: 0.9722044 
-================================================================================ 
+p-value: 0.9722044
+================================================================================
 
-COAD - KRAS G12V - comutation with FLG 
+COAD - KRAS G12V - comutation with FLG
                  records n.max n.start events    *rmean *se(rmean) median
 comutation=FALSE      41    41      41      6  96.29006      12.43     NA
 comutation=TRUE        7     7       7      0 125.29178       0.00     NA
                   0.95LCL 0.95UCL
 comutation=FALSE 54.60762      NA
 comutation=TRUE        NA      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-survdiff(formula = Surv(time = time, event = status) ~ comutation, 
+survdiff(formula = Surv(time = time, event = status) ~ comutation,
     data = surv_data)
 
                   N Observed Expected (O-E)^2/E (O-E)^2/V
 comutation=FALSE 41        6    5.017     0.193       1.2
 comutation=TRUE   7        0    0.983     0.983       1.2
 
- Chisq= 1.2  on 1 degrees of freedom, p= 0.3 
+ Chisq= 1.2  on 1 degrees of freedom, p= 0.3
 
-p-value: 0.272384 
-================================================================================ 
+p-value: 0.272384
+================================================================================
 
-COAD - KRAS G12V - comutation with MCC 
+COAD - KRAS G12V - comutation with MCC
                  records n.max n.start events   *rmean *se(rmean) median
 comutation=FALSE      43    43      43      5 75.68720   5.684819     NA
 comutation=TRUE        5     5       5      1 74.58329  12.920778     NA
                  0.95LCL 0.95UCL
 comutation=FALSE      NA      NA
 comutation=TRUE       NA      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-survdiff(formula = Surv(time = time, event = status) ~ comutation, 
+survdiff(formula = Surv(time = time, event = status) ~ comutation,
     data = surv_data)
 
                   N Observed Expected (O-E)^2/E (O-E)^2/V
 comutation=FALSE 43        5    5.325    0.0198     0.181
 comutation=TRUE   5        1    0.675    0.1561     0.181
 
- Chisq= 0.2  on 1 degrees of freedom, p= 0.7 
+ Chisq= 0.2  on 1 degrees of freedom, p= 0.7
 
-p-value: 0.6702918 
-================================================================================ 
+p-value: 0.6702918
+================================================================================
 
-COAD - KRAS G12V - comutation with MPDZ 
+COAD - KRAS G12V - comutation with MPDZ
                  records n.max n.start events   *rmean *se(rmean) median
 comutation=FALSE      43    43      43      5 69.30815   4.692363     NA
 comutation=TRUE        5     5       5      1 64.04313  14.292822     NA
                   0.95LCL 0.95UCL
 comutation=FALSE       NA      NA
 comutation=TRUE  14.53135      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-survdiff(formula = Surv(time = time, event = status) ~ comutation, 
+survdiff(formula = Surv(time = time, event = status) ~ comutation,
     data = surv_data)
 
                   N Observed Expected (O-E)^2/E (O-E)^2/V
 comutation=FALSE 43        5    5.423    0.0329      0.35
 comutation=TRUE   5        1    0.577    0.3093      0.35
 
- Chisq= 0.4  on 1 degrees of freedom, p= 0.6 
+ Chisq= 0.4  on 1 degrees of freedom, p= 0.6
 
-p-value: 0.5541095 
-================================================================================ 
+p-value: 0.5541095
+================================================================================
 
-COAD - KRAS G12V - comutation with PIK3CA 
+COAD - KRAS G12V - comutation with PIK3CA
                  records n.max n.start events   *rmean *se(rmean) median
 comutation=FALSE      31    31      31      4 87.77646  12.498213     NA
 comutation=TRUE       17    17      17      2 98.35551   9.595436     NA
                   0.95LCL 0.95UCL
 comutation=FALSE 54.60762      NA
 comutation=TRUE        NA      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-survdiff(formula = Surv(time = time, event = status) ~ comutation, 
+survdiff(formula = Surv(time = time, event = status) ~ comutation,
     data = surv_data)
 
                   N Observed Expected (O-E)^2/E (O-E)^2/V
 comutation=FALSE 31        4     3.78    0.0134    0.0362
 comutation=TRUE  17        2     2.22    0.0227    0.0362
 
- Chisq= 0  on 1 degrees of freedom, p= 0.8 
+ Chisq= 0  on 1 degrees of freedom, p= 0.8
 
-p-value: 0.8491771 
-================================================================================ 
+p-value: 0.8491771
+================================================================================
 
-COAD - KRAS G12V - comutation with SMAD4 
+COAD - KRAS G12V - comutation with SMAD4
                  records n.max n.start events   *rmean *se(rmean)   median
 comutation=FALSE      39    39      39      4 82.30281   4.848490       NA
 comutation=TRUE        9     9       9      2 48.15153   6.039123 54.60762
                  0.95LCL 0.95UCL
 comutation=FALSE      NA      NA
 comutation=TRUE       NA      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-survdiff(formula = Surv(time = time, event = status) ~ comutation, 
+survdiff(formula = Surv(time = time, event = status) ~ comutation,
     data = surv_data)
 
                   N Observed Expected (O-E)^2/E (O-E)^2/V
 comutation=FALSE 39        4    5.019     0.207      1.27
 comutation=TRUE   9        2    0.981     1.057      1.27
 
- Chisq= 1.3  on 1 degrees of freedom, p= 0.3 
+ Chisq= 1.3  on 1 degrees of freedom, p= 0.3
 
-p-value: 0.2606266 
-================================================================================ 
+p-value: 0.2606266
+================================================================================
 
-COAD - KRAS G12V - comutation with TCF7L2 
+COAD - KRAS G12V - comutation with TCF7L2
                  records n.max n.start events   *rmean *se(rmean) median
 comutation=FALSE      42    42      42      6 72.53950   5.868773     NA
 comutation=TRUE        6     6       6      0 88.12506   0.000000     NA
                  0.95LCL 0.95UCL
 comutation=FALSE      NA      NA
 comutation=TRUE       NA      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-survdiff(formula = Surv(time = time, event = status) ~ comutation, 
+survdiff(formula = Surv(time = time, event = status) ~ comutation,
     data = surv_data)
 
                   N Observed Expected (O-E)^2/E (O-E)^2/V
 comutation=FALSE 42        6    5.279    0.0984     0.844
 comutation=TRUE   6        0    0.721    0.7208     0.844
 
- Chisq= 0.8  on 1 degrees of freedom, p= 0.4 
+ Chisq= 0.8  on 1 degrees of freedom, p= 0.4
 
-p-value: 0.3583187 
-================================================================================ 
+p-value: 0.3583187
+================================================================================
 
-COAD - KRAS G12V - comutation with TET1 
+COAD - KRAS G12V - comutation with TET1
                  records n.max n.start events   *rmean *se(rmean) median
 comutation=FALSE      41    41      41      5 90.37467   10.49689     NA
 comutation=TRUE        7     7       7      1 94.58800   16.72911     NA
                   0.95LCL 0.95UCL
 comutation=FALSE 54.60762      NA
 comutation=TRUE        NA      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-survdiff(formula = Surv(time = time, event = status) ~ comutation, 
+survdiff(formula = Surv(time = time, event = status) ~ comutation,
     data = surv_data)
 
                   N Observed Expected (O-E)^2/E (O-E)^2/V
 comutation=FALSE 41        5    5.106   0.00221    0.0153
 comutation=TRUE   7        1    0.894   0.01265    0.0153
 
- Chisq= 0  on 1 degrees of freedom, p= 0.9 
+ Chisq= 0  on 1 degrees of freedom, p= 0.9
 
-p-value: 0.9014406 
-================================================================================ 
-
+p-value: 0.9014406
+================================================================================

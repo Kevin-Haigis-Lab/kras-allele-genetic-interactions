@@ -111,12 +111,7 @@ ProjectTemplate::cache("comut_dep_connectivity",
   ),
   {
     comut_dep_connectivity <- depmap_gene_clusters_pairwise_df %>%
-      select(cancer, group1, group2) %>%
-      unique() %>%
-      group_by(cancer) %>%
-      summarise(allele = list(unique(c(unlist(group1), unlist(group2))))) %>%
-      ungroup() %>%
-      unnest(allele) %>%
+      distinct(cancer, allele) %>%
       mutate(cancer_allele = paste(cancer, "-", allele)) %>%
       mutate(
         data = map2(cancer, allele, get_overlapped_df),

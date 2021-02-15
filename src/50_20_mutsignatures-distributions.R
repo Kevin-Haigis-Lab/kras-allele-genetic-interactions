@@ -297,15 +297,18 @@ mutsig_per_sample_plots <- mutsig_noartifact_df %>%
 saveFigRds(mutsig_per_sample_plots, "mutsig_per_sample_plots")
 
 
-cancer_samples_count_df <- cancer_full_muts_df %>%
-  filter(target %in% c("genome", "exome")) %>%
-  distinct(cancer, tumor_sample_barcode) %>%
-  count(cancer, name = "n_samples") %>%
-  mutate(
-    n_samples = scales::comma(n_samples),
-    cancer_label = as.character(glue("{cancer} (n={n_samples})"))
-  ) %>%
-  select(-n_samples)
+cache("mutsig_number_of_samples_labels", depends = c("mutsig_noartifact_df"), {
+  mutsig_number_of_samples_labels <- mutsig_noartifact_df %>%
+    distinct(cancer, tumor_sample_barcode) %>%
+    count(cancer, name = "n_samples") %>%
+    mutate(
+      n_samples = scales::comma(n_samples),
+      cancer_label = as.character(glue("{cancer} (n={n_samples})"))
+    ) %>%
+    select(-n_samples)
+  return(mutsig_number_of_samples_labels)
+})
+
 
 # Stacked bar-plot of mutational signatures per tumor sample barcode.
 # Facet by cancer.
@@ -325,7 +328,7 @@ mutsig_per_sample_plot <- mutsig_noartifact_df %>%
     )
   ) %>%
   unnest(data) %>%
-  left_join(cancer_samples_count_df, by = "cancer") %>%
+  left_join(mutsig_number_of_samples_labels, by = "cancer") %>%
   barplot_distribution_per_sample(title = NULL) +
   facet_wrap(~cancer_label, scales = "free", ncol = 1)
 
@@ -349,7 +352,7 @@ saveFigRds(mutsig_per_sample_plot, "signature-level-per-sample")
 #### ---- Boxplots of mutational signature levels ---- ####
 
 # Make boxplots of the signature levels in all samples.
-signature_distribution_boxplots <- function(tib) {
+signature_distribution_boxplots <- function(tib, facet_col = cancer) {
   p <- tib %>%
     mutate(
       description = factor(description,
@@ -357,7 +360,7 @@ signature_distribution_boxplots <- function(tib) {
       )
     ) %>%
     ggplot(aes(x = description, y = contribution)) +
-    facet_wrap(~cancer, scales = "free", ncol = 1) +
+    facet_wrap(vars({{ facet_col }}), scales = "free", ncol = 1) +
     geom_boxplot(
       aes(fill = description),
       outlier.shape = NA
@@ -382,7 +385,8 @@ sig_boxes_with0s <- mutsig_noartifact_df %>%
   summarise(contribution = sum(contribution)) %>%
   ungroup() %>%
   filter(contribution > 0) %>%
-  signature_distribution_boxplots()
+  left_join(mutsig_number_of_samples_labels, by = "cancer") %>%
+  signature_distribution_boxplots(facet_col = cancer_label)
 ggsave_wrapper(
   sig_boxes_with0s,
   plot_path(GRAPHS_DIR, "signature-level-boxplots_with0.svg"),
@@ -395,7 +399,8 @@ sig_boxes <- mutsig_noartifact_df %>%
   group_by(tumor_sample_barcode, cancer, description) %>%
   summarise(contribution = sum(contribution)) %>%
   ungroup() %>%
-  signature_distribution_boxplots()
+  left_join(mutsig_number_of_samples_labels, by = "cancer") %>%
+  signature_distribution_boxplots(facet_col = cancer_label)
 ggsave_wrapper(
   sig_boxes,
   plot_path(GRAPHS_DIR, "signature-level-boxplots.svg"),

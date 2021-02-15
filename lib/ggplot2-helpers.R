@@ -121,27 +121,6 @@ fix_axis_label <- function(x, pattern = "___") {
 
 
 
-
-#### ---- Saving a 'pheatmap' heatmap ---- ####
-
-#' Save a pheatmap object
-save_pheatmap_svg <- function(x, save_path, size = NA, width = NA, height = NA) {
-  size <- decide_size(size = size[[1]], width = width, height = height)
-  svg(save_path, width = size[[1]], height = size[[2]])
-  grid::grid.newpage()
-  grid::grid.draw(x$gtable)
-  dev.off()
-}
-
-save_pheatmap_pdf <- function(x, save_path, size = NA, width = NA, height = NA) {
-  size <- decide_size(size = size[[1]], width = width, height = height)
-  pdf(save_path, width = size[[1]], height = size[[2]])
-  grid::grid.newpage()
-  grid::grid.draw(x$gtable)
-  dev.off()
-}
-
-
 #### ---- Adjust colors ---- ####
 
 # Can probably replace these with functions from the 'colorizer' package

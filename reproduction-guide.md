@@ -15,12 +15,10 @@ wget https://github.com/jhrcook/comutation/archive/master.zip
 unzip -q master.zip
 ```
 
-
 ### 2. Acquire the raw data
 
 Unfortunately, due to data limits on GitHub, we are unable to upload the data with the source code.
 Please contact Kevin M. Haigis (corresponding author) at `kevin_haigis at dfci dot harvard dot edu` for the raw data.
-
 
 ### 3. Install software
 

@@ -1,4 +1,4 @@
-# Figure 034. #> BRIEF DESCRIPTION OF THE FIGURE.
+# Figure 034. Supplemental with gene-level allele-specific dep. for PAAD.
 
 FIGNUM <- 34
 
@@ -81,9 +81,10 @@ panel_B_plots <- as.list(rep(NA, length(panel_B_files)))
 names(panel_B_plots) <- panel_B_files
 for (f in panel_B_files) {
   panel_B_plots[[f]] <- read_fig_proto(f) +
+    scale_x_discrete(expand = expansion(mult = c(0.23, 0.23))) +
     theme_fig34(tag_margin = margin(0, 0, 0, -2, "mm")) %+replace%
     theme(
-      plot.title = element_text(size = 6, face = "bold"),
+      plot.title = element_text(size = 6, face = "italic"),
       axis.title.x = element_blank(),
       legend.position = "none",
       plot.margin = margin(0, 0, 3, 0, "mm")
@@ -100,7 +101,6 @@ panel_B[[1]] <- panel_B[[1]] + labs(tag = "b")
 
 
 #### ---- Figure assembly ---- ####
-
 
 {
   set.seed(0)

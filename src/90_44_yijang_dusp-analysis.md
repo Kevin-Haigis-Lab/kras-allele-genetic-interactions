@@ -1,6 +1,6 @@
 ---
 title: "*KRAS* comutation list and differential *DUSP* expression"
-output: 
+output:
   html_document:
     toc: true
     toc_depth: 3
@@ -24,7 +24,6 @@ output:
 
 Below is a list of the top comutating genes with *KRAS* in CRC.
 The last four columns have the number of tunor samples with the various combination of mutations; for example, `G mut & K WT` has the number of tumors with the other gene (`G`) mutated and *KRAS* (`K`) WT.
-
 
 ```r
 nonallele_specific_increased_comutation_df %.% {
@@ -66,7 +65,6 @@ The data used for this analysis was the RNA expression data from TCGA-COAD.
 This data set has RNA expression for 525 tumor samples.
 78 of these samples are hypermutants; these samples were removed from the analysis.
 
-
 ```r
 main_alleles <- c("WT", "KRAS_G12A", "KRAS_G12C", "KRAS_G12D", "KRAS_G12V", "KRAS_G13D")
 
@@ -89,7 +87,6 @@ dusp_rna_data$hugo_symbol <- factor(dusp_rna_data$hugo_symbol, levels = dusp_ord
 ```
 
 Below is a sample of the RNA expression data table.
-
 
 ```r
 dusp_rna_data %>%
@@ -155,7 +152,6 @@ dusp_rna_data %>%
 
 The number of tumor samples with missing data for each *DUSP* gene.
 
-
 ```r
 dusp_rna_data %>%
   filter(is.na(rna_expr)) %>%
@@ -185,7 +181,6 @@ dusp_rna_data %>%
 </table>
 
 The number of tumor samples with 0 RNA expression values for each *DUSP* gene.
-
 
 ```r
 dusp_rna_data %>%
@@ -227,13 +222,11 @@ dusp_rna_data %>%
 
 All negative RNA expression values were set to 0.
 
-
 ```r
 dusp_rna_data %<>% mutate(rna_expr = map_dbl(rna_expr, ~ max(0, .x)))
 ```
 
 ### Inspect the distribution of RNA expression values
-
 
 ```r
 dusp_rna_data %>%
@@ -255,12 +248,10 @@ dusp_rna_data %>%
 
 *DUSP13* and *DUSP21* were removed from the analysis because they were missing data and had very low expression levels.
 
-
 ```r
 IGNORE_DUSPS <- c("DUSP13", "DUSP21")
 dusp_rna_data %<>% filter(!hugo_symbol %in% IGNORE_DUSPS)
 ```
-
 
 ```r
 plot_dusp_distribtions <- function(df, x) {
@@ -285,7 +276,6 @@ plot_dusp_distribtions(dusp_rna_data, rna_expr) +
 
 ![](90_44_yijang_dusp-analysis_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
 
-
 ```r
 dusp_rna_data %>%
   mutate(rna_expr = log10(rna_expr + 1)) %>%
@@ -295,7 +285,6 @@ dusp_rna_data %>%
 
 ![](90_44_yijang_dusp-analysis_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
 
-
 ```r
 dusp_rna_data %>%
   mutate(rna_expr = sqrt(rna_expr)) %>%
@@ -304,8 +293,6 @@ dusp_rna_data %>%
 ```
 
 ![](90_44_yijang_dusp-analysis_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
-
-
 
 ```r
 dusp_rna_data %>%
@@ -317,7 +304,6 @@ dusp_rna_data %>%
 ```
 
 ![](90_44_yijang_dusp-analysis_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
-
 
 ```r
 dusp_rna_data %>%
@@ -333,7 +319,6 @@ dusp_rna_data %>%
 
 The $\log_{10}(\text{RNA} + 1)$, centralized, and scaled values will be used for the analysis.
 
-
 ```r
 dusp_rna_data %<>%
   mutate(log10_rna_expr = log10(rna_expr + 1)) %>%
@@ -343,7 +328,6 @@ dusp_rna_data %<>%
 ```
 
 ### Check for correlations in *DUSP* expression
-
 
 ```r
 dusp_corr <- dusp_rna_data %>%
@@ -374,9 +358,7 @@ corrr::network_plot(dusp_corr, min_cor = 0.3) +
 
 ![](90_44_yijang_dusp-analysis_files/figure-html/unnamed-chunk-15-2.png)<!-- -->
 
-
 ### Modeling
-
 
 ```r
 new_allele_order <- as.character(sort(unique(dusp_rna_data$allele)))
@@ -416,7 +398,6 @@ RNA_z \sim \mathcal{N}(\mu, \sigma) \\
 \sigma \sim \text{Exp}(1)
 $$
 
-
 ```r
 stash("lm_stan_hier", depends_on = "data", {
   lm_stan_hier <- stan_glmer(
@@ -436,7 +417,6 @@ stash("lm_stan_hier", depends_on = "data", {
 
 Trace plots for the global intercept and standard deviation $\sigma$.
 
-
 ```r
 mcmc_trace(lm_stan_hier, pars = "(Intercept)") /
   mcmc_trace(lm_stan_hier, pars = "sigma")
@@ -445,7 +425,6 @@ mcmc_trace(lm_stan_hier, pars = "(Intercept)") /
 ![](90_44_yijang_dusp-analysis_files/figure-html/unnamed-chunk-18-1.png)<!-- -->
 
 Trace plots for parameters for *DUSP1*.
-
 
 ```r
 mcmc_trace(lm_stan_hier, regex_pars = "DUSP1\\]") +
@@ -459,14 +438,12 @@ mcmc_trace(lm_stan_hier, regex_pars = "DUSP1\\]") +
 
 ![](90_44_yijang_dusp-analysis_files/figure-html/unnamed-chunk-19-1.png)<!-- -->
 
-
 ```r
 pp_check(lm_stan_hier, plotfun = "stat", stat = "mean") +
   ggtitle("Distrbition of error of the posterior predictions")
 ```
 
 ![](90_44_yijang_dusp-analysis_files/figure-html/unnamed-chunk-20-1.png)<!-- -->
-
 
 ```r
 pp_check(lm_stan_hier, plotfun = "stat_2d", stat = c("mean", "sd")) +
@@ -476,7 +453,6 @@ pp_check(lm_stan_hier, plotfun = "stat_2d", stat = c("mean", "sd")) +
 ![](90_44_yijang_dusp-analysis_files/figure-html/unnamed-chunk-21-1.png)<!-- -->
 
 The posterior distribution of the parameters of varying effects in the model.
-
 
 ```r
 lm_dusp_post <- as.data.frame(lm_stan_hier) %.% {
@@ -521,7 +497,6 @@ The following plot presents a summary of the distributions (the curves shown abo
 Each plot shows each *KRAS* allele's parameter for its association with *DUSP* expression.
 The point represents the median of the posterior and the bars represent the 50% and 89% highest density intervals (credible intervals).
 If all of these are outside of the region of practical equivalence (ROPE; the shaded region), we can say that we are confident that the real parameter value is non-zero and is of meaningful size (assuming the model design).
-
 
 ```r
 summarise_to_hdi <- function(df, value_col) {
@@ -591,7 +566,6 @@ The following table contains all of the data presented in the above plot:
 - [*ROPE*](https://easystats.github.io/bayestestR/articles/region_of_practical_equivalence.html): (region of practical equivalence); indicates how likely the parameter is of a meaningful size (magnitude)
 - *Rhat*, *ESS*: indicators of autocorrelation and effective sampling size by the MCMC
 
-
 ```r
 bayestestR::describe_posterior(lm_stan_hier, effects = "all") %>%
   arrange(Effects) %>%
@@ -616,7 +590,6 @@ bayestestR::describe_posterior(lm_stan_hier, effects = "all") %>%
 A useful check to make sure the model fit well is to have it make predictions for the RNA expression of each *DUSP* for each *KRAS* allele by sampling from the posterior distributions of the parameters and feeding them through the model's equation.
 The predicted distributions should resemble the real distributions.
 These look good to me.
-
 
 ```r
 pred_data <- data %>% distinct(hugo_symbol, allele)
@@ -649,7 +622,6 @@ lm_dusp_postpred <- lm_dusp_ppc_hpi %>%
   ) %>%
   ungroup()
 ```
-
 
 ```r
 lm_dusp_postpred %>%
@@ -684,7 +656,6 @@ The following analysis tries to identify an association between *DUSP* gene expr
 
 ### Data preparation
 
-
 ```r
 apc_dusp_rna_data <- coad_apc_mutations %>%
   group_by(tumor_sample_barcode) %>%
@@ -697,7 +668,6 @@ apc_dusp_rna_data <- coad_apc_mutations %>%
   right_join(dusp_rna_data, by = "tumor_sample_barcode") %>%
   mutate(is_apc_mut = ifelse(is.na(is_apc_mut), FALSE, is_apc_mut))
 ```
-
 
 ```r
 plot_count <- function(df, x, x_lbl, title, nudge_y = 0) {
@@ -747,7 +717,6 @@ apc_dusp_rna_data %.%
 
 ![](90_44_yijang_dusp-analysis_files/figure-html/unnamed-chunk-28-1.png)<!-- -->
 
-
 ```r
 apc_dusp_rna_data %.%
   {
@@ -765,7 +734,6 @@ apc_dusp_rna_data %.%
 ```
 
 ![](90_44_yijang_dusp-analysis_files/figure-html/unnamed-chunk-29-1.png)<!-- -->
-
 
 ```r
 apc_mut_pal <- c("TRUE" = "#1D71C9", "FALSE" = "#ED1442")
@@ -800,7 +768,6 @@ apc_dusp_rna_data %.%
 
 ![](90_44_yijang_dusp-analysis_files/figure-html/unnamed-chunk-30-1.png)<!-- -->
 
-
 ```r
 pos <- position_jitterdodge(
   jitter.width = 0.2, jitter.height = 0,
@@ -829,7 +796,6 @@ apc_dusp_rna_data %.%
 ```
 
 ![](90_44_yijang_dusp-analysis_files/figure-html/unnamed-chunk-31-1.png)<!-- -->
-
 
 ```r
 apc_dusp_rna_data %.%
@@ -863,7 +829,6 @@ From the above density plots, I think it would be best to only model a selection
 At the very least, the *DUSP*s with clear bi-modal distributions should be removed as they cannot be modeled as a Gaussian distribution.
 The following analysis will be conducted with only *DUSP4*, *DUSP6*, *DUSP9*, *DUSP15*, *DUSP19*, and *DUSP28*.
 
-
 ```r
 MODEL_DUSPS <- c("DUSP4", "DUSP6", "DUSP9", "DUSP15", "DUSP19", "DUSP28")
 
@@ -883,7 +848,7 @@ if (FALSE) {
 ```
 
 Below is the model that is fit to analyze the association of *APC* mutation with differential *DUSP* expression.
-It is a hierarchical model with a varying intercept and slope for each *DUSP*. 
+It is a hierarchical model with a varying intercept and slope for each *DUSP*.
 There is also a correlation term that is left out of the formula for simplicity.
 It measures the correlation between the varying intercepts and slopes.
 
@@ -893,9 +858,6 @@ RNA_z \sim \mathcal{N}(\mu, \sigma) \\
 \alpha \sim \mathcal{N}(0, 2) \quad \alpha_{DUSP} \sim \mathcal{N}(0, 2) \quad A_{DUSP} \sim \mathcal{N}(0, 2) \\
 \sigma \sim \text{Exp}(1)
 $$
-
-
-
 
 ```r
 stash("apc_lm_stan_hier", depends_on = "data", {
@@ -916,7 +878,6 @@ stash("apc_lm_stan_hier", depends_on = "data", {
 
 Trace plots for the global intercept and standard deviation $\sigma$.
 
-
 ```r
 mcmc_trace(apc_lm_stan_hier, pars = "(Intercept)") /
   mcmc_trace(apc_lm_stan_hier, pars = "sigma")
@@ -925,7 +886,6 @@ mcmc_trace(apc_lm_stan_hier, pars = "(Intercept)") /
 ![](90_44_yijang_dusp-analysis_files/figure-html/unnamed-chunk-35-1.png)<!-- -->
 
 Trace plots for parameters.
-
 
 ```r
 mcmc_trace(apc_lm_stan_hier) +
@@ -939,14 +899,12 @@ mcmc_trace(apc_lm_stan_hier) +
 
 ![](90_44_yijang_dusp-analysis_files/figure-html/unnamed-chunk-36-1.png)<!-- -->
 
-
 ```r
 pp_check(apc_lm_stan_hier, plotfun = "stat", stat = "mean") +
   ggtitle("Distrbition of error of the posterior predictions")
 ```
 
 ![](90_44_yijang_dusp-analysis_files/figure-html/unnamed-chunk-37-1.png)<!-- -->
-
 
 ```r
 pp_check(apc_lm_stan_hier, plotfun = "stat_2d", stat = c("mean", "sd")) +
@@ -955,11 +913,9 @@ pp_check(apc_lm_stan_hier, plotfun = "stat_2d", stat = c("mean", "sd")) +
 
 ![](90_44_yijang_dusp-analysis_files/figure-html/unnamed-chunk-38-1.png)<!-- -->
 
-
 ### Analysis of results
 
 Like above for the *KRAS* alleles, the posterior distributions of the parameters for *APC* mutation status are summarized below.
-
 
 ```r
 apc_lm_post <- as.data.frame(apc_lm_stan_hier) %.% {
@@ -1005,7 +961,6 @@ The strongest associations seems to be the reduced *DUSP4* expression and increa
 Recall that the expression of these two genes are [negatively correlated](#check-for-correlations-in-dusp-expression).
 The transformed expression of these genes for each tumor sample (each point) is plotted below and the tumors are colored by whether or not they have an *APC* mutation.
 There may be a trend here, but it appears to be slight.
-
 
 ```r
 plot_data <- apc_dusp_rna_data %.% {

@@ -88,7 +88,7 @@ results_df_mem_dict = {
 	'SKCM': 20000,
 }
 rule make_results_df:
-	input: 
+	input:
 		real_gr = data_dir + 'intermediate/{cancer}_bgr.rds'
 	output:
 		output_name = data_dir + 'intermediate/{cancer}_{which_test}_results_df.rds'

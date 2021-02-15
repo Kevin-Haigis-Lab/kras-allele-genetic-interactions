@@ -1117,7 +1117,30 @@ allele_prob_per_allele_summary <- allele_prob_per_allele_df %.% {
 }
 
 
-pos <- position_dodge(width = 0.7)
+pos_width <- 0.7
+pos <- position_dodge(width = pos_width)
+
+allele_prob_per_allele_plot_annotations <- allele_prob_per_allele_stats %.% {
+  filter(adj_p_value < 0.05)
+  left_join(
+    allele_prob_per_allele_summary %>%
+      filter(allele_group == "the *KRAS* allele") %>%
+      select(cancer, kras_allele, mean_ci_upper),
+    by = c("cancer", "kras_allele")
+  )
+  arrange(cancer, kras_allele, group1)
+  mutate(
+    p_value_label = format_pvalue_label(adj_p_value, prefix = ""),
+    p_x = c(5, 5, 2),
+    p_y = mean_ci_upper + c(0.05, 0.02, 0.02),
+    seg_x1 = p_x - 0.3 * pos_width,
+    seg_x2 = p_x + c(0.43, 0, 0.43) * pos_width,
+    seg_y2 = p_y - 0.007,
+    seg_y1 = seg_y2 - 0.004
+  )
+}
+
+segment_size <- 0.3
 
 allele_prob_per_allele_plot <- allele_prob_per_allele_summary %>%
   ggplot(aes(x = kras_allele, y = mean_prob)) +
@@ -1133,6 +1156,35 @@ allele_prob_per_allele_plot <- allele_prob_per_allele_summary %>%
     size = 1.3,
     position = pos,
     fill = "white"
+  ) +
+  geom_text(
+    data = allele_prob_per_allele_plot_annotations,
+    aes(x = p_x, y = p_y, label = p_value_label),
+    size = 1.6,
+    family = "Arial",
+    hjust = 0.5,
+    vjust = 0
+  ) +
+  geom_segment(
+    data = allele_prob_per_allele_plot_annotations,
+    aes(x = seg_x2, xend = seg_x2, y = seg_y1, yend = seg_y2),
+    size = segment_size,
+    color = "black",
+    lineend = "round"
+  ) +
+  geom_segment(
+    data = allele_prob_per_allele_plot_annotations,
+    aes(x = seg_x1, xend = seg_x1, y = seg_y1, yend = seg_y2),
+    size = segment_size,
+    color = "black",
+    lineend = "round"
+  ) +
+  geom_segment(
+    data = allele_prob_per_allele_plot_annotations,
+    aes(x = seg_x1, xend = seg_x2, y = seg_y2, yend = seg_y2),
+    size = segment_size,
+    color = "black",
+    lineend = "round"
   ) +
   scale_color_manual(
     values = point_pal,
@@ -1168,7 +1220,6 @@ ggsave_wrapper(
   "wide"
 )
 saveFigRds(allele_prob_per_allele_plot, "allele_prob_per_allele_plot")
-
 
 
 stats_stars_plot <- allele_prob_per_allele_stats %.%

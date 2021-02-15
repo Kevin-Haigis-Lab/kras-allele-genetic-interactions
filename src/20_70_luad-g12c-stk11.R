@@ -23,12 +23,6 @@ cancer_coding_av_muts_df %>%
 ccle_mutations %>%
   filter(hugo_symbol == "STK11" & protein_change == "p.D194Y")
 
-model1_tib %>%
-  filter(hugo_symbol == "STK11" & cancer == "LUAD") %>%
-  select(cancer, hugo_symbol, data) %>%
-  unnest(data) %>%
-  filter(dep_map_id == "ACH-000698")
-
 
 #### ---- Prepare STK11 mutation data ---- ####
 

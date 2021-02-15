@@ -114,5 +114,5 @@ test_that("Some small helper functions work.", {
 
 test_that("Citation functions work properly.", {
   expect_true(is.character(list_all_packages()))
-  expect_true(length(list_all_packages()) > 100)  # I have a lot of packages...
+  expect_true(length(list_all_packages()) > 100) # I have a lot of packages...
 })

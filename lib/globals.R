@@ -8,6 +8,31 @@ ProjectTemplate::add.config(
   apply.override = TRUE
 )
 
+#### ---- Packages used frequently ---- ####
+
+library(stats)
+library(org.Hs.eg.db)
+library(glue)
+library(conflicted)
+library(assertr)
+library(testthat)
+library(glmnet)
+library(parallel)
+library(caret)
+library(ggfortify)
+library(tidygraph)
+library(jhcutils)
+library(clisymbols)
+library(magrittr)
+library(nakedpipe)
+library(ggpubr)
+library(ggraph)
+library(ggtext)
+library(patchwork)
+library(ggplot2)
+library(broom)
+library(tidyverse)
+
 
 #### ---- Conflicts ---- ####
 # Declare which namespaces to use for conflicting functions.
@@ -24,4 +49,9 @@ conflict_prefer("which", "Matrix")
 
 
 #### ---- Options ---- ####
+
+# dplyr
 options(dplyr.summarise.inform = FALSE)
+
+## ggrepel
+options(ggrepel.max.overlaps = Inf)

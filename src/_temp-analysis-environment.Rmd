@@ -1,6 +1,6 @@
 ---
 title: "Temporary analysis R Markdown"
-output: 
+output:
   html_document:
     toc: true
     toc_depth: 2
@@ -273,10 +273,10 @@ data <- data %.% {
 ```{r}
 stash("lm_stan_hier", depends_on = "data", {
   lm_stan_hier <- stan_glmer(
-    log10_z_rna ~ 1 + (1 + allele | hugo_symbol), 
+    log10_z_rna ~ 1 + (1 + allele | hugo_symbol),
     data = data,
     prior = normal(location = 0, scale = 5),
-    prior_intercept = normal(location =0, scale = 2),
+    prior_intercept = normal(location = 0, scale = 2),
     prior_aux = exponential(rate = 1),
     prior_covariance = decov(regularization = 1, concentration = 1, shape = 1, scale = 1)
   )
@@ -284,7 +284,7 @@ stash("lm_stan_hier", depends_on = "data", {
 ```
 
 ```{r}
-mcmc_trace(lm_stan_hier, pars = "(Intercept)") / 
+mcmc_trace(lm_stan_hier, pars = "(Intercept)") /
   mcmc_trace(lm_stan_hier, pars = "sigma")
 mcmc_trace(lm_stan_hier, regex_pars = "DUSP1")
 ```
@@ -298,22 +298,21 @@ pp_check(lm_stan_hier, plotfun = "stat_2d", stat = c("mean", "sd"))
 ```
 
 ```{r}
-lm_dusp_post <- as.data.frame(lm_stan_hier) %.%
-  {
-    mutate(draw = row_number())
-    select(draw, `(Intercept)`, tidyselect::contains("DUSP"))
-    pivot_longer(
-      -c(draw, `(Intercept)`),
-      names_to = "parameter",
-      values_to = "value"
-    )
-    mutate(
-      parameter = str_remove_all(parameter, "[:punct:]"),
-      parameter = str_remove_all(parameter, "b|allele|hugosymbol|")
-    )
-    separate(parameter, c("allele", "dusp"), sep = " ")
-    mutate(allele = str_replace(allele, "Intercept", "WT"))
-  } 
+lm_dusp_post <- as.data.frame(lm_stan_hier) %.% {
+  mutate(draw = row_number())
+  select(draw, `(Intercept)`, tidyselect::contains("DUSP"))
+  pivot_longer(
+    -c(draw, `(Intercept)`),
+    names_to = "parameter",
+    values_to = "value"
+  )
+  mutate(
+    parameter = str_remove_all(parameter, "[:punct:]"),
+    parameter = str_remove_all(parameter, "b|allele|hugosymbol|")
+  )
+  separate(parameter, c("allele", "dusp"), sep = " ")
+  mutate(allele = str_replace(allele, "Intercept", "WT"))
+}
 
 lm_dusp_post %>%
   ggplot(aes(x = value)) +
@@ -354,29 +353,29 @@ lm_dusp_post %.%
     select(-hdi_50, -hdi_89)
   } %>%
   ggplot(aes(x = avg, y = allele, color = allele)) +
-  facet_wrap(~ dusp) +
+  facet_wrap(~dusp) +
   geom_rect(
-    xmin = -0.1, xmax = 0.1, ymin = Inf, ymax = -Inf, 
-    fill = "grey80", 
-    color = NA, 
+    xmin = -0.1, xmax = 0.1, ymin = Inf, ymax = -Inf,
+    fill = "grey80",
+    color = NA,
     alpha = 0.1
   ) +
-  geom_vline(xintercept = 0, color= "grey50") +
+  geom_vline(xintercept = 0, color = "grey50") +
   geom_point(size = 2) +
   geom_linerange(
-    aes(xmin = hdi_50_lower, xmax = hdi_50_upper), 
-    size = 1.2, 
+    aes(xmin = hdi_50_lower, xmax = hdi_50_upper),
+    size = 1.2,
     alpha = 0.8
   ) +
   geom_linerange(
-    aes(xmin = hdi_89_lower, xmax = hdi_89_upper), 
-    size = 0.9, 
+    aes(xmin = hdi_89_lower, xmax = hdi_89_upper),
+    size = 0.9,
     alpha = 0.5
   ) +
   scale_color_manual(values = short_allele_pal, drop = TRUE) +
   theme(legend.position = "none") +
   labs(
-    x = "posterior distributions", 
+    x = "posterior distributions",
     y = NULL
   )
 ```

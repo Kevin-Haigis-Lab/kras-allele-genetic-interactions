@@ -43,6 +43,11 @@ panel_A <- read_fig_proto("cancer_freq_kras_mut_column") +
   ) +
   labs(tag = "a")
 
+pull_original_plot_data(panel_A) %>%
+  select(-long_cancer) %>%
+  save_figure_source_data(figure = FIGNUM, panel = "a")
+
+
 
 #### ---- B. Distribution of KRAS alleles ---- ####
 # The distribution of KRAS alleles across cancers and codon.
@@ -62,12 +67,17 @@ panel_B <- read_fig_proto("allele_dist_dotplot") +
     legend.title = element_markdown(size = 6),
     legend.margin = margin(0, 0, 0, 0, "mm"),
     strip.background = element_blank(),
-    strip.text = element_text(size = 7, face = "bold", vjust = -1)
+    strip.text = element_text(size = 7, vjust = -1)
   ) +
   labs(
     tag = "b",
     size = "percent of<br>*KRAS* mutations"
   )
+
+pull_original_plot_data(panel_B) %>%
+  select(-long_cancer) %>%
+  mutate(codon = as.factor(codon)) %>%
+  save_figure_source_data(figure = FIGNUM, panel = "b")
 
 
 #### ---- C. Distirubiton of mutational signatures by allele ---- ####
@@ -91,12 +101,12 @@ style_mutsig_prob_barplots <- function(plt, i, tag = NULL, y = NULL) {
     ) +
     theme_fig42(tag_margin = margin(-1, -1, -1, -9, "mm")) +
     theme(
-      plot.title = element_text(vjust = 0.5, size = 7, face = "bold"),
+      plot.title = element_text(vjust = 0.5, size = 7),
       plot.margin = margin(1, 1, 1, 1, "mm"),
       axis.title.x = element_blank(),
       axis.text.x = element_text(size = 6),
       legend.position = "none",
-      legend.title = element_text(size = 6, face = "bold"),
+      legend.title = element_text(size = 6),
       legend.text = element_text(size = 6),
       legend.key.size = unit(3, "mm"),
       legend.spacing.x = unit(1, "mm"),
@@ -114,8 +124,9 @@ style_mutsig_prob_barplots <- function(plt, i, tag = NULL, y = NULL) {
   return(themed_plt)
 }
 
+cancers <- c("COAD", "LUAD", "MM", "PAAD")
 panel_C_plots <- paste0(
-  c("COAD", "LUAD", "MM", "PAAD"),
+  cancers,
   "_mutational-signatures-distribution-by-allele"
 )
 
@@ -126,6 +137,10 @@ panel_C <- lapply(panel_C_plots, read_fig_proto) %>%
     y = "avg. signature composition"
   ) %>%
   wrap_plots(nrow = 1, widths = mutsig_barplot_widths)
+
+pull_wrapped_plot_data(panel_C, cancer, cancers) %>%
+  relocate(cancer, everything()) %>%
+  save_figure_source_data(figure = FIGNUM, panel = "c")
 
 
 #### ---- D. Mutational signatures probability of causing KRAS allele ---- ####
@@ -182,7 +197,7 @@ panel_D_legend <- custom_label_legend_plot(
   theme(
     legend.position = "none",
     plot.margin = margin(-10, 0, 0, 0, "mm"),
-    axis.text.y = element_text(size = 6, face = "bold", family = "Arial")
+    axis.text.y = element_text(size = 6, family = "Arial")
   )
 
 
@@ -204,10 +219,14 @@ panel_D_legend_etiology <- signatures_label_df %>%
   theme(
     legend.position = "none",
     plot.margin = margin(0, 0, -5, 0, "mm"),
-    axis.text.y = element_text(size = 6, face = "bold", family = "Arial")
+    axis.text.y = element_text(size = 6, family = "Arial")
   )
 
 panel_D <- wrap_plots(panel_D, nrow = 1, widths = mutsig_barplot_widths)
+
+pull_wrapped_plot_data(panel_D, cancer, cancers) %>%
+  relocate(cancer, everything()) %>%
+  save_figure_source_data(figure = FIGNUM, panel = "d")
 
 
 #### ---- Figure assembly ---- ####

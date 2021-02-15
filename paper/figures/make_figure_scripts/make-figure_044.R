@@ -37,7 +37,7 @@ panel_A_guide_legend <- function(order) {
     title.position = "top",
     title.theme = element_markdown(
       hjust = 0.5,
-      face = "bold",
+      face = "plain",
       size = 6,
       family = "Arial"
     ),
@@ -105,7 +105,7 @@ panel_A_proto_list <- imap(panel_A_plots, function(x, idx) {
 panel_A <- wrap_plots(panel_A_proto_list, nrow = 2, guides = "collect") &
   theme_fig44() %+replace%
     theme(
-      plot.title = element_text(size = 7, vjust = 2, face = "bold"),
+      plot.title = element_text(size = 7, vjust = 2),
       plot.subtitle = element_markdown(hjust = 0, vjust = 0.3),
       legend.position = "right",
       legend.text = element_text(size = 6, hjust = 0.5, vjust = 0.5),

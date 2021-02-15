@@ -11,34 +11,34 @@ Model Info:
 
 Estimates:
                                     mean   sd   10%   50%   90%
-(Intercept)                        2.0    0.1  1.9   2.0   2.0 
-grpKRAS_mutant                    -0.9    0.1 -1.0  -0.9  -0.8 
-grpA59_mutant                     -0.5    0.9 -1.6  -0.6   0.6 
-is_hypermutantTRUE                 2.0    0.3  1.5   2.0   2.4 
-grpKRAS_mutant:is_hypermutantTRUE -0.8    0.4 -1.3  -0.8  -0.3 
-grpA59_mutant:is_hypermutantTRUE   1.9    2.2 -0.8   1.7   4.9 
+(Intercept)                        2.0    0.1  1.9   2.0   2.0
+grpKRAS_mutant                    -0.9    0.1 -1.0  -0.9  -0.8
+grpA59_mutant                     -0.5    0.9 -1.6  -0.6   0.6
+is_hypermutantTRUE                 2.0    0.3  1.5   2.0   2.4
+grpKRAS_mutant:is_hypermutantTRUE -0.8    0.4 -1.3  -0.8  -0.3
+grpA59_mutant:is_hypermutantTRUE   1.9    2.2 -0.8   1.7   4.9
 
 Fit Diagnostics:
            mean   sd   10%   50%   90%
-mean_PPD 0.8    0.0  0.8   0.8   0.8  
+mean_PPD 0.8    0.0  0.8   0.8   0.8
 
 The mean_ppd is the sample average posterior predictive distribution of the outcome variable (for details see help('summary.stanreg')).
 
 MCMC diagnostics
                                   mcse Rhat n_eff
-(Intercept)                       0.0  1.0  3876 
-grpKRAS_mutant                    0.0  1.0  3233 
-grpA59_mutant                     0.0  1.0  3733 
-is_hypermutantTRUE                0.0  1.0  2466 
-grpKRAS_mutant:is_hypermutantTRUE 0.0  1.0  2452 
-grpA59_mutant:is_hypermutantTRUE  0.0  1.0  2730 
-mean_PPD                          0.0  1.0  4326 
-log-posterior                     0.0  1.0  1815 
+(Intercept)                       0.0  1.0  3876
+grpKRAS_mutant                    0.0  1.0  3233
+grpA59_mutant                     0.0  1.0  3733
+is_hypermutantTRUE                0.0  1.0  2466
+grpKRAS_mutant:is_hypermutantTRUE 0.0  1.0  2452
+grpA59_mutant:is_hypermutantTRUE  0.0  1.0  2730
+mean_PPD                          0.0  1.0  4326
+log-posterior                     0.0  1.0  1815
 
 For each parameter, mcse is Monte Carlo standard error, n_eff is a crude measure of effective sample size, and Rhat is the potential scale reduction factor on split chains (at convergence Rhat=1).
 
 
--------------------------------------------------------------------------------- 
+--------------------------------------------------------------------------------
 
 
 # Description of Posterior Distributions
@@ -54,7 +54,7 @@ grpA59_mutant:is_hypermutantTRUE  |  1.698 | 89 | -1.682 |   5.109 | 0.791 |    
 
 
 
--------------------------------------------------------------------------------- 
+--------------------------------------------------------------------------------
 
 
 # Highest Density Interval
@@ -70,7 +70,7 @@ grpA59_mutant:is_hypermutantTRUE  | [-1.68,  5.11]
 
 
 
--------------------------------------------------------------------------------- 
+--------------------------------------------------------------------------------
 
 
 # Bayes Factor (Savage-Dickey density ratio)
@@ -87,6 +87,4 @@ grpA59_mutant:is_hypermutantTRUE  |     0.93
 * Evidence Against The Null: [0]
 
 
--------------------------------------------------------------------------------- 
-
-
+--------------------------------------------------------------------------------

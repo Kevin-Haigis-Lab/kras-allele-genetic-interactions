@@ -31,16 +31,28 @@
 # label_color, label_alpha, label_size, fontface, family: The `color`, `alpha`,
 #   `size`, `fontface`, and `family` passed to `annotate("text")` for the
 #   labels.
-stats_boxplot <- function(df, stats_df = NULL,
-                          box_color = NULL, box_fill = NULL,
-                          box_alpha = 0.6, point_alpha = 0.9,
-                          point_shape = NULL, point_size = 1,
-                          jitter_width = NULL, jitter_height = NULL,
-                          up_spacing = 0.1, dn_spacing = up_spacing,
-                          bar_color = "black", bar_alpha = 1.0,
-                          bar_size = 0.7, label_color = "black",
+stats_boxplot <- function(df,
+                          stats_df = NULL,
+                          box_color = NULL,
+                          box_fill = NULL,
+                          box_alpha = 0.6,
+                          box_size = 1,
+                          point_alpha = 0.9,
+                          point_shape = NULL,
+                          point_size = 1,
+                          jitter_width = NULL,
+                          jitter_height = 0,
+                          up_spacing = 0.1,
+                          dn_spacing = up_spacing,
+                          bar_color = "black",
+                          bar_alpha = 1.0,
+                          bar_size = 0.7,
+                          label_color = "black",
                           label_alpha = 1.0,
-                          label_size = 8, fontface = "plain",
+                          label_size = 8,
+                          label_hjust = 0.5,
+                          label_vjust = 0.5,
+                          fontface = "plain",
                           family = "Arial") {
   check_data(df)
 
@@ -54,22 +66,18 @@ stats_boxplot <- function(df, stats_df = NULL,
     )
   }
 
-  bp <- ggplot(df, aes(x = x, y = y)) +
-    geom_boxplot(
-      aes(
-        color = !!rlang::enquo(box_color),
-        fill = !!rlang::enquo(box_fill)
-      ),
-      alpha = box_alpha, outlier.shape = NA
-    ) +
-    geom_jitter(
-      aes(
-        color = !!rlang::enquo(box_color),
-        fill = !!rlang::enquo(box_fill)
-      ),
-      alpha = point_alpha, size = point_size,
-      width = jitter_width, height = jitter_height
-    )
+  bp <- stats_boxplot_boxplot(
+    df = df,
+    box_color = box_color,
+    box_fill = box_fill,
+    box_alpha = box_alpha,
+    box_size = box_size,
+    point_alpha = point_alpha,
+    point_shape = point_shape,
+    point_size = point_size,
+    jitter_width = jitter_width,
+    jitter_height = jitter_height
+  )
 
   bp <- add_stats_comparisons(bp, df, stats_df,
     up_spacing = up_spacing,
@@ -80,10 +88,47 @@ stats_boxplot <- function(df, stats_df = NULL,
     label_color = label_color,
     label_alpha = label_alpha,
     label_size = label_size,
+    label_hjust = label_hjust,
+    label_vjust = label_vjust,
     fontface = fontface,
     family = family
   )
   return(bp)
+}
+
+
+stats_boxplot_boxplot <- function(df,
+                                  box_color = NULL,
+                                  box_fill = NULL,
+                                  box_alpha = 0.6,
+                                  box_size = 1,
+                                  point_alpha = 0.9,
+                                  point_shape = NULL,
+                                  point_size = 1,
+                                  jitter_width = 0.25,
+                                  jitter_height = 0) {
+  check_data(df)
+
+  ggplot(df, aes(x = x, y = y)) +
+    geom_boxplot(
+      aes(
+        color = {{ box_color }},
+        fill = {{ box_fill }}
+      ),
+      size = box_size,
+      alpha = box_alpha,
+      outlier.shape = NA
+    ) +
+    geom_jitter(
+      aes(
+        color = {{ box_color }},
+        fill = {{ box_fill }}
+      ),
+      alpha = point_alpha,
+      size = point_size,
+      width = jitter_width,
+      height = jitter_height
+    )
 }
 
 
@@ -220,12 +265,20 @@ move_b1_above_b2 <- function(b1, b2, buffer = 1e-4) {
 # Add the statistical comparison bars in `stats_df$bar` to the 'ggplot2'
 # box-plot `bp`.
 # See `stats_boxplot()` for information on the arguments.
-add_stats_comparisons <- function(bp, df, stats_df,
-                                  up_spacing = 0.1, dn_spacing = up_spacing,
-                                  bar_color = "black", bar_alpha = 1.0,
-                                  bar_size = 0.7, label_color = "black",
+add_stats_comparisons <- function(bp,
+                                  df,
+                                  stats_df,
+                                  up_spacing = 0.1,
+                                  dn_spacing = up_spacing,
+                                  bar_color = "black",
+                                  bar_alpha = 1.0,
+                                  bar_size = 0.7,
+                                  label_color = "black",
                                   label_alpha = 1.0,
-                                  label_size = 8, fontface = "plain",
+                                  label_size = 8,
+                                  label_hjust = 0.5,
+                                  label_vjust = 0.5,
+                                  fontface = "plain",
                                   family = "Arial") {
   stats_df %<>% arrange(x1, x2, label) %>%
     add_column(bar = NA) %>%
@@ -244,10 +297,16 @@ add_stats_comparisons <- function(bp, df, stats_df,
       color = bar_color, alpha = bar_alpha,
       size = bar_size
     )
-    bp <- add_labels_to_plot(bp, stats_df,
+    bp <- add_labels_to_plot(
+      bp,
+      stats_df,
       row = i,
-      color = label_color, alpha = label_alpha,
-      size = label_size, fontface = fontface,
+      color = label_color,
+      alpha = label_alpha,
+      size = label_size,
+      fontface = fontface,
+      hjust = label_hjust,
+      vjust = label_vjust,
       family = family
     )
   }
@@ -297,9 +356,16 @@ add_bar_to_plot <- function(p, stats_df, row,
 # Statistical significance labels are added to the plot. The bar should be in
 # row `row` of data frame `stats_df`. The arguments `color`, `alpha`, `size`,
 # `fontface`, and `family` are passed to `ggplot2::annotate("text")`.
-add_labels_to_plot <- function(p, stats_df, row,
-                               color = "black", alpha = 1.0, size = 8,
-                               fontface = "plain", family = "Arial") {
+add_labels_to_plot <- function(p,
+                               stats_df,
+                               row,
+                               color = "black",
+                               alpha = 1.0,
+                               size = 8,
+                               hjust = 0.5,
+                               vjust = 0.5,
+                               fontface = "plain",
+                               family = "Arial") {
   from <- stats_df$x1_num[[row]]
   to <- stats_df$x2_num[[row]]
   mid <- mean(c(from, to))
@@ -311,10 +377,18 @@ add_labels_to_plot <- function(p, stats_df, row,
   }
 
   p <- p +
-    annotate("text",
-      x = mid, y = bar$y, label = lbl,
-      colour = color, alpha = alpha, size = size,
-      fontface = fontface, family = family
+    annotate(
+      "text",
+      x = mid,
+      y = bar$y,
+      label = lbl,
+      colour = color,
+      alpha = alpha,
+      size = size,
+      hjust = hjust,
+      vjust = vjust,
+      fontface = fontface,
+      family = family
     )
   return(p)
 }
@@ -392,4 +466,13 @@ find_optimal_bar_position <- function(b, current_bs) {
   }
 
   return(b)
+}
+
+
+format_pvalue_label <- function(x, add_p = TRUE) {
+  ifelse(
+    x >= 0.01,
+    scales::pvalue(x, accuracy = 0.001, add_p = add_p),
+    scales::scientific(x, digits = 2, prefix = ifelse(add_p, "p=", ""))
+  )
 }

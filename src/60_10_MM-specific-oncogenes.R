@@ -21,6 +21,12 @@ mm_mut_df <- cancer_coding_muts_df %>%
   filter(hugo_symbol %in% !!mm_oncogenes) %>%
   mutate(allele = str_remove_all(ras_allele, "KRAS_"))
 
+num_mm_tumor_samples <- cancer_coding_muts_df %>%
+  filter(cancer == "MM") %>%
+  pull(tumor_sample_barcode) %>%
+  n_distinct()
+print(glue("number of MM tumor samples: {num_mm_tumor_samples}"))
+
 # Number of samples per KRAS allele.
 cancer_allele_count_df <- cancer_coding_muts_df %>%
   filter(cancer == "MM") %>%

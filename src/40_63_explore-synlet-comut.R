@@ -6,7 +6,7 @@ reset_graph_directory(GRAPHS_DIR)
 
 set.seed(0)
 
-srouce(file.path("src", "40_62_genes-for-synlet-comut.R"))
+ssrc(40, 62)
 
 
 #### ---- MASKING ---- ####
@@ -21,6 +21,7 @@ make_mask_coef_plot <- function(cancer, allele, hugo_symbol, fit, ...) {
   p <- broom::tidy(fit$elastic_model) %>%
     filter(term != "(Intercept)") %>%
     mutate(
+      term = italicize_genes_in_terms(term),
       term = str_replace(term, "kras_allele", !!allele),
       term = str_replace(term, ":", " & "),
       term = fct_reorder(term, estimate)
@@ -28,11 +29,17 @@ make_mask_coef_plot <- function(cancer, allele, hugo_symbol, fit, ...) {
     ggplot(aes(x = estimate, y = term)) +
     geom_vline(xintercept = 0, lty = 2, size = 0.5, color = "grey25") +
     geom_segment(aes(yend = term, color = estimate), xend = 0, size = 1) +
-    geom_label(aes(label = term, fill = estimate),
-      family = "Arial", size = 2.2,
-      label.padding = unit(0.4, "mm"),
+    ggtext::geom_richtext(
+      aes(label = term, fill = estimate),
+      family = "Arial",
+      size = 2.2,
+      label.padding = unit(c(0.4, 0.4, 0.2, 0.4), "mm"),
       label.r = unit(0.4, "mm"),
-      color = "black", label.size = 0
+      color = "black",
+      label.size = 0,
+      lineheight = 0,
+      vjust = 0.5,
+      hjust = 0.5,
     ) +
     scale_color_gradient2(
       high = pastel_red,
@@ -73,14 +80,20 @@ make_mask_line_plot <- function(cancer, allele, hugo_symbol, fit, other_gene,
   p_data <- fit$data %>%
     rename(other_gene_col = !!other_gene) %>%
     filter(xor(kras_allele == 1, other_gene_col == 1)) %>%
-    mutate(mutation = case_when(
-      kras_allele == 1 ~ "G12D",
-      other_gene_col == 1 ~ !!other_gene
-    )) %>%
-    mutate(mutation = fct_rev(factor(mutation)))
+    mutate(
+      mutation = case_when(
+        kras_allele == 1 ~ !!allele,
+        other_gene_col == 1 ~ !!other_gene,
+      ),
+      mutation = fct_rev(factor(mutation)),
+      label = case_when(
+        kras_allele == 1 ~ !!allele,
+        other_gene_col == 1 ~ paste0("*", !!other_gene, "*")
+      )
+    )
 
   p <- p_data %>%
-    ggplot(aes(x = mutation, y = gene_effect, color = mutation))
+    ggplot(aes(x = label, y = gene_effect, color = mutation))
 
   if (0 < max(p_data$gene_effect) & 0 > min(p_data$gene_effect)) {
     p <- p +
@@ -96,7 +109,8 @@ make_mask_line_plot <- function(cancer, allele, hugo_symbol, fit, other_gene,
     theme(
       legend.position = "none",
       axis.title.y = element_markdown(),
-      axis.title.x = element_blank()
+      axis.title.x = element_blank(),
+      axis.text.x = element_markdown()
     ) +
     labs(y = glue("dependency score of *{hugo_symbol}*"))
 
@@ -139,7 +153,6 @@ synlet_comut_model_res %>%
 ################################################################################
 ################################################################################
 
-
 # A standard coefficient plot for the additive group of models.
 make_additive_coef_plot <- function(cancer, allele, hugo_symbol, fit, coeffs,
                                     ...) {
@@ -153,6 +166,7 @@ make_additive_coef_plot <- function(cancer, allele, hugo_symbol, fit, coeffs,
     filter(term != "(Intercept)") %>%
     filter(term %in% !!coeffs) %>%
     mutate(
+      term = italicize_genes_in_terms(term),
       term = str_replace(term, "kras_allele", !!allele),
       term = str_replace(term, ":", " & "),
       term = fct_reorder(term, estimate)
@@ -160,11 +174,17 @@ make_additive_coef_plot <- function(cancer, allele, hugo_symbol, fit, coeffs,
     ggplot(aes(x = estimate, y = term)) +
     geom_vline(xintercept = 0, lty = 2, size = 0.5, color = "grey25") +
     geom_segment(aes(yend = term, color = estimate), xend = 0, size = 1) +
-    geom_label(aes(label = term, fill = estimate),
-      family = "Arial", size = 2.2,
-      label.padding = unit(0.8, "mm"),
+    ggtext::geom_richtext(
+      aes(label = term, fill = estimate),
+      family = "Arial",
+      size = 2.2,
+      label.padding = unit(c(0.8, 0.8, 0.4, 0.8), "mm"),
       label.r = unit(0.4, "mm"),
-      color = "black", label.size = 0
+      color = "black",
+      lineheight = 0,
+      vjust = 0.5,
+      hjust = 0.5,
+      label.size = 0
     ) +
     scale_color_gradient2(
       high = pastel_red,
@@ -196,7 +216,6 @@ make_additive_coef_plot <- function(cancer, allele, hugo_symbol, fit, coeffs,
   )
   return(p)
 }
-
 
 # A collection of standard value for the plots for additive models.
 stds <- list(
@@ -690,25 +709,32 @@ masking_comut_graph <- function(cancer, allele, gene) {
     ) %N>%
     mutate(name = str_remove(name, "KRAS_")) %>%
     filter(name %in% c(allele, gene)) %>%
-    mutate(node_text_color = ifelse(name %in% kras_dark_lbls,
-      "white", "black"
-    ))
+    mutate(
+      node_text_color = ifelse(
+        name %in% kras_dark_lbls,
+        "white",
+        "black"
+      ),
+      node_fontface = ifelse(name == !!allele, "plain", "italic")
+    )
 
   comut_gr_layout <- create_layout(comut_gr, layout = "nicely")
   comut_gr_layout$x <- c(2, 1)
   comut_gr_layout$y <- rep(0, 2)
   comut_plot <- ggraph(comut_gr_layout) +
-    geom_edge_link(aes(
-      color = genetic_interaction,
-      label = edge_label
-    ),
-    vjust = stds$gr_edge$vjust,
-    label_size = stds$gr_edge$label_size,
-    family = "Arial",
-    width = stds$gr_edge$width,
-    lineheight = stds$gr_edge$lineheight
+    geom_edge_link(
+      aes(
+        color = genetic_interaction,
+        label = edge_label
+      ),
+      vjust = stds$gr_edge$vjust,
+      label_size = stds$gr_edge$label_size,
+      family = "Arial",
+      width = stds$gr_edge$width,
+      lineheight = stds$gr_edge$lineheight
     ) +
-    geom_node_label(aes(label = name, fill = name, color = node_text_color),
+    geom_node_label(
+      aes(label = name, fill = name, color = node_text_color, fontface = node_fontface),
       family = "Arial",
       size = stds$gr_node$size,
       label.padding = stds$gr_node$label.padding,
@@ -729,8 +755,12 @@ masking_comut_graph <- function(cancer, allele, gene) {
   return(comut_plot)
 }
 
-coad_tp53_comut_graph <- masking_comut_graph("COAD", "G12D", "TP53")
-paad_smad4_comut_graph <- masking_comut_graph("PAAD", "G12D", "SMAD4")
 
-saveFigRds(coad_tp53_comut_graph, "COAD_G12D_TP53_comut-graph-plot.rds")
-saveFigRds(paad_smad4_comut_graph, "PAAD_G12D_SMAD4_comut-graph-plot.rds")
+saveFigRds(
+  masking_comut_graph("COAD", "G12D", "TP53"),
+  "COAD_G12D_TP53_comut-graph-plot.rds"
+)
+saveFigRds(
+  masking_comut_graph("PAAD", "G12D", "SMAD4"),
+  "PAAD_G12D_SMAD4_comut-graph-plot.rds"
+)

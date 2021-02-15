@@ -1,4 +1,4 @@
-MM - KRAS Q61L - comutation with NRAS 
+MM - KRAS Q61L - comutation with NRAS
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE     545   545     545    114 1744.985
 krasallele=FALSE, comutation=TRUE      171   171     171     29 1831.916
@@ -7,14 +7,14 @@ krasallele=TRUE, comutation=FALSE       10    10      10      0 2207.000
 krasallele=FALSE, comutation=FALSE   39.14001   2207      NA      NA
 krasallele=FALSE, comutation=TRUE    62.13518     NA      NA      NA
 krasallele=TRUE, comutation=FALSE     0.00000     NA      NA      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 726, number of events= 143 
+  n= 726, number of events= 143
 
                      coef  exp(coef)   se(coef)      z Pr(>|z|)
 krasalleleTRUE -1.631e+01  8.271e-08  2.015e+03 -0.008    0.994
@@ -30,7 +30,6 @@ Wald test            = 1.23  on 2 df,   p=0.5
 Score (logrank) test = 3.93  on 2 df,   p=0.1
 
 
-Likelihood ratio test p-value: 0.0408391 
-Wald test p-value: 0.5416966 
-================================================================================ 
-
+Likelihood ratio test p-value: 0.0408391
+Wald test p-value: 0.5416966
+================================================================================

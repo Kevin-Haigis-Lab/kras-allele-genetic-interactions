@@ -1,23 +1,22 @@
-COAD - G13D vs. the rest 
+COAD - G13D vs. the rest
                      records n.max n.start events   *rmean *se(rmean)   median
 kras_allele_grp=G13D      36    36      36     10 96.22227  12.715593       NA
 kras_allele_grp=rest     487   487     487    100 86.83267   5.079933 81.36897
                       0.95LCL 0.95UCL
 kras_allele_grp=G13D 24.42713      NA
 kras_allele_grp=rest 61.84042      NA
-================================================================================ 
+================================================================================
 
-COAD - G13D vs. the rest 
+COAD - G13D vs. the rest
 Call:
-survdiff(formula = Surv(time = time, event = status) ~ kras_allele_grp, 
+survdiff(formula = Surv(time = time, event = status) ~ kras_allele_grp,
     data = data)
 
                        N Observed Expected (O-E)^2/E (O-E)^2/V
 kras_allele_grp=G13D  36       10     7.12    1.1633      1.25
 kras_allele_grp=rest 487      100   102.88    0.0805      1.25
 
- Chisq= 1.2  on 1 degrees of freedom, p= 0.3 
+ Chisq= 1.2  on 1 degrees of freedom, p= 0.3
 
-p-value: 0.2642299 
-================================================================================ 
-
+p-value: 0.2642299
+================================================================================

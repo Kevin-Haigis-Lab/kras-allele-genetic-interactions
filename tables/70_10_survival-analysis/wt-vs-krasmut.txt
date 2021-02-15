@@ -1,32 +1,32 @@
-COAD KRAS WT vs. mutant 
+COAD KRAS WT vs. mutant
                     records n.max n.start events   *rmean *se(rmean)   median
 kras_allele_grp=mut     209   209     209     45 96.53820   6.558893       NA
 kras_allele_grp=WT      314   314     314     65 77.64355   6.386082 65.85133
                      0.95LCL 0.95UCL
 kras_allele_grp=mut 92.74419      NA
 kras_allele_grp=WT  51.48437      NA
-================================================================================ 
+================================================================================
 
-COAD KRAS WT vs. mutant 
+COAD KRAS WT vs. mutant
 Call:
-survdiff(formula = Surv(time = time, event = status) ~ kras_allele_grp, 
+survdiff(formula = Surv(time = time, event = status) ~ kras_allele_grp,
     data = data)
 
                       N Observed Expected (O-E)^2/E (O-E)^2/V
 kras_allele_grp=mut 209       45     47.3    0.1083     0.192
 kras_allele_grp=WT  314       65     62.7    0.0816     0.192
 
- Chisq= 0.2  on 1 degrees of freedom, p= 0.7 
+ Chisq= 0.2  on 1 degrees of freedom, p= 0.7
 
-p-value: 0.6616362 
-================================================================================ 
+p-value: 0.6616362
+================================================================================
 
-COAD KRAS WT vs. mutant 
+COAD KRAS WT vs. mutant
 Call:
-coxph(formula = Surv(time = time, event = status) ~ kras_allele_grp, 
+coxph(formula = Surv(time = time, event = status) ~ kras_allele_grp,
     data = data)
 
-  n= 523, number of events= 110 
+  n= 523, number of events= 110
 
                      coef exp(coef) se(coef)     z Pr(>|z|)
 kras_allele_grpWT 0.08521   1.08895  0.19468 0.438    0.662
@@ -40,39 +40,39 @@ Wald test            = 0.19  on 1 df,   p=0.7
 Score (logrank) test = 0.19  on 1 df,   p=0.7
 
 
-Likelihood ratio test p-value: 0.6608318 
-Wald test p-value: 0.6616018 
-================================================================================ 
+Likelihood ratio test p-value: 0.6608318
+Wald test p-value: 0.6616018
+================================================================================
 
-LUAD KRAS WT vs. mutant 
+LUAD KRAS WT vs. mutant
                     records n.max n.start events   *rmean *se(rmean)   median
 kras_allele_grp=mut     149   149     149     54 96.20132  14.567569 54.34461
 kras_allele_grp=WT      350   350     350    125 88.76728   8.834614 49.05152
                      0.95LCL  0.95UCL
 kras_allele_grp=mut 39.35299       NA
 kras_allele_grp=WT  41.58859 58.84867
-================================================================================ 
+================================================================================
 
-LUAD KRAS WT vs. mutant 
+LUAD KRAS WT vs. mutant
 Call:
-survdiff(formula = Surv(time = time, event = status) ~ kras_allele_grp, 
+survdiff(formula = Surv(time = time, event = status) ~ kras_allele_grp,
     data = data)
 
                       N Observed Expected (O-E)^2/E (O-E)^2/V
 kras_allele_grp=mut 149       54     47.8     0.815      1.12
 kras_allele_grp=WT  350      125    131.2     0.297      1.12
 
- Chisq= 1.1  on 1 degrees of freedom, p= 0.3 
+ Chisq= 1.1  on 1 degrees of freedom, p= 0.3
 
-p-value: 0.2902685 
-================================================================================ 
+p-value: 0.2902685
+================================================================================
 
-LUAD KRAS WT vs. mutant 
+LUAD KRAS WT vs. mutant
 Call:
-coxph(formula = Surv(time = time, event = status) ~ kras_allele_grp, 
+coxph(formula = Surv(time = time, event = status) ~ kras_allele_grp,
     data = data)
 
-  n= 499, number of events= 179 
+  n= 499, number of events= 179
 
                      coef exp(coef) se(coef)      z Pr(>|z|)
 kras_allele_grpWT -0.1726    0.8415   0.1633 -1.057    0.291
@@ -86,41 +86,41 @@ Wald test            = 1.12  on 1 df,   p=0.3
 Score (logrank) test = 1.12  on 1 df,   p=0.3
 
 
-Likelihood ratio test p-value: 0.2962746 
-Wald test p-value: 0.2906136 
-================================================================================ 
+Likelihood ratio test p-value: 0.2962746
+Wald test p-value: 0.2906136
+================================================================================
 
-MM KRAS WT vs. mutant 
+MM KRAS WT vs. mutant
                     records n.max n.start events  *rmean *se(rmean) median
 kras_allele_grp=mut     214   214     214     59 1636.33   67.63748   1777
 kras_allele_grp=WT      717   717     717    144 1764.14   33.12791   2207
                     0.95LCL 0.95UCL
 kras_allele_grp=mut    1666      NA
 kras_allele_grp=WT       NA      NA
-================================================================================ 
+================================================================================
 
-MM KRAS WT vs. mutant 
+MM KRAS WT vs. mutant
 Call:
-survdiff(formula = Surv(time = time, event = status) ~ kras_allele_grp, 
+survdiff(formula = Surv(time = time, event = status) ~ kras_allele_grp,
     data = data)
 
                       N Observed Expected (O-E)^2/E (O-E)^2/V
 kras_allele_grp=mut 214       59     47.4     2.832      3.72
 kras_allele_grp=WT  717      144    155.6     0.863      3.72
 
- Chisq= 3.7  on 1 degrees of freedom, p= 0.05 
+ Chisq= 3.7  on 1 degrees of freedom, p= 0.05
 
-p-value: 0.0538895 
-================================================================================ 
+p-value: 0.0538895
+================================================================================
 
-MM KRAS WT vs. mutant 
+MM KRAS WT vs. mutant
 Call:
-coxph(formula = Surv(time = time, event = status) ~ kras_allele_grp, 
+coxph(formula = Surv(time = time, event = status) ~ kras_allele_grp,
     data = data)
 
-  n= 931, number of events= 203 
+  n= 931, number of events= 203
 
-                     coef exp(coef) se(coef)     z Pr(>|z|)  
+                     coef exp(coef) se(coef)     z Pr(>|z|)
 kras_allele_grpWT -0.2976    0.7426   0.1550 -1.92   0.0548 .
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
@@ -134,41 +134,41 @@ Wald test            = 3.69  on 1 df,   p=0.05
 Score (logrank) test = 3.71  on 1 df,   p=0.05
 
 
-Likelihood ratio test p-value: 0.06029468 
-Wald test p-value: 0.05481572 
-================================================================================ 
+Likelihood ratio test p-value: 0.06029468
+Wald test p-value: 0.05481572
+================================================================================
 
-PAAD KRAS WT vs. mutant 
+PAAD KRAS WT vs. mutant
                     records n.max n.start events   *rmean *se(rmean)   median
 kras_allele_grp=mut     116   116     116     73 24.74330   2.594596 17.49022
 kras_allele_grp=WT       59    59      59     22 48.22947   5.129203 43.79130
                      0.95LCL  0.95UCL
 kras_allele_grp=mut 15.45189 21.89565
 kras_allele_grp=WT  21.43538       NA
-================================================================================ 
+================================================================================
 
-PAAD KRAS WT vs. mutant 
+PAAD KRAS WT vs. mutant
 Call:
-survdiff(formula = Surv(time = time, event = status) ~ kras_allele_grp, 
+survdiff(formula = Surv(time = time, event = status) ~ kras_allele_grp,
     data = data)
 
                       N Observed Expected (O-E)^2/E (O-E)^2/V
 kras_allele_grp=mut 116       73     55.1      5.82      14.2
 kras_allele_grp=WT   59       22     39.9      8.04      14.2
 
- Chisq= 14.2  on 1 degrees of freedom, p= 2e-04 
+ Chisq= 14.2  on 1 degrees of freedom, p= 2e-04
 
-p-value: 0.0001687306 
-================================================================================ 
+p-value: 0.0001687306
+================================================================================
 
-PAAD KRAS WT vs. mutant 
+PAAD KRAS WT vs. mutant
 Call:
-coxph(formula = Surv(time = time, event = status) ~ kras_allele_grp, 
+coxph(formula = Surv(time = time, event = status) ~ kras_allele_grp,
     data = data)
 
-  n= 175, number of events= 95 
+  n= 175, number of events= 95
 
-                     coef exp(coef) se(coef)      z Pr(>|z|)    
+                     coef exp(coef) se(coef)      z Pr(>|z|)
 kras_allele_grpWT -0.8952    0.4085   0.2455 -3.646 0.000266 ***
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
@@ -182,7 +182,6 @@ Wald test            = 13.29  on 1 df,   p=3e-04
 Score (logrank) test = 14.15  on 1 df,   p=2e-04
 
 
-Likelihood ratio test p-value: 9.625159e-05 
-Wald test p-value: 0.0002661426 
-================================================================================ 
-
+Likelihood ratio test p-value: 9.625159e-05
+Wald test p-value: 0.0002661426
+================================================================================

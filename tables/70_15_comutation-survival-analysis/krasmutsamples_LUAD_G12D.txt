@@ -1,4 +1,4 @@
-LUAD - KRAS G12D - comutation with ABCA13 
+LUAD - KRAS G12D - comutation with ABCA13
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE     112   112     112     41 53.48352
 krasallele=FALSE, comutation=TRUE       20    20      20      6 61.04483
@@ -7,14 +7,14 @@ krasallele=TRUE, comutation=FALSE       16    16      16      7 44.33546
 krasallele=FALSE, comutation=FALSE   4.570749 54.34461 39.35299      NA
 krasallele=FALSE, comutation=TRUE   10.599767       NA 24.22987      NA
 krasallele=TRUE, comutation=FALSE   11.454400 49.34740 22.91482      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 148, number of events= 54 
+  n= 148, number of events= 54
 
                   coef exp(coef) se(coef)      z Pr(>|z|)
 krasalleleTRUE  0.2740    1.3153   0.4102  0.668    0.504
@@ -30,11 +30,11 @@ Wald test            = 0.86  on 2 df,   p=0.6
 Score (logrank) test = 0.87  on 2 df,   p=0.6
 
 
-Likelihood ratio test p-value: 0.6525494 
-Wald test p-value: 0.649417 
-================================================================================ 
+Likelihood ratio test p-value: 0.6525494
+Wald test p-value: 0.649417
+================================================================================
 
-LUAD - KRAS G12D - comutation with ABCB5 
+LUAD - KRAS G12D - comutation with ABCB5
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE     115   115     115     42 54.71560
 krasallele=FALSE, comutation=TRUE       17    17      17      5 62.73418
@@ -43,14 +43,14 @@ krasallele=TRUE, comutation=FALSE       17    17      17      7 50.39307
 krasallele=FALSE, comutation=FALSE   4.436684 56.71171 39.35299      NA
 krasallele=FALSE, comutation=TRUE   11.012735       NA 15.25463      NA
 krasallele=TRUE, comutation=FALSE   10.964481 49.34740 22.91482      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 149, number of events= 54 
+  n= 149, number of events= 54
 
                   coef exp(coef) se(coef)     z Pr(>|z|)
 krasalleleTRUE 0.17539   1.19171  0.40982 0.428    0.669
@@ -66,11 +66,11 @@ Wald test            = 0.19  on 2 df,   p=0.9
 Score (logrank) test = 0.19  on 2 df,   p=0.9
 
 
-Likelihood ratio test p-value: 0.9110273 
-Wald test p-value: 0.9079396 
-================================================================================ 
+Likelihood ratio test p-value: 0.9110273
+Wald test p-value: 0.9079396
+================================================================================
 
-LUAD - KRAS G12D - comutation with ADAMTS20 
+LUAD - KRAS G12D - comutation with ADAMTS20
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE     115   115     115     42 62.93275
 krasallele=FALSE, comutation=TRUE       17    17      17      5 85.04981
@@ -79,14 +79,14 @@ krasallele=TRUE, comutation=FALSE       17    17      17      7 61.80240
 krasallele=FALSE, comutation=FALSE   6.629247 54.34461 39.35299      NA
 krasallele=FALSE, comutation=TRUE   14.100907       NA 20.64635      NA
 krasallele=TRUE, comutation=FALSE   16.169103 49.34740 22.91482      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 149, number of events= 54 
+  n= 149, number of events= 54
 
                   coef exp(coef) se(coef)      z Pr(>|z|)
 krasalleleTRUE  0.1473    1.1587   0.4099  0.359    0.719
@@ -102,11 +102,11 @@ Wald test            = 0.32  on 2 df,   p=0.9
 Score (logrank) test = 0.32  on 2 df,   p=0.9
 
 
-Likelihood ratio test p-value: 0.8510691 
-Wald test p-value: 0.852736 
-================================================================================ 
+Likelihood ratio test p-value: 0.8510691
+Wald test p-value: 0.852736
+================================================================================
 
-LUAD - KRAS G12D - comutation with AHNAK2 
+LUAD - KRAS G12D - comutation with AHNAK2
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE     116   116     116     43 50.46999
 krasallele=FALSE, comutation=TRUE       16    16      16      4 73.88563
@@ -115,17 +115,17 @@ krasallele=TRUE, comutation=FALSE       17    17      17      7 50.50278
 krasallele=FALSE, comutation=FALSE   4.750434 40.60229 29.45721      NA
 krasallele=FALSE, comutation=TRUE    8.734503       NA 78.67311      NA
 krasallele=TRUE, comutation=FALSE   11.013216 49.34740 22.91482      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 149, number of events= 54 
+  n= 149, number of events= 54
 
-                   coef exp(coef) se(coef)      z Pr(>|z|)  
-krasalleleTRUE  0.05316   1.05460  0.40932  0.130   0.8967  
+                   coef exp(coef) se(coef)      z Pr(>|z|)
+krasalleleTRUE  0.05316   1.05460  0.40932  0.130   0.8967
 comutationTRUE -0.93170   0.39388  0.53069 -1.756   0.0792 .
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
@@ -140,11 +140,11 @@ Wald test            = 3.18  on 2 df,   p=0.2
 Score (logrank) test = 3.4  on 2 df,   p=0.2
 
 
-Likelihood ratio test p-value: 0.1291396 
-Wald test p-value: 0.2037269 
-================================================================================ 
+Likelihood ratio test p-value: 0.1291396
+Wald test p-value: 0.2037269
+================================================================================
 
-LUAD - KRAS G12D - comutation with APOB 
+LUAD - KRAS G12D - comutation with APOB
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE     101   101     101     37 56.61020
 krasallele=FALSE, comutation=TRUE       31    31      31     10 62.11723
@@ -153,14 +153,14 @@ krasallele=TRUE, comutation=FALSE       17    17      17      7 53.26978
 krasallele=FALSE, comutation=FALSE   5.417763 54.34461 29.45721      NA
 krasallele=FALSE, comutation=TRUE    9.353235 56.71171 40.60229      NA
 krasallele=TRUE, comutation=FALSE   12.253479 49.34740 22.91482      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 149, number of events= 54 
+  n= 149, number of events= 54
 
                   coef exp(coef) se(coef)      z Pr(>|z|)
 krasalleleTRUE  0.1264    1.1348   0.4136  0.306    0.760
@@ -176,11 +176,11 @@ Wald test            = 0.44  on 2 df,   p=0.8
 Score (logrank) test = 0.44  on 2 df,   p=0.8
 
 
-Likelihood ratio test p-value: 0.7994311 
-Wald test p-value: 0.8029353 
-================================================================================ 
+Likelihood ratio test p-value: 0.7994311
+Wald test p-value: 0.8029353
+================================================================================
 
-LUAD - KRAS G12D - comutation with BIRC6 
+LUAD - KRAS G12D - comutation with BIRC6
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE     120   120     120     42 64.33065
 krasallele=FALSE, comutation=TRUE       12    12      12      5 71.59173
@@ -189,14 +189,14 @@ krasallele=TRUE, comutation=FALSE       17    17      17      7 61.80240
 krasallele=FALSE, comutation=FALSE   6.595382 56.71171 39.35299      NA
 krasallele=FALSE, comutation=TRUE   17.236880       NA 14.07108      NA
 krasallele=TRUE, comutation=FALSE   16.169103 49.34740 22.91482      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 149, number of events= 54 
+  n= 149, number of events= 54
 
                  coef exp(coef) se(coef)     z Pr(>|z|)
 krasalleleTRUE 0.1835    1.2014   0.4098 0.448    0.654
@@ -212,11 +212,11 @@ Wald test            = 0.28  on 2 df,   p=0.9
 Score (logrank) test = 0.28  on 2 df,   p=0.9
 
 
-Likelihood ratio test p-value: 0.8736978 
-Wald test p-value: 0.8697581 
-================================================================================ 
+Likelihood ratio test p-value: 0.8736978
+Wald test p-value: 0.8697581
+================================================================================
 
-LUAD - KRAS G12D - comutation with C1orf173 
+LUAD - KRAS G12D - comutation with C1orf173
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE     112   112     112     41 53.58241
 krasallele=FALSE, comutation=TRUE       20    20      20      6 64.13269
@@ -225,14 +225,14 @@ krasallele=TRUE, comutation=FALSE       16    16      16      7 44.25903
 krasallele=FALSE, comutation=FALSE   4.629156 54.34461 32.84348      NA
 krasallele=FALSE, comutation=TRUE    9.514207 78.67311 78.67311      NA
 krasallele=TRUE, comutation=FALSE   11.401279 49.34740 22.91482      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 148, number of events= 54 
+  n= 148, number of events= 54
 
                   coef exp(coef) se(coef)      z Pr(>|z|)
 krasalleleTRUE  0.3031    1.3540   0.4113  0.737    0.461
@@ -248,11 +248,11 @@ Wald test            = 0.74  on 2 df,   p=0.7
 Score (logrank) test = 0.74  on 2 df,   p=0.7
 
 
-Likelihood ratio test p-value: 0.7047877 
-Wald test p-value: 0.6915371 
-================================================================================ 
+Likelihood ratio test p-value: 0.7047877
+Wald test p-value: 0.6915371
+================================================================================
 
-LUAD - KRAS G12D - comutation with CDH10 
+LUAD - KRAS G12D - comutation with CDH10
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE     113   113     113     42 52.29128
 krasallele=FALSE, comutation=TRUE       19    19      19      5 69.38540
@@ -261,14 +261,14 @@ krasallele=TRUE, comutation=FALSE       16    16      16      6 53.53995
 krasallele=FALSE, comutation=FALSE   4.711517 54.34461 32.84348      NA
 krasallele=FALSE, comutation=TRUE    9.306348 86.03741 86.03741      NA
 krasallele=TRUE, comutation=FALSE   11.455952 49.34740 22.91482      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 148, number of events= 53 
+  n= 148, number of events= 53
 
                    coef exp(coef) se(coef)      z Pr(>|z|)
 krasalleleTRUE -0.01045   0.98960  0.43811 -0.024    0.981
@@ -284,11 +284,11 @@ Wald test            = 1.02  on 2 df,   p=0.6
 Score (logrank) test = 1.03  on 2 df,   p=0.6
 
 
-Likelihood ratio test p-value: 0.562051 
-Wald test p-value: 0.6016957 
-================================================================================ 
+Likelihood ratio test p-value: 0.562051
+Wald test p-value: 0.6016957
+================================================================================
 
-LUAD - KRAS G12D - comutation with CDH12 
+LUAD - KRAS G12D - comutation with CDH12
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE     117   117     117     43 62.55931
 krasallele=FALSE, comutation=TRUE       15    15      15      4 69.21530
@@ -297,14 +297,14 @@ krasallele=TRUE, comutation=FALSE       17    17      17      7 61.80240
 krasallele=FALSE, comutation=FALSE   6.661009 56.71171 39.35299      NA
 krasallele=FALSE, comutation=TRUE   19.878045 24.22987 19.13404      NA
 krasallele=TRUE, comutation=FALSE   16.169103 49.34740 22.91482      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 149, number of events= 54 
+  n= 149, number of events= 54
 
                   coef exp(coef) se(coef)      z Pr(>|z|)
 krasalleleTRUE  0.1517    1.1638   0.4089  0.371    0.711
@@ -320,11 +320,11 @@ Wald test            = 0.3  on 2 df,   p=0.9
 Score (logrank) test = 0.3  on 2 df,   p=0.9
 
 
-Likelihood ratio test p-value: 0.8580774 
-Wald test p-value: 0.8594527 
-================================================================================ 
+Likelihood ratio test p-value: 0.8580774
+Wald test p-value: 0.8594527
+================================================================================
 
-LUAD - KRAS G12D - comutation with COL22A1 
+LUAD - KRAS G12D - comutation with COL22A1
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE     111   111     111     38 54.75755
 krasallele=FALSE, comutation=TRUE       21    21      21      9 41.32070
@@ -333,17 +333,17 @@ krasallele=TRUE, comutation=FALSE       16    16      16      7 47.23223
 krasallele=FALSE, comutation=FALSE   4.118686 56.71171 39.35299      NA
 krasallele=FALSE, comutation=TRUE   10.684294 20.58060 11.27659      NA
 krasallele=TRUE, comutation=FALSE    9.903866 49.34740 22.91482      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 148, number of events= 54 
+  n= 148, number of events= 54
 
-                 coef exp(coef) se(coef)     z Pr(>|z|)  
-krasalleleTRUE 0.3158    1.3714   0.4137 0.763   0.4452  
+                 coef exp(coef) se(coef)     z Pr(>|z|)
+krasalleleTRUE 0.3158    1.3714   0.4137 0.763   0.4452
 comutationTRUE 0.8005    2.2266   0.3793 2.110   0.0348 *
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
@@ -358,11 +358,11 @@ Wald test            = 4.61  on 2 df,   p=0.1
 Score (logrank) test = 4.83  on 2 df,   p=0.09
 
 
-Likelihood ratio test p-value: 0.1324287 
-Wald test p-value: 0.09968325 
-================================================================================ 
+Likelihood ratio test p-value: 0.1324287
+Wald test p-value: 0.09968325
+================================================================================
 
-LUAD - KRAS G12D - comutation with COL5A2 
+LUAD - KRAS G12D - comutation with COL5A2
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE     120   120     120     44 55.69916
 krasallele=FALSE, comutation=TRUE       12    12      12      3 74.94986
@@ -371,14 +371,14 @@ krasallele=TRUE, comutation=FALSE       17    17      17      7 53.26978
 krasallele=FALSE, comutation=FALSE   5.009561 54.34461 32.84348      NA
 krasallele=FALSE, comutation=TRUE   12.489720       NA 78.67311      NA
 krasallele=TRUE, comutation=FALSE   12.253479 49.34740 22.91482      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 149, number of events= 54 
+  n= 149, number of events= 54
 
                   coef exp(coef) se(coef)      z Pr(>|z|)
 krasalleleTRUE  0.1204    1.1280   0.4085  0.295    0.768
@@ -394,11 +394,11 @@ Wald test            = 1.11  on 2 df,   p=0.6
 Score (logrank) test = 1.15  on 2 df,   p=0.6
 
 
-Likelihood ratio test p-value: 0.5197302 
-Wald test p-value: 0.573109 
-================================================================================ 
+Likelihood ratio test p-value: 0.5197302
+Wald test p-value: 0.573109
+================================================================================
 
-LUAD - KRAS G12D - comutation with CSMD3 
+LUAD - KRAS G12D - comutation with CSMD3
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE      76    76      76     29 60.34538
 krasallele=FALSE, comutation=TRUE       56    56      56     18 71.00968
@@ -407,14 +407,14 @@ krasallele=TRUE, comutation=FALSE       15    15      15      7 57.67541
 krasallele=FALSE, comutation=FALSE   8.157928 40.60229 29.45721      NA
 krasallele=FALSE, comutation=TRUE    9.460040 86.03741 32.84348      NA
 krasallele=TRUE, comutation=FALSE   16.063170 49.34740 22.91482      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 147, number of events= 54 
+  n= 147, number of events= 54
 
                   coef exp(coef) se(coef)      z Pr(>|z|)
 krasalleleTRUE  0.2175    1.2429   0.4231  0.514    0.607
@@ -430,11 +430,11 @@ Wald test            = 0.82  on 2 df,   p=0.7
 Score (logrank) test = 0.83  on 2 df,   p=0.7
 
 
-Likelihood ratio test p-value: 0.6694649 
-Wald test p-value: 0.6636837 
-================================================================================ 
+Likelihood ratio test p-value: 0.6694649
+Wald test p-value: 0.6636837
+================================================================================
 
-LUAD - KRAS G12D - comutation with CUBN 
+LUAD - KRAS G12D - comutation with CUBN
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE     114   114     114     44 52.02312
 krasallele=FALSE, comutation=TRUE       18    18      18      3 63.85527
@@ -443,14 +443,14 @@ krasallele=TRUE, comutation=FALSE       16    16      16      7 47.95273
 krasallele=FALSE, comutation=FALSE    4.16488 54.34461 32.84348      NA
 krasallele=FALSE, comutation=TRUE    12.98715       NA 24.22987      NA
 krasallele=TRUE, comutation=FALSE    10.21867 49.34740 22.91482      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 148, number of events= 54 
+  n= 148, number of events= 54
 
                   coef exp(coef) se(coef)      z Pr(>|z|)
 krasalleleTRUE  0.1353    1.1449   0.4087  0.331    0.741
@@ -466,11 +466,11 @@ Wald test            = 1.69  on 2 df,   p=0.4
 Score (logrank) test = 1.77  on 2 df,   p=0.4
 
 
-Likelihood ratio test p-value: 0.3540077 
-Wald test p-value: 0.4297245 
-================================================================================ 
+Likelihood ratio test p-value: 0.3540077
+Wald test p-value: 0.4297245
+================================================================================
 
-LUAD - KRAS G12D - comutation with DNAH7 
+LUAD - KRAS G12D - comutation with DNAH7
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE     116   116     116     42 54.35128
 krasallele=FALSE, comutation=TRUE       16    16      16      5 61.63997
@@ -479,14 +479,14 @@ krasallele=TRUE, comutation=FALSE       17    17      17      7 50.50278
 krasallele=FALSE, comutation=FALSE   4.554252 56.71171 39.35299      NA
 krasallele=FALSE, comutation=TRUE   10.901800       NA 20.64635      NA
 krasallele=TRUE, comutation=FALSE   11.013216 49.34740 22.91482      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 149, number of events= 54 
+  n= 149, number of events= 54
 
                   coef exp(coef) se(coef)      z Pr(>|z|)
 krasalleleTRUE  0.1405    1.1509   0.4099  0.343    0.732
@@ -502,11 +502,11 @@ Wald test            = 0.41  on 2 df,   p=0.8
 Score (logrank) test = 0.42  on 2 df,   p=0.8
 
 
-Likelihood ratio test p-value: 0.8071399 
-Wald test p-value: 0.8130636 
-================================================================================ 
+Likelihood ratio test p-value: 0.8071399
+Wald test p-value: 0.8130636
+================================================================================
 
-LUAD - KRAS G12D - comutation with DSCAM 
+LUAD - KRAS G12D - comutation with DSCAM
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE     119   119     119     41 54.01089
 krasallele=FALSE, comutation=TRUE       13    13      13      6 47.31160
@@ -515,14 +515,14 @@ krasallele=TRUE, comutation=FALSE       17    17      17      7 47.86986
 krasallele=FALSE, comutation=FALSE   4.033168 56.71171 39.35299      NA
 krasallele=FALSE, comutation=TRUE   10.948444 24.22987 15.41901      NA
 krasallele=TRUE, comutation=FALSE    9.855040 49.34740 22.91482      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 149, number of events= 54 
+  n= 149, number of events= 54
 
                  coef exp(coef) se(coef)     z Pr(>|z|)
 krasalleleTRUE 0.2180    1.2436   0.4110 0.530    0.596
@@ -538,11 +538,11 @@ Wald test            = 1.23  on 2 df,   p=0.5
 Score (logrank) test = 1.25  on 2 df,   p=0.5
 
 
-Likelihood ratio test p-value: 0.5676378 
-Wald test p-value: 0.5407472 
-================================================================================ 
+Likelihood ratio test p-value: 0.5676378
+Wald test p-value: 0.5407472
+================================================================================
 
-LUAD - KRAS G12D - comutation with DST 
+LUAD - KRAS G12D - comutation with DST
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE     111   111     111     41 54.51731
 krasallele=FALSE, comutation=TRUE       21    21      21      6 70.91619
@@ -551,14 +551,14 @@ krasallele=TRUE, comutation=FALSE       17    17      17      7 53.26978
 krasallele=FALSE, comutation=FALSE   5.390235 54.34461 29.45721      NA
 krasallele=FALSE, comutation=TRUE   10.078862 88.14150 39.35299      NA
 krasallele=TRUE, comutation=FALSE   12.253479 49.34740 22.91482      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 149, number of events= 54 
+  n= 149, number of events= 54
 
                   coef exp(coef) se(coef)      z Pr(>|z|)
 krasalleleTRUE  0.0610    1.0629   0.4102  0.149    0.882
@@ -574,11 +574,11 @@ Wald test            = 2.48  on 2 df,   p=0.3
 Score (logrank) test = 2.57  on 2 df,   p=0.3
 
 
-Likelihood ratio test p-value: 0.2316786 
-Wald test p-value: 0.2896467 
-================================================================================ 
+Likelihood ratio test p-value: 0.2316786
+Wald test p-value: 0.2896467
+================================================================================
 
-LUAD - KRAS G12D - comutation with DUSP27 
+LUAD - KRAS G12D - comutation with DUSP27
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE     126   126     126     47 51.18049
 krasallele=FALSE, comutation=TRUE        6     6       6      0 86.00454
@@ -587,14 +587,14 @@ krasallele=TRUE, comutation=FALSE       17    17      17      7 47.86986
 krasallele=FALSE, comutation=FALSE   3.973957 54.34461 32.84348      NA
 krasallele=FALSE, comutation=TRUE    0.000000       NA       NA      NA
 krasallele=TRUE, comutation=FALSE    9.855040 49.34740 22.91482      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 149, number of events= 54 
+  n= 149, number of events= 54
 
                      coef  exp(coef)   se(coef)      z Pr(>|z|)
 krasalleleTRUE  1.119e-01  1.118e+00  4.069e-01  0.275    0.783
@@ -610,11 +610,11 @@ Wald test            = 0.08  on 2 df,   p=1
 Score (logrank) test = 2.73  on 2 df,   p=0.3
 
 
-Likelihood ratio test p-value: 0.07299451 
-Wald test p-value: 0.9628778 
-================================================================================ 
+Likelihood ratio test p-value: 0.07299451
+Wald test p-value: 0.9628778
+================================================================================
 
-LUAD - KRAS G12D - comutation with ERBB4 
+LUAD - KRAS G12D - comutation with ERBB4
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE     113   113     113     43 53.74371
 krasallele=FALSE, comutation=TRUE       19    19      19      4 68.64894
@@ -623,14 +623,14 @@ krasallele=TRUE, comutation=FALSE       17    17      17      7 50.50278
 krasallele=FALSE, comutation=FALSE   4.472461 54.34461 32.84348      NA
 krasallele=FALSE, comutation=TRUE   10.696631       NA 20.58060      NA
 krasallele=TRUE, comutation=FALSE   11.013216 49.34740 22.91482      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 149, number of events= 54 
+  n= 149, number of events= 54
 
                   coef exp(coef) se(coef)      z Pr(>|z|)
 krasalleleTRUE  0.1260    1.1343   0.4092  0.308    0.758
@@ -646,11 +646,11 @@ Wald test            = 0.78  on 2 df,   p=0.7
 Score (logrank) test = 0.79  on 2 df,   p=0.7
 
 
-Likelihood ratio test p-value: 0.6493874 
-Wald test p-value: 0.6770183 
-================================================================================ 
+Likelihood ratio test p-value: 0.6493874
+Wald test p-value: 0.6770183
+================================================================================
 
-LUAD - KRAS G12D - comutation with FER1L6 
+LUAD - KRAS G12D - comutation with FER1L6
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE     126   126     126     43 52.37365
 krasallele=FALSE, comutation=TRUE        6     6       6      4 57.08979
@@ -659,14 +659,14 @@ krasallele=TRUE, comutation=FALSE       17    17      17      7 47.88205
 krasallele=FALSE, comutation=FALSE   4.058304 56.71171 39.35299      NA
 krasallele=FALSE, comutation=TRUE   14.713982 78.67311 10.12592      NA
 krasallele=TRUE, comutation=FALSE    9.860340 49.34740 22.91482      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 149, number of events= 54 
+  n= 149, number of events= 54
 
                  coef exp(coef) se(coef)     z Pr(>|z|)
 krasalleleTRUE 0.2027    1.2247   0.4093 0.495    0.620
@@ -682,11 +682,11 @@ Wald test            = 1.08  on 2 df,   p=0.6
 Score (logrank) test = 1.09  on 2 df,   p=0.6
 
 
-Likelihood ratio test p-value: 0.6153961 
-Wald test p-value: 0.584031 
-================================================================================ 
+Likelihood ratio test p-value: 0.6153961
+Wald test p-value: 0.584031
+================================================================================
 
-LUAD - KRAS G12D - comutation with FLG 
+LUAD - KRAS G12D - comutation with FLG
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE      97    97      97     37 50.77164
 krasallele=FALSE, comutation=TRUE       35    35      35     10 64.37962
@@ -695,14 +695,14 @@ krasallele=TRUE, comutation=FALSE       16    16      16      7 50.30974
 krasallele=FALSE, comutation=FALSE   5.169349 40.60229 29.45721      NA
 krasallele=FALSE, comutation=TRUE    7.410078 78.67311 56.71171      NA
 krasallele=TRUE, comutation=FALSE   11.024200 49.34740 22.91482      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 148, number of events= 54 
+  n= 148, number of events= 54
 
                    coef exp(coef) se(coef)      z Pr(>|z|)
 krasalleleTRUE  0.06198   1.06394  0.41390  0.150    0.881
@@ -718,11 +718,11 @@ Wald test            = 1.9  on 2 df,   p=0.4
 Score (logrank) test = 1.94  on 2 df,   p=0.4
 
 
-Likelihood ratio test p-value: 0.3518487 
-Wald test p-value: 0.3860418 
-================================================================================ 
+Likelihood ratio test p-value: 0.3518487
+Wald test p-value: 0.3860418
+================================================================================
 
-LUAD - KRAS G12D - comutation with FMN2 
+LUAD - KRAS G12D - comutation with FMN2
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE     119   119     119     41 65.30643
 krasallele=FALSE, comutation=TRUE       13    13      13      6 56.11774
@@ -731,14 +731,14 @@ krasallele=TRUE, comutation=FALSE       17    17      17      7 61.80240
 krasallele=FALSE, comutation=FALSE    6.68280 56.71171 39.35299      NA
 krasallele=FALSE, comutation=TRUE    18.53088 29.45721 15.71490      NA
 krasallele=TRUE, comutation=FALSE    16.16910 49.34740 22.91482      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 149, number of events= 54 
+  n= 149, number of events= 54
 
                  coef exp(coef) se(coef)     z Pr(>|z|)
 krasalleleTRUE 0.2062    1.2290   0.4105 0.502    0.615
@@ -754,11 +754,11 @@ Wald test            = 0.82  on 2 df,   p=0.7
 Score (logrank) test = 0.82  on 2 df,   p=0.7
 
 
-Likelihood ratio test p-value: 0.6812444 
-Wald test p-value: 0.6645215 
-================================================================================ 
+Likelihood ratio test p-value: 0.6812444
+Wald test p-value: 0.6645215
+================================================================================
 
-LUAD - KRAS G12D - comutation with GNAS 
+LUAD - KRAS G12D - comutation with GNAS
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE     126   126     126     45 53.19380
 krasallele=FALSE, comutation=TRUE        6     6       6      2 54.07338
@@ -767,14 +767,14 @@ krasallele=TRUE, comutation=FALSE       14    14      14      5 52.19625
 krasallele=FALSE, comutation=FALSE   3.915763 56.71171 40.60229      NA
 krasallele=FALSE, comutation=TRUE   15.831338 39.35299 39.35299      NA
 krasallele=TRUE, comutation=FALSE   10.974794 49.34740 22.91482      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 146, number of events= 52 
+  n= 146, number of events= 52
 
                     coef exp(coef)  se(coef)      z Pr(>|z|)
 krasalleleTRUE -0.005465  0.994550  0.473167 -0.012    0.991
@@ -790,11 +790,11 @@ Wald test            = 0  on 2 df,   p=1
 Score (logrank) test = 0  on 2 df,   p=1
 
 
-Likelihood ratio test p-value: 0.998093 
-Wald test p-value: 0.9981172 
-================================================================================ 
+Likelihood ratio test p-value: 0.998093
+Wald test p-value: 0.9981172
+================================================================================
 
-LUAD - KRAS G12D - comutation with GPR158 
+LUAD - KRAS G12D - comutation with GPR158
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE     121   121     121     43 56.28687
 krasallele=FALSE, comutation=TRUE       11    11      11      4 63.51184
@@ -803,14 +803,14 @@ krasallele=TRUE, comutation=FALSE       17    17      17      7 53.26978
 krasallele=FALSE, comutation=FALSE   5.051489 54.34461 39.35299      NA
 krasallele=FALSE, comutation=TRUE   14.718772 86.03741 19.13404      NA
 krasallele=TRUE, comutation=FALSE   12.253479 49.34740 22.91482      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 149, number of events= 54 
+  n= 149, number of events= 54
 
                   coef exp(coef) se(coef)      z Pr(>|z|)
 krasalleleTRUE  0.1465    1.1578   0.4089  0.358    0.720
@@ -826,11 +826,11 @@ Wald test            = 0.39  on 2 df,   p=0.8
 Score (logrank) test = 0.4  on 2 df,   p=0.8
 
 
-Likelihood ratio test p-value: 0.8153225 
-Wald test p-value: 0.8208971 
-================================================================================ 
+Likelihood ratio test p-value: 0.8153225
+Wald test p-value: 0.8208971
+================================================================================
 
-LUAD - KRAS G12D - comutation with HERC2 
+LUAD - KRAS G12D - comutation with HERC2
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE     114   114     114     40 64.81150
 krasallele=FALSE, comutation=TRUE       18    18      18      7 60.47293
@@ -839,14 +839,14 @@ krasallele=TRUE, comutation=FALSE       17    17      17      7 61.80240
 krasallele=FALSE, comutation=FALSE   6.832674 54.34461 39.35299      NA
 krasallele=FALSE, comutation=TRUE   17.445342 56.71171 24.22987      NA
 krasallele=TRUE, comutation=FALSE   16.169103 49.34740 22.91482      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 149, number of events= 54 
+  n= 149, number of events= 54
 
                   coef exp(coef) se(coef)     z Pr(>|z|)
 krasalleleTRUE 0.17310   1.18899  0.41151 0.421    0.674
@@ -862,11 +862,11 @@ Wald test            = 0.18  on 2 df,   p=0.9
 Score (logrank) test = 0.18  on 2 df,   p=0.9
 
 
-Likelihood ratio test p-value: 0.9182865 
-Wald test p-value: 0.915189 
-================================================================================ 
+Likelihood ratio test p-value: 0.9182865
+Wald test p-value: 0.915189
+================================================================================
 
-LUAD - KRAS G12D - comutation with HRNR 
+LUAD - KRAS G12D - comutation with HRNR
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE     115   115     115     36 69.13237
 krasallele=FALSE, comutation=TRUE       17    17      17     11 37.86793
@@ -875,17 +875,17 @@ krasallele=TRUE, comutation=FALSE       16    16      16      7 52.20723
 krasallele=FALSE, comutation=FALSE   6.928157 78.67311 40.60229      NA
 krasallele=FALSE, comutation=TRUE   12.841412 15.71490 11.27659      NA
 krasallele=TRUE, comutation=FALSE   17.111862 49.34740 22.91482      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 148, number of events= 54 
+  n= 148, number of events= 54
 
-                 coef exp(coef) se(coef)     z Pr(>|z|)   
-krasalleleTRUE 0.4714    1.6022   0.4154 1.135  0.25645   
+                 coef exp(coef) se(coef)     z Pr(>|z|)
+krasalleleTRUE 0.4714    1.6022   0.4154 1.135  0.25645
 comutationTRUE 0.9028    2.4664   0.3453 2.615  0.00893 **
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
@@ -900,11 +900,11 @@ Wald test            = 7.25  on 2 df,   p=0.03
 Score (logrank) test = 7.69  on 2 df,   p=0.02
 
 
-Likelihood ratio test p-value: 0.04202297 
-Wald test p-value: 0.02664212 
-================================================================================ 
+Likelihood ratio test p-value: 0.04202297
+Wald test p-value: 0.02664212
+================================================================================
 
-LUAD - KRAS G12D - comutation with ITGA8 
+LUAD - KRAS G12D - comutation with ITGA8
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE     121   121     121     41 54.28646
 krasallele=FALSE, comutation=TRUE       11    11      11      6 37.47050
@@ -913,17 +913,17 @@ krasallele=TRUE, comutation=FALSE       17    17      17      7 47.86986
 krasallele=FALSE, comutation=FALSE   4.023276 56.71171 39.35299      NA
 krasallele=FALSE, comutation=TRUE   12.077911 15.41901  9.00812      NA
 krasallele=TRUE, comutation=FALSE    9.855040 49.34740 22.91482      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 149, number of events= 54 
+  n= 149, number of events= 54
 
-                 coef exp(coef) se(coef)     z Pr(>|z|)  
-krasalleleTRUE 0.2480    1.2815   0.4111 0.603   0.5463  
+                 coef exp(coef) se(coef)     z Pr(>|z|)
+krasalleleTRUE 0.2480    1.2815   0.4111 0.603   0.5463
 comutationTRUE 0.8535    2.3479   0.4416 1.933   0.0533 .
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
@@ -938,11 +938,11 @@ Wald test            = 3.84  on 2 df,   p=0.1
 Score (logrank) test = 4.06  on 2 df,   p=0.1
 
 
-Likelihood ratio test p-value: 0.2007014 
-Wald test p-value: 0.1462598 
-================================================================================ 
+Likelihood ratio test p-value: 0.2007014
+Wald test p-value: 0.1462598
+================================================================================
 
-LUAD - KRAS G12D - comutation with KLHL1 
+LUAD - KRAS G12D - comutation with KLHL1
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE     117   117     117     42 52.12929
 krasallele=FALSE, comutation=TRUE       15    15      15      5 57.01406
@@ -951,14 +951,14 @@ krasallele=TRUE, comutation=FALSE       17    17      17      7 47.86986
 krasallele=FALSE, comutation=FALSE   4.138737 56.71171 39.35299      NA
 krasallele=FALSE, comutation=TRUE    8.878361 78.67311 19.13404      NA
 krasallele=TRUE, comutation=FALSE    9.855040 49.34740 22.91482      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 149, number of events= 54 
+  n= 149, number of events= 54
 
                    coef exp(coef) se(coef)      z Pr(>|z|)
 krasalleleTRUE  0.16527   1.17971  0.41028  0.403    0.687
@@ -974,11 +974,11 @@ Wald test            = 0.17  on 2 df,   p=0.9
 Score (logrank) test = 0.17  on 2 df,   p=0.9
 
 
-Likelihood ratio test p-value: 0.9197988 
-Wald test p-value: 0.9166976 
-================================================================================ 
+Likelihood ratio test p-value: 0.9197988
+Wald test p-value: 0.9166976
+================================================================================
 
-LUAD - KRAS G12D - comutation with LAMA2 
+LUAD - KRAS G12D - comutation with LAMA2
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE     111   111     111     42 62.75976
 krasallele=FALSE, comutation=TRUE       21    21      21      5 82.06286
@@ -987,14 +987,14 @@ krasallele=TRUE, comutation=FALSE       16    16      16      6 66.44265
 krasallele=FALSE, comutation=FALSE   6.868427 54.34461 29.45721      NA
 krasallele=FALSE, comutation=TRUE   14.182027 86.03741 86.03741      NA
 krasallele=TRUE, comutation=FALSE   17.143425 49.34740 29.45721      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 148, number of events= 53 
+  n= 148, number of events= 53
 
                    coef exp(coef) se(coef)      z Pr(>|z|)
 krasalleleTRUE  0.01684   1.01698  0.43839  0.038    0.969
@@ -1010,11 +1010,11 @@ Wald test            = 1.15  on 2 df,   p=0.6
 Score (logrank) test = 1.17  on 2 df,   p=0.6
 
 
-Likelihood ratio test p-value: 0.51788 
-Wald test p-value: 0.5629115 
-================================================================================ 
+Likelihood ratio test p-value: 0.51788
+Wald test p-value: 0.5629115
+================================================================================
 
-LUAD - KRAS G12D - comutation with LRFN5 
+LUAD - KRAS G12D - comutation with LRFN5
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE     119   119     119     43 53.56454
 krasallele=FALSE, comutation=TRUE       13    13      13      4 39.82361
@@ -1023,14 +1023,14 @@ krasallele=TRUE, comutation=FALSE       17    17      17      7 47.86986
 krasallele=FALSE, comutation=FALSE   3.983246 78.67311 39.35299      NA
 krasallele=FALSE, comutation=TRUE    7.198355 54.34461 18.31213      NA
 krasallele=TRUE, comutation=FALSE    9.855040 49.34740 22.91482      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 149, number of events= 54 
+  n= 149, number of events= 54
 
                  coef exp(coef) se(coef)     z Pr(>|z|)
 krasalleleTRUE 0.1884    1.2073   0.4095 0.460    0.645
@@ -1046,11 +1046,11 @@ Wald test            = 0.4  on 2 df,   p=0.8
 Score (logrank) test = 0.41  on 2 df,   p=0.8
 
 
-Likelihood ratio test p-value: 0.8241964 
-Wald test p-value: 0.8169211 
-================================================================================ 
+Likelihood ratio test p-value: 0.8241964
+Wald test p-value: 0.8169211
+================================================================================
 
-LUAD - KRAS G12D - comutation with LRRC4C 
+LUAD - KRAS G12D - comutation with LRRC4C
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE     121   121     121     45 50.92666
 krasallele=FALSE, comutation=TRUE       11    11      11      2 71.49876
@@ -1059,14 +1059,14 @@ krasallele=TRUE, comutation=FALSE       17    17      17      7 47.86986
 krasallele=FALSE, comutation=FALSE   4.069648 54.34461 32.84348      NA
 krasallele=FALSE, comutation=TRUE    6.764043 78.67311       NA      NA
 krasallele=TRUE, comutation=FALSE    9.855040 49.34740 22.91482      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 149, number of events= 54 
+  n= 149, number of events= 54
 
                   coef exp(coef) se(coef)      z Pr(>|z|)
 krasalleleTRUE  0.1143    1.1210   0.4082  0.280    0.780
@@ -1082,11 +1082,11 @@ Wald test            = 1.39  on 2 df,   p=0.5
 Score (logrank) test = 1.46  on 2 df,   p=0.5
 
 
-Likelihood ratio test p-value: 0.411603 
-Wald test p-value: 0.5000766 
-================================================================================ 
+Likelihood ratio test p-value: 0.411603
+Wald test p-value: 0.5000766
+================================================================================
 
-LUAD - KRAS G12D - comutation with MAGEC1 
+LUAD - KRAS G12D - comutation with MAGEC1
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE     118   118     118     41 65.59328
 krasallele=FALSE, comutation=TRUE       14    14      14      6 59.57880
@@ -1095,14 +1095,14 @@ krasallele=TRUE, comutation=FALSE       17    17      17      7 61.80240
 krasallele=FALSE, comutation=FALSE    6.78516 78.67311 32.84348      NA
 krasallele=FALSE, comutation=TRUE    16.76455 56.71171 20.64635      NA
 krasallele=TRUE, comutation=FALSE    16.16910 49.34740 22.91482      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 149, number of events= 54 
+  n= 149, number of events= 54
 
                    coef exp(coef) se(coef)      z Pr(>|z|)
 krasalleleTRUE  0.15641   1.16931  0.41081  0.381    0.703
@@ -1118,11 +1118,11 @@ Wald test            = 0.21  on 2 df,   p=0.9
 Score (logrank) test = 0.21  on 2 df,   p=0.9
 
 
-Likelihood ratio test p-value: 0.9024495 
-Wald test p-value: 0.9001658 
-================================================================================ 
+Likelihood ratio test p-value: 0.9024495
+Wald test p-value: 0.9001658
+================================================================================
 
-LUAD - KRAS G12D - comutation with MGAM 
+LUAD - KRAS G12D - comutation with MGAM
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE     124   124     124     42 53.20198
 krasallele=FALSE, comutation=TRUE        8     8       8      5 45.81217
@@ -1131,14 +1131,14 @@ krasallele=TRUE, comutation=FALSE       17    17      17      7 47.88205
 krasallele=FALSE, comutation=FALSE   4.007282 56.71171 39.35299      NA
 krasallele=FALSE, comutation=TRUE   14.072661 15.38613 11.27659      NA
 krasallele=TRUE, comutation=FALSE    9.860340 49.34740 22.91482      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 149, number of events= 54 
+  n= 149, number of events= 54
 
                  coef exp(coef) se(coef)     z Pr(>|z|)
 krasalleleTRUE 0.2246    1.2518   0.4100 0.548    0.584
@@ -1154,11 +1154,11 @@ Wald test            = 2.54  on 2 df,   p=0.3
 Score (logrank) test = 2.64  on 2 df,   p=0.3
 
 
-Likelihood ratio test p-value: 0.3398292 
-Wald test p-value: 0.2813619 
-================================================================================ 
+Likelihood ratio test p-value: 0.3398292
+Wald test p-value: 0.2813619
+================================================================================
 
-LUAD - KRAS G12D - comutation with MMRN1 
+LUAD - KRAS G12D - comutation with MMRN1
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE     120   120     120     45 54.69628
 krasallele=FALSE, comutation=TRUE       12    12      12      2 80.11270
@@ -1167,14 +1167,14 @@ krasallele=TRUE, comutation=FALSE       17    17      17      7 53.26978
 krasallele=FALSE, comutation=FALSE   4.877145 54.34461 32.84348      NA
 krasallele=FALSE, comutation=TRUE   13.036253       NA       NA      NA
 krasallele=TRUE, comutation=FALSE   12.253479 49.34740 22.91482      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 149, number of events= 54 
+  n= 149, number of events= 54
 
                   coef exp(coef) se(coef)      z Pr(>|z|)
 krasalleleTRUE  0.1001    1.1053   0.4079  0.246    0.806
@@ -1190,11 +1190,11 @@ Wald test            = 2.15  on 2 df,   p=0.3
 Score (logrank) test = 2.35  on 2 df,   p=0.3
 
 
-Likelihood ratio test p-value: 0.2261476 
-Wald test p-value: 0.3407971 
-================================================================================ 
+Likelihood ratio test p-value: 0.2261476
+Wald test p-value: 0.3407971
+================================================================================
 
-LUAD - KRAS G12D - comutation with MUC16 
+LUAD - KRAS G12D - comutation with MUC16
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE      63    63      63     25 55.42863
 krasallele=FALSE, comutation=TRUE       69    69      69     22 55.37497
@@ -1205,14 +1205,14 @@ krasallele=FALSE, comutation=FALSE   5.600104 56.71171 29.45721      NA
 krasallele=FALSE, comutation=TRUE    6.405407 54.34461 39.35299      NA
 krasallele=TRUE, comutation=FALSE   12.740026 29.45721 14.59710      NA
 krasallele=TRUE, comutation=TRUE    11.958748       NA 49.34740      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 149, number of events= 54 
+  n= 149, number of events= 54
 
                   coef exp(coef) se(coef)      z Pr(>|z|)
 krasalleleTRUE  0.1627    1.1767   0.4069  0.400    0.689
@@ -1228,11 +1228,11 @@ Wald test            = 0.71  on 2 df,   p=0.7
 Score (logrank) test = 0.72  on 2 df,   p=0.7
 
 
-Likelihood ratio test p-value: 0.7007259 
-Wald test p-value: 0.7000494 
-================================================================================ 
+Likelihood ratio test p-value: 0.7007259
+Wald test p-value: 0.7000494
+================================================================================
 
-LUAD - KRAS G12D - comutation with MUC17 
+LUAD - KRAS G12D - comutation with MUC17
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE     108   108     108     40 61.54817
 krasallele=FALSE, comutation=TRUE       24    24      24      7 79.59788
@@ -1241,14 +1241,14 @@ krasallele=TRUE, comutation=FALSE       16    16      16      7 60.47513
 krasallele=FALSE, comutation=FALSE   6.955209 54.34461 32.84348      NA
 krasallele=FALSE, comutation=TRUE   13.228305 78.67311 78.67311      NA
 krasallele=TRUE, comutation=FALSE   16.124913 49.34740 22.91482      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 148, number of events= 54 
+  n= 148, number of events= 54
 
                   coef exp(coef) se(coef)      z Pr(>|z|)
 krasalleleTRUE  0.1659    1.1805   0.4117  0.403    0.687
@@ -1264,11 +1264,11 @@ Wald test            = 0.79  on 2 df,   p=0.7
 Score (logrank) test = 0.8  on 2 df,   p=0.7
 
 
-Likelihood ratio test p-value: 0.6592852 
-Wald test p-value: 0.672113 
-================================================================================ 
+Likelihood ratio test p-value: 0.6592852
+Wald test p-value: 0.672113
+================================================================================
 
-LUAD - KRAS G12D - comutation with MXRA5 
+LUAD - KRAS G12D - comutation with MXRA5
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE     108   108     108     42 63.18648
 krasallele=FALSE, comutation=TRUE       24    24      24      5 74.64299
@@ -1277,14 +1277,14 @@ krasallele=TRUE, comutation=FALSE       17    17      17      7 61.80240
 krasallele=FALSE, comutation=FALSE   6.602302 54.34461 32.84348      NA
 krasallele=FALSE, comutation=TRUE   20.599352 56.71171 56.71171      NA
 krasallele=TRUE, comutation=FALSE   16.169103 49.34740 22.91482      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 149, number of events= 54 
+  n= 149, number of events= 54
 
                   coef exp(coef) se(coef)      z Pr(>|z|)
 krasalleleTRUE  0.1182    1.1255   0.4099  0.288    0.773
@@ -1300,11 +1300,11 @@ Wald test            = 0.85  on 2 df,   p=0.7
 Score (logrank) test = 0.86  on 2 df,   p=0.6
 
 
-Likelihood ratio test p-value: 0.6265367 
-Wald test p-value: 0.653588 
-================================================================================ 
+Likelihood ratio test p-value: 0.6265367
+Wald test p-value: 0.653588
+================================================================================
 
-LUAD - KRAS G12D - comutation with MYH2 
+LUAD - KRAS G12D - comutation with MYH2
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE     117   117     117     41 54.46433
 krasallele=FALSE, comutation=TRUE       15    15      15      6 42.50959
@@ -1313,14 +1313,14 @@ krasallele=TRUE, comutation=FALSE       17    17      17      7 48.60122
 krasallele=FALSE, comutation=FALSE   4.168307 56.71171 39.35299      NA
 krasallele=FALSE, comutation=TRUE   13.443836 20.58060 14.07108      NA
 krasallele=TRUE, comutation=FALSE   10.174168 49.34740 22.91482      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 149, number of events= 54 
+  n= 149, number of events= 54
 
                  coef exp(coef) se(coef)     z Pr(>|z|)
 krasalleleTRUE 0.2212    1.2476   0.4107 0.539    0.590
@@ -1336,11 +1336,11 @@ Wald test            = 1.54  on 2 df,   p=0.5
 Score (logrank) test = 1.57  on 2 df,   p=0.5
 
 
-Likelihood ratio test p-value: 0.4972868 
-Wald test p-value: 0.4621034 
-================================================================================ 
+Likelihood ratio test p-value: 0.4972868
+Wald test p-value: 0.4621034
+================================================================================
 
-LUAD - KRAS G12D - comutation with MYT1L 
+LUAD - KRAS G12D - comutation with MYT1L
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE     125   125     125     46 56.11714
 krasallele=FALSE, comutation=TRUE        7     7       7      1 86.22058
@@ -1349,14 +1349,14 @@ krasallele=TRUE, comutation=FALSE       17    17      17      7 53.26978
 krasallele=FALSE, comutation=FALSE   4.759399 54.34461 39.35299      NA
 krasallele=FALSE, comutation=TRUE   13.283833       NA       NA      NA
 krasallele=TRUE, comutation=FALSE   12.253479 49.34740 22.91482      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 149, number of events= 54 
+  n= 149, number of events= 54
 
                   coef exp(coef) se(coef)      z Pr(>|z|)
 krasalleleTRUE  0.1348    1.1443   0.4074  0.331    0.741
@@ -1372,11 +1372,11 @@ Wald test            = 1.13  on 2 df,   p=0.6
 Score (logrank) test = 1.22  on 2 df,   p=0.5
 
 
-Likelihood ratio test p-value: 0.4621099 
-Wald test p-value: 0.5689556 
-================================================================================ 
+Likelihood ratio test p-value: 0.4621099
+Wald test p-value: 0.5689556
+================================================================================
 
-LUAD - KRAS G12D - comutation with NAV3 
+LUAD - KRAS G12D - comutation with NAV3
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE     104   104     104     36 57.43924
 krasallele=FALSE, comutation=TRUE       28    28      28     11 57.66740
@@ -1385,14 +1385,14 @@ krasallele=TRUE, comutation=FALSE       16    16      16      7 53.06593
 krasallele=FALSE, comutation=FALSE   5.401131 56.71171 39.35299      NA
 krasallele=FALSE, comutation=TRUE    9.448499 54.34461 24.22987      NA
 krasallele=TRUE, comutation=FALSE   12.259753 49.34740 22.91482      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 148, number of events= 54 
+  n= 148, number of events= 54
 
                    coef exp(coef) se(coef)      z Pr(>|z|)
 krasalleleTRUE  0.18004   1.19726  0.41446  0.434    0.664
@@ -1408,11 +1408,11 @@ Wald test            = 0.2  on 2 df,   p=0.9
 Score (logrank) test = 0.2  on 2 df,   p=0.9
 
 
-Likelihood ratio test p-value: 0.9090314 
-Wald test p-value: 0.9051425 
-================================================================================ 
+Likelihood ratio test p-value: 0.9090314
+Wald test p-value: 0.9051425
+================================================================================
 
-LUAD - KRAS G12D - comutation with NELL1 
+LUAD - KRAS G12D - comutation with NELL1
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE     118   118     118     42 52.82417
 krasallele=FALSE, comutation=TRUE       14    14      14      5 40.95049
@@ -1421,14 +1421,14 @@ krasallele=TRUE, comutation=FALSE       17    17      17      7 47.86986
 krasallele=FALSE, comutation=FALSE   4.142890 54.34461 32.84348      NA
 krasallele=FALSE, comutation=TRUE    6.472817 56.71171 19.66006      NA
 krasallele=TRUE, comutation=FALSE    9.855040 49.34740 22.91482      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 149, number of events= 54 
+  n= 149, number of events= 54
 
                   coef exp(coef) se(coef)     z Pr(>|z|)
 krasalleleTRUE 0.17560   1.19196  0.41039 0.428    0.669
@@ -1444,11 +1444,11 @@ Wald test            = 0.19  on 2 df,   p=0.9
 Score (logrank) test = 0.19  on 2 df,   p=0.9
 
 
-Likelihood ratio test p-value: 0.9122136 
-Wald test p-value: 0.9091425 
-================================================================================ 
+Likelihood ratio test p-value: 0.9122136
+Wald test p-value: 0.9091425
+================================================================================
 
-LUAD - KRAS G12D - comutation with NRXN1 
+LUAD - KRAS G12D - comutation with NRXN1
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE     109   109     109     40 50.73151
 krasallele=FALSE, comutation=TRUE       23    23      23      7 67.36263
@@ -1457,14 +1457,14 @@ krasallele=TRUE, comutation=FALSE       16    16      16      7 50.30974
 krasallele=FALSE, comutation=FALSE   4.912198 54.34461 29.45721      NA
 krasallele=FALSE, comutation=TRUE    8.461982       NA 39.35299      NA
 krasallele=TRUE, comutation=FALSE   11.024200 49.34740 22.91482      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 148, number of events= 54 
+  n= 148, number of events= 54
 
                    coef exp(coef) se(coef)      z Pr(>|z|)
 krasalleleTRUE  0.06622   1.06846  0.41147  0.161    0.872
@@ -1480,11 +1480,11 @@ Wald test            = 2.38  on 2 df,   p=0.3
 Score (logrank) test = 2.45  on 2 df,   p=0.3
 
 
-Likelihood ratio test p-value: 0.2542523 
-Wald test p-value: 0.3043646 
-================================================================================ 
+Likelihood ratio test p-value: 0.2542523
+Wald test p-value: 0.3043646
+================================================================================
 
-LUAD - KRAS G12D - comutation with PCDH15 
+LUAD - KRAS G12D - comutation with PCDH15
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE     107   107     107     36 53.83890
 krasallele=FALSE, comutation=TRUE       25    25      25     11 49.05309
@@ -1493,14 +1493,14 @@ krasallele=TRUE, comutation=FALSE       16    16      16      6 51.98644
 krasallele=FALSE, comutation=FALSE   4.293032 56.71171 39.35299      NA
 krasallele=FALSE, comutation=TRUE    8.592563 78.67311 24.22987      NA
 krasallele=TRUE, comutation=FALSE   10.376924       NA 22.91482      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 148, number of events= 53 
+  n= 148, number of events= 53
 
                  coef exp(coef) se(coef)     z Pr(>|z|)
 krasalleleTRUE 0.2296    1.2580   0.4430 0.518    0.604
@@ -1516,11 +1516,11 @@ Wald test            = 2.2  on 2 df,   p=0.3
 Score (logrank) test = 2.24  on 2 df,   p=0.3
 
 
-Likelihood ratio test p-value: 0.3619061 
-Wald test p-value: 0.3332592 
-================================================================================ 
+Likelihood ratio test p-value: 0.3619061
+Wald test p-value: 0.3332592
+================================================================================
 
-LUAD - KRAS G12D - comutation with PCLO 
+LUAD - KRAS G12D - comutation with PCLO
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE     107   107     107     40 61.92331
 krasallele=FALSE, comutation=TRUE       25    25      25      7 76.45731
@@ -1529,14 +1529,14 @@ krasallele=TRUE, comutation=FALSE       17    17      17      7 61.80240
 krasallele=FALSE, comutation=FALSE   7.137021 40.60229 29.45721      NA
 krasallele=FALSE, comutation=TRUE   11.755653 86.03741 78.67311      NA
 krasallele=TRUE, comutation=FALSE   16.169103 49.34740 22.91482      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 149, number of events= 54 
+  n= 149, number of events= 54
 
                    coef exp(coef) se(coef)      z Pr(>|z|)
 krasalleleTRUE  0.09096   1.09522  0.41143  0.221    0.825
@@ -1552,11 +1552,11 @@ Wald test            = 1.25  on 2 df,   p=0.5
 Score (logrank) test = 1.27  on 2 df,   p=0.5
 
 
-Likelihood ratio test p-value: 0.500019 
-Wald test p-value: 0.534525 
-================================================================================ 
+Likelihood ratio test p-value: 0.500019
+Wald test p-value: 0.534525
+================================================================================
 
-LUAD - KRAS G12D - comutation with PKHD1L1 
+LUAD - KRAS G12D - comutation with PKHD1L1
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE     116   116     116     40 54.67781
 krasallele=FALSE, comutation=TRUE       16    16      16      7 46.36089
@@ -1565,14 +1565,14 @@ krasallele=TRUE, comutation=FALSE       17    17      17      7 48.60122
 krasallele=FALSE, comutation=FALSE   4.183523 56.71171 39.352993      NA
 krasallele=FALSE, comutation=TRUE   11.827146 24.22987  9.567018      NA
 krasallele=TRUE, comutation=FALSE   10.174168 49.34740 22.914817      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 149, number of events= 54 
+  n= 149, number of events= 54
 
                  coef exp(coef) se(coef)     z Pr(>|z|)
 krasalleleTRUE 0.2309    1.2598   0.4116 0.561    0.575
@@ -1588,11 +1588,11 @@ Wald test            = 1.71  on 2 df,   p=0.4
 Score (logrank) test = 1.74  on 2 df,   p=0.4
 
 
-Likelihood ratio test p-value: 0.4599438 
-Wald test p-value: 0.4258707 
-================================================================================ 
+Likelihood ratio test p-value: 0.4599438
+Wald test p-value: 0.4258707
+================================================================================
 
-LUAD - KRAS G12D - comutation with PLXNA4 
+LUAD - KRAS G12D - comutation with PLXNA4
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE     118   118     118     43 62.11904
 krasallele=FALSE, comutation=TRUE       14    14      14      4 77.04796
@@ -1601,14 +1601,14 @@ krasallele=TRUE, comutation=FALSE       17    17      17      7 61.80240
 krasallele=FALSE, comutation=FALSE    6.66406 56.71171 39.35299      NA
 krasallele=FALSE, comutation=TRUE    19.12874       NA 29.45721      NA
 krasallele=TRUE, comutation=FALSE    16.16910 49.34740 22.91482      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 149, number of events= 54 
+  n= 149, number of events= 54
 
                   coef exp(coef) se(coef)      z Pr(>|z|)
 krasalleleTRUE  0.1309    1.1399   0.4092  0.320    0.749
@@ -1624,11 +1624,11 @@ Wald test            = 0.68  on 2 df,   p=0.7
 Score (logrank) test = 0.69  on 2 df,   p=0.7
 
 
-Likelihood ratio test p-value: 0.68963 
-Wald test p-value: 0.711366 
-================================================================================ 
+Likelihood ratio test p-value: 0.68963
+Wald test p-value: 0.711366
+================================================================================
 
-LUAD - KRAS G12D - comutation with POM121L12 
+LUAD - KRAS G12D - comutation with POM121L12
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE     124   124     124     44 52.91920
 krasallele=FALSE, comutation=TRUE        8     8       8      3 50.80027
@@ -1637,14 +1637,14 @@ krasallele=TRUE, comutation=FALSE       17    17      17      7 47.86986
 krasallele=FALSE, comutation=FALSE   3.991737 56.71171 39.35299      NA
 krasallele=FALSE, comutation=TRUE   14.685001 24.22987 20.58060      NA
 krasallele=TRUE, comutation=FALSE    9.855040 49.34740 22.91482      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 149, number of events= 54 
+  n= 149, number of events= 54
 
                   coef exp(coef) se(coef)     z Pr(>|z|)
 krasalleleTRUE 0.16911   1.18425  0.40878 0.414    0.679
@@ -1660,11 +1660,11 @@ Wald test            = 0.17  on 2 df,   p=0.9
 Score (logrank) test = 0.17  on 2 df,   p=0.9
 
 
-Likelihood ratio test p-value: 0.9209895 
-Wald test p-value: 0.9178473 
-================================================================================ 
+Likelihood ratio test p-value: 0.9209895
+Wald test p-value: 0.9178473
+================================================================================
 
-LUAD - KRAS G12D - comutation with PTPRZ1 
+LUAD - KRAS G12D - comutation with PTPRZ1
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE     120   120     120     44 61.35219
 krasallele=FALSE, comutation=TRUE       12    12      12      3 92.97843
@@ -1673,14 +1673,14 @@ krasallele=TRUE, comutation=FALSE       17    17      17      7 61.80240
 krasallele=FALSE, comutation=FALSE   6.589316 54.34461 32.84348      NA
 krasallele=FALSE, comutation=TRUE   15.270316       NA       NA      NA
 krasallele=TRUE, comutation=FALSE   16.169103 49.34740 22.91482      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 149, number of events= 54 
+  n= 149, number of events= 54
 
                   coef exp(coef) se(coef)      z Pr(>|z|)
 krasalleleTRUE  0.1179    1.1251   0.4087  0.288    0.773
@@ -1696,11 +1696,11 @@ Wald test            = 1.14  on 2 df,   p=0.6
 Score (logrank) test = 1.18  on 2 df,   p=0.6
 
 
-Likelihood ratio test p-value: 0.5085484 
-Wald test p-value: 0.5645117 
-================================================================================ 
+Likelihood ratio test p-value: 0.5085484
+Wald test p-value: 0.5645117
+================================================================================
 
-LUAD - KRAS G12D - comutation with RYR1 
+LUAD - KRAS G12D - comutation with RYR1
                                    records n.max n.start events  *rmean
 krasallele=FALSE, comutation=FALSE     107   107     107     41 60.8606
 krasallele=FALSE, comutation=TRUE       25    25      25      6 79.8313
@@ -1709,17 +1709,17 @@ krasallele=TRUE, comutation=FALSE       17    17      17      7 61.8024
 krasallele=FALSE, comutation=FALSE   7.152068 40.60229 29.45721      NA
 krasallele=FALSE, comutation=TRUE   12.988229 88.14150 56.71171      NA
 krasallele=TRUE, comutation=FALSE   16.169103 49.34740 22.91482      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 149, number of events= 54 
+  n= 149, number of events= 54
 
-                   coef exp(coef) se(coef)      z Pr(>|z|)  
-krasalleleTRUE  0.03637   1.03704  0.41082  0.089   0.9295  
+                   coef exp(coef) se(coef)      z Pr(>|z|)
+krasalleleTRUE  0.03637   1.03704  0.41082  0.089   0.9295
 comutationTRUE -0.74570   0.47440  0.43866 -1.700   0.0891 .
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
@@ -1734,11 +1734,11 @@ Wald test            = 2.99  on 2 df,   p=0.2
 Score (logrank) test = 3.14  on 2 df,   p=0.2
 
 
-Likelihood ratio test p-value: 0.1639616 
-Wald test p-value: 0.223727 
-================================================================================ 
+Likelihood ratio test p-value: 0.1639616
+Wald test p-value: 0.223727
+================================================================================
 
-LUAD - KRAS G12D - comutation with RYR2 
+LUAD - KRAS G12D - comutation with RYR2
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE      76    76      76     29 51.57037
 krasallele=FALSE, comutation=TRUE       56    56      56     18 63.66076
@@ -1747,14 +1747,14 @@ krasallele=TRUE, comutation=FALSE       15    15      15      7 43.51437
 krasallele=FALSE, comutation=FALSE   6.443879 40.60229 24.98603      NA
 krasallele=FALSE, comutation=TRUE    6.689857 78.67311 56.71171      NA
 krasallele=TRUE, comutation=FALSE   12.523643 29.45721 14.59710      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 147, number of events= 54 
+  n= 147, number of events= 54
 
                   coef exp(coef) se(coef)      z Pr(>|z|)
 krasalleleTRUE  0.2729    1.3138   0.4226  0.646    0.518
@@ -1770,11 +1770,11 @@ Wald test            = 1.97  on 2 df,   p=0.4
 Score (logrank) test = 2  on 2 df,   p=0.4
 
 
-Likelihood ratio test p-value: 0.3767353 
-Wald test p-value: 0.3738721 
-================================================================================ 
+Likelihood ratio test p-value: 0.3767353
+Wald test p-value: 0.3738721
+================================================================================
 
-LUAD - KRAS G12D - comutation with RYR3 
+LUAD - KRAS G12D - comutation with RYR3
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE     107   107     107     40 54.53135
 krasallele=FALSE, comutation=TRUE       25    25      25      7 70.90640
@@ -1783,14 +1783,14 @@ krasallele=TRUE, comutation=FALSE       16    16      16      7 46.26307
 krasallele=FALSE, comutation=FALSE   5.268988 40.60229 29.45721      NA
 krasallele=FALSE, comutation=TRUE    9.509071 88.14150 56.71171      NA
 krasallele=TRUE, comutation=FALSE   12.809492 49.34740 22.91482      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 148, number of events= 54 
+  n= 148, number of events= 54
 
                   coef exp(coef) se(coef)      z Pr(>|z|)
 krasalleleTRUE  0.2115    1.2356   0.4111  0.515    0.607
@@ -1806,11 +1806,11 @@ Wald test            = 2.16  on 2 df,   p=0.3
 Score (logrank) test = 2.21  on 2 df,   p=0.3
 
 
-Likelihood ratio test p-value: 0.3017342 
-Wald test p-value: 0.3399863 
-================================================================================ 
+Likelihood ratio test p-value: 0.3017342
+Wald test p-value: 0.3399863
+================================================================================
 
-LUAD - KRAS G12D - comutation with SCN10A 
+LUAD - KRAS G12D - comutation with SCN10A
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE     121   121     121     43 52.03925
 krasallele=FALSE, comutation=TRUE       11    11      11      4 58.69325
@@ -1819,14 +1819,14 @@ krasallele=TRUE, comutation=FALSE       17    17      17      7 47.86986
 krasallele=FALSE, comutation=FALSE   4.084777 54.34461 32.84348      NA
 krasallele=FALSE, comutation=TRUE    9.885273 78.67311       NA      NA
 krasallele=TRUE, comutation=FALSE    9.855040 49.34740 22.91482      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 149, number of events= 54 
+  n= 149, number of events= 54
 
                   coef exp(coef) se(coef)    z Pr(>|z|)
 krasalleleTRUE 0.17188   1.18753  0.40953 0.42    0.675
@@ -1842,11 +1842,11 @@ Wald test            = 0.18  on 2 df,   p=0.9
 Score (logrank) test = 0.18  on 2 df,   p=0.9
 
 
-Likelihood ratio test p-value: 0.9183326 
-Wald test p-value: 0.9152265 
-================================================================================ 
+Likelihood ratio test p-value: 0.9183326
+Wald test p-value: 0.9152265
+================================================================================
 
-LUAD - KRAS G12D - comutation with SCN3A 
+LUAD - KRAS G12D - comutation with SCN3A
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE     114   114     114     41 63.31730
 krasallele=FALSE, comutation=TRUE       18    18      18      6 71.66046
@@ -1855,14 +1855,14 @@ krasallele=TRUE, comutation=FALSE       17    17      17      7 61.80240
 krasallele=FALSE, comutation=FALSE   6.868495 54.34461 32.84348      NA
 krasallele=FALSE, comutation=TRUE   15.387323 78.67311 24.22987      NA
 krasallele=TRUE, comutation=FALSE   16.169103 49.34740 22.91482      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 149, number of events= 54 
+  n= 149, number of events= 54
 
                   coef exp(coef) se(coef)      z Pr(>|z|)
 krasalleleTRUE  0.1470    1.1584   0.4107  0.358    0.720
@@ -1878,11 +1878,11 @@ Wald test            = 0.29  on 2 df,   p=0.9
 Score (logrank) test = 0.29  on 2 df,   p=0.9
 
 
-Likelihood ratio test p-value: 0.8631775 
-Wald test p-value: 0.8635386 
-================================================================================ 
+Likelihood ratio test p-value: 0.8631775
+Wald test p-value: 0.8635386
+================================================================================
 
-LUAD - KRAS G12D - comutation with SI 
+LUAD - KRAS G12D - comutation with SI
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE     111   111     111     39 53.86455
 krasallele=FALSE, comutation=TRUE       21    21      21      8 49.88976
@@ -1891,14 +1891,14 @@ krasallele=TRUE, comutation=FALSE       17    17      17      7 47.86986
 krasallele=FALSE, comutation=FALSE   4.119071 56.71171 39.35299      NA
 krasallele=FALSE, comutation=TRUE    9.663639       NA 11.27659      NA
 krasallele=TRUE, comutation=FALSE    9.855040 49.34740 22.91482      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 149, number of events= 54 
+  n= 149, number of events= 54
 
                  coef exp(coef) se(coef)     z Pr(>|z|)
 krasalleleTRUE 0.2346    1.2645   0.4128 0.568    0.570
@@ -1914,11 +1914,11 @@ Wald test            = 1.45  on 2 df,   p=0.5
 Score (logrank) test = 1.47  on 2 df,   p=0.5
 
 
-Likelihood ratio test p-value: 0.5085716 
-Wald test p-value: 0.4839435 
-================================================================================ 
+Likelihood ratio test p-value: 0.5085716
+Wald test p-value: 0.4839435
+================================================================================
 
-LUAD - KRAS G12D - comutation with SLC8A1 
+LUAD - KRAS G12D - comutation with SLC8A1
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE     121   121     121     44 61.36115
 krasallele=FALSE, comutation=TRUE       11    11      11      3 84.16977
@@ -1927,14 +1927,14 @@ krasallele=TRUE, comutation=FALSE       17    17      17      7 61.80240
 krasallele=FALSE, comutation=FALSE   6.603482 54.34461 39.35299      NA
 krasallele=FALSE, comutation=TRUE   19.196860       NA 18.31213      NA
 krasallele=TRUE, comutation=FALSE   16.169103 49.34740 22.91482      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 149, number of events= 54 
+  n= 149, number of events= 54
 
                   coef exp(coef) se(coef)      z Pr(>|z|)
 krasalleleTRUE  0.1331    1.1423   0.4084  0.326    0.745
@@ -1950,11 +1950,11 @@ Wald test            = 0.8  on 2 df,   p=0.7
 Score (logrank) test = 0.82  on 2 df,   p=0.7
 
 
-Likelihood ratio test p-value: 0.6362871 
-Wald test p-value: 0.6698943 
-================================================================================ 
+Likelihood ratio test p-value: 0.6362871
+Wald test p-value: 0.6698943
+================================================================================
 
-LUAD - KRAS G12D - comutation with SPTA1 
+LUAD - KRAS G12D - comutation with SPTA1
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE      97    97      97     36 54.96700
 krasallele=FALSE, comutation=TRUE       35    35      35     11 57.01600
@@ -1963,14 +1963,14 @@ krasallele=TRUE, comutation=FALSE       14    14      14      6 50.63105
 krasallele=FALSE, comutation=FALSE   4.813826 56.71171 39.35299      NA
 krasallele=FALSE, comutation=TRUE    8.343921       NA 24.22987      NA
 krasallele=TRUE, comutation=FALSE   11.780013 49.34740 14.59710      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 146, number of events= 53 
+  n= 146, number of events= 53
 
                   coef exp(coef) se(coef)     z Pr(>|z|)
 krasalleleTRUE 0.22123   1.24761  0.44323 0.499    0.618
@@ -1986,11 +1986,11 @@ Wald test            = 0.25  on 2 df,   p=0.9
 Score (logrank) test = 0.25  on 2 df,   p=0.9
 
 
-Likelihood ratio test p-value: 0.8881927 
-Wald test p-value: 0.8827705 
-================================================================================ 
+Likelihood ratio test p-value: 0.8881927
+Wald test p-value: 0.8827705
+================================================================================
 
-LUAD - KRAS G12D - comutation with SYNE1 
+LUAD - KRAS G12D - comutation with SYNE1
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE     112   112     112     39 56.55271
 krasallele=FALSE, comutation=TRUE       20    20      20      8 47.25884
@@ -1999,14 +1999,14 @@ krasallele=TRUE, comutation=FALSE       17    17      17      7 50.50278
 krasallele=FALSE, comutation=FALSE   4.556175 56.71171 40.60229      NA
 krasallele=FALSE, comutation=TRUE   10.989365 39.35299 24.22987      NA
 krasallele=TRUE, comutation=FALSE   11.013216 49.34740 22.91482      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 149, number of events= 54 
+  n= 149, number of events= 54
 
                  coef exp(coef) se(coef)     z Pr(>|z|)
 krasalleleTRUE 0.2044    1.2268   0.4121 0.496    0.620
@@ -2022,11 +2022,11 @@ Wald test            = 0.53  on 2 df,   p=0.8
 Score (logrank) test = 0.54  on 2 df,   p=0.8
 
 
-Likelihood ratio test p-value: 0.7726506 
-Wald test p-value: 0.7656244 
-================================================================================ 
+Likelihood ratio test p-value: 0.7726506
+Wald test p-value: 0.7656244
+================================================================================
 
-LUAD - KRAS G12D - comutation with SYNE2 
+LUAD - KRAS G12D - comutation with SYNE2
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE     118   118     118     42 64.09453
 krasallele=FALSE, comutation=TRUE       14    14      14      5 71.07270
@@ -2035,14 +2035,14 @@ krasallele=TRUE, comutation=FALSE       17    17      17      7 61.80240
 krasallele=FALSE, comutation=FALSE   6.860667 56.71171 32.84348      NA
 krasallele=FALSE, comutation=TRUE   16.819993 78.67311 39.35299      NA
 krasallele=TRUE, comutation=FALSE   16.169103 49.34740 22.91482      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 149, number of events= 54 
+  n= 149, number of events= 54
 
                   coef exp(coef) se(coef)      z Pr(>|z|)
 krasalleleTRUE  0.1477    1.1592   0.4100  0.360    0.719
@@ -2058,11 +2058,11 @@ Wald test            = 0.31  on 2 df,   p=0.9
 Score (logrank) test = 0.31  on 2 df,   p=0.9
 
 
-Likelihood ratio test p-value: 0.8562349 
-Wald test p-value: 0.857454 
-================================================================================ 
+Likelihood ratio test p-value: 0.8562349
+Wald test p-value: 0.857454
+================================================================================
 
-LUAD - KRAS G12D - comutation with TENM1 
+LUAD - KRAS G12D - comutation with TENM1
                                    records n.max n.start events    *rmean
 krasallele=FALSE, comutation=FALSE     116   116     116     45  59.53739
 krasallele=FALSE, comutation=TRUE       16    16      16      2 103.09659
@@ -2071,17 +2071,17 @@ krasallele=TRUE, comutation=FALSE       17    17      17      7  61.80240
 krasallele=FALSE, comutation=FALSE   6.815475 40.60229 29.45721      NA
 krasallele=FALSE, comutation=TRUE   12.082041       NA 86.03741      NA
 krasallele=TRUE, comutation=FALSE   16.169103 49.34740 22.91482      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 149, number of events= 54 
+  n= 149, number of events= 54
 
-                   coef exp(coef) se(coef)      z Pr(>|z|)  
-krasalleleTRUE  0.04808   1.04926  0.40794  0.118   0.9062  
+                   coef exp(coef) se(coef)      z Pr(>|z|)
+krasalleleTRUE  0.04808   1.04926  0.40794  0.118   0.9062
 comutationTRUE -1.44336   0.23613  0.72527 -1.990   0.0466 *
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
@@ -2096,11 +2096,11 @@ Wald test            = 4.03  on 2 df,   p=0.1
 Score (logrank) test = 4.76  on 2 df,   p=0.09
 
 
-Likelihood ratio test p-value: 0.04050398 
-Wald test p-value: 0.1334925 
-================================================================================ 
+Likelihood ratio test p-value: 0.04050398
+Wald test p-value: 0.1334925
+================================================================================
 
-LUAD - KRAS G12D - comutation with TIAM1 
+LUAD - KRAS G12D - comutation with TIAM1
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE     117   117     117     44 55.38122
 krasallele=FALSE, comutation=TRUE       15    15      15      3 75.58720
@@ -2109,14 +2109,14 @@ krasallele=TRUE, comutation=FALSE       17    17      17      7 53.26978
 krasallele=FALSE, comutation=FALSE    4.92110 54.34461 32.84348      NA
 krasallele=FALSE, comutation=TRUE    12.49950       NA 20.58060      NA
 krasallele=TRUE, comutation=FALSE    12.25348 49.34740 22.91482      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 149, number of events= 54 
+  n= 149, number of events= 54
 
                   coef exp(coef) se(coef)      z Pr(>|z|)
 krasalleleTRUE  0.1185    1.1258   0.4086  0.290    0.772
@@ -2132,11 +2132,11 @@ Wald test            = 1.14  on 2 df,   p=0.6
 Score (logrank) test = 1.17  on 2 df,   p=0.6
 
 
-Likelihood ratio test p-value: 0.5111518 
-Wald test p-value: 0.5667548 
-================================================================================ 
+Likelihood ratio test p-value: 0.5111518
+Wald test p-value: 0.5667548
+================================================================================
 
-LUAD - KRAS G12D - comutation with TMTC1 
+LUAD - KRAS G12D - comutation with TMTC1
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE     122   122     122     43 64.55640
 krasallele=FALSE, comutation=TRUE       10    10      10      4 70.62827
@@ -2145,14 +2145,14 @@ krasallele=TRUE, comutation=FALSE       17    17      17      7 61.80240
 krasallele=FALSE, comutation=FALSE   6.594964 56.71171 39.35299      NA
 krasallele=FALSE, comutation=TRUE   19.556377 29.45721 24.22987      NA
 krasallele=TRUE, comutation=FALSE   16.169103 49.34740 22.91482      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 149, number of events= 54 
+  n= 149, number of events= 54
 
                    coef exp(coef) se(coef)     z Pr(>|z|)
 krasalleleTRUE 0.168419  1.183433 0.409193 0.412    0.681
@@ -2168,11 +2168,11 @@ Wald test            = 0.17  on 2 df,   p=0.9
 Score (logrank) test = 0.17  on 2 df,   p=0.9
 
 
-Likelihood ratio test p-value: 0.9212114 
-Wald test p-value: 0.918064 
-================================================================================ 
+Likelihood ratio test p-value: 0.9212114
+Wald test p-value: 0.918064
+================================================================================
 
-LUAD - KRAS G12D - comutation with TNN 
+LUAD - KRAS G12D - comutation with TNN
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE     114   114     114     39 54.69937
 krasallele=FALSE, comutation=TRUE       18    18      18      8 42.17168
@@ -2181,14 +2181,14 @@ krasallele=TRUE, comutation=FALSE       17    17      17      7 47.86986
 krasallele=FALSE, comutation=FALSE   4.124099 78.67311 39.35299      NA
 krasallele=FALSE, comutation=TRUE    9.108685 40.60229 19.13404      NA
 krasallele=TRUE, comutation=FALSE    9.855040 49.34740 22.91482      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 149, number of events= 54 
+  n= 149, number of events= 54
 
                  coef exp(coef) se(coef)     z Pr(>|z|)
 krasalleleTRUE 0.2187    1.2444   0.4127 0.530    0.596
@@ -2204,11 +2204,11 @@ Wald test            = 0.85  on 2 df,   p=0.7
 Score (logrank) test = 0.85  on 2 df,   p=0.7
 
 
-Likelihood ratio test p-value: 0.6674723 
-Wald test p-value: 0.6543652 
-================================================================================ 
+Likelihood ratio test p-value: 0.6674723
+Wald test p-value: 0.6543652
+================================================================================
 
-LUAD - KRAS G12D - comutation with TNR 
+LUAD - KRAS G12D - comutation with TNR
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE     116   116     116     43 52.05937
 krasallele=FALSE, comutation=TRUE       16    16      16      4 62.51538
@@ -2217,14 +2217,14 @@ krasallele=TRUE, comutation=FALSE       16    16      16      6 50.55351
 krasallele=FALSE, comutation=FALSE   4.053028 56.71171 39.35299      NA
 krasallele=FALSE, comutation=TRUE    9.909953       NA 24.22987      NA
 krasallele=TRUE, comutation=FALSE   10.141500 49.34740 22.91482      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 148, number of events= 53 
+  n= 148, number of events= 53
 
                      coef  exp(coef)   se(coef)      z Pr(>|z|)
 krasalleleTRUE -0.0008299  0.9991704  0.4376769 -0.002    0.998
@@ -2240,11 +2240,11 @@ Wald test            = 0.39  on 2 df,   p=0.8
 Score (logrank) test = 0.39  on 2 df,   p=0.8
 
 
-Likelihood ratio test p-value: 0.8090949 
-Wald test p-value: 0.8239813 
-================================================================================ 
+Likelihood ratio test p-value: 0.8090949
+Wald test p-value: 0.8239813
+================================================================================
 
-LUAD - KRAS G12D - comutation with TP53 
+LUAD - KRAS G12D - comutation with TP53
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE      83    83      83     27 71.96569
 krasallele=FALSE, comutation=TRUE       49    49      49     20 50.73077
@@ -2253,14 +2253,14 @@ krasallele=TRUE, comutation=FALSE       15    15      15      6 65.59724
 krasallele=FALSE, comutation=FALSE   7.945204 88.14150 40.60229      NA
 krasallele=FALSE, comutation=TRUE    8.986051 39.35299 21.56689      NA
 krasallele=TRUE, comutation=FALSE   16.728427 49.34740 22.91482      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 147, number of events= 53 
+  n= 147, number of events= 53
 
                  coef exp(coef) se(coef)     z Pr(>|z|)
 krasalleleTRUE 0.1833    1.2012   0.4535 0.404    0.686
@@ -2276,11 +2276,11 @@ Wald test            = 1.84  on 2 df,   p=0.4
 Score (logrank) test = 1.86  on 2 df,   p=0.4
 
 
-Likelihood ratio test p-value: 0.4077711 
-Wald test p-value: 0.3992866 
-================================================================================ 
+Likelihood ratio test p-value: 0.4077711
+Wald test p-value: 0.3992866
+================================================================================
 
-LUAD - KRAS G12D - comutation with USH2A 
+LUAD - KRAS G12D - comutation with USH2A
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE      85    85      85     31 61.54557
 krasallele=FALSE, comutation=TRUE       47    47      47     16 72.02703
@@ -2289,14 +2289,14 @@ krasallele=TRUE, comutation=FALSE       15    15      15      6 55.39935
 krasallele=FALSE, comutation=FALSE   7.546333 54.34461 32.84348      NA
 krasallele=FALSE, comutation=TRUE   10.801321 78.67311 24.22987      NA
 krasallele=TRUE, comutation=FALSE   18.042297 49.34740 22.91482      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 147, number of events= 53 
+  n= 147, number of events= 53
 
                    coef exp(coef) se(coef)     z Pr(>|z|)
 krasalleleTRUE 0.174912  1.191142 0.448203 0.390    0.696
@@ -2312,11 +2312,11 @@ Wald test            = 0.16  on 2 df,   p=0.9
 Score (logrank) test = 0.16  on 2 df,   p=0.9
 
 
-Likelihood ratio test p-value: 0.9263702 
-Wald test p-value: 0.9231832 
-================================================================================ 
+Likelihood ratio test p-value: 0.9263702
+Wald test p-value: 0.9231832
+================================================================================
 
-LUAD - KRAS G12D - comutation with ZFHX4 
+LUAD - KRAS G12D - comutation with ZFHX4
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE      75    75      75     30 50.19801
 krasallele=FALSE, comutation=TRUE       57    57      57     17 61.07768
@@ -2325,14 +2325,14 @@ krasallele=TRUE, comutation=FALSE       16    16      16      7 44.33546
 krasallele=FALSE, comutation=FALSE   5.595794 54.34461 24.98603      NA
 krasallele=FALSE, comutation=TRUE    6.315462 86.03741 39.35299      NA
 krasallele=TRUE, comutation=FALSE   11.454400 49.34740 22.91482      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 148, number of events= 54 
+  n= 148, number of events= 54
 
                   coef exp(coef) se(coef)      z Pr(>|z|)
 krasalleleTRUE  0.1384    1.1485   0.4209  0.329    0.742
@@ -2348,11 +2348,11 @@ Wald test            = 2.36  on 2 df,   p=0.3
 Score (logrank) test = 2.4  on 2 df,   p=0.3
 
 
-Likelihood ratio test p-value: 0.2927853 
-Wald test p-value: 0.3066842 
-================================================================================ 
+Likelihood ratio test p-value: 0.2927853
+Wald test p-value: 0.3066842
+================================================================================
 
-LUAD - KRAS G12D - comutation with ZNF804A 
+LUAD - KRAS G12D - comutation with ZNF804A
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE     116   116     116     43 52.53330
 krasallele=FALSE, comutation=TRUE       16    16      16      4 47.00700
@@ -2361,14 +2361,14 @@ krasallele=TRUE, comutation=FALSE       16    16      16      7 47.23223
 krasallele=FALSE, comutation=FALSE   4.045797 56.71171 39.35299      NA
 krasallele=FALSE, comutation=TRUE   14.229864 32.84348 24.22987      NA
 krasallele=TRUE, comutation=FALSE    9.903866 49.34740 22.91482      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 148, number of events= 54 
+  n= 148, number of events= 54
 
                   coef exp(coef) se(coef)      z Pr(>|z|)
 krasalleleTRUE  0.1685    1.1835   0.4095  0.411    0.681
@@ -2384,11 +2384,11 @@ Wald test            = 0.62  on 2 df,   p=0.7
 Score (logrank) test = 0.63  on 2 df,   p=0.7
 
 
-Likelihood ratio test p-value: 0.7201073 
-Wald test p-value: 0.7327316 
-================================================================================ 
+Likelihood ratio test p-value: 0.7201073
+Wald test p-value: 0.7327316
+================================================================================
 
-LUAD - KRAS G12D - comutation with ZP4 
+LUAD - KRAS G12D - comutation with ZP4
                                    records n.max n.start events   *rmean
 krasallele=FALSE, comutation=FALSE     115   115     115     43 60.95261
 krasallele=FALSE, comutation=TRUE       17    17      17      4 91.68598
@@ -2397,14 +2397,14 @@ krasallele=TRUE, comutation=FALSE       17    17      17      7 61.80240
 krasallele=FALSE, comutation=FALSE   6.610945 54.34461 32.84348      NA
 krasallele=FALSE, comutation=TRUE   13.901653       NA 21.56689      NA
 krasallele=TRUE, comutation=FALSE   16.169103 49.34740 22.91482      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-coxph(formula = Surv(time = time, event = status) ~ krasallele + 
+coxph(formula = Surv(time = time, event = status) ~ krasallele +
     comutation, data = surv_data)
 
-  n= 149, number of events= 54 
+  n= 149, number of events= 54
 
                   coef exp(coef) se(coef)      z Pr(>|z|)
 krasalleleTRUE  0.1069    1.1128   0.4090  0.261    0.794
@@ -2420,7 +2420,6 @@ Wald test            = 1.38  on 2 df,   p=0.5
 Score (logrank) test = 1.42  on 2 df,   p=0.5
 
 
-Likelihood ratio test p-value: 0.4464101 
-Wald test p-value: 0.5023435 
-================================================================================ 
-
+Likelihood ratio test p-value: 0.4464101
+Wald test p-value: 0.5023435
+================================================================================

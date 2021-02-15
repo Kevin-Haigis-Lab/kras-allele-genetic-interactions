@@ -68,11 +68,14 @@ plot_pairwise_test_results <- function(hugo_symbol, cancer, data, ...) {
 # Plot the results of the first analysis.
 # This version of the function uses my own box-plot creation function
 #   located in "lib/stats-boxplot.R".
-plot_pairwise_test_results2 <- function(hugo_symbol, cancer, data,
+plot_pairwise_test_results2 <- function(hugo_symbol,
+                                        cancer,
+                                        data,
+                                        ova_pairs,
                                         up_spacing = 0.02,
                                         dn_spacing = 0,
                                         save_proto = FALSE,
-                                        replace_svg = FALSE,
+                                        replace_svg = TRUE,
                                         ...) {
   set.seed(0)
 
@@ -82,21 +85,42 @@ plot_pairwise_test_results2 <- function(hugo_symbol, cancer, data,
       y = gene_effect
     )
 
+  stats_df <- ova_pairs %>%
+    filter(adj_p_value < 0.05) %>%
+    filter(allele != "WT") %>%
+    left_join(
+      data %>%
+        group_by(kras_allele) %>%
+        filter(y == max(y)) %>%
+        ungroup() %>%
+        select(kras_allele, y, x),
+      by = c("allele" = "kras_allele")
+    ) %>%
+    mutate(
+      label = format_pvalue_label(adj_p_value, add_p = FALSE),
+      label = paste0("p=", label)
+    )
 
-  stat_tib <- make_stats_dataframe(data,
-    auto_filter = TRUE,
-    method = "t.test",
-    p.adjust.method = "BH"
-  )
-
-  p <- stats_boxplot(data, stat_tib,
+  p <- stats_boxplot_boxplot(
+    data,
     box_color = kras_allele,
-    up_spacing = up_spacing,
-    dn_spacing = dn_spacing,
-    point_size = 0.1,
-    label_size = 3,
-    bar_size = 0.3
+    point_size = 0.25,
+    point_alpha = 0.8,
+    box_size = 0.4
   ) +
+    ggtext::geom_richtext(
+      aes(x = x, y = y, label = label),
+      data = stats_df,
+      size = 1.8,
+      color = "black",
+      hjust = 0.5,
+      vjust = -0.8,
+      family = "Arial",
+      fill = NA,
+      label.color = NA,
+      label.padding = grid::unit(rep(0, 4), "pt")
+    ) +
+    scale_y_continuous(expand = expansion(mult = c(0.02, 0.15))) +
     scale_color_manual(values = short_allele_pal) +
     theme_bw(base_size = 7, base_family = "Arial") +
     theme(
@@ -139,13 +163,11 @@ select_gene_boxplots <- tibble::tribble(
   "PAAD", "ZSCAN31", 0.06, 0.06
 )
 
-
 depmap_model_workflow_res %>%
   filter_depmap_model_workflow_res() %>%
-  pwalk(plot_pairwise_test_results) %>%
+  # pwalk(plot_pairwise_test_results) %>%
   inner_join(select_gene_boxplots, by = c("cancer", "hugo_symbol")) %>%
   pwalk(plot_pairwise_test_results2, save_proto = TRUE)
-
 
 
 #### ---- Heatmaps ---- ####
@@ -359,8 +381,14 @@ plot_cancer_heatmaps <- function(cancer, data, screen,
     fontsize = 5,
     silent = TRUE,
     border_color = NA,
-    fontfamily = "Arial"
+    fontfamily = "Arial",
+    fontface = 1
   )
+
+  ph <- remove_bold_in_pheatmap(ph)
+  ph <- italicize_pheatmap_rownames(ph)
+  ph <- reduce_height_of_column_anno(ph)
+  # browser()
 
   save_path <- plot_path(
     GRAPHS_DIR_HEAT,
@@ -438,7 +466,7 @@ depmap_gene_clusters <- depmap_model_workflow_res %>%
   ungroup() %>%
   update_clusters()
 
-ProjectTemplate::cache("depmap_gene_clusters",
+cache("depmap_gene_clusters",
   depends = "depmap_model_workflow_res"
 )
 

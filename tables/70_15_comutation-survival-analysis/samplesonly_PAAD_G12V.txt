@@ -1,23 +1,22 @@
-PAAD - KRAS G12V - comutation with TP53 
+PAAD - KRAS G12V - comutation with TP53
                  records n.max n.start events   *rmean *se(rmean)   median
 comutation=FALSE       8     8       8      3 45.63238   8.314039 71.73620
 comutation=TRUE       25    25      25     16 23.58149   3.856933 17.91761
                   0.95LCL 0.95UCL
 comutation=FALSE 36.19686      NA
 comutation=TRUE  12.95328      NA
-================================================================================ 
+================================================================================
 
- 
+
 Call:
-survdiff(formula = Surv(time = time, event = status) ~ comutation, 
+survdiff(formula = Surv(time = time, event = status) ~ comutation,
     data = surv_data)
 
                   N Observed Expected (O-E)^2/E (O-E)^2/V
 comutation=FALSE  8        3     6.62      1.98       3.7
 comutation=TRUE  25       16    12.38      1.06       3.7
 
- Chisq= 3.7  on 1 degrees of freedom, p= 0.05 
+ Chisq= 3.7  on 1 degrees of freedom, p= 0.05
 
-p-value: 0.05452243 
-================================================================================ 
-
+p-value: 0.05452243
+================================================================================

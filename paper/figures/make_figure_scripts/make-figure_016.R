@@ -40,7 +40,6 @@ theme_graph_fig16 <- function(tag_margin = margin(0, 0, 0, 0, "mm")) {
 
 #### ---- Prepare Survival plots ---- ####
 
-
 theme_classic_fig16 <- function() {
   theme_classic_comutation() %+replace%
     theme(
@@ -320,9 +319,7 @@ panel_FI_legend <- read_fig_proto("custom_survival_curve_legend") +
   )
 
 
-
 #### ---- Figure assembly ---- ####
-
 
 {
   set.seed(0)

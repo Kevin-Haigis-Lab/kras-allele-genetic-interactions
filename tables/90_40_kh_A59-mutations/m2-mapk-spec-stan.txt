@@ -11,30 +11,30 @@ Model Info:
 
 Estimates:
                      mean   sd   10%   50%   90%
-(Intercept)        -0.7    0.0 -0.8  -0.7  -0.7 
-grpKRAS_mutant     -1.2    0.1 -1.3  -1.2  -1.1 
-grpA59_mutant       0.4    0.6 -0.4   0.4   1.1 
-is_hypermutantTRUE  2.2    0.1  2.1   2.2   2.3 
+(Intercept)        -0.7    0.0 -0.8  -0.7  -0.7
+grpKRAS_mutant     -1.2    0.1 -1.3  -1.2  -1.1
+grpA59_mutant       0.4    0.6 -0.4   0.4   1.1
+is_hypermutantTRUE  2.2    0.1  2.1   2.2   2.3
 
 Fit Diagnostics:
            mean   sd   10%   50%   90%
-mean_PPD 0.3    0.0  0.3   0.3   0.3  
+mean_PPD 0.3    0.0  0.3   0.3   0.3
 
 The mean_ppd is the sample average posterior predictive distribution of the outcome variable (for details see help('summary.stanreg')).
 
 MCMC diagnostics
                    mcse Rhat n_eff
-(Intercept)        0.0  1.0  5404 
-grpKRAS_mutant     0.0  1.0  4655 
-grpA59_mutant      0.0  1.0  4552 
-is_hypermutantTRUE 0.0  1.0  4977 
-mean_PPD           0.0  1.0  3912 
-log-posterior      0.0  1.0  1909 
+(Intercept)        0.0  1.0  5404
+grpKRAS_mutant     0.0  1.0  4655
+grpA59_mutant      0.0  1.0  4552
+is_hypermutantTRUE 0.0  1.0  4977
+mean_PPD           0.0  1.0  3912
+log-posterior      0.0  1.0  1909
 
 For each parameter, mcse is Monte Carlo standard error, n_eff is a crude measure of effective sample size, and Rhat is the potential scale reduction factor on split chains (at convergence Rhat=1).
 
 
--------------------------------------------------------------------------------- 
+--------------------------------------------------------------------------------
 
 
 # Description of Posterior Distributions
@@ -48,7 +48,7 @@ is_hypermutantTRUE |  2.214 | 89 |  2.074 |   2.376 | 1.000 |      89 |   -0.181
 
 
 
--------------------------------------------------------------------------------- 
+--------------------------------------------------------------------------------
 
 
 # Highest Density Interval
@@ -62,7 +62,7 @@ is_hypermutantTRUE | [ 2.07,  2.38]
 
 
 
--------------------------------------------------------------------------------- 
+--------------------------------------------------------------------------------
 
 
 # Bayes Factor (Savage-Dickey density ratio)
@@ -77,6 +77,4 @@ is_hypermutantTRUE | 3.00e+26
 * Evidence Against The Null: [0]
 
 
--------------------------------------------------------------------------------- 
-
-
+--------------------------------------------------------------------------------

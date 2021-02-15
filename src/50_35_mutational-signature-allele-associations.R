@@ -68,6 +68,8 @@ get_alleles_to_test <- function(cancer, min_num = 15) {
 }
 
 
+# Wilcox pairwise test.
+# P-value are adjusted for MHT using the Bonferroni method.
 pairwise_test_msigs <- function(data) {
   res <- pairwise.wilcox.test(
     x = data$contribution,
@@ -979,10 +981,10 @@ create_boxplot_stats_plotting_dataframe <- function(ms_df,
 }
 
 
-add_star_label_data <- function(stats_df) {
+add_star_label_data <- function(stats_df, pvalue_label_fxn = assign_stars) {
   stats_df %>%
     mutate(
-      stars_lbl = assign_stars(p_value),
+      stars_lbl = pvalue_label_fxn(p_value),
       stars_x = map2_dbl(
         as.numeric(group1),
         as.numeric(group2),
@@ -1006,8 +1008,8 @@ annotate_boxplot_with_statbars <- function(bp, bars_df) {
     ) +
     geom_text(
       aes(x = stars_x, y = y, label = stars_lbl),
-      vjust = 0.4,
-      size = 3.5,
+      vjust = -0.3,
+      size = 1.7,
       family = "Arial",
       color = "grey15",
       data = bars_df
@@ -1059,7 +1061,7 @@ boxplot_plot_signatures <- function(signature,
     mod_ms_df,
     mod_stats_df
   ) %>%
-    add_star_label_data()
+    add_star_label_data(pvalue_label_fxn = format_pvalue_label)
   box_plot <- annotate_boxplot_with_statbars(box_plot, stats_bars_df)
   ggsave_wrapper(
     box_plot,
@@ -1092,7 +1094,7 @@ plot_vars_levels <- tribble(
   # "15", "LUAD", 1.2, c(1, 10),
   # "18", "LUAD", 1.15, c(1, 10),
   "2", "MM", 1.05, c(1, 10),
-  "5", "MM", 0.8, c(1, 10),
+  # "5", "MM", 0.8, c(1, 10),
   "9", "MM", 1.2, c(1, 10),
   "1", "PAAD", 1.15, c(1, 10),
   "5", "PAAD", 1.2, c(1, 10),

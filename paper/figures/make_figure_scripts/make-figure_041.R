@@ -37,6 +37,7 @@ panel_A_1 <- read_fig_proto("mm_comut_heatmap_TRUNCATED") +
   theme(
     legend.position = "none",
     axis.title = element_blank(),
+    axis.text.y = element_text(face = "italic"),
     plot.margin = margin(0, 0, 0, 1, "mm")
   )
 panel_A_2 <- read_fig_proto("allele_freq_barplot_TRUNCATED") +
@@ -90,6 +91,16 @@ panel_A <- panel_A_2 + panel_A_1 + panel_A_3 +
   plot_layout(design = panel_A_design)
 
 
+pull_original_plot_data(panel_A_1) %>%
+  select(-label, -label_face) %>%
+  mutate(num_allele_comuts = as.integer(num_allele_comuts)) %>%
+  save_figure_source_data(FIGNUM, "heatmap")
+
+pull_original_plot_data(panel_A_2) %>%
+  save_figure_source_data(FIGNUM, "KRAS-counts")
+
+pull_original_plot_data(panel_A_3) %>%
+  save_figure_source_data(FIGNUM, "mutation-counts")
 
 
 #### ---- Figure assembly ---- ####

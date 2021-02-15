@@ -22,7 +22,6 @@ theme_fig29 <- function(tag_margin = margin(0, 0, 0, 0, "mm")) {
 }
 
 
-
 #### ---- A. GSEA ---- ####
 # GSEA of the dependencies.
 # original script: "src/10_37_gsea-depmap-analysis.R"
@@ -62,10 +61,29 @@ panel_A <- read_fig_proto("gsea-results-COAD-select.rds") +
   ) +
   labs(tag = "a")
 
+pull_original_plot_data(panel_A) %>%
+  select(-(dir:file_path)) %>%
+  relocate(cancer, everything()) %>%
+  mutate(across(c(size, rank_at_max), as.integer)) %>%
+  save_figure_source_data(FIGNUM, panel = "a")
+
 
 #### ---- B, C. Ranked heatmaps of GSEA ---- ####
 # Two heatmaps showing the ranks of genes in the enriched genesets.
 # original script: "src/10_37_gsea-depmap-analysis.R"
+
+theme_fig29_rankplot <- function() {
+  theme_fig29() %+replace%
+    theme(
+      plot.title = element_blank(),
+      axis.title.y = element_blank(),
+      legend.position = "none",
+      panel.grid = element_blank(),
+      axis.text.x = element_blank(),
+      axis.text.y = element_text(face = "italic", size = 6, hjust = 1),
+      plot.background = element_rect(fill = NA, color = NA)
+    )
+}
 
 theme_fig29_densityplots <- function(tag_margin_l = -3) {
   theme_classic_comutation() %+replace%
@@ -75,7 +93,7 @@ theme_fig29_densityplots <- function(tag_margin_l = -3) {
         face = "bold",
         margin = margin(0, -2, -1, tag_margin_l, "mm")
       ),
-      plot.title = element_text(size = 7, family = "Arial", face = "bold"),
+      plot.title = element_text(size = 7, family = "Arial"),
       plot.margin = margin(0.4, 0, -1.5, 0, "mm"),
       axis.title = element_blank(),
       axis.text.x = element_blank(),
@@ -100,32 +118,11 @@ panel_B_density <- read_fig_proto(
 panel_B <- read_fig_proto(
   "rankplot_COAD_G12V_PID_ERBB4_PATHWAY.svg"
 ) +
-  theme_fig29() +
-  theme(
-    plot.title = element_blank(),
-    axis.title.y = element_blank(),
-    legend.position = "none",
-    panel.grid = element_blank(),
-    axis.text.x = element_blank(),
-    plot.background = element_rect(fill = NA, color = NA)
-  ) +
+  theme_fig29_rankplot() +
   labs(
-    x = x_label
+    x = x_label,
+    fill = "*KRAS* allele"
   )
-
-
-panel_C <- read_fig_proto(
-  "rankplot_COAD_G13D_KEGG_OXIDATIVE_PHOSPHORYLATION"
-) +
-  theme_fig29() +
-  theme(
-    plot.title = element_text(size = 7, family = "Arial"),
-    axis.title.y = element_blank(),
-    axis.text.x = element_blank(),
-    legend.direction = "none",
-    panel.grid = element_blank()
-  ) +
-  labs(fill = "*KRAS* allele")
 
 
 panel_C_density <- read_fig_proto(
@@ -138,20 +135,14 @@ panel_C_density <- read_fig_proto(
     tag = "c"
   )
 
-panel_C <- panel_C +
-  theme_fig29() +
-  theme(
-    plot.title = element_blank(),
-    axis.title.y = element_blank(),
-    legend.position = "none",
-    panel.grid = element_blank(),
-    axis.text.x = element_blank(),
-    plot.background = element_rect(fill = NA, color = NA)
-  ) +
+panel_C <- read_fig_proto(
+  "rankplot_COAD_G13D_KEGG_OXIDATIVE_PHOSPHORYLATION"
+) +
+  theme_fig29_rankplot() +
   labs(
-    x = x_label
+    x = x_label,
+    fill = "*KRAS* allele"
   )
-
 
 lbl_alleles <- ggplot_build(panel_C)$plot$data$kras_allele %>%
   unique() %>%
@@ -164,8 +155,10 @@ panel_BC_legend <- custom_label_legend(
   gap = 0,
   colors = ifelse(lbl_alleles %in% kras_dark_lbls, "white", "black"),
   y_value = "*KRAS* allele",
-  size = 2, fontface = "bold", family = "Arial",
-  label.padding = unit(1, "mm"), label.size = unit(0, "mm")
+  size = 2,
+  family = "Arial",
+  label.padding = unit(1, "mm"),
+  label.size = unit(0, "mm")
 ) +
   scale_fill_manual(values = short_allele_pal) +
   theme(
@@ -173,8 +166,9 @@ panel_BC_legend <- custom_label_legend(
     plot.margin = margin(0, 10, 0, 20, "mm"),
     plot.title = element_blank(),
     axis.text.y = element_markdown(
-      hjust = 0.5, face = "bold",
-      size = 6, family = "Arial"
+      hjust = 0.5,
+      size = 6,
+      family = "Arial"
     )
   )
 
@@ -198,6 +192,10 @@ panel_D <- wrap_elements(plot = pre_panel_D_main) *
       plot.margin = margin(-10, -9, -13, -7, "mm")
     ) +
   labs(tag = "d")
+
+# panel_D <- cowplot::ggdraw(panel_D)
+panel_D <- panel_D +
+  geom_text(label = "HI", x = 0.5, y = 0.5)
 
 
 panel_D_legend1 <- read_fig_proto(
@@ -227,7 +225,6 @@ panel_D_legend <- ggplot_build(panel_D_legend1)$plot$data %>%
   labs(title = "scaled dep. score")
 
 
-
 #### ---- E. Box plots of select genes ---- ####
 # Box-plots of 4 genes manually selected from the heatmap (panel D).
 # original script: "src/10_11_syn-let_heatmaps-boxplots.R"
@@ -249,9 +246,10 @@ for (f in panel_E_files) {
   }
 
   panel_E_plots[[f]] <- read_fig_proto(f) +
+    scale_x_discrete(expand = expansion(mult = c(0.21, 0.21))) +
     theme_fig29(tag_margin = margin(0, 0, 0, -2, "mm")) %+replace%
     theme(
-      plot.title = element_text(size = 6, face = "bold"),
+      plot.title = element_text(size = 6, face = "italic"),
       axis.title.x = element_blank(),
       axis.text.x = x_axis_text,
       legend.position = "none",
@@ -265,7 +263,6 @@ for (f in panel_E_files) {
 
 panel_E <- wrap_plots(panel_E_plots, ncol = 1)
 panel_E[[1]] <- panel_E[[1]] + labs(tag = "e")
-
 
 
 #### ---- Figure assembly ---- ####
