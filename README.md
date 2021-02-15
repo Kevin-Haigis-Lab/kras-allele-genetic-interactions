@@ -1,4 +1,4 @@
-# The origin, distribution, and genetic interactions of *KRAS* alleles across cancer types
+# The origins and genetic interactions of *KRAS* mutations are allele- and tissue-specific
 
 Joshua H. Cook <a href="https://orcid.org/0000-0001-9815-6879"><img src="https://orcid.org/sites/default/files/images/orcid_16x16.png" style="width:1em;margin-right:.5em;" alt="ORCID iD icon"></a>,
 Giorgio E. M. Melloni <a href="https://orcid.org/0000-0001-6371-1334"><img src="https://orcid.org/sites/default/files/images/orcid_16x16.png" style="width:1em;margin-right:.5em;" alt="ORCID iD icon"></a>,
@@ -24,5 +24,5 @@ Please open an [issue](https://github.com/jhrcook/comutation/issues) if you run 
 ---
 
 [![R](https://img.shields.io/badge/R-4.0.1-276DC3.svg?style=flat&logo=R)](https://cran.r-project.org)
-[![python](https://img.shields.io/badge/Python-3.7-3776AB.svg?style=flat&logo=python&logoColor=yellow)](https://www.python.org)
+[![python](https://img.shields.io/badge/Python-3.7-3776AB.svg?style=flat&logo=python&logoColor=FCD133)](https://www.python.org)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
