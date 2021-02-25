@@ -4,6 +4,19 @@ GRAPHS_DIR <- "90_05_kras-allele-distribution"
 reset_graph_directory(GRAPHS_DIR)
 reset_table_directory(GRAPHS_DIR)
 
+# Number of all tumor samples per cancer.
+cancer_full_muts_df %>%
+  distinct(cancer, tumor_sample_barcode) %>%
+  count(cancer) %>%
+  knitr::kable(format = "simple")
+# > cancer       n
+# > -------  -----
+# > COAD      4865
+# > LUAD      5051
+# > MM        1262
+# > PAAD      2314
+# > SKCM      1590
+
 # Number of WES/WGS tumor samples per cancer.
 cancer_full_muts_df %>%
   filter(target %in% c("genome", "exome")) %>%

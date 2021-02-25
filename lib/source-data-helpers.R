@@ -120,7 +120,7 @@ save_figure_source_data <- function(x, figure, panel = NULL, num_decimals = 3) {
 }
 
 
-#### ---- Archivin ---- ####
+#### ---- Archiving ---- ####
 
 archive_source_data <- function() {
   message(glue("{symbol$tick} Archiving Source Data"))

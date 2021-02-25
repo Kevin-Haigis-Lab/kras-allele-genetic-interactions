@@ -1,11 +1,11 @@
 # Reproduce the results of "The origin, distribution, and genetic interactions of *KRAS* alleles across cancer types."
 
 Follow the instructions below to reproduce all of the results of the paper.
-Please open an [issue](https://github.com/jhrcook/comutation/issues) if you run into any problems.
+Please open an [issue](https://github.com/Kevin-Haigis-Lab/kras-allele-genetic-interactions/issues) if you run into any problems.
 
 ### 1. Download the source code
 
-Download or clone the repostory [jhrcook/comutation](https://github.com/jhrcook/comutation/tree/resubmission) from GitHub.
+Download or clone the repostory [Kevin-Haigis-Lab/kras-allele-genetic-interactions](https://github.com/Kevin-Haigis-Lab/kras-allele-genetic-interactions) from GitHub.
 
 ```bash
 # Download the git repository.
@@ -18,13 +18,16 @@ unzip -q master.zip
 ### 2. Acquire the raw data
 
 Unfortunately, due to data limits on GitHub, we are unable to upload the data with the source code.
-Please contact Kevin M. Haigis (corresponding author) at `kevin_haigis at dfci dot harvard dot edu` for the raw data.
+However, all of the original data sources are publically available and listed in the Data Availability statement of the paper.
+Also, most of the data has been uploaded to [FigShare](https://figshare.com) with the DOI [10.6084/m9.figshare.14115569](10.6084/m9.figshare.14115569).
+
+If further assistance is required, please open an [issue](https://github.com/Kevin-Haigis-Lab/kras-allele-genetic-interactions/issues) or contact Kevin M. Haigis (corresponding author) at `kevin_haigis at dfci dot harvard dot edu` for the raw data.
 
 ### 3. Install software
 
 Ensure that all of the required software is installed.
 
-The R packages and conda virtual environment can be installed using the following command.
+The R and Python virtual environments can be installed using the following command.
 Make sure to first set the project's directory as the current working directory.
 
 ```bash
