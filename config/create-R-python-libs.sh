@@ -4,14 +4,15 @@
 
 module load gcc R/4.0.1 conda2/4.2.13
 
-source ~/.bashrc
+bash ~/.bashrc
 
 # Input files.
-R_LIB_FILE="config/R-libraries.txt"
-PY_LIB_FILE="config/python-env.yaml"
+COMUTATION_ENV_FILE="config/comutation_environment.yaml"
+RCTEST_ENV_FILE="config/rctest_environment.yaml"
 
 # Install the R packages using 'renv'.
 Rscript -e "renv::restore()"
 
 # Create the conda virtual environment.
-conda env create -f $PY_LIB_FILE
+conda env create -f "$COMUTATION_ENV_FILE"
+conda env create -f "$RCTEST_ENV_FILE"

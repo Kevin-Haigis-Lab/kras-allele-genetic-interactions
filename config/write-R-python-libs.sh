@@ -4,16 +4,17 @@
 
 module load gcc R/4.0.1 conda2/4.2.13
 
-source ~/.bashrc
+bash /home/jc604/.bashrc
 
 # Output files.
-R_LIB_FILE="config/R-libraries.txt"
-PY_LIB_FILE="config/python-env.yaml"
+COMUTATION_ENV_FILE="config/comutation_environment.yaml"
+RCTEST_ENV_FILE="config/rctest_environment.yaml"
 
 # Take a snapshot of the library using 'renv'.
-Rscript -e "renv::snapshot()"
+Rscript -e "renv::snapshot(force=TRUE)"
 
-# Export conda environment.
-source activate rctest
-conda env export > $PY_LIB_FILE
-conda deactivate
+# Export comutation conda environment.
+conda env export --name comutation --no-builds > "$COMUTATION_ENV_FILE"
+
+# Export RC-test conda environment.
+conda env export --name rctest --no-builds > "$RCTEST_ENV_FILE"
