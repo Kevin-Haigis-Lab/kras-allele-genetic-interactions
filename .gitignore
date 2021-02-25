@@ -102,7 +102,8 @@ vignettes/*.pdf
 
 #################
 
-data/
+data/*
+!data/data-to-source-data.py
 cache/
 temp/
 
@@ -113,3 +114,5 @@ paper/figures/ggproto_objects/
 update-graph-dir.zsh
 src/_temp-analysis-environment.R
 *\~\$*.docx
+
+.httr-oauth

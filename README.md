@@ -7,6 +7,7 @@ Peter J. Park <a href="http://orcid.org/0000-0001-9378-960X"><img src="https://o
 Kevin M. Haigis <a href="https://orcid.org/0000-0003-1922-4509"><img src="https://orcid.org/sites/default/files/images/orcid_16x16.png" style="width:1em;margin-right:.5em;" alt="ORCID iD icon"></a>
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4541794.svg)](https://doi.org/10.5281/zenodo.4541794)
+[![fighsare](https://img.shields.io/badge/DOI-10.6084/m9.figshare.14115569-556472?logo=figshare&logoColor=white)](https://figshare.com/account/home)
 
 ## Abstract
 

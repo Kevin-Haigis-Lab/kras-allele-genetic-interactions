@@ -11,7 +11,7 @@ COMUTATION_ENV_FILE="config/comutation_environment.yaml"
 RCTEST_ENV_FILE="config/rctest_environment.yaml"
 
 # Install the R packages using 'renv'.
-Rscript -e "renv::restore()"
+Rscript -e "install.packages('renv'); renv::restore()"
 
 # Create the conda virtual environment.
 conda env create -f "$COMUTATION_ENV_FILE"
