@@ -37,7 +37,7 @@ make_mutation_tibble <- function(new_nuc, pos, codon) {
 
 
 # Enumerate all of the single-base-substitutions possible on a codon.
-enumerate_sbs_mutations <- function(codon) {
+enumerate_sbs_mutations <- function(codon, silent = FALSE) {
   stopifnot(str_length(codon) == 3)
 
   codon_bio <- Biostrings::DNAString(codon)
@@ -51,10 +51,12 @@ enumerate_sbs_mutations <- function(codon) {
     }
   }
 
-  cat(
-    glue("=> Num. possible amino acids: {n_distinct(mut_df$amino_acid)}"),
-    "\n"
-  )
+  if (!silent) {
+    cat(
+      glue("=> Num. possible amino acids: {n_distinct(mut_df$amino_acid)}"),
+      "\n"
+    )
+  }
   return(mut_df)
 }
 
