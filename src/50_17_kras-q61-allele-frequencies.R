@@ -162,7 +162,18 @@ tricontext_genome_counts <- tricontext_counts_df %>%
   set_names(c("context", "exome", "genome")) %>%
   pivot_longer(-context, names_to = "target", values_to = "genome_count")
 
-q61_tricontext_mutations
+knitr::kable(q61_tricontext_mutations)
+# |kras_allele |amino_acid |context |tricontext | kras_codon|
+# |:-----------|:----------|:-------|:----------|----------:|
+# |Q61E        |E          |TCA     |T[C>G]A    |         61|
+# |Q61H        |H          |CTT     |C[T>A]T    |         61|
+# |Q61H        |H          |CTT     |C[T>G]T    |         61|
+# |Q61H        |H          |CTT     |C[T>A]T    |         61|
+# |Q61H        |H          |CTT     |C[T>G]T    |         61|
+# |Q61K        |K          |TCA     |T[C>A]A    |         61|
+# |Q61L        |L          |TTG     |T[T>A]G    |         61|
+# |Q61P        |P          |TTG     |T[T>G]G    |         61|
+# |Q61R        |R          |TTG     |T[T>C]G    |         61|
 
 q61_cancer_map <- purrr::map_dfr(
   unique(q61_allele_frequencies_q61$cancer),
@@ -382,4 +393,74 @@ ggsave_wrapper(
   plot_path(GRAPHS_DIR, "prediction-distributions.png"),
   width = 7.5,
   height = 3
+)
+
+
+group_order <- c("Q61", "other", "WT")
+kras_q61_predictions_mod <- trinucleotide_mutations_df %>%
+  distinct(tumor_sample_barcode, cancer, kras_allele) %>%
+  rename(obs_kras_allele = kras_allele) %>%
+  inner_join(kras_q61_predictions, by = c("cancer", "tumor_sample_barcode")) %>%
+  mutate(
+    kras_group = case_when(
+      obs_kras_allele == "WT" ~ "WT",
+      str_detect(obs_kras_allele, "^Q61") ~ "Q61",
+      TRUE ~ "other"
+    ),
+    kras_group = factor(kras_group, levels = group_order)
+  )
+
+
+pos <- position_jitterdodge(jitter.width = 0.25, jitter.height = 0)
+prediction_dist_plot_grouped <- kras_q61_predictions_mod %>%
+  ggplot(aes(x = kras_allele, y = allele_prob, color = kras_group)) +
+  facet_wrap(vars(cancer), nrow = 1) +
+  geom_jitter(alpha = 0.2, size = 0.1, position = pos) +
+  geom_boxplot(outlier.color = NA, alpha = 0.3) +
+  scale_y_continuous(expand = expansion(c(0, 0.02))) +
+  scale_color_brewer(type = "qual", palette = "Set1") +
+  q61_plot_theme() +
+  theme(
+    axis.title.x = ggtext::element_markdown(),
+    axis.title.y = ggtext::element_markdown(),
+    legend.position = "bottom",
+    legend.title = ggtext::element_markdown()
+  ) +
+  labs(x = "*KRAS* allele", y = "probability", color = "*KRAS* group")
+
+ggsave_wrapper(
+  prediction_dist_plot_grouped,
+  plot_path(GRAPHS_DIR, "prediction-distributions-grouped.png"),
+  width = 7.5,
+  height = 2.5
+)
+
+
+q61_probabilities_connected <- kras_q61_predictions_mod %>%
+  group_by(cancer, kras_group) %>%
+  mutate(
+    line_alpha = 1 / log(n()**2 + exp(1)),
+    line_alpha = purrr::map_dbl(line_alpha, ~ min(.x, 0.5))
+  ) %>%
+  ggplot(aes(x = kras_allele, y = allele_prob)) +
+  facet_grid(rows = vars(kras_group), cols = vars(cancer)) +
+  geom_point(size = 0.02, alpha = 0.1) +
+  geom_line(aes(group = tumor_sample_barcode, alpha = line_alpha), size = 0.3) +
+  geom_boxplot(outlier.shape = NA, alpha = 0.7, fill = "white", width = 0.1, size = 0.2) +
+  scale_x_discrete(expand = expansion(c(0.02, 0.02))) +
+  scale_y_continuous(expand = expansion(c(0.02, 0.02))) +
+  scale_alpha_identity() +
+  q61_plot_theme() +
+  theme(
+    axis.title.x = ggtext::element_markdown(),
+    axis.title.y = ggtext::element_markdown(),
+    panel.spacing.x = unit(10, "pt")
+  ) +
+  labs(x = "*KRAS* allele", y = "probability")
+
+ggsave_wrapper(
+  q61_probabilities_connected,
+  plot_path(GRAPHS_DIR, "prediction-distributions-connected.png"),
+  width = 7.5,
+  height = 4
 )

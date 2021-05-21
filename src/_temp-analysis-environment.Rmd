@@ -29,12 +29,15 @@ library(tidyverse)
 #   source(f)
 # }
 
+source(here::here("lib/ggplot2-helpers.R"))
+source(here::here("lib/helpers.R"))
+
 # Shut-up dplyr.
 options(dplyr.summarise.inform = FALSE)
 
 # Set global ggplot2 theme.
 q61_plot_theme <- function() {
-  theme_bw(base_size = 11, base_family = "Arial") %+replace%
+  theme_bw(base_size = 7, base_family = "Arial") %+replace%
     theme(
       strip.background = element_blank(),
       axis.ticks = element_blank()
