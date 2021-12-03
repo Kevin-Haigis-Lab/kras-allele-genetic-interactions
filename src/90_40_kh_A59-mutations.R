@@ -630,8 +630,8 @@ loo_model_weights(model_list)
 # > m2_mapk_spec_stan 0.328
 # > m3_mapk_spec_stan 0.672
 
-saveRDS(m3_mapk_spec_stan, "m3_mapk_spec_stan.rds")
-saveRDS(a59_mapk_mut_counts, "a59_mapk_mut_counts.rds")
+# saveRDS(m3_mapk_spec_stan, "m3_mapk_spec_stan.rds")
+# saveRDS(a59_mapk_mut_counts, "a59_mapk_mut_counts.rds")
 
 
 # ---- Posterior-Predictive plots ---- #
@@ -759,4 +759,50 @@ ggsave_wrapper(
   mut_signature_contribution_a59muts,
   plot_path(GRAPHS_DIR, "mut_signature_contribution_a59muts.svg"),
   "wide"
+)
+
+# ---- Frequency of co-mutation vs. frequency of allele ---- #
+
+allele_comut_frequencies <- a59_cancer_data %>%
+  filter(hugo_symbol != "KRAS") %>%
+  mutate(
+    ras_allele = str_remove(ras_allele, "KRAS_"),
+    ras_allele = case_when(
+      !is_a59_mutation ~ ras_allele,
+      is_a59_mutation & ras_allele == "WT" ~ a59_mutation,
+      is_a59_mutation & ras_allele != "WT" ~ as.character(glue::glue("{ras_allele} & {a59_mutation}"))
+    )
+  ) %>%
+  group_by(tumor_sample_barcode, ras_allele) %>%
+  summarize(is_mapk_mut = any(in_mapk_spec_gs)) %>%
+  ungroup() %>%
+  group_by(ras_allele) %>%
+  summarize(
+    n_ras_allele = n_distinct(tumor_sample_barcode),
+    frac_is_mapk_spec_gs = mean(is_mapk_mut),
+  ) %>%
+  ungroup() %>%
+  mutate(frac_ras_allele = n_ras_allele / sum(n_ras_allele))
+
+allele_vs_comut_freq_plot <- allele_comut_frequencies %>%
+  filter(ras_allele != "WT" & n_ras_allele > 2) %>%
+  mutate(
+    ras_allele = str_remove(ras_allele, "KRAS_"),
+    pt_color = ifelse(str_detect(ras_allele, "A59[TE]"), "red", "black")
+  ) %>%
+  ggplot(aes(x = frac_ras_allele, y = frac_is_mapk_spec_gs)) +
+  geom_point(aes(color = pt_color), size = 0.5, alpha = 0.9) +
+  ggrepel::geom_text_repel(
+    aes(label = ras_allele),
+    size = 2,
+    seed = 0,
+    family = "arial"
+  ) +
+  scale_color_identity() +
+  theme_classic(base_size = 7, base_family = "arial") +
+  labs(x = "allele frequency", y = "fraction with MAPK co-mutation")
+ggsave_wrapper(
+  allele_vs_comut_freq_plot,
+  plot_path(GRAPHS_DIR, "allele_vs_comut_freq_plot.svg"),
+  "small"
 )

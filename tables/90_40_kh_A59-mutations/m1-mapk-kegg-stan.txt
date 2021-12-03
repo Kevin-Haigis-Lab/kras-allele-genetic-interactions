@@ -61,9 +61,12 @@ grpA59_mutant  | [-1.32,  1.69]
 
 Bayes Factor (Savage-Dickey density ratio)
 
-Parameter      |Model comparison based on LOO-CV:
-                  elpd_diff se_diff
-m3_mapk_spec_stan    0.0       0.0
-m2_mapk_spec_stan   -1.3       2.9
-m1_mapk_spec_stan -315.0      24.6
-------------------------------------------------
+Parameter      |       BF
+-------------------------
+(Intercept)    | 2.25e+60
+grpKRAS_mutant | 6.35e+09
+grpA59_mutant  |    0.241
+
+* Evidence Against The Null: 0
+
+--------------------------------------------------------------------------------
