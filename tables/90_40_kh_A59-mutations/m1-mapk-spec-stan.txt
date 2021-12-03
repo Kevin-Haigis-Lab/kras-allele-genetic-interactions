@@ -11,9 +11,9 @@ Model Info:
 
 Estimates:
                  mean   sd   10%   50%   90%
-(Intercept)    -0.4    0.0 -0.5  -0.4  -0.4
+(Intercept)    -0.4    0.0 -0.4  -0.4  -0.3
 grpKRAS_mutant -1.1    0.1 -1.2  -1.1  -1.0
-grpA59_mutant   1.0    0.5  0.3   1.0   1.7
+grpA59_mutant   1.0    0.5  0.4   1.0   1.7
 
 Fit Diagnostics:
            mean   sd   10%   50%   90%
@@ -23,11 +23,11 @@ The mean_ppd is the sample average posterior predictive distribution of the outc
 
 MCMC diagnostics
                mcse Rhat n_eff
-(Intercept)    0.0  1.0  3868
-grpKRAS_mutant 0.0  1.0  3619
-grpA59_mutant  0.0  1.0  3798
-mean_PPD       0.0  1.0  3747
-log-posterior  0.0  1.0  2103
+(Intercept)    0.0  1.0  3611
+grpKRAS_mutant 0.0  1.0  3405
+grpA59_mutant  0.0  1.0  3449
+mean_PPD       0.0  1.0  3628
+log-posterior  0.0  1.0  1884
 
 For each parameter, mcse is Monte Carlo standard error, n_eff is a crude measure of effective sample size, and Rhat is the potential scale reduction factor on split chains (at convergence Rhat=1).
 
@@ -35,41 +35,38 @@ For each parameter, mcse is Monte Carlo standard error, n_eff is a crude measure
 --------------------------------------------------------------------------------
 
 
-# Description of Posterior Distributions
+Summary of Posterior Distribution
 
-Parameter      | Median | CI | CI_low | CI_high |    pd | ROPE_CI | ROPE_low | ROPE_high | ROPE_Percentage |  Rhat |  ESS
--------------------------------------------------------------------------------------------------------------------------
-(Intercept)    | -0.405 | 89 | -0.463 |  -0.339 | 1.000 |      89 |   -0.181 |     0.181 |               0 | 1.001 | 3868
-grpKRAS_mutant | -1.076 | 89 | -1.182 |  -0.963 | 1.000 |      89 |   -0.181 |     0.181 |               0 | 1.000 | 3619
-grpA59_mutant  |  1.001 | 89 |  0.234 |   1.904 | 0.979 |      89 |   -0.181 |     0.181 |               0 | 1.000 | 3798
-
+Parameter      | Median |         95% CI |     pd |          ROPE | % in ROPE |  Rhat |     ESS
+-----------------------------------------------------------------------------------------------
+(Intercept)    |  -0.39 | [-0.46, -0.31] |   100% | [-0.18, 0.18] |        0% | 1.000 | 3611.00
+grpKRAS_mutant |  -1.06 | [-1.20, -0.94] |   100% | [-0.18, 0.18] |        0% | 1.000 | 3405.00
+grpA59_mutant  |   0.99 | [-0.06,  2.00] | 97.60% | [-0.18, 0.18] |     3.68% | 0.999 | 3449.00
 
 
 --------------------------------------------------------------------------------
 
 
-# Highest Density Interval
+Highest Density Interval
 
-Parameter      |        89% HDI
+Parameter      |        95% HDI
 -------------------------------
-(Intercept)    | [-0.46, -0.34]
-grpKRAS_mutant | [-1.18, -0.96]
-grpA59_mutant  | [ 0.23,  1.90]
-
+(Intercept)    | [-0.46, -0.31]
+grpKRAS_mutant | [-1.20, -0.94]
+grpA59_mutant  | [-0.06,  2.00]
 
 
 --------------------------------------------------------------------------------
 
 
-# Bayes Factor (Savage-Dickey density ratio)
+Bayes Factor (Savage-Dickey density ratio)
 
 Parameter      |       BF
 -------------------------
-(Intercept)    | 2.96e+09
-grpKRAS_mutant | 4.35e+13
-grpA59_mutant  |     1.42
+(Intercept)    | 1.06e+06
+grpKRAS_mutant | 1.13e+11
+grpA59_mutant  |     1.22
 
-* Evidence Against The Null: [0]
-
+* Evidence Against The Null: 0
 
 --------------------------------------------------------------------------------

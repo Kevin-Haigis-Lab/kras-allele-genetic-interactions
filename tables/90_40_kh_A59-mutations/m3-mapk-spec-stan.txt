@@ -11,12 +11,12 @@ Model Info:
 
 Estimates:
                                     mean   sd   10%   50%   90%
-(Intercept)                       -0.8    0.0 -0.8  -0.8  -0.7
+(Intercept)                       -0.7    0.0 -0.8  -0.7  -0.7
 grpKRAS_mutant                    -1.1    0.1 -1.2  -1.1  -1.0
-grpA59_mutant                      0.2    0.7 -0.7   0.2   1.2
-is_hypermutantTRUE                 2.4    0.1  2.2   2.4   2.6
-grpKRAS_mutant:is_hypermutantTRUE -0.4    0.2 -0.7  -0.4  -0.2
-grpA59_mutant:is_hypermutantTRUE   0.5    1.3 -1.1   0.4   2.3
+grpA59_mutant                      0.2    0.7 -0.7   0.2   1.1
+is_hypermutantTRUE                 2.5    0.1  2.3   2.5   2.6
+grpKRAS_mutant:is_hypermutantTRUE -0.5    0.2 -0.8  -0.5  -0.3
+grpA59_mutant:is_hypermutantTRUE   0.5    1.3 -1.1   0.4   2.2
 
 Fit Diagnostics:
            mean   sd   10%   50%   90%
@@ -26,14 +26,14 @@ The mean_ppd is the sample average posterior predictive distribution of the outc
 
 MCMC diagnostics
                                   mcse Rhat n_eff
-(Intercept)                       0.0  1.0  4647
-grpKRAS_mutant                    0.0  1.0  3315
-grpA59_mutant                     0.0  1.0  3058
-is_hypermutantTRUE                0.0  1.0  2801
-grpKRAS_mutant:is_hypermutantTRUE 0.0  1.0  2586
-grpA59_mutant:is_hypermutantTRUE  0.0  1.0  2819
-mean_PPD                          0.0  1.0  4150
-log-posterior                     0.0  1.0  1899
+(Intercept)                       0.0  1.0  3988
+grpKRAS_mutant                    0.0  1.0  3491
+grpA59_mutant                     0.0  1.0  2931
+is_hypermutantTRUE                0.0  1.0  2584
+grpKRAS_mutant:is_hypermutantTRUE 0.0  1.0  2545
+grpA59_mutant:is_hypermutantTRUE  0.0  1.0  2530
+mean_PPD                          0.0  1.0  3262
+log-posterior                     0.0  1.0  1618
 
 For each parameter, mcse is Monte Carlo standard error, n_eff is a crude measure of effective sample size, and Rhat is the potential scale reduction factor on split chains (at convergence Rhat=1).
 
@@ -41,50 +41,47 @@ For each parameter, mcse is Monte Carlo standard error, n_eff is a crude measure
 --------------------------------------------------------------------------------
 
 
-# Description of Posterior Distributions
+Summary of Posterior Distribution
 
-Parameter                         | Median | CI | CI_low | CI_high |    pd | ROPE_CI | ROPE_low | ROPE_high | ROPE_Percentage |  Rhat |  ESS
---------------------------------------------------------------------------------------------------------------------------------------------
-(Intercept)                       | -0.762 | 89 | -0.831 |  -0.692 | 1.000 |      89 |   -0.181 |     0.181 |           0.000 | 1.000 | 4647
-grpKRAS_mutant                    | -1.112 | 89 | -1.234 |  -0.980 | 1.000 |      89 |   -0.181 |     0.181 |           0.000 | 1.002 | 3315
-grpA59_mutant                     |  0.230 | 89 | -0.915 |   1.436 | 0.633 |      89 |   -0.181 |     0.181 |           0.212 | 1.001 | 3058
-is_hypermutantTRUE                |  2.412 | 89 |  2.214 |   2.642 | 1.000 |      89 |   -0.181 |     0.181 |           0.000 | 1.001 | 2801
-grpKRAS_mutant:is_hypermutantTRUE | -0.440 | 89 | -0.752 |  -0.137 | 0.989 |      89 |   -0.181 |     0.181 |           0.035 | 1.003 | 2586
-grpA59_mutant:is_hypermutantTRUE  |  0.423 | 89 | -1.509 |   2.713 | 0.631 |      89 |   -0.181 |     0.181 |           0.127 | 1.001 | 2819
-
+Parameter                         | Median |         95% CI |     pd |          ROPE | % in ROPE |  Rhat |     ESS
+------------------------------------------------------------------------------------------------------------------
+(Intercept)                       |  -0.75 | [-0.83, -0.66] |   100% | [-0.18, 0.18] |        0% | 1.000 | 3988.00
+grpKRAS_mutant                    |  -1.09 | [-1.26, -0.93] |   100% | [-0.18, 0.18] |        0% | 1.000 | 3491.00
+grpA59_mutant                     |   0.23 | [-1.30,  1.55] | 62.75% | [-0.18, 0.18] |    19.92% | 1.002 | 2931.00
+is_hypermutantTRUE                |   2.46 | [ 2.20,  2.73] |   100% | [-0.18, 0.18] |        0% | 1.000 | 2584.00
+grpKRAS_mutant:is_hypermutantTRUE |  -0.52 | [-0.89, -0.13] | 99.75% | [-0.18, 0.18] |     2.10% | 1.000 | 2545.00
+grpA59_mutant:is_hypermutantTRUE  |   0.40 | [-2.02,  3.04] | 62.60% | [-0.18, 0.18] |    11.81% | 1.002 | 2530.00
 
 
 --------------------------------------------------------------------------------
 
 
-# Highest Density Interval
+Highest Density Interval
 
-Parameter                         |        89% HDI
+Parameter                         |        95% HDI
 --------------------------------------------------
-(Intercept)                       | [-0.83, -0.69]
-grpKRAS_mutant                    | [-1.23, -0.98]
-grpA59_mutant                     | [-0.91,  1.44]
-is_hypermutantTRUE                | [ 2.21,  2.64]
-grpKRAS_mutant:is_hypermutantTRUE | [-0.75, -0.14]
-grpA59_mutant:is_hypermutantTRUE  | [-1.51,  2.71]
-
+(Intercept)                       | [-0.83, -0.66]
+grpKRAS_mutant                    | [-1.26, -0.93]
+grpA59_mutant                     | [-1.30,  1.55]
+is_hypermutantTRUE                | [ 2.20,  2.73]
+grpKRAS_mutant:is_hypermutantTRUE | [-0.89, -0.13]
+grpA59_mutant:is_hypermutantTRUE  | [-2.02,  3.04]
 
 
 --------------------------------------------------------------------------------
 
 
-# Bayes Factor (Savage-Dickey density ratio)
+Bayes Factor (Savage-Dickey density ratio)
 
 Parameter                         |       BF
 --------------------------------------------
-(Intercept)                       | 3.14e+16
-grpKRAS_mutant                    | 2.54e+12
-grpA59_mutant                     |     0.23
-is_hypermutantTRUE                | 3.74e+23
-grpKRAS_mutant:is_hypermutantTRUE |     0.97
-grpA59_mutant:is_hypermutantTRUE  |     0.47
+(Intercept)                       | 7.76e+17
+grpKRAS_mutant                    | 6.43e+11
+grpA59_mutant                     |    0.251
+is_hypermutantTRUE                | 1.89e+21
+grpKRAS_mutant:is_hypermutantTRUE |     2.33
+grpA59_mutant:is_hypermutantTRUE  |    0.424
 
-* Evidence Against The Null: [0]
-
+* Evidence Against The Null: 0
 
 --------------------------------------------------------------------------------

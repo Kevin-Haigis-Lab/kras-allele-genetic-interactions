@@ -46,12 +46,11 @@ n_distinct(mapk_kegg_gs)
 # > 267
 
 mapk_spec_gs <- c(
-  "KRAS", "NF1", "BRAF", "RAF1", "ARAF", "NRAS", "HRAS",
-  "MAP2K1", "EGFR", "ERBB2", "ERBB3", "ERBB4", "RASAL1",
-  "RASAL2"
+  "KRAS", "NF1", "BRAF", "RAF1", "ARAF", "NRAS", "HRAS", "MAP2K1", "EGFR", "ERBB2",
+  "ERBB3", "ERBB4", "RASAL1", "RASAL2", "MAP2K2", "MAPK3", "MAPK1"
 )
 n_distinct(mapk_spec_gs)
-# > 14
+# > 17
 
 
 # A specific data frame for this analysis (only in COAD).
@@ -82,7 +81,7 @@ num_samples - num_samples_woKRAS
 # > [1] 38
 
 
-#### ---- A59 muts vs. rest freq. of MAPK muts with KRAS ---- ####
+# ---- A59 muts vs. rest freq. of MAPK muts with KRAS ---- #
 
 num_samples_df <- a59_cancer_data %>%
   distinct(tumor_sample_barcode, is_a59_mutation) %>%
@@ -112,11 +111,11 @@ a59_cancer_data %>%
   show_df()
 # > |is_a59_mutation | frac_in_mapk_kegg_gs| frac_in_mapk_spec_gs|
 # > |:---------------|--------------------:|--------------------:|
-# > |FALSE           |                0.937|                0.651|
+# > |FALSE           |                0.937|                0.653|
 # > |TRUE            |                0.882|                0.706|
 
 
-#### ---- A59 muts vs. rest freq. of MAPK muts without KRAS ---- ####
+# ---- A59 muts vs. rest freq. of MAPK muts without KRAS ---- #
 
 num_samples_df <- a59_cancer_data %>%
   distinct(tumor_sample_barcode, is_a59_mutation) %>%
@@ -142,13 +141,13 @@ a59_cancer_data %>%
     frac_in_mapk_spec_gs = num_in_mapk_spec_gs / n
   ) %>%
   show_df()
-# > |is_a59_mutation | frac_in_mapk_kegg_gs| frac_in_mapk_spec_gs|
-# > |:---------------|--------------------:|--------------------:|
-# > |FALSE           |                0.837|                0.312|
-# > |TRUE            |                0.882|                0.647|
+#> |is_a59_mutation | frac_in_mapk_kegg_gs| frac_in_mapk_spec_gs|
+#> |:---------------|--------------------:|--------------------:|
+#> |FALSE           |                0.837|                0.316|
+#> |TRUE            |                0.882|                0.647|
 
 
-#### ---- A59 muts vs. KRAS muts. vs. rest freq. of MAPK muts ---- ####
+# ---- A59 muts vs. KRAS muts. vs. rest freq. of MAPK muts ---- #
 
 num_samples_df <- a59_cancer_data %>%
   mutate(grp = case_when(
@@ -187,11 +186,11 @@ a59_cancer_data %>%
 # > |grp         | frac_in_mapk_kegg_gs| frac_in_mapk_spec_gs|
 # > |:-----------|--------------------:|--------------------:|
 # > |A59_mutant  |                0.882|                0.647|
-# > |KRAS_mutant |                0.757|                0.185|
-# > |rest        |                0.892|                0.400|
+# > |KRAS_mutant |                0.757|                0.189|
+# > |rest        |                0.892|                0.404|
 
 
-#### ---- A59 muts vs. KRAS muts. vs. rest freq. of MAPK muts (WG/ES) ---- ####
+# ---- A59 muts vs. KRAS muts. vs. rest freq. of MAPK muts (WG/ES) ---- #
 
 num_samples_df <- a59_cancer_data %>%
   filter(target %in% c("genome", "exome")) %>%
@@ -232,11 +231,11 @@ a59_cancer_data %>%
 # > |grp         | frac_in_mapk_kegg_gs| frac_in_mapk_spec_gs|
 # > |:-----------|--------------------:|--------------------:|
 # > |A59_mutant  |                0.800|                0.600|
-# > |KRAS_mutant |                0.885|                0.229|
-# > |rest        |                0.877|                0.420|
+# > |KRAS_mutant |                0.885|                0.232|
+# > |rest        |                0.877|                0.425|
 
 
-#### ---- A59 muts vs. KRAS muts. vs. rest freq. of MAPK muts (hypermuts) ---- ####
+# ---- A59 muts vs. KRAS muts. vs. rest freq. of MAPK muts (hypermuts) ---- #
 
 num_samples_df <- a59_cancer_data %>%
   filter(is_hypermutant) %>%
@@ -277,11 +276,11 @@ a59_cancer_data %>%
 # > |grp         | frac_in_mapk_kegg_gs| frac_in_mapk_spec_gs|
 # > |:-----------|--------------------:|--------------------:|
 # > |A59_mutant  |                1.000|                0.889|
-# > |KRAS_mutant |                0.901|                0.525|
-# > |rest        |                0.980|                0.839|
+# > |KRAS_mutant |                0.901|                0.529|
+# > |rest        |                0.980|                0.848|
 
 
-#### ---- Fisher of MAPK mutation between A59 muts and KRAS muts ---- ####
+# ---- Fisher of MAPK mutation between A59 muts and KRAS muts ---- #
 
 num_samples_df <- a59_cancer_data %>%
   mutate(grp = case_when(
@@ -324,8 +323,8 @@ d <- a59_mapk_mut_counts %>%
   as.data.frame() %>%
   column_to_rownames("grp")
 fisher.test(d, alternative = "g")
-# >
-# >     Fisher's Exact Test for Count Data
+
+# > Fisher's Exact Test for Count Data
 # >
 # > data:  d
 # > p-value = 0.1815
@@ -335,7 +334,6 @@ fisher.test(d, alternative = "g")
 # > sample estimates:
 # > odds ratio
 # >   2.407507
-# >
 
 # A59 mutants vs. KRAS mutants (specified gene set)
 d <- a59_mapk_mut_counts %>%
@@ -344,21 +342,19 @@ d <- a59_mapk_mut_counts %>%
   as.data.frame() %>%
   column_to_rownames("grp")
 fisher.test(d, alternative = "g")
-# >
-# >     Fisher's Exact Test for Count Data
-# >
-# > data:  d
-# > p-value = 4.063e-05
-# > alternative hypothesis: true odds ratio is greater than 1
-# > 95 percent confidence interval:
-# >  3.150826      Inf
-# > sample estimates:
-# > odds ratio
-# >   8.041764
-# >
+#> Fisher's Exact Test for Count Data
+#>
+#> data:  d
+#> p-value = 4.998e-05
+#> alternative hypothesis: true odds ratio is greater than 1
+#> 95 percent confidence interval:
+#>  3.068711      Inf
+#> sample estimates:
+#> odds ratio
+#>   7.830133
 
 
-#### ---- Fisher of MAPK mutation between A59 muts and rest ---- ####
+# ---- Fisher of MAPK mutation between A59 muts and rest ---- #
 
 # A59 mutants vs. KRAS mutants (KEGG gene set)
 d <- a59_mapk_mut_counts %>%
@@ -367,8 +363,7 @@ d <- a59_mapk_mut_counts %>%
   as.data.frame() %>%
   column_to_rownames("grp")
 fisher.test(d, alternative = "g")
-# >
-# >     Fisher's Exact Test for Count Data
+# > Fisher's Exact Test for Count Data
 # >
 # > data:  d
 # > p-value = 0.7248
@@ -378,7 +373,6 @@ fisher.test(d, alternative = "g")
 # > sample estimates:
 # > odds ratio
 # >  0.9062955
-# >
 
 
 # A59 mutants vs. KRAS mutants (specified gene set)
@@ -388,21 +382,19 @@ d <- a59_mapk_mut_counts %>%
   as.data.frame() %>%
   column_to_rownames("grp")
 fisher.test(d, alternative = "g")
-# >
-# >     Fisher's Exact Test for Count Data
+# > Fisher's Exact Test for Count Data
 # >
 # > data:  d
-# > p-value = 0.03542
+# > p-value = 0.03809
 # > alternative hypothesis: true odds ratio is greater than 1
 # > 95 percent confidence interval:
-# >  1.081014      Inf
+# >  1.063914      Inf
 # > sample estimates:
 # > odds ratio
-# >   2.748221
-# >
+# >   2.704575
 
 
-#### ---- Binomial model for impact of A59 mutation ---- ####
+# ---- Binomial model for impact of A59 mutation ---- #
 
 is_mapk_mut_ignore_kras <- function(muts, gs) {
   muts_no_kras <- muts[muts != "KRAS"]
@@ -440,8 +432,8 @@ a59_mapk_mut_counts %>%
   show_df()
 # > |grp         | frac_mapk_kegg_mut| frac_mapk_spec_mut|
 # > |:-----------|------------------:|------------------:|
-# > |rest        |              0.892|              0.400|
-# > |KRAS_mutant |              0.757|              0.185|
+# > |rest        |              0.892|              0.404|
+# > |KRAS_mutant |              0.757|              0.189|
 # > |A59_mutant  |              0.882|              0.647|
 
 
@@ -476,7 +468,7 @@ plot_post_distributions <- function(mdl, name) {
 }
 
 
-#### ---- Fraction of each group that is hypermutated ---- ####
+# ---- Fraction of each group that is hypermutated ---- #
 
 grp_hypermutant_frac <- a59_mapk_mut_counts %>%
   count(grp, is_hypermutant) %>%
@@ -512,7 +504,7 @@ ggsave_wrapper(
 )
 
 
-#### ---- M1: just `grp` (A59, KRAS, rest) ---- ####
+# ---- M1: just `grp` (A59, KRAS, rest) ---- #
 
 m1_mapk_kegg_stan <- stan_glm(
   is_mapk_kegg_mut ~ 1 + grp,
@@ -521,7 +513,8 @@ m1_mapk_kegg_stan <- stan_glm(
   prior_intercept = normal(location = 0, scale = 3),
   prior = normal(location = 0, scale = 3),
   cores = 4,
-  seed = 123
+  seed = 123,
+  refresh = 0
 )
 writeout_model_information(m1_mapk_kegg_stan, "m1-mapk-kegg-stan")
 plot_post_distributions(m1_mapk_kegg_stan, "m1-mapk-kegg-stan")
@@ -534,14 +527,15 @@ m1_mapk_spec_stan <- stan_glm(
   prior_intercept = normal(location = 0, scale = 3),
   prior = normal(location = 0, scale = 3),
   cores = 4,
-  seed = 123
+  seed = 123,
+  refresh = 0
 )
 writeout_model_information(m1_mapk_spec_stan, "m1-mapk-spec-stan")
 plot_post_distributions(m1_mapk_spec_stan, "m1-mapk-spec-stan")
 
 
 
-#### ---- M2: grp and hypermutant ---- ####
+# ---- M2: grp and hypermutant ---- #
 
 m2_mapk_kegg_stan <- stan_glm(
   is_mapk_kegg_mut ~ 1 + grp + is_hypermutant,
@@ -550,7 +544,8 @@ m2_mapk_kegg_stan <- stan_glm(
   prior_intercept = normal(location = 0, scale = 3),
   prior = normal(location = 0, scale = 3),
   cores = 4,
-  seed = 123
+  seed = 123,
+  refresh = 0
 )
 writeout_model_information(m2_mapk_kegg_stan, "m2-mapk-kegg-stan")
 plot_post_distributions(m2_mapk_kegg_stan, "m2-mapk-kegg-stan")
@@ -563,14 +558,15 @@ m2_mapk_spec_stan <- stan_glm(
   prior_intercept = normal(location = 0, scale = 3),
   prior = normal(location = 0, scale = 3),
   cores = 4,
-  seed = 123
+  seed = 123,
+  refresh = 0
 )
 writeout_model_information(m2_mapk_spec_stan, "m2-mapk-spec-stan")
 plot_post_distributions(m2_mapk_spec_stan, "m2-mapk-spec-stan")
 
 
 
-#### ---- M3: grp and hypermutant and interaction ---- ####
+# ---- M3: grp and hypermutant and interaction ---- #
 
 
 m3_mapk_kegg_stan <- stan_glm(
@@ -580,7 +576,8 @@ m3_mapk_kegg_stan <- stan_glm(
   prior_intercept = normal(location = 0, scale = 3),
   prior = normal(location = 0, scale = 3),
   cores = 4,
-  seed = 123
+  seed = 123,
+  refresh = 0
 )
 writeout_model_information(m3_mapk_kegg_stan, "m3-mapk-kegg-stan")
 plot_post_distributions(m3_mapk_kegg_stan, "m3-mapk-kegg-stan")
@@ -593,13 +590,14 @@ m3_mapk_spec_stan <- stan_glm(
   prior_intercept = normal(location = 0, scale = 3),
   prior = normal(location = 0, scale = 3),
   cores = 4,
-  seed = 123
+  seed = 123,
+  refresh = 0
 )
 writeout_model_information(m3_mapk_spec_stan, "m3-mapk-spec-stan")
 plot_post_distributions(m3_mapk_spec_stan, "m3-mapk-spec-stan")
 
 
-#### ---- Compare models ---- ####
+# ---- Compare models ---- #
 
 
 m1_mapk_spec_stan$waic <- waic(m1_mapk_spec_stan)
@@ -615,28 +613,28 @@ loo_compare(model_list, criterion = "loo")
 # > Model comparison based on LOO-CV:
 # >                   elpd_diff se_diff
 # > m3_mapk_spec_stan    0.0       0.0
-# > m2_mapk_spec_stan   -0.4       2.5
-# > m1_mapk_spec_stan -310.5      24.6
+# > m2_mapk_spec_stan   -1.3       2.9
+# > m1_mapk_spec_stan -315.0      24.6
 loo_compare(model_list, criterion = "waic")
 # > Model comparison based on WAIC:
 # >                   elpd_diff se_diff
 # > m3_mapk_spec_stan    0.0       0.0
-# > m2_mapk_spec_stan   -0.4       2.5
-# > m1_mapk_spec_stan -310.6      24.6
+# > m2_mapk_spec_stan   -1.4       2.8
+# > m1_mapk_spec_stan -315.2      24.6
 
 loo_model_weights(model_list)
 # > Method: stacking
 # > ------
 # >                   weight
 # > m1_mapk_spec_stan 0.000
-# > m2_mapk_spec_stan 0.421
-# > m3_mapk_spec_stan 0.579
+# > m2_mapk_spec_stan 0.328
+# > m3_mapk_spec_stan 0.672
 
 saveRDS(m3_mapk_spec_stan, "m3_mapk_spec_stan.rds")
 saveRDS(a59_mapk_mut_counts, "a59_mapk_mut_counts.rds")
 
 
-#### ---- Posterior-Predictive plots ---- ####
+# ---- Posterior-Predictive plots ---- #
 
 
 post_pred_data <- a59_mapk_mut_counts %>%
@@ -690,7 +688,7 @@ ggsave_wrapper(
 sink()
 
 
-#### ---- A59 mutation from mutational signatures ---- ####
+# ---- A59 mutation from mutational signatures ---- #
 
 A59T_trinuc <- "G[C>T]T"
 A59E_trinuc <- "G[C>A]A"
@@ -711,13 +709,13 @@ mut_sig_contributions_a59_muts <- mutational_signature_spectra %>%
   group_by(tricontext, A59_mut, description) %>%
   summarise(total_composition = sum(composition)) %>%
   ungroup() %>%
-  mutate(description = factor(description,
-    levels = names(mutsig_descrpt_pal)
-  )) %>%
+  mutate(
+    description = factor(description, levels = names(mutsig_descrpt_pal))
+  ) %>%
   ggplot(aes(x = description, y = total_composition)) +
   facet_wrap(~A59_mut, ncol = 1, scales = "free_y") +
   geom_col(aes(fill = description)) +
-  scale_fill_manual(values = mutsig_descrpt_pal, drop = TRUE, guide = FALSE) +
+  scale_fill_manual(values = mutsig_descrpt_pal, drop = TRUE, guide = "none") +
   scale_y_continuous(expand = expansion(mult = c(0, 0.02))) +
   theme_minimal(base_size = 7, base_family = "arial") +
   labs(
@@ -749,7 +747,7 @@ mut_signature_contribution_a59muts <- a59_mut_signatures %>%
   ggplot(aes(x = description, y = total_contribution)) +
   facet_wrap(a59_mutation ~ tumor_sample_barcode) +
   geom_col(aes(fill = description)) +
-  scale_fill_manual(values = mutsig_descrpt_pal, drop = TRUE, guide = FALSE) +
+  scale_fill_manual(values = mutsig_descrpt_pal, drop = TRUE, guide = "none") +
   scale_y_continuous(expand = expansion(mult = c(0, 0.02))) +
   theme_minimal(base_size = 7, base_family = "arial") +
   labs(
