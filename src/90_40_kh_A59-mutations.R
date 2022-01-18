@@ -66,6 +66,37 @@ a59_cancer_data <- cancer_full_coding_muts_df %>%
     in_mapk_spec_gs = hugo_symbol %in% !!mapk_spec_gs
   )
 
+# Write mutation data to file for Christian.
+a59_coad_mutation_data <- a59_cancer_data %>%
+  mutate(ras_allele = str_remove(ras_allele, "KRAS_")) %>%
+  mutate(ras_allele = case_when(
+    is_a59_mutation & ras_allele == "WT" ~ a59_mutation,
+    is_a59_mutation & ras_allele != "WT" ~ as.character(
+      glue::glue("{ras_allele} & {a59_mutation}")
+    ),
+    TRUE ~ ras_allele
+  )) %>%
+  select(
+    tumor_sample_barcode, dataset, target,
+    gene = hugo_symbol, mutation_type,
+    mutation_type_hr, amino_acid_change, is_hypermutant, kras_allele = ras_allele,
+    a59_mutation, is_a59_mutation, in_mapk_kegg_gs, in_mapk_spec_gs
+  ) %>%
+  group_by(tumor_sample_barcode) %>%
+  distinct()
+
+write_tsv(
+  a59_coad_mutation_data,
+  table_path(GRAPHS_DIR, "coad-mutations-with-a59muts.tsv")
+)
+
+a59_coad_mutation_data %>%
+  distinct(tumor_sample_barcode, kras_allele) %>%
+  group_by(kras_allele) %>%
+  summarize(n_tsb = n_distinct(tumor_sample_barcode)) %>%
+  ungroup() %>%
+  mutate(allele_freq = n_tsb / sum(n_tsb)) %>%
+  write_tsv(table_path(GRAPHS_DIR, "allele-frequencies.tsv"))
 
 n_distinct(a59_cancer_data$tumor_sample_barcode) # > 4853
 
