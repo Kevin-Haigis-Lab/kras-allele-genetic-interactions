@@ -674,8 +674,9 @@ post_pred_data <- a59_mapk_mut_counts %>%
 post_pred_data
 
 
-m3_mapk_spec_post <- post_pred_data %>%
-  add_fitted_draws(m3_mapk_spec_stan) %>%
+m3_mapk_spec_draws <- post_pred_data %>%
+  add_epred_draws(m3_mapk_spec_stan)
+m3_mapk_spec_post <- m3_mapk_spec_draws %>%
   mean_qi(.width = c(0.89, 0.95))
 
 
@@ -688,8 +689,16 @@ post_pred_plot <- m3_mapk_spec_post %>%
   mutate(condition = paste(grp, is_hypermutant, sep = ", ")) %>%
   ggplot(aes(x = grp)) +
   facet_grid(~is_hypermutant) +
+  geom_violin(
+    aes(y = .epred),
+    data = m3_mapk_spec_draws,
+    alpha = 0.1,
+    fill = "black",
+    size = 0,
+    scale = "width"
+  ) +
   geom_linerange(aes(ymin = .lower, ymax = .upper, size = factor(.width))) +
-  geom_point(aes(y = .value)) +
+  geom_point(aes(y = .epred)) +
   geom_point(aes(y = real_prop),
     data = data_spec_proportions,
     color = "dodgerblue"
@@ -706,8 +715,8 @@ post_pred_plot <- m3_mapk_spec_post %>%
   labs(
     title = "Posterior predictions for 'm3_mapk_spec_stan'",
     subtitle = "The separate panels are for non-hypermutants (left) and hypermutants (right).",
-    y = "predicted proportion with MAPK mutation",
-    size = "PI"
+    y = "proportion with MAPK pathway mutation",
+    size = "HDI"
   )
 ggsave_wrapper(
   post_pred_plot,
